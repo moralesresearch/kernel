@@ -9,7 +9,10 @@
 #include <asm/simd.h>
 #include <crypto/aes.h>
 #include <crypto/ctr.h>
+<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/internal/simd.h>
 #include <crypto/internal/skcipher.h>
 #include <crypto/scatterwalk.h>
@@ -24,8 +27,11 @@ MODULE_ALIAS_CRYPTO("cbc(aes)-all");
 MODULE_ALIAS_CRYPTO("ctr(aes)");
 MODULE_ALIAS_CRYPTO("xts(aes)");
 
+<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 asmlinkage void aesbs_convert_key(u8 out[], u32 const rk[], int rounds);
 
 asmlinkage void aesbs_ecb_encrypt(u8 out[], u8 const in[], u8 const rk[],

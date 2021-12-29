@@ -1600,8 +1600,17 @@ static netdev_tx_t cxgb4_eth_xmit(struct sk_buff *skb, struct net_device *dev)
 		 * has opened up.
 		 */
 		eth_txq_stop(q);
+<<<<<<< HEAD
 		if (chip_ver > CHELSIO_T5)
 			wr_mid |= FW_WR_EQUEQ_F | FW_WR_EQUIQ_F;
+=======
+<<<<<<< HEAD
+		if (chip_ver > CHELSIO_T5)
+			wr_mid |= FW_WR_EQUEQ_F | FW_WR_EQUIQ_F;
+=======
+		wr_mid |= FW_WR_EQUEQ_F | FW_WR_EQUIQ_F;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	wr = (void *)&q->q.desc[q->q.pidx];
@@ -1833,7 +1842,14 @@ static netdev_tx_t cxgb4_vf_eth_xmit(struct sk_buff *skb,
 	struct adapter *adapter;
 	int qidx, credits, ret;
 	size_t fw_hdr_copy_len;
+<<<<<<< HEAD
 	unsigned int chip_ver;
+=======
+<<<<<<< HEAD
+	unsigned int chip_ver;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 cntrl, *end;
 	u32 wr_mid;
 
@@ -1898,7 +1914,14 @@ static netdev_tx_t cxgb4_vf_eth_xmit(struct sk_buff *skb,
 		goto out_free;
 	}
 
+<<<<<<< HEAD
 	chip_ver = CHELSIO_CHIP_VERSION(adapter->params.chip);
+=======
+<<<<<<< HEAD
+	chip_ver = CHELSIO_CHIP_VERSION(adapter->params.chip);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wr_mid = FW_WR_LEN16_V(DIV_ROUND_UP(flits, 2));
 	if (unlikely(credits < ETHTXQ_STOP_THRES)) {
 		/* After we're done injecting the Work Request for this
@@ -1910,8 +1933,17 @@ static netdev_tx_t cxgb4_vf_eth_xmit(struct sk_buff *skb,
 		 * has opened up.
 		 */
 		eth_txq_stop(txq);
+<<<<<<< HEAD
 		if (chip_ver > CHELSIO_T5)
 			wr_mid |= FW_WR_EQUEQ_F | FW_WR_EQUIQ_F;
+=======
+<<<<<<< HEAD
+		if (chip_ver > CHELSIO_T5)
+			wr_mid |= FW_WR_EQUEQ_F | FW_WR_EQUIQ_F;
+=======
+		wr_mid |= FW_WR_EQUEQ_F | FW_WR_EQUIQ_F;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Start filling in our Work Request.  Note that we do _not_ handle
@@ -1964,7 +1996,15 @@ static netdev_tx_t cxgb4_vf_eth_xmit(struct sk_buff *skb,
 		 */
 		cpl = (void *)(lso + 1);
 
+<<<<<<< HEAD
 		if (chip_ver <= CHELSIO_T5)
+=======
+<<<<<<< HEAD
+		if (chip_ver <= CHELSIO_T5)
+=======
+		if (CHELSIO_CHIP_VERSION(adapter->params.chip) <= CHELSIO_T5)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cntrl = TXPKT_ETHHDR_LEN_V(eth_xtra_len);
 		else
 			cntrl = T6_TXPKT_ETHHDR_LEN_V(eth_xtra_len);
@@ -2556,6 +2596,15 @@ int cxgb4_ethofld_send_flowc(struct net_device *dev, u32 eotid, u32 tc)
 	if (!eosw_txq)
 		return -ENOMEM;
 
+<<<<<<< HEAD
+	if (!(adap->flags & CXGB4_FW_OK)) {
+		/* Don't stall caller when access to FW is lost */
+		complete(&eosw_txq->completion);
+		return -EIO;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb = alloc_skb(len, GFP_KERNEL);
 	if (!skb)
 		return -ENOMEM;
@@ -2563,12 +2612,20 @@ int cxgb4_ethofld_send_flowc(struct net_device *dev, u32 eotid, u32 tc)
 	spin_lock_bh(&eosw_txq->lock);
 	if (tc != FW_SCHED_CLS_NONE) {
 		if (eosw_txq->state != CXGB4_EO_STATE_CLOSED)
+<<<<<<< HEAD
+			goto out_free_skb;
+=======
 			goto out_unlock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		next_state = CXGB4_EO_STATE_FLOWC_OPEN_SEND;
 	} else {
 		if (eosw_txq->state != CXGB4_EO_STATE_ACTIVE)
+<<<<<<< HEAD
+			goto out_free_skb;
+=======
 			goto out_unlock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		next_state = CXGB4_EO_STATE_FLOWC_CLOSE_SEND;
 	}
@@ -2604,17 +2661,30 @@ int cxgb4_ethofld_send_flowc(struct net_device *dev, u32 eotid, u32 tc)
 		eosw_txq_flush_pending_skbs(eosw_txq);
 
 	ret = eosw_txq_enqueue(eosw_txq, skb);
+<<<<<<< HEAD
+	if (ret)
+		goto out_free_skb;
+=======
 	if (ret) {
 		dev_consume_skb_any(skb);
 		goto out_unlock;
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	eosw_txq->state = next_state;
 	eosw_txq->flowc_idx = eosw_txq->pidx;
 	eosw_txq_advance(eosw_txq, 1);
 	ethofld_xmit(dev, eosw_txq);
 
+<<<<<<< HEAD
+	spin_unlock_bh(&eosw_txq->lock);
+	return 0;
+
+out_free_skb:
+	dev_consume_skb_any(skb);
+=======
 out_unlock:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_bh(&eosw_txq->lock);
 	return ret;
 }
@@ -3607,6 +3677,10 @@ static void t4_tx_completion_handler(struct sge_rspq *rspq,
 	}
 
 	txq = &s->ethtxq[pi->first_qset + rspq->idx];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* We've got the Hardware Consumer Index Update in the Egress Update
 	 * message. These Egress Update messages will be our sole CIDX Updates
@@ -3626,6 +3700,11 @@ static void t4_tx_completion_handler(struct sge_rspq *rspq,
 		WRITE_ONCE(txq->q.stat->cidx, egr->cidx);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	t4_sge_eth_txq_egress_update(adapter, txq, -1);
 }
 
@@ -4611,6 +4690,10 @@ int t4_sge_alloc_eth_txq(struct adapter *adap, struct sge_eth_txq *txq,
 	 * write the CIDX Updates into the Status Page at the end of the
 	 * TX Queue.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	c.autoequiqe_to_viid = htonl(((chip_ver <= CHELSIO_T5) ?
 				      FW_EQ_ETH_CMD_AUTOEQUIQE_F :
 				      FW_EQ_ETH_CMD_AUTOEQUEQE_F) |
@@ -4620,6 +4703,16 @@ int t4_sge_alloc_eth_txq(struct adapter *adap, struct sge_eth_txq *txq,
 		htonl(FW_EQ_ETH_CMD_HOSTFCMODE_V((chip_ver <= CHELSIO_T5) ?
 						 HOSTFCMODE_INGRESS_QUEUE_X :
 						 HOSTFCMODE_STATUS_PAGE_X) |
+<<<<<<< HEAD
+=======
+=======
+	c.autoequiqe_to_viid = htonl(FW_EQ_ETH_CMD_AUTOEQUEQE_F |
+				     FW_EQ_ETH_CMD_VIID_V(pi->viid));
+
+	c.fetchszm_to_iqid =
+		htonl(FW_EQ_ETH_CMD_HOSTFCMODE_V(HOSTFCMODE_STATUS_PAGE_X) |
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		      FW_EQ_ETH_CMD_PCIECHN_V(pi->tx_chan) |
 		      FW_EQ_ETH_CMD_FETCHRO_F | FW_EQ_ETH_CMD_IQID_V(iqid));
 
@@ -4630,7 +4723,14 @@ int t4_sge_alloc_eth_txq(struct adapter *adap, struct sge_eth_txq *txq,
 					    : FETCHBURSTMIN_64B_T6_X) |
 		      FW_EQ_ETH_CMD_FBMAX_V(FETCHBURSTMAX_512B_X) |
 		      FW_EQ_ETH_CMD_CIDXFTHRESH_V(CIDXFLUSHTHRESH_32_X) |
+<<<<<<< HEAD
 		      FW_EQ_ETH_CMD_CIDXFTHRESHO_V(chip_ver == CHELSIO_T5) |
+=======
+<<<<<<< HEAD
+		      FW_EQ_ETH_CMD_CIDXFTHRESHO_V(chip_ver == CHELSIO_T5) |
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		      FW_EQ_ETH_CMD_EQSIZE_V(nentries));
 
 	c.eqaddr = cpu_to_be64(txq->q.phys_addr);

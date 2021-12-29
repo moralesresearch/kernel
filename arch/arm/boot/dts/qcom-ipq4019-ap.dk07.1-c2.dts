@@ -19,7 +19,11 @@
 		serial@78b0000 {
 			pinctrl-0 = <&serial_1_pins>;
 			pinctrl-names = "default";
+<<<<<<< HEAD
 			status = "okay";
+=======
+			status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 };

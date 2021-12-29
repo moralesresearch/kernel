@@ -50,7 +50,11 @@ static inline void qxl_bo_unreserve(struct qxl_bo *bo)
 
 static inline unsigned long qxl_bo_size(struct qxl_bo *bo)
 {
+<<<<<<< HEAD
 	return bo->tbo.base.size;
+=======
+	return bo->tbo.num_pages << PAGE_SHIFT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline u64 qxl_bo_mmap_offset(struct qxl_bo *bo)
@@ -61,6 +65,10 @@ static inline u64 qxl_bo_mmap_offset(struct qxl_bo *bo)
 extern int qxl_bo_create(struct qxl_device *qdev,
 			 unsigned long size,
 			 bool kernel, bool pinned, u32 domain,
+<<<<<<< HEAD
+			 u32 priority,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 struct qxl_surface *surf,
 			 struct qxl_bo **bo_ptr);
 extern int qxl_bo_kmap(struct qxl_bo *bo, struct dma_buf_map *map);

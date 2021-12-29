@@ -13,7 +13,10 @@
 struct iio_dev;
 struct iio_chan_spec;
 struct device;
+<<<<<<< HEAD
 struct device_node;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * struct iio_channel - everything needed for a consumer to use a channel
@@ -98,6 +101,7 @@ void iio_channel_release_all(struct iio_channel *chan);
  */
 struct iio_channel *devm_iio_channel_get_all(struct device *dev);
 
+<<<<<<< HEAD
 /**
  * of_iio_channel_get_by_name() - get description of all that is needed to access channel.
  * @np:			Pointer to consumer device tree node
@@ -133,6 +137,8 @@ struct iio_channel *devm_of_iio_channel_get_by_name(struct device *dev,
 						    struct device_node *np,
 						    const char *consumer_channel);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct iio_cb_buffer;
 /**
  * iio_channel_get_all_cb() - register callback for triggered capture

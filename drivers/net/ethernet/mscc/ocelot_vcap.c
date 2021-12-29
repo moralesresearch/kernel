@@ -959,12 +959,15 @@ static void ocelot_vcap_filter_add_to_block(struct ocelot *ocelot,
 	list_add(&filter->list, pos->prev);
 }
 
+<<<<<<< HEAD
 static bool ocelot_vcap_filter_equal(const struct ocelot_vcap_filter *a,
 				     const struct ocelot_vcap_filter *b)
 {
 	return !memcmp(&a->id, &b->id, sizeof(struct ocelot_vcap_id));
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ocelot_vcap_block_get_filter_index(struct ocelot_vcap_block *block,
 					      struct ocelot_vcap_filter *filter)
 {
@@ -972,7 +975,11 @@ static int ocelot_vcap_block_get_filter_index(struct ocelot_vcap_block *block,
 	int index = 0;
 
 	list_for_each_entry(tmp, &block->rules, list) {
+<<<<<<< HEAD
 		if (ocelot_vcap_filter_equal(filter, tmp))
+=======
+		if (filter->id == tmp->id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return index;
 		index++;
 	}
@@ -997,19 +1004,30 @@ ocelot_vcap_block_find_filter_by_index(struct ocelot_vcap_block *block,
 }
 
 struct ocelot_vcap_filter *
+<<<<<<< HEAD
 ocelot_vcap_block_find_filter_by_id(struct ocelot_vcap_block *block, int cookie,
 				    bool tc_offload)
+=======
+ocelot_vcap_block_find_filter_by_id(struct ocelot_vcap_block *block, int id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ocelot_vcap_filter *filter;
 
 	list_for_each_entry(filter, &block->rules, list)
+<<<<<<< HEAD
 		if (filter->id.tc_offload == tc_offload &&
 		    filter->id.cookie == cookie)
+=======
+		if (filter->id == id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return filter;
 
 	return NULL;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(ocelot_vcap_block_find_filter_by_id);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* If @on=false, then SNAP, ARP, IP and OAM frames will not match on keys based
  * on destination and source MAC addresses, but only on higher-level protocol
@@ -1159,7 +1177,10 @@ int ocelot_vcap_filter_add(struct ocelot *ocelot,
 	vcap_entry_set(ocelot, index, filter);
 	return 0;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(ocelot_vcap_filter_add);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void ocelot_vcap_block_remove_filter(struct ocelot *ocelot,
 					    struct ocelot_vcap_block *block,
@@ -1170,7 +1191,11 @@ static void ocelot_vcap_block_remove_filter(struct ocelot *ocelot,
 
 	list_for_each_safe(pos, q, &block->rules) {
 		tmp = list_entry(pos, struct ocelot_vcap_filter, list);
+<<<<<<< HEAD
 		if (ocelot_vcap_filter_equal(filter, tmp)) {
+=======
+		if (tmp->id == filter->id) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (tmp->block_id == VCAP_IS2 &&
 			    tmp->action.police_ena)
 				ocelot_vcap_policer_del(ocelot, block,
@@ -1214,7 +1239,10 @@ int ocelot_vcap_filter_del(struct ocelot *ocelot,
 
 	return 0;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(ocelot_vcap_filter_del);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int ocelot_vcap_filter_stats_update(struct ocelot *ocelot,
 				    struct ocelot_vcap_filter *filter)

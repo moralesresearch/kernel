@@ -37,7 +37,11 @@ probe_likely_condition(struct ftrace_likely_data *f, int val, int expect)
 	struct ring_buffer_event *event;
 	struct trace_branch *entry;
 	unsigned long flags;
+<<<<<<< HEAD
 	unsigned int trace_ctx;
+=======
+	int pc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *p;
 
 	if (current->trace_recursion & TRACE_BRANCH_BIT)
@@ -59,10 +63,17 @@ probe_likely_condition(struct ftrace_likely_data *f, int val, int expect)
 	if (atomic_read(&data->disabled))
 		goto out;
 
+<<<<<<< HEAD
 	trace_ctx = tracing_gen_ctx_flags(flags);
 	buffer = tr->array_buffer.buffer;
 	event = trace_buffer_lock_reserve(buffer, TRACE_BRANCH,
 					  sizeof(*entry), trace_ctx);
+=======
+	pc = preempt_count();
+	buffer = tr->array_buffer.buffer;
+	event = trace_buffer_lock_reserve(buffer, TRACE_BRANCH,
+					  sizeof(*entry), flags, pc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!event)
 		goto out;
 

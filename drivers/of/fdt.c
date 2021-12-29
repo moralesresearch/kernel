@@ -205,7 +205,15 @@ static void populate_properties(const void *blob,
 		*pprev = NULL;
 }
 
+<<<<<<< HEAD
 static int populate_node(const void *blob,
+=======
+<<<<<<< HEAD
+static int populate_node(const void *blob,
+=======
+static bool populate_node(const void *blob,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  int offset,
 			  void **mem,
 			  struct device_node *dad,
@@ -214,6 +222,10 @@ static int populate_node(const void *blob,
 {
 	struct device_node *np;
 	const char *pathp;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int len;
 
 	pathp = fdt_get_name(blob, offset, &len);
@@ -225,13 +237,37 @@ static int populate_node(const void *blob,
 	len++;
 
 	np = unflatten_dt_alloc(mem, sizeof(struct device_node) + len,
+<<<<<<< HEAD
+=======
+=======
+	unsigned int l, allocl;
+
+	pathp = fdt_get_name(blob, offset, &l);
+	if (!pathp) {
+		*pnp = NULL;
+		return false;
+	}
+
+	allocl = ++l;
+
+	np = unflatten_dt_alloc(mem, sizeof(struct device_node) + allocl,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				__alignof__(struct device_node));
 	if (!dryrun) {
 		char *fn;
 		of_node_init(np);
 		np->full_name = fn = ((char *)np) + sizeof(*np);
 
+<<<<<<< HEAD
 		memcpy(fn, pathp, len);
+=======
+<<<<<<< HEAD
+		memcpy(fn, pathp, len);
+=======
+		memcpy(fn, pathp, l);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (dad != NULL) {
 			np->parent = dad;
@@ -295,7 +331,14 @@ static int unflatten_dt_nodes(const void *blob,
 	struct device_node *nps[FDT_MAX_DEPTH];
 	void *base = mem;
 	bool dryrun = !base;
+<<<<<<< HEAD
 	int ret;
+=======
+<<<<<<< HEAD
+	int ret;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (nodepp)
 		*nodepp = NULL;
@@ -323,10 +366,22 @@ static int unflatten_dt_nodes(const void *blob,
 		    !of_fdt_device_is_available(blob, offset))
 			continue;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = populate_node(blob, offset, &mem, nps[depth],
 				   &nps[depth+1], dryrun);
 		if (ret < 0)
 			return ret;
+<<<<<<< HEAD
+=======
+=======
+		if (!populate_node(blob, offset, &mem, nps[depth],
+				   &nps[depth+1], dryrun))
+			return mem - base;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!dryrun && nodepp && !*nodepp)
 			*nodepp = nps[depth+1];
@@ -374,10 +429,19 @@ void *__unflatten_device_tree(const void *blob,
 {
 	int size;
 	void *mem;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (mynodes)
 		*mynodes = NULL;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pr_debug(" -> unflatten_device_tree()\n");
 
@@ -398,7 +462,15 @@ void *__unflatten_device_tree(const void *blob,
 
 	/* First pass, scan for size */
 	size = unflatten_dt_nodes(blob, NULL, dad, NULL);
+<<<<<<< HEAD
 	if (size <= 0)
+=======
+<<<<<<< HEAD
+	if (size <= 0)
+=======
+	if (size < 0)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NULL;
 
 	size = ALIGN(size, 4);
@@ -416,16 +488,35 @@ void *__unflatten_device_tree(const void *blob,
 	pr_debug("  unflattening %p...\n", mem);
 
 	/* Second pass, do actual unflattening */
+<<<<<<< HEAD
 	ret = unflatten_dt_nodes(blob, mem, dad, mynodes);
 
+=======
+<<<<<<< HEAD
+	ret = unflatten_dt_nodes(blob, mem, dad, mynodes);
+
+=======
+	unflatten_dt_nodes(blob, mem, dad, mynodes);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (be32_to_cpup(mem + size) != 0xdeadbeef)
 		pr_warn("End of tree marker overwritten: %08x\n",
 			be32_to_cpup(mem + size));
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret <= 0)
 		return NULL;
 
 	if (detached && mynodes && *mynodes) {
+<<<<<<< HEAD
+=======
+=======
+	if (detached && mynodes) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		of_node_set_flag(*mynodes, OF_DETACHED);
 		pr_debug("unflattened tree is detached\n");
 	}

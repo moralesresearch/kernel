@@ -2005,6 +2005,12 @@ int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
 	case BUS_I2C:
 		bus = "I2C";
 		break;
+<<<<<<< HEAD
+	case BUS_VIRTUAL:
+		bus = "VIRTUAL";
+		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		bus = "<UNKNOWN>";
 	}

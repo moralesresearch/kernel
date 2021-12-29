@@ -246,8 +246,17 @@ struct iommu_ops {
 	size_t (*unmap)(struct iommu_domain *domain, unsigned long iova,
 		     size_t size, struct iommu_iotlb_gather *iotlb_gather);
 	void (*flush_iotlb_all)(struct iommu_domain *domain);
+<<<<<<< HEAD
 	void (*iotlb_sync_map)(struct iommu_domain *domain, unsigned long iova,
 			       size_t size);
+=======
+<<<<<<< HEAD
+	void (*iotlb_sync_map)(struct iommu_domain *domain, unsigned long iova,
+			       size_t size);
+=======
+	void (*iotlb_sync_map)(struct iommu_domain *domain);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void (*iotlb_sync)(struct iommu_domain *domain,
 			   struct iommu_iotlb_gather *iotlb_gather);
 	phys_addr_t (*iova_to_phys)(struct iommu_domain *domain, dma_addr_t iova);
@@ -377,7 +386,14 @@ int  iommu_device_sysfs_add(struct iommu_device *iommu,
 void iommu_device_sysfs_remove(struct iommu_device *iommu);
 int  iommu_device_link(struct iommu_device   *iommu, struct device *link);
 void iommu_device_unlink(struct iommu_device *iommu, struct device *link);
+<<<<<<< HEAD
 int iommu_deferred_attach(struct device *dev, struct iommu_domain *domain);
+=======
+<<<<<<< HEAD
+int iommu_deferred_attach(struct device *dev, struct iommu_domain *domain);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline void __iommu_device_set_ops(struct iommu_device *iommu,
 					  const struct iommu_ops *ops)
@@ -516,6 +532,13 @@ extern int iommu_domain_set_attr(struct iommu_domain *domain, enum iommu_attr,
 extern int iommu_domain_window_enable(struct iommu_domain *domain, u32 wnd_nr,
 				      phys_addr_t offset, u64 size,
 				      int prot);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+extern void iommu_domain_window_disable(struct iommu_domain *domain, u32 wnd_nr);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern int report_iommu_fault(struct iommu_domain *domain, struct device *dev,
 			      unsigned long iova, int flags);
@@ -547,7 +570,11 @@ static inline void iommu_iotlb_gather_add_page(struct iommu_domain *domain,
 	 * structure can be rewritten.
 	 */
 	if (gather->pgsize != size ||
+<<<<<<< HEAD
+	    end + 1 < gather->start || start > gather->end + 1) {
+=======
 	    end < gather->start || start > gather->end) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (gather->pgsize)
 			iommu_iotlb_sync(domain, gather);
 		gather->pgsize = size;
@@ -631,6 +658,13 @@ static inline void dev_iommu_priv_set(struct device *dev, void *priv)
 int iommu_probe_device(struct device *dev);
 void iommu_release_device(struct device *dev);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+bool iommu_dev_has_feature(struct device *dev, enum iommu_dev_features f);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int iommu_dev_enable_feature(struct device *dev, enum iommu_dev_features f);
 int iommu_dev_disable_feature(struct device *dev, enum iommu_dev_features f);
 bool iommu_dev_feature_enabled(struct device *dev, enum iommu_dev_features f);
@@ -749,6 +783,17 @@ static inline int iommu_domain_window_enable(struct iommu_domain *domain,
 	return -ENODEV;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static inline void iommu_domain_window_disable(struct iommu_domain *domain,
+					       u32 wnd_nr)
+{
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline phys_addr_t iommu_iova_to_phys(struct iommu_domain *domain, dma_addr_t iova)
 {
 	return 0;
@@ -980,6 +1025,18 @@ const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle *fwnode)
 }
 
 static inline bool
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+iommu_dev_has_feature(struct device *dev, enum iommu_dev_features feat)
+{
+	return false;
+}
+
+static inline bool
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 iommu_dev_feature_enabled(struct device *dev, enum iommu_dev_features feat)
 {
 	return false;

@@ -44,17 +44,29 @@
 	leds {
 		compatible = "gpio-leds";
 
+<<<<<<< HEAD
 		led-0 {
+=======
+		heartbeat {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "pine-h64:green:heartbeat";
 			gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
 		};
 
+<<<<<<< HEAD
 		led-1 {
+=======
+		link {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "pine-h64:white:link";
 			gpios = <&r_pio 0 3 GPIO_ACTIVE_HIGH>; /* PL3 */
 		};
 
+<<<<<<< HEAD
 		led-2 {
+=======
+		status {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "pine-h64:blue:status";
 			gpios = <&r_pio 0 7 GPIO_ACTIVE_HIGH>; /* PL7 */
 		};
@@ -142,7 +154,10 @@
 	vqmmc-supply = <&reg_bldo2>;
 	non-removable;
 	cap-mmc-hw-reset;
+<<<<<<< HEAD
 	mmc-hs200-1_8v;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bus-width = <8>;
 	status = "okay";
 };

@@ -592,9 +592,21 @@ static inline void ClearPageCompound(struct page *page)
 #ifdef CONFIG_HUGETLB_PAGE
 int PageHuge(struct page *page);
 int PageHeadHuge(struct page *page);
+<<<<<<< HEAD
 #else
 TESTPAGEFLAG_FALSE(Huge)
 TESTPAGEFLAG_FALSE(HeadHuge)
+=======
+bool page_huge_active(struct page *page);
+#else
+TESTPAGEFLAG_FALSE(Huge)
+TESTPAGEFLAG_FALSE(HeadHuge)
+
+static inline bool page_huge_active(struct page *page)
+{
+	return 0;
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 
@@ -810,7 +822,11 @@ static inline void ClearPageSlabPfmemalloc(struct page *page)
 
 /*
  * Flags checked when a page is freed.  Pages being freed should not have
+<<<<<<< HEAD
  * these flags set.  If they are, there is a problem.
+=======
+ * these flags set.  It they are, there is a problem.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 #define PAGE_FLAGS_CHECK_AT_FREE				\
 	(1UL << PG_lru		| 1UL << PG_locked	|	\
@@ -821,7 +837,11 @@ static inline void ClearPageSlabPfmemalloc(struct page *page)
 
 /*
  * Flags checked when a page is prepped for return by the page allocator.
+<<<<<<< HEAD
  * Pages being prepped should not have these flags set.  If they are set,
+=======
+ * Pages being prepped should not have these flags set.  It they are set,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * there has been a kernel bug or struct page corruption.
  *
  * __PG_HWPOISON is exceptional because it needs to be kept beyond page's

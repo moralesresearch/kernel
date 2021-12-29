@@ -254,5 +254,9 @@ struct tcm *sita_init(u16 width, u16 height)
 	return tcm;
 
 error:
+<<<<<<< HEAD
+=======
+	kfree(tcm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return NULL;
 }

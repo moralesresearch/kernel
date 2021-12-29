@@ -32,10 +32,14 @@
 #ifndef _GVT_INTERRUPT_H_
 #define _GVT_INTERRUPT_H_
 
+<<<<<<< HEAD
 #include <linux/hrtimer.h>
 #include <linux/kernel.h>
 
 #include "i915_reg.h"
+=======
+#include <linux/types.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 enum intel_gvt_event_type {
 	RCS_MI_USER_INTERRUPT = 0,

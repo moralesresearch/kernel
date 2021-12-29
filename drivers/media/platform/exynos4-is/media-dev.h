@@ -83,7 +83,11 @@ struct fimc_camclk_info {
  */
 struct fimc_sensor_info {
 	struct fimc_source_info pdata;
+<<<<<<< HEAD
 	struct v4l2_async_subdev *asd;
+=======
+	struct v4l2_async_subdev asd;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct v4l2_subdev *subdev;
 	struct fimc_dev *host;
 };

@@ -168,6 +168,7 @@ static void __init smp_build_mpidr_hash(void)
 		pr_warn("Large number of MPIDR hash buckets detected\n");
 }
 
+<<<<<<< HEAD
 static void *early_fdt_ptr __initdata;
 
 void __init *get_early_fdt_ptr(void)
@@ -183,6 +184,8 @@ asmlinkage void __init early_fdt_map(u64 dt_phys)
 	early_fdt_ptr = fixmap_remap_fdt(dt_phys, &fdt_size, PAGE_KERNEL);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __init setup_machine_fdt(phys_addr_t dt_phys)
 {
 	int size;

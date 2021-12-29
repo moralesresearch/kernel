@@ -281,11 +281,16 @@ static const char * const imx8mn_clko2_sels[] = {"osc_24m", "sys_pll2_200m", "sy
 						 "sys_pll2_166m", "sys_pll3_out", "audio_pll1_out",
 						 "video_pll1_out", "osc_32k", };
 
+<<<<<<< HEAD
 static const char * const clkout_sels[] = {"audio_pll1_out", "audio_pll2_out", "video_pll1_out",
 					   "dummy", "dummy", "gpu_pll_out", "dummy",
 					   "arm_pll_out", "sys_pll1", "sys_pll2", "sys_pll3",
 					   "dummy", "dummy", "osc_24m", "dummy", "osc_32k"};
 
+static struct clk_hw_onecell_data *clk_hw_data;
+static struct clk_hw **hws;
+
+=======
 static struct clk_hw_onecell_data *clk_hw_data;
 static struct clk_hw **hws;
 
@@ -297,12 +302,17 @@ static const int uart_clk_ids[] = {
 };
 static struct clk **uart_hws[ARRAY_SIZE(uart_clk_ids) + 1];
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int imx8mn_clocks_probe(struct platform_device *pdev)
 {
 	struct device *dev = &pdev->dev;
 	struct device_node *np = dev->of_node;
 	void __iomem *base;
+<<<<<<< HEAD
+	int ret;
+=======
 	int ret, i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	clk_hw_data = kzalloc(struct_size(clk_hw_data, hws,
 					  IMX8MN_CLK_END), GFP_KERNEL);
@@ -410,6 +420,7 @@ static int imx8mn_clocks_probe(struct platform_device *pdev)
 	hws[IMX8MN_SYS_PLL2_500M] = imx_clk_hw_fixed_factor("sys_pll2_500m", "sys_pll2_500m_cg", 1, 2);
 	hws[IMX8MN_SYS_PLL2_1000M] = imx_clk_hw_fixed_factor("sys_pll2_1000m", "sys_pll2_out", 1, 1);
 
+<<<<<<< HEAD
 	hws[IMX8MN_CLK_CLKOUT1_SEL] = imx_clk_hw_mux("clkout1_sel", base + 0x128, 4, 4, clkout_sels, ARRAY_SIZE(clkout_sels));
 	hws[IMX8MN_CLK_CLKOUT1_DIV] = imx_clk_hw_divider("clkout1_div", "clkout1_sel", base + 0x128, 0, 4);
 	hws[IMX8MN_CLK_CLKOUT1] = imx_clk_hw_gate("clkout1", "clkout1_div", base + 0x128, 8);
@@ -417,6 +428,8 @@ static int imx8mn_clocks_probe(struct platform_device *pdev)
 	hws[IMX8MN_CLK_CLKOUT2_DIV] = imx_clk_hw_divider("clkout2_div", "clkout2_sel", base + 0x128, 16, 4);
 	hws[IMX8MN_CLK_CLKOUT2] = imx_clk_hw_gate("clkout2", "clkout2_div", base + 0x128, 24);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	np = dev->of_node;
 	base = devm_platform_ioremap_resource(pdev, 0);
 	if (WARN_ON(IS_ERR(base))) {
@@ -585,6 +598,9 @@ static int imx8mn_clocks_probe(struct platform_device *pdev)
 		goto unregister_hws;
 	}
 
+<<<<<<< HEAD
+	imx_register_uart_clocks(4);
+=======
 	for (i = 0; i < ARRAY_SIZE(uart_clk_ids); i++) {
 		int index = uart_clk_ids[i];
 
@@ -592,6 +608,7 @@ static int imx8mn_clocks_probe(struct platform_device *pdev)
 	}
 
 	imx_register_uart_clocks(uart_hws);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 

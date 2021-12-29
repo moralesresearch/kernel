@@ -18,6 +18,10 @@
 #include <linux/rtc.h>
 #include <linux/bcd.h>
 #include <linux/math64.h>
+<<<<<<< HEAD
+#include <linux/property.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/platform_device.h>
 #include <linux/interrupt.h>
 #include <linux/mfd/tps65910.h>
@@ -361,6 +365,16 @@ static const struct rtc_class_ops tps65910_rtc_ops = {
 	.set_offset	= tps65910_set_offset,
 };
 
+<<<<<<< HEAD
+=======
+static const struct rtc_class_ops tps65910_rtc_ops_noirq = {
+	.read_time	= tps65910_rtc_read_time,
+	.set_time	= tps65910_rtc_set_time,
+	.read_offset	= tps65910_read_offset,
+	.set_offset	= tps65910_set_offset,
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int tps65910_rtc_probe(struct platform_device *pdev)
 {
 	struct tps65910 *tps65910 = NULL;
@@ -419,6 +433,7 @@ static int tps65910_rtc_probe(struct platform_device *pdev)
 
 	tps_rtc->irq = irq;
 	if (irq != -1) {
+<<<<<<< HEAD
 		if (device_property_present(tps65910->dev, "wakeup-source"))
 			device_init_wakeup(&pdev->dev, 1);
 		else
@@ -428,6 +443,13 @@ static int tps65910_rtc_probe(struct platform_device *pdev)
 	}
 
 	tps_rtc->rtc->ops = &tps65910_rtc_ops;
+=======
+		device_set_wakeup_capable(&pdev->dev, 1);
+		tps_rtc->rtc->ops = &tps65910_rtc_ops;
+	} else
+		tps_rtc->rtc->ops = &tps65910_rtc_ops_noirq;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tps_rtc->rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
 	tps_rtc->rtc->range_max = RTC_TIMESTAMP_END_2099;
 

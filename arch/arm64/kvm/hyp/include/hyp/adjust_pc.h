@@ -13,8 +13,11 @@
 #include <asm/kvm_emulate.h>
 #include <asm/kvm_host.h>
 
+<<<<<<< HEAD
+=======
 void kvm_inject_exception(struct kvm_vcpu *vcpu);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void kvm_skip_instr(struct kvm_vcpu *vcpu)
 {
 	if (vcpu_mode_is_32bit(vcpu)) {
@@ -44,6 +47,8 @@ static inline void __kvm_skip_instr(struct kvm_vcpu *vcpu)
 }
 
 /*
+<<<<<<< HEAD
+=======
  * Adjust the guest PC on entry, depending on flags provided by EL1
  * for the purpose of emulation (MMIO, sysreg) or exception injection.
  */
@@ -60,6 +65,7 @@ static inline void __adjust_pc(struct kvm_vcpu *vcpu)
 }
 
 /*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Skip an instruction while host sysregs are live.
  * Assumes host is always 64-bit.
  */

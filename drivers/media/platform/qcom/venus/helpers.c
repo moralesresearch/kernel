@@ -7,7 +7,11 @@
 #include <linux/mutex.h>
 #include <linux/slab.h>
 #include <linux/kernel.h>
+<<<<<<< HEAD
 #include <media/videobuf2-dma-contig.h>
+=======
+#include <media/videobuf2-dma-sg.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <media/v4l2-mem2mem.h>
 #include <asm/div64.h>
 
@@ -15,8 +19,11 @@
 #include "helpers.h"
 #include "hfi_helper.h"
 #include "pm_helpers.h"
+<<<<<<< HEAD
 #include "hfi_platform.h"
 #include "hfi_parser.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct intbuf {
 	struct list_head list;
@@ -482,7 +489,11 @@ session_process_buf(struct venus_inst *inst, struct vb2_v4l2_buffer *vbuf)
 static bool is_dynamic_bufmode(struct venus_inst *inst)
 {
 	struct venus_core *core = inst->core;
+<<<<<<< HEAD
 	struct hfi_plat_caps *caps;
+=======
+	struct venus_caps *caps;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * v4 doesn't send BUFFER_ALLOC_MODE_SUPPORTED property and supports
@@ -554,6 +565,7 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
 			       struct hfi_buffer_requirements *req)
 {
@@ -599,6 +611,8 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
 	return hfi_plat->bufreq(&params, inst->session_type, buftype, req);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
 			    struct hfi_buffer_requirements *req)
 {
@@ -610,10 +624,13 @@ int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
 	if (req)
 		memset(req, 0, sizeof(*req));
 
+<<<<<<< HEAD
 	ret = platform_get_bufreq(inst, type, req);
 	if (!ret)
 		return 0;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = hfi_session_get_property(inst, ptype, &hprop);
 	if (ret)
 		return ret;
@@ -1037,8 +1054,11 @@ u32 venus_helper_get_framesz(u32 v4l2_fmt, u32 width, u32 height)
 
 	if (compressed) {
 		sz = ALIGN(height, 32) * ALIGN(width, 32) * 3 / 2 / 2;
+<<<<<<< HEAD
 		if (width < 1280 || height < 720)
 			sz *= 8;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ALIGN(sz, SZ_4K);
 	}
 
@@ -1093,6 +1113,39 @@ int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode)
 }
 EXPORT_SYMBOL_GPL(venus_helper_set_work_mode);
 
+<<<<<<< HEAD
+=======
+int venus_helper_init_codec_freq_data(struct venus_inst *inst)
+{
+	const struct codec_freq_data *data;
+	unsigned int i, data_size;
+	u32 pixfmt;
+	int ret = 0;
+
+	if (!IS_V4(inst->core))
+		return 0;
+
+	data = inst->core->res->codec_freq_data;
+	data_size = inst->core->res->codec_freq_data_size;
+	pixfmt = inst->session_type == VIDC_SESSION_TYPE_DEC ?
+			inst->fmt_out->pixfmt : inst->fmt_cap->pixfmt;
+
+	for (i = 0; i < data_size; i++) {
+		if (data[i].pixfmt == pixfmt &&
+		    data[i].session_type == inst->session_type) {
+			inst->clk_data.codec_freq_data = &data[i];
+			break;
+		}
+	}
+
+	if (!inst->clk_data.codec_freq_data)
+		ret = -EINVAL;
+
+	return ret;
+}
+EXPORT_SYMBOL_GPL(venus_helper_init_codec_freq_data);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int input_bufs,
 			      unsigned int output_bufs,
 			      unsigned int output2_bufs)
@@ -1307,9 +1360,20 @@ int venus_helper_vb2_buf_init(struct vb2_buffer *vb)
 	struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
 	struct venus_buffer *buf = to_venus_buffer(vbuf);
+<<<<<<< HEAD
 
 	buf->size = vb2_plane_size(vb, 0);
 	buf->dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
+=======
+	struct sg_table *sgt;
+
+	sgt = vb2_dma_sg_plane_desc(vb, 0);
+	if (!sgt)
+		return -EFAULT;
+
+	buf->size = vb2_plane_size(vb, 0);
+	buf->dma_addr = sg_dma_address(sgt->sgl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
 		list_add_tail(&buf->reg_list, &inst->registeredbufs);
@@ -1361,6 +1425,7 @@ void venus_helper_vb2_buf_queue(struct vb2_buffer *vb)
 	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
 	int ret;
 
+<<<<<<< HEAD
 	v4l2_m2m_buf_queue(m2m_ctx, vbuf);
 
 	/* Skip processing queued capture buffers after LAST flag */
@@ -1368,22 +1433,41 @@ void venus_helper_vb2_buf_queue(struct vb2_buffer *vb)
 	    V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
 	    inst->codec_state == VENUS_DEC_STATE_DRC)
 		return;
+=======
+	mutex_lock(&inst->lock);
+
+	v4l2_m2m_buf_queue(m2m_ctx, vbuf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cache_payload(inst, vb);
 
 	if (inst->session_type == VIDC_SESSION_TYPE_ENC &&
 	    !(inst->streamon_out && inst->streamon_cap))
+<<<<<<< HEAD
 		return;
+=======
+		goto unlock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (vb2_start_streaming_called(vb->vb2_queue)) {
 		ret = is_buf_refed(inst, vbuf);
 		if (ret)
+<<<<<<< HEAD
 			return;
+=======
+			goto unlock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ret = session_process_buf(inst, vbuf);
 		if (ret)
 			return_buf_error(inst, vbuf);
 	}
+<<<<<<< HEAD
+=======
+
+unlock:
+	mutex_unlock(&inst->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(venus_helper_vb2_buf_queue);
 
@@ -1548,6 +1632,7 @@ void venus_helper_m2m_job_abort(void *priv)
 }
 EXPORT_SYMBOL_GPL(venus_helper_m2m_job_abort);
 
+<<<<<<< HEAD
 int venus_helper_session_init(struct venus_inst *inst)
 {
 	enum hfi_version version = inst->core->res->hfi_version;
@@ -1571,6 +1656,8 @@ int venus_helper_session_init(struct venus_inst *inst)
 }
 EXPORT_SYMBOL_GPL(venus_helper_session_init);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void venus_helper_init_instance(struct venus_inst *inst)
 {
 	if (inst->session_type == VIDC_SESSION_TYPE_DEC) {
@@ -1581,7 +1668,11 @@ void venus_helper_init_instance(struct venus_inst *inst)
 }
 EXPORT_SYMBOL_GPL(venus_helper_init_instance);
 
+<<<<<<< HEAD
 static bool find_fmt_from_caps(struct hfi_plat_caps *caps, u32 buftype, u32 fmt)
+=======
+static bool find_fmt_from_caps(struct venus_caps *caps, u32 buftype, u32 fmt)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int i;
 
@@ -1598,7 +1689,11 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
 			      u32 *out_fmt, u32 *out2_fmt, bool ubwc)
 {
 	struct venus_core *core = inst->core;
+<<<<<<< HEAD
 	struct hfi_plat_caps *caps;
+=======
+	struct venus_caps *caps;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 ubwc_fmt, fmt = to_hfi_raw_fmt(v4l2_fmt);
 	bool found, found_ubwc;
 
@@ -1662,6 +1757,7 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
 	return -EINVAL;
 }
 EXPORT_SYMBOL_GPL(venus_helper_get_out_fmts);
+<<<<<<< HEAD
 
 int venus_helper_set_stride(struct venus_inst *inst,
 			    unsigned int width, unsigned int height)
@@ -1680,3 +1776,5 @@ int venus_helper_set_stride(struct venus_inst *inst,
 	return hfi_session_set_property(inst, ptype, &plane_actual_info);
 }
 EXPORT_SYMBOL_GPL(venus_helper_set_stride);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -106,7 +106,10 @@ int create_user_ns(struct cred *new)
 	if (!ns)
 		goto fail_dec;
 
+<<<<<<< HEAD
 	ns->parent_could_setfcap = cap_raised(new->cap_effective, CAP_SETFCAP);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = ns_alloc_inum(&ns->ns);
 	if (ret)
 		goto fail_free;
@@ -842,6 +845,7 @@ static int sort_idmaps(struct uid_gid_map *map)
 	return 0;
 }
 
+<<<<<<< HEAD
 /**
  * verify_root_map() - check the uid 0 mapping
  * @file: idmapping file
@@ -896,6 +900,8 @@ static bool verify_root_map(const struct file *file,
 	return true;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t map_write(struct file *file, const char __user *buf,
 			 size_t count, loff_t *ppos,
 			 int cap_setid,
@@ -903,7 +909,11 @@ static ssize_t map_write(struct file *file, const char __user *buf,
 			 struct uid_gid_map *parent_map)
 {
 	struct seq_file *seq = file->private_data;
+<<<<<<< HEAD
 	struct user_namespace *map_ns = seq->private;
+=======
+	struct user_namespace *ns = seq->private;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct uid_gid_map new_map;
 	unsigned idx;
 	struct uid_gid_extent extent;
@@ -950,7 +960,11 @@ static ssize_t map_write(struct file *file, const char __user *buf,
 	/*
 	 * Adjusting namespace settings requires capabilities on the target.
 	 */
+<<<<<<< HEAD
 	if (cap_valid(cap_setid) && !file_ns_capable(file, map_ns, CAP_SYS_ADMIN))
+=======
+	if (cap_valid(cap_setid) && !file_ns_capable(file, ns, CAP_SYS_ADMIN))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 
 	/* Parse the user data */
@@ -1020,7 +1034,11 @@ static ssize_t map_write(struct file *file, const char __user *buf,
 
 	ret = -EPERM;
 	/* Validate the user is allowed to use user id's mapped to. */
+<<<<<<< HEAD
 	if (!new_idmap_permitted(file, map_ns, cap_setid, &new_map))
+=======
+	if (!new_idmap_permitted(file, ns, cap_setid, &new_map))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 
 	ret = -EPERM;
@@ -1141,10 +1159,13 @@ static bool new_idmap_permitted(const struct file *file,
 				struct uid_gid_map *new_map)
 {
 	const struct cred *cred = file->f_cred;
+<<<<<<< HEAD
 
 	if (cap_setid == CAP_SETUID && !verify_root_map(file, ns, new_map))
 		return false;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Don't allow mappings that would allow anything that wouldn't
 	 * be allowed without the establishment of unprivileged mappings.
 	 */

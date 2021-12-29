@@ -763,7 +763,12 @@ static int at24_probe(struct i2c_client *client)
 	at24->nvmem = devm_nvmem_register(dev, &nvmem_config);
 	if (IS_ERR(at24->nvmem)) {
 		pm_runtime_disable(dev);
+<<<<<<< HEAD
+		if (!pm_runtime_status_suspended(dev))
+			regulator_disable(at24->vcc_reg);
+=======
 		regulator_disable(at24->vcc_reg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return PTR_ERR(at24->nvmem);
 	}
 
@@ -774,7 +779,12 @@ static int at24_probe(struct i2c_client *client)
 	err = at24_read(at24, 0, &test_byte, 1);
 	if (err) {
 		pm_runtime_disable(dev);
+<<<<<<< HEAD
+		if (!pm_runtime_status_suspended(dev))
+			regulator_disable(at24->vcc_reg);
+=======
 		regulator_disable(at24->vcc_reg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENODEV;
 	}
 

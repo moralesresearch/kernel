@@ -3,14 +3,25 @@
  * Copyright (C) 2015-2019 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
  */
 
+<<<<<<< HEAD
 #ifndef _CRYPTO_BLAKE2S_H
 #define _CRYPTO_BLAKE2S_H
 
 #include <linux/bug.h>
+=======
+#ifndef BLAKE2S_H
+#define BLAKE2S_H
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/types.h>
 #include <linux/kernel.h>
 #include <linux/string.h>
 
+<<<<<<< HEAD
+=======
+#include <asm/bug.h>
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum blake2s_lengths {
 	BLAKE2S_BLOCK_SIZE = 64,
 	BLAKE2S_HASH_SIZE = 32,
@@ -23,7 +34,10 @@ enum blake2s_lengths {
 };
 
 struct blake2s_state {
+<<<<<<< HEAD
 	/* 'h', 't', and 'f' are used in assembly code, so keep them as-is. */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 h[8];
 	u32 t[2];
 	u32 f[2];
@@ -43,6 +57,7 @@ enum blake2s_iv {
 	BLAKE2S_IV7 = 0x5BE0CD19UL,
 };
 
+<<<<<<< HEAD
 static inline void __blake2s_init(struct blake2s_state *state, size_t outlen,
 				  const void *key, size_t keylen)
 {
@@ -65,12 +80,35 @@ static inline void __blake2s_init(struct blake2s_state *state, size_t outlen,
 		memset(&state->buf[keylen], 0, BLAKE2S_BLOCK_SIZE - keylen);
 		state->buflen = BLAKE2S_BLOCK_SIZE;
 	}
+=======
+void blake2s_update(struct blake2s_state *state, const u8 *in, size_t inlen);
+void blake2s_final(struct blake2s_state *state, u8 *out);
+
+static inline void blake2s_init_param(struct blake2s_state *state,
+				      const u32 param)
+{
+	*state = (struct blake2s_state){{
+		BLAKE2S_IV0 ^ param,
+		BLAKE2S_IV1,
+		BLAKE2S_IV2,
+		BLAKE2S_IV3,
+		BLAKE2S_IV4,
+		BLAKE2S_IV5,
+		BLAKE2S_IV6,
+		BLAKE2S_IV7,
+	}};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void blake2s_init(struct blake2s_state *state,
 				const size_t outlen)
 {
+<<<<<<< HEAD
 	__blake2s_init(state, outlen, NULL, 0);
+=======
+	blake2s_init_param(state, 0x01010000 | outlen);
+	state->outlen = outlen;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void blake2s_init_key(struct blake2s_state *state,
@@ -80,12 +118,21 @@ static inline void blake2s_init_key(struct blake2s_state *state,
 	WARN_ON(IS_ENABLED(DEBUG) && (!outlen || outlen > BLAKE2S_HASH_SIZE ||
 		!key || !keylen || keylen > BLAKE2S_KEY_SIZE));
 
+<<<<<<< HEAD
 	__blake2s_init(state, outlen, key, keylen);
 }
 
 void blake2s_update(struct blake2s_state *state, const u8 *in, size_t inlen);
 void blake2s_final(struct blake2s_state *state, u8 *out);
 
+=======
+	blake2s_init_param(state, 0x01010000 | keylen << 8 | outlen);
+	memcpy(state->buf, key, keylen);
+	state->buflen = BLAKE2S_BLOCK_SIZE;
+	state->outlen = outlen;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void blake2s(u8 *out, const u8 *in, const u8 *key,
 			   const size_t outlen, const size_t inlen,
 			   const size_t keylen)
@@ -96,7 +143,15 @@ static inline void blake2s(u8 *out, const u8 *in, const u8 *key,
 		outlen > BLAKE2S_HASH_SIZE || keylen > BLAKE2S_KEY_SIZE ||
 		(!key && keylen)));
 
+<<<<<<< HEAD
 	__blake2s_init(&state, outlen, key, keylen);
+=======
+	if (keylen)
+		blake2s_init_key(&state, outlen, key, keylen);
+	else
+		blake2s_init(&state, outlen);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blake2s_update(&state, in, inlen);
 	blake2s_final(&state, out);
 }
@@ -104,4 +159,8 @@ static inline void blake2s(u8 *out, const u8 *in, const u8 *key,
 void blake2s256_hmac(u8 *out, const u8 *in, const u8 *key, const size_t inlen,
 		     const size_t keylen);
 
+<<<<<<< HEAD
 #endif /* _CRYPTO_BLAKE2S_H */
+=======
+#endif /* BLAKE2S_H */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -19,8 +19,11 @@ properties:
     oneOf:
       - description: BCM4906 based boards
         items:
+<<<<<<< HEAD
           - enum:
               - netgear,r8000p
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: brcm,bcm4906
           - const: brcm,bcm4908
 

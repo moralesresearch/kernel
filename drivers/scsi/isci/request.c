@@ -1480,6 +1480,11 @@ static enum sci_status
 stp_request_pio_await_h2d_completion_tc_event(struct isci_request *ireq,
 					      u32 completion_code)
 {
+<<<<<<< HEAD
+=======
+	enum sci_status status = SCI_SUCCESS;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (SCU_GET_COMPLETION_TL_STATUS(completion_code)) {
 	case SCU_MAKE_COMPLETION_STATUS(SCU_TASK_DONE_GOOD):
 		ireq->scu_status = SCU_TASK_DONE_GOOD;
@@ -1498,7 +1503,11 @@ stp_request_pio_await_h2d_completion_tc_event(struct isci_request *ireq,
 		break;
 	}
 
+<<<<<<< HEAD
 	return SCI_SUCCESS;
+=======
+	return status;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static enum sci_status
@@ -2101,6 +2110,11 @@ sci_io_request_frame_handler(struct isci_request *ireq,
 static enum sci_status stp_request_udma_await_tc_event(struct isci_request *ireq,
 						       u32 completion_code)
 {
+<<<<<<< HEAD
+=======
+	enum sci_status status = SCI_SUCCESS;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (SCU_GET_COMPLETION_TL_STATUS(completion_code)) {
 	case SCU_MAKE_COMPLETION_STATUS(SCU_TASK_DONE_GOOD):
 		ireq->scu_status = SCU_TASK_DONE_GOOD;
@@ -2144,12 +2158,21 @@ static enum sci_status stp_request_udma_await_tc_event(struct isci_request *ireq
 		break;
 	}
 
+<<<<<<< HEAD
 	return SCI_SUCCESS;
+=======
+	return status;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static enum sci_status atapi_raw_completion(struct isci_request *ireq, u32 completion_code,
 						  enum sci_base_request_states next)
 {
+<<<<<<< HEAD
+=======
+	enum sci_status status = SCI_SUCCESS;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (SCU_GET_COMPLETION_TL_STATUS(completion_code)) {
 	case SCU_MAKE_COMPLETION_STATUS(SCU_TASK_DONE_GOOD):
 		ireq->scu_status = SCU_TASK_DONE_GOOD;
@@ -2168,7 +2191,11 @@ static enum sci_status atapi_raw_completion(struct isci_request *ireq, u32 compl
 		break;
 	}
 
+<<<<<<< HEAD
 	return SCI_SUCCESS;
+=======
+	return status;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static enum sci_status atapi_data_tc_completion_handler(struct isci_request *ireq,

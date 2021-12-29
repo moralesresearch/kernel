@@ -59,6 +59,10 @@ MODULE_FIRMWARE("amdgpu/tonga_mc.bin");
 MODULE_FIRMWARE("amdgpu/polaris11_mc.bin");
 MODULE_FIRMWARE("amdgpu/polaris10_mc.bin");
 MODULE_FIRMWARE("amdgpu/polaris12_mc.bin");
+<<<<<<< HEAD
+MODULE_FIRMWARE("amdgpu/polaris12_32_mc.bin");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_FIRMWARE("amdgpu/polaris11_k_mc.bin");
 MODULE_FIRMWARE("amdgpu/polaris10_k_mc.bin");
 MODULE_FIRMWARE("amdgpu/polaris12_k_mc.bin");
@@ -243,10 +247,23 @@ static int gmc_v8_0_init_microcode(struct amdgpu_device *adev)
 			chip_name = "polaris10";
 		break;
 	case CHIP_POLARIS12:
+<<<<<<< HEAD
+		if (ASICID_IS_P23(adev->pdev->device, adev->pdev->revision)) {
+			chip_name = "polaris12_k";
+		} else {
+			WREG32(mmMC_SEQ_IO_DEBUG_INDEX, ixMC_IO_DEBUG_UP_159);
+			/* Polaris12 32bit ASIC needs a special MC firmware */
+			if (RREG32(mmMC_SEQ_IO_DEBUG_DATA) == 0x05b4dc40)
+				chip_name = "polaris12_32";
+			else
+				chip_name = "polaris12";
+		}
+=======
 		if (ASICID_IS_P23(adev->pdev->device, adev->pdev->revision))
 			chip_name = "polaris12_k";
 		else
 			chip_name = "polaris12";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case CHIP_FIJI:
 	case CHIP_CARRIZO:

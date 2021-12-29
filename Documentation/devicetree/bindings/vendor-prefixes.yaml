@@ -59,8 +59,11 @@ patternProperties:
     description: Aeroflex Gaisler AB
   "^al,.*":
     description: Annapurna Labs
+<<<<<<< HEAD
   "^alcatel,.*":
     description: Alcatel
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   "^allegro,.*":
     description: Allegro DVT
   "^allo,.*":
@@ -231,8 +234,11 @@ patternProperties:
     description: Computadora Industrial Abierta Argentina
   "^cirrus,.*":
     description: Cirrus Logic, Inc.
+<<<<<<< HEAD
   "^cisco,.*":
     description: Cisco Systems, Inc.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   "^cloudengines,.*":
     description: Cloud Engines, Inc.
   "^cnm,.*":
@@ -315,8 +321,11 @@ patternProperties:
     description: Dyna-Image
   "^ea,.*":
     description: Embedded Artists AB
+<<<<<<< HEAD
   "^ebang,.*":
     description: Zhejiang Ebang Communication Co., Ltd
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   "^ebs-systart,.*":
     description: EBS-SYSTART GmbH
   "^ebv,.*":
@@ -473,10 +482,17 @@ patternProperties:
     description: Hitex Development Tools
   "^holt,.*":
     description: Holt Integrated Circuits, Inc.
+<<<<<<< HEAD
   "^honestar,.*":
     description: Honestar Technologies Co., Ltd.
   "^honeywell,.*":
     description: Honeywell
+=======
+  "^honeywell,.*":
+    description: Honeywell
+  "^honestar,.*":
+    description: Honestar Technologies Co., Ltd.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   "^hoperun,.*":
     description: Jiangsu HopeRun Software Co., Ltd.
   "^hp,.*":
@@ -587,8 +603,11 @@ patternProperties:
     description: Kontron S&T AG
   "^kosagi,.*":
     description: Sutajio Ko-Usagi PTE Ltd.
+<<<<<<< HEAD
   "^kvg,.*":
     description: Kverneland Group
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   "^kyo,.*":
     description: Kyocera Corporation
   "^lacie,.*":
@@ -874,8 +893,11 @@ patternProperties:
     description: PLDA
   "^plx,.*":
     description: Broadcom Corporation (formerly PLX Technology)
+<<<<<<< HEAD
   "^ply,.*":
     description: Plymovent Group BV
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   "^pni,.*":
     description: PNI Sensor Corporation
   "^pocketbook,.*":
@@ -1085,8 +1107,11 @@ patternProperties:
     description: Shenzhen Sunchip Technology Co., Ltd
   "^SUNW,.*":
     description: Sun Microsystems, Inc
+<<<<<<< HEAD
   "^silvaco,.*":
     description: Silvaco, Inc.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   "^swir,.*":
     description: Sierra Wireless
   "^syna,.*":
@@ -1264,8 +1289,11 @@ patternProperties:
     description: Shenzhen Xunlong Software CO.,Limited
   "^xylon,.*":
     description: Xylon
+<<<<<<< HEAD
   "^yamaha,.*":
     description: Yamaha Corporation
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   "^yes-optoelectronics,.*":
     description: Yes Optoelectronics Co.,Ltd.
   "^ylm,.*":
@@ -1274,8 +1302,11 @@ patternProperties:
     description: YSH & ATIL
   "^yones-toptech,.*":
     description: Yones Toptech Co., Ltd.
+<<<<<<< HEAD
   "^ys,.*":
     description: Shenzhen Yashi Changhua Intelligent Technology Co., Ltd.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   "^ysoft,.*":
     description: Y Soft Corporation a.s.
   "^zealz,.*":

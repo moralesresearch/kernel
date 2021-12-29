@@ -35,9 +35,12 @@ struct open_how {
 #define RESOLVE_IN_ROOT		0x10 /* Make all jumps to "/" and ".."
 					be scoped inside the dirfd
 					(similar to chroot(2)). */
+<<<<<<< HEAD
 #define RESOLVE_CACHED		0x20 /* Only complete if resolution can be
 					completed through cached lookup. May
 					return -EAGAIN if that's not
 					possible. */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif /* _UAPI_LINUX_OPENAT2_H */

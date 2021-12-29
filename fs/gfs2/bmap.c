@@ -1538,13 +1538,29 @@ more_rgrps:
 				goto out;
 			}
 			ret = gfs2_glock_nq_init(rgd->rd_gl, LM_ST_EXCLUSIVE,
+<<<<<<< HEAD
 						 LM_FLAG_NODE_SCOPE, rd_gh);
+=======
+<<<<<<< HEAD
+						 LM_FLAG_NODE_SCOPE, rd_gh);
+=======
+						 0, rd_gh);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ret)
 				goto out;
 
 			/* Must be done with the rgrp glock held: */
 			if (gfs2_rs_active(&ip->i_res) &&
+<<<<<<< HEAD
 			    rgd == ip->i_res.rs_rgd)
+=======
+<<<<<<< HEAD
+			    rgd == ip->i_res.rs_rgd)
+=======
+			    rgd == ip->i_res.rs_rbm.rgd)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				gfs2_rs_deltree(&ip->i_res);
 		}
 

@@ -11,9 +11,13 @@
 #include <linux/clk-provider.h>
 #include <linux/clk.h>
 #include <linux/clkdev.h>
+<<<<<<< HEAD
 #include <linux/clk/tegra.h>
 #include <linux/delay.h>
 #include <linux/export.h>
+=======
+#include <linux/delay.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/io.h>
 #include <linux/module.h>
 #include <linux/of_address.h>
@@ -23,6 +27,10 @@
 #include <linux/string.h>
 
 #include <soc/tegra/fuse.h>
+<<<<<<< HEAD
+=======
+#include <soc/tegra/emc.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "clk.h"
 
@@ -81,9 +89,12 @@ struct tegra_clk_emc {
 	int num_timings;
 	struct emc_timing *timings;
 	spinlock_t *lock;
+<<<<<<< HEAD
 
 	tegra124_emc_prepare_timing_change_cb *prepare_timing_change;
 	tegra124_emc_complete_timing_change_cb *complete_timing_change;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Common clock framework callback implementations */
@@ -180,9 +191,12 @@ static struct tegra_emc *emc_ensure_emc_driver(struct tegra_clk_emc *tegra)
 	if (tegra->emc)
 		return tegra->emc;
 
+<<<<<<< HEAD
 	if (!tegra->prepare_timing_change || !tegra->complete_timing_change)
 		return NULL;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!tegra->emc_node)
 		return NULL;
 
@@ -248,7 +262,11 @@ static int emc_set_timing(struct tegra_clk_emc *tegra,
 
 	div = timing->parent_rate / (timing->rate / 2) - 2;
 
+<<<<<<< HEAD
 	err = tegra->prepare_timing_change(emc, timing->rate);
+=======
+	err = tegra_emc_prepare_timing_change(emc, timing->rate);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return err;
 
@@ -266,7 +284,11 @@ static int emc_set_timing(struct tegra_clk_emc *tegra,
 
 	spin_unlock_irqrestore(tegra->lock, flags);
 
+<<<<<<< HEAD
 	tegra->complete_timing_change(emc, timing->rate);
+=======
+	tegra_emc_complete_timing_change(emc, timing->rate);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	clk_hw_reparent(&tegra->hw, __clk_get_hw(timing->parent));
 	clk_disable_unprepare(tegra->prev_parent);
@@ -480,8 +502,13 @@ static const struct clk_ops tegra_clk_emc_ops = {
 	.get_parent = emc_get_parent,
 };
 
+<<<<<<< HEAD
 struct clk *tegra124_clk_register_emc(void __iomem *base, struct device_node *np,
 				      spinlock_t *lock)
+=======
+struct clk *tegra_clk_register_emc(void __iomem *base, struct device_node *np,
+				   spinlock_t *lock)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct tegra_clk_emc *tegra;
 	struct clk_init_data init;
@@ -545,6 +572,7 @@ struct clk *tegra124_clk_register_emc(void __iomem *base, struct device_node *np
 
 	return clk;
 };
+<<<<<<< HEAD
 
 void tegra124_clk_set_emc_callbacks(tegra124_emc_prepare_timing_change_cb *prep_cb,
 				    tegra124_emc_complete_timing_change_cb *complete_cb)
@@ -569,3 +597,5 @@ bool tegra124_clk_emc_driver_available(struct clk_hw *hw)
 
 	return tegra->prepare_timing_change && tegra->complete_timing_change;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

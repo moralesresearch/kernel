@@ -316,7 +316,15 @@ static void igb_regdump(struct e1000_hw *hw, struct igb_reg_info *reginfo)
 		break;
 	case E1000_TDBAL(0):
 		for (n = 0; n < 4; n++)
+<<<<<<< HEAD
 			regs[n] = rd32(E1000_TDBAL(n));
+=======
+<<<<<<< HEAD
+			regs[n] = rd32(E1000_TDBAL(n));
+=======
+			regs[n] = rd32(E1000_RDBAL(n));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case E1000_TDBAH(0):
 		for (n = 0; n < 4; n++)
@@ -3156,7 +3164,15 @@ static int igb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
 	 * the PCIe SR-IOV capability.
 	 */
 	if (pdev->is_virtfn) {
+<<<<<<< HEAD
 		WARN(1, KERN_ERR "%s (%x:%x) should not be a VF!\n",
+=======
+<<<<<<< HEAD
+		WARN(1, KERN_ERR "%s (%x:%x) should not be a VF!\n",
+=======
+		WARN(1, KERN_ERR "%s (%hx:%hx) should not be a VF!\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pci_name(pdev), pdev->vendor, pdev->device);
 		return -EINVAL;
 	}
@@ -4482,7 +4498,16 @@ static void igb_setup_mrqc(struct igb_adapter *adapter)
 		else
 			mrqc |= E1000_MRQC_ENABLE_VMDQ;
 	} else {
+<<<<<<< HEAD
 		mrqc |= E1000_MRQC_ENABLE_RSS_MQ;
+=======
+<<<<<<< HEAD
+		mrqc |= E1000_MRQC_ENABLE_RSS_MQ;
+=======
+		if (hw->mac.type != e1000_i211)
+			mrqc |= E1000_MRQC_ENABLE_RSS_MQ;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	igb_vmm_control(adapter);
 
@@ -5958,6 +5983,21 @@ static int igb_tso(struct igb_ring *tx_ring,
 	return 1;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static inline bool igb_ipv6_csum_is_sctp(struct sk_buff *skb)
+{
+	unsigned int offset = 0;
+
+	ipv6_find_hdr(skb, &offset, IPPROTO_SCTP, NULL, NULL);
+
+	return offset == skb_checksum_start_offset(skb);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void igb_tx_csum(struct igb_ring *tx_ring, struct igb_tx_buffer *first)
 {
 	struct sk_buff *skb = first->skb;
@@ -5980,7 +6020,18 @@ csum_failed:
 		break;
 	case offsetof(struct sctphdr, checksum):
 		/* validate that this is actually an SCTP request */
+<<<<<<< HEAD
 		if (skb_csum_is_sctp(skb)) {
+=======
+<<<<<<< HEAD
+		if (skb_csum_is_sctp(skb)) {
+=======
+		if (((first->protocol == htons(ETH_P_IP)) &&
+		     (ip_hdr(skb)->protocol == IPPROTO_SCTP)) ||
+		    ((first->protocol == htons(ETH_P_IPV6)) &&
+		     igb_ipv6_csum_is_sctp(skb))) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			type_tucmd = E1000_ADVTXD_TUCMD_L4T_SCTP;
 			break;
 		}
@@ -8214,14 +8265,35 @@ static void igb_reuse_rx_page(struct igb_ring *rx_ring,
 	new_buff->pagecnt_bias	= old_buff->pagecnt_bias;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static inline bool igb_page_is_reserved(struct page *page)
+{
+	return (page_to_nid(page) != numa_mem_id()) || page_is_pfmemalloc(page);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool igb_can_reuse_rx_page(struct igb_rx_buffer *rx_buffer,
 				  int rx_buf_pgcnt)
 {
 	unsigned int pagecnt_bias = rx_buffer->pagecnt_bias;
 	struct page *page = rx_buffer->page;
 
+<<<<<<< HEAD
 	/* avoid re-using remote and pfmemalloc pages */
 	if (!dev_page_is_reusable(page))
+=======
+<<<<<<< HEAD
+	/* avoid re-using remote and pfmemalloc pages */
+	if (!dev_page_is_reusable(page))
+=======
+	/* avoid re-using remote pages */
+	if (unlikely(igb_page_is_reserved(page)))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 #if (PAGE_SIZE < 8192)
@@ -8281,7 +8353,11 @@ static void igb_add_rx_frag(struct igb_ring *rx_ring,
 static struct sk_buff *igb_construct_skb(struct igb_ring *rx_ring,
 					 struct igb_rx_buffer *rx_buffer,
 					 struct xdp_buff *xdp,
+<<<<<<< HEAD
+					 ktime_t timestamp)
+=======
 					 union e1000_adv_rx_desc *rx_desc)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 #if (PAGE_SIZE < 8192)
 	unsigned int truesize = igb_rx_pg_size(rx_ring) / 2;
@@ -8301,12 +8377,17 @@ static struct sk_buff *igb_construct_skb(struct igb_ring *rx_ring,
 	if (unlikely(!skb))
 		return NULL;
 
+<<<<<<< HEAD
+	if (timestamp)
+		skb_hwtstamps(skb)->hwtstamp = timestamp;
+=======
 	if (unlikely(igb_test_staterr(rx_desc, E1000_RXDADV_STAT_TSIP))) {
 		if (!igb_ptp_rx_pktstamp(rx_ring->q_vector, xdp->data, skb)) {
 			xdp->data += IGB_TS_HDR_LEN;
 			size -= IGB_TS_HDR_LEN;
 		}
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Determine available headroom for copy */
 	headlen = size;
@@ -8337,7 +8418,11 @@ static struct sk_buff *igb_construct_skb(struct igb_ring *rx_ring,
 static struct sk_buff *igb_build_skb(struct igb_ring *rx_ring,
 				     struct igb_rx_buffer *rx_buffer,
 				     struct xdp_buff *xdp,
+<<<<<<< HEAD
+				     ktime_t timestamp)
+=======
 				     union e1000_adv_rx_desc *rx_desc)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 #if (PAGE_SIZE < 8192)
 	unsigned int truesize = igb_rx_pg_size(rx_ring) / 2;
@@ -8364,11 +8449,16 @@ static struct sk_buff *igb_build_skb(struct igb_ring *rx_ring,
 	if (metasize)
 		skb_metadata_set(skb, metasize);
 
+<<<<<<< HEAD
+	if (timestamp)
+		skb_hwtstamps(skb)->hwtstamp = timestamp;
+=======
 	/* pull timestamp out of packet data */
 	if (igb_test_staterr(rx_desc, E1000_RXDADV_STAT_TSIP)) {
 		if (!igb_ptp_rx_pktstamp(rx_ring->q_vector, skb->data, skb))
 			__skb_pull(skb, IGB_TS_HDR_LEN);
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* update buffer offset */
 #if (PAGE_SIZE < 8192)
@@ -8402,6 +8492,16 @@ static struct sk_buff *igb_run_xdp(struct igb_adapter *adapter,
 		break;
 	case XDP_TX:
 		result = igb_xdp_xmit_back(adapter, xdp);
+<<<<<<< HEAD
+		if (result == IGB_XDP_CONSUMED)
+			goto out_failure;
+		break;
+	case XDP_REDIRECT:
+		err = xdp_do_redirect(adapter->netdev, xdp, xdp_prog);
+		if (err)
+			goto out_failure;
+		result = IGB_XDP_REDIR;
+=======
 		break;
 	case XDP_REDIRECT:
 		err = xdp_do_redirect(adapter->netdev, xdp, xdp_prog);
@@ -8409,11 +8509,16 @@ static struct sk_buff *igb_run_xdp(struct igb_adapter *adapter,
 			result = IGB_XDP_REDIR;
 		else
 			result = IGB_XDP_CONSUMED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		bpf_warn_invalid_xdp_action(act);
 		fallthrough;
 	case XDP_ABORTED:
+<<<<<<< HEAD
+out_failure:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		trace_xdp_exception(rx_ring->netdev, xdp_prog, act);
 		fallthrough;
 	case XDP_DROP:
@@ -8671,6 +8776,10 @@ static int igb_clean_rx_irq(struct igb_q_vector *q_vector, const int budget)
 	u16 cleaned_count = igb_desc_unused(rx_ring);
 	unsigned int xdp_xmit = 0;
 	struct xdp_buff xdp;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 frame_sz = 0;
 	int rx_buf_pgcnt;
 
@@ -8679,11 +8788,31 @@ static int igb_clean_rx_irq(struct igb_q_vector *q_vector, const int budget)
 	frame_sz = igb_rx_frame_truesize(rx_ring, 0);
 #endif
 	xdp_init_buff(&xdp, frame_sz, &rx_ring->xdp_rxq);
+<<<<<<< HEAD
+=======
+=======
+	int rx_buf_pgcnt;
+
+	xdp.rxq = &rx_ring->xdp_rxq;
+
+	/* Frame size depend on rx_ring setup when PAGE_SIZE=4K */
+#if (PAGE_SIZE < 8192)
+	xdp.frame_sz = igb_rx_frame_truesize(rx_ring, 0);
+#endif
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while (likely(total_packets < budget)) {
 		union e1000_adv_rx_desc *rx_desc;
 		struct igb_rx_buffer *rx_buffer;
+<<<<<<< HEAD
+		ktime_t timestamp = 0;
+		int pkt_offset = 0;
 		unsigned int size;
+		void *pktbuf;
+=======
+		unsigned int size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* return some buffers to hardware, one at a time is too slow */
 		if (cleaned_count >= IGB_RX_BUFFER_WRITE) {
@@ -8703,15 +8832,46 @@ static int igb_clean_rx_irq(struct igb_q_vector *q_vector, const int budget)
 		dma_rmb();
 
 		rx_buffer = igb_get_rx_buffer(rx_ring, size, &rx_buf_pgcnt);
+<<<<<<< HEAD
+		pktbuf = page_address(rx_buffer->page) + rx_buffer->page_offset;
+
+		/* pull rx packet timestamp if available and valid */
+		if (igb_test_staterr(rx_desc, E1000_RXDADV_STAT_TSIP)) {
+			int ts_hdr_len;
+
+			ts_hdr_len = igb_ptp_rx_pktstamp(rx_ring->q_vector,
+							 pktbuf, &timestamp);
+
+			pkt_offset += ts_hdr_len;
+			size -= ts_hdr_len;
+		}
 
 		/* retrieve a buffer from the ring */
 		if (!skb) {
+			unsigned char *hard_start = pktbuf - igb_rx_offset(rx_ring);
+			unsigned int offset = pkt_offset + igb_rx_offset(rx_ring);
+
+			xdp_prepare_buff(&xdp, hard_start, offset, size, true);
+=======
+
+		/* retrieve a buffer from the ring */
+		if (!skb) {
+<<<<<<< HEAD
 			unsigned int offset = igb_rx_offset(rx_ring);
 			unsigned char *hard_start;
 
 			hard_start = page_address(rx_buffer->page) +
 				     rx_buffer->page_offset - offset;
 			xdp_prepare_buff(&xdp, hard_start, offset, size, true);
+=======
+			xdp.data = page_address(rx_buffer->page) +
+				   rx_buffer->page_offset;
+			xdp.data_meta = xdp.data;
+			xdp.data_hard_start = xdp.data -
+					      igb_rx_offset(rx_ring);
+			xdp.data_end = xdp.data + size;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if (PAGE_SIZE > 4096)
 			/* At larger PAGE_SIZE, frame_sz depend on len size */
 			xdp.frame_sz = igb_rx_frame_truesize(rx_ring, size);
@@ -8733,10 +8893,18 @@ static int igb_clean_rx_irq(struct igb_q_vector *q_vector, const int budget)
 		} else if (skb)
 			igb_add_rx_frag(rx_ring, rx_buffer, skb, size);
 		else if (ring_uses_build_skb(rx_ring))
+<<<<<<< HEAD
+			skb = igb_build_skb(rx_ring, rx_buffer, &xdp,
+					    timestamp);
+		else
+			skb = igb_construct_skb(rx_ring, rx_buffer,
+						&xdp, timestamp);
+=======
 			skb = igb_build_skb(rx_ring, rx_buffer, &xdp, rx_desc);
 		else
 			skb = igb_construct_skb(rx_ring, rx_buffer,
 						&xdp, rx_desc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* exit if we failed to retrieve a buffer */
 		if (!skb) {

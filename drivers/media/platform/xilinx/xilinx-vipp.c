@@ -359,7 +359,11 @@ static int xvip_graph_parse_one(struct xvip_composite_device *xdev,
 	dev_dbg(xdev->dev, "parsing node %p\n", fwnode);
 
 	while (1) {
+<<<<<<< HEAD
 		struct xvip_graph_entity *xge;
+=======
+		struct v4l2_async_subdev *asd;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ep = fwnode_graph_get_next_endpoint(fwnode, ep);
 		if (ep == NULL)
@@ -382,12 +386,21 @@ static int xvip_graph_parse_one(struct xvip_composite_device *xdev,
 			continue;
 		}
 
+<<<<<<< HEAD
 		xge = v4l2_async_notifier_add_fwnode_subdev(
 			&xdev->notifier, remote,
 			struct xvip_graph_entity);
 		fwnode_handle_put(remote);
 		if (IS_ERR(xge)) {
 			ret = PTR_ERR(xge);
+=======
+		asd = v4l2_async_notifier_add_fwnode_subdev(
+			&xdev->notifier, remote,
+			sizeof(struct xvip_graph_entity));
+		fwnode_handle_put(remote);
+		if (IS_ERR(asd)) {
+			ret = PTR_ERR(asd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto err_notifier_cleanup;
 		}
 	}

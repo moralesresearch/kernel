@@ -78,8 +78,14 @@ static inline struct page *try_get_compound_head(struct page *page, int refs)
  * considered failure, and furthermore, a likely bug in the caller, so a warning
  * is also emitted.
  */
+<<<<<<< HEAD
 __maybe_unused struct page *try_grab_compound_head(struct page *page,
 						   int refs, unsigned int flags)
+=======
+static __maybe_unused struct page *try_grab_compound_head(struct page *page,
+							  int refs,
+							  unsigned int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (flags & FOLL_GET)
 		return try_get_compound_head(page, refs);
@@ -1535,10 +1541,6 @@ struct page *get_dump_page(unsigned long addr)
 				      FOLL_FORCE | FOLL_DUMP | FOLL_GET);
 	if (locked)
 		mmap_read_unlock(mm);
-
-	if (ret == 1 && is_page_poisoned(page))
-		return NULL;
-
 	return (ret == 1) ? page : NULL;
 }
 #endif /* CONFIG_ELF_CORE */
@@ -1551,18 +1553,36 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
 					struct vm_area_struct **vmas,
 					unsigned int gup_flags)
 {
+<<<<<<< HEAD
+	unsigned long i, isolation_error_count;
+	bool drain_allow;
+	LIST_HEAD(cma_page_list);
+	long ret = nr_pages;
+	struct page *prev_head, *head;
+=======
 	unsigned long i;
 	unsigned long step;
 	bool drain_allow = true;
 	bool migrate_allow = true;
 	LIST_HEAD(cma_page_list);
 	long ret = nr_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct migration_target_control mtc = {
 		.nid = NUMA_NO_NODE,
 		.gfp_mask = GFP_USER | __GFP_MOVABLE | __GFP_NOWARN,
 	};
 
 check_again:
+<<<<<<< HEAD
+	prev_head = NULL;
+	isolation_error_count = 0;
+	drain_allow = true;
+	for (i = 0; i < nr_pages; i++) {
+		head = compound_head(pages[i]);
+		if (head == prev_head)
+			continue;
+		prev_head = head;
+=======
 	for (i = 0; i < nr_pages;) {
 
 		struct page *head = compound_head(pages[i]);
@@ -1572,20 +1592,49 @@ check_again:
 		 * part.
 		 */
 		step = compound_nr(head) - (pages[i] - head);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * If we get a page from the CMA zone, since we are going to
 		 * be pinning these entries, we might as well move them out
 		 * of the CMA zone if possible.
 		 */
 		if (is_migrate_cma_page(head)) {
+<<<<<<< HEAD
+			if (PageHuge(head)) {
+				if (!isolate_huge_page(head, &cma_page_list))
+					isolation_error_count++;
+			} else {
+=======
 			if (PageHuge(head))
 				isolate_huge_page(head, &cma_page_list);
 			else {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				if (!PageLRU(head) && drain_allow) {
 					lru_add_drain_all();
 					drain_allow = false;
 				}
 
+<<<<<<< HEAD
+				if (isolate_lru_page(head)) {
+					isolation_error_count++;
+					continue;
+				}
+				list_add_tail(&head->lru, &cma_page_list);
+				mod_node_page_state(page_pgdat(head),
+						    NR_ISOLATED_ANON +
+						    page_is_file_lru(head),
+						    thp_nr_pages(head));
+			}
+		}
+	}
+
+	/*
+	 * If list is empty, and no isolation errors, means that all pages are
+	 * in the correct zone.
+	 */
+	if (list_empty(&cma_page_list) && !isolation_error_count)
+		return ret;
+=======
 				if (!isolate_lru_page(head)) {
 					list_add_tail(&head->lru, &cma_page_list);
 					mod_node_page_state(page_pgdat(head),
@@ -1598,6 +1647,7 @@ check_again:
 
 		i += step;
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!list_empty(&cma_page_list)) {
 		/*
@@ -1609,6 +1659,30 @@ check_again:
 			for (i = 0; i < nr_pages; i++)
 				put_page(pages[i]);
 
+<<<<<<< HEAD
+		ret = migrate_pages(&cma_page_list, alloc_migration_target,
+				    NULL, (unsigned long)&mtc, MIGRATE_SYNC,
+				    MR_CONTIG_RANGE);
+		if (ret) {
+			if (!list_empty(&cma_page_list))
+				putback_movable_pages(&cma_page_list);
+			return ret > 0 ? -ENOMEM : ret;
+		}
+
+		/* We unpinned pages before migration, pin them again */
+		ret = __get_user_pages_locked(mm, start, nr_pages, pages, vmas,
+					      NULL, gup_flags);
+		if (ret <= 0)
+			return ret;
+		nr_pages = ret;
+	}
+
+	/*
+	 * check again because pages were unpinned, and we also might have
+	 * had isolation errors and need more pages to migrate.
+	 */
+	goto check_again;
+=======
 		if (migrate_pages(&cma_page_list, alloc_migration_target, NULL,
 			(unsigned long)&mtc, MIGRATE_SYNC, MR_CONTIG_RANGE)) {
 			/*
@@ -1637,6 +1711,7 @@ check_again:
 	}
 
 	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #else
 static long check_and_migrate_cma_pages(struct mm_struct *mm,

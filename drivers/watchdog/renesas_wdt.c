@@ -9,7 +9,10 @@
 #include <linux/clk.h>
 #include <linux/delay.h>
 #include <linux/io.h>
+<<<<<<< HEAD
 #include <linux/iopoll.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/of.h>
@@ -51,7 +54,10 @@ struct rwdt_priv {
 	struct watchdog_device wdev;
 	unsigned long clk_rate;
 	u8 cks;
+<<<<<<< HEAD
 	struct clk *clk;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void rwdt_write(struct rwdt_priv *priv, u32 val, unsigned int reg)
@@ -127,11 +133,15 @@ static unsigned int rwdt_get_timeleft(struct watchdog_device *wdev)
 	return DIV_BY_CLKS_PER_SEC(priv, 65536 - val);
 }
 
+<<<<<<< HEAD
 /* needs to be atomic - no RPM, no usleep_range, no scheduling! */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int rwdt_restart(struct watchdog_device *wdev, unsigned long action,
 			void *data)
 {
 	struct rwdt_priv *priv = watchdog_get_drvdata(wdev);
+<<<<<<< HEAD
 	u8 val;
 
 	clk_prepare_enable(priv->clk);
@@ -154,6 +164,11 @@ static int rwdt_restart(struct watchdog_device *wdev, unsigned long action,
 	/* wait 2 cycles, so watchdog will trigger */
 	udelay(DIV_ROUND_UP(2 * 1000000, priv->clk_rate));
 
+=======
+
+	rwdt_start(wdev);
+	rwdt_write(priv, 0xffff, RWTCNT);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -213,6 +228,10 @@ static int rwdt_probe(struct platform_device *pdev)
 {
 	struct device *dev = &pdev->dev;
 	struct rwdt_priv *priv;
+<<<<<<< HEAD
+=======
+	struct clk *clk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long clks_per_sec;
 	int ret, i;
 	u8 csra;
@@ -228,6 +247,7 @@ static int rwdt_probe(struct platform_device *pdev)
 	if (IS_ERR(priv->base))
 		return PTR_ERR(priv->base);
 
+<<<<<<< HEAD
 	priv->clk = devm_clk_get(dev, NULL);
 	if (IS_ERR(priv->clk))
 		return PTR_ERR(priv->clk);
@@ -235,6 +255,15 @@ static int rwdt_probe(struct platform_device *pdev)
 	pm_runtime_enable(dev);
 	pm_runtime_get_sync(dev);
 	priv->clk_rate = clk_get_rate(priv->clk);
+=======
+	clk = devm_clk_get(dev, NULL);
+	if (IS_ERR(clk))
+		return PTR_ERR(clk);
+
+	pm_runtime_enable(dev);
+	pm_runtime_get_sync(dev);
+	priv->clk_rate = clk_get_rate(clk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	csra = readb_relaxed(priv->base + RWTCSRA);
 	priv->wdev.bootstatus = csra & RWTCSRA_WOVF ? WDIOF_CARDRESET : 0;
 	pm_runtime_put(dev);

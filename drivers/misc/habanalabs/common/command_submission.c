@@ -48,8 +48,13 @@ void hl_sob_reset_error(struct kref *ref)
 	struct hl_device *hdev = hw_sob->hdev;
 
 	dev_crit(hdev->dev,
+<<<<<<< HEAD
 		"SOB release shouldn't be called here, q_idx: %d, sob_id: %d\n",
 		hw_sob->q_idx, hw_sob->sob_id);
+=======
+			"SOB release shouldn't be called here, q_idx: %d, sob_id: %d\n",
+			hw_sob->q_idx, hw_sob->sob_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -149,10 +154,16 @@ void hl_fence_get(struct hl_fence *fence)
 		kref_get(&fence->refcount);
 }
 
+<<<<<<< HEAD
 static void hl_fence_init(struct hl_fence *fence, u64 sequence)
 {
 	kref_init(&fence->refcount);
 	fence->cs_sequence = sequence;
+=======
+static void hl_fence_init(struct hl_fence *fence)
+{
+	kref_init(&fence->refcount);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fence->error = 0;
 	fence->timestamp = ktime_set(0, 0);
 	init_completion(&fence->completion);
@@ -185,6 +196,7 @@ static void cs_job_put(struct hl_cs_job *job)
 	kref_put(&job->refcount, cs_job_do_release);
 }
 
+<<<<<<< HEAD
 bool cs_needs_completion(struct hl_cs *cs)
 {
 	/* In case this is a staged CS, only the last CS in sequence should
@@ -207,6 +219,8 @@ bool cs_needs_timeout(struct hl_cs *cs)
 	return true;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool is_cb_patched(struct hl_device *hdev, struct hl_cs_job *job)
 {
 	/*
@@ -248,7 +262,10 @@ static int cs_parser(struct hl_fpriv *hpriv, struct hl_cs_job *job)
 	parser.queue_type = job->queue_type;
 	parser.is_kernel_allocated_cb = job->is_kernel_allocated_cb;
 	job->patched_cb = NULL;
+<<<<<<< HEAD
 	parser.completion = cs_needs_completion(job->cs);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = hdev->asic_funcs->cs_parser(hdev, &parser);
 
@@ -314,6 +331,7 @@ static void complete_job(struct hl_device *hdev, struct hl_cs_job *job)
 
 	hl_debugfs_remove_job(hdev, job);
 
+<<<<<<< HEAD
 	/* We decrement reference only for a CS that gets completion
 	 * because the reference was incremented only for this kind of CS
 	 * right before it was scheduled.
@@ -329,11 +347,16 @@ static void complete_job(struct hl_device *hdev, struct hl_cs_job *job)
 	if (cs_needs_completion(cs) &&
 		(job->queue_type == QUEUE_TYPE_EXT ||
 			job->queue_type == QUEUE_TYPE_HW))
+=======
+	if (job->queue_type == QUEUE_TYPE_EXT ||
+			job->queue_type == QUEUE_TYPE_HW)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cs_put(cs);
 
 	cs_job_put(job);
 }
 
+<<<<<<< HEAD
 /*
  * hl_staged_cs_find_first - locate the first CS in this staged submission
  *
@@ -461,6 +484,8 @@ static void cs_handle_tdr(struct hl_device *hdev, struct hl_cs *cs)
 	spin_unlock(&hdev->cs_mirror_lock);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void cs_do_release(struct kref *ref)
 {
 	struct hl_cs *cs = container_of(ref, struct hl_cs, refcount);
@@ -510,14 +535,20 @@ static void cs_do_release(struct kref *ref)
 
 	hdev->asic_funcs->hw_queues_unlock(hdev);
 
+<<<<<<< HEAD
 	/* Need to update CI for all queue jobs that does not get completion */
 	hl_hw_queue_update_ci(cs);
+=======
+	/* Need to update CI for internal queues */
+	hl_int_hw_queue_update_ci(cs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* remove CS from CS mirror list */
 	spin_lock(&hdev->cs_mirror_lock);
 	list_del_init(&cs->mirror_node);
 	spin_unlock(&hdev->cs_mirror_lock);
 
+<<<<<<< HEAD
 	cs_handle_tdr(hdev, cs);
 
 	if (cs->staged_cs) {
@@ -541,6 +572,30 @@ static void cs_do_release(struct kref *ref)
 			list_del(&cs->staged_cs_node);
 			spin_unlock(&hdev->cs_mirror_lock);
 		}
+=======
+	/* Don't cancel TDR in case this CS was timedout because we might be
+	 * running from the TDR context
+	 */
+	if (!cs->timedout && hdev->timeout_jiffies != MAX_SCHEDULE_TIMEOUT) {
+		struct hl_cs *next;
+
+		if (cs->tdr_active)
+			cancel_delayed_work_sync(&cs->work_tdr);
+
+		spin_lock(&hdev->cs_mirror_lock);
+
+		/* queue TDR for next CS */
+		next = list_first_entry_or_null(&hdev->cs_mirror_list,
+						struct hl_cs, mirror_node);
+
+		if (next && !next->tdr_active) {
+			next->tdr_active = true;
+			schedule_delayed_work(&next->work_tdr,
+						hdev->timeout_jiffies);
+		}
+
+		spin_unlock(&hdev->cs_mirror_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 out:
@@ -626,8 +681,12 @@ static void cs_timedout(struct work_struct *work)
 }
 
 static int allocate_cs(struct hl_device *hdev, struct hl_ctx *ctx,
+<<<<<<< HEAD
 			enum hl_cs_type cs_type, u64 user_sequence,
 			struct hl_cs **cs_new)
+=======
+			enum hl_cs_type cs_type, struct hl_cs **cs_new)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct hl_cs_counters_atomic *cntr;
 	struct hl_fence *other = NULL;
@@ -644,9 +703,12 @@ static int allocate_cs(struct hl_device *hdev, struct hl_ctx *ctx,
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
 	/* increment refcnt for context */
 	hl_ctx_get(hdev, ctx);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cs->ctx = ctx;
 	cs->submitted = false;
 	cs->completed = false;
@@ -676,6 +738,7 @@ static int allocate_cs(struct hl_device *hdev, struct hl_ctx *ctx,
 				(hdev->asic_prop.max_pending_cs - 1)];
 
 	if (other && !completion_done(&other->completion)) {
+<<<<<<< HEAD
 		/* If the following statement is true, it means we have reached
 		 * a point in which only part of the staged submission was
 		 * submitted and we don't have enough room in the 'cs_pending'
@@ -688,6 +751,8 @@ static int allocate_cs(struct hl_device *hdev, struct hl_ctx *ctx,
 				"Staged CS %llu deadlock due to lack of resources",
 				user_sequence);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_dbg_ratelimited(hdev->dev,
 			"Rejecting CS because of too many in-flights CS\n");
 		atomic64_inc(&ctx->cs_counters.max_cs_in_flight_drop_cnt);
@@ -706,7 +771,11 @@ static int allocate_cs(struct hl_device *hdev, struct hl_ctx *ctx,
 	}
 
 	/* init hl_fence */
+<<<<<<< HEAD
 	hl_fence_init(&cs_cmpl->base_fence, cs_cmpl->cs_seq);
+=======
+	hl_fence_init(&cs_cmpl->base_fence);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cs->sequence = cs_cmpl->cs_seq;
 
@@ -730,7 +799,10 @@ free_fence:
 	kfree(cs_cmpl);
 free_cs:
 	kfree(cs);
+<<<<<<< HEAD
 	hl_ctx_put(ctx);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 }
 
@@ -738,8 +810,11 @@ static void cs_rollback(struct hl_device *hdev, struct hl_cs *cs)
 {
 	struct hl_cs_job *job, *tmp;
 
+<<<<<<< HEAD
 	staged_cs_put(hdev, cs);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry_safe(job, tmp, &cs->job_list, cs_node)
 		complete_job(hdev, job);
 }
@@ -749,9 +824,13 @@ void hl_cs_rollback_all(struct hl_device *hdev)
 	int i;
 	struct hl_cs *cs, *tmp;
 
+<<<<<<< HEAD
 	/* flush all completions before iterating over the CS mirror list in
 	 * order to avoid a race with the release functions
 	 */
+=======
+	/* flush all completions */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0 ; i < hdev->asic_prop.completion_queues_count ; i++)
 		flush_workqueue(hdev->cq_wq[i]);
 
@@ -760,12 +839,17 @@ void hl_cs_rollback_all(struct hl_device *hdev)
 		cs_get(cs);
 		cs->aborted = true;
 		dev_warn_ratelimited(hdev->dev, "Killing CS %d.%llu\n",
+<<<<<<< HEAD
 				cs->ctx->asid, cs->sequence);
+=======
+					cs->ctx->asid, cs->sequence);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cs_rollback(hdev, cs);
 		cs_put(cs);
 	}
 }
 
+<<<<<<< HEAD
 void hl_pending_cb_list_flush(struct hl_ctx *ctx)
 {
 	struct hl_pending_cb *pending_cb, *tmp;
@@ -778,6 +862,8 @@ void hl_pending_cb_list_flush(struct hl_ctx *ctx)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void job_wq_completion(struct work_struct *work)
 {
 	struct hl_cs_job *job = container_of(work, struct hl_cs_job,
@@ -932,12 +1018,15 @@ static int hl_cs_sanity_checks(struct hl_fpriv *hpriv, union hl_cs_args *args)
 		return -EBUSY;
 	}
 
+<<<<<<< HEAD
 	if ((args->in.cs_flags & HL_CS_FLAGS_STAGED_SUBMISSION) &&
 			!hdev->supports_staged_submission) {
 		dev_err(hdev->dev, "staged submission not supported");
 		return -EPERM;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cs_type_flags = args->in.cs_flags & HL_CS_FLAGS_TYPE_MASK;
 
 	if (unlikely(cs_type_flags && !is_power_of_2(cs_type_flags))) {
@@ -1009,6 +1098,7 @@ static int hl_cs_copy_chunk_array(struct hl_device *hdev,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int cs_staged_submission(struct hl_device *hdev, struct hl_cs *cs,
 				u64 sequence, u32 flags)
 {
@@ -1041,6 +1131,12 @@ static int cs_ioctl_default(struct hl_fpriv *hpriv, void __user *chunks,
 				u32 num_chunks, u64 *cs_seq, u32 flags)
 {
 	bool staged_mid, int_queues_only = true;
+=======
+static int cs_ioctl_default(struct hl_fpriv *hpriv, void __user *chunks,
+				u32 num_chunks, u64 *cs_seq, bool timestamp)
+{
+	bool int_queues_only = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct hl_device *hdev = hpriv->hdev;
 	struct hl_cs_chunk *cs_chunk_array;
 	struct hl_cs_counters_atomic *cntr;
@@ -1048,11 +1144,17 @@ static int cs_ioctl_default(struct hl_fpriv *hpriv, void __user *chunks,
 	struct hl_cs_job *job;
 	struct hl_cs *cs;
 	struct hl_cb *cb;
+<<<<<<< HEAD
 	u64 user_sequence;
 	int rc, i;
 
 	cntr = &hdev->aggregated_cs_counters;
 	user_sequence = *cs_seq;
+=======
+	int rc, i;
+
+	cntr = &hdev->aggregated_cs_counters;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*cs_seq = ULLONG_MAX;
 
 	rc = hl_cs_copy_chunk_array(hdev, &cs_chunk_array, chunks, num_chunks,
@@ -1060,6 +1162,7 @@ static int cs_ioctl_default(struct hl_fpriv *hpriv, void __user *chunks,
 	if (rc)
 		goto out;
 
+<<<<<<< HEAD
 	if ((flags & HL_CS_FLAGS_STAGED_SUBMISSION) &&
 			!(flags & HL_CS_FLAGS_STAGED_SUBMISSION_FIRST))
 		staged_mid = true;
@@ -1072,14 +1175,29 @@ static int cs_ioctl_default(struct hl_fpriv *hpriv, void __user *chunks,
 		goto free_cs_chunk_array;
 
 	cs->timestamp = !!(flags & HL_CS_FLAGS_TIMESTAMP);
+=======
+	/* increment refcnt for context */
+	hl_ctx_get(hdev, hpriv->ctx);
+
+	rc = allocate_cs(hdev, hpriv->ctx, CS_TYPE_DEFAULT, &cs);
+	if (rc) {
+		hl_ctx_put(hpriv->ctx);
+		goto free_cs_chunk_array;
+	}
+
+	cs->timestamp = !!timestamp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*cs_seq = cs->sequence;
 
 	hl_debugfs_add_cs(cs);
 
+<<<<<<< HEAD
 	rc = cs_staged_submission(hdev, cs, user_sequence, flags);
 	if (rc)
 		goto free_cs_object;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Validate ALL the CS chunks before submitting the CS */
 	for (i = 0 ; i < num_chunks ; i++) {
 		struct hl_cs_chunk *chunk = &cs_chunk_array[i];
@@ -1139,9 +1257,14 @@ static int cs_ioctl_default(struct hl_fpriv *hpriv, void __user *chunks,
 		 * Only increment for JOB on external or H/W queues, because
 		 * only for those JOBs we get completion
 		 */
+<<<<<<< HEAD
 		if (cs_needs_completion(cs) &&
 			(job->queue_type == QUEUE_TYPE_EXT ||
 				job->queue_type == QUEUE_TYPE_HW))
+=======
+		if (job->queue_type == QUEUE_TYPE_EXT ||
+				job->queue_type == QUEUE_TYPE_HW)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cs_get(cs);
 
 		hl_debugfs_add_job(hdev, job);
@@ -1157,6 +1280,7 @@ static int cs_ioctl_default(struct hl_fpriv *hpriv, void __user *chunks,
 		}
 	}
 
+<<<<<<< HEAD
 	/* We allow a CS with any queue type combination as long as it does
 	 * not get a completion
 	 */
@@ -1165,6 +1289,13 @@ static int cs_ioctl_default(struct hl_fpriv *hpriv, void __user *chunks,
 		atomic64_inc(&cntr->validation_drop_cnt);
 		dev_err(hdev->dev,
 			"Reject CS %d.%llu since it contains only internal queues jobs and needs completion\n",
+=======
+	if (int_queues_only) {
+		atomic64_inc(&ctx->cs_counters.validation_drop_cnt);
+		atomic64_inc(&cntr->validation_drop_cnt);
+		dev_err(hdev->dev,
+			"Reject CS %d.%llu because only internal queues jobs are present\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cs->ctx->asid, cs->sequence);
 		rc = -EINVAL;
 		goto free_cs_object;
@@ -1198,6 +1329,7 @@ out:
 	return rc;
 }
 
+<<<<<<< HEAD
 static int pending_cb_create_job(struct hl_device *hdev, struct hl_ctx *ctx,
 		struct hl_cs *cs, struct hl_cb *cb, u32 size, u32 hw_queue_id)
 {
@@ -1321,6 +1453,8 @@ free_pending_cb_token:
 	return rc;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hl_cs_ctx_switch(struct hl_fpriv *hpriv, union hl_cs_args *args,
 				u64 *cs_seq)
 {
@@ -1370,7 +1504,11 @@ static int hl_cs_ctx_switch(struct hl_fpriv *hpriv, union hl_cs_args *args,
 			rc = 0;
 		} else {
 			rc = cs_ioctl_default(hpriv, chunks, num_chunks,
+<<<<<<< HEAD
 								cs_seq, 0);
+=======
+						cs_seq, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		mutex_unlock(&hpriv->restore_phase_mutex);
@@ -1642,11 +1780,22 @@ static int cs_ioctl_signal_wait(struct hl_fpriv *hpriv, enum hl_cs_type cs_type,
 		}
 	}
 
+<<<<<<< HEAD
 	rc = allocate_cs(hdev, ctx, cs_type, ULLONG_MAX, &cs);
+=======
+	/* increment refcnt for context */
+	hl_ctx_get(hdev, ctx);
+
+	rc = allocate_cs(hdev, ctx, cs_type, &cs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rc) {
 		if (cs_type == CS_TYPE_WAIT ||
 			cs_type == CS_TYPE_COLLECTIVE_WAIT)
 			hl_fence_put(sig_fence);
+<<<<<<< HEAD
+=======
+		hl_ctx_put(ctx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto free_cs_chunk_array;
 	}
 
@@ -1709,7 +1858,11 @@ int hl_cs_ioctl(struct hl_fpriv *hpriv, void *data)
 	enum hl_cs_type cs_type;
 	u64 cs_seq = ULONG_MAX;
 	void __user *chunks;
+<<<<<<< HEAD
 	u32 num_chunks, flags;
+=======
+	u32 num_chunks;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int rc;
 
 	rc = hl_cs_sanity_checks(hpriv, args);
@@ -1720,20 +1873,26 @@ int hl_cs_ioctl(struct hl_fpriv *hpriv, void *data)
 	if (rc)
 		goto out;
 
+<<<<<<< HEAD
 	rc = hl_submit_pending_cb(hpriv);
 	if (rc)
 		goto out;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cs_type = hl_cs_get_cs_type(args->in.cs_flags &
 					~HL_CS_FLAGS_FORCE_RESTORE);
 	chunks = (void __user *) (uintptr_t) args->in.chunks_execute;
 	num_chunks = args->in.num_chunks_execute;
+<<<<<<< HEAD
 	flags = args->in.cs_flags;
 
 	/* In case this is a staged CS, user should supply the CS sequence */
 	if ((flags & HL_CS_FLAGS_STAGED_SUBMISSION) &&
 			!(flags & HL_CS_FLAGS_STAGED_SUBMISSION_FIRST))
 		cs_seq = args->in.seq;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (cs_type) {
 	case CS_TYPE_SIGNAL:
@@ -1744,7 +1903,11 @@ int hl_cs_ioctl(struct hl_fpriv *hpriv, void *data)
 		break;
 	default:
 		rc = cs_ioctl_default(hpriv, chunks, num_chunks, &cs_seq,
+<<<<<<< HEAD
 							args->in.cs_flags);
+=======
+				args->in.cs_flags & HL_CS_FLAGS_TIMESTAMP);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 

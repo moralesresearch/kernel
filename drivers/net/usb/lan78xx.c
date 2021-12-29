@@ -3375,9 +3375,15 @@ static void lan78xx_rx_bh(struct lan78xx_net *dev)
 		netif_wake_queue(dev->net);
 }
 
+<<<<<<< HEAD
 static void lan78xx_bh(struct tasklet_struct *t)
 {
 	struct lan78xx_net *dev = from_tasklet(dev, t, bh);
+=======
+static void lan78xx_bh(unsigned long param)
+{
+	struct lan78xx_net *dev = (struct lan78xx_net *)param;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sk_buff *skb;
 	struct skb_data *entry;
 
@@ -3655,7 +3661,11 @@ static int lan78xx_probe(struct usb_interface *intf,
 	skb_queue_head_init(&dev->txq_pend);
 	mutex_init(&dev->phy_mutex);
 
+<<<<<<< HEAD
 	tasklet_setup(&dev->bh, lan78xx_bh);
+=======
+	tasklet_init(&dev->bh, lan78xx_bh, (unsigned long)dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_DELAYED_WORK(&dev->wq, lan78xx_delayedwork);
 	init_usb_anchor(&dev->deferred);
 

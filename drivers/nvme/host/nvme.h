@@ -144,12 +144,21 @@ enum nvme_quirks {
 	 * NVMe 1.3 compliance.
 	 */
 	NVME_QUIRK_NO_NS_DESC_LIST		= (1 << 15),
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * The controller does not properly handle DMA addresses over
 	 * 48 bits.
 	 */
 	NVME_QUIRK_DMA_ADDRESS_BITS_48		= (1 << 16),
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -252,9 +261,18 @@ struct nvme_ctrl {
 	struct rw_semaphore namespaces_rwsem;
 	struct device ctrl_device;
 	struct device *device;	/* char device */
+<<<<<<< HEAD
 #ifdef CONFIG_NVME_HWMON
 	struct device *hwmon_device;
 #endif
+=======
+<<<<<<< HEAD
+#ifdef CONFIG_NVME_HWMON
+	struct device *hwmon_device;
+#endif
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct cdev cdev;
 	struct work_struct reset_work;
 	struct work_struct delete_work;
@@ -584,7 +602,14 @@ static inline bool nvme_is_aen_req(u16 qid, __u16 command_id)
 }
 
 void nvme_complete_rq(struct request *req);
+<<<<<<< HEAD
 blk_status_t nvme_host_path_error(struct request *req);
+=======
+<<<<<<< HEAD
+blk_status_t nvme_host_path_error(struct request *req);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool nvme_cancel_request(struct request *req, void *data, bool reserved);
 void nvme_cancel_tagset(struct nvme_ctrl *ctrl);
 void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl);
@@ -668,7 +693,12 @@ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
 int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
 void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id);
 void nvme_mpath_remove_disk(struct nvme_ns_head *head);
+<<<<<<< HEAD
+int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id);
+void nvme_mpath_init_ctrl(struct nvme_ctrl *ctrl);
+=======
 int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void nvme_mpath_uninit(struct nvme_ctrl *ctrl);
 void nvme_mpath_stop(struct nvme_ctrl *ctrl);
 bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
@@ -742,7 +772,14 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
 static inline void nvme_trace_bio_complete(struct request *req)
 {
 }
+<<<<<<< HEAD
+static inline void nvme_mpath_init_ctrl(struct nvme_ctrl *ctrl)
+{
+}
+static inline int nvme_mpath_init_identify(struct nvme_ctrl *ctrl,
+=======
 static inline int nvme_mpath_init(struct nvme_ctrl *ctrl,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct nvme_id_ctrl *id)
 {
 	if (ctrl->subsys->cmic & (1 << 3))
@@ -821,16 +858,32 @@ static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
 
 #ifdef CONFIG_NVME_HWMON
 int nvme_hwmon_init(struct nvme_ctrl *ctrl);
+<<<<<<< HEAD
 void nvme_hwmon_exit(struct nvme_ctrl *ctrl);
+=======
+<<<<<<< HEAD
+void nvme_hwmon_exit(struct nvme_ctrl *ctrl);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 static inline int nvme_hwmon_init(struct nvme_ctrl *ctrl)
 {
 	return 0;
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline void nvme_hwmon_exit(struct nvme_ctrl *ctrl)
 {
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,

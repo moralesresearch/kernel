@@ -7,7 +7,10 @@
  * Harninder Rai <harninder.rai@nxp.com>
  *
  */
+<<<<<<< HEAD
 #include <dt-bindings/clock/fsl,qoriq-clockgen.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/thermal/thermal.h>
 
@@ -31,7 +34,11 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x0>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 0>;
+=======
+			clocks = <&clockgen 1 0>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cpu-idle-states = <&CPU_PH20>;
 			#cooling-cells = <2>;
 		};
@@ -40,7 +47,11 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x1>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 0>;
+=======
+			clocks = <&clockgen 1 0>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cpu-idle-states = <&CPU_PH20>;
 			#cooling-cells = <2>;
 		};
@@ -49,7 +60,11 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x2>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 0>;
+=======
+			clocks = <&clockgen 1 0>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cpu-idle-states = <&CPU_PH20>;
 			#cooling-cells = <2>;
 		};
@@ -58,7 +73,11 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x3>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 0>;
+=======
+			clocks = <&clockgen 1 0>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cpu-idle-states = <&CPU_PH20>;
 			#cooling-cells = <2>;
 		};
@@ -67,7 +86,11 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x100>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 1>;
+=======
+			clocks = <&clockgen 1 1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cpu-idle-states = <&CPU_PH20>;
 			#cooling-cells = <2>;
 		};
@@ -76,7 +99,11 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x101>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 1>;
+=======
+			clocks = <&clockgen 1 1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cpu-idle-states = <&CPU_PH20>;
 			#cooling-cells = <2>;
 		};
@@ -85,7 +112,11 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x102>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 1>;
+=======
+			clocks = <&clockgen 1 1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cpu-idle-states = <&CPU_PH20>;
 			#cooling-cells = <2>;
 		};
@@ -94,7 +125,11 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x103>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_CMUX 1>;
+=======
+			clocks = <&clockgen 1 1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cpu-idle-states = <&CPU_PH20>;
 			#cooling-cells = <2>;
 		};
@@ -221,6 +256,7 @@
 			little-endian;
 		};
 
+<<<<<<< HEAD
 		isc: syscon@1f70000 {
 			compatible = "fsl,ls1088a-isc", "syscon";
 			reg = <0x0 0x1f70000 0x0 0x10000>;
@@ -252,6 +288,8 @@
 			};
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tmu: tmu@1f80000 {
 			compatible = "fsl,qoriq-tmu";
 			reg = <0x0 0x1f80000 0x0 0x10000>;
@@ -311,8 +349,12 @@
 			reg = <0x0 0x2100000 0x0 0x10000>;
 			interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
 			clock-names = "dspi";
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(2)>;
+=======
+			clocks = <&clockgen 4 1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			spi-num-chipselects = <6>;
 			status = "disabled";
 		};
@@ -320,8 +362,12 @@
 		duart0: serial@21c0500 {
 			compatible = "fsl,ns16550", "ns16550a";
 			reg = <0x0 0x21c0500 0x0 0x100>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>;
+=======
+			clocks = <&clockgen 4 3>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			interrupts = <0 32 IRQ_TYPE_LEVEL_HIGH>;
 			status = "disabled";
 		};
@@ -329,8 +375,12 @@
 		duart1: serial@21c0600 {
 			compatible = "fsl,ns16550", "ns16550a";
 			reg = <0x0 0x21c0600 0x0 0x100>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>;
+=======
+			clocks = <&clockgen 4 3>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			interrupts = <0 32 IRQ_TYPE_LEVEL_HIGH>;
 			status = "disabled";
 		};
@@ -395,8 +445,12 @@
 			#size-cells = <0>;
 			reg = <0x0 0x2000000 0x0 0x10000>;
 			interrupts = <0 34 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(8)>;
+=======
+			clocks = <&clockgen 4 7>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -406,8 +460,12 @@
 			#size-cells = <0>;
 			reg = <0x0 0x2010000 0x0 0x10000>;
 			interrupts = <0 34 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(8)>;
+=======
+			clocks = <&clockgen 4 7>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -417,8 +475,12 @@
 			#size-cells = <0>;
 			reg = <0x0 0x2020000 0x0 0x10000>;
 			interrupts = <0 35 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(8)>;
+=======
+			clocks = <&clockgen 4 7>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -428,8 +490,12 @@
 			#size-cells = <0>;
 			reg = <0x0 0x2030000 0x0 0x10000>;
 			interrupts = <0 35 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(8)>;
+=======
+			clocks = <&clockgen 4 7>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -442,10 +508,14 @@
 			reg-names = "QuadSPI", "QuadSPI-memory";
 			interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
 			clock-names = "qspi_en", "qspi";
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>,
 				 <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>;
+=======
+			clocks = <&clockgen 4 3>, <&clockgen 4 3>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 		};
 
@@ -454,7 +524,11 @@
 			reg = <0x0 0x2140000 0x0 0x10000>;
 			interrupts = <0 28 0x4>; /* Level high type */
 			clock-frequency = <0>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_HWACCEL 1>;
+=======
+			clocks = <&clockgen 2 1>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			voltage-ranges = <1800 1800 3300 3300>;
 			sdhci,auto-cmd12;
 			little-endian;
@@ -489,8 +563,12 @@
 				<0x7 0x100520 0x0 0x4>;
 			reg-names = "ahci", "sata-ecc";
 			interrupts = <0 133 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(4)>;
+=======
+			clocks = <&clockgen 4 3>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dma-coherent;
 			status = "disabled";
 		};
@@ -741,8 +819,12 @@
 		ptp-timer@8b95000 {
 			compatible = "fsl,dpaa2-ptp";
 			reg = <0x0 0x8b95000 0x0 0x100>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(1)>;
+=======
+			clocks = <&clockgen 4 0>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			little-endian;
 			fsl,extts-fifo;
 		};
@@ -831,80 +913,112 @@
 		cluster1_core0_watchdog: wdt@c000000 {
 			compatible = "arm,sp805-wdt", "arm,primecell";
 			reg = <0x0 0xc000000 0x0 0x1000>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>,
 				 <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
+=======
+			clocks = <&clockgen 4 15>, <&clockgen 4 15>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "wdog_clk", "apb_pclk";
 		};
 
 		cluster1_core1_watchdog: wdt@c010000 {
 			compatible = "arm,sp805-wdt", "arm,primecell";
 			reg = <0x0 0xc010000 0x0 0x1000>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>,
 				 <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
+=======
+			clocks = <&clockgen 4 15>, <&clockgen 4 15>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "wdog_clk", "apb_pclk";
 		};
 
 		cluster1_core2_watchdog: wdt@c020000 {
 			compatible = "arm,sp805-wdt", "arm,primecell";
 			reg = <0x0 0xc020000 0x0 0x1000>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>,
 				 <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
+=======
+			clocks = <&clockgen 4 15>, <&clockgen 4 15>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "wdog_clk", "apb_pclk";
 		};
 
 		cluster1_core3_watchdog: wdt@c030000 {
 			compatible = "arm,sp805-wdt", "arm,primecell";
 			reg = <0x0 0xc030000 0x0 0x1000>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>,
 				 <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
+=======
+			clocks = <&clockgen 4 15>, <&clockgen 4 15>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "wdog_clk", "apb_pclk";
 		};
 
 		cluster2_core0_watchdog: wdt@c100000 {
 			compatible = "arm,sp805-wdt", "arm,primecell";
 			reg = <0x0 0xc100000 0x0 0x1000>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>,
 				 <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
+=======
+			clocks = <&clockgen 4 15>, <&clockgen 4 15>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "wdog_clk", "apb_pclk";
 		};
 
 		cluster2_core1_watchdog: wdt@c110000 {
 			compatible = "arm,sp805-wdt", "arm,primecell";
 			reg = <0x0 0xc110000 0x0 0x1000>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>,
 				 <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
+=======
+			clocks = <&clockgen 4 15>, <&clockgen 4 15>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "wdog_clk", "apb_pclk";
 		};
 
 		cluster2_core2_watchdog: wdt@c120000 {
 			compatible = "arm,sp805-wdt", "arm,primecell";
 			reg = <0x0 0xc120000 0x0 0x1000>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>,
 				 <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
+=======
+			clocks = <&clockgen 4 15>, <&clockgen 4 15>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "wdog_clk", "apb_pclk";
 		};
 
 		cluster2_core3_watchdog: wdt@c130000 {
 			compatible = "arm,sp805-wdt", "arm,primecell";
 			reg = <0x0 0xc130000 0x0 0x1000>;
+<<<<<<< HEAD
 			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>,
 				 <&clockgen QORIQ_CLK_PLATFORM_PLL
 					    QORIQ_CLK_PLL_DIV(16)>;
+=======
+			clocks = <&clockgen 4 15>, <&clockgen 4 15>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clock-names = "wdog_clk", "apb_pclk";
 		};
 

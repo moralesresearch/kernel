@@ -623,8 +623,11 @@ struct ath10k_hw_params {
 
 	/* provides bitrates for sta_statistics using WMI_TLV_PEER_STATS_INFO_EVENTID */
 	bool supports_peer_stats_info;
+<<<<<<< HEAD
 
 	bool dynamic_sar_support;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct htt_rx_desc;

@@ -1,6 +1,9 @@
 /*
  * Copyright (c) 2018, Mellanox Technologies inc.  All rights reserved.
+<<<<<<< HEAD
  * Copyright (c) 2020, Intel Corporation. All rights reserved.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This software is available to you under a choice of one of two
  * licenses.  You may choose to be licensed under the terms of the GNU
@@ -252,7 +255,10 @@ enum uverbs_methods_mr {
 	UVERBS_METHOD_MR_DESTROY,
 	UVERBS_METHOD_ADVISE_MR,
 	UVERBS_METHOD_QUERY_MR,
+<<<<<<< HEAD
 	UVERBS_METHOD_REG_DMABUF_MR,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum uverbs_attrs_mr_destroy_ids {
@@ -274,6 +280,7 @@ enum uverbs_attrs_query_mr_cmd_attr_ids {
 	UVERBS_ATTR_QUERY_MR_RESP_IOVA,
 };
 
+<<<<<<< HEAD
 enum uverbs_attrs_reg_dmabuf_mr_cmd_attr_ids {
 	UVERBS_ATTR_REG_DMABUF_MR_HANDLE,
 	UVERBS_ATTR_REG_DMABUF_MR_PD_HANDLE,
@@ -286,6 +293,8 @@ enum uverbs_attrs_reg_dmabuf_mr_cmd_attr_ids {
 	UVERBS_ATTR_REG_DMABUF_MR_RESP_RKEY,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum uverbs_attrs_create_counters_cmd_attr_ids {
 	UVERBS_ATTR_CREATE_COUNTERS_HANDLE,
 };

@@ -504,6 +504,10 @@
 };
 
 &pcie0 {
+<<<<<<< HEAD
+=======
+	ep-gpios = <&gpio2 RK_PA4 GPIO_ACTIVE_HIGH>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	max-link-speed = <2>;
 	num-lanes = <2>;
 	vpcie0v9-supply = <&vcca0v9_s3>;

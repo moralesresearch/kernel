@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: GPL-2.0
 include ../../../../scripts/Kbuild.include
 include ../../../scripts/Makefile.arch
+<<<<<<< HEAD
 include ../../../scripts/Makefile.include
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 CXX ?= $(CROSS_COMPILE)g++
 
@@ -19,11 +22,20 @@ ifneq ($(wildcard $(GENHDR)),)
   GENFLAGS := -DHAVE_GENHDR
 endif
 
+<<<<<<< HEAD
+=======
+CLANG		?= clang
+LLVM_OBJCOPY	?= llvm-objcopy
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 BPF_GCC		?= $(shell command -v bpf-gcc;)
 SAN_CFLAGS	?=
 CFLAGS += -g -rdynamic -Wall -O2 $(GENFLAGS) $(SAN_CFLAGS)		\
 	  -I$(CURDIR) -I$(INCLUDE_DIR) -I$(GENDIR) -I$(LIBDIR)		\
+<<<<<<< HEAD
 	  -I$(TOOLSINCDIR) -I$(APIDIR) -I$(OUTPUT)			\
+=======
+	  -I$(TOOLSINCDIR) -I$(APIDIR)					\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	  -Dbpf_prog_load=bpf_prog_test_load				\
 	  -Dbpf_load_program=bpf_test_load_program
 LDLIBS += -lcap -lelf -lz -lrt -lpthread
@@ -31,20 +43,35 @@ LDLIBS += -lcap -lelf -lz -lrt -lpthread
 # Order correspond to 'make run_tests' order
 TEST_GEN_PROGS = test_verifier test_tag test_maps test_lru_map test_lpm_map test_progs \
 	test_verifier_log test_dev_cgroup \
+<<<<<<< HEAD
 	test_sock test_sockmap get_cgroup_id_user \
 	test_cgroup_storage \
 	test_netcnt test_tcpnotify_user test_sysctl \
 	test_progs-no_alu32
+=======
+	test_sock test_sockmap get_cgroup_id_user test_socket_cookie \
+	test_cgroup_storage \
+	test_netcnt test_tcpnotify_user test_sysctl \
+	test_progs-no_alu32 \
+	test_current_pid_tgid_new_ns
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # Also test bpf-gcc, if present
 ifneq ($(BPF_GCC),)
 TEST_GEN_PROGS += test_progs-bpf_gcc
 endif
 
+<<<<<<< HEAD
 TEST_GEN_FILES = test_lwt_ip_encap.o \
 	test_tc_edt.o
 TEST_FILES = xsk_prereqs.sh \
 	$(wildcard progs/btf_dump_test_case_*.c)
+=======
+TEST_GEN_FILES =
+TEST_FILES = test_lwt_ip_encap.o \
+	test_tc_edt.o \
+	xsk_prereqs.sh
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # Order correspond to 'make run_tests' order
 TEST_PROGS := test_kmod.sh \
@@ -80,7 +107,11 @@ TEST_GEN_PROGS_EXTENDED = test_sock_addr test_skb_cgroup_id_user \
 	test_lirc_mode2_user xdping test_cpp runqslower bench bpf_testmod.ko \
 	xdpxceiver
 
+<<<<<<< HEAD
 TEST_CUSTOM_PROGS = $(OUTPUT)/urandom_read
+=======
+TEST_CUSTOM_PROGS = urandom_read
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # Emit succinct information message describing current building step
 # $1 - generic step name (e.g., CC, LINK, etc);
@@ -111,6 +142,7 @@ SCRATCH_DIR := $(OUTPUT)/tools
 BUILD_DIR := $(SCRATCH_DIR)/build
 INCLUDE_DIR := $(SCRATCH_DIR)/include
 BPFOBJ := $(BUILD_DIR)/libbpf/libbpf.a
+<<<<<<< HEAD
 ifneq ($(CROSS_COMPILE),)
 HOST_BUILD_DIR		:= $(BUILD_DIR)/host
 HOST_SCRATCH_DIR	:= $(OUTPUT)/host-tools
@@ -120,6 +152,9 @@ HOST_SCRATCH_DIR	:= $(SCRATCH_DIR)
 endif
 HOST_BPFOBJ := $(HOST_BUILD_DIR)/libbpf/libbpf.a
 RESOLVE_BTFIDS := $(HOST_BUILD_DIR)/resolve_btfids/resolve_btfids
+=======
+RESOLVE_BTFIDS := $(BUILD_DIR)/resolve_btfids/resolve_btfids
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 VMLINUX_BTF_PATHS ?= $(if $(O),$(O)/vmlinux)				\
 		     $(if $(KBUILD_OUTPUT),$(KBUILD_OUTPUT)/vmlinux)	\
@@ -141,6 +176,7 @@ $(notdir $(TEST_GEN_PROGS)						\
 	 $(TEST_GEN_PROGS_EXTENDED)					\
 	 $(TEST_CUSTOM_PROGS)): %: $(OUTPUT)/% ;
 
+<<<<<<< HEAD
 # sort removes libbpf duplicates when not cross-building
 MAKE_DIRS := $(sort $(BUILD_DIR)/libbpf $(HOST_BUILD_DIR)/libbpf	       \
 	       $(HOST_BUILD_DIR)/bpftool $(HOST_BUILD_DIR)/resolve_btfids      \
@@ -149,6 +185,8 @@ $(MAKE_DIRS):
 	$(call msg,MKDIR,,$@)
 	$(Q)mkdir -p $@
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 $(OUTPUT)/%.o: %.c
 	$(call msg,CC,,$@)
 	$(Q)$(CC) $(CFLAGS) -c $(filter %.c,$^) $(LDLIBS) -o $@
@@ -171,7 +209,11 @@ $(OUTPUT)/test_stub.o: test_stub.c $(BPFOBJ)
 	$(call msg,CC,,$@)
 	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
 
+<<<<<<< HEAD
 DEFAULT_BPFTOOL := $(HOST_SCRATCH_DIR)/sbin/bpftool
+=======
+DEFAULT_BPFTOOL := $(SCRATCH_DIR)/sbin/bpftool
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 $(OUTPUT)/runqslower: $(BPFOBJ) | $(DEFAULT_BPFTOOL)
 	$(Q)$(MAKE) $(submake_extras) -C $(TOOLSDIR)/bpf/runqslower	\
@@ -185,6 +227,10 @@ $(OUTPUT)/test_dev_cgroup: cgroup_helpers.c
 $(OUTPUT)/test_skb_cgroup_id_user: cgroup_helpers.c
 $(OUTPUT)/test_sock: cgroup_helpers.c
 $(OUTPUT)/test_sock_addr: cgroup_helpers.c
+<<<<<<< HEAD
+=======
+$(OUTPUT)/test_socket_cookie: cgroup_helpers.c
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 $(OUTPUT)/test_sockmap: cgroup_helpers.c
 $(OUTPUT)/test_tcpnotify_user: cgroup_helpers.c trace_helpers.c
 $(OUTPUT)/get_cgroup_id_user: cgroup_helpers.c
@@ -195,11 +241,18 @@ $(OUTPUT)/test_sysctl: cgroup_helpers.c
 
 BPFTOOL ?= $(DEFAULT_BPFTOOL)
 $(DEFAULT_BPFTOOL): $(wildcard $(BPFTOOLDIR)/*.[ch] $(BPFTOOLDIR)/Makefile)    \
+<<<<<<< HEAD
 		    $(HOST_BPFOBJ) | $(HOST_BUILD_DIR)/bpftool
 	$(Q)$(MAKE) $(submake_extras)  -C $(BPFTOOLDIR)			       \
 		    CC=$(HOSTCC) LD=$(HOSTLD)				       \
 		    OUTPUT=$(HOST_BUILD_DIR)/bpftool/			       \
 		    prefix= DESTDIR=$(HOST_SCRATCH_DIR)/ install
+=======
+		    $(BPFOBJ) | $(BUILD_DIR)/bpftool
+	$(Q)$(MAKE) $(submake_extras)  -C $(BPFTOOLDIR)			       \
+		    OUTPUT=$(BUILD_DIR)/bpftool/			       \
+		    prefix= DESTDIR=$(SCRATCH_DIR)/ install
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(Q)mkdir -p $(BUILD_DIR)/bpftool/Documentation
 	$(Q)RST2MAN_OPTS="--exit-status=1" $(MAKE) $(submake_extras)	       \
 		    -C $(BPFTOOLDIR)/Documentation			       \
@@ -212,6 +265,7 @@ $(BPFOBJ): $(wildcard $(BPFDIR)/*.[ch] $(BPFDIR)/Makefile)		       \
 	$(Q)$(MAKE) $(submake_extras) -C $(BPFDIR) OUTPUT=$(BUILD_DIR)/libbpf/ \
 		    DESTDIR=$(SCRATCH_DIR) prefix= all install_headers
 
+<<<<<<< HEAD
 ifneq ($(BPFOBJ),$(HOST_BPFOBJ))
 $(HOST_BPFOBJ): $(wildcard $(BPFDIR)/*.[ch] $(BPFDIR)/Makefile)                \
 	   ../../../include/uapi/linux/bpf.h                                   \
@@ -221,7 +275,14 @@ $(HOST_BPFOBJ): $(wildcard $(BPFDIR)/*.[ch] $(BPFDIR)/Makefile)                \
 		    DESTDIR=$(HOST_SCRATCH_DIR)/ prefix= all install_headers
 endif
 
+$(INCLUDE_DIR)/vmlinux.h: $(VMLINUX_BTF) $(BPFTOOL) | $(INCLUDE_DIR)
+=======
+$(BUILD_DIR)/libbpf $(BUILD_DIR)/bpftool $(BUILD_DIR)/resolve_btfids $(INCLUDE_DIR):
+	$(call msg,MKDIR,,$@)
+	$(Q)mkdir -p $@
+
 $(INCLUDE_DIR)/vmlinux.h: $(VMLINUX_BTF) | $(BPFTOOL) $(INCLUDE_DIR)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ifeq ($(VMLINUX_H),)
 	$(call msg,GEN,,$@)
 	$(Q)$(BPFTOOL) btf dump file $(VMLINUX_BTF) format c > $@
@@ -230,7 +291,11 @@ else
 	$(Q)cp "$(VMLINUX_H)" $@
 endif
 
+<<<<<<< HEAD
 $(RESOLVE_BTFIDS): $(HOST_BPFOBJ) | $(HOST_BUILD_DIR)/resolve_btfids	\
+=======
+$(RESOLVE_BTFIDS): $(BPFOBJ) | $(BUILD_DIR)/resolve_btfids	\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		       $(TOOLSDIR)/bpf/resolve_btfids/main.c	\
 		       $(TOOLSDIR)/lib/rbtree.c			\
 		       $(TOOLSDIR)/lib/zalloc.c			\
@@ -238,8 +303,12 @@ $(RESOLVE_BTFIDS): $(HOST_BPFOBJ) | $(HOST_BUILD_DIR)/resolve_btfids	\
 		       $(TOOLSDIR)/lib/ctype.c			\
 		       $(TOOLSDIR)/lib/str_error_r.c
 	$(Q)$(MAKE) $(submake_extras) -C $(TOOLSDIR)/bpf/resolve_btfids	\
+<<<<<<< HEAD
 		CC=$(HOSTCC) LD=$(HOSTLD) AR=$(HOSTAR) \
 		OUTPUT=$(HOST_BUILD_DIR)/resolve_btfids/ BPFOBJ=$(HOST_BPFOBJ)
+=======
+		OUTPUT=$(BUILD_DIR)/resolve_btfids/ BPFOBJ=$(BPFOBJ)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # Get Clang's default includes on this system, as opposed to those seen by
 # '-target bpf'. This fixes "missing" files on some architectures/distros,
@@ -346,7 +415,12 @@ $(TRUNNER_BPF_OBJS): $(TRUNNER_OUTPUT)/%.o:				\
 
 $(TRUNNER_BPF_SKELS): $(TRUNNER_OUTPUT)/%.skel.h:			\
 		      $(TRUNNER_OUTPUT)/%.o				\
+<<<<<<< HEAD
+		      $(BPFTOOL)					\
+		      | $(TRUNNER_OUTPUT)
+=======
 		      | $(BPFTOOL) $(TRUNNER_OUTPUT)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$$(call msg,GEN-SKEL,$(TRUNNER_BINARY),$$@)
 	$(Q)$$(BPFTOOL) gen skeleton $$< > $$@
 endif
@@ -410,12 +484,18 @@ TRUNNER_EXTRA_FILES := $(OUTPUT)/urandom_read $(OUTPUT)/bpf_testmod.ko	\
 		       $(wildcard progs/btf_dump_test_case_*.c)
 TRUNNER_BPF_BUILD_RULE := CLANG_BPF_BUILD_RULE
 TRUNNER_BPF_CFLAGS := $(BPF_CFLAGS) $(CLANG_CFLAGS)
+<<<<<<< HEAD
 TRUNNER_BPF_CFLAGS += -DENABLE_ATOMICS_TESTS
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 $(eval $(call DEFINE_TEST_RUNNER,test_progs))
 
 # Define test_progs-no_alu32 test runner.
 TRUNNER_BPF_BUILD_RULE := CLANG_NOALU32_BPF_BUILD_RULE
+<<<<<<< HEAD
 TRUNNER_BPF_CFLAGS := $(BPF_CFLAGS) $(CLANG_CFLAGS)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 $(eval $(call DEFINE_TEST_RUNNER,test_progs,no_alu32))
 
 # Define test_progs BPF-GCC-flavored test runner.
@@ -472,7 +552,11 @@ $(OUTPUT)/bench: $(OUTPUT)/bench.o $(OUTPUT)/testing_helpers.o \
 	$(call msg,BINARY,,$@)
 	$(Q)$(CC) $(LDFLAGS) -o $@ $(filter %.a %.o,$^) $(LDLIBS)
 
+<<<<<<< HEAD
 EXTRA_CLEAN := $(TEST_CUSTOM_PROGS) $(SCRATCH_DIR) $(HOST_SCRATCH_DIR)	\
+=======
+EXTRA_CLEAN := $(TEST_CUSTOM_PROGS) $(SCRATCH_DIR)			\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	prog_tests/tests.h map_tests/tests.h verifier/tests.h		\
 	feature								\
 	$(addprefix $(OUTPUT)/,*.o *.skel.h no_alu32 bpf_gcc bpf_testmod.ko)

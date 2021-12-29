@@ -111,7 +111,11 @@ bool mlx5_chains_prios_supported(struct mlx5_fs_chains *chains)
 	return chains->flags & MLX5_CHAINS_AND_PRIOS_SUPPORTED;
 }
 
+<<<<<<< HEAD
+bool mlx5_chains_ignore_flow_level_supported(struct mlx5_fs_chains *chains)
+=======
 static bool mlx5_chains_ignore_flow_level_supported(struct mlx5_fs_chains *chains)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return chains->flags & MLX5_CHAINS_IGNORE_FLOW_LEVEL_SUPPORTED;
 }
@@ -141,6 +145,12 @@ u32 mlx5_chains_get_nf_ft_chain(struct mlx5_fs_chains *chains)
 
 u32 mlx5_chains_get_prio_range(struct mlx5_fs_chains *chains)
 {
+<<<<<<< HEAD
+=======
+	if (!mlx5_chains_prios_supported(chains))
+		return 1;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mlx5_chains_ignore_flow_level_supported(chains))
 		return UINT_MAX;
 
@@ -538,6 +548,7 @@ mlx5_chains_create_prio(struct mlx5_fs_chains *chains,
 			u32 chain, u32 prio, u32 level)
 {
 	int inlen = MLX5_ST_SZ_BYTES(create_flow_group_in);
+<<<<<<< HEAD
 	struct mlx5_flow_handle *miss_rule;
 	struct mlx5_flow_group *miss_group;
 	struct mlx5_flow_table *next_ft;
@@ -545,6 +556,15 @@ mlx5_chains_create_prio(struct mlx5_fs_chains *chains,
 	struct fs_chain *chain_s;
 	struct list_head *pos;
 	struct prio *prio_s;
+=======
+	struct mlx5_flow_handle *miss_rule = NULL;
+	struct mlx5_flow_group *miss_group;
+	struct mlx5_flow_table *next_ft;
+	struct mlx5_flow_table *ft;
+	struct prio *prio_s = NULL;
+	struct fs_chain *chain_s;
+	struct list_head *pos;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 *flow_group_in;
 	int err;
 

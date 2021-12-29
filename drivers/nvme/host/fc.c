@@ -2460,6 +2460,21 @@ nvme_fc_terminate_exchange(struct request *req, void *data, bool reserved)
 static void
 __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
 {
+<<<<<<< HEAD
+	int q;
+
+	/*
+	 * if aborting io, the queues are no longer good, mark them
+	 * all as not live.
+	 */
+	if (ctrl->ctrl.queue_count > 1) {
+		for (q = 1; q < ctrl->ctrl.queue_count; q++)
+			clear_bit(NVME_FC_Q_LIVE, &ctrl->queues[q].flags);
+	}
+	clear_bit(NVME_FC_Q_LIVE, &ctrl->queues[0].flags);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * If io queues are present, stop them and terminate all outstanding
 	 * ios on them. As FC allocates FC exchange for each io, the
@@ -2863,7 +2878,15 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
 	memset(&ctrl->tag_set, 0, sizeof(ctrl->tag_set));
 	ctrl->tag_set.ops = &nvme_fc_mq_ops;
 	ctrl->tag_set.queue_depth = ctrl->ctrl.opts->queue_size;
+<<<<<<< HEAD
 	ctrl->tag_set.reserved_tags = NVMF_RESERVED_TAGS;
+=======
+<<<<<<< HEAD
+	ctrl->tag_set.reserved_tags = NVMF_RESERVED_TAGS;
+=======
+	ctrl->tag_set.reserved_tags = 1; /* fabric connect */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctrl->tag_set.numa_node = ctrl->ctrl.numa_node;
 	ctrl->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
 	ctrl->tag_set.cmd_size =
@@ -3485,7 +3508,15 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
 	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
 	ctrl->admin_tag_set.ops = &nvme_fc_admin_mq_ops;
 	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+<<<<<<< HEAD
 	ctrl->admin_tag_set.reserved_tags = NVMF_RESERVED_TAGS;
+=======
+<<<<<<< HEAD
+	ctrl->admin_tag_set.reserved_tags = NVMF_RESERVED_TAGS;
+=======
+	ctrl->admin_tag_set.reserved_tags = 2; /* fabric connect + Keep-Alive */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctrl->admin_tag_set.numa_node = ctrl->ctrl.numa_node;
 	ctrl->admin_tag_set.cmd_size =
 		struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
@@ -3790,7 +3821,15 @@ static struct attribute *nvme_fc_attrs[] = {
 	NULL
 };
 
+<<<<<<< HEAD
 static const struct attribute_group nvme_fc_attr_group = {
+=======
+<<<<<<< HEAD
+static const struct attribute_group nvme_fc_attr_group = {
+=======
+static struct attribute_group nvme_fc_attr_group = {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = nvme_fc_attrs,
 };
 

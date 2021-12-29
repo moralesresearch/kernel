@@ -3011,7 +3011,15 @@ retry:
 		 * Success, we're done! No tricky corner cases.
 		 */
 		if (!ret)
+<<<<<<< HEAD
 			return ret;
+=======
+<<<<<<< HEAD
+			return ret;
+=======
+			goto out_putkey;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * The atomic access to the futex value generated a
 		 * pagefault, so retry the user-access and the wakeup:
@@ -3028,7 +3036,15 @@ retry:
 		 * wake_futex_pi has detected invalid state. Tell user
 		 * space.
 		 */
+<<<<<<< HEAD
 		return ret;
+=======
+<<<<<<< HEAD
+		return ret;
+=======
+		goto out_putkey;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
@@ -3049,7 +3065,15 @@ retry:
 
 		default:
 			WARN_ON_ONCE(1);
+<<<<<<< HEAD
 			return ret;
+=======
+<<<<<<< HEAD
+			return ret;
+=======
+			goto out_putkey;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -3060,6 +3084,13 @@ retry:
 
 out_unlock:
 	spin_unlock(&hb->lock);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+out_putkey:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 
 pi_retry:
@@ -3711,8 +3742,12 @@ long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
 
 	if (op & FUTEX_CLOCK_REALTIME) {
 		flags |= FLAGS_CLOCKRT;
+<<<<<<< HEAD
+		if (cmd != FUTEX_WAIT_BITSET &&	cmd != FUTEX_WAIT_REQUEUE_PI)
+=======
 		if (cmd != FUTEX_WAIT && cmd != FUTEX_WAIT_BITSET && \
 		    cmd != FUTEX_WAIT_REQUEUE_PI)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -ENOSYS;
 	}
 
@@ -3761,8 +3796,18 @@ long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
 
 
 SYSCALL_DEFINE6(futex, u32 __user *, uaddr, int, op, u32, val,
+<<<<<<< HEAD
 		const struct __kernel_timespec __user *, utime,
 		u32 __user *, uaddr2, u32, val3)
+=======
+<<<<<<< HEAD
+		const struct __kernel_timespec __user *, utime,
+		u32 __user *, uaddr2, u32, val3)
+=======
+		struct __kernel_timespec __user *, utime, u32 __user *, uaddr2,
+		u32, val3)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct timespec64 ts;
 	ktime_t t, *tp = NULL;
@@ -3782,7 +3827,11 @@ SYSCALL_DEFINE6(futex, u32 __user *, uaddr, int, op, u32, val,
 		t = timespec64_to_ktime(ts);
 		if (cmd == FUTEX_WAIT)
 			t = ktime_add_safe(ktime_get(), t);
+<<<<<<< HEAD
+		else if (cmd != FUTEX_LOCK_PI && !(op & FUTEX_CLOCK_REALTIME))
+=======
 		else if (!(op & FUTEX_CLOCK_REALTIME))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			t = timens_ktime_to_host(CLOCK_MONOTONIC, t);
 		tp = &t;
 	}
@@ -3957,7 +4006,15 @@ err_unlock:
 
 #ifdef CONFIG_COMPAT_32BIT_TIME
 SYSCALL_DEFINE6(futex_time32, u32 __user *, uaddr, int, op, u32, val,
+<<<<<<< HEAD
 		const struct old_timespec32 __user *, utime, u32 __user *, uaddr2,
+=======
+<<<<<<< HEAD
+		const struct old_timespec32 __user *, utime, u32 __user *, uaddr2,
+=======
+		struct old_timespec32 __user *, utime, u32 __user *, uaddr2,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u32, val3)
 {
 	struct timespec64 ts;
@@ -3976,7 +4033,11 @@ SYSCALL_DEFINE6(futex_time32, u32 __user *, uaddr, int, op, u32, val,
 		t = timespec64_to_ktime(ts);
 		if (cmd == FUTEX_WAIT)
 			t = ktime_add_safe(ktime_get(), t);
+<<<<<<< HEAD
+		else if (cmd != FUTEX_LOCK_PI && !(op & FUTEX_CLOCK_REALTIME))
+=======
 		else if (!(op & FUTEX_CLOCK_REALTIME))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			t = timens_ktime_to_host(CLOCK_MONOTONIC, t);
 		tp = &t;
 	}

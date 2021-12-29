@@ -472,7 +472,10 @@ static irqreturn_t ni_65xx_interrupt(int irq, void *d)
 	struct comedi_device *dev = d;
 	struct comedi_subdevice *s = dev->read_subdev;
 	unsigned int status;
+<<<<<<< HEAD
 	unsigned short val = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	status = readb(dev->mmio + NI_65XX_STATUS_REG);
 	if ((status & NI_65XX_STATUS_INT) == 0)
@@ -483,7 +486,11 @@ static irqreturn_t ni_65xx_interrupt(int irq, void *d)
 	writeb(NI_65XX_CLR_EDGE_INT | NI_65XX_CLR_OVERFLOW_INT,
 	       dev->mmio + NI_65XX_CLR_REG);
 
+<<<<<<< HEAD
 	comedi_buf_write_samples(s, &val, 1);
+=======
+	comedi_buf_write_samples(s, &s->state, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	comedi_handle_events(dev, s);
 
 	return IRQ_HANDLED;

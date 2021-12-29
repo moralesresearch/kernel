@@ -714,9 +714,20 @@ static int mxs_phy_probe(struct platform_device *pdev)
 	struct clk *clk;
 	struct mxs_phy *mxs_phy;
 	int ret;
+<<<<<<< HEAD
 	struct device_node *np = pdev->dev.of_node;
 	u32 val;
 
+=======
+	const struct of_device_id *of_id;
+	struct device_node *np = pdev->dev.of_node;
+	u32 val;
+
+	of_id = of_match_device(mxs_phy_dt_ids, &pdev->dev);
+	if (!of_id)
+		return -ENODEV;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	base = devm_platform_ioremap_resource(pdev, 0);
 	if (IS_ERR(base))
 		return PTR_ERR(base);
@@ -792,7 +803,11 @@ static int mxs_phy_probe(struct platform_device *pdev)
 	mxs_phy->phy.charger_detect	= mxs_phy_charger_detect;
 
 	mxs_phy->clk = clk;
+<<<<<<< HEAD
 	mxs_phy->data = of_device_get_match_data(&pdev->dev);
+=======
+	mxs_phy->data = of_id->data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	platform_set_drvdata(pdev, mxs_phy);
 

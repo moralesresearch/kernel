@@ -245,7 +245,10 @@ struct flow_action_entry {
 			unsigned long cookie;
 			u32 mark;
 			u32 labels[4];
+<<<<<<< HEAD
 			bool orig_dir;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} ct_metadata;
 		struct {				/* FLOW_ACTION_MPLS_PUSH */
 			u32		label;

@@ -714,7 +714,11 @@ int rds_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
 
 		if (rds_cmsg_recv(inc, msg, rs)) {
 			ret = -EFAULT;
+<<<<<<< HEAD
+			break;
+=======
 			goto out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 		rds_recvmsg_zcookie(rs, msg);
 

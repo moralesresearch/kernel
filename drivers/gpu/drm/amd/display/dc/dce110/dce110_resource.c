@@ -410,7 +410,11 @@ static const struct dc_plane_cap plane_cap = {
 		.pixel_format_support = {
 				.argb8888 = true,
 				.nv12 = false,
+<<<<<<< HEAD
 				.fp16 = true
+=======
+				.fp16 = false
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		},
 
 		.max_upscale_factor = {
@@ -715,7 +719,11 @@ static struct output_pixel_processor *dce110_opp_create(
 	return &opp->base;
 }
 
+<<<<<<< HEAD
 static struct dce_aux *dce110_aux_engine_create(
+=======
+struct dce_aux *dce110_aux_engine_create(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dc_context *ctx,
 	uint32_t inst)
 {
@@ -753,7 +761,11 @@ static const struct dce_i2c_mask i2c_masks = {
 		I2C_COMMON_MASK_SH_LIST_DCE110(_MASK)
 };
 
+<<<<<<< HEAD
 static struct dce_i2c_hw *dce110_i2c_hw_create(
+=======
+struct dce_i2c_hw *dce110_i2c_hw_create(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dc_context *ctx,
 	uint32_t inst)
 {
@@ -768,7 +780,11 @@ static struct dce_i2c_hw *dce110_i2c_hw_create(
 
 	return dce_i2c_hw;
 }
+<<<<<<< HEAD
 static struct clock_source *dce110_clock_source_create(
+=======
+struct clock_source *dce110_clock_source_create(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dc_context *ctx,
 	struct dc_bios *bios,
 	enum clock_source_id id,
@@ -792,7 +808,11 @@ static struct clock_source *dce110_clock_source_create(
 	return NULL;
 }
 
+<<<<<<< HEAD
 static void dce110_clock_source_destroy(struct clock_source **clk_src)
+=======
+void dce110_clock_source_destroy(struct clock_source **clk_src)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dce110_clk_src *dce110_clk_src;
 
@@ -1034,8 +1054,13 @@ static bool dce110_validate_bandwidth(
 	return result;
 }
 
+<<<<<<< HEAD
 static enum dc_status dce110_validate_plane(const struct dc_plane_state *plane_state,
 					    struct dc_caps *caps)
+=======
+enum dc_status dce110_validate_plane(const struct dc_plane_state *plane_state,
+				     struct dc_caps *caps)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (((plane_state->dst_rect.width * 2) < plane_state->src_rect.width) ||
 	    ((plane_state->dst_rect.height * 2) < plane_state->src_rect.height))
@@ -1089,7 +1114,11 @@ static bool dce110_validate_surface_sets(
 	return true;
 }
 
+<<<<<<< HEAD
 static enum dc_status dce110_validate_global(
+=======
+enum dc_status dce110_validate_global(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct dc *dc,
 		struct dc_state *context)
 {
@@ -1272,6 +1301,10 @@ static bool underlay_create(struct dc_context *ctx, struct resource_pool *pool)
 
 	/* update the public caps to indicate an underlay is available */
 	ctx->dc->caps.max_slave_planes = 1;
+<<<<<<< HEAD
+=======
+	ctx->dc->caps.max_slave_planes = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return true;
 }
@@ -1332,7 +1365,11 @@ static void bw_calcs_data_update_from_pplib(struct dc *dc)
 		1000);
 }
 
+<<<<<<< HEAD
 static const struct resource_caps *dce110_resource_cap(
+=======
+const struct resource_caps *dce110_resource_cap(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct hw_asic_id *asic_id)
 {
 	if (ASIC_REV_IS_STONEY(asic_id->hw_internal_rev))

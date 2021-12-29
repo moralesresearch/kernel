@@ -1422,6 +1422,15 @@ static int set_machine_constraints(struct regulator_dev *rdev)
 	 * and we have control then make sure it is enabled.
 	 */
 	if (rdev->constraints->always_on || rdev->constraints->boot_on) {
+<<<<<<< HEAD
+		/* If we want to enable this regulator, make sure that we know
+		 * the supplying regulator.
+		 */
+		if (rdev->supply_name && !rdev->supply)
+			return -EPROBE_DEFER;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rdev->supply) {
 			ret = regulator_enable(rdev->supply);
 			if (ret < 0) {
@@ -2042,7 +2051,15 @@ struct regulator *_regulator_get(struct device *dev, const char *id,
  * Returns a struct regulator corresponding to the regulator producer,
  * or IS_ERR() condition containing errno.
  *
+<<<<<<< HEAD
  * Use of supply names configured via set_consumer_device_supply() is
+=======
+<<<<<<< HEAD
+ * Use of supply names configured via set_consumer_device_supply() is
+=======
+ * Use of supply names configured via regulator_set_device_supply() is
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * strongly encouraged.  It is recommended that the supply name used
  * should match the name used for the supply and/or the relevant
  * device pins in the datasheet.
@@ -2069,7 +2086,15 @@ EXPORT_SYMBOL_GPL(regulator_get);
  * regulator off for correct operation of the hardware they are
  * controlling.
  *
+<<<<<<< HEAD
  * Use of supply names configured via set_consumer_device_supply() is
+=======
+<<<<<<< HEAD
+ * Use of supply names configured via set_consumer_device_supply() is
+=======
+ * Use of supply names configured via regulator_set_device_supply() is
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * strongly encouraged.  It is recommended that the supply name used
  * should match the name used for the supply and/or the relevant
  * device pins in the datasheet.
@@ -2095,7 +2120,15 @@ EXPORT_SYMBOL_GPL(regulator_get_exclusive);
  * disrupting the operation of drivers that can handle absent
  * supplies.
  *
+<<<<<<< HEAD
  * Use of supply names configured via set_consumer_device_supply() is
+=======
+<<<<<<< HEAD
+ * Use of supply names configured via set_consumer_device_supply() is
+=======
+ * Use of supply names configured via regulator_set_device_supply() is
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * strongly encouraged.  It is recommended that the supply name used
  * should match the name used for the supply and/or the relevant
  * device pins in the datasheet.
@@ -4153,11 +4186,21 @@ int regulator_sync_voltage(struct regulator *regulator)
 	if (ret < 0)
 		goto out;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* balance only, if regulator is coupled */
 	if (rdev->coupling_desc.n_coupled > 1)
 		ret = regulator_balance_voltage(rdev, PM_SUSPEND_ON);
 	else
 		ret = _regulator_do_set_voltage(rdev, min_uV, max_uV);
+<<<<<<< HEAD
+=======
+=======
+	ret = _regulator_do_set_voltage(rdev, min_uV, max_uV);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	regulator_unlock(rdev);

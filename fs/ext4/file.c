@@ -74,7 +74,12 @@ static ssize_t ext4_dio_read_iter(struct kiocb *iocb, struct iov_iter *to)
 		return generic_file_read_iter(iocb, to);
 	}
 
+<<<<<<< HEAD
 	ret = iomap_dio_rw(iocb, to, &ext4_iomap_ops, NULL, 0);
+=======
+	ret = iomap_dio_rw(iocb, to, &ext4_iomap_ops, NULL,
+			   is_sync_kiocb(iocb));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode_unlock_shared(inode);
 
 	file_accessed(iocb->ki_filp);
@@ -371,15 +376,42 @@ truncate:
 static int ext4_dio_write_end_io(struct kiocb *iocb, ssize_t size,
 				 int error, unsigned int flags)
 {
+<<<<<<< HEAD
+	loff_t pos = iocb->ki_pos;
+=======
 	loff_t offset = iocb->ki_pos;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct inode *inode = file_inode(iocb->ki_filp);
 
 	if (error)
 		return error;
 
+<<<<<<< HEAD
+	if (size && flags & IOMAP_DIO_UNWRITTEN) {
+		error = ext4_convert_unwritten_extents(NULL, inode, pos, size);
+		if (error < 0)
+			return error;
+	}
+	/*
+	 * If we are extending the file, we have to update i_size here before
+	 * page cache gets invalidated in iomap_dio_rw(). Otherwise racing
+	 * buffered reads could zero out too much from page cache pages. Update
+	 * of on-disk size will happen later in ext4_dio_write_iter() where
+	 * we have enough information to also perform orphan list handling etc.
+	 * Note that we perform all extending writes synchronously under
+	 * i_rwsem held exclusively so i_size update is safe here in that case.
+	 * If the write was not extending, we cannot see pos > i_size here
+	 * because operations reducing i_size like truncate wait for all
+	 * outstanding DIO before updating i_size.
+	 */
+	pos += size;
+	if (pos > i_size_read(inode))
+		i_size_write(inode, pos);
+=======
 	if (size && flags & IOMAP_DIO_UNWRITTEN)
 		return ext4_convert_unwritten_extents(NULL, inode,
 						      offset, size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -549,7 +581,11 @@ static ssize_t ext4_dio_write_iter(struct kiocb *iocb, struct iov_iter *from)
 	if (ilock_shared)
 		iomap_ops = &ext4_iomap_overwrite_ops;
 	ret = iomap_dio_rw(iocb, from, iomap_ops, &ext4_dio_write_ops,
+<<<<<<< HEAD
 			   (unaligned_io || extend) ? IOMAP_DIO_FORCE_WAIT : 0);
+=======
+			   is_sync_kiocb(iocb) || unaligned_io || extend);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret == -ENOTBLK)
 		ret = 0;
 

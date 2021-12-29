@@ -1232,6 +1232,7 @@ static int lan9303_port_mdb_prepare(struct dsa_switch *ds, int port,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int lan9303_port_mdb_add(struct dsa_switch *ds, int port,
 				const struct switchdev_obj_port_mdb *mdb)
 {
@@ -1245,6 +1246,16 @@ static int lan9303_port_mdb_add(struct dsa_switch *ds, int port,
 	dev_dbg(chip->dev, "%s(%d, %pM, %d)\n", __func__, port, mdb->addr,
 		mdb->vid);
 	return lan9303_alr_add_port(chip, mdb->addr, port, false);
+=======
+static void lan9303_port_mdb_add(struct dsa_switch *ds, int port,
+				 const struct switchdev_obj_port_mdb *mdb)
+{
+	struct lan9303 *chip = ds->priv;
+
+	dev_dbg(chip->dev, "%s(%d, %pM, %d)\n", __func__, port, mdb->addr,
+		mdb->vid);
+	lan9303_alr_add_port(chip, mdb->addr, port, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int lan9303_port_mdb_del(struct dsa_switch *ds, int port,
@@ -1279,6 +1290,10 @@ static const struct dsa_switch_ops lan9303_switch_ops = {
 	.port_fdb_add           = lan9303_port_fdb_add,
 	.port_fdb_del           = lan9303_port_fdb_del,
 	.port_fdb_dump          = lan9303_port_fdb_dump,
+<<<<<<< HEAD
+=======
+	.port_mdb_prepare       = lan9303_port_mdb_prepare,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.port_mdb_add           = lan9303_port_mdb_add,
 	.port_mdb_del           = lan9303_port_mdb_del,
 };

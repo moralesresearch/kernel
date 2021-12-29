@@ -50,8 +50,12 @@ struct posix_acl *fuse_get_acl(struct inode *inode, int type)
 	return acl;
 }
 
+<<<<<<< HEAD
 int fuse_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		 struct posix_acl *acl, int type)
+=======
+int fuse_set_acl(struct inode *inode, struct posix_acl *acl, int type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct fuse_conn *fc = get_fuse_conn(inode);
 	const char *name;

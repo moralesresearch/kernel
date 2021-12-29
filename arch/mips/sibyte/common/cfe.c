@@ -316,6 +316,17 @@ void __init prom_init(void)
 #endif
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+void __init prom_free_prom_memory(void)
+{
+	/* Not sure what I'm supposed to do here.  Nothing, I think */
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void prom_putchar(char c)
 {
 	int ret;

@@ -187,22 +187,39 @@ __visible noinstr void func(struct pt_regs *regs, unsigned long error_code)
  * has to be done in the function body if necessary.
  */
 #define DEFINE_IDTENTRY_IRQ(func)					\
+<<<<<<< HEAD
 static void __##func(struct pt_regs *regs, u32 vector);			\
+=======
+static __always_inline void __##func(struct pt_regs *regs, u8 vector);	\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 									\
 __visible noinstr void func(struct pt_regs *regs,			\
 			    unsigned long error_code)			\
 {									\
 	irqentry_state_t state = irqentry_enter(regs);			\
+<<<<<<< HEAD
 	u32 vector = (u32)(u8)error_code;				\
 									\
 	instrumentation_begin();					\
 	kvm_set_cpu_l1tf_flush_l1d();					\
 	run_irq_on_irqstack_cond(__##func, regs, vector);		\
+=======
+									\
+	instrumentation_begin();					\
+	irq_enter_rcu();						\
+	kvm_set_cpu_l1tf_flush_l1d();					\
+	__##func (regs, (u8)error_code);				\
+	irq_exit_rcu();							\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	instrumentation_end();						\
 	irqentry_exit(regs, state);					\
 }									\
 									\
+<<<<<<< HEAD
 static noinline void __##func(struct pt_regs *regs, u32 vector)
+=======
+static __always_inline void __##func(struct pt_regs *regs, u8 vector)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * DECLARE_IDTENTRY_SYSVEC - Declare functions for system vector entry points
@@ -236,8 +253,15 @@ __visible noinstr void func(struct pt_regs *regs)			\
 	irqentry_state_t state = irqentry_enter(regs);			\
 									\
 	instrumentation_begin();					\
+<<<<<<< HEAD
 	kvm_set_cpu_l1tf_flush_l1d();					\
 	run_sysvec_on_irqstack_cond(__##func, regs);			\
+=======
+	irq_enter_rcu();						\
+	kvm_set_cpu_l1tf_flush_l1d();					\
+	run_sysvec_on_irqstack_cond(__##func, regs);			\
+	irq_exit_rcu();							\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	instrumentation_end();						\
 	irqentry_exit(regs, state);					\
 }									\
@@ -582,12 +606,33 @@ DECLARE_IDTENTRY_MCE(X86_TRAP_MC,	exc_machine_check);
 #else
 DECLARE_IDTENTRY_RAW(X86_TRAP_MC,	exc_machine_check);
 #endif
+<<<<<<< HEAD
 #ifdef CONFIG_XEN_PV
 DECLARE_IDTENTRY_RAW(X86_TRAP_MC,	xenpv_exc_machine_check);
 #endif
 #endif
 
 /* NMI */
+
+#if defined(CONFIG_X86_64) && IS_ENABLED(CONFIG_KVM_INTEL)
+/*
+ * Special NOIST entry point for VMX which invokes this on the kernel
+ * stack. asm_exc_nmi() requires an IST to work correctly vs. the NMI
+ * 'executing' marker.
+ *
+ * On 32bit this just uses the regular NMI entry point because 32-bit does
+ * not have ISTs.
+ */
+DECLARE_IDTENTRY(X86_TRAP_NMI,		exc_nmi_noist);
+#else
+#define asm_exc_nmi_noist		asm_exc_nmi
+#endif
+
+=======
+#endif
+
+/* NMI */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DECLARE_IDTENTRY_NMI(X86_TRAP_NMI,	exc_nmi);
 #ifdef CONFIG_XEN_PV
 DECLARE_IDTENTRY_RAW(X86_TRAP_NMI,	xenpv_exc_nmi);
@@ -605,9 +650,12 @@ DECLARE_IDTENTRY_RAW(X86_TRAP_DB,	xenpv_exc_debug);
 
 /* #DF */
 DECLARE_IDTENTRY_DF(X86_TRAP_DF,	exc_double_fault);
+<<<<<<< HEAD
 #ifdef CONFIG_XEN_PV
 DECLARE_IDTENTRY_RAW_ERRORCODE(X86_TRAP_DF,	xenpv_exc_double_fault);
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* #VC */
 #ifdef CONFIG_AMD_MEM_ENCRYPT

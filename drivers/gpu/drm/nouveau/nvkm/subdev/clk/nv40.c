@@ -218,8 +218,12 @@ nv40_clk = {
 };
 
 int
+<<<<<<< HEAD
 nv40_clk_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	     struct nvkm_clk **pclk)
+=======
+nv40_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nv40_clk *clk;
 
@@ -229,5 +233,9 @@ nv40_clk_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	clk->base.pll_prog = nv04_clk_pll_prog;
 	*pclk = &clk->base;
 
+<<<<<<< HEAD
 	return nvkm_clk_ctor(&nv40_clk, device, type, inst, true, &clk->base);
+=======
+	return nvkm_clk_ctor(&nv40_clk, device, index, true, &clk->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

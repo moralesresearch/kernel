@@ -549,7 +549,14 @@ void build_tlb_write_entry(u32 **p, struct uasm_label **l,
 		tlbw(p);
 		break;
 
+<<<<<<< HEAD
 	case CPU_R4300:
+=======
+<<<<<<< HEAD
+	case CPU_R4300:
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case CPU_5KC:
 	case CPU_TX49XX:
 	case CPU_PR4450:

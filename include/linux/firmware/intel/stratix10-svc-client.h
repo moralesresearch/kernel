@@ -6,7 +6,15 @@
 #ifndef __STRATIX10_SVC_CLIENT_H
 #define __STRATIX10_SVC_CLIENT_H
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Service layer driver supports client names
  *
  * fpga: for FPGA configuration
@@ -15,7 +23,15 @@
 #define SVC_CLIENT_FPGA			"fpga"
 #define SVC_CLIENT_RSU			"rsu"
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Status of the sent command, in bit number
  *
  * SVC_STATUS_OK:
@@ -50,7 +66,15 @@
 #define SVC_STATUS_ERROR		5
 #define SVC_STATUS_NO_SUPPORT		6
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Flag bit for COMMAND_RECONFIG
  *
  * COMMAND_RECONFIG_FLAG_PARTIAL:
@@ -58,7 +82,15 @@
  */
 #define COMMAND_RECONFIG_FLAG_PARTIAL	0
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Timeout settings for service clients:
  * timeout value used in Stratix10 FPGA manager driver.
  * timeout value used in RSU driver
@@ -218,7 +250,15 @@ void stratix10_svc_free_memory(struct stratix10_svc_chan *chan, void *kaddr);
 int stratix10_svc_send(struct stratix10_svc_chan *chan, void *msg);
 
 /**
+<<<<<<< HEAD
  * stratix10_svc_done() - complete service request
+=======
+<<<<<<< HEAD
+ * stratix10_svc_done() - complete service request
+=======
+ * intel_svc_done() - complete service request
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @chan: service channel assigned to the client
  *
  * This function is used by service client to inform service layer that

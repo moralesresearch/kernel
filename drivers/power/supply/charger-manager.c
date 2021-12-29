@@ -570,7 +570,11 @@ static int cm_get_target_status(struct charger_manager *cm)
 		return POWER_SUPPLY_STATUS_DISCHARGING;
 
 	if (cm_check_thermal_status(cm)) {
+<<<<<<< HEAD
 		/* Check if discharging duration exceeds limit. */
+=======
+		/* Check if discharging duration exeeds limit. */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (check_charging_duration(cm))
 			goto charging_ok;
 		return POWER_SUPPLY_STATUS_NOT_CHARGING;
@@ -578,7 +582,11 @@ static int cm_get_target_status(struct charger_manager *cm)
 
 	switch (cm->battery_status) {
 	case POWER_SUPPLY_STATUS_CHARGING:
+<<<<<<< HEAD
 		/* Check if charging duration exceeds limit. */
+=======
+		/* Check if charging duration exeeds limit. */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (check_charging_duration(cm))
 			return POWER_SUPPLY_STATUS_FULL;
 		fallthrough;
@@ -723,9 +731,15 @@ static int charger_get_property(struct power_supply *psy,
 		val->intval = cm->battery_status;
 		break;
 	case POWER_SUPPLY_PROP_HEALTH:
+<<<<<<< HEAD
 		if (cm->emergency_stop == CM_BATT_OVERHEAT)
 			val->intval = POWER_SUPPLY_HEALTH_OVERHEAT;
 		else if (cm->emergency_stop == CM_BATT_COLD)
+=======
+		if (cm->emergency_stop > 0)
+			val->intval = POWER_SUPPLY_HEALTH_OVERHEAT;
+		else if (cm->emergency_stop < 0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			val->intval = POWER_SUPPLY_HEALTH_COLD;
 		else
 			val->intval = POWER_SUPPLY_HEALTH_GOOD;

@@ -211,7 +211,11 @@ void ath10k_peer_map_event(struct ath10k_htt *htt,
 
 	if (ev->peer_id >= ATH10K_MAX_NUM_PEER_IDS) {
 		ath10k_warn(ar,
+<<<<<<< HEAD
 			    "received htt peer map event with idx out of bounds: %u\n",
+=======
+			    "received htt peer map event with idx out of bounds: %hu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    ev->peer_id);
 		return;
 	}
@@ -247,7 +251,11 @@ void ath10k_peer_unmap_event(struct ath10k_htt *htt,
 
 	if (ev->peer_id >= ATH10K_MAX_NUM_PEER_IDS) {
 		ath10k_warn(ar,
+<<<<<<< HEAD
 			    "received htt peer unmap event with idx out of bounds: %u\n",
+=======
+			    "received htt peer unmap event with idx out of bounds: %hu\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    ev->peer_id);
 		return;
 	}

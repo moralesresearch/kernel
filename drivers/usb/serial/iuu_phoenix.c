@@ -100,7 +100,11 @@ static int iuu_port_probe(struct usb_serial_port *port)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void iuu_port_remove(struct usb_serial_port *port)
+=======
+static int iuu_port_remove(struct usb_serial_port *port)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct iuu_private *priv = usb_get_serial_port_data(port);
 
@@ -108,6 +112,11 @@ static void iuu_port_remove(struct usb_serial_port *port)
 	kfree(priv->writebuf);
 	kfree(priv->buf);
 	kfree(priv);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int iuu_tiocmset(struct tty_struct *tty,

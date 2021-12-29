@@ -505,7 +505,15 @@ void gfs2_recover_func(struct work_struct *work)
 
 		/* We take the sd_log_flush_lock here primarily to prevent log
 		 * flushes and simultaneous journal replays from stomping on
+<<<<<<< HEAD
 		 * each other wrt jd_log_bio. */
+=======
+<<<<<<< HEAD
+		 * each other wrt jd_log_bio. */
+=======
+		 * each other wrt sd_log_bio. */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		down_read(&sdp->sd_log_flush_lock);
 		for (pass = 0; pass < 2; pass++) {
 			lops_before_scan(jd, &head, pass);

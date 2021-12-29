@@ -15,7 +15,11 @@
 #include <linux/typecheck.h>
 #include <linux/printk.h>
 #include <linux/build_bug.h>
+<<<<<<< HEAD
 #include <linux/static_call_types.h>
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/byteorder.h>
 
 #include <uapi/linux/kernel.h>
@@ -81,6 +85,7 @@ struct pt_regs;
 struct user;
 
 #ifdef CONFIG_PREEMPT_VOLUNTARY
+<<<<<<< HEAD
 
 extern int __cond_resched(void);
 # define might_resched() __cond_resched()
@@ -101,6 +106,13 @@ static __always_inline void might_resched(void)
 # define might_resched() do { } while (0)
 
 #endif /* CONFIG_PREEMPT_* */
+=======
+extern int _cond_resched(void);
+# define might_resched() _cond_resched()
+#else
+# define might_resched() do { } while (0)
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_DEBUG_ATOMIC_SLEEP
 extern void ___might_sleep(const char *file, int line, int preempt_offset);

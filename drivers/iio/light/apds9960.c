@@ -8,7 +8,10 @@
  * TODO: gesture + proximity calib offsets
  */
 
+<<<<<<< HEAD
 #include <linux/acpi.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/init.h>
 #include <linux/interrupt.h>
@@ -1114,12 +1117,15 @@ static const struct i2c_device_id apds9960_id[] = {
 };
 MODULE_DEVICE_TABLE(i2c, apds9960_id);
 
+<<<<<<< HEAD
 static const struct acpi_device_id apds9960_acpi_match[] = {
 	{ "MSHW0184" },
 	{ }
 };
 MODULE_DEVICE_TABLE(acpi, apds9960_acpi_match);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct of_device_id apds9960_of_match[] = {
 	{ .compatible = "avago,apds9960" },
 	{ }
@@ -1131,7 +1137,10 @@ static struct i2c_driver apds9960_driver = {
 		.name	= APDS9960_DRV_NAME,
 		.of_match_table = apds9960_of_match,
 		.pm	= &apds9960_pm_ops,
+<<<<<<< HEAD
 		.acpi_match_table = apds9960_acpi_match,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	.probe		= apds9960_probe,
 	.remove		= apds9960_remove,

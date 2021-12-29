@@ -438,6 +438,9 @@ extern int __sys_socketpair(int family, int type, int protocol,
 			    int __user *usockvec);
 extern int __sys_shutdown_sock(struct socket *sock, int how);
 extern int __sys_shutdown(int fd, int how);
+<<<<<<< HEAD
+=======
 
 extern struct ns_common *get_net_ns(struct ns_common *ns);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _LINUX_SOCKET_H */

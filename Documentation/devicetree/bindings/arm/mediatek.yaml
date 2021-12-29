@@ -120,9 +120,13 @@ properties:
           - const: mediatek,mt8183
       - description: Google Krane (Lenovo IdeaPad Duet, 10e,...)
         items:
+<<<<<<< HEAD
           - enum:
               - google,krane-sku0
               - google,krane-sku176
+=======
+          - const: google,krane-sku176
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: google,krane
           - const: mediatek,mt8183
 

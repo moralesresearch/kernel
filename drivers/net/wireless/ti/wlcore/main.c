@@ -5381,7 +5381,15 @@ static int wl1271_op_ampdu_action(struct ieee80211_hw *hw,
 
 		if (wl->ba_rx_session_count >= wl->ba_rx_session_count_max) {
 			ret = -EBUSY;
+<<<<<<< HEAD
 			wl1271_debug(DEBUG_RX, "exceeded max RX BA sessions");
+=======
+<<<<<<< HEAD
+			wl1271_debug(DEBUG_RX, "exceeded max RX BA sessions");
+=======
+			wl1271_error("exceeded max RX BA sessions");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 

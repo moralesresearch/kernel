@@ -15,7 +15,10 @@
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/gpio/gpio.h>
+<<<<<<< HEAD
 #include <dt-bindings/phy/phy.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 / {
 	model = "ZynqMP ZCU100 RevC";
@@ -109,6 +112,7 @@
 		compatible = "iio-hwmon";
 		io-channels = <&u35 0>, <&u35 1>, <&u35 2>, <&u35 3>;
 	};
+<<<<<<< HEAD
 
 	si5335a_0: clk26 {
 		compatible = "fixed-clock";
@@ -121,6 +125,8 @@
 		#clock-cells = <0>;
 		clock-frequency = <27000000>;
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &dcc {
@@ -237,6 +243,7 @@
 	};
 };
 
+<<<<<<< HEAD
 &psgtr {
 	status = "okay";
 	/* usb3, dps */
@@ -244,6 +251,8 @@
 	clock-names = "ref0", "ref1";
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &rtc {
 	status = "okay";
 };
@@ -253,13 +262,19 @@
 	status = "okay";
 	no-1-8-v;
 	disable-wp;
+<<<<<<< HEAD
 	xlnx,mio-bank = <0>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &sdhci1 {
 	status = "okay";
 	bus-width = <0x4>;
+<<<<<<< HEAD
 	xlnx,mio-bank = <0>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	non-removable;
 	disable-wp;
 	cap-power-off-card;
@@ -315,6 +330,7 @@
 &watchdog0 {
 	status = "okay";
 };
+<<<<<<< HEAD
 
 &zynqmp_dpdma {
 	status = "okay";
@@ -326,3 +342,5 @@
 	phys = <&psgtr 1 PHY_TYPE_DP 0 1>,
 	       <&psgtr 0 PHY_TYPE_DP 1 1>;
 };
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

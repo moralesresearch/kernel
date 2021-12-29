@@ -578,6 +578,10 @@ out:
 	return err;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ufs_qcom_device_reset_ctrl(struct ufs_hba *hba, bool asserted)
 {
 	struct ufs_qcom_host *host = ufshcd_get_variant(hba);
@@ -589,6 +593,11 @@ static void ufs_qcom_device_reset_ctrl(struct ufs_hba *hba, bool asserted)
 	gpiod_set_value_cansleep(host->device_reset, asserted);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ufs_qcom_suspend(struct ufs_hba *hba, enum ufs_pm_op pm_op)
 {
 	struct ufs_qcom_host *host = ufshcd_get_variant(hba);
@@ -603,9 +612,18 @@ static int ufs_qcom_suspend(struct ufs_hba *hba, enum ufs_pm_op pm_op)
 		ufs_qcom_disable_lane_clks(host);
 		phy_power_off(phy);
 
+<<<<<<< HEAD
 		/* reset the connected UFS device during power down */
 		ufs_qcom_device_reset_ctrl(hba, true);
 
+=======
+<<<<<<< HEAD
+		/* reset the connected UFS device during power down */
+		ufs_qcom_device_reset_ctrl(hba, true);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (!ufs_qcom_is_link_active(hba)) {
 		ufs_qcom_disable_lane_clks(host);
 	}
@@ -1445,10 +1463,23 @@ static int ufs_qcom_device_reset(struct ufs_hba *hba)
 	 * The UFS device shall detect reset pulses of 1us, sleep for 10us to
 	 * be on the safe side.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ufs_qcom_device_reset_ctrl(hba, true);
 	usleep_range(10, 15);
 
 	ufs_qcom_device_reset_ctrl(hba, false);
+<<<<<<< HEAD
+=======
+=======
+	gpiod_set_value_cansleep(host->device_reset, 1);
+	usleep_range(10, 15);
+
+	gpiod_set_value_cansleep(host->device_reset, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	usleep_range(10, 15);
 
 	return 0;

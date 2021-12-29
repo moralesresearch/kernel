@@ -577,12 +577,20 @@ static const struct regmap_range_cfg aic32x4_regmap_pages[] = {
 		.window_start = 0,
 		.window_len = 128,
 		.range_min = 0,
+<<<<<<< HEAD
+		.range_max = AIC32X4_REFPOWERUP,
+=======
 		.range_max = AIC32X4_RMICPGAVOL,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
 const struct regmap_config aic32x4_regmap_config = {
+<<<<<<< HEAD
+	.max_register = AIC32X4_REFPOWERUP,
+=======
 	.max_register = AIC32X4_RMICPGAVOL,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ranges = aic32x4_regmap_pages,
 	.num_ranges = ARRAY_SIZE(aic32x4_regmap_pages),
 };
@@ -916,7 +924,11 @@ static struct snd_soc_dai_driver aic32x4_dai = {
 			.rates = AIC32X4_RATES,
 			.formats = AIC32X4_FORMATS,},
 	.ops = &aic32x4_ops,
+<<<<<<< HEAD
 	.symmetric_rate = 1,
+=======
+	.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void aic32x4_setup_gpios(struct snd_soc_component *component)
@@ -1243,6 +1255,13 @@ int aic32x4_probe(struct device *dev, struct regmap *regmap)
 	if (ret)
 		goto err_disable_regulators;
 
+<<<<<<< HEAD
+	ret = aic32x4_register_clocks(dev, aic32x4->mclk_name);
+	if (ret)
+		goto err_disable_regulators;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = devm_snd_soc_register_component(dev,
 			&soc_component_dev_aic32x4, &aic32x4_dai, 1);
 	if (ret) {
@@ -1250,10 +1269,13 @@ int aic32x4_probe(struct device *dev, struct regmap *regmap)
 		goto err_disable_regulators;
 	}
 
+<<<<<<< HEAD
+=======
 	ret = aic32x4_register_clocks(dev, aic32x4->mclk_name);
 	if (ret)
 		goto err_disable_regulators;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 err_disable_regulators:

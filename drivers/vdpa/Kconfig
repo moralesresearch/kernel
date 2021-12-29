@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: GPL-2.0-only
 menuconfig VDPA
 	tristate "vDPA drivers"
+<<<<<<< HEAD
 	depends on NET
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  Enable this module to support vDPA device that uses a
 	  datapath which complies with virtio specifications with

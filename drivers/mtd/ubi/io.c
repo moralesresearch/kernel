@@ -913,7 +913,16 @@ static int validate_vid_hdr(const struct ubi_device *ubi,
 				ubi_err(ubi, "bad data_size");
 				goto bad;
 			}
+<<<<<<< HEAD
 		} else if (lnum > used_ebs - 1) {
+=======
+		} else if (lnum == used_ebs - 1) {
+			if (data_size == 0) {
+				ubi_err(ubi, "bad data_size at last LEB");
+				goto bad;
+			}
+		} else {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ubi_err(ubi, "too high lnum");
 			goto bad;
 		}

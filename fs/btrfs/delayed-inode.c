@@ -1155,7 +1155,15 @@ static int __btrfs_run_delayed_items(struct btrfs_trans_handle *trans, int nr)
 	delayed_root = fs_info->delayed_root;
 
 	curr_node = btrfs_first_delayed_node(delayed_root);
+<<<<<<< HEAD
 	while (curr_node && (!count || nr--)) {
+=======
+<<<<<<< HEAD
+	while (curr_node && (!count || nr--)) {
+=======
+	while (curr_node && (!count || (count && nr--))) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = __btrfs_commit_inode_delayed_items(trans, path,
 							 curr_node);
 		if (ret) {
@@ -1589,8 +1597,13 @@ bool btrfs_readdir_get_delayed_items(struct inode *inode,
 	 * We can only do one readdir with delayed items at a time because of
 	 * item->readdir_list.
 	 */
+<<<<<<< HEAD
+	btrfs_inode_unlock(inode, BTRFS_ILOCK_SHARED);
+	btrfs_inode_lock(inode, 0);
+=======
 	inode_unlock_shared(inode);
 	inode_lock(inode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&delayed_node->mutex);
 	item = __btrfs_first_delayed_insertion_item(delayed_node);

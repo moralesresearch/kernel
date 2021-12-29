@@ -223,7 +223,12 @@ static bool inode_still_linked(struct ubifs_info *c, struct replay_entry *rino)
 	 */
 	list_for_each_entry_reverse(r, &c->replay_list, list) {
 		ubifs_assert(c, r->sqnum >= rino->sqnum);
+<<<<<<< HEAD
+		if (key_inum(c, &r->key) == key_inum(c, &rino->key) &&
+		    key_type(c, &r->key) == UBIFS_INO_KEY)
+=======
 		if (key_inum(c, &r->key) == key_inum(c, &rino->key))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return r->deletion == 0;
 
 	}

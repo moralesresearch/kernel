@@ -263,10 +263,17 @@ void *workingset_eviction(struct page *page, struct mem_cgroup *target_memcg)
 	VM_BUG_ON_PAGE(!PageLocked(page), page);
 
 	lruvec = mem_cgroup_lruvec(target_memcg, pgdat);
+<<<<<<< HEAD
 	/* XXX: target_memcg can be NULL, go through lruvec */
 	memcgid = mem_cgroup_id(lruvec_memcg(lruvec));
 	eviction = atomic_long_read(&lruvec->nonresident_age);
 	workingset_age_nonresident(lruvec, thp_nr_pages(page));
+=======
+	workingset_age_nonresident(lruvec, thp_nr_pages(page));
+	/* XXX: target_memcg can be NULL, go through lruvec */
+	memcgid = mem_cgroup_id(lruvec_memcg(lruvec));
+	eviction = atomic_long_read(&lruvec->nonresident_age);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return pack_shadow(memcgid, pgdat, eviction, PageWorkingset(page));
 }
 
@@ -461,8 +468,11 @@ static unsigned long count_shadow_nodes(struct shrinker *shrinker,
 	unsigned long pages;
 
 	nodes = list_lru_shrink_count(&shadow_nodes, sc);
+<<<<<<< HEAD
 	if (!nodes)
 		return SHRINK_EMPTY;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Approximate a reasonable limit for the nodes
@@ -505,6 +515,12 @@ static unsigned long count_shadow_nodes(struct shrinker *shrinker,
 
 	max_nodes = pages >> (XA_CHUNK_SHIFT - 3);
 
+<<<<<<< HEAD
+=======
+	if (!nodes)
+		return SHRINK_EMPTY;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (nodes <= max_nodes)
 		return 0;
 	return nodes - max_nodes;

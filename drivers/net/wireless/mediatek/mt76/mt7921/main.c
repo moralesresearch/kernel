@@ -74,8 +74,12 @@ mt7921_init_he_caps(struct mt7921_phy *phy, enum nl80211_band band,
 				IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_40MHZ_IN_2G;
 		else if (band == NL80211_BAND_5GHZ)
 			he_cap_elem->phy_cap_info[0] =
+<<<<<<< HEAD
+				IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_40MHZ_80MHZ_IN_5G;
+=======
 				IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_40MHZ_80MHZ_IN_5G |
 				IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		he_cap_elem->phy_cap_info[1] =
 			IEEE80211_HE_PHY_CAP1_LDPC_CODING_IN_PAYLOAD;
@@ -348,6 +352,10 @@ static void mt7921_remove_interface(struct ieee80211_hw *hw,
 	if (vif == phy->monitor_vif)
 		phy->monitor_vif = NULL;
 
+<<<<<<< HEAD
+	mt7921_mutex_acquire(dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mt76_connac_free_pending_tx_skbs(&dev->pm, &msta->wcid);
 
 	if (dev->pm.enable) {
@@ -360,7 +368,10 @@ static void mt7921_remove_interface(struct ieee80211_hw *hw,
 
 	rcu_assign_pointer(dev->mt76.wcid[idx], NULL);
 
+<<<<<<< HEAD
+=======
 	mt7921_mutex_acquire(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->mt76.vif_mask &= ~BIT(mvif->mt76.idx);
 	phy->omac_mask &= ~BIT_ULL(mvif->mt76.omac_idx);
 	mt7921_mutex_release(dev);
@@ -413,7 +424,12 @@ static int mt7921_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
 	struct mt7921_sta *msta = sta ? (struct mt7921_sta *)sta->drv_priv :
 				  &mvif->sta;
 	struct mt76_wcid *wcid = &msta->wcid;
+<<<<<<< HEAD
+	u8 *wcid_keyidx = &wcid->hw_key_idx;
+	int idx = key->keyidx, err = 0;
+=======
 	int idx = key->keyidx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* The hardware does not support per-STA RX GTK, fallback
 	 * to software mode for these.
@@ -429,6 +445,10 @@ static int mt7921_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
 	switch (key->cipher) {
 	case WLAN_CIPHER_SUITE_AES_CMAC:
 		key->flags |= IEEE80211_KEY_FLAG_GENERATE_MMIE;
+<<<<<<< HEAD
+		wcid_keyidx = &wcid->hw_key_idx2;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case WLAN_CIPHER_SUITE_TKIP:
 	case WLAN_CIPHER_SUITE_CCMP:
@@ -443,6 +463,25 @@ static int mt7921_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
 		return -EOPNOTSUPP;
 	}
 
+<<<<<<< HEAD
+	mt7921_mutex_acquire(dev);
+
+	if (cmd == SET_KEY)
+		*wcid_keyidx = idx;
+	else if (idx == *wcid_keyidx)
+		*wcid_keyidx = -1;
+	else
+		goto out;
+
+	mt76_wcid_key_setup(&dev->mt76, wcid,
+			    cmd == SET_KEY ? key : NULL);
+
+	err = mt7921_mcu_add_key(dev, vif, msta, key, cmd);
+out:
+	mt7921_mutex_release(dev);
+
+	return err;
+=======
 	if (cmd == SET_KEY) {
 		key->hw_key_idx = wcid->idx;
 		wcid->hw_key_idx = idx;
@@ -453,6 +492,7 @@ static int mt7921_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
 			    cmd == SET_KEY ? key : NULL);
 
 	return mt7921_mcu_add_key(dev, vif, msta, key, cmd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int mt7921_config(struct ieee80211_hw *hw, u32 changed)
@@ -587,6 +627,12 @@ static void mt7921_bss_info_changed(struct ieee80211_hw *hw,
 	if (changed & BSS_CHANGED_PS)
 		mt7921_mcu_uni_bss_ps(dev, vif);
 
+<<<<<<< HEAD
+	if (changed & BSS_CHANGED_ARP_FILTER)
+		mt7921_mcu_update_arp_filter(hw, vif, info);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mt7921_mutex_release(dev);
 }
 
@@ -814,11 +860,23 @@ mt7921_get_stats(struct ieee80211_hw *hw,
 	struct mt7921_phy *phy = mt7921_hw_phy(hw);
 	struct mib_stats *mib = &phy->mib;
 
+<<<<<<< HEAD
+	mt7921_mutex_acquire(phy->dev);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	stats->dot11RTSSuccessCount = mib->rts_cnt;
 	stats->dot11RTSFailureCount = mib->rts_retries_cnt;
 	stats->dot11FCSErrorCount = mib->fcs_err_cnt;
 	stats->dot11ACKFailureCount = mib->ack_fail_cnt;
 
+<<<<<<< HEAD
+	memset(mib, 0, sizeof(*mib));
+
+	mt7921_mutex_release(phy->dev);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

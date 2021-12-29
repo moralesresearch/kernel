@@ -2178,7 +2178,11 @@ static inline void throtl_update_latency_buckets(struct throtl_data *td)
 
 bool blk_throtl_bio(struct bio *bio)
 {
+<<<<<<< HEAD
 	struct request_queue *q = bio->bi_bdev->bd_disk->queue;
+=======
+	struct request_queue *q = bio->bi_disk->queue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct blkcg_gq *blkg = bio->bi_blkg;
 	struct throtl_qnode *qn = NULL;
 	struct throtl_grp *tg = blkg_to_tg(blkg);

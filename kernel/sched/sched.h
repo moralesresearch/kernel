@@ -140,7 +140,15 @@ extern void call_trace_sched_update_nr_running(struct rq *rq, int count);
  * scale_load() and scale_load_down(w) to convert between them. The
  * following must be true:
  *
+<<<<<<< HEAD
  *  scale_load(sched_prio_to_weight[NICE_TO_PRIO(0)-MAX_RT_PRIO]) == NICE_0_LOAD
+=======
+<<<<<<< HEAD
+ *  scale_load(sched_prio_to_weight[NICE_TO_PRIO(0)-MAX_RT_PRIO]) == NICE_0_LOAD
+=======
+ *  scale_load(sched_prio_to_weight[USER_PRIO(NICE_TO_PRIO(0))]) == NICE_0_LOAD
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  */
 #define NICE_0_LOAD		(1L << NICE_0_LOAD_SHIFT)
@@ -205,6 +213,16 @@ static inline void update_avg(u64 *avg, u64 sample)
 }
 
 /*
+<<<<<<< HEAD
+ * Shifting a value by an exponent greater *or equal* to the size of said value
+ * is UB; cap at size-1.
+ */
+#define shr_bound(val, shift)							\
+	(val >> min_t(typeof(shift), shift, BITS_PER_TYPE(typeof(val)) - 1))
+
+/*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * !! For sched_setattr_nocheck() (kernel) only !!
  *
  * This is actually gross. :(
@@ -2105,6 +2123,10 @@ extern const_debug unsigned int sysctl_sched_migration_cost;
  */
 static inline int hrtick_enabled(struct rq *rq)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!cpu_active(cpu_of(rq)))
 		return 0;
 	return hrtimer_is_hres_active(&rq->hrtick_timer);
@@ -2122,12 +2144,26 @@ static inline int hrtick_enabled_dl(struct rq *rq)
 	if (!sched_feat(HRTICK_DL))
 		return 0;
 	return hrtick_enabled(rq);
+<<<<<<< HEAD
+=======
+=======
+	if (!sched_feat(HRTICK))
+		return 0;
+	if (!cpu_active(cpu_of(rq)))
+		return 0;
+	return hrtimer_is_hres_active(&rq->hrtick_timer);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void hrtick_start(struct rq *rq, u64 delay);
 
 #else
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int hrtick_enabled_fair(struct rq *rq)
 {
 	return 0;
@@ -2138,6 +2174,11 @@ static inline int hrtick_enabled_dl(struct rq *rq)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int hrtick_enabled(struct rq *rq)
 {
 	return 0;
@@ -2581,24 +2622,62 @@ static inline unsigned long capacity_orig_of(int cpu)
 {
 	return cpu_rq(cpu)->cpu_capacity_orig;
 }
+<<<<<<< HEAD
 
 /**
  * enum cpu_util_type - CPU utilization type
+=======
+<<<<<<< HEAD
+
+/**
+ * enum cpu_util_type - CPU utilization type
+=======
+#endif
+
+/**
+ * enum schedutil_type - CPU utilization type
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @FREQUENCY_UTIL:	Utilization used to select frequency
  * @ENERGY_UTIL:	Utilization used during energy calculation
  *
  * The utilization signals of all scheduling classes (CFS/RT/DL) and IRQ time
  * need to be aggregated differently depending on the usage made of them. This
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * enum is used within effective_cpu_util() to differentiate the types of
  * utilization expected by the callers, and adjust the aggregation accordingly.
  */
 enum cpu_util_type {
+<<<<<<< HEAD
+=======
+=======
+ * enum is used within schedutil_freq_util() to differentiate the types of
+ * utilization expected by the callers, and adjust the aggregation accordingly.
+ */
+enum schedutil_type {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	FREQUENCY_UTIL,
 	ENERGY_UTIL,
 };
 
+<<<<<<< HEAD
 unsigned long effective_cpu_util(int cpu, unsigned long util_cfs,
 				 unsigned long max, enum cpu_util_type type,
+=======
+<<<<<<< HEAD
+unsigned long effective_cpu_util(int cpu, unsigned long util_cfs,
+				 unsigned long max, enum cpu_util_type type,
+=======
+#ifdef CONFIG_CPU_FREQ_GOV_SCHEDUTIL
+
+unsigned long schedutil_cpu_util(int cpu, unsigned long util_cfs,
+				 unsigned long max, enum schedutil_type type,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				 struct task_struct *p);
 
 static inline unsigned long cpu_bw_dl(struct rq *rq)
@@ -2627,7 +2706,22 @@ static inline unsigned long cpu_util_rt(struct rq *rq)
 {
 	return READ_ONCE(rq->avg_rt.util_avg);
 }
+<<<<<<< HEAD
 #endif
+=======
+<<<<<<< HEAD
+#endif
+=======
+#else /* CONFIG_CPU_FREQ_GOV_SCHEDUTIL */
+static inline unsigned long schedutil_cpu_util(int cpu, unsigned long util_cfs,
+				 unsigned long max, enum schedutil_type type,
+				 struct task_struct *p)
+{
+	return 0;
+}
+#endif /* CONFIG_CPU_FREQ_GOV_SCHEDUTIL */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_HAVE_SCHED_AVG_IRQ
 static inline unsigned long cpu_util_irq(struct rq *rq)

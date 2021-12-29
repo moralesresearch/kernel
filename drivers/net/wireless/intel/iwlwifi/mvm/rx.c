@@ -20,10 +20,13 @@
 void iwl_mvm_rx_rx_phy_cmd(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb)
 {
 	struct iwl_rx_packet *pkt = rxb_addr(rxb);
+<<<<<<< HEAD
 	unsigned int pkt_len = iwl_rx_packet_payload_len(pkt);
 
 	if (unlikely(pkt_len < sizeof(mvm->last_phy_info)))
 		return;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memcpy(&mvm->last_phy_info, pkt->data, sizeof(mvm->last_phy_info));
 	mvm->ampdu_ref++;
@@ -878,11 +881,20 @@ void iwl_mvm_window_status_notif(struct iwl_mvm *mvm,
 	struct iwl_rx_packet *pkt = rxb_addr(rxb);
 	struct iwl_ba_window_status_notif *notif = (void *)pkt->data;
 	int i;
+<<<<<<< HEAD
 
 	BUILD_BUG_ON(ARRAY_SIZE(notif->ra_tid) != BA_WINDOW_STREAMS_MAX);
 	BUILD_BUG_ON(ARRAY_SIZE(notif->mpdu_rx_count) != BA_WINDOW_STREAMS_MAX);
 	BUILD_BUG_ON(ARRAY_SIZE(notif->bitmap) != BA_WINDOW_STREAMS_MAX);
 	BUILD_BUG_ON(ARRAY_SIZE(notif->start_seq_num) != BA_WINDOW_STREAMS_MAX);
+=======
+	u32 pkt_len = iwl_rx_packet_payload_len(pkt);
+
+	if (WARN_ONCE(pkt_len != sizeof(*notif),
+		      "Received window status notification of wrong size (%u)\n",
+		      pkt_len))
+		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rcu_read_lock();
 	for (i = 0; i < BA_WINDOW_STREAMS_MAX; i++) {

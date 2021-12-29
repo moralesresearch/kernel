@@ -39,7 +39,10 @@
 			reg = <0x000>;
 			enable-method = "psci";
 			clock-frequency = <1701000000>;
+<<<<<<< HEAD
 			cpu-idle-states = <&cpuoff_l &clusteroff_l>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			next-level-cache = <&l2_0>;
 			capacity-dmips-mhz = <530>;
 		};
@@ -50,7 +53,10 @@
 			reg = <0x100>;
 			enable-method = "psci";
 			clock-frequency = <1701000000>;
+<<<<<<< HEAD
 			cpu-idle-states = <&cpuoff_l &clusteroff_l>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			next-level-cache = <&l2_0>;
 			capacity-dmips-mhz = <530>;
 		};
@@ -61,7 +67,10 @@
 			reg = <0x200>;
 			enable-method = "psci";
 			clock-frequency = <1701000000>;
+<<<<<<< HEAD
 			cpu-idle-states = <&cpuoff_l &clusteroff_l>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			next-level-cache = <&l2_0>;
 			capacity-dmips-mhz = <530>;
 		};
@@ -72,7 +81,10 @@
 			reg = <0x300>;
 			enable-method = "psci";
 			clock-frequency = <1701000000>;
+<<<<<<< HEAD
 			cpu-idle-states = <&cpuoff_l &clusteroff_l>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			next-level-cache = <&l2_0>;
 			capacity-dmips-mhz = <530>;
 		};
@@ -83,7 +95,10 @@
 			reg = <0x400>;
 			enable-method = "psci";
 			clock-frequency = <2171000000>;
+<<<<<<< HEAD
 			cpu-idle-states = <&cpuoff_b &clusteroff_b>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			next-level-cache = <&l2_1>;
 			capacity-dmips-mhz = <1024>;
 		};
@@ -94,7 +109,10 @@
 			reg = <0x500>;
 			enable-method = "psci";
 			clock-frequency = <2171000000>;
+<<<<<<< HEAD
 			cpu-idle-states = <&cpuoff_b &clusteroff_b>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			next-level-cache = <&l2_1>;
 			capacity-dmips-mhz = <1024>;
 		};
@@ -105,7 +123,10 @@
 			reg = <0x600>;
 			enable-method = "psci";
 			clock-frequency = <2171000000>;
+<<<<<<< HEAD
 			cpu-idle-states = <&cpuoff_b &clusteroff_b>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			next-level-cache = <&l2_1>;
 			capacity-dmips-mhz = <1024>;
 		};
@@ -116,7 +137,10 @@
 			reg = <0x700>;
 			enable-method = "psci";
 			clock-frequency = <2171000000>;
+<<<<<<< HEAD
 			cpu-idle-states = <&cpuoff_b &clusteroff_b>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			next-level-cache = <&l2_1>;
 			capacity-dmips-mhz = <1024>;
 		};
@@ -166,6 +190,7 @@
 		l3_0: l3-cache {
 			compatible = "cache";
 		};
+<<<<<<< HEAD
 
 		idle-states {
 			entry-method = "arm,psci";
@@ -202,6 +227,8 @@
 				min-residency-us = <780>;
 			};
 		};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	pmu-a55 {
@@ -423,6 +450,7 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		nor_flash: spi@11234000 {
 			compatible = "mediatek,mt8192-nor";
 			reg = <0 0x11234000 0 0xe0>;
@@ -436,6 +464,8 @@
 			status = "disable";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		i2c3: i2c3@11cb0000 {
 			compatible = "mediatek,mt8192-i2c";
 			reg = <0 0x11cb0000 0 0x1000>,

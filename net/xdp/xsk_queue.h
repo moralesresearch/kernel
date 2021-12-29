@@ -128,6 +128,14 @@ static inline bool xskq_cons_read_addr_unchecked(struct xsk_queue *q, u64 *addr)
 static inline bool xp_aligned_validate_desc(struct xsk_buff_pool *pool,
 					    struct xdp_desc *desc)
 {
+<<<<<<< HEAD
+	u64 chunk;
+
+	if (desc->len > pool->chunk_size)
+		return false;
+
+	chunk = xp_aligned_extract_addr(pool, desc->addr);
+=======
 	u64 chunk, chunk_end;
 
 	chunk = xp_aligned_extract_addr(pool, desc->addr);
@@ -135,6 +143,7 @@ static inline bool xp_aligned_validate_desc(struct xsk_buff_pool *pool,
 	if (chunk != chunk_end)
 		return false;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (chunk >= pool->addrs_cnt)
 		return false;
 

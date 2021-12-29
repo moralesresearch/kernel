@@ -630,7 +630,11 @@ static struct attribute *qcom_l3_cache_pmu_formats[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group qcom_l3_cache_pmu_format_group = {
+=======
+static struct attribute_group qcom_l3_cache_pmu_format_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "format",
 	.attrs = qcom_l3_cache_pmu_formats,
 };
@@ -663,7 +667,11 @@ static struct attribute *qcom_l3_cache_pmu_events[] = {
 	NULL
 };
 
+<<<<<<< HEAD
 static const struct attribute_group qcom_l3_cache_pmu_events_group = {
+=======
+static struct attribute_group qcom_l3_cache_pmu_events_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "events",
 	.attrs = qcom_l3_cache_pmu_events,
 };
@@ -685,7 +693,11 @@ static struct attribute *qcom_l3_cache_pmu_cpumask_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group qcom_l3_cache_pmu_cpumask_attr_group = {
+=======
+static struct attribute_group qcom_l3_cache_pmu_cpumask_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = qcom_l3_cache_pmu_cpumask_attrs,
 };
 

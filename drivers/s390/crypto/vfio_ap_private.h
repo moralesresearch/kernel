@@ -83,6 +83,11 @@ struct ap_matrix_mdev {
 	struct ap_matrix matrix;
 	struct notifier_block group_notifier;
 	struct notifier_block iommu_notifier;
+<<<<<<< HEAD
+	bool kvm_busy;
+	wait_queue_head_t wait_for_kvm;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct kvm *kvm;
 	struct kvm_s390_module_hook pqap_hook;
 	struct mdev_device *mdev;

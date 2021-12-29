@@ -380,7 +380,11 @@ out_disable_vdd:
 	return ret;
 }
 
+<<<<<<< HEAD
 static const __maybe_unused struct of_device_id meson_rtc_dt_match[] = {
+=======
+static const struct of_device_id meson_rtc_dt_match[] = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "amlogic,meson6-rtc", },
 	{ .compatible = "amlogic,meson8-rtc", },
 	{ .compatible = "amlogic,meson8b-rtc", },

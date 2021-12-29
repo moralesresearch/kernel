@@ -469,8 +469,11 @@ static int flakey_report_zones(struct dm_target *ti,
 	return blkdev_report_zones(fc->dev->bdev, sector, nr_zones,
 				   dm_report_zones_cb, args);
 }
+<<<<<<< HEAD
 #else
 #define flakey_report_zones NULL
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static int flakey_iterate_devices(struct dm_target *ti, iterate_devices_callout_fn fn, void *data)
@@ -483,8 +486,15 @@ static int flakey_iterate_devices(struct dm_target *ti, iterate_devices_callout_
 static struct target_type flakey_target = {
 	.name   = "flakey",
 	.version = {1, 5, 0},
+<<<<<<< HEAD
 	.features = DM_TARGET_ZONED_HM | DM_TARGET_PASSES_CRYPTO,
 	.report_zones = flakey_report_zones,
+=======
+#ifdef CONFIG_BLK_DEV_ZONED
+	.features = DM_TARGET_ZONED_HM,
+	.report_zones = flakey_report_zones,
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.module = THIS_MODULE,
 	.ctr    = flakey_ctr,
 	.dtr    = flakey_dtr,

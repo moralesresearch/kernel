@@ -37,16 +37,23 @@
 #include "dc_link_ddc.h"
 #include "dce/dce_aux.h"
 
+<<<<<<< HEAD
 #define DC_LOGGER_INIT(logger)
 
 static const uint8_t DP_VGA_DONGLE_BRANCH_DEV_NAME[] = "DpVga";
 /* DP to Dual link DVI converter */
+=======
+/*DP to Dual link DVI converter*/
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const uint8_t DP_DVI_CONVERTER_ID_4[] = "m2DVIa";
 static const uint8_t DP_DVI_CONVERTER_ID_5[] = "3393N2";
 
 #define AUX_POWER_UP_WA_DELAY 500
 #define I2C_OVER_AUX_DEFER_WA_DELAY 70
+<<<<<<< HEAD
 #define DPVGA_DONGLE_AUX_DEFER_WA_DELAY 40
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define I2C_OVER_AUX_DEFER_WA_DELAY_1MS 1
 
 /* CV smart dongle slave address for retrieving supported HDTV modes*/
@@ -198,10 +205,13 @@ static void ddc_service_construct(
 	if (BP_RESULT_OK != dcb->funcs->get_i2c_info(dcb, init_data->id, &i2c_info)) {
 		ddc_service->ddc_pin = NULL;
 	} else {
+<<<<<<< HEAD
 		DC_LOGGER_INIT(ddc_service->ctx->logger);
 		DC_LOG_DC("BIOS object table - i2c_line: %d", i2c_info.i2c_line);
 		DC_LOG_DC("BIOS object table - i2c_engine_id: %d", i2c_info.i2c_engine_id);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hw_info.ddc_channel = i2c_info.i2c_line;
 		if (ddc_service->link != NULL)
 			hw_info.hw_supported = i2c_info.i2c_hw_assist;
@@ -294,6 +304,7 @@ static uint32_t defer_delay_converter_wa(
 {
 	struct dc_link *link = ddc->link;
 
+<<<<<<< HEAD
 	if (link->dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_VGA_CONVERTER &&
 		link->dpcd_caps.branch_dev_id == DP_BRANCH_DEVICE_ID_0080E1 &&
 		!memcmp(link->dpcd_caps.branch_dev_name,
@@ -303,6 +314,8 @@ static uint32_t defer_delay_converter_wa(
 		return defer_delay > DPVGA_DONGLE_AUX_DEFER_WA_DELAY ?
 			defer_delay : DPVGA_DONGLE_AUX_DEFER_WA_DELAY;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (link->dpcd_caps.branch_dev_id == DP_BRANCH_DEVICE_ID_0080E1 &&
 	    !memcmp(link->dpcd_caps.branch_dev_name,
 		    DP_DVI_CONVERTER_ID_4,

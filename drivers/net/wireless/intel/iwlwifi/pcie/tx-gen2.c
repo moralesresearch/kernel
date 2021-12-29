@@ -24,8 +24,18 @@
  * failed. On success, it returns the index (>= 0) of command in the
  * command queue.
  */
+<<<<<<< HEAD
 int iwl_pcie_gen2_enqueue_hcmd(struct iwl_trans *trans,
 			       struct iwl_host_cmd *cmd)
+=======
+<<<<<<< HEAD
+int iwl_pcie_gen2_enqueue_hcmd(struct iwl_trans *trans,
+			       struct iwl_host_cmd *cmd)
+=======
+static int iwl_pcie_gen2_enqueue_hcmd(struct iwl_trans *trans,
+				      struct iwl_host_cmd *cmd)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
 	struct iwl_txq *txq = trans->txqs.txq[trans->txqs.cmd.q_id];
@@ -40,6 +50,10 @@ int iwl_pcie_gen2_enqueue_hcmd(struct iwl_trans *trans,
 	const u8 *cmddata[IWL_MAX_CMD_TBS_PER_TFD];
 	u16 cmdlen[IWL_MAX_CMD_TBS_PER_TFD];
 	struct iwl_tfh_tfd *tfd;
+<<<<<<< HEAD
+	unsigned long flags;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	copy_size = sizeof(struct iwl_cmd_header_wide);
 	cmd_size = sizeof(struct iwl_cmd_header_wide);
@@ -108,14 +122,22 @@ int iwl_pcie_gen2_enqueue_hcmd(struct iwl_trans *trans,
 		goto free_dup_buf;
 	}
 
+<<<<<<< HEAD
+	spin_lock_irqsave(&txq->lock, flags);
+=======
 	spin_lock_bh(&txq->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	idx = iwl_txq_get_cmd_index(txq, txq->write_ptr);
 	tfd = iwl_txq_get_tfd(trans, txq, txq->write_ptr);
 	memset(tfd, 0, sizeof(*tfd));
 
 	if (iwl_txq_space(trans, txq) < ((cmd->flags & CMD_ASYNC) ? 2 : 1)) {
+<<<<<<< HEAD
+		spin_unlock_irqrestore(&txq->lock, flags);
+=======
 		spin_unlock_bh(&txq->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		IWL_ERR(trans, "No space in command queue\n");
 		iwl_op_mode_cmd_queue_full(trans->op_mode);
@@ -250,9 +272,140 @@ int iwl_pcie_gen2_enqueue_hcmd(struct iwl_trans *trans,
 	spin_unlock(&trans_pcie->reg_lock);
 
 out:
+<<<<<<< HEAD
+	spin_unlock_irqrestore(&txq->lock, flags);
+=======
 	spin_unlock_bh(&txq->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 free_dup_buf:
 	if (idx < 0)
 		kfree(dup_buf);
 	return idx;
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+#define HOST_COMPLETE_TIMEOUT	(2 * HZ)
+
+static int iwl_pcie_gen2_send_hcmd_sync(struct iwl_trans *trans,
+					struct iwl_host_cmd *cmd)
+{
+	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
+	const char *cmd_str = iwl_get_cmd_string(trans, cmd->id);
+	struct iwl_txq *txq = trans->txqs.txq[trans->txqs.cmd.q_id];
+	int cmd_idx;
+	int ret;
+
+	IWL_DEBUG_INFO(trans, "Attempting to send sync command %s\n", cmd_str);
+
+	if (WARN(test_and_set_bit(STATUS_SYNC_HCMD_ACTIVE,
+				  &trans->status),
+		 "Command %s: a command is already active!\n", cmd_str))
+		return -EIO;
+
+	IWL_DEBUG_INFO(trans, "Setting HCMD_ACTIVE for command %s\n", cmd_str);
+
+	cmd_idx = iwl_pcie_gen2_enqueue_hcmd(trans, cmd);
+	if (cmd_idx < 0) {
+		ret = cmd_idx;
+		clear_bit(STATUS_SYNC_HCMD_ACTIVE, &trans->status);
+		IWL_ERR(trans, "Error sending %s: enqueue_hcmd failed: %d\n",
+			cmd_str, ret);
+		return ret;
+	}
+
+	ret = wait_event_timeout(trans_pcie->wait_command_queue,
+				 !test_bit(STATUS_SYNC_HCMD_ACTIVE,
+					   &trans->status),
+				 HOST_COMPLETE_TIMEOUT);
+	if (!ret) {
+		IWL_ERR(trans, "Error sending %s: time out after %dms.\n",
+			cmd_str, jiffies_to_msecs(HOST_COMPLETE_TIMEOUT));
+
+		IWL_ERR(trans, "Current CMD queue read_ptr %d write_ptr %d\n",
+			txq->read_ptr, txq->write_ptr);
+
+		clear_bit(STATUS_SYNC_HCMD_ACTIVE, &trans->status);
+		IWL_DEBUG_INFO(trans, "Clearing HCMD_ACTIVE for command %s\n",
+			       cmd_str);
+		ret = -ETIMEDOUT;
+
+		iwl_trans_pcie_sync_nmi(trans);
+		goto cancel;
+	}
+
+	if (test_bit(STATUS_FW_ERROR, &trans->status)) {
+		IWL_ERR(trans, "FW error in SYNC CMD %s\n", cmd_str);
+		dump_stack();
+		ret = -EIO;
+		goto cancel;
+	}
+
+	if (!(cmd->flags & CMD_SEND_IN_RFKILL) &&
+	    test_bit(STATUS_RFKILL_OPMODE, &trans->status)) {
+		IWL_DEBUG_RF_KILL(trans, "RFKILL in SYNC CMD... no rsp\n");
+		ret = -ERFKILL;
+		goto cancel;
+	}
+
+	if ((cmd->flags & CMD_WANT_SKB) && !cmd->resp_pkt) {
+		IWL_ERR(trans, "Error: Response NULL in '%s'\n", cmd_str);
+		ret = -EIO;
+		goto cancel;
+	}
+
+	return 0;
+
+cancel:
+	if (cmd->flags & CMD_WANT_SKB) {
+		/*
+		 * Cancel the CMD_WANT_SKB flag for the cmd in the
+		 * TX cmd queue. Otherwise in case the cmd comes
+		 * in later, it will possibly set an invalid
+		 * address (cmd->meta.source).
+		 */
+		txq->entries[cmd_idx].meta.flags &= ~CMD_WANT_SKB;
+	}
+
+	if (cmd->resp_pkt) {
+		iwl_free_resp(cmd);
+		cmd->resp_pkt = NULL;
+	}
+
+	return ret;
+}
+
+int iwl_trans_pcie_gen2_send_hcmd(struct iwl_trans *trans,
+				  struct iwl_host_cmd *cmd)
+{
+	if (!(cmd->flags & CMD_SEND_IN_RFKILL) &&
+	    test_bit(STATUS_RFKILL_OPMODE, &trans->status)) {
+		IWL_DEBUG_RF_KILL(trans, "Dropping CMD 0x%x: RF KILL\n",
+				  cmd->id);
+		return -ERFKILL;
+	}
+
+	if (cmd->flags & CMD_ASYNC) {
+		int ret;
+
+		/* An asynchronous command can not expect an SKB to be set. */
+		if (WARN_ON(cmd->flags & CMD_WANT_SKB))
+			return -EINVAL;
+
+		ret = iwl_pcie_gen2_enqueue_hcmd(trans, cmd);
+		if (ret < 0) {
+			IWL_ERR(trans,
+				"Error sending %s: enqueue_hcmd failed: %d\n",
+				iwl_get_cmd_string(trans, cmd->id), ret);
+			return ret;
+		}
+		return 0;
+	}
+
+	return iwl_pcie_gen2_send_hcmd_sync(trans, cmd);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

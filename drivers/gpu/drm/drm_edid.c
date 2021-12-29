@@ -32,7 +32,10 @@
 #include <linux/i2c.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
+<<<<<<< HEAD
 #include <linux/pci.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/slab.h>
 #include <linux/vga_switcheroo.h>
 
@@ -2076,6 +2079,7 @@ EXPORT_SYMBOL(drm_get_edid);
 struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
 				     struct i2c_adapter *adapter)
 {
+<<<<<<< HEAD
 	struct drm_device *dev = connector->dev;
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
 	struct edid *edid;
@@ -2083,6 +2087,11 @@ struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
 	if (drm_WARN_ON_ONCE(dev, !dev_is_pci(dev->dev)))
 		return NULL;
 
+=======
+	struct pci_dev *pdev = connector->dev->pdev;
+	struct edid *edid;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vga_switcheroo_lock_ddc(pdev);
 	edid = drm_get_edid(connector, adapter);
 	vga_switcheroo_unlock_ddc(pdev);
@@ -4856,6 +4865,7 @@ static void drm_parse_vcdb(struct drm_connector *connector, const u8 *db)
 		info->rgb_quant_range_selectable = true;
 }
 
+<<<<<<< HEAD
 static
 void drm_get_max_frl_rate(int max_frl_rate, u8 *max_lanes, u8 *max_rate_per_lane)
 {
@@ -4891,6 +4901,8 @@ void drm_get_max_frl_rate(int max_frl_rate, u8 *max_lanes, u8 *max_rate_per_lane
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void drm_parse_ycbcr420_deep_color_info(struct drm_connector *connector,
 					       const u8 *db)
 {
@@ -4944,6 +4956,7 @@ static void drm_parse_hdmi_forum_vsdb(struct drm_connector *connector,
 		}
 	}
 
+<<<<<<< HEAD
 	if (hf_vsdb[7]) {
 		u8 max_frl_rate;
 		u8 dsc_max_frl_rate;
@@ -5012,6 +5025,8 @@ static void drm_parse_hdmi_forum_vsdb(struct drm_connector *connector,
 		}
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	drm_parse_ycbcr420_deep_color_info(connector, hf_vsdb);
 }
 

@@ -99,6 +99,7 @@ static int __net_init frame_nat_net_init(struct net *net)
 				  &net->xt.frame_nat);
 }
 
+<<<<<<< HEAD
 static void __net_exit frame_nat_net_pre_exit(struct net *net)
 {
 	ebt_unregister_table_pre_exit(net, "nat", ebt_ops_nat);
@@ -107,12 +108,20 @@ static void __net_exit frame_nat_net_pre_exit(struct net *net)
 static void __net_exit frame_nat_net_exit(struct net *net)
 {
 	ebt_unregister_table(net, net->xt.frame_nat);
+=======
+static void __net_exit frame_nat_net_exit(struct net *net)
+{
+	ebt_unregister_table(net, net->xt.frame_nat, ebt_ops_nat);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct pernet_operations frame_nat_net_ops = {
 	.init = frame_nat_net_init,
 	.exit = frame_nat_net_exit,
+<<<<<<< HEAD
 	.pre_exit = frame_nat_net_pre_exit,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int __init ebtable_nat_init(void)

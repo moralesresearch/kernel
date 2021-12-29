@@ -12,7 +12,14 @@ enum stack_type {
 	STACK_TYPE_IRQ,
 	STACK_TYPE_NODAT,
 	STACK_TYPE_RESTART,
+<<<<<<< HEAD
 	STACK_TYPE_MCCK,
+=======
+<<<<<<< HEAD
+	STACK_TYPE_MCCK,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct stack_info {

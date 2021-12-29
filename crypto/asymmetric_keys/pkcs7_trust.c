@@ -16,7 +16,11 @@
 #include <crypto/public_key.h>
 #include "pkcs7_parser.h"
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Check the trust on one PKCS#7 SignedInfo block.
  */
 static int pkcs7_validate_trust_one(struct pkcs7_message *pkcs7,

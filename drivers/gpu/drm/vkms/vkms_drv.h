@@ -19,6 +19,11 @@
 #define XRES_MAX  8192
 #define YRES_MAX  8192
 
+<<<<<<< HEAD
+=======
+extern bool enable_cursor;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct vkms_composer {
 	struct drm_framebuffer fb;
 	struct drm_rect src, dst;
@@ -80,6 +85,7 @@ struct vkms_output {
 	spinlock_t composer_lock;
 };
 
+<<<<<<< HEAD
 struct vkms_device;
 
 struct vkms_config {
@@ -89,11 +95,16 @@ struct vkms_config {
 	struct vkms_device *dev;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct vkms_device {
 	struct drm_device drm;
 	struct platform_device *platform;
 	struct vkms_output output;
+<<<<<<< HEAD
 	const struct vkms_config *config;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define drm_crtc_to_vkms_output(target) \

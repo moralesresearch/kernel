@@ -279,7 +279,11 @@ static const ATOM_VOLTAGE_OBJECT_V3 *atomctrl_lookup_voltage_type_v3(
  *
  * @hwmgr:           input parameter: pointer to HwMgr
  * @clock_value:     input parameter: memory clock
+<<<<<<< HEAD
  * @mpll_param:      output parameter: memory clock parameters
+=======
+ * @dividers:        output parameter: memory PLL dividers
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @strobe_mode:     input parameter: 1 for strobe mode,  0 for performance mode
  */
 int atomctrl_get_memory_pll_dividers_si(
@@ -332,7 +336,11 @@ int atomctrl_get_memory_pll_dividers_si(
  *
  * @hwmgr:                 input parameter: pointer to HwMgr
  * @clock_value:           input parameter: memory clock
+<<<<<<< HEAD
  * @mpll_param:            output parameter: memory clock parameters
+=======
+ * @dividers:              output parameter: memory PLL dividers
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 int atomctrl_get_memory_pll_dividers_vi(struct pp_hwmgr *hwmgr,
 		uint32_t clock_value, pp_atomctrl_memory_clock_param *mpll_param)

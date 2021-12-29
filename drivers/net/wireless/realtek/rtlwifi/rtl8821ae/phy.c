@@ -1812,7 +1812,11 @@ static bool _rtl8821ae_phy_bb8821a_config_parafile(struct ieee80211_hw *hw)
 		return false;
 	}
 	_rtl8821ae_phy_init_tx_power_by_rate(hw);
+<<<<<<< HEAD
 	if (!rtlefuse->autoload_failflag) {
+=======
+	if (rtlefuse->autoload_failflag == false) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rtstatus = _rtl8821ae_phy_config_bb_with_pgheaderfile(hw,
 						    BASEBAND_CONFIG_PHY_REG);
 	}
@@ -3848,7 +3852,11 @@ static void _rtl8821ae_iqk_tx(struct ieee80211_hw *hw, enum radio_path path)
 			else
 				rtl_write_dword(rtlpriv, 0xc8c, 0x00163e96);
 
+<<<<<<< HEAD
 			if (vdf_enable) {
+=======
+			if (vdf_enable == 1) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				rtl_dbg(rtlpriv, COMP_IQK, DBG_LOUD, "VDF_enable\n");
 				for (k = 0; k <= 2; k++) {
 					switch (k) {
@@ -3980,7 +3988,11 @@ static void _rtl8821ae_iqk_tx(struct ieee80211_hw *hw, enum radio_path path)
 				}
 			}
 
+<<<<<<< HEAD
 			if (!tx0iqkok)
+=======
+			if (tx0iqkok == false)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;				/* TXK fail, Don't do RXK */
 
 			if (vdf_enable == 1) {
@@ -4090,7 +4102,11 @@ static void _rtl8821ae_iqk_tx(struct ieee80211_hw *hw, enum radio_path path)
 						}
 					}
 
+<<<<<<< HEAD
 					if (!tx0iqkok) {   /* If RX mode TXK fail, then take TXK Result */
+=======
+					if (tx0iqkok == false) {   /* If RX mode TXK fail, then take TXK Result */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						tx_x0_rxk[cal] = tx_x0[cal];
 						tx_y0_rxk[cal] = tx_y0[cal];
 						tx0iqkok = true;
@@ -4249,7 +4265,11 @@ static void _rtl8821ae_iqk_tx(struct ieee80211_hw *hw, enum radio_path path)
 					}
 				}
 
+<<<<<<< HEAD
 				if (!tx0iqkok) {   /* If RX mode TXK fail, then take TXK Result */
+=======
+				if (tx0iqkok == false) {   /* If RX mode TXK fail, then take TXK Result */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					tx_x0_rxk[cal] = tx_x0[cal];
 					tx_y0_rxk[cal] = tx_y0[cal];
 					tx0iqkok = true;

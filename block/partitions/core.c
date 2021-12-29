@@ -88,9 +88,17 @@ static int (*check_part[])(struct parsed_partitions *) = {
 
 static void bdev_set_nr_sectors(struct block_device *bdev, sector_t sectors)
 {
+<<<<<<< HEAD
 	spin_lock(&bdev->bd_size_lock);
 	i_size_write(bdev->bd_inode, (loff_t)sectors << SECTOR_SHIFT);
 	spin_unlock(&bdev->bd_size_lock);
+=======
+	unsigned long flags;
+
+	spin_lock_irqsave(&bdev->bd_size_lock, flags);
+	i_size_write(bdev->bd_inode, (loff_t)sectors << SECTOR_SHIFT);
+	spin_unlock_irqrestore(&bdev->bd_size_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct parsed_partitions *allocate_partitions(struct gendisk *hd)
@@ -195,7 +203,11 @@ static ssize_t part_start_show(struct device *dev,
 static ssize_t part_ro_show(struct device *dev,
 			    struct device_attribute *attr, char *buf)
 {
+<<<<<<< HEAD
 	return sprintf(buf, "%d\n", bdev_read_only(dev_to_bdev(dev)));
+=======
+	return sprintf(buf, "%d\n", dev_to_bdev(dev)->bd_read_only);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static ssize_t part_alignment_offset_show(struct device *dev,
@@ -287,7 +299,17 @@ struct device_type part_type = {
  */
 void delete_partition(struct block_device *part)
 {
+<<<<<<< HEAD
 	xa_erase(&part->bd_disk->part_tbl, part->bd_partno);
+=======
+	struct gendisk *disk = part->bd_disk;
+	struct disk_part_tbl *ptbl =
+		rcu_dereference_protected(disk->part_tbl, 1);
+
+	rcu_assign_pointer(ptbl->part[part->bd_partno], NULL);
+	rcu_assign_pointer(ptbl->last_lookup, NULL);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kobject_put(part->bd_holder_dir);
 	device_del(&part->bd_device);
 
@@ -319,10 +341,15 @@ static struct block_device *add_partition(struct gendisk *disk, int partno,
 	struct device *ddev = disk_to_dev(disk);
 	struct device *pdev;
 	struct block_device *bdev;
+<<<<<<< HEAD
+=======
+	struct disk_part_tbl *ptbl;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const char *dname;
 	int err;
 
 	/*
+<<<<<<< HEAD
 	 * disk_max_parts() won't be zero, either GENHD_FL_EXT_DEVT is set
 	 * or 'minors' is passed to alloc_disk().
 	 */
@@ -330,6 +357,8 @@ static struct block_device *add_partition(struct gendisk *disk, int partno,
 		return ERR_PTR(-EINVAL);
 
 	/*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Partitions are not supported on zoned block devices that are used as
 	 * such.
 	 */
@@ -341,13 +370,26 @@ static struct block_device *add_partition(struct gendisk *disk, int partno,
 	case BLK_ZONED_HA:
 		pr_info("%s: disabling host aware zoned block device support due to partitions\n",
 			disk->disk_name);
+<<<<<<< HEAD
 		blk_queue_set_zoned(disk, BLK_ZONED_NONE);
+=======
+		disk->queue->limits.zoned = BLK_ZONED_NONE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case BLK_ZONED_NONE:
 		break;
 	}
 
+<<<<<<< HEAD
 	if (xa_load(&disk->part_tbl, partno))
+=======
+	err = disk_expand_part_tbl(disk, partno);
+	if (err)
+		return ERR_PTR(err);
+	ptbl = rcu_dereference_protected(disk->part_tbl, 1);
+
+	if (ptbl->part[partno])
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ERR_PTR(-EBUSY);
 
 	bdev = bdev_alloc(disk, partno);
@@ -356,6 +398,10 @@ static struct block_device *add_partition(struct gendisk *disk, int partno,
 
 	bdev->bd_start_sect = start;
 	bdev_set_nr_sectors(bdev, len);
+<<<<<<< HEAD
+=======
+	bdev->bd_read_only = get_disk_ro(disk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (info) {
 		err = -ENOMEM;
@@ -400,10 +446,15 @@ static struct block_device *add_partition(struct gendisk *disk, int partno,
 	}
 
 	/* everything is up and running, commence */
+<<<<<<< HEAD
 	err = xa_insert(&disk->part_tbl, partno, bdev, GFP_KERNEL);
 	if (err)
 		goto out_del;
 	bdev_add(bdev, devt);
+=======
+	bdev_add(bdev, devt);
+	rcu_assign_pointer(ptbl->part[partno], bdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* suppress uevent if the disk suppresses it */
 	if (!dev_get_uevent_suppress(ddev))
@@ -609,7 +660,11 @@ static bool blk_add_partition(struct gendisk *disk, struct block_device *bdev,
 int blk_add_partitions(struct gendisk *disk, struct block_device *bdev)
 {
 	struct parsed_partitions *state;
+<<<<<<< HEAD
 	int ret = -EAGAIN, p;
+=======
+	int ret = -EAGAIN, p, highest;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!disk_part_scan_enabled(disk))
 		return 0;
@@ -657,6 +712,18 @@ int blk_add_partitions(struct gendisk *disk, struct block_device *bdev)
 	/* tell userspace that the media / partition table may have changed */
 	kobject_uevent(&disk_to_dev(disk)->kobj, KOBJ_CHANGE);
 
+<<<<<<< HEAD
+=======
+	/*
+	 * Detect the highest partition number and preallocate disk->part_tbl.
+	 * This is an optimization and not strictly necessary.
+	 */
+	for (p = 1, highest = 0; p < state->limit; p++)
+		if (state->parts[p].size)
+			highest = p;
+	disk_expand_part_tbl(disk, highest);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (p = 1; p < state->limit; p++)
 		if (!blk_add_partition(disk, bdev, state, p))
 			goto out_free_state;

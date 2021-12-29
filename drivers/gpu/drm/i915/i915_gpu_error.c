@@ -485,7 +485,11 @@ static void error_print_context(struct drm_i915_error_state_buf *m,
 				const char *header,
 				const struct i915_gem_context_coredump *ctx)
 {
+<<<<<<< HEAD
 	const u32 period = m->i915->gt.clock_period_ns;
+=======
+	const u32 period = RUNTIME_INFO(m->i915)->cs_timestamp_period_ns;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err_printf(m, "%s%s[%d] prio %d, guilty %d active %d, runtime total %lluns, avg %lluns\n",
 		   header, ctx->comm, ctx->pid, ctx->sched_attr.priority,
@@ -1051,9 +1055,13 @@ i915_vma_coredump_create(const struct intel_gt *gt,
 		for_each_sgt_daddr(dma, iter, vma->pages) {
 			void __iomem *s;
 
+<<<<<<< HEAD
 			s = io_mapping_map_wc(&mem->iomap,
 					      dma - mem->region.start,
 					      PAGE_SIZE);
+=======
+			s = io_mapping_map_wc(&mem->iomap, dma, PAGE_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = compress_page(compress,
 					    (void __force *)s, dst,
 					    true);

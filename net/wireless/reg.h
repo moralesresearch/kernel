@@ -63,6 +63,10 @@ unsigned int reg_get_max_bandwidth(const struct ieee80211_regdomain *rd,
 				   const struct ieee80211_reg_rule *rule);
 
 bool reg_last_request_cell_base(void);
+<<<<<<< HEAD
+=======
+const struct ieee80211_regdomain *get_wiphy_regdom(struct wiphy *wiphy);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * regulatory_hint_found_beacon - hints a beacon was found on a channel

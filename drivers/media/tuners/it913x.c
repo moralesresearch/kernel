@@ -62,7 +62,10 @@ static int it913x_init(struct dvb_frontend *fe)
 		break;
 	default:
 		dev_err(&pdev->dev, "unknown clock identifier %d\n", utmp);
+<<<<<<< HEAD
 		ret = -EINVAL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err;
 	}
 

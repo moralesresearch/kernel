@@ -110,6 +110,10 @@ static const struct hid_device_id hid_quirks[] = {
 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_M912), HID_QUIRK_MULTI_INPUT },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406XE), HID_QUIRK_MULTI_INPUT },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
+<<<<<<< HEAD
+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E), HID_QUIRK_ALWAYS_POLL },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D), HID_QUIRK_ALWAYS_POLL },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019), HID_QUIRK_ALWAYS_POLL },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E), HID_QUIRK_ALWAYS_POLL },
@@ -158,6 +162,10 @@ static const struct hid_device_id hid_quirks[] = {
 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52_2), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52_PRO), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
+<<<<<<< HEAD
+	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X65), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ HID_USB_DEVICE(USB_VENDOR_ID_SEMICO, USB_DEVICE_ID_SEMICO_USB_KEYKOARD2), HID_QUIRK_NO_INIT_REPORTS },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_SEMICO, USB_DEVICE_ID_SEMICO_USB_KEYKOARD), HID_QUIRK_NO_INIT_REPORTS },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_SENNHEISER, USB_DEVICE_ID_SENNHEISER_BTD500USB), HID_QUIRK_NOGET },
@@ -176,10 +184,18 @@ static const struct hid_device_id hid_quirks[] = {
 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_QUAD_HD), HID_QUIRK_NO_INIT_REPORTS },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_TP_V103), HID_QUIRK_NO_INIT_REPORTS },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_DELL_K12A), HID_QUIRK_NO_INIT_REPORTS },
+<<<<<<< HEAD
+	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_DELL_K15A), HID_QUIRK_NO_INIT_REPORTS },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPMAX, USB_DEVICE_ID_TOPMAX_COBRAPAD), HID_QUIRK_BADPAD },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOUCHPACK, USB_DEVICE_ID_TOUCHPACK_RTS), HID_QUIRK_MULTI_INPUT },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_TPV, USB_DEVICE_ID_TPV_OPTICAL_TOUCHSCREEN_8882), HID_QUIRK_NOGET },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_TPV, USB_DEVICE_ID_TPV_OPTICAL_TOUCHSCREEN_8883), HID_QUIRK_NOGET },
+<<<<<<< HEAD
+=======
+	{ HID_USB_DEVICE(USB_VENDOR_ID_TRUST, USB_DEVICE_ID_TRUST_PANORA_TABLET), HID_QUIRK_MULTI_INPUT | HID_QUIRK_HIDINPUT_FORCE },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ HID_USB_DEVICE(USB_VENDOR_ID_TURBOX, USB_DEVICE_ID_TURBOX_KEYBOARD), HID_QUIRK_NOGET },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC, USB_DEVICE_ID_UCLOGIC_TABLET_KNA5), HID_QUIRK_MULTI_INPUT },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC, USB_DEVICE_ID_UCLOGIC_TABLET_TWA60), HID_QUIRK_MULTI_INPUT },
@@ -211,6 +227,10 @@ static const struct hid_device_id hid_have_special_driver[] = {
 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_WCP32PU) },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_X5_005D) },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_RP_649) },
+<<<<<<< HEAD
+	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_NB_95) },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 #if IS_ENABLED(CONFIG_HID_ACCUTOUCH)
 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELO, USB_DEVICE_ID_ELO_ACCUTOUCH_2216) },
@@ -1028,7 +1048,11 @@ static DEFINE_MUTEX(dquirks_lock);
 /* Runtime ("dynamic") quirks manipulation functions */
 
 /**
+<<<<<<< HEAD
  * hid_exists_dquirk - find any dynamic quirks for a HID device
+=======
+ * hid_exists_dquirk: find any dynamic quirks for a HID device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @hdev: the HID device to match
  *
  * Description:
@@ -1036,7 +1060,11 @@ static DEFINE_MUTEX(dquirks_lock);
  *         the pointer to the relevant struct hid_device_id if found.
  *         Must be called with a read lock held on dquirks_lock.
  *
+<<<<<<< HEAD
  * Return: NULL if no quirk found, struct hid_device_id * if found.
+=======
+ * Returns: NULL if no quirk found, struct hid_device_id * if found.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static struct hid_device_id *hid_exists_dquirk(const struct hid_device *hdev)
 {
@@ -1060,7 +1088,11 @@ static struct hid_device_id *hid_exists_dquirk(const struct hid_device *hdev)
 
 
 /**
+<<<<<<< HEAD
  * hid_modify_dquirk - add/replace a HID quirk
+=======
+ * hid_modify_dquirk: add/replace a HID quirk
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @id: the HID device to match
  * @quirks: the unsigned long quirks value to add/replace
  *
@@ -1069,7 +1101,11 @@ static struct hid_device_id *hid_exists_dquirk(const struct hid_device *hdev)
  *         quirks value with what was provided.  Otherwise, add the quirk
  *         to the dynamic quirks list.
  *
+<<<<<<< HEAD
  * Return: 0 OK, -error on failure.
+=======
+ * Returns: 0 OK, -error on failure.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int hid_modify_dquirk(const struct hid_device_id *id,
 			     const unsigned long quirks)
@@ -1121,7 +1157,11 @@ static int hid_modify_dquirk(const struct hid_device_id *id,
 }
 
 /**
+<<<<<<< HEAD
  * hid_remove_all_dquirks - remove all runtime HID quirks from memory
+=======
+ * hid_remove_all_dquirks: remove all runtime HID quirks from memory
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @bus: bus to match against. Use HID_BUS_ANY if all need to be removed.
  *
  * Description:
@@ -1145,10 +1185,14 @@ static void hid_remove_all_dquirks(__u16 bus)
 }
 
 /**
+<<<<<<< HEAD
  * hid_quirks_init - apply HID quirks specified at module load time
  * @quirks_param: array of quirks strings (vendor:product:quirks)
  * @bus: bus type
  * @count: number of quirks to check
+=======
+ * hid_quirks_init: apply HID quirks specified at module load time
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 int hid_quirks_init(char **quirks_param, __u16 bus, int count)
 {
@@ -1179,7 +1223,11 @@ int hid_quirks_init(char **quirks_param, __u16 bus, int count)
 EXPORT_SYMBOL_GPL(hid_quirks_init);
 
 /**
+<<<<<<< HEAD
  * hid_quirks_exit - release memory associated with dynamic_quirks
+=======
+ * hid_quirks_exit: release memory associated with dynamic_quirks
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @bus: a bus to match against
  *
  * Description:
@@ -1196,14 +1244,22 @@ void hid_quirks_exit(__u16 bus)
 EXPORT_SYMBOL_GPL(hid_quirks_exit);
 
 /**
+<<<<<<< HEAD
  * hid_gets_squirk - return any static quirks for a HID device
+=======
+ * hid_gets_squirk: return any static quirks for a HID device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @hdev: the HID device to match
  *
  * Description:
  *     Given a HID device, return a pointer to the quirked hid_device_id entry
  *     associated with that device.
  *
+<<<<<<< HEAD
  * Return: the quirks.
+=======
+ * Returns: the quirks.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static unsigned long hid_gets_squirk(const struct hid_device *hdev)
 {
@@ -1227,13 +1283,21 @@ static unsigned long hid_gets_squirk(const struct hid_device *hdev)
 }
 
 /**
+<<<<<<< HEAD
  * hid_lookup_quirk - return any quirks associated with a HID device
+=======
+ * hid_lookup_quirk: return any quirks associated with a HID device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @hdev: the HID device to look for
  *
  * Description:
  *     Given a HID device, return any quirks associated with that device.
  *
+<<<<<<< HEAD
  * Return: an unsigned long quirks value.
+=======
+ * Returns: an unsigned long quirks value.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 unsigned long hid_lookup_quirk(const struct hid_device *hdev)
 {

@@ -567,8 +567,13 @@ out_free_xid:
 	return rc;
 }
 
+<<<<<<< HEAD
 int cifs_create(struct user_namespace *mnt_userns, struct inode *inode,
 		struct dentry *direntry, umode_t mode, bool excl)
+=======
+int cifs_create(struct inode *inode, struct dentry *direntry, umode_t mode,
+		bool excl)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int rc;
 	unsigned int xid = get_xid();
@@ -611,8 +616,13 @@ out_free_xid:
 	return rc;
 }
 
+<<<<<<< HEAD
 int cifs_mknod(struct user_namespace *mnt_userns, struct inode *inode,
 	       struct dentry *direntry, umode_t mode, dev_t device_number)
+=======
+int cifs_mknod(struct inode *inode, struct dentry *direntry, umode_t mode,
+		dev_t device_number)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int rc = -EPERM;
 	unsigned int xid;

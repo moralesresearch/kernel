@@ -52,6 +52,7 @@ static bool rvu_common_request_irq(struct rvu *rvu, int offset,
 	return rvu->irq_allocated[offset];
 }
 
+<<<<<<< HEAD
 static void rvu_nix_intr_work(struct work_struct *work)
 {
 	struct rvu_nix_health_reporters *rvu_nix_health_reporter;
@@ -696,6 +697,8 @@ static void rvu_nix_health_reporters_destroy(struct rvu_devlink *rvu_dl)
 	kfree(rvu_dl->rvu_nix_health_reporter);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void rvu_npa_intr_work(struct work_struct *work)
 {
 	struct rvu_npa_health_reporters *rvu_npa_health_reporter;
@@ -1342,6 +1345,7 @@ static void rvu_npa_health_reporters_destroy(struct rvu_devlink *rvu_dl)
 static int rvu_health_reporters_create(struct rvu *rvu)
 {
 	struct rvu_devlink *rvu_dl;
+<<<<<<< HEAD
 	int err;
 
 	rvu_dl = rvu->rvu_dl;
@@ -1350,6 +1354,11 @@ static int rvu_health_reporters_create(struct rvu *rvu)
 		return err;
 
 	return rvu_nix_health_reporters_create(rvu_dl);
+=======
+
+	rvu_dl = rvu->rvu_dl;
+	return rvu_npa_health_reporters_create(rvu_dl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void rvu_health_reporters_destroy(struct rvu *rvu)
@@ -1361,7 +1370,10 @@ static void rvu_health_reporters_destroy(struct rvu *rvu)
 
 	rvu_dl = rvu->rvu_dl;
 	rvu_npa_health_reporters_destroy(rvu_dl);
+<<<<<<< HEAD
 	rvu_nix_health_reporters_destroy(rvu_dl);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int rvu_devlink_info_get(struct devlink *devlink, struct devlink_info_req *req,

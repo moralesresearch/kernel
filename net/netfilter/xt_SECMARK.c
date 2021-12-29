@@ -24,10 +24,16 @@ MODULE_ALIAS("ip6t_SECMARK");
 static u8 mode;
 
 static unsigned int
+<<<<<<< HEAD
+secmark_tg(struct sk_buff *skb, const struct xt_secmark_target_info_v1 *info)
+{
+	u32 secmark = 0;
+=======
 secmark_tg(struct sk_buff *skb, const struct xt_action_param *par)
 {
 	u32 secmark = 0;
 	const struct xt_secmark_target_info *info = par->targinfo;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (mode) {
 	case SECMARK_MODE_SEL:
@@ -41,7 +47,11 @@ secmark_tg(struct sk_buff *skb, const struct xt_action_param *par)
 	return XT_CONTINUE;
 }
 
+<<<<<<< HEAD
+static int checkentry_lsm(struct xt_secmark_target_info_v1 *info)
+=======
 static int checkentry_lsm(struct xt_secmark_target_info *info)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 
@@ -73,6 +83,17 @@ static int checkentry_lsm(struct xt_secmark_target_info *info)
 	return 0;
 }
 
+<<<<<<< HEAD
+static int
+secmark_tg_check(const char *table, struct xt_secmark_target_info_v1 *info)
+{
+	int err;
+
+	if (strcmp(table, "mangle") != 0 &&
+	    strcmp(table, "security") != 0) {
+		pr_info_ratelimited("only valid in \'mangle\' or \'security\' table, not \'%s\'\n",
+				    table);
+=======
 static int secmark_tg_check(const struct xt_tgchk_param *par)
 {
 	struct xt_secmark_target_info *info = par->targinfo;
@@ -82,6 +103,7 @@ static int secmark_tg_check(const struct xt_tgchk_param *par)
 	    strcmp(par->table, "security") != 0) {
 		pr_info_ratelimited("only valid in \'mangle\' or \'security\' table, not \'%s\'\n",
 				    par->table);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 	}
 
@@ -116,6 +138,68 @@ static void secmark_tg_destroy(const struct xt_tgdtor_param *par)
 	}
 }
 
+<<<<<<< HEAD
+static int secmark_tg_check_v0(const struct xt_tgchk_param *par)
+{
+	struct xt_secmark_target_info *info = par->targinfo;
+	struct xt_secmark_target_info_v1 newinfo = {
+		.mode	= info->mode,
+	};
+	int ret;
+
+	memcpy(newinfo.secctx, info->secctx, SECMARK_SECCTX_MAX);
+
+	ret = secmark_tg_check(par->table, &newinfo);
+	info->secid = newinfo.secid;
+
+	return ret;
+}
+
+static unsigned int
+secmark_tg_v0(struct sk_buff *skb, const struct xt_action_param *par)
+{
+	const struct xt_secmark_target_info *info = par->targinfo;
+	struct xt_secmark_target_info_v1 newinfo = {
+		.secid	= info->secid,
+	};
+
+	return secmark_tg(skb, &newinfo);
+}
+
+static int secmark_tg_check_v1(const struct xt_tgchk_param *par)
+{
+	return secmark_tg_check(par->table, par->targinfo);
+}
+
+static unsigned int
+secmark_tg_v1(struct sk_buff *skb, const struct xt_action_param *par)
+{
+	return secmark_tg(skb, par->targinfo);
+}
+
+static struct xt_target secmark_tg_reg[] __read_mostly = {
+	{
+		.name		= "SECMARK",
+		.revision	= 0,
+		.family		= NFPROTO_UNSPEC,
+		.checkentry	= secmark_tg_check_v0,
+		.destroy	= secmark_tg_destroy,
+		.target		= secmark_tg_v0,
+		.targetsize	= sizeof(struct xt_secmark_target_info),
+		.me		= THIS_MODULE,
+	},
+	{
+		.name		= "SECMARK",
+		.revision	= 1,
+		.family		= NFPROTO_UNSPEC,
+		.checkentry	= secmark_tg_check_v1,
+		.destroy	= secmark_tg_destroy,
+		.target		= secmark_tg_v1,
+		.targetsize	= sizeof(struct xt_secmark_target_info_v1),
+		.usersize	= offsetof(struct xt_secmark_target_info_v1, secid),
+		.me		= THIS_MODULE,
+	},
+=======
 static struct xt_target secmark_tg_reg __read_mostly = {
 	.name       = "SECMARK",
 	.revision   = 0,
@@ -125,16 +209,25 @@ static struct xt_target secmark_tg_reg __read_mostly = {
 	.target     = secmark_tg,
 	.targetsize = sizeof(struct xt_secmark_target_info),
 	.me         = THIS_MODULE,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int __init secmark_tg_init(void)
 {
+<<<<<<< HEAD
+	return xt_register_targets(secmark_tg_reg, ARRAY_SIZE(secmark_tg_reg));
+=======
 	return xt_register_target(&secmark_tg_reg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __exit secmark_tg_exit(void)
 {
+<<<<<<< HEAD
+	xt_unregister_targets(secmark_tg_reg, ARRAY_SIZE(secmark_tg_reg));
+=======
 	xt_unregister_target(&secmark_tg_reg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 module_init(secmark_tg_init);

@@ -107,6 +107,12 @@ void tpm_bios_log_setup(struct tpm_chip *chip)
 	int log_version;
 	int rc = 0;
 
+<<<<<<< HEAD
+	if (chip->flags & TPM_CHIP_FLAG_VIRTUAL)
+		return;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rc = tpm_read_log(chip);
 	if (rc < 0)
 		return;

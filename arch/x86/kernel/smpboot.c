@@ -458,6 +458,46 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
 	return false;
 }
 
+<<<<<<< HEAD
+static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+{
+	if (c->phys_proc_id == o->phys_proc_id &&
+	    c->cpu_die_id == o->cpu_die_id)
+		return true;
+	return false;
+}
+
+/*
+ * Unlike the other levels, we do not enforce keeping a
+ * multicore group inside a NUMA node.  If this happens, we will
+ * discard the MC level of the topology later.
+ */
+static bool match_pkg(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+{
+	if (c->phys_proc_id == o->phys_proc_id)
+		return true;
+	return false;
+}
+
+/*
+ * Define intel_cod_cpu[] for Intel COD (Cluster-on-Die) CPUs.
+ *
+ * Any Intel CPU that has multiple nodes per package and does not
+ * match intel_cod_cpu[] has the SNC (Sub-NUMA Cluster) topology.
+ *
+ * When in SNC mode, these CPUs enumerate an LLC that is shared
+ * by multiple NUMA nodes. The LLC is shared for off-package data
+ * access but private to the NUMA node (half of the package) for
+ * on-package access. CPUID (the source of the information about
+ * the LLC) can only enumerate the cache as shared or unshared,
+ * but not this particular configuration.
+ */
+
+static const struct x86_cpu_id intel_cod_cpu[] = {
+	X86_MATCH_INTEL_FAM6_MODEL(HASWELL_X, 0),	/* COD */
+	X86_MATCH_INTEL_FAM6_MODEL(BROADWELL_X, 0),	/* COD */
+	X86_MATCH_INTEL_FAM6_MODEL(ANY, 1),		/* SNC */
+=======
 /*
  * Define snc_cpu[] for SNC (Sub-NUMA Cluster) CPUs.
  *
@@ -475,12 +515,19 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
 
 static const struct x86_cpu_id snc_cpu[] = {
 	X86_MATCH_INTEL_FAM6_MODEL(SKYLAKE_X, NULL),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{}
 };
 
 static bool match_llc(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
 {
+<<<<<<< HEAD
+	const struct x86_cpu_id *id = x86_match_cpu(intel_cod_cpu);
 	int cpu1 = c->cpu_index, cpu2 = o->cpu_index;
+	bool intel_snc = id && id->driver_data;
+=======
+	int cpu1 = c->cpu_index, cpu2 = o->cpu_index;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Do not match if we do not have a valid APICID for cpu: */
 	if (per_cpu(cpu_llc_id, cpu1) == BAD_APICID)
@@ -495,12 +542,18 @@ static bool match_llc(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
 	 * means 'c' does not share the LLC of 'o'. This will be
 	 * reflected to userspace.
 	 */
+<<<<<<< HEAD
+	if (match_pkg(c, o) && !topology_same_node(c, o) && intel_snc)
+=======
 	if (!topology_same_node(c, o) && x86_match_cpu(snc_cpu))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	return topology_sane(c, o, "llc");
 }
 
+<<<<<<< HEAD
+=======
 /*
  * Unlike the other levels, we do not enforce keeping a
  * multicore group inside a NUMA node.  If this happens, we will
@@ -521,6 +574,7 @@ static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
 	return false;
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #if defined(CONFIG_SCHED_SMT) || defined(CONFIG_SCHED_MC)
 static inline int x86_sched_itmt_flags(void)
@@ -592,14 +646,31 @@ void set_cpu_sibling_map(int cpu)
 	for_each_cpu(i, cpu_sibling_setup_mask) {
 		o = &cpu_data(i);
 
+<<<<<<< HEAD
+		if (match_pkg(c, o) && !topology_same_node(c, o))
+			x86_has_numa_in_package = true;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if ((i == cpu) || (has_smt && match_smt(c, o)))
 			link_mask(topology_sibling_cpumask, cpu, i);
 
 		if ((i == cpu) || (has_mp && match_llc(c, o)))
 			link_mask(cpu_llc_shared_mask, cpu, i);
 
+<<<<<<< HEAD
+		if ((i == cpu) || (has_mp && match_die(c, o)))
+			link_mask(topology_die_cpumask, cpu, i);
 	}
 
+	threads = cpumask_weight(topology_sibling_cpumask(cpu));
+	if (threads > __max_smt_threads)
+		__max_smt_threads = threads;
+
+=======
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * This needs a separate iteration over the cpus because we rely on all
 	 * topology_sibling_cpumask links to be set-up.
@@ -613,8 +684,12 @@ void set_cpu_sibling_map(int cpu)
 			/*
 			 *  Does this new cpu bringup a new core?
 			 */
+<<<<<<< HEAD
+			if (threads == 1) {
+=======
 			if (cpumask_weight(
 			    topology_sibling_cpumask(cpu)) == 1) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/*
 				 * for each core in package, increment
 				 * the booted_cores for this new cpu
@@ -631,6 +706,9 @@ void set_cpu_sibling_map(int cpu)
 			} else if (i != cpu && !c->booted_cores)
 				c->booted_cores = cpu_data(i).booted_cores;
 		}
+<<<<<<< HEAD
+	}
+=======
 		if (match_pkg(c, o) && !topology_same_node(c, o))
 			x86_has_numa_in_package = true;
 
@@ -641,6 +719,7 @@ void set_cpu_sibling_map(int cpu)
 	threads = cpumask_weight(topology_sibling_cpumask(cpu));
 	if (threads > __max_smt_threads)
 		__max_smt_threads = threads;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* maps the cpu to the sched domain representing multi-core */
@@ -1659,6 +1738,10 @@ void play_dead_common(void)
 	local_irq_disable();
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * cond_wakeup_cpu0 - Wake up CPU0 if needed.
  *
@@ -1670,6 +1753,18 @@ void cond_wakeup_cpu0(void)
 		start_cpu0();
 }
 EXPORT_SYMBOL_GPL(cond_wakeup_cpu0);
+<<<<<<< HEAD
+=======
+=======
+bool wakeup_cpu0(void)
+{
+	if (smp_processor_id() == 0 && enable_start_cpu0)
+		return true;
+
+	return false;
+}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * We need to flush the caches before going to sleep, lest we have
@@ -1738,8 +1833,21 @@ static inline void mwait_play_dead(void)
 		__monitor(mwait_ptr, 0, 0);
 		mb();
 		__mwait(eax, 0);
+<<<<<<< HEAD
 
 		cond_wakeup_cpu0();
+=======
+<<<<<<< HEAD
+
+		cond_wakeup_cpu0();
+=======
+		/*
+		 * If NMI wants to wake up CPU0, start CPU0.
+		 */
+		if (wakeup_cpu0())
+			start_cpu0();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -1750,8 +1858,21 @@ void hlt_play_dead(void)
 
 	while (1) {
 		native_halt();
+<<<<<<< HEAD
 
 		cond_wakeup_cpu0();
+=======
+<<<<<<< HEAD
+
+		cond_wakeup_cpu0();
+=======
+		/*
+		 * If NMI wants to wake up CPU0, start CPU0.
+		 */
+		if (wakeup_cpu0())
+			start_cpu0();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -2044,7 +2165,11 @@ static bool amd_set_max_freq_ratio(void)
 		return false;
 	}
 
+<<<<<<< HEAD
+	highest_perf = amd_get_highest_perf();
+=======
 	highest_perf = perf_caps.highest_perf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nominal_perf = perf_caps.nominal_perf;
 
 	if (!highest_perf || !nominal_perf) {

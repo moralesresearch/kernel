@@ -32,7 +32,11 @@
 #define CREATE_TRACE_POINTS
 #include "hns3_trace.h"
 
+<<<<<<< HEAD
 #define hns3_set_field(origin, shift, val)	((origin) |= (val) << (shift))
+=======
+#define hns3_set_field(origin, shift, val)	((origin) |= ((val) << (shift)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define hns3_tx_bd_count(S)	DIV_ROUND_UP(S, HNS3_MAX_BD_SIZE)
 
 #define hns3_rl_err(fmt, ...)						\
@@ -265,6 +269,19 @@ static void hns3_vector_coalesce_init(struct hns3_enet_tqp_vector *tqp_vector,
 	struct hnae3_ae_dev *ae_dev = pci_get_drvdata(priv->ae_handle->pdev);
 	struct hns3_enet_coalesce *tx_coal = &tqp_vector->tx_group.coal;
 	struct hns3_enet_coalesce *rx_coal = &tqp_vector->rx_group.coal;
+<<<<<<< HEAD
+	struct hns3_enet_coalesce *ptx_coal = &priv->tx_coal;
+	struct hns3_enet_coalesce *prx_coal = &priv->rx_coal;
+
+	tx_coal->adapt_enable = ptx_coal->adapt_enable;
+	rx_coal->adapt_enable = prx_coal->adapt_enable;
+
+	tx_coal->int_gl = ptx_coal->int_gl;
+	rx_coal->int_gl = prx_coal->int_gl;
+
+	rx_coal->flow_level = prx_coal->flow_level;
+	tx_coal->flow_level = ptx_coal->flow_level;
+=======
 
 	/* initialize the configuration for interrupt coalescing.
 	 * 1. GL (Interrupt Gap Limiter)
@@ -281,6 +298,7 @@ static void hns3_vector_coalesce_init(struct hns3_enet_tqp_vector *tqp_vector,
 
 	rx_coal->flow_level = HNS3_FLOW_LOW;
 	tx_coal->flow_level = HNS3_FLOW_LOW;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* device version above V3(include V3), GL can configure 1us
 	 * unit, so uses 1us unit.
@@ -295,8 +313,13 @@ static void hns3_vector_coalesce_init(struct hns3_enet_tqp_vector *tqp_vector,
 		rx_coal->ql_enable = 1;
 		tx_coal->int_ql_max = ae_dev->dev_specs.int_ql_max;
 		rx_coal->int_ql_max = ae_dev->dev_specs.int_ql_max;
+<<<<<<< HEAD
+		tx_coal->int_ql = ptx_coal->int_ql;
+		rx_coal->int_ql = prx_coal->int_ql;
+=======
 		tx_coal->int_ql = HNS3_INT_QL_DEFAULT_CFG;
 		rx_coal->int_ql = HNS3_INT_QL_DEFAULT_CFG;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -576,8 +599,13 @@ static int hns3_nic_net_stop(struct net_device *netdev)
 	if (h->ae_algo->ops->set_timer_task)
 		h->ae_algo->ops->set_timer_task(priv->ae_handle, false);
 
+<<<<<<< HEAD
+	netif_carrier_off(netdev);
+	netif_tx_disable(netdev);
+=======
 	netif_tx_stop_all_queues(netdev);
 	netif_carrier_off(netdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hns3_nic_net_down(netdev);
 
@@ -823,7 +851,11 @@ static int hns3_get_l4_protocol(struct sk_buff *skb, u8 *ol4_proto,
  * and it is udp packet, which has a dest port as the IANA assigned.
  * the hardware is expected to do the checksum offload, but the
  * hardware will not do the checksum offload when udp dest port is
+<<<<<<< HEAD
+ * 4789, 4790 or 6081.
+=======
  * 4789 or 6081.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static bool hns3_tunnel_csum_bug(struct sk_buff *skb)
 {
@@ -841,11 +873,18 @@ static bool hns3_tunnel_csum_bug(struct sk_buff *skb)
 
 	if (!(!skb->encapsulation &&
 	      (l4.udp->dest == htons(IANA_VXLAN_UDP_PORT) ||
+<<<<<<< HEAD
+	      l4.udp->dest == htons(GENEVE_UDP_PORT) ||
+	      l4.udp->dest == htons(4790))))
+		return false;
+
+=======
 	      l4.udp->dest == htons(GENEVE_UDP_PORT))))
 		return false;
 
 	skb_checksum_help(skb);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return true;
 }
 
@@ -923,8 +962,12 @@ static int hns3_set_l2l3l4(struct sk_buff *skb, u8 ol4_proto,
 			/* the stack computes the IP header already,
 			 * driver calculate l4 checksum when not TSO.
 			 */
+<<<<<<< HEAD
+			return skb_checksum_help(skb);
+=======
 			skb_checksum_help(skb);
 			return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		hns3_set_outer_l2l3l4(skb, ol4_proto, ol_type_vlan_len_msec);
@@ -969,7 +1012,11 @@ static int hns3_set_l2l3l4(struct sk_buff *skb, u8 ol4_proto,
 		break;
 	case IPPROTO_UDP:
 		if (hns3_tunnel_csum_bug(skb))
+<<<<<<< HEAD
+			return skb_checksum_help(skb);
+=======
 			break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		hns3_set_field(*type_cs_vlan_tso, HNS3_TXD_L4CS_B, 1);
 		hns3_set_field(*type_cs_vlan_tso, HNS3_TXD_L4T_S,
@@ -994,8 +1041,12 @@ static int hns3_set_l2l3l4(struct sk_buff *skb, u8 ol4_proto,
 		/* the stack computes the IP header already,
 		 * driver calculate l4 checksum when not TSO.
 		 */
+<<<<<<< HEAD
+		return skb_checksum_help(skb);
+=======
 		skb_checksum_help(skb);
 		return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -1070,7 +1121,11 @@ static bool hns3_check_hw_tx_csum(struct sk_buff *skb)
 	 * HW checksum of the non-IP packets and GSO packets is handled at
 	 * different place in the following code
 	 */
+<<<<<<< HEAD
 	if (skb_csum_is_sctp(skb) || skb_is_gso(skb) ||
+=======
+	if (skb->csum_not_inet || skb_is_gso(skb) ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    !test_bit(HNS3_NIC_STATE_HW_TX_CSUM_ENABLE, &priv->state))
 		return false;
 
@@ -1277,6 +1332,23 @@ static unsigned int hns3_skb_bd_num(struct sk_buff *skb, unsigned int *bd_size,
 }
 
 static unsigned int hns3_tx_bd_num(struct sk_buff *skb, unsigned int *bd_size,
+<<<<<<< HEAD
+				   u8 max_non_tso_bd_num, unsigned int bd_num,
+				   unsigned int recursion_level)
+{
+#define HNS3_MAX_RECURSION_LEVEL	24
+
+	struct sk_buff *frag_skb;
+
+	/* If the total len is within the max bd limit */
+	if (likely(skb->len <= HNS3_MAX_BD_SIZE && !recursion_level &&
+		   !skb_has_frag_list(skb) &&
+		   skb_shinfo(skb)->nr_frags < max_non_tso_bd_num))
+		return skb_shinfo(skb)->nr_frags + 1U;
+
+	if (unlikely(recursion_level >= HNS3_MAX_RECURSION_LEVEL))
+		return UINT_MAX;
+=======
 				   u8 max_non_tso_bd_num)
 {
 	struct sk_buff *frag_skb;
@@ -1294,6 +1366,7 @@ static unsigned int hns3_tx_bd_num(struct sk_buff *skb, unsigned int *bd_size,
 		     (!skb_is_gso(skb) && skb->len >
 		      HNS3_MAX_NON_TSO_SIZE(max_non_tso_bd_num))))
 		return HNS3_MAX_TSO_BD_NUM + 1U;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bd_num = hns3_skb_bd_num(skb, bd_size, bd_num);
 
@@ -1301,7 +1374,12 @@ static unsigned int hns3_tx_bd_num(struct sk_buff *skb, unsigned int *bd_size,
 		return bd_num;
 
 	skb_walk_frags(skb, frag_skb) {
+<<<<<<< HEAD
+		bd_num = hns3_tx_bd_num(frag_skb, bd_size, max_non_tso_bd_num,
+					bd_num, recursion_level + 1);
+=======
 		bd_num = hns3_skb_bd_num(frag_skb, bd_size, bd_num);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (bd_num > HNS3_MAX_TSO_BD_NUM)
 			return bd_num;
 	}
@@ -1361,6 +1439,46 @@ void hns3_shinfo_pack(struct skb_shared_info *shinfo, __u32 *size)
 		size[i] = skb_frag_size(&shinfo->frags[i]);
 }
 
+<<<<<<< HEAD
+static int hns3_skb_linearize(struct hns3_enet_ring *ring,
+			      struct sk_buff *skb,
+			      u8 max_non_tso_bd_num,
+			      unsigned int bd_num)
+{
+	/* 'bd_num == UINT_MAX' means the skb' fraglist has a
+	 * recursion level of over HNS3_MAX_RECURSION_LEVEL.
+	 */
+	if (bd_num == UINT_MAX) {
+		u64_stats_update_begin(&ring->syncp);
+		ring->stats.over_max_recursion++;
+		u64_stats_update_end(&ring->syncp);
+		return -ENOMEM;
+	}
+
+	/* The skb->len has exceeded the hw limitation, linearization
+	 * will not help.
+	 */
+	if (skb->len > HNS3_MAX_TSO_SIZE ||
+	    (!skb_is_gso(skb) && skb->len >
+	     HNS3_MAX_NON_TSO_SIZE(max_non_tso_bd_num))) {
+		u64_stats_update_begin(&ring->syncp);
+		ring->stats.hw_limitation++;
+		u64_stats_update_end(&ring->syncp);
+		return -ENOMEM;
+	}
+
+	if (__skb_linearize(skb)) {
+		u64_stats_update_begin(&ring->syncp);
+		ring->stats.sw_err_cnt++;
+		u64_stats_update_end(&ring->syncp);
+		return -ENOMEM;
+	}
+
+	return 0;
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hns3_nic_maybe_stop_tx(struct hns3_enet_ring *ring,
 				  struct net_device *netdev,
 				  struct sk_buff *skb)
@@ -1370,7 +1488,11 @@ static int hns3_nic_maybe_stop_tx(struct hns3_enet_ring *ring,
 	unsigned int bd_size[HNS3_MAX_TSO_BD_NUM + 1U];
 	unsigned int bd_num;
 
+<<<<<<< HEAD
+	bd_num = hns3_tx_bd_num(skb, bd_size, max_non_tso_bd_num, 0, 0);
+=======
 	bd_num = hns3_tx_bd_num(skb, bd_size, max_non_tso_bd_num);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(bd_num > max_non_tso_bd_num)) {
 		if (bd_num <= HNS3_MAX_TSO_BD_NUM && skb_is_gso(skb) &&
 		    !hns3_skb_need_linearized(skb, bd_size, bd_num,
@@ -1379,6 +1501,13 @@ static int hns3_nic_maybe_stop_tx(struct hns3_enet_ring *ring,
 			goto out;
 		}
 
+<<<<<<< HEAD
+		if (hns3_skb_linearize(ring, skb, max_non_tso_bd_num,
+				       bd_num))
+			return -ENOMEM;
+
+		bd_num = hns3_tx_bd_count(skb->len);
+=======
 		if (__skb_linearize(skb))
 			return -ENOMEM;
 
@@ -1389,6 +1518,7 @@ static int hns3_nic_maybe_stop_tx(struct hns3_enet_ring *ring,
 			trace_hns3_over_max_bd(skb);
 			return -ENOMEM;
 		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		u64_stats_update_begin(&ring->syncp);
 		ring->stats.tx_copy++;
@@ -1412,6 +1542,13 @@ out:
 		return bd_num;
 	}
 
+<<<<<<< HEAD
+	u64_stats_update_begin(&ring->syncp);
+	ring->stats.tx_busy++;
+	u64_stats_update_end(&ring->syncp);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return -EBUSY;
 }
 
@@ -1459,6 +1596,10 @@ static int hns3_fill_skb_to_desc(struct hns3_enet_ring *ring,
 				 struct sk_buff *skb, enum hns_desc_type type)
 {
 	unsigned int size = skb_headlen(skb);
+<<<<<<< HEAD
+	struct sk_buff *frag_skb;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, ret, bd_num = 0;
 
 	if (size) {
@@ -1483,6 +1624,18 @@ static int hns3_fill_skb_to_desc(struct hns3_enet_ring *ring,
 		bd_num += ret;
 	}
 
+<<<<<<< HEAD
+	skb_walk_frags(skb, frag_skb) {
+		ret = hns3_fill_skb_to_desc(ring, frag_skb,
+					    DESC_TYPE_FRAGLIST_SKB);
+		if (unlikely(ret < 0))
+			return ret;
+
+		bd_num += ret;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return bd_num;
 }
 
@@ -1513,8 +1666,11 @@ netdev_tx_t hns3_nic_net_xmit(struct sk_buff *skb, struct net_device *netdev)
 	struct hns3_enet_ring *ring = &priv->ring[skb->queue_mapping];
 	struct netdev_queue *dev_queue;
 	int pre_ntu, next_to_use_head;
+<<<<<<< HEAD
+=======
 	struct sk_buff *frag_skb;
 	int bd_num = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool doorbell;
 	int ret;
 
@@ -1530,6 +1686,10 @@ netdev_tx_t hns3_nic_net_xmit(struct sk_buff *skb, struct net_device *netdev)
 	ret = hns3_nic_maybe_stop_tx(ring, netdev, skb);
 	if (unlikely(ret <= 0)) {
 		if (ret == -EBUSY) {
+<<<<<<< HEAD
+			hns3_tx_doorbell(ring, 0, true);
+			return NETDEV_TX_BUSY;
+=======
 			u64_stats_update_begin(&ring->syncp);
 			ring->stats.tx_busy++;
 			u64_stats_update_end(&ring->syncp);
@@ -1539,6 +1699,7 @@ netdev_tx_t hns3_nic_net_xmit(struct sk_buff *skb, struct net_device *netdev)
 			u64_stats_update_begin(&ring->syncp);
 			ring->stats.sw_err_cnt++;
 			u64_stats_update_end(&ring->syncp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		hns3_rl_err(netdev, "xmit error: %d!\n", ret);
@@ -1551,6 +1712,16 @@ netdev_tx_t hns3_nic_net_xmit(struct sk_buff *skb, struct net_device *netdev)
 	if (unlikely(ret < 0))
 		goto fill_err;
 
+<<<<<<< HEAD
+	/* 'ret < 0' means filling error, 'ret == 0' means skb->len is
+	 * zero, which is unlikely, and 'ret > 0' means how many tx desc
+	 * need to be notified to the hw.
+	 */
+	ret = hns3_fill_skb_to_desc(ring, skb, DESC_TYPE_SKB);
+	if (unlikely(ret <= 0))
+		goto fill_err;
+
+=======
 	ret = hns3_fill_skb_to_desc(ring, skb, DESC_TYPE_SKB);
 	if (unlikely(ret < 0))
 		goto fill_err;
@@ -1566,6 +1737,7 @@ netdev_tx_t hns3_nic_net_xmit(struct sk_buff *skb, struct net_device *netdev)
 		bd_num += ret;
 	}
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pre_ntu = ring->next_to_use ? (ring->next_to_use - 1) :
 					(ring->desc_num - 1);
 	ring->desc[pre_ntu].tx.bdtp_fe_sc_vld_ra_ri |=
@@ -1576,7 +1748,11 @@ netdev_tx_t hns3_nic_net_xmit(struct sk_buff *skb, struct net_device *netdev)
 	dev_queue = netdev_get_tx_queue(netdev, ring->queue_index);
 	doorbell = __netdev_tx_sent_queue(dev_queue, skb->len,
 					  netdev_xmit_more());
+<<<<<<< HEAD
+	hns3_tx_doorbell(ring, ret, doorbell);
+=======
 	hns3_tx_doorbell(ring, bd_num, doorbell);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return NETDEV_TX_OK;
 
@@ -1748,11 +1924,21 @@ static void hns3_nic_get_stats64(struct net_device *netdev,
 			tx_drop += ring->stats.tx_l4_proto_err;
 			tx_drop += ring->stats.tx_l2l3l4_err;
 			tx_drop += ring->stats.tx_tso_err;
+<<<<<<< HEAD
+			tx_drop += ring->stats.over_max_recursion;
+			tx_drop += ring->stats.hw_limitation;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tx_errors += ring->stats.sw_err_cnt;
 			tx_errors += ring->stats.tx_vlan_err;
 			tx_errors += ring->stats.tx_l4_proto_err;
 			tx_errors += ring->stats.tx_l2l3l4_err;
 			tx_errors += ring->stats.tx_tso_err;
+<<<<<<< HEAD
+			tx_errors += ring->stats.over_max_recursion;
+			tx_errors += ring->stats.hw_limitation;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} while (u64_stats_fetch_retry_irq(&ring->syncp, start));
 
 		/* fetch the rx stats */
@@ -2329,7 +2515,11 @@ static pci_ers_result_t hns3_error_detected(struct pci_dev *pdev,
 	struct hnae3_ae_dev *ae_dev = pci_get_drvdata(pdev);
 	pci_ers_result_t ret;
 
+<<<<<<< HEAD
 	dev_info(&pdev->dev, "PCI error detected, state(=%u)!!\n", state);
+=======
+	dev_info(&pdev->dev, "PCI error detected, state(=%d)!!\n", state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (state == pci_channel_io_perm_failure)
 		return PCI_ERS_RESULT_DISCONNECT;
@@ -2800,6 +2990,15 @@ static void hns3_nic_alloc_rx_buffers(struct hns3_enet_ring *ring,
 	writel(i, ring->tqp->io_base + HNS3_RING_RX_RING_HEAD_REG);
 }
 
+<<<<<<< HEAD
+=======
+static bool hns3_page_is_reusable(struct page *page)
+{
+	return page_to_nid(page) == numa_mem_id() &&
+		!page_is_pfmemalloc(page);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool hns3_can_reuse_page(struct hns3_desc_cb *cb)
 {
 	return (page_count(cb->priv) - cb->pagecnt_bias) == 1;
@@ -2817,11 +3016,18 @@ static void hns3_nic_reuse_page(struct sk_buff *skb, int i,
 	skb_add_rx_frag(skb, i, desc_cb->priv, desc_cb->page_offset + pull_len,
 			size - pull_len, truesize);
 
+<<<<<<< HEAD
 	/* Avoid re-using remote and pfmemalloc pages, or the stack is still
 	 * using the page when page_offset rollback to zero, flag default
 	 * unreuse
 	 */
 	if (!dev_page_is_reusable(desc_cb->priv) ||
+=======
+	/* Avoid re-using remote pages, or the stack is still using the page
+	 * when page_offset rollback to zero, flag default unreuse
+	 */
+	if (unlikely(!hns3_page_is_reusable(desc_cb->priv)) ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    (!desc_cb->page_offset && !hns3_can_reuse_page(desc_cb))) {
 		__page_frag_cache_drain(desc_cb->priv, desc_cb->pagecnt_bias);
 		return;
@@ -3078,8 +3284,13 @@ static int hns3_alloc_skb(struct hns3_enet_ring *ring, unsigned int length,
 	if (length <= HNS3_RX_HEAD_SIZE) {
 		memcpy(__skb_put(skb, length), va, ALIGN(length, sizeof(long)));
 
+<<<<<<< HEAD
 		/* We can reuse buffer as-is, just make sure it is reusable */
 		if (dev_page_is_reusable(desc_cb->priv))
+=======
+		/* We can reuse buffer as-is, just make sure it is local */
+		if (likely(hns3_page_is_reusable(desc_cb->priv)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			desc_cb->reuse_flag = 1;
 		else /* This page cannot be reused so discard it */
 			__page_frag_cache_drain(desc_cb->priv,
@@ -3704,7 +3915,10 @@ static void hns3_nic_set_cpumask(struct hns3_nic_priv *priv)
 
 static int hns3_nic_init_vector_data(struct hns3_nic_priv *priv)
 {
+<<<<<<< HEAD
+=======
 	struct hnae3_ring_chain_node vector_ring_chain;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct hnae3_handle *h = priv->ae_handle;
 	struct hns3_enet_tqp_vector *tqp_vector;
 	int ret;
@@ -3736,6 +3950,11 @@ static int hns3_nic_init_vector_data(struct hns3_nic_priv *priv)
 	}
 
 	for (i = 0; i < priv->vector_num; i++) {
+<<<<<<< HEAD
+		struct hnae3_ring_chain_node vector_ring_chain;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tqp_vector = &priv->tqp_vector[i];
 
 		tqp_vector->rx_group.total_bytes = 0;
@@ -3770,6 +3989,37 @@ map_ring_fail:
 	return ret;
 }
 
+<<<<<<< HEAD
+static void hns3_nic_init_coal_cfg(struct hns3_nic_priv *priv)
+{
+	struct hnae3_ae_dev *ae_dev = pci_get_drvdata(priv->ae_handle->pdev);
+	struct hns3_enet_coalesce *tx_coal = &priv->tx_coal;
+	struct hns3_enet_coalesce *rx_coal = &priv->rx_coal;
+
+	/* initialize the configuration for interrupt coalescing.
+	 * 1. GL (Interrupt Gap Limiter)
+	 * 2. RL (Interrupt Rate Limiter)
+	 * 3. QL (Interrupt Quantity Limiter)
+	 *
+	 * Default: enable interrupt coalescing self-adaptive and GL
+	 */
+	tx_coal->adapt_enable = 1;
+	rx_coal->adapt_enable = 1;
+
+	tx_coal->int_gl = HNS3_INT_GL_50K;
+	rx_coal->int_gl = HNS3_INT_GL_50K;
+
+	rx_coal->flow_level = HNS3_FLOW_LOW;
+	tx_coal->flow_level = HNS3_FLOW_LOW;
+
+	if (ae_dev->dev_specs.int_ql_max) {
+		tx_coal->int_ql = HNS3_INT_QL_DEFAULT_CFG;
+		rx_coal->int_ql = HNS3_INT_QL_DEFAULT_CFG;
+	}
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hns3_nic_alloc_vector_data(struct hns3_nic_priv *priv)
 {
 	struct hnae3_handle *h = priv->ae_handle;
@@ -4084,7 +4334,11 @@ out_when_alloc_ring_memory:
 	return -ENOMEM;
 }
 
+<<<<<<< HEAD
 static void hns3_uninit_all_ring(struct hns3_nic_priv *priv)
+=======
+int hns3_uninit_all_ring(struct hns3_nic_priv *priv)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct hnae3_handle *h = priv->ae_handle;
 	int i;
@@ -4093,6 +4347,10 @@ static void hns3_uninit_all_ring(struct hns3_nic_priv *priv)
 		hns3_fini_ring(&priv->ring[i]);
 		hns3_fini_ring(&priv->ring[i + h->kinfo.num_tqps]);
 	}
+<<<<<<< HEAD
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Set mac addr if it is configured. or leave it to the AE driver */
@@ -4230,6 +4488,11 @@ static int hns3_client_init(struct hnae3_handle *handle)
 		goto out_get_ring_cfg;
 	}
 
+<<<<<<< HEAD
+	hns3_nic_init_coal_cfg(priv);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = hns3_nic_alloc_vector_data(priv);
 	if (ret) {
 		ret = -ENOMEM;
@@ -4252,12 +4515,15 @@ static int hns3_client_init(struct hnae3_handle *handle)
 	if (ret)
 		goto out_init_phy;
 
+<<<<<<< HEAD
+=======
 	ret = register_netdev(netdev);
 	if (ret) {
 		dev_err(priv->dev, "probe register netdev fail!\n");
 		goto out_reg_netdev_fail;
 	}
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* the device can work without cpu rmap, only aRFS needs it */
 	ret = hns3_set_rx_cpu_rmap(netdev);
 	if (ret)
@@ -4280,7 +4546,12 @@ static int hns3_client_init(struct hnae3_handle *handle)
 
 	hns3_dbg_init(handle);
 
+<<<<<<< HEAD
 	netdev->max_mtu = HNS3_MAX_MTU(ae_dev->dev_specs.max_frm_size);
+=======
+	/* MTU range: (ETH_MIN_MTU(kernel default) - 9702) */
+	netdev->max_mtu = HNS3_MAX_MTU;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (test_bit(HNAE3_DEV_SUPPORT_HW_TX_CSUM_B, ae_dev->caps))
 		set_bit(HNS3_NIC_STATE_HW_TX_CSUM_ENABLE, &priv->state);
@@ -4290,17 +4561,34 @@ static int hns3_client_init(struct hnae3_handle *handle)
 	if (ae_dev->dev_version >= HNAE3_DEVICE_VERSION_V3)
 		set_bit(HNAE3_PFLAG_LIMIT_PROMISC, &handle->supported_pflags);
 
+<<<<<<< HEAD
+	ret = register_netdev(netdev);
+	if (ret) {
+		dev_err(priv->dev, "probe register netdev fail!\n");
+		goto out_reg_netdev_fail;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (netif_msg_drv(handle))
 		hns3_info_show(priv);
 
 	return ret;
 
+<<<<<<< HEAD
+out_reg_netdev_fail:
+	hns3_dbg_uninit(handle);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_client_start:
 	hns3_free_rx_cpu_rmap(netdev);
 	hns3_nic_uninit_irq(priv);
 out_init_irq_fail:
+<<<<<<< HEAD
+=======
 	unregister_netdev(netdev);
 out_reg_netdev_fail:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hns3_uninit_phy(netdev);
 out_init_phy:
 	hns3_uninit_all_ring(priv);
@@ -4320,6 +4608,10 @@ static void hns3_client_uninit(struct hnae3_handle *handle, bool reset)
 {
 	struct net_device *netdev = handle->kinfo.netdev;
 	struct hns3_nic_priv *priv = netdev_priv(netdev);
+<<<<<<< HEAD
+=======
+	int ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (netdev->reg_state != NETREG_UNINITIALIZED)
 		unregister_netdev(netdev);
@@ -4345,7 +4637,13 @@ static void hns3_client_uninit(struct hnae3_handle *handle, bool reset)
 
 	hns3_nic_dealloc_vector_data(priv);
 
+<<<<<<< HEAD
 	hns3_uninit_all_ring(priv);
+=======
+	ret = hns3_uninit_all_ring(priv);
+	if (ret)
+		netdev_err(netdev, "uninit ring error\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hns3_put_ring_config(priv);
 
@@ -4374,6 +4672,23 @@ static void hns3_link_status_change(struct hnae3_handle *handle, bool linkup)
 	}
 }
 
+<<<<<<< HEAD
+=======
+static int hns3_client_setup_tc(struct hnae3_handle *handle, u8 tc)
+{
+	struct hnae3_knic_private_info *kinfo = &handle->kinfo;
+	struct net_device *ndev = kinfo->netdev;
+
+	if (tc > HNAE3_MAX_TC)
+		return -EINVAL;
+
+	if (!ndev)
+		return -ENODEV;
+
+	return hns3_nic_set_real_num_queue(ndev);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void hns3_clear_tx_ring(struct hns3_enet_ring *ring)
 {
 	while (ring->next_to_clean != ring->next_to_use) {
@@ -4508,6 +4823,8 @@ int hns3_nic_reset_all_ring(struct hnae3_handle *h)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
 static void hns3_store_coal(struct hns3_nic_priv *priv)
 {
 	/* ethtool only support setting and querying one coal
@@ -4533,6 +4850,7 @@ static void hns3_restore_coal(struct hns3_nic_priv *priv)
 	}
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hns3_reset_notify_down_enet(struct hnae3_handle *handle)
 {
 	struct hnae3_knic_private_info *kinfo = &handle->kinfo;
@@ -4554,6 +4872,14 @@ static int hns3_reset_notify_up_enet(struct hnae3_handle *handle)
 	struct hns3_nic_priv *priv = netdev_priv(kinfo->netdev);
 	int ret = 0;
 
+<<<<<<< HEAD
+	if (!test_bit(HNS3_NIC_STATE_INITED, &priv->state)) {
+		netdev_err(kinfo->netdev, "device is not initialized yet\n");
+		return -EFAULT;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clear_bit(HNS3_NIC_STATE_RESETTING, &priv->state);
 
 	if (netif_running(kinfo->netdev)) {
@@ -4586,8 +4912,11 @@ static int hns3_reset_notify_init_enet(struct hnae3_handle *handle)
 	if (ret)
 		goto err_put_ring;
 
+<<<<<<< HEAD
+=======
 	hns3_restore_coal(priv);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = hns3_nic_init_vector_data(priv);
 	if (ret)
 		goto err_dealloc_vector;
@@ -4640,6 +4969,10 @@ static int hns3_reset_notify_uninit_enet(struct hnae3_handle *handle)
 {
 	struct net_device *netdev = handle->kinfo.netdev;
 	struct hns3_nic_priv *priv = netdev_priv(netdev);
+<<<<<<< HEAD
+=======
+	int ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!test_and_clear_bit(HNS3_NIC_STATE_INITED, &priv->state)) {
 		netdev_warn(netdev, "already uninitialized\n");
@@ -4653,8 +4986,7 @@ static int hns3_reset_notify_uninit_enet(struct hnae3_handle *handle)
 
 	hns3_nic_uninit_vector_data(priv);
 
-	hns3_store_coal(priv);
-
+<<<<<<< HEAD
 	hns3_nic_dealloc_vector_data(priv);
 
 	hns3_uninit_all_ring(priv);
@@ -4662,6 +4994,19 @@ static int hns3_reset_notify_uninit_enet(struct hnae3_handle *handle)
 	hns3_put_ring_config(priv);
 
 	return 0;
+=======
+	hns3_store_coal(priv);
+
+	hns3_nic_dealloc_vector_data(priv);
+
+	ret = hns3_uninit_all_ring(priv);
+	if (ret)
+		netdev_err(netdev, "uninit ring error\n");
+
+	hns3_put_ring_config(priv);
+
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int hns3_reset_notify(struct hnae3_handle *handle,
@@ -4807,6 +5152,10 @@ static const struct hnae3_client_ops client_ops = {
 	.init_instance = hns3_client_init,
 	.uninit_instance = hns3_client_uninit,
 	.link_status_change = hns3_link_status_change,
+<<<<<<< HEAD
+=======
+	.setup_tc = hns3_client_setup_tc,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.reset_notify = hns3_reset_notify,
 	.process_hw_error = hns3_process_hw_error,
 };

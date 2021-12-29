@@ -262,8 +262,11 @@ extern void d_tmpfile(struct dentry *, struct inode *);
 extern struct dentry *d_find_alias(struct inode *);
 extern void d_prune_aliases(struct inode *);
 
+<<<<<<< HEAD
 extern struct dentry *d_find_alias_rcu(struct inode *);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* test whether we have any submounts in a subdir tree */
 extern int path_has_submounts(const struct path *);
 

@@ -10,7 +10,10 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <time.h>
+<<<<<<< HEAD
 #include "linux/kernel.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "test_util.h"
 
@@ -85,7 +88,11 @@ struct timespec timespec_sub(struct timespec ts1, struct timespec ts2)
 	return timespec_add_ns((struct timespec){0}, ns1 - ns2);
 }
 
+<<<<<<< HEAD
 struct timespec timespec_elapsed(struct timespec start)
+=======
+struct timespec timespec_diff_now(struct timespec start)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct timespec end;
 
@@ -110,6 +117,7 @@ void print_skip(const char *fmt, ...)
 	va_end(ap);
 	puts(", skipping test");
 }
+<<<<<<< HEAD
 
 const struct vm_mem_backing_src_alias backing_src_aliases[] = {
 	{"anonymous", VM_MEM_SRC_ANONYMOUS,},
@@ -138,3 +146,5 @@ enum vm_mem_backing_src_type parse_backing_src_type(const char *type_name)
 	TEST_FAIL("Unknown backing src type: %s", type_name);
 	return -1;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

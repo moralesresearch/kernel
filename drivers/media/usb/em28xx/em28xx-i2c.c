@@ -294,10 +294,13 @@ static int em28xx_i2c_recv_bytes(struct em28xx *dev, u16 addr, u8 *buf, u16 len)
 			 "reading from i2c device at 0x%x failed (error=%i)\n",
 			 addr, ret);
 		return ret;
+<<<<<<< HEAD
 	} else if (ret != len) {
 		dev_dbg(&dev->intf->dev,
 			"%i bytes read from i2c device at 0x%x requested, but %i bytes written\n",
 				ret, addr, len);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	/*
 	 * NOTE: some devices with two i2c buses have the bad habit to return 0
@@ -333,7 +336,11 @@ static int em28xx_i2c_recv_bytes(struct em28xx *dev, u16 addr, u8 *buf, u16 len)
 	}
 
 	dev_warn(&dev->intf->dev,
+<<<<<<< HEAD
 		 "read from i2c device at 0x%x failed with unknown error (status=%i)\n",
+=======
+		 "write to i2c device at 0x%x failed with unknown error (status=%i)\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 addr, ret);
 	return -EIO;
 }

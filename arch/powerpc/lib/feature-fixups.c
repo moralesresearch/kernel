@@ -14,6 +14,10 @@
 #include <linux/string.h>
 #include <linux/init.h>
 #include <linux/sched/mm.h>
+<<<<<<< HEAD
+#include <linux/stop_machine.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/cputable.h>
 #include <asm/code-patching.h>
 #include <asm/page.h>
@@ -227,11 +231,33 @@ static void do_stf_exit_barrier_fixups(enum stf_barrier_type types)
 		                                           : "unknown");
 }
 
+<<<<<<< HEAD
+static int __do_stf_barrier_fixups(void *data)
+{
+	enum stf_barrier_type *types = data;
+
+	do_stf_entry_barrier_fixups(*types);
+	do_stf_exit_barrier_fixups(*types);
+
+	return 0;
+}
+
+void do_stf_barrier_fixups(enum stf_barrier_type types)
+{
+	/*
+	 * The call to the fallback entry flush, and the fallback/sync-ori exit
+	 * flush can not be safely patched in/out while other CPUs are executing
+	 * them. So call __do_stf_barrier_fixups() on one CPU while all other CPUs
+	 * spin in the stop machine core with interrupts hard disabled.
+	 */
+	stop_machine(__do_stf_barrier_fixups, &types, NULL);
+=======
 
 void do_stf_barrier_fixups(enum stf_barrier_type types)
 {
 	do_stf_entry_barrier_fixups(types);
 	do_stf_exit_barrier_fixups(types);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void do_uaccess_flush_fixups(enum l1d_flush_type types)
@@ -284,8 +310,14 @@ void do_uaccess_flush_fixups(enum l1d_flush_type types)
 						: "unknown");
 }
 
+<<<<<<< HEAD
+static int __do_entry_flush_fixups(void *data)
+{
+	enum l1d_flush_type types = *(enum l1d_flush_type *)data;
+=======
 void do_entry_flush_fixups(enum l1d_flush_type types)
 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int instrs[3], *dest;
 	long *start, *end;
 	int i;
@@ -354,6 +386,22 @@ void do_entry_flush_fixups(enum l1d_flush_type types)
 							: "ori type" :
 		(types &  L1D_FLUSH_MTTRIG)     ? "mttrig type"
 						: "unknown");
+<<<<<<< HEAD
+
+	return 0;
+}
+
+void do_entry_flush_fixups(enum l1d_flush_type types)
+{
+	/*
+	 * The call to the fallback flush can not be safely patched in/out while
+	 * other CPUs are executing it. So call __do_entry_flush_fixups() on one
+	 * CPU while all other CPUs spin in the stop machine core with interrupts
+	 * hard disabled.
+	 */
+	stop_machine(__do_entry_flush_fixups, &types, NULL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void do_rfi_flush_fixups(enum l1d_flush_type types)

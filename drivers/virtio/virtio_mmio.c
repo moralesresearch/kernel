@@ -126,7 +126,11 @@ static int vm_finalize_features(struct virtio_device *vdev)
 	/* Give virtio_ring a chance to accept features. */
 	vring_transport_features(vdev);
 
+<<<<<<< HEAD
 	/* Make sure there are no mixed devices */
+=======
+	/* Make sure there is are no mixed devices */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (vm_dev->version == 2 &&
 			!__virtio_test_bit(vdev, VIRTIO_F_VERSION_1)) {
 		dev_err(&vdev->dev, "New virtio-mmio devices (version 2) must provide VIRTIO_F_VERSION_1 feature!\n");
@@ -548,7 +552,12 @@ static void virtio_mmio_release_dev(struct device *_d)
 {
 	struct virtio_device *vdev =
 			container_of(_d, struct virtio_device, dev);
+<<<<<<< HEAD
 	struct virtio_mmio_device *vm_dev = to_virtio_mmio_device(vdev);
+=======
+	struct virtio_mmio_device *vm_dev =
+			container_of(vdev, struct virtio_mmio_device, vdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct platform_device *pdev = vm_dev->pdev;
 
 	devm_kfree(&pdev->dev, vm_dev);

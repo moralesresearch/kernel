@@ -5,7 +5,11 @@
 
 menuconfig BT
 	tristate "Bluetooth subsystem support"
+<<<<<<< HEAD
 	depends on !S390
+=======
+	depends on NET && !S390
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on RFKILL || !RFKILL
 	select CRC16
 	select CRYPTO

@@ -64,6 +64,7 @@ int64_t timespec_to_ns(struct timespec ts);
 struct timespec timespec_add_ns(struct timespec ts, int64_t ns);
 struct timespec timespec_add(struct timespec ts1, struct timespec ts2);
 struct timespec timespec_sub(struct timespec ts1, struct timespec ts2);
+<<<<<<< HEAD
 struct timespec timespec_elapsed(struct timespec start);
 struct timespec timespec_div(struct timespec ts, int divisor);
 
@@ -81,4 +82,9 @@ struct vm_mem_backing_src_alias {
 void backing_src_help(void);
 enum vm_mem_backing_src_type parse_backing_src_type(const char *type_name);
 
+=======
+struct timespec timespec_diff_now(struct timespec start);
+struct timespec timespec_div(struct timespec ts, int divisor);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* SELFTEST_KVM_TEST_UTIL_H */

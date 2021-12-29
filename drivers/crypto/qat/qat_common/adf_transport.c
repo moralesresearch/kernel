@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: (BSD-3-Clause OR GPL-2.0-only)
 /* Copyright(c) 2014 - 2020 Intel Corporation */
 #include <linux/delay.h>
+<<<<<<< HEAD
 #include <linux/nospec.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "adf_accel_devices.h"
 #include "adf_transport_internal.h"
 #include "adf_transport_access_macros.h"
@@ -172,6 +175,10 @@ static int adf_init_ring(struct adf_etr_ring_data *ring)
 		dev_err(&GET_DEV(accel_dev), "Ring address not aligned\n");
 		dma_free_coherent(&GET_DEV(accel_dev), ring_size_bytes,
 				  ring->base_addr, ring->dma_addr);
+<<<<<<< HEAD
+		ring->base_addr = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EFAULT;
 	}
 
@@ -247,7 +254,10 @@ int adf_create_ring(struct adf_accel_dev *accel_dev, const char *section,
 		return -EFAULT;
 	}
 
+<<<<<<< HEAD
 	ring_num = array_index_nospec(ring_num, num_rings_per_bank);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bank = &transport_data->banks[bank_num];
 	if (adf_reserve_ring(bank, ring_num)) {
 		dev_err(&GET_DEV(accel_dev), "Ring %d, %s already exists.\n",

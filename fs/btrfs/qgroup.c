@@ -3579,7 +3579,11 @@ static int try_flush_qgroup(struct btrfs_root *root)
 		return 0;
 	}
 
+<<<<<<< HEAD
+	ret = btrfs_start_delalloc_snapshot(root, true);
+=======
 	ret = btrfs_start_delalloc_snapshot(root);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		goto out;
 	btrfs_wait_ordered_extents(root, U64_MAX, 0, (u64)-1);

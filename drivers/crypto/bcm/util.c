@@ -268,7 +268,14 @@ do_shash_err:
 	return rc;
 }
 
+<<<<<<< HEAD
 #ifdef DEBUG
+=======
+<<<<<<< HEAD
+#ifdef DEBUG
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Dump len bytes of a scatterlist starting at skip bytes into the sg */
 void __dump_sg(struct scatterlist *sg, unsigned int skip, unsigned int len)
 {
@@ -290,7 +297,14 @@ void __dump_sg(struct scatterlist *sg, unsigned int skip, unsigned int len)
 	if (debug_logging_sleep)
 		msleep(debug_logging_sleep);
 }
+<<<<<<< HEAD
 #endif
+=======
+<<<<<<< HEAD
+#endif
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Returns the name for a given cipher alg/mode */
 char *spu_alg_name(enum spu_cipher_alg alg, enum spu_cipher_mode mode)

@@ -28,6 +28,7 @@
 extern void vangogh_set_ppt_funcs(struct smu_context *smu);
 
 /* UMD PState Vangogh Msg Parameters in MHz */
+<<<<<<< HEAD
 #define VANGOGH_UMD_PSTATE_STANDARD_GFXCLK       1100
 #define VANGOGH_UMD_PSTATE_STANDARD_SOCCLK       600
 #define VANGOGH_UMD_PSTATE_STANDARD_FCLK         800
@@ -51,6 +52,11 @@ extern void vangogh_set_ppt_funcs(struct smu_context *smu);
 #define VANGOGH_UMD_PSTATE_MIN_MCLK_FCLK         400
 #define VANGOGH_UMD_PSTATE_MIN_MCLK_VCLK         1000
 #define VANGOGH_UMD_PSTATE_MIN_MCLK_DCLK         800
+=======
+#define VANGOGH_UMD_PSTATE_GFXCLK       700
+#define VANGOGH_UMD_PSTATE_SOCCLK       678
+#define VANGOGH_UMD_PSTATE_FCLK         800
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* RLC Power Status */
 #define RLC_STATUS_OFF          0

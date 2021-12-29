@@ -20,7 +20,10 @@
 #include <linux/percpu.h>
 #include <linux/lockref.h>
 #include <linux/rhashtable.h>
+<<<<<<< HEAD
 #include <linux/mutex.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DIO_WAIT	0x00000010
 #define DIO_METADATA	0x00000020
@@ -107,8 +110,12 @@ struct gfs2_rgrpd {
 	u32 rd_data;			/* num of data blocks in rgrp */
 	u32 rd_bitbytes;		/* number of bytes in data bitmaps */
 	u32 rd_free;
+<<<<<<< HEAD
 	u32 rd_requested;		/* number of blocks in rd_rstree */
 	u32 rd_reserved;		/* number of reserved blocks */
+=======
+	u32 rd_reserved;                /* number of blocks reserved */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 rd_free_clone;
 	u32 rd_dinodes;
 	u64 rd_igeneration;
@@ -124,10 +131,41 @@ struct gfs2_rgrpd {
 #define GFS2_RDF_PREFERRED	0x80000000 /* This rgrp is preferred */
 #define GFS2_RDF_MASK		0xf0000000 /* mask for internal flags */
 	spinlock_t rd_rsspin;           /* protects reservation related vars */
+<<<<<<< HEAD
 	struct mutex rd_mutex;
 	struct rb_root rd_rstree;       /* multi-block reservation tree */
 };
 
+=======
+	struct rb_root rd_rstree;       /* multi-block reservation tree */
+};
+
+struct gfs2_rbm {
+	struct gfs2_rgrpd *rgd;
+	u32 offset;		/* The offset is bitmap relative */
+	int bii;		/* Bitmap index */
+};
+
+static inline struct gfs2_bitmap *rbm_bi(const struct gfs2_rbm *rbm)
+{
+	return rbm->rgd->rd_bits + rbm->bii;
+}
+
+static inline u64 gfs2_rbm_to_block(const struct gfs2_rbm *rbm)
+{
+	BUG_ON(rbm->offset >= rbm->rgd->rd_data);
+	return rbm->rgd->rd_data0 + (rbm_bi(rbm)->bi_start * GFS2_NBBY) +
+		rbm->offset;
+}
+
+static inline bool gfs2_rbm_eq(const struct gfs2_rbm *rbm1,
+			       const struct gfs2_rbm *rbm2)
+{
+	return (rbm1->rgd == rbm2->rgd) && (rbm1->bii == rbm2->bii) &&
+	       (rbm1->offset == rbm2->offset);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum gfs2_state_bits {
 	BH_Pinned = BH_PrivateStart,
 	BH_Escaped = BH_PrivateStart + 1,
@@ -291,11 +329,17 @@ struct gfs2_qadata { /* quota allocation data */
 */
 
 struct gfs2_blkreserv {
+<<<<<<< HEAD
 	struct rb_node rs_node;       /* node within rd_rstree */
 	struct gfs2_rgrpd *rs_rgd;
 	u64 rs_start;
 	u32 rs_requested;
 	u32 rs_reserved;              /* number of reserved blocks */
+=======
+	struct rb_node rs_node;       /* link to other block reservations */
+	struct gfs2_rbm rs_rbm;       /* Start of reservation */
+	u32 rs_free;                  /* how many blocks are still free */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -470,7 +514,11 @@ struct gfs2_quota_data {
 enum {
 	TR_TOUCHED = 1,
 	TR_ATTACHED = 2,
+<<<<<<< HEAD
 	TR_ONSTACK = 3,
+=======
+	TR_ALLOCED = 3,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct gfs2_trans {
@@ -486,6 +534,10 @@ struct gfs2_trans {
 	unsigned int tr_num_buf_rm;
 	unsigned int tr_num_databuf_rm;
 	unsigned int tr_num_revoke;
+<<<<<<< HEAD
+=======
+	unsigned int tr_num_revoke_rm;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct list_head tr_list;
 	struct list_head tr_databuf;
@@ -510,7 +562,10 @@ struct gfs2_jdesc {
 	unsigned int nr_extents;
 	struct work_struct jd_work;
 	struct inode *jd_inode;
+<<<<<<< HEAD
 	struct bio *jd_log_bio;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long jd_flags;
 #define JDF_RECOVERY 1
 	unsigned int jd_jid;
@@ -565,7 +620,10 @@ struct gfs2_args {
 	unsigned int ar_errors:2;               /* errors=withdraw | panic */
 	unsigned int ar_nobarrier:1;            /* do not send barriers */
 	unsigned int ar_rgrplvb:1;		/* use lvbs for rgrp info */
+<<<<<<< HEAD
 	unsigned int ar_got_rgrplvb:1;		/* Was the rgrplvb opt given? */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int ar_loccookie:1;		/* use location based readdir
 						   cookies */
 	s32 ar_commit;				/* Commit interval */
@@ -802,6 +860,10 @@ struct gfs2_sbd {
 
 	struct gfs2_trans *sd_log_tr;
 	unsigned int sd_log_blks_reserved;
+<<<<<<< HEAD
+=======
+	int sd_log_committed_revoke;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	atomic_t sd_log_pinned;
 	unsigned int sd_log_num_revoke;
@@ -814,22 +876,40 @@ struct gfs2_sbd {
 	atomic_t sd_log_thresh2;
 	atomic_t sd_log_blks_free;
 	atomic_t sd_log_blks_needed;
+<<<<<<< HEAD
 	atomic_t sd_log_revokes_available;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wait_queue_head_t sd_log_waitq;
 	wait_queue_head_t sd_logd_waitq;
 
 	u64 sd_log_sequence;
+<<<<<<< HEAD
+=======
+	unsigned int sd_log_head;
+	unsigned int sd_log_tail;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int sd_log_idle;
 
 	struct rw_semaphore sd_log_flush_lock;
 	atomic_t sd_log_in_flight;
+<<<<<<< HEAD
+=======
+	struct bio *sd_log_bio;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wait_queue_head_t sd_log_flush_wait;
 	int sd_log_error; /* First log error */
 	wait_queue_head_t sd_withdraw_wait;
 
+<<<<<<< HEAD
 	unsigned int sd_log_tail;
 	unsigned int sd_log_flush_tail;
 	unsigned int sd_log_head;
+=======
+	atomic_t sd_reserving_log;
+	wait_queue_head_t sd_reserving_log_wait;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int sd_log_flush_head;
 
 	spinlock_t sd_ail_lock;

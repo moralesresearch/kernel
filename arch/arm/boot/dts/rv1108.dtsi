@@ -19,9 +19,12 @@
 		i2c1 = &i2c1;
 		i2c2 = &i2c2;
 		i2c3 = &i2c3;
+<<<<<<< HEAD
 		mmc0 = &emmc;
 		mmc1 = &sdio;
 		mmc2 = &sdmmc;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		serial0 = &uart0;
 		serial1 = &uart1;
 		serial2 = &uart2;
@@ -455,6 +458,7 @@
 		#reset-cells = <1>;
 	};
 
+<<<<<<< HEAD
 	nfc: nand-controller@30100000 {
 		compatible = "rockchip,rv1108-nfc";
 		reg = <0x30100000  0x1000>;
@@ -466,6 +470,8 @@
 		status = "disabled";
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	emmc: mmc@30110000 {
 		compatible = "rockchip,rv1108-dw-mshc", "rockchip,rk3288-dw-mshc";
 		reg = <0x30110000 0x4000>;

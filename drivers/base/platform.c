@@ -573,7 +573,11 @@ static void platform_device_release(struct device *dev)
 	struct platform_object *pa = container_of(dev, struct platform_object,
 						  pdev.dev);
 
+<<<<<<< HEAD
 	of_node_put(pa->pdev.dev.of_node);
+=======
+	of_device_node_put(&pa->pdev.dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(pa->pdev.dev.platform_data);
 	kfree(pa->pdev.mfd_cell);
 	kfree(pa->pdev.resource);
@@ -1463,6 +1467,7 @@ static int platform_remove(struct device *_dev)
 {
 	struct platform_driver *drv = to_platform_driver(_dev->driver);
 	struct platform_device *dev = to_platform_device(_dev);
+<<<<<<< HEAD
 
 	if (drv->remove) {
 		int ret = drv->remove(dev);
@@ -1473,6 +1478,15 @@ static int platform_remove(struct device *_dev)
 	dev_pm_domain_detach(_dev, true);
 
 	return 0;
+=======
+	int ret = 0;
+
+	if (drv->remove)
+		ret = drv->remove(dev);
+	dev_pm_domain_detach(_dev, true);
+
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void platform_shutdown(struct device *_dev)

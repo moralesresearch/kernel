@@ -198,11 +198,22 @@
 #include "gem/i915_gem_context.h"
 #include "gt/intel_engine_pm.h"
 #include "gt/intel_engine_user.h"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_execlists_submission.h"
 #include "gt/intel_gpu_commands.h"
 #include "gt/intel_gt.h"
 #include "gt/intel_gt_clock_utils.h"
 #include "gt/intel_lrc.h"
+<<<<<<< HEAD
+=======
+=======
+#include "gt/intel_gt.h"
+#include "gt/intel_lrc_reg.h"
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_ring.h"
 
 #include "i915_drv.h"
@@ -1635,8 +1646,17 @@ static int alloc_noa_wait(struct i915_perf_stream *stream)
 	struct drm_i915_gem_object *bo;
 	struct i915_vma *vma;
 	const u64 delay_ticks = 0xffffffffffffffff -
+<<<<<<< HEAD
 		intel_gt_ns_to_clock_interval(stream->perf->i915->ggtt.vm.gt,
 					      atomic64_read(&stream->perf->noa_programming_delay));
+=======
+<<<<<<< HEAD
+		intel_gt_ns_to_clock_interval(stream->perf->i915->ggtt.vm.gt,
+					      atomic64_read(&stream->perf->noa_programming_delay));
+=======
+		i915_cs_timestamp_ns_to_ticks(i915, atomic64_read(&stream->perf->noa_programming_delay));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const u32 base = stream->engine->mmio_base;
 #define CS_GPR(x) GEN8_RING_CS_GPR(base, x)
 	u32 *batch, *ts0, *cs, *jump;
@@ -3517,8 +3537,17 @@ err:
 
 static u64 oa_exponent_to_ns(struct i915_perf *perf, int exponent)
 {
+<<<<<<< HEAD
 	return intel_gt_clock_interval_to_ns(perf->i915->ggtt.vm.gt,
 					     2ULL << exponent);
+=======
+<<<<<<< HEAD
+	return intel_gt_clock_interval_to_ns(perf->i915->ggtt.vm.gt,
+					     2ULL << exponent);
+=======
+	return i915_cs_timestamp_ticks_to_ns(perf->i915, 2ULL << exponent);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -4372,11 +4401,25 @@ void i915_perf_init(struct drm_i915_private *i915)
 	if (perf->ops.enable_metric_set) {
 		mutex_init(&perf->lock);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Choose a representative limit */
 		oa_sample_rate_hard_limit = i915->gt.clock_frequency / 2;
 
 		mutex_init(&perf->metrics_lock);
 		idr_init_base(&perf->metrics_idr, 1);
+<<<<<<< HEAD
+=======
+=======
+		oa_sample_rate_hard_limit =
+			RUNTIME_INFO(i915)->cs_timestamp_frequency_hz / 2;
+
+		mutex_init(&perf->metrics_lock);
+		idr_init(&perf->metrics_idr);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* We set up some ratelimit state to potentially throttle any
 		 * _NOTES about spurious, invalid OA reports which we don't

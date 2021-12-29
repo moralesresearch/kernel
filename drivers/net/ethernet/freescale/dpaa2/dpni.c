@@ -1225,6 +1225,7 @@ int dpni_get_port_mac_addr(struct fsl_mc_io *mc_io,
 }
 
 /**
+<<<<<<< HEAD
  * dpni_enable_vlan_filter() - Enable/disable VLAN filtering mode
  * @mc_io:	Pointer to MC portal's I/O object
  * @cmd_flags:	Command flags; one or more of 'MC_CMD_FLAG_'
@@ -1318,6 +1319,8 @@ int dpni_remove_vlan_id(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * dpni_add_mac_addr() - Add MAC address filter
  * @mc_io:	Pointer to MC portal's I/O object
  * @cmd_flags:	Command flags; one or more of 'MC_CMD_FLAG_'

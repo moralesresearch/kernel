@@ -36,6 +36,7 @@
 #ifndef __GVT_RENDER_H__
 #define __GVT_RENDER_H__
 
+<<<<<<< HEAD
 #include <linux/types.h>
 
 #include "gt/intel_engine_types.h"
@@ -48,6 +49,8 @@ struct intel_engine_cs;
 struct intel_gvt;
 struct intel_vgpu;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct engine_mmio {
 	enum intel_engine_id id;
 	i915_reg_t reg;

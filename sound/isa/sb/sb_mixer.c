@@ -482,7 +482,11 @@ int snd_sbmixer_add_ctl(struct snd_sb *chip, const char *name, int index, int ty
 	ctl = snd_ctl_new1(&newctls[type], chip);
 	if (! ctl)
 		return -ENOMEM;
+<<<<<<< HEAD
 	strscpy(ctl->id.name, name, sizeof(ctl->id.name));
+=======
+	strlcpy(ctl->id.name, name, sizeof(ctl->id.name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctl->id.index = index;
 	ctl->private_value = value;
 	if ((err = snd_ctl_add(chip->card, ctl)) < 0)

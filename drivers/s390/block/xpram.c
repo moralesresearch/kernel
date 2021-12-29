@@ -184,7 +184,11 @@ static unsigned long xpram_highest_page_index(void)
  */
 static blk_qc_t xpram_submit_bio(struct bio *bio)
 {
+<<<<<<< HEAD
 	xpram_device_t *xdev = bio->bi_bdev->bd_disk->private_data;
+=======
+	xpram_device_t *xdev = bio->bi_disk->private_data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bio_vec bvec;
 	struct bvec_iter iter;
 	unsigned int index;

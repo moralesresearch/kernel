@@ -159,6 +159,10 @@
 #define IOREMAP_MAX_ORDER	(PMD_SHIFT)
 #endif
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  *  Open-coded (swapper_pg_dir - reserved_pg_dir) as this cannot be calculated
  *  until link time.
@@ -171,6 +175,11 @@
  */
 #define TRAMP_SWAPPER_OFFSET	(2 * PAGE_SIZE)
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef __ASSEMBLY__
 
 #include <linux/bitops.h>
@@ -244,7 +253,14 @@ static inline const void *__tag_set(const void *addr, u8 tag)
 
 #ifdef CONFIG_KASAN_HW_TAGS
 #define arch_enable_tagging()			mte_enable_kernel()
+<<<<<<< HEAD
 #define arch_set_tagging_report_once(state)	mte_set_report_once(state)
+=======
+<<<<<<< HEAD
+#define arch_set_tagging_report_once(state)	mte_set_report_once(state)
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define arch_init_tags(max_tag)			mte_init_tags(max_tag)
 #define arch_get_random_tag()			mte_get_random_tag()
 #define arch_get_mem_tag(addr)			mte_get_mem_tag(addr)

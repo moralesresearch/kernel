@@ -263,7 +263,11 @@ extern void arch_exit_mmap(struct mm_struct *mm);
 static inline void arch_unmap(struct mm_struct *mm,
 			      unsigned long start, unsigned long end)
 {
+<<<<<<< HEAD
+	unsigned long vdso_base = (unsigned long)mm->context.vdso;
+=======
 	unsigned long vdso_base = (unsigned long)mm->context.vdso - PAGE_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (start <= vdso_base && vdso_base < end)
 		mm->context.vdso = NULL;
@@ -282,6 +286,12 @@ static inline bool arch_vma_access_permitted(struct vm_area_struct *vma,
 }
 
 #define pkey_mm_init(mm)
+<<<<<<< HEAD
+=======
+#define thread_pkey_regs_save(thread)
+#define thread_pkey_regs_restore(new_thread, old_thread)
+#define thread_pkey_regs_init(thread)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define arch_dup_pkeys(oldmm, mm)
 
 static inline u64 pte_to_hpte_pkey_bits(u64 pteflags, unsigned long flags)

@@ -111,10 +111,15 @@ static struct page *page_chain_tail(struct page *page, int *len)
 {
 	struct page *tmp;
 	int i = 1;
+<<<<<<< HEAD
 	while ((tmp = page_chain_next(page))) {
 		++i;
 		page = tmp;
 	}
+=======
+	while ((tmp = page_chain_next(page)))
+		++i, page = tmp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (len)
 		*len = i;
 	return page;

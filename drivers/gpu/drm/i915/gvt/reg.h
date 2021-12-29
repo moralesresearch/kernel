@@ -133,6 +133,9 @@
 #define RING_GFX_MODE(base)	_MMIO((base) + 0x29c)
 #define VF_GUARDBAND		_MMIO(0x83a4)
 
+<<<<<<< HEAD
 
 #define BCS_TILE_REGISTER_VAL_OFFSET (0x43*4)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

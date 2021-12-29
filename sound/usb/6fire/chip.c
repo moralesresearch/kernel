@@ -26,6 +26,10 @@
 MODULE_AUTHOR("Torsten Schenk <torsten.schenk@zoho.com>");
 MODULE_DESCRIPTION("TerraTec DMX 6Fire USB audio driver");
 MODULE_LICENSE("GPL v2");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{TerraTec,DMX 6Fire USB}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX; /* Index 0-max */
 static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR; /* Id for card */

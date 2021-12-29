@@ -40,7 +40,15 @@ struct batch_vals {
 	u32 size;
 };
 
+<<<<<<< HEAD
 static int num_primitives(const struct batch_vals *bv)
+=======
+<<<<<<< HEAD
+static int num_primitives(const struct batch_vals *bv)
+=======
+static inline int num_primitives(const struct batch_vals *bv)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/*
 	 * We need to saturate the GPU with work in order to dispatch
@@ -397,7 +405,14 @@ static void emit_batch(struct i915_vma * const vma,
 	gen7_emit_pipeline_invalidate(&cmds);
 	batch_add(&cmds, MI_LOAD_REGISTER_IMM(2));
 	batch_add(&cmds, i915_mmio_reg_offset(CACHE_MODE_0_GEN7));
+<<<<<<< HEAD
+	batch_add(&cmds, 0xffff0000 |
+			((IS_IVB_GT1(i915) || IS_VALLEYVIEW(i915)) ?
+			 HIZ_RAW_STALL_OPT_DISABLE :
+			 0));
+=======
 	batch_add(&cmds, 0xffff0000);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	batch_add(&cmds, i915_mmio_reg_offset(CACHE_MODE_1));
 	batch_add(&cmds, 0xffff0000 | PIXEL_SUBSPAN_COLLECT_OPT_DISABLE);
 	gen7_emit_pipeline_invalidate(&cmds);

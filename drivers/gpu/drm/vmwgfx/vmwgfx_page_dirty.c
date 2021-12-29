@@ -232,7 +232,11 @@ void vmw_bo_dirty_unmap(struct vmw_buffer_object *vbo,
 int vmw_bo_dirty_add(struct vmw_buffer_object *vbo)
 {
 	struct vmw_bo_dirty *dirty = vbo->dirty;
+<<<<<<< HEAD
 	pgoff_t num_pages = vbo->base.mem.num_pages;
+=======
+	pgoff_t num_pages = vbo->base.num_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	size_t size, acc_size;
 	int ret;
 	static struct ttm_operation_ctx ctx = {
@@ -413,7 +417,11 @@ vm_fault_t vmw_bo_vm_mkwrite(struct vm_fault *vmf)
 		return ret;
 
 	page_offset = vmf->pgoff - drm_vma_node_start(&bo->base.vma_node);
+<<<<<<< HEAD
 	if (unlikely(page_offset >= bo->mem.num_pages)) {
+=======
+	if (unlikely(page_offset >= bo->num_pages)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = VM_FAULT_SIGBUS;
 		goto out_unlock;
 	}
@@ -456,7 +464,11 @@ vm_fault_t vmw_bo_vm_fault(struct vm_fault *vmf)
 
 		page_offset = vmf->pgoff -
 			drm_vma_node_start(&bo->base.vma_node);
+<<<<<<< HEAD
 		if (page_offset >= bo->mem.num_pages ||
+=======
+		if (page_offset >= bo->num_pages ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    vmw_resources_clean(vbo, page_offset,
 					page_offset + PAGE_SIZE,
 					&allowed_prefault)) {
@@ -500,6 +512,11 @@ vm_fault_t vmw_bo_vm_huge_fault(struct vm_fault *vmf,
 	vm_fault_t ret;
 	pgoff_t fault_page_size;
 	bool write = vmf->flags & FAULT_FLAG_WRITE;
+<<<<<<< HEAD
+=======
+	bool is_cow_mapping =
+		(vma->vm_flags & (VM_SHARED | VM_MAYWRITE)) == VM_MAYWRITE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (pe_size) {
 	case PE_SIZE_PMD:
@@ -516,7 +533,11 @@ vm_fault_t vmw_bo_vm_huge_fault(struct vm_fault *vmf,
 	}
 
 	/* Always do write dirty-tracking and COW on PTE level. */
+<<<<<<< HEAD
 	if (write && (READ_ONCE(vbo->dirty) || is_cow_mapping(vma->vm_flags)))
+=======
+	if (write && (READ_ONCE(vbo->dirty) || is_cow_mapping))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return VM_FAULT_FALLBACK;
 
 	ret = ttm_bo_vm_reserve(bo, vmf);
@@ -529,7 +550,11 @@ vm_fault_t vmw_bo_vm_huge_fault(struct vm_fault *vmf,
 
 		page_offset = vmf->pgoff -
 			drm_vma_node_start(&bo->base.vma_node);
+<<<<<<< HEAD
 		if (page_offset >= bo->mem.num_pages ||
+=======
+		if (page_offset >= bo->num_pages ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    vmw_resources_clean(vbo, page_offset,
 					page_offset + PAGE_SIZE,
 					&allowed_prefault)) {

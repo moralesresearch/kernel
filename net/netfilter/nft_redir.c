@@ -14,8 +14,13 @@
 #include <net/netfilter/nf_tables.h>
 
 struct nft_redir {
+<<<<<<< HEAD
 	u8			sreg_proto_min;
 	u8			sreg_proto_max;
+=======
+	enum nft_registers	sreg_proto_min:8;
+	enum nft_registers	sreg_proto_max:8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16			flags;
 };
 
@@ -50,15 +55,30 @@ static int nft_redir_init(const struct nft_ctx *ctx,
 
 	plen = sizeof_field(struct nf_nat_range, min_addr.all);
 	if (tb[NFTA_REDIR_REG_PROTO_MIN]) {
+<<<<<<< HEAD
 		err = nft_parse_register_load(tb[NFTA_REDIR_REG_PROTO_MIN],
 					      &priv->sreg_proto_min, plen);
+=======
+		priv->sreg_proto_min =
+			nft_parse_register(tb[NFTA_REDIR_REG_PROTO_MIN]);
+
+		err = nft_validate_register_load(priv->sreg_proto_min, plen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err < 0)
 			return err;
 
 		if (tb[NFTA_REDIR_REG_PROTO_MAX]) {
+<<<<<<< HEAD
 			err = nft_parse_register_load(tb[NFTA_REDIR_REG_PROTO_MAX],
 						      &priv->sreg_proto_max,
 						      plen);
+=======
+			priv->sreg_proto_max =
+				nft_parse_register(tb[NFTA_REDIR_REG_PROTO_MAX]);
+
+			err = nft_validate_register_load(priv->sreg_proto_max,
+							 plen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err < 0)
 				return err;
 		} else {

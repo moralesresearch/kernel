@@ -28,6 +28,20 @@
 #include <media/v4l2-fwnode.h>
 #include <media/v4l2-subdev.h>
 
+<<<<<<< HEAD
+=======
+enum v4l2_fwnode_bus_type {
+	V4L2_FWNODE_BUS_TYPE_GUESS = 0,
+	V4L2_FWNODE_BUS_TYPE_CSI2_CPHY,
+	V4L2_FWNODE_BUS_TYPE_CSI1,
+	V4L2_FWNODE_BUS_TYPE_CCP2,
+	V4L2_FWNODE_BUS_TYPE_CSI2_DPHY,
+	V4L2_FWNODE_BUS_TYPE_PARALLEL,
+	V4L2_FWNODE_BUS_TYPE_BT656,
+	NR_OF_V4L2_FWNODE_BUS_TYPE,
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct v4l2_fwnode_bus_conv {
 	enum v4l2_fwnode_bus_type fwnode_bus_type;
 	enum v4l2_mbus_type mbus_type;
@@ -822,7 +836,11 @@ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
 	if (ret < 0)
 		goto out_err;
 
+<<<<<<< HEAD
 	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
+=======
+	ret = v4l2_async_notifier_add_subdev(notifier, asd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0) {
 		/* not an error if asd already exists */
 		if (ret == -EEXIST)
@@ -944,7 +962,11 @@ static int v4l2_fwnode_reference_parse(struct device *dev,
 
 		asd = v4l2_async_notifier_add_fwnode_subdev(notifier,
 							    args.fwnode,
+<<<<<<< HEAD
 							    struct v4l2_async_subdev);
+=======
+							    sizeof(*asd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		fwnode_handle_put(args.fwnode);
 		if (IS_ERR(asd)) {
 			/* not an error if asd already exists */
@@ -1244,7 +1266,11 @@ v4l2_fwnode_reference_parse_int_props(struct device *dev,
 		struct v4l2_async_subdev *asd;
 
 		asd = v4l2_async_notifier_add_fwnode_subdev(notifier, fwnode,
+<<<<<<< HEAD
 							    struct v4l2_async_subdev);
+=======
+							    sizeof(*asd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		fwnode_handle_put(fwnode);
 		if (IS_ERR(asd)) {
 			ret = PTR_ERR(asd);

@@ -3346,9 +3346,15 @@ static struct snd_soc_dai_driver tscs454_dais[] = {
 			.rates = TSCS454_RATES,
 			.formats = TSCS454_FORMATS,},
 		.ops = &tscs454_dai1_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
 		.symmetric_channels = 1,
 		.symmetric_sample_bits = 1,
+=======
+		.symmetric_rates = 1,
+		.symmetric_channels = 1,
+		.symmetric_samplebits = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "tscs454-dai2",
@@ -3366,9 +3372,15 @@ static struct snd_soc_dai_driver tscs454_dais[] = {
 			.rates = TSCS454_RATES,
 			.formats = TSCS454_FORMATS,},
 		.ops = &tscs454_dai23_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
 		.symmetric_channels = 1,
 		.symmetric_sample_bits = 1,
+=======
+		.symmetric_rates = 1,
+		.symmetric_channels = 1,
+		.symmetric_samplebits = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "tscs454-dai3",
@@ -3386,9 +3398,15 @@ static struct snd_soc_dai_driver tscs454_dais[] = {
 			.rates = TSCS454_RATES,
 			.formats = TSCS454_FORMATS,},
 		.ops = &tscs454_dai23_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
 		.symmetric_channels = 1,
 		.symmetric_sample_bits = 1,
+=======
+		.symmetric_rates = 1,
+		.symmetric_channels = 1,
+		.symmetric_samplebits = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

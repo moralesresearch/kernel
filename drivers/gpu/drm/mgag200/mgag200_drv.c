@@ -47,11 +47,18 @@ static const struct drm_driver mgag200_driver = {
 static bool mgag200_has_sgram(struct mga_device *mdev)
 {
 	struct drm_device *dev = &mdev->base;
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
 	u32 option;
 	int ret;
 
 	ret = pci_read_config_dword(pdev, PCI_MGA_OPTION, &option);
+=======
+	u32 option;
+	int ret;
+
+	ret = pci_read_config_dword(dev->pdev, PCI_MGA_OPTION, &option);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (drm_WARN(dev, ret, "failed to read PCI config dword: %d\n", ret))
 		return false;
 
@@ -61,7 +68,10 @@ static bool mgag200_has_sgram(struct mga_device *mdev)
 static int mgag200_regs_init(struct mga_device *mdev)
 {
 	struct drm_device *dev = &mdev->base;
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 option, option2;
 	u8 crtcext3;
 
@@ -101,6 +111,7 @@ static int mgag200_regs_init(struct mga_device *mdev)
 	}
 
 	if (option)
+<<<<<<< HEAD
 		pci_write_config_dword(pdev, PCI_MGA_OPTION, option);
 	if (option2)
 		pci_write_config_dword(pdev, PCI_MGA_OPTION2, option2);
@@ -108,6 +119,15 @@ static int mgag200_regs_init(struct mga_device *mdev)
 	/* BAR 1 contains registers */
 	mdev->rmmio_base = pci_resource_start(pdev, 1);
 	mdev->rmmio_size = pci_resource_len(pdev, 1);
+=======
+		pci_write_config_dword(dev->pdev, PCI_MGA_OPTION, option);
+	if (option2)
+		pci_write_config_dword(dev->pdev, PCI_MGA_OPTION2, option2);
+
+	/* BAR 1 contains registers */
+	mdev->rmmio_base = pci_resource_start(dev->pdev, 1);
+	mdev->rmmio_size = pci_resource_len(dev->pdev, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!devm_request_mem_region(dev->dev, mdev->rmmio_base,
 				     mdev->rmmio_size, "mgadrmfb_mmio")) {
@@ -115,7 +135,11 @@ static int mgag200_regs_init(struct mga_device *mdev)
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
 	mdev->rmmio = pcim_iomap(pdev, 1, 0);
+=======
+	mdev->rmmio = pcim_iomap(dev->pdev, 1, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (mdev->rmmio == NULL)
 		return -ENOMEM;
 
@@ -220,7 +244,10 @@ static void mgag200_g200_interpret_bios(struct mga_device *mdev,
 static void mgag200_g200_init_refclk(struct mga_device *mdev)
 {
 	struct drm_device *dev = &mdev->base;
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned char __iomem *rom;
 	unsigned char *bios;
 	size_t size;
@@ -229,7 +256,11 @@ static void mgag200_g200_init_refclk(struct mga_device *mdev)
 	mdev->model.g200.pclk_max = 230000;
 	mdev->model.g200.ref_clk = 27050;
 
+<<<<<<< HEAD
 	rom = pci_map_rom(pdev, &size);
+=======
+	rom = pci_map_rom(dev->pdev, &size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!rom)
 		return;
 
@@ -247,7 +278,11 @@ static void mgag200_g200_init_refclk(struct mga_device *mdev)
 
 	vfree(bios);
 out:
+<<<<<<< HEAD
 	pci_unmap_rom(pdev, rom);
+=======
+	pci_unmap_rom(dev->pdev, rom);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void mgag200_g200se_init_unique_id(struct mga_device *mdev)
@@ -304,6 +339,10 @@ mgag200_device_create(struct pci_dev *pdev, unsigned long flags)
 		return mdev;
 	dev = &mdev->base;
 
+<<<<<<< HEAD
+=======
+	dev->pdev = pdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_set_drvdata(pdev, dev);
 
 	ret = mgag200_device_init(mdev, flags);

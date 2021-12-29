@@ -81,7 +81,10 @@ enum mt76_rxq_id {
 	MT_RXQ_MCU,
 	MT_RXQ_MCU_WA,
 	MT_RXQ_EXT,
+<<<<<<< HEAD
 	MT_RXQ_EXT_WA,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__MT_RXQ_MAX
 };
 
@@ -222,6 +225,10 @@ struct mt76_wcid {
 
 	u16 idx;
 	u8 hw_key_idx;
+<<<<<<< HEAD
+	u8 hw_key_idx2;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	u8 sta:1;
 	u8 ext_phy:1;
@@ -516,10 +523,17 @@ struct mt76_rx_status {
 };
 
 struct mt76_testmode_ops {
+<<<<<<< HEAD
 	int (*set_state)(struct mt76_phy *phy, enum mt76_testmode_state state);
 	int (*set_params)(struct mt76_phy *phy, struct nlattr **tb,
 			  enum mt76_testmode_state new_state);
 	int (*dump_stats)(struct mt76_phy *phy, struct sk_buff *msg);
+=======
+	int (*set_state)(struct mt76_dev *dev, enum mt76_testmode_state state);
+	int (*set_params)(struct mt76_dev *dev, struct nlattr **tb,
+			  enum mt76_testmode_state new_state);
+	int (*dump_stats)(struct mt76_dev *dev, struct sk_buff *msg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct mt76_testmode_data {
@@ -540,20 +554,31 @@ struct mt76_testmode_data {
 	u8 tx_ltf;
 
 	u8 tx_antenna_mask;
+<<<<<<< HEAD
 	u8 tx_spe_idx;
 
 	u8 tx_duty_cycle;
 	u32 tx_time;
 	u32 tx_ipg;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	u32 freq_offset;
 
 	u8 tx_power[4];
 	u8 tx_power_control;
 
+<<<<<<< HEAD
 	u32 tx_pending;
 	u32 tx_queued;
 	u16 tx_queued_limit;
+=======
+	const char *mtd_name;
+	u32 mtd_offset;
+
+	u32 tx_pending;
+	u32 tx_queued;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 tx_done;
 	struct {
 		u64 packets[__MT_RXQ_MAX];
@@ -561,6 +586,7 @@ struct mt76_testmode_data {
 	} rx_stats;
 };
 
+<<<<<<< HEAD
 struct mt76_vif {
 	u8 idx;
 	u8 omac_idx;
@@ -569,6 +595,8 @@ struct mt76_vif {
 	u8 scan_seq_num;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mt76_phy {
 	struct ieee80211_hw *hw;
 	struct mt76_dev *dev;
@@ -590,6 +618,7 @@ struct mt76_phy {
 
 	u8 macaddr[ETH_ALEN];
 
+<<<<<<< HEAD
 	int txpower_cur;
 	u8 antenna_mask;
 	u16 chainmask;
@@ -600,6 +629,12 @@ struct mt76_phy {
 
 	struct delayed_work mac_work;
 	u8 mac_work_count;
+=======
+	u32 vif_mask;
+
+	int txpower_cur;
+	u8 antenna_mask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct mt76_dev {
@@ -640,6 +675,10 @@ struct mt76_dev {
 
 	struct mt76_worker tx_worker;
 	struct napi_struct tx_napi;
+<<<<<<< HEAD
+=======
+	struct delayed_work mac_work;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	wait_queue_head_t tx_wait;
 	struct sk_buff_head status_list;
@@ -647,8 +686,11 @@ struct mt76_dev {
 	u32 wcid_mask[DIV_ROUND_UP(MT76_N_WCIDS, 32)];
 	u32 wcid_phy_mask[DIV_ROUND_UP(MT76_N_WCIDS, 32)];
 
+<<<<<<< HEAD
 	u32 vif_mask;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mt76_wcid global_wcid;
 	struct mt76_wcid __rcu *wcid[MT76_N_WCIDS];
 
@@ -665,7 +707,10 @@ struct mt76_dev {
 
 	struct mt76_rate_power rate_power;
 
+<<<<<<< HEAD
 	char alpha2[3];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum nl80211_dfs_regions region;
 
 	u32 debugfs_reg;
@@ -681,11 +726,17 @@ struct mt76_dev {
 
 #ifdef CONFIG_NL80211_TESTMODE
 	const struct mt76_testmode_ops *test_ops;
+<<<<<<< HEAD
 	struct {
 		const char *name;
 		u32 offset;
 	} test_mtd;
 #endif
+=======
+	struct mt76_testmode_data test;
+#endif
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct workqueue_struct *wq;
 
 	union {
@@ -953,6 +1004,7 @@ static inline u8 mt76_tx_power_nss_delta(u8 nss)
 	return nss_delta[nss - 1];
 }
 
+<<<<<<< HEAD
 static inline bool mt76_testmode_enabled(struct mt76_phy *phy)
 {
 #ifdef CONFIG_NL80211_TESTMODE
@@ -974,6 +1026,12 @@ static inline bool mt76_is_testmode_skb(struct mt76_dev *dev,
 	else
 		return false;
 	return true;
+=======
+static inline bool mt76_testmode_enabled(struct mt76_dev *dev)
+{
+#ifdef CONFIG_NL80211_TESTMODE
+	return dev->test.state != MT76_TM_STATE_OFF;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 	return false;
 #endif
@@ -1055,17 +1113,30 @@ int mt76_testmode_cmd(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
 		      void *data, int len);
 int mt76_testmode_dump(struct ieee80211_hw *hw, struct sk_buff *skb,
 		       struct netlink_callback *cb, void *data, int len);
+<<<<<<< HEAD
 int mt76_testmode_set_state(struct mt76_phy *phy, enum mt76_testmode_state state);
 
 static inline void mt76_testmode_reset(struct mt76_phy *phy, bool disable)
+=======
+int mt76_testmode_set_state(struct mt76_dev *dev, enum mt76_testmode_state state);
+
+static inline void mt76_testmode_reset(struct mt76_dev *dev, bool disable)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 #ifdef CONFIG_NL80211_TESTMODE
 	enum mt76_testmode_state state = MT76_TM_STATE_IDLE;
 
+<<<<<<< HEAD
 	if (disable || phy->test.state == MT76_TM_STATE_OFF)
 		state = MT76_TM_STATE_OFF;
 
 	mt76_testmode_set_state(phy, state);
+=======
+	if (disable || dev->test.state == MT76_TM_STATE_OFF)
+		state = MT76_TM_STATE_OFF;
+
+	mt76_testmode_set_state(dev, state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 }
 
@@ -1091,7 +1162,11 @@ void mt76_rx_complete(struct mt76_dev *dev, struct sk_buff_head *frames,
 void mt76_rx_poll_complete(struct mt76_dev *dev, enum mt76_rxq_id q,
 			   struct napi_struct *napi);
 void mt76_rx_aggr_reorder(struct sk_buff *skb, struct sk_buff_head *frames);
+<<<<<<< HEAD
 void mt76_testmode_tx_pending(struct mt76_phy *phy);
+=======
+void mt76_testmode_tx_pending(struct mt76_dev *dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mt76_queue_tx_complete(struct mt76_dev *dev, struct mt76_queue *q,
 			    struct mt76_queue_entry *e);
 

@@ -189,6 +189,7 @@ config AD5764
 	  To compile this driver as a module, choose M here: the
 	  module will be called ad5764.
 
+<<<<<<< HEAD
 config AD5766
 	tristate "Analog Devices AD5766/AD5767 DAC driver"
 	depends on SPI_MASTER
@@ -199,6 +200,8 @@ config AD5766
 	  To compile this driver as a module, choose M here: the
 	  module will be called ad5766.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config AD5770R
 	tristate "Analog Devices AD5770R IDAC driver"
 	depends on SPI_MASTER

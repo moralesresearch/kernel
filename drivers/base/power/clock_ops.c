@@ -23,7 +23,10 @@
 enum pce_status {
 	PCE_STATUS_NONE = 0,
 	PCE_STATUS_ACQUIRED,
+<<<<<<< HEAD
 	PCE_STATUS_PREPARED,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PCE_STATUS_ENABLED,
 	PCE_STATUS_ERROR,
 };
@@ -33,6 +36,7 @@ struct pm_clock_entry {
 	char *con_id;
 	struct clk *clk;
 	enum pce_status status;
+<<<<<<< HEAD
 	bool enabled_when_prepared;
 };
 
@@ -140,6 +144,11 @@ static void pm_clk_op_unlock(struct pm_subsys_data *psd, unsigned long *flags)
 }
 
 /**
+=======
+};
+
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * pm_clk_enable - Enable a clock, reporting any errors
  * @dev: The device for the given clock
  * @ce: PM clock entry corresponding to the clock.
@@ -148,6 +157,7 @@ static inline void __pm_clk_enable(struct device *dev, struct pm_clock_entry *ce
 {
 	int ret;
 
+<<<<<<< HEAD
 	switch (ce->status) {
 	case PCE_STATUS_ACQUIRED:
 		ret = clk_prepare_enable(ce->clk);
@@ -163,6 +173,16 @@ static inline void __pm_clk_enable(struct device *dev, struct pm_clock_entry *ce
 	else
 		dev_err(dev, "%s: failed to enable clk %p, error %d\n",
 			__func__, ce->clk, ret);
+=======
+	if (ce->status < PCE_STATUS_ERROR) {
+		ret = clk_enable(ce->clk);
+		if (!ret)
+			ce->status = PCE_STATUS_ENABLED;
+		else
+			dev_err(dev, "%s: failed to enable clk %p, error %d\n",
+				__func__, ce->clk, ret);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -176,6 +196,7 @@ static void pm_clk_acquire(struct device *dev, struct pm_clock_entry *ce)
 		ce->clk = clk_get(dev, ce->con_id);
 	if (IS_ERR(ce->clk)) {
 		ce->status = PCE_STATUS_ERROR;
+<<<<<<< HEAD
 		return;
 	} else if (clk_is_enabled_when_prepared(ce->clk)) {
 		/* we defer preparing the clock in that case */
@@ -190,6 +211,19 @@ static void pm_clk_acquire(struct device *dev, struct pm_clock_entry *ce)
 	}
 	dev_dbg(dev, "Clock %pC con_id %s managed by runtime PM.\n",
 		ce->clk, ce->con_id);
+=======
+	} else {
+		if (clk_prepare(ce->clk)) {
+			ce->status = PCE_STATUS_ERROR;
+			dev_err(dev, "clk_prepare() failed\n");
+		} else {
+			ce->status = PCE_STATUS_ACQUIRED;
+			dev_dbg(dev,
+				"Clock %pC con_id %s managed by runtime PM.\n",
+				ce->clk, ce->con_id);
+		}
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int __pm_clk_add(struct device *dev, const char *con_id,
@@ -221,11 +255,17 @@ static int __pm_clk_add(struct device *dev, const char *con_id,
 
 	pm_clk_acquire(dev, ce);
 
+<<<<<<< HEAD
 	pm_clk_list_lock(psd);
 	list_add_tail(&ce->node, &psd->clock_list);
 	if (ce->enabled_when_prepared)
 		psd->clock_op_might_sleep++;
 	pm_clk_list_unlock(psd);
+=======
+	spin_lock_irq(&psd->lock);
+	list_add_tail(&ce->node, &psd->clock_list);
+	spin_unlock_irq(&psd->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -356,6 +396,7 @@ static void __pm_clk_remove(struct pm_clock_entry *ce)
 	if (!ce)
 		return;
 
+<<<<<<< HEAD
 	switch (ce->status) {
 	case PCE_STATUS_ENABLED:
 		clk_disable(ce->clk);
@@ -370,6 +411,16 @@ static void __pm_clk_remove(struct pm_clock_entry *ce)
 		break;
 	default:
 		break;
+=======
+	if (ce->status < PCE_STATUS_ERROR) {
+		if (ce->status == PCE_STATUS_ENABLED)
+			clk_disable(ce->clk);
+
+		if (ce->status >= PCE_STATUS_ACQUIRED) {
+			clk_unprepare(ce->clk);
+			clk_put(ce->clk);
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	kfree(ce->con_id);
@@ -392,7 +443,11 @@ void pm_clk_remove(struct device *dev, const char *con_id)
 	if (!psd)
 		return;
 
+<<<<<<< HEAD
 	pm_clk_list_lock(psd);
+=======
+	spin_lock_irq(&psd->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_for_each_entry(ce, &psd->clock_list, node) {
 		if (!con_id && !ce->con_id)
@@ -403,14 +458,22 @@ void pm_clk_remove(struct device *dev, const char *con_id)
 			goto remove;
 	}
 
+<<<<<<< HEAD
 	pm_clk_list_unlock(psd);
+=======
+	spin_unlock_irq(&psd->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return;
 
  remove:
 	list_del(&ce->node);
+<<<<<<< HEAD
 	if (ce->enabled_when_prepared)
 		psd->clock_op_might_sleep--;
 	pm_clk_list_unlock(psd);
+=======
+	spin_unlock_irq(&psd->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	__pm_clk_remove(ce);
 }
@@ -432,21 +495,33 @@ void pm_clk_remove_clk(struct device *dev, struct clk *clk)
 	if (!psd || !clk)
 		return;
 
+<<<<<<< HEAD
 	pm_clk_list_lock(psd);
+=======
+	spin_lock_irq(&psd->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_for_each_entry(ce, &psd->clock_list, node) {
 		if (clk == ce->clk)
 			goto remove;
 	}
 
+<<<<<<< HEAD
 	pm_clk_list_unlock(psd);
+=======
+	spin_unlock_irq(&psd->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return;
 
  remove:
 	list_del(&ce->node);
+<<<<<<< HEAD
 	if (ce->enabled_when_prepared)
 		psd->clock_op_might_sleep--;
 	pm_clk_list_unlock(psd);
+=======
+	spin_unlock_irq(&psd->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	__pm_clk_remove(ce);
 }
@@ -457,16 +532,25 @@ EXPORT_SYMBOL_GPL(pm_clk_remove_clk);
  * @dev: Device to initialize the list of PM clocks for.
  *
  * Initialize the lock and clock_list members of the device's pm_subsys_data
+<<<<<<< HEAD
  * object, set the count of clocks that might sleep to 0.
+=======
+ * object.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void pm_clk_init(struct device *dev)
 {
 	struct pm_subsys_data *psd = dev_to_psd(dev);
+<<<<<<< HEAD
 	if (psd) {
 		INIT_LIST_HEAD(&psd->clock_list);
 		mutex_init(&psd->clock_mutex);
 		psd->clock_op_might_sleep = 0;
 	}
+=======
+	if (psd)
+		INIT_LIST_HEAD(&psd->clock_list);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(pm_clk_init);
 
@@ -502,6 +586,7 @@ void pm_clk_destroy(struct device *dev)
 
 	INIT_LIST_HEAD(&list);
 
+<<<<<<< HEAD
 	pm_clk_list_lock(psd);
 
 	list_for_each_entry_safe_reverse(ce, c, &psd->clock_list, node)
@@ -509,6 +594,14 @@ void pm_clk_destroy(struct device *dev)
 	psd->clock_op_might_sleep = 0;
 
 	pm_clk_list_unlock(psd);
+=======
+	spin_lock_irq(&psd->lock);
+
+	list_for_each_entry_safe_reverse(ce, c, &psd->clock_list, node)
+		list_move(&ce->node, &list);
+
+	spin_unlock_irq(&psd->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_pm_put_subsys_data(dev);
 
@@ -528,13 +621,17 @@ int pm_clk_suspend(struct device *dev)
 	struct pm_subsys_data *psd = dev_to_psd(dev);
 	struct pm_clock_entry *ce;
 	unsigned long flags;
+<<<<<<< HEAD
 	int ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_dbg(dev, "%s()\n", __func__);
 
 	if (!psd)
 		return 0;
 
+<<<<<<< HEAD
 	ret = pm_clk_op_lock(psd, &flags, __func__);
 	if (ret)
 		return ret;
@@ -552,6 +649,19 @@ int pm_clk_suspend(struct device *dev)
 	}
 
 	pm_clk_op_unlock(psd, &flags);
+=======
+	spin_lock_irqsave(&psd->lock, flags);
+
+	list_for_each_entry_reverse(ce, &psd->clock_list, node) {
+		if (ce->status < PCE_STATUS_ERROR) {
+			if (ce->status == PCE_STATUS_ENABLED)
+				clk_disable(ce->clk);
+			ce->status = PCE_STATUS_ACQUIRED;
+		}
+	}
+
+	spin_unlock_irqrestore(&psd->lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -566,21 +676,32 @@ int pm_clk_resume(struct device *dev)
 	struct pm_subsys_data *psd = dev_to_psd(dev);
 	struct pm_clock_entry *ce;
 	unsigned long flags;
+<<<<<<< HEAD
 	int ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_dbg(dev, "%s()\n", __func__);
 
 	if (!psd)
 		return 0;
 
+<<<<<<< HEAD
 	ret = pm_clk_op_lock(psd, &flags, __func__);
 	if (ret)
 		return ret;
+=======
+	spin_lock_irqsave(&psd->lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_for_each_entry(ce, &psd->clock_list, node)
 		__pm_clk_enable(dev, ce);
 
+<<<<<<< HEAD
 	pm_clk_op_unlock(psd, &flags);
+=======
+	spin_unlock_irqrestore(&psd->lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

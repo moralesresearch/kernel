@@ -69,6 +69,7 @@ static const char *const speed_names[] = {
 	[USB_SPEED_SUPER_PLUS] = "super-speed-plus",
 };
 
+<<<<<<< HEAD
 static const char *const ssp_rate[] = {
 	[USB_SSP_GEN_UNKNOWN] = "UNKNOWN",
 	[USB_SSP_GEN_2x1] = "super-speed-plus-gen2x1",
@@ -76,6 +77,8 @@ static const char *const ssp_rate[] = {
 	[USB_SSP_GEN_2x2] = "super-speed-plus-gen2x2",
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const char *usb_speed_string(enum usb_device_speed speed)
 {
 	if (speed < 0 || speed >= ARRAY_SIZE(speed_names))
@@ -93,15 +96,21 @@ enum usb_device_speed usb_get_maximum_speed(struct device *dev)
 	if (ret < 0)
 		return USB_SPEED_UNKNOWN;
 
+<<<<<<< HEAD
 	ret = match_string(ssp_rate, ARRAY_SIZE(ssp_rate), maximum_speed);
 	if (ret > 0)
 		return USB_SPEED_SUPER_PLUS;
 
 	ret = match_string(speed_names, ARRAY_SIZE(speed_names), maximum_speed);
+=======
+	ret = match_string(speed_names, ARRAY_SIZE(speed_names), maximum_speed);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return (ret < 0) ? USB_SPEED_UNKNOWN : ret;
 }
 EXPORT_SYMBOL_GPL(usb_get_maximum_speed);
 
+<<<<<<< HEAD
 enum usb_ssp_rate usb_get_maximum_ssp_rate(struct device *dev)
 {
 	const char *maximum_speed;
@@ -116,6 +125,8 @@ enum usb_ssp_rate usb_get_maximum_ssp_rate(struct device *dev)
 }
 EXPORT_SYMBOL_GPL(usb_get_maximum_ssp_rate);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const char *usb_state_string(enum usb_device_state state)
 {
 	static const char *const names[] = {

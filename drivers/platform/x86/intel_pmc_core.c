@@ -1186,9 +1186,21 @@ static const struct pci_device_id pmc_pci_ids[] = {
  * the platform BIOS enforces 24Mhz crystal to shutdown
  * before PMC can assert SLP_S0#.
  */
+<<<<<<< HEAD
+static bool xtal_ignore;
+static int quirk_xtal_ignore(const struct dmi_system_id *id)
+{
+	xtal_ignore = true;
+	return 0;
+}
+
+static void pmc_core_xtal_ignore(struct pmc_dev *pmcdev)
+{
+=======
 static int quirk_xtal_ignore(const struct dmi_system_id *id)
 {
 	struct pmc_dev *pmcdev = &pmc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 value;
 
 	value = pmc_core_reg_read(pmcdev, pmcdev->map->pm_vric1_offset);
@@ -1197,7 +1209,10 @@ static int quirk_xtal_ignore(const struct dmi_system_id *id)
 	/* Low Voltage Mode Enable */
 	value &= ~SPT_PMC_VRIC1_SLPS0LVEN;
 	pmc_core_reg_write(pmcdev, pmcdev->map->pm_vric1_offset, value);
+<<<<<<< HEAD
+=======
 	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct dmi_system_id pmc_core_dmi_table[]  = {
@@ -1212,6 +1227,17 @@ static const struct dmi_system_id pmc_core_dmi_table[]  = {
 	{}
 };
 
+<<<<<<< HEAD
+static void pmc_core_do_dmi_quirks(struct pmc_dev *pmcdev)
+{
+	dmi_check_system(pmc_core_dmi_table);
+
+	if (xtal_ignore)
+		pmc_core_xtal_ignore(pmcdev);
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int pmc_core_probe(struct platform_device *pdev)
 {
 	static bool device_initialized;
@@ -1253,7 +1279,11 @@ static int pmc_core_probe(struct platform_device *pdev)
 	mutex_init(&pmcdev->lock);
 	platform_set_drvdata(pdev, pmcdev);
 	pmcdev->pmc_xram_read_bit = pmc_core_check_read_lock_bit();
+<<<<<<< HEAD
+	pmc_core_do_dmi_quirks(pmcdev);
+=======
 	dmi_check_system(pmc_core_dmi_table);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * On TGL, due to a hardware limitation, the GBE LTR blocks PC10 when

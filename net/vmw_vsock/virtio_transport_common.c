@@ -733,6 +733,26 @@ static int virtio_transport_reset_no_sock(const struct virtio_transport *t,
 	return t->send_pkt(reply);
 }
 
+<<<<<<< HEAD
+/* This function should be called with sk_lock held and SOCK_DONE set */
+static void virtio_transport_remove_sock(struct vsock_sock *vsk)
+{
+	struct virtio_vsock_sock *vvs = vsk->trans;
+	struct virtio_vsock_pkt *pkt, *tmp;
+
+	/* We don't need to take rx_lock, as the socket is closing and we are
+	 * removing it.
+	 */
+	list_for_each_entry_safe(pkt, tmp, &vvs->rx_queue, list) {
+		list_del(&pkt->list);
+		virtio_transport_free_pkt(pkt);
+	}
+
+	vsock_remove_sock(vsk);
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void virtio_transport_wait_close(struct sock *sk, long timeout)
 {
 	if (timeout) {
@@ -765,7 +785,11 @@ static void virtio_transport_do_close(struct vsock_sock *vsk,
 	    (!cancel_timeout || cancel_delayed_work(&vsk->close_work))) {
 		vsk->close_work_scheduled = false;
 
+<<<<<<< HEAD
+		virtio_transport_remove_sock(vsk);
+=======
 		vsock_remove_sock(vsk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Release refcnt obtained when we scheduled the timeout */
 		sock_put(sk);
@@ -828,14 +852,22 @@ static bool virtio_transport_close(struct vsock_sock *vsk)
 
 void virtio_transport_release(struct vsock_sock *vsk)
 {
+<<<<<<< HEAD
+=======
 	struct virtio_vsock_sock *vvs = vsk->trans;
 	struct virtio_vsock_pkt *pkt, *tmp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sock *sk = &vsk->sk;
 	bool remove_sock = true;
 
 	if (sk->sk_type == SOCK_STREAM)
 		remove_sock = virtio_transport_close(vsk);
 
+<<<<<<< HEAD
+	if (remove_sock) {
+		sock_set_flag(sk, SOCK_DONE);
+		virtio_transport_remove_sock(vsk);
+=======
 	list_for_each_entry_safe(pkt, tmp, &vvs->rx_queue, list) {
 		list_del(&pkt->list);
 		virtio_transport_free_pkt(pkt);
@@ -844,6 +876,7 @@ void virtio_transport_release(struct vsock_sock *vsk)
 	if (remove_sock) {
 		sock_set_flag(sk, SOCK_DONE);
 		vsock_remove_sock(vsk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 EXPORT_SYMBOL_GPL(virtio_transport_release);

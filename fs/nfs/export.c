@@ -167,6 +167,7 @@ out:
 	return parent;
 }
 
+<<<<<<< HEAD
 static u64 nfs_fetch_iversion(struct inode *inode)
 {
 	struct nfs_server *server = NFS_SERVER(inode);
@@ -184,11 +185,16 @@ static u64 nfs_fetch_iversion(struct inode *inode)
 		return time_to_chattr(&inode->i_ctime);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct export_operations nfs_export_ops = {
 	.encode_fh = nfs_encode_fh,
 	.fh_to_dentry = nfs_fh_to_dentry,
 	.get_parent = nfs_get_parent,
+<<<<<<< HEAD
 	.fetch_iversion = nfs_fetch_iversion,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.flags = EXPORT_OP_NOWCC|EXPORT_OP_NOSUBTREECHK|
 		EXPORT_OP_CLOSE_BEFORE_UNLINK|EXPORT_OP_REMOTE_FS|
 		EXPORT_OP_NOATOMIC_ATTR,

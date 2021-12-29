@@ -505,6 +505,7 @@ TRACE_EVENT_RCU(rcu_callback,
 		  __entry->qlen)
 );
 
+<<<<<<< HEAD
 TRACE_EVENT_RCU(rcu_segcb_stats,
 
 		TP_PROTO(struct rcu_segcblist *rs, const char *ctx),
@@ -531,6 +532,8 @@ TRACE_EVENT_RCU(rcu_segcb_stats,
 
 );
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Tracepoint for the registration of a single RCU callback of the special
  * kvfree() form.  The first argument is the RCU type, the second argument

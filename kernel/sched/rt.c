@@ -2357,7 +2357,11 @@ prio_changed_rt(struct rq *rq, struct task_struct *p, int oldprio)
 	if (!task_on_rq_queued(p))
 		return;
 
+<<<<<<< HEAD
 	if (task_current(rq, p)) {
+=======
+	if (rq->curr == p) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_SMP
 		/*
 		 * If our priority decreases while running, we

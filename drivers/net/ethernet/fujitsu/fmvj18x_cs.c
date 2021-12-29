@@ -548,8 +548,13 @@ static int fmvj18x_get_hwinfo(struct pcmcia_device *link, u_char *node_id)
 
     base = ioremap(link->resource[2]->start, resource_size(link->resource[2]));
     if (!base) {
+<<<<<<< HEAD
+	pcmcia_release_window(link, link->resource[2]);
+	return -1;
+=======
 	    pcmcia_release_window(link, link->resource[2]);
 	    return -ENOMEM;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     }
 
     pcmcia_map_mem_page(link, link->resource[2], 0);

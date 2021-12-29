@@ -2,12 +2,15 @@
 #include <test_progs.h>
 #include "cgroup_helpers.h"
 
+<<<<<<< HEAD
 #include <linux/tcp.h>
 
 #ifndef SOL_TCP
 #define SOL_TCP IPPROTO_TCP
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SOL_CUSTOM			0xdeadbeef
 
 static int getsetsockopt(void)
@@ -17,7 +20,10 @@ static int getsetsockopt(void)
 		char u8[4];
 		__u32 u32;
 		char cc[16]; /* TCP_CA_NAME_MAX */
+<<<<<<< HEAD
 		struct tcp_zerocopy_receive zc;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} buf = {};
 	socklen_t optlen;
 	char *big_buf = NULL;
@@ -161,6 +167,7 @@ static int getsetsockopt(void)
 		goto err;
 	}
 
+<<<<<<< HEAD
 	/* TCP_ZEROCOPY_RECEIVE triggers */
 	memset(&buf, 0, sizeof(buf));
 	optlen = sizeof(buf.zc);
@@ -182,6 +189,8 @@ static int getsetsockopt(void)
 		goto err;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	free(big_buf);
 	close(fd);
 	return 0;

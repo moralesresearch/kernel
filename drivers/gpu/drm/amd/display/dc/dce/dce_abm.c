@@ -283,7 +283,11 @@ struct abm *dce_abm_create(
 	const struct dce_abm_shift *abm_shift,
 	const struct dce_abm_mask *abm_mask)
 {
+<<<<<<< HEAD
+	struct dce_abm *abm_dce = kzalloc(sizeof(*abm_dce), GFP_ATOMIC);
+=======
 	struct dce_abm *abm_dce = kzalloc(sizeof(*abm_dce), GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (abm_dce == NULL) {
 		BREAK_TO_DEBUGGER();

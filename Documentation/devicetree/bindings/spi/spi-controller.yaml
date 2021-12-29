@@ -152,9 +152,14 @@ patternProperties:
       spi-rx-bus-width:
         description:
           Bus width to the SPI bus used for read transfers.
+<<<<<<< HEAD
           If 0 is provided, then no RX will be possible on this device.
         $ref: /schemas/types.yaml#/definitions/uint32
         enum: [0, 1, 2, 4, 8]
+=======
+        $ref: /schemas/types.yaml#/definitions/uint32
+        enum: [1, 2, 4, 8]
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         default: 1
 
       spi-rx-delay-us:
@@ -164,9 +169,14 @@ patternProperties:
       spi-tx-bus-width:
         description:
           Bus width to the SPI bus used for write transfers.
+<<<<<<< HEAD
           If 0 is provided, then no TX will be possible on this device.
         $ref: /schemas/types.yaml#/definitions/uint32
         enum: [0, 1, 2, 4, 8]
+=======
+        $ref: /schemas/types.yaml#/definitions/uint32
+        enum: [1, 2, 4, 8]
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         default: 1
 
       spi-tx-delay-us:

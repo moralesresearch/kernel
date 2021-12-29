@@ -2146,7 +2146,11 @@ __bfa_cb_ioim_comp(void *cbarg, bfa_boolean_t complete)
 		/*
 		 * setup sense information, if present
 		 */
+<<<<<<< HEAD
 		if ((m->scsi_status == SAM_STAT_CHECK_CONDITION) &&
+=======
+		if ((m->scsi_status == SCSI_STATUS_CHECK_CONDITION) &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					m->sns_len) {
 			sns_len = m->sns_len;
 			snsinfo = BFA_SNSINFO_FROM_TAG(ioim->fcpim->fcp,

@@ -935,7 +935,11 @@ static int nsp32_queuecommand_lck(struct scsi_cmnd *SCpnt, void (*done)(struct s
 
 	SCpnt->scsi_done     = done;
 	data->CurrentSC      = SCpnt;
+<<<<<<< HEAD
 	SCpnt->SCp.Status    = SAM_STAT_CHECK_CONDITION;
+=======
+	SCpnt->SCp.Status    = CHECK_CONDITION;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	SCpnt->SCp.Message   = 0;
 	scsi_set_resid(SCpnt, scsi_bufflen(SCpnt));
 

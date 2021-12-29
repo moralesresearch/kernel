@@ -90,10 +90,19 @@ EXPORT_SYMBOL(clk_get);
 int clk_enable(struct clk *clk)
 {
 	unsigned long flags;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!clk)
 		return -EINVAL;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_irqsave(&clk_lock, flags);
 	if ((clk->enabled++ == 0) && clk->clk_ops)
 		clk->clk_ops->enable(clk);

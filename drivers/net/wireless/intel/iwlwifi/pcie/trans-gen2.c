@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 /*
  * Copyright (C) 2017 Intel Deutschland GmbH
+<<<<<<< HEAD
+ * Copyright (C) 2018-2021 Intel Corporation
+=======
  * Copyright (C) 2018-2020 Intel Corporation
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 #include "iwl-trans.h"
 #include "iwl-prph.h"
@@ -10,8 +14,11 @@
 #include "internal.h"
 #include "fw/dbg.h"
 
+<<<<<<< HEAD
 #define FW_RESET_TIMEOUT (HZ / 5)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Start up NIC's basic functionality after it has been reset
  * (e.g. after platform boot, or shutdown via iwl_pcie_apm_stop())
@@ -106,7 +113,11 @@ static void iwl_trans_pcie_fw_reset_handshake(struct iwl_trans *trans)
 
 	/* wait 200ms */
 	ret = wait_event_timeout(trans_pcie->fw_reset_waitq,
+<<<<<<< HEAD
 				 trans_pcie->fw_reset_done, FW_RESET_TIMEOUT);
+=======
+				 trans_pcie->fw_reset_done, HZ / 5);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ret)
 		IWL_ERR(trans,
 			"firmware didn't ACK the reset - continue anyway\n");
@@ -143,7 +154,11 @@ void _iwl_trans_pcie_gen2_stop_device(struct iwl_trans *trans)
 	if (test_and_clear_bit(STATUS_DEVICE_ENABLED, &trans->status)) {
 		IWL_DEBUG_INFO(trans,
 			       "DEVICE_ENABLED bit was set and is now cleared\n");
+<<<<<<< HEAD
+		iwl_txq_gen2_tx_free(trans);
+=======
 		iwl_txq_gen2_tx_stop(trans);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		iwl_pcie_rx_stop(trans);
 	}
 
@@ -200,10 +215,13 @@ void iwl_trans_pcie_gen2_stop_device(struct iwl_trans *trans)
 	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
 	bool was_in_rfkill;
 
+<<<<<<< HEAD
 	iwl_op_mode_time_point(trans->op_mode,
 			       IWL_FW_INI_TIME_POINT_HOST_DEVICE_DISABLE,
 			       NULL);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&trans_pcie->mutex);
 	trans_pcie->opmode_down = true;
 	was_in_rfkill = test_bit(STATUS_RFKILL_OPMODE, &trans->status);
@@ -219,9 +237,15 @@ static int iwl_pcie_gen2_nic_init(struct iwl_trans *trans)
 			       trans->cfg->min_txq_size);
 
 	/* TODO: most of the logic can be removed in A0 - but not in Z0 */
+<<<<<<< HEAD
 	spin_lock_bh(&trans_pcie->irq_lock);
 	iwl_pcie_gen2_apm_init(trans);
 	spin_unlock_bh(&trans_pcie->irq_lock);
+=======
+	spin_lock(&trans_pcie->irq_lock);
+	iwl_pcie_gen2_apm_init(trans);
+	spin_unlock(&trans_pcie->irq_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	iwl_op_mode_nic_config(trans->op_mode);
 
@@ -266,6 +290,7 @@ void iwl_trans_pcie_gen2_fw_alive(struct iwl_trans *trans, u32 scd_addr)
 	mutex_unlock(&trans_pcie->mutex);
 }
 
+<<<<<<< HEAD
 static void iwl_pcie_set_ltr(struct iwl_trans *trans)
 {
 	u32 ltr_val = CSR_LTR_LONG_VAL_AD_NO_SNOOP_REQ |
@@ -294,6 +319,8 @@ static void iwl_pcie_set_ltr(struct iwl_trans *trans)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int iwl_trans_pcie_gen2_start_fw(struct iwl_trans *trans,
 				 const struct fw_img *fw, bool run_in_rfkill)
 {
@@ -360,6 +387,7 @@ int iwl_trans_pcie_gen2_start_fw(struct iwl_trans *trans,
 	if (ret)
 		goto out;
 
+<<<<<<< HEAD
 	iwl_pcie_set_ltr(trans);
 
 	if (trans->trans_cfg->device_family >= IWL_DEVICE_FAMILY_AX210)
@@ -367,6 +395,8 @@ int iwl_trans_pcie_gen2_start_fw(struct iwl_trans *trans,
 	else
 		iwl_write_prph(trans, UREG_CPU_INIT_RUN, 1);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* re-check RF-Kill state since we may have missed the interrupt */
 	hw_rfkill = iwl_pcie_check_hw_rf_kill(trans);
 	if (hw_rfkill && !run_in_rfkill)

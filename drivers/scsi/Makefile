@@ -16,6 +16,10 @@
 
 
 CFLAGS_aha152x.o =   -DAHA152X_STAT -DAUTOCONF
+<<<<<<< HEAD
+=======
+CFLAGS_gdth.o    = # -DDEBUG_GDTH=2 -D__SERIAL__ -D__COM2__ -DGDTH_STATISTICS
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 obj-$(CONFIG_PCMCIA)		+= pcmcia/
 
@@ -102,6 +106,10 @@ obj-$(CONFIG_SCSI_MPT3SAS)	+= mpt3sas/
 obj-$(CONFIG_SCSI_UFSHCD)	+= ufs/
 obj-$(CONFIG_SCSI_ACARD)	+= atp870u.o
 obj-$(CONFIG_SCSI_SUNESP)	+= esp_scsi.o	sun_esp.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_SCSI_GDTH)		+= gdth.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_SCSI_INITIO)	+= initio.o
 obj-$(CONFIG_SCSI_INIA100)	+= a100u2w.o
 obj-$(CONFIG_SCSI_QLOGICPTI)	+= qlogicpti.o

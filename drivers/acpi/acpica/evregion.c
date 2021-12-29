@@ -3,7 +3,15 @@
  *
  * Module Name: evregion - Operation Region support
  *
+<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
+=======
+<<<<<<< HEAD
+ * Copyright (C) 2000 - 2021, Intel Corp.
+=======
+ * Copyright (C) 2000 - 2020, Intel Corp.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -244,8 +252,17 @@ acpi_ev_address_space_dispatch(union acpi_operand_object *region_obj,
 	 *      the previous Connection)
 	 *   2) bit_width is the actual bit length of the field (number of pins)
 	 */
+<<<<<<< HEAD
 	if ((region_obj->region.space_id == ACPI_ADR_SPACE_GSBUS ||
 	     region_obj->region.space_id == ACPI_ADR_SPACE_GPIO) &&
+=======
+<<<<<<< HEAD
+	if ((region_obj->region.space_id == ACPI_ADR_SPACE_GSBUS ||
+	     region_obj->region.space_id == ACPI_ADR_SPACE_GPIO) &&
+=======
+	if ((region_obj->region.space_id == ACPI_ADR_SPACE_GSBUS) &&
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    context && field_obj) {
 
 		status =
@@ -261,11 +278,39 @@ acpi_ev_address_space_dispatch(union acpi_operand_object *region_obj,
 		context->connection = field_obj->field.resource_buffer;
 		context->length = field_obj->field.resource_length;
 		context->access_length = field_obj->field.access_length;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (region_obj->region.space_id == ACPI_ADR_SPACE_GPIO) {
 			address = field_obj->field.pin_number_index;
 			bit_width = field_obj->field.bit_length;
 		}
+<<<<<<< HEAD
+=======
+=======
+	}
+	if ((region_obj->region.space_id == ACPI_ADR_SPACE_GPIO) &&
+	    context && field_obj) {
+
+		status =
+		    acpi_os_acquire_mutex(context_mutex, ACPI_WAIT_FOREVER);
+		if (ACPI_FAILURE(status)) {
+			goto re_enter_interpreter;
+		}
+
+		context_locked = TRUE;
+
+		/* Get the Connection (resource_template) buffer */
+
+		context->connection = field_obj->field.resource_buffer;
+		context->length = field_obj->field.resource_length;
+		context->access_length = field_obj->field.access_length;
+		address = field_obj->field.pin_number_index;
+		bit_width = field_obj->field.bit_length;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Call the handler */

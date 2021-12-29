@@ -32,7 +32,11 @@ static bool rcec_assoc_rciep(struct pci_dev *rcec, struct pci_dev *rciep)
 
 	/* Same bus, so check bitmap */
 	for_each_set_bit(devn, &bitmap, 32)
+<<<<<<< HEAD
+		if (devn == PCI_SLOT(rciep->devfn))
+=======
 		if (devn == rciep->devfn)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return true;
 
 	return false;

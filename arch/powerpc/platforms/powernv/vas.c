@@ -28,10 +28,19 @@ static DEFINE_PER_CPU(int, cpu_vas_id);
 
 static int vas_irq_fault_window_setup(struct vas_instance *vinst)
 {
+<<<<<<< HEAD
 	int rc = 0;
 
 	rc = request_threaded_irq(vinst->virq, vas_fault_handler,
 				vas_fault_thread_fn, 0, vinst->name, vinst);
+=======
+	char devname[64];
+	int rc = 0;
+
+	snprintf(devname, sizeof(devname), "vas-%d", vinst->vas_id);
+	rc = request_threaded_irq(vinst->virq, vas_fault_handler,
+				vas_fault_thread_fn, 0, devname, vinst);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (rc) {
 		pr_err("VAS[%d]: Request IRQ(%d) failed with %d\n",
@@ -78,12 +87,15 @@ static int init_vas_instance(struct platform_device *pdev)
 	if (!vinst)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	vinst->name = kasprintf(GFP_KERNEL, "vas-%d", vasid);
 	if (!vinst->name) {
 		kfree(vinst);
 		return -ENOMEM;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_LIST_HEAD(&vinst->node);
 	ida_init(&vinst->ida);
 	mutex_init(&vinst->mutex);
@@ -166,7 +178,10 @@ static int init_vas_instance(struct platform_device *pdev)
 	return 0;
 
 free_vinst:
+<<<<<<< HEAD
 	kfree(vinst->name);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(vinst);
 	return -ENODEV;
 

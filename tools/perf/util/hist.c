@@ -208,14 +208,20 @@ void hists__calc_col_len(struct hists *hists, struct hist_entry *h)
 	hists__new_col_len(hists, HISTC_MEM_LVL, 21 + 3);
 	hists__new_col_len(hists, HISTC_LOCAL_WEIGHT, 12);
 	hists__new_col_len(hists, HISTC_GLOBAL_WEIGHT, 12);
+<<<<<<< HEAD
 	hists__new_col_len(hists, HISTC_MEM_BLOCKED, 10);
 	hists__new_col_len(hists, HISTC_LOCAL_INS_LAT, 13);
 	hists__new_col_len(hists, HISTC_GLOBAL_INS_LAT, 13);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (symbol_conf.nanosecs)
 		hists__new_col_len(hists, HISTC_TIME, 16);
 	else
 		hists__new_col_len(hists, HISTC_TIME, 12);
+<<<<<<< HEAD
 	hists__new_col_len(hists, HISTC_CODE_PAGE_SIZE, 6);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (h->srcline) {
 		len = MAX(strlen(h->srcline), strlen(sort_srcline.se_header));
@@ -289,13 +295,20 @@ static long hist_time(unsigned long htime)
 }
 
 static void he_stat__add_period(struct he_stat *he_stat, u64 period,
+<<<<<<< HEAD
 				u64 weight, u64 ins_lat)
+=======
+				u64 weight)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 
 	he_stat->period		+= period;
 	he_stat->weight		+= weight;
 	he_stat->nr_events	+= 1;
+<<<<<<< HEAD
 	he_stat->ins_lat	+= ins_lat;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void he_stat__add_stat(struct he_stat *dest, struct he_stat *src)
@@ -307,7 +320,10 @@ static void he_stat__add_stat(struct he_stat *dest, struct he_stat *src)
 	dest->period_guest_us	+= src->period_guest_us;
 	dest->nr_events		+= src->nr_events;
 	dest->weight		+= src->weight;
+<<<<<<< HEAD
 	dest->ins_lat		+= src->ins_lat;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void he_stat__decay(struct he_stat *he_stat)
@@ -596,7 +612,10 @@ static struct hist_entry *hists__findnew_entry(struct hists *hists,
 	int64_t cmp;
 	u64 period = entry->stat.period;
 	u64 weight = entry->stat.weight;
+<<<<<<< HEAD
 	u64 ins_lat = entry->stat.ins_lat;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool leftmost = true;
 
 	p = &hists->entries_in->rb_root.rb_node;
@@ -615,11 +634,19 @@ static struct hist_entry *hists__findnew_entry(struct hists *hists,
 
 		if (!cmp) {
 			if (sample_self) {
+<<<<<<< HEAD
 				he_stat__add_period(&he->stat, period, weight, ins_lat);
 				hist_entry__add_callchain_period(he, period);
 			}
 			if (symbol_conf.cumulate_callchain)
 				he_stat__add_period(he->stat_acc, period, weight, ins_lat);
+=======
+				he_stat__add_period(&he->stat, period, weight);
+				hist_entry__add_callchain_period(he, period);
+			}
+			if (symbol_conf.cumulate_callchain)
+				he_stat__add_period(he->stat_acc, period, weight);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			/*
 			 * This mem info was allocated from sample__resolve_mem
@@ -725,12 +752,18 @@ __hists__add_entry(struct hists *hists,
 		.cpumode = al->cpumode,
 		.ip	 = al->addr,
 		.level	 = al->level,
+<<<<<<< HEAD
 		.code_page_size = sample->code_page_size,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.stat = {
 			.nr_events = 1,
 			.period	= sample->period,
 			.weight = sample->weight,
+<<<<<<< HEAD
 			.ins_lat = sample->ins_lat,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		},
 		.parent = sym_parent,
 		.filtered = symbol__parent_filter(sym_parent) | al->filtered,

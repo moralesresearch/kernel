@@ -520,6 +520,11 @@ static const struct net_device_ops qlcnic_netdev_ops = {
 	.ndo_fdb_del		= qlcnic_fdb_del,
 	.ndo_fdb_dump		= qlcnic_fdb_dump,
 	.ndo_get_phys_port_id	= qlcnic_get_phys_port_id,
+<<<<<<< HEAD
+=======
+	.ndo_udp_tunnel_add	= udp_tunnel_nic_add_port,
+	.ndo_udp_tunnel_del	= udp_tunnel_nic_del_port,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_features_check	= qlcnic_features_check,
 #ifdef CONFIG_QLCNIC_SRIOV
 	.ndo_set_vf_mac		= qlcnic_sriov_set_vf_mac,
@@ -2690,6 +2695,10 @@ err_out_free_hw_res:
 	kfree(ahw);
 
 err_out_free_res:
+<<<<<<< HEAD
+	pci_disable_pcie_error_reporting(pdev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_release_regions(pdev);
 
 err_out_disable_pdev:

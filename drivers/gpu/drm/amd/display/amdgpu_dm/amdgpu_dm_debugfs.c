@@ -150,7 +150,11 @@ static int parse_write_buffer_into_params(char *wr_buf, uint32_t wr_buf_size,
  *
  * --- to get dp configuration
  *
+<<<<<<< HEAD
+ * cat /sys/kernel/debug/dri/0/DP-x/link_settings
+=======
  * cat link_settings
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * It will list current, verified, reported, preferred dp configuration.
  * current -- for current video mode
@@ -163,7 +167,11 @@ static int parse_write_buffer_into_params(char *wr_buf, uint32_t wr_buf_size,
  * echo <lane_count>  <link_rate> > link_settings
  *
  * for example, to force to  2 lane, 2.7GHz,
+<<<<<<< HEAD
+ * echo 4 0xa > /sys/kernel/debug/dri/0/DP-x/link_settings
+=======
  * echo 4 0xa > link_settings
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * spread_spectrum could not be changed dynamically.
  *
@@ -171,7 +179,11 @@ static int parse_write_buffer_into_params(char *wr_buf, uint32_t wr_buf_size,
  * done. please check link settings after force operation to see if HW get
  * programming.
  *
+<<<<<<< HEAD
+ * cat /sys/kernel/debug/dri/0/DP-x/link_settings
+=======
  * cat link_settings
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * check current and preferred settings.
  *
@@ -255,7 +267,11 @@ static ssize_t dp_link_settings_write(struct file *f, const char __user *buf,
 	int max_param_num = 2;
 	uint8_t param_nums = 0;
 	long param[2];
+<<<<<<< HEAD
+	bool valid_input = true;
+=======
 	bool valid_input = false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (size == 0)
 		return -EINVAL;
@@ -282,9 +298,15 @@ static ssize_t dp_link_settings_write(struct file *f, const char __user *buf,
 	case LANE_COUNT_ONE:
 	case LANE_COUNT_TWO:
 	case LANE_COUNT_FOUR:
+<<<<<<< HEAD
+		break;
+	default:
+		valid_input = false;
+=======
 		valid_input = true;
 		break;
 	default:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -294,9 +316,15 @@ static ssize_t dp_link_settings_write(struct file *f, const char __user *buf,
 	case LINK_RATE_RBR2:
 	case LINK_RATE_HIGH2:
 	case LINK_RATE_HIGH3:
+<<<<<<< HEAD
+		break;
+	default:
+		valid_input = false;
+=======
 		valid_input = true;
 		break;
 	default:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -310,10 +338,18 @@ static ssize_t dp_link_settings_write(struct file *f, const char __user *buf,
 	 * spread spectrum will not be changed
 	 */
 	prefer_link_settings.link_spread = link->cur_link_settings.link_spread;
+<<<<<<< HEAD
+	prefer_link_settings.use_link_rate_set = false;
+	prefer_link_settings.lane_count = param[0];
+	prefer_link_settings.link_rate = param[1];
+
+	dc_link_set_preferred_training_settings(dc, &prefer_link_settings, NULL, link, true);
+=======
 	prefer_link_settings.lane_count = param[0];
 	prefer_link_settings.link_rate = param[1];
 
 	dc_link_set_preferred_link_settings(dc, &prefer_link_settings, link);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kfree(wr_buf);
 	return size;
@@ -691,7 +727,11 @@ static ssize_t dp_phy_test_pattern_debugfs_write(struct file *f, const char __us
 	return size;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Returns the DMCUB tracebuffer contents.
  * Example usage: cat /sys/kernel/debug/dri/0/amdgpu_dm_dmub_tracebuffer
  */
@@ -735,7 +775,11 @@ static int dmub_tracebuffer_show(struct seq_file *m, void *data)
 	return 0;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Returns the DMCUB firmware state contents.
  * Example usage: cat /sys/kernel/debug/dri/0/amdgpu_dm_dmub_fw_state
  */
@@ -1063,7 +1107,11 @@ static int dp_dsc_fec_support_show(struct seq_file *m, void *data)
  *	echo 0 > /sys/kernel/debug/dri/0/DP-X/trigger_hotplug
  *
  */
+<<<<<<< HEAD
 static ssize_t trigger_hotplug(struct file *f, const char __user *buf,
+=======
+static ssize_t dp_trigger_hotplug(struct file *f, const char __user *buf,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							size_t size, loff_t *pos)
 {
 	struct amdgpu_dm_connector *aconnector = file_inode(f)->i_private;
@@ -2214,9 +2262,15 @@ static const struct file_operations dp_dsc_slice_bpg_offset_debugfs_fops = {
 	.llseek = default_llseek
 };
 
+<<<<<<< HEAD
 static const struct file_operations trigger_hotplug_debugfs_fops = {
 	.owner = THIS_MODULE,
 	.write = trigger_hotplug,
+=======
+static const struct file_operations dp_trigger_hotplug_debugfs_fops = {
+	.owner = THIS_MODULE,
+	.write = dp_trigger_hotplug,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.llseek = default_llseek
 };
 
@@ -2270,6 +2324,10 @@ static const struct {
 	const struct file_operations *fops;
 } dp_debugfs_entries[] = {
 		{"link_settings", &dp_link_settings_debugfs_fops},
+<<<<<<< HEAD
+=======
+		{"trigger_hotplug", &dp_trigger_hotplug_debugfs_fops},
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{"phy_settings", &dp_phy_settings_debugfs_fop},
 		{"test_pattern", &dp_phy_test_pattern_fops},
 #ifdef CONFIG_DRM_AMD_DC_HDCP
@@ -2366,9 +2424,12 @@ void connector_debugfs_init(struct amdgpu_dm_connector *connector)
 	debugfs_create_file("output_bpc", 0644, dir, connector,
 			    &output_bpc_fops);
 
+<<<<<<< HEAD
 	debugfs_create_file("trigger_hotplug", 0644, dir, connector,
 			    &trigger_hotplug_debugfs_fops);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	connector->debugfs_dpcd_address = 0;
 	connector->debugfs_dpcd_size = 0;
 

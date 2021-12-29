@@ -46,6 +46,10 @@
 #include <drm/radeon_drm.h>
 #include <drm/ttm/ttm_bo_api.h>
 #include <drm/ttm/ttm_bo_driver.h>
+<<<<<<< HEAD
+=======
+#include <drm/ttm/ttm_module.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/ttm/ttm_placement.h>
 
 #include "radeon_reg.h"
@@ -275,7 +279,11 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
 
 out:
 	/* update statistics */
+<<<<<<< HEAD
 	atomic64_add(bo->base.size, &rdev->num_bytes_moved);
+=======
+	atomic64_add((u64)bo->num_pages << PAGE_SHIFT, &rdev->num_bytes_moved);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	radeon_bo_move_notify(bo, evict, new_mem);
 	return 0;
 }
@@ -324,7 +332,11 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_reso
 		 * access, as done in ttm_bo_vm_fault().
 		 */
 		mem->bus.offset = (mem->bus.offset & 0x0ffffffffUL) +
+<<<<<<< HEAD
 			rdev->hose->dense_mem_base;
+=======
+			rdev->ddev->hose->dense_mem_base;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 		break;
 	default:
@@ -364,7 +376,11 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_bo_device *bdev, struct ttm_tt *
 	if (gtt->userflags & RADEON_GEM_USERPTR_ANONONLY) {
 		/* check that we only pin down anonymous memory
 		   to prevent problems with writeback */
+<<<<<<< HEAD
 		unsigned long end = gtt->userptr + (u64)ttm->num_pages * PAGE_SIZE;
+=======
+		unsigned long end = gtt->userptr + ttm->num_pages * PAGE_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct vm_area_struct *vma;
 		vma = find_vma(gtt->usermm, gtt->userptr);
 		if (!vma || vma->vm_file || vma->vm_end < end)
@@ -386,7 +402,11 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_bo_device *bdev, struct ttm_tt *
 	} while (pinned < ttm->num_pages);
 
 	r = sg_alloc_table_from_pages(ttm->sg, ttm->pages, ttm->num_pages, 0,
+<<<<<<< HEAD
 				      (u64)ttm->num_pages << PAGE_SHIFT,
+=======
+				      ttm->num_pages << PAGE_SHIFT,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      GFP_KERNEL);
 	if (r)
 		goto release_sg;
@@ -395,8 +415,13 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_bo_device *bdev, struct ttm_tt *
 	if (r)
 		goto release_sg;
 
+<<<<<<< HEAD
 	drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_address,
 				       ttm->num_pages);
+=======
+	drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
+					 gtt->ttm.dma_address, ttm->num_pages);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 
@@ -485,13 +510,22 @@ static void radeon_ttm_backend_unbind(struct ttm_bo_device *bdev, struct ttm_tt 
 	struct radeon_ttm_tt *gtt = (void *)ttm;
 	struct radeon_device *rdev = radeon_get_rdev(bdev);
 
+<<<<<<< HEAD
+	if (gtt->userptr)
+		radeon_ttm_tt_unpin_userptr(bdev, ttm);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!gtt->bound)
 		return;
 
 	radeon_gart_unbind(rdev, gtt->offset, ttm->num_pages);
 
+<<<<<<< HEAD
+=======
 	if (gtt->userptr)
 		radeon_ttm_tt_unpin_userptr(bdev, ttm);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gtt->bound = false;
 }
 
@@ -534,7 +568,11 @@ static struct ttm_tt *radeon_ttm_tt_create(struct ttm_buffer_object *bo,
 	else
 		caching = ttm_cached;
 
+<<<<<<< HEAD
 	if (ttm_sg_tt_init(&gtt->ttm, bo, page_flags, caching)) {
+=======
+	if (ttm_dma_tt_init(&gtt->ttm, bo, page_flags, caching)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(gtt);
 		return NULL;
 	}
@@ -572,8 +610,13 @@ static int radeon_ttm_tt_populate(struct ttm_bo_device *bdev,
 	}
 
 	if (slave && ttm->sg) {
+<<<<<<< HEAD
 		drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_address,
 					       ttm->num_pages);
+=======
+		drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
+						 gtt->ttm.dma_address, ttm->num_pages);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 

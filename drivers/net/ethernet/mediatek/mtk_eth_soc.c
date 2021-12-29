@@ -353,7 +353,11 @@ static void mtk_mac_config(struct phylink_config *config, unsigned int mode,
 	/* Setup gmac */
 	mcr_cur = mtk_r32(mac->hw, MTK_MAC_MCR(mac->id));
 	mcr_new = mcr_cur;
+<<<<<<< HEAD
 	mcr_new |= MAC_MCR_IPG_CFG | MAC_MCR_FORCE_MODE |
+=======
+	mcr_new |= MAC_MCR_MAX_RX_1536 | MAC_MCR_IPG_CFG | MAC_MCR_FORCE_MODE |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   MAC_MCR_BACKOFF_EN | MAC_MCR_BACKPR_EN | MAC_MCR_FORCE_LINK;
 
 	/* Only update control register when needed! */
@@ -679,6 +683,55 @@ static int mtk_set_mac_address(struct net_device *dev, void *p)
 void mtk_stats_update_mac(struct mtk_mac *mac)
 {
 	struct mtk_hw_stats *hw_stats = mac->hw_stats;
+<<<<<<< HEAD
+	struct mtk_eth *eth = mac->hw;
+
+	u64_stats_update_begin(&hw_stats->syncp);
+
+	if (MTK_HAS_CAPS(eth->soc->caps, MTK_SOC_MT7628)) {
+		hw_stats->tx_packets += mtk_r32(mac->hw, MT7628_SDM_TPCNT);
+		hw_stats->tx_bytes += mtk_r32(mac->hw, MT7628_SDM_TBCNT);
+		hw_stats->rx_packets += mtk_r32(mac->hw, MT7628_SDM_RPCNT);
+		hw_stats->rx_bytes += mtk_r32(mac->hw, MT7628_SDM_RBCNT);
+		hw_stats->rx_checksum_errors +=
+			mtk_r32(mac->hw, MT7628_SDM_CS_ERR);
+	} else {
+		unsigned int offs = hw_stats->reg_offset;
+		u64 stats;
+
+		hw_stats->rx_bytes += mtk_r32(mac->hw,
+					      MTK_GDM1_RX_GBCNT_L + offs);
+		stats = mtk_r32(mac->hw, MTK_GDM1_RX_GBCNT_H + offs);
+		if (stats)
+			hw_stats->rx_bytes += (stats << 32);
+		hw_stats->rx_packets +=
+			mtk_r32(mac->hw, MTK_GDM1_RX_GPCNT + offs);
+		hw_stats->rx_overflow +=
+			mtk_r32(mac->hw, MTK_GDM1_RX_OERCNT + offs);
+		hw_stats->rx_fcs_errors +=
+			mtk_r32(mac->hw, MTK_GDM1_RX_FERCNT + offs);
+		hw_stats->rx_short_errors +=
+			mtk_r32(mac->hw, MTK_GDM1_RX_SERCNT + offs);
+		hw_stats->rx_long_errors +=
+			mtk_r32(mac->hw, MTK_GDM1_RX_LENCNT + offs);
+		hw_stats->rx_checksum_errors +=
+			mtk_r32(mac->hw, MTK_GDM1_RX_CERCNT + offs);
+		hw_stats->rx_flow_control_packets +=
+			mtk_r32(mac->hw, MTK_GDM1_RX_FCCNT + offs);
+		hw_stats->tx_skip +=
+			mtk_r32(mac->hw, MTK_GDM1_TX_SKIPCNT + offs);
+		hw_stats->tx_collisions +=
+			mtk_r32(mac->hw, MTK_GDM1_TX_COLCNT + offs);
+		hw_stats->tx_bytes +=
+			mtk_r32(mac->hw, MTK_GDM1_TX_GBCNT_L + offs);
+		stats =  mtk_r32(mac->hw, MTK_GDM1_TX_GBCNT_H + offs);
+		if (stats)
+			hw_stats->tx_bytes += (stats << 32);
+		hw_stats->tx_packets +=
+			mtk_r32(mac->hw, MTK_GDM1_TX_GPCNT + offs);
+	}
+
+=======
 	unsigned int base = MTK_GDM1_TX_GBCNT;
 	u64 stats;
 
@@ -705,6 +758,7 @@ void mtk_stats_update_mac(struct mtk_mac *mac)
 	if (stats)
 		hw_stats->tx_bytes += (stats << 32);
 	hw_stats->tx_packets += mtk_r32(mac->hw, base + 0x38);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64_stats_update_end(&hw_stats->syncp);
 }
 
@@ -759,8 +813,13 @@ static void mtk_get_stats64(struct net_device *dev,
 static inline int mtk_max_frag_size(int mtu)
 {
 	/* make sure buf_size will be at least MTK_MAX_RX_LENGTH */
+<<<<<<< HEAD
 	if (mtu + MTK_RX_ETH_HLEN < MTK_MAX_RX_LENGTH_2K)
 		mtu = MTK_MAX_RX_LENGTH_2K - MTK_RX_ETH_HLEN;
+=======
+	if (mtu + MTK_RX_ETH_HLEN < MTK_MAX_RX_LENGTH)
+		mtu = MTK_MAX_RX_LENGTH - MTK_RX_ETH_HLEN;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return SKB_DATA_ALIGN(MTK_RX_HLEN + mtu) +
 		SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
@@ -771,7 +830,11 @@ static inline int mtk_max_buf_size(int frag_size)
 	int buf_size = frag_size - NET_SKB_PAD - NET_IP_ALIGN -
 		       SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
 
+<<<<<<< HEAD
 	WARN_ON(buf_size < MTK_MAX_RX_LENGTH_2K);
+=======
+	WARN_ON(buf_size < MTK_MAX_RX_LENGTH);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return buf_size;
 }
@@ -1319,7 +1382,11 @@ static int mtk_poll_rx(struct napi_struct *napi, int budget,
 		skb->protocol = eth_type_trans(skb, netdev);
 
 		if (netdev->features & NETIF_F_HW_VLAN_CTAG_RX &&
+<<<<<<< HEAD
+		    (trxd.rxd2 & RX_DMA_VTAG))
+=======
 		    RX_DMA_VID(trxd.rxd3))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			__vlan_hwaccel_put_tag(skb, htons(ETH_P_8021Q),
 					       RX_DMA_VID(trxd.rxd3));
 		skb_record_rx_queue(skb, 0);
@@ -2499,6 +2566,7 @@ static void mtk_uninit(struct net_device *dev)
 	mtk_rx_irq_disable(eth, ~0);
 }
 
+<<<<<<< HEAD
 static int mtk_change_mtu(struct net_device *dev, int new_mtu)
 {
 	int length = new_mtu + MTK_RX_ETH_HLEN;
@@ -2528,6 +2596,8 @@ static int mtk_change_mtu(struct net_device *dev, int new_mtu)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mtk_do_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
 {
 	struct mtk_mac *mac = netdev_priv(dev);
@@ -2824,7 +2894,10 @@ static const struct net_device_ops mtk_netdev_ops = {
 	.ndo_set_mac_address	= mtk_set_mac_address,
 	.ndo_validate_addr	= eth_validate_addr,
 	.ndo_do_ioctl		= mtk_do_ioctl,
+<<<<<<< HEAD
 	.ndo_change_mtu		= mtk_change_mtu,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.ndo_tx_timeout		= mtk_tx_timeout,
 	.ndo_get_stats64        = mtk_get_stats64,
 	.ndo_fix_features	= mtk_fix_features,
@@ -2926,10 +2999,14 @@ static int mtk_add_mac(struct mtk_eth *eth, struct device_node *np)
 	eth->netdev[id]->irq = eth->irq[0];
 	eth->netdev[id]->dev.of_node = np;
 
+<<<<<<< HEAD
 	if (MTK_HAS_CAPS(eth->soc->caps, MTK_SOC_MT7628))
 		eth->netdev[id]->max_mtu = MTK_MAX_RX_LENGTH - MTK_RX_ETH_HLEN;
 	else
 		eth->netdev[id]->max_mtu = MTK_MAX_RX_LENGTH_2K - MTK_RX_ETH_HLEN;
+=======
+	eth->netdev[id]->max_mtu = MTK_MAX_RX_LENGTH - MTK_RX_ETH_HLEN;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 

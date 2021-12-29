@@ -297,7 +297,10 @@ struct dasd_discipline {
 	 * e.g. verify that new path is compatible with the current
 	 * configuration.
 	 */
+<<<<<<< HEAD
+=======
 	int (*verify_path)(struct dasd_device *, __u8);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int (*pe_handler)(struct dasd_device *, __u8, __u8);
 
 	/*

@@ -20,6 +20,7 @@ struct bio_vec;
 struct rpc_rqst;
 
 /*
+<<<<<<< HEAD
  * Size of an XDR encoding unit in bytes, i.e. 32 bits,
  * as defined in Section 3 of RFC 4506. All encoded
  * XDR data items are aligned on a boundary of 32 bits.
@@ -27,6 +28,8 @@ struct rpc_rqst;
 #define XDR_UNIT		sizeof(__be32)
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Buffer adjustment
  */
 #define XDR_QUADLEN(l)		(((l) + 3) >> 2)
@@ -336,7 +339,11 @@ ssize_t xdr_stream_decode_string_dup(struct xdr_stream *xdr, char **str,
 static inline size_t
 xdr_align_size(size_t n)
 {
+<<<<<<< HEAD
 	const size_t mask = XDR_UNIT - 1;
+=======
+	const size_t mask = sizeof(__u32) - 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return (n + mask) & ~mask;
 }
@@ -366,7 +373,11 @@ static inline size_t xdr_pad_size(size_t n)
  */
 static inline ssize_t xdr_stream_encode_item_present(struct xdr_stream *xdr)
 {
+<<<<<<< HEAD
 	const size_t len = XDR_UNIT;
+=======
+	const size_t len = sizeof(__be32);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__be32 *p = xdr_reserve_space(xdr, len);
 
 	if (unlikely(!p))
@@ -385,7 +396,11 @@ static inline ssize_t xdr_stream_encode_item_present(struct xdr_stream *xdr)
  */
 static inline int xdr_stream_encode_item_absent(struct xdr_stream *xdr)
 {
+<<<<<<< HEAD
 	const size_t len = XDR_UNIT;
+=======
+	const size_t len = sizeof(__be32);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__be32 *p = xdr_reserve_space(xdr, len);
 
 	if (unlikely(!p))

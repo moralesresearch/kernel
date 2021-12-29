@@ -532,7 +532,11 @@ int mt7603_register_device(struct mt7603_dev *dev)
 	spin_lock_init(&dev->sta_poll_lock);
 	spin_lock_init(&dev->ps_lock);
 
+<<<<<<< HEAD
 	INIT_DELAYED_WORK(&dev->mphy.mac_work, mt7603_mac_work);
+=======
+	INIT_DELAYED_WORK(&dev->mt76.mac_work, mt7603_mac_work);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tasklet_setup(&dev->mt76.pre_tbtt_tasklet, mt7603_pre_tbtt_tasklet);
 
 	dev->slottime = 9;

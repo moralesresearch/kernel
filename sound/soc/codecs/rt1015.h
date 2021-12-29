@@ -427,11 +427,22 @@ struct rt1015_priv {
 	struct regmap *regmap;
 	int sysclk;
 	int sysclk_src;
+<<<<<<< HEAD
+=======
+	int lrck;
+	int bclk;
+	int bclk_ratio;
+	int id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int pll_src;
 	int pll_in;
 	int pll_out;
 	int boost_mode;
 	int bypass_boost;
+<<<<<<< HEAD
+=======
+	int amp_ver;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int dac_is_used;
 	int cali_done;
 	int hw_config;

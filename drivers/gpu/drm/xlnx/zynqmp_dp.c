@@ -866,7 +866,11 @@ static int zynqmp_dp_train(struct zynqmp_dp *dp)
 		return ret;
 
 	zynqmp_dp_write(dp, ZYNQMP_DP_SCRAMBLING_DISABLE, 1);
+<<<<<<< HEAD
+	memset(dp->train_set, 0, sizeof(dp->train_set));
+=======
 	memset(dp->train_set, 0, 4);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = zynqmp_dp_link_train_cr(dp);
 	if (ret)
 		return ret;

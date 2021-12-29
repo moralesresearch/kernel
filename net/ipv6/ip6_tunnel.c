@@ -266,7 +266,10 @@ static int ip6_tnl_create2(struct net_device *dev)
 
 	strcpy(t->parms.name, dev->name);
 
+<<<<<<< HEAD
+=======
 	dev_hold(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ip6_tnl_link(ip6n, t);
 	return 0;
 
@@ -1882,6 +1885,10 @@ ip6_tnl_dev_init_gen(struct net_device *dev)
 	dev->min_mtu = ETH_MIN_MTU;
 	dev->max_mtu = IP6_MAX_MTU - dev->hard_header_len;
 
+<<<<<<< HEAD
+	dev_hold(dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 destroy_dst:
@@ -1925,7 +1932,10 @@ static int __net_init ip6_fb_tnl_dev_init(struct net_device *dev)
 	struct ip6_tnl_net *ip6n = net_generic(net, ip6_tnl_net_id);
 
 	t->parms.proto = IPPROTO_IPV6;
+<<<<<<< HEAD
+=======
 	dev_hold(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rcu_assign_pointer(ip6n->tnls_wc[0], t);
 	return 0;
@@ -2244,6 +2254,10 @@ static void __net_exit ip6_tnl_destroy_tunnels(struct net *net, struct list_head
 			t = rtnl_dereference(t->next);
 		}
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	t = rtnl_dereference(ip6n->tnls_wc[0]);
 	while (t) {
@@ -2254,6 +2268,11 @@ static void __net_exit ip6_tnl_destroy_tunnels(struct net *net, struct list_head
 			unregister_netdevice_queue(t->dev, list);
 		t = rtnl_dereference(t->next);
 	}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int __net_init ip6_tnl_init_net(struct net *net)

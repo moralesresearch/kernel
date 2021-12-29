@@ -30,10 +30,16 @@ struct dc_link;
 
 struct cp_psp_stream_config {
 	uint8_t otg_inst;
+<<<<<<< HEAD
 	uint8_t dig_be;
 	uint8_t dig_fe;
 	uint8_t assr_enabled;
 	uint8_t mst_enabled;
+=======
+	uint8_t link_enc_inst;
+	uint8_t stream_enc_inst;
+	uint8_t mst_supported;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *dm_stream_ctx;
 	bool dpms_off;
 };

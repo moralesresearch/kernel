@@ -29,7 +29,14 @@
 
 #include "smp.h"
 #include "hci_request.h"
+<<<<<<< HEAD
 #include "msft.h"
+=======
+<<<<<<< HEAD
+#include "msft.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define HCI_REQ_DONE	  0
 #define HCI_REQ_PEND	  1
@@ -272,12 +279,25 @@ int hci_req_sync(struct hci_dev *hdev, int (*req)(struct hci_request *req,
 {
 	int ret;
 
+<<<<<<< HEAD
+	/* Serialize all requests */
+	hci_req_sync_lock(hdev);
+	/* check the state after obtaing the lock to protect the HCI_UP
+	 * against any races from hci_dev_do_close when the controller
+	 * gets removed.
+	 */
+	if (test_bit(HCI_UP, &hdev->flags))
+		ret = __hci_req_sync(hdev, req, opt, timeout, hci_status);
+	else
+		ret = -ENETDOWN;
+=======
 	if (!test_bit(HCI_UP, &hdev->flags))
 		return -ENETDOWN;
 
 	/* Serialize all requests */
 	hci_req_sync_lock(hdev);
 	ret = __hci_req_sync(hdev, req, opt, timeout, hci_status);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hci_req_sync_unlock(hdev);
 
 	return ret;
@@ -405,6 +425,10 @@ static void cancel_interleave_scan(struct hci_dev *hdev)
  */
 static bool __hci_update_interleaved_scan(struct hci_dev *hdev)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Do interleaved scan only if all of the following are true:
 	 * - There is at least one ADV monitor
 	 * - At least one pending LE connection or one device to be scanned for
@@ -417,6 +441,18 @@ static bool __hci_update_interleaved_scan(struct hci_dev *hdev)
 				  list_empty(&hdev->pend_le_reports)) &&
 				hci_get_adv_monitor_offload_ext(hdev) ==
 				    HCI_ADV_MONITOR_EXT_NONE;
+<<<<<<< HEAD
+=======
+=======
+	/* If there is at least one ADV monitors and one pending LE connection
+	 * or one device to be scanned for, we should alternate between
+	 * allowlist scan and one without any filters to save power.
+	 */
+	bool use_interleaving = hci_is_adv_monitoring(hdev) &&
+				!(list_empty(&hdev->pend_le_conns) &&
+				  list_empty(&hdev->pend_le_reports));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool is_interleaving = is_interleave_scanning(hdev);
 
 	if (use_interleaving && !is_interleaving) {
@@ -905,11 +941,28 @@ static u8 update_white_list(struct hci_request *req)
 
 	/* Use the allowlist unless the following conditions are all true:
 	 * - We are not currently suspending
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * - There are 1 or more ADV monitors registered and it's not offloaded
 	 * - Interleaved scanning is not currently using the allowlist
 	 */
 	if (!idr_is_empty(&hdev->adv_monitors_idr) && !hdev->suspended &&
 	    hci_get_adv_monitor_offload_ext(hdev) == HCI_ADV_MONITOR_EXT_NONE &&
+<<<<<<< HEAD
+=======
+=======
+	 * - There are 1 or more ADV monitors registered
+	 * - Interleaved scanning is not currently using the allowlist
+	 *
+	 * Once the controller offloading of advertisement monitor is in place,
+	 * the above condition should include the support of MSFT extension
+	 * support.
+	 */
+	if (!idr_is_empty(&hdev->adv_monitors_idr) && !hdev->suspended &&
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    hdev->interleave_scan_state != INTERLEAVE_SCAN_ALLOWLIST)
 		return 0x00;
 
@@ -1243,6 +1296,10 @@ static void suspend_req_complete(struct hci_dev *hdev, u8 status, u16 opcode)
 		clear_bit(SUSPEND_SCAN_DISABLE, hdev->suspend_tasks);
 		wake_up(&hdev->suspend_wait_q);
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (test_bit(SUSPEND_SET_ADV_FILTER, hdev->suspend_tasks)) {
 		clear_bit(SUSPEND_SET_ADV_FILTER, hdev->suspend_tasks);
@@ -1266,6 +1323,11 @@ static void hci_req_add_set_adv_filter_enable(struct hci_request *req,
 	/* No need to block when enabling since it's on resume path */
 	if (hdev->suspended && !enable)
 		set_bit(SUSPEND_SET_ADV_FILTER, hdev->suspend_tasks);
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Call with hci_dev_lock */
@@ -1325,9 +1387,18 @@ void hci_req_prepare_suspend(struct hci_dev *hdev, enum suspended_state next)
 			hci_req_add_le_scan_disable(&req, false);
 		}
 
+<<<<<<< HEAD
 		/* Disable advertisement filters */
 		hci_req_add_set_adv_filter_enable(&req, false);
 
+=======
+<<<<<<< HEAD
+		/* Disable advertisement filters */
+		hci_req_add_set_adv_filter_enable(&req, false);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Mark task needing completion */
 		set_bit(SUSPEND_SCAN_DISABLE, hdev->suspend_tasks);
 
@@ -1367,8 +1438,16 @@ void hci_req_prepare_suspend(struct hci_dev *hdev, enum suspended_state next)
 		hci_req_clear_event_filter(&req);
 		/* Reset passive/background scanning to normal */
 		__hci_update_background_scan(&req);
+<<<<<<< HEAD
 		/* Enable all of the advertisement filters */
 		hci_req_add_set_adv_filter_enable(&req, true);
+=======
+<<<<<<< HEAD
+		/* Enable all of the advertisement filters */
+		hci_req_add_set_adv_filter_enable(&req, true);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Unpause directed advertising */
 		hdev->advertising_paused = false;

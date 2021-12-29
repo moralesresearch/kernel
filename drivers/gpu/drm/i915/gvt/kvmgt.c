@@ -1703,7 +1703,11 @@ static int kvmgt_page_track_add(unsigned long handle, u64 gfn)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	write_lock(&kvm->mmu_lock);
+=======
+	spin_lock(&kvm->mmu_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (kvmgt_gfn_is_write_protected(info, gfn))
 		goto out;
@@ -1712,7 +1716,11 @@ static int kvmgt_page_track_add(unsigned long handle, u64 gfn)
 	kvmgt_protect_table_add(info, gfn);
 
 out:
+<<<<<<< HEAD
 	write_unlock(&kvm->mmu_lock);
+=======
+	spin_unlock(&kvm->mmu_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	srcu_read_unlock(&kvm->srcu, idx);
 	return 0;
 }
@@ -1737,7 +1745,11 @@ static int kvmgt_page_track_remove(unsigned long handle, u64 gfn)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	write_lock(&kvm->mmu_lock);
+=======
+	spin_lock(&kvm->mmu_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!kvmgt_gfn_is_write_protected(info, gfn))
 		goto out;
@@ -1746,7 +1758,11 @@ static int kvmgt_page_track_remove(unsigned long handle, u64 gfn)
 	kvmgt_protect_table_del(info, gfn);
 
 out:
+<<<<<<< HEAD
 	write_unlock(&kvm->mmu_lock);
+=======
+	spin_unlock(&kvm->mmu_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	srcu_read_unlock(&kvm->srcu, idx);
 	return 0;
 }
@@ -1772,7 +1788,11 @@ static void kvmgt_page_track_flush_slot(struct kvm *kvm,
 	struct kvmgt_guest_info *info = container_of(node,
 					struct kvmgt_guest_info, track_node);
 
+<<<<<<< HEAD
 	write_lock(&kvm->mmu_lock);
+=======
+	spin_lock(&kvm->mmu_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < slot->npages; i++) {
 		gfn = slot->base_gfn + i;
 		if (kvmgt_gfn_is_write_protected(info, gfn)) {
@@ -1781,7 +1801,11 @@ static void kvmgt_page_track_flush_slot(struct kvm *kvm,
 			kvmgt_protect_table_del(info, gfn);
 		}
 	}
+<<<<<<< HEAD
 	write_unlock(&kvm->mmu_lock);
+=======
+	spin_unlock(&kvm->mmu_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool __kvmgt_vgpu_exist(struct intel_vgpu *vgpu, struct kvm *kvm)

@@ -75,7 +75,11 @@ static void igc_regdump(struct igc_hw *hw, struct igc_reg_info *reginfo)
 		break;
 	case IGC_TDBAL(0):
 		for (n = 0; n < 4; n++)
+<<<<<<< HEAD
 			regs[n] = rd32(IGC_TDBAL(n));
+=======
+			regs[n] = rd32(IGC_RDBAL(n));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case IGC_TDBAH(0):
 		for (n = 0; n < 4; n++)

@@ -821,6 +821,7 @@ struct mgmt_rp_add_ext_adv_data {
 	__u8	instance;
 } __packed;
 
+<<<<<<< HEAD
 struct mgmt_adv_rssi_thresholds {
 	__s8	high_threshold;
 	__le16	high_threshold_timeout;
@@ -837,6 +838,8 @@ struct mgmt_cp_add_adv_patterns_monitor_rssi {
 } __packed;
 #define MGMT_ADD_ADV_PATTERNS_MONITOR_RSSI_SIZE	8
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MGMT_EV_CMD_COMPLETE		0x0001
 struct mgmt_ev_cmd_complete {
 	__le16	opcode;

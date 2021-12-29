@@ -903,8 +903,12 @@ struct fuse_notify_retrieve_in {
 };
 
 /* Device ioctls: */
+<<<<<<< HEAD
 #define FUSE_DEV_IOC_MAGIC		229
 #define FUSE_DEV_IOC_CLONE		_IOR(FUSE_DEV_IOC_MAGIC, 0, uint32_t)
+=======
+#define FUSE_DEV_IOC_CLONE	_IOR(229, 0, uint32_t)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct fuse_lseek_in {
 	uint64_t	fh;

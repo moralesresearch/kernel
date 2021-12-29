@@ -54,6 +54,13 @@ static DECLARE_DELAYED_WORK(arch_rng_work, arch_rng_refill_buffer);
 
 bool s390_arch_random_generate(u8 *buf, unsigned int nbytes)
 {
+<<<<<<< HEAD
+	/* max hunk is ARCH_RNG_BUF_SIZE */
+	if (nbytes > ARCH_RNG_BUF_SIZE)
+		return false;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* lock rng buffer */
 	if (!spin_trylock(&arch_rng_lock))
 		return false;

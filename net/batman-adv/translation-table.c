@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
+<<<<<<< HEAD
 /* Copyright (C) B.A.T.M.A.N. contributors:
+=======
+/* Copyright (C) 2007-2020  B.A.T.M.A.N. contributors:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Marek Lindner, Simon Wunderlich, Antonio Quartulli
  */
@@ -890,7 +894,10 @@ batadv_tt_prepare_tvlv_global_data(struct batadv_orig_node *orig_node,
 	hlist_for_each_entry(vlan, &orig_node->vlan_list, list) {
 		tt_vlan->vid = htons(vlan->vid);
 		tt_vlan->crc = htonl(vlan->tt.crc);
+<<<<<<< HEAD
 		tt_vlan->reserved = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		tt_vlan++;
 	}
@@ -974,7 +981,10 @@ batadv_tt_prepare_tvlv_local_data(struct batadv_priv *bat_priv,
 
 		tt_vlan->vid = htons(vlan->vid);
 		tt_vlan->crc = htonl(vlan->tt.crc);
+<<<<<<< HEAD
 		tt_vlan->reserved = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		tt_vlan++;
 	}

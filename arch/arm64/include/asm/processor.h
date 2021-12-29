@@ -251,8 +251,11 @@ unsigned long get_wchan(struct task_struct *p);
 extern struct task_struct *cpu_switch_to(struct task_struct *prev,
 					 struct task_struct *next);
 
+<<<<<<< HEAD
 asmlinkage void arm64_preempt_schedule_irq(void);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define task_pt_regs(p) \
 	((struct pt_regs *)(THREAD_SIZE + task_stack_page(p)) - 1)
 

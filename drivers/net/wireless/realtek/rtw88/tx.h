@@ -37,10 +37,13 @@
 	le32p_replace_bits((__le32 *)(txdesc) + 0x03, value, GENMASK(21, 17))
 #define SET_TX_DESC_USE_RTS(tx_desc, value)                                    \
 	le32p_replace_bits((__le32 *)(txdesc) + 0x03, value, BIT(12))
+<<<<<<< HEAD
 #define SET_TX_DESC_RTSRATE(txdesc, value)                                     \
 	le32p_replace_bits((__le32 *)(txdesc) + 0x04, value, GENMASK(28, 24))
 #define SET_TX_DESC_DATA_RTS_SHORT(txdesc, value)                              \
 	le32p_replace_bits((__le32 *)(txdesc) + 0x05, value, BIT(12))
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SET_TX_DESC_AMPDU_DENSITY(txdesc, value)                               \
 	le32p_replace_bits((__le32 *)(txdesc) + 0x02, value, GENMASK(22, 20))
 #define SET_TX_DESC_DATA_STBC(txdesc, value)                                   \
@@ -98,7 +101,11 @@ void rtw_tx(struct rtw_dev *rtwdev,
 	    struct sk_buff *skb);
 void rtw_txq_init(struct rtw_dev *rtwdev, struct ieee80211_txq *txq);
 void rtw_txq_cleanup(struct rtw_dev *rtwdev, struct ieee80211_txq *txq);
+<<<<<<< HEAD
 void rtw_tx_work(struct work_struct *w);
+=======
+void rtw_tx_tasklet(struct tasklet_struct *t);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void rtw_tx_pkt_info_update(struct rtw_dev *rtwdev,
 			    struct rtw_tx_pkt_info *pkt_info,
 			    struct ieee80211_sta *sta,

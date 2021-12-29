@@ -19,16 +19,28 @@ static int devfreq_passive_get_target_freq(struct devfreq *devfreq,
 			= (struct devfreq_passive_data *)devfreq->data;
 	struct devfreq *parent_devfreq = (struct devfreq *)p_data->parent;
 	unsigned long child_freq = ULONG_MAX;
+<<<<<<< HEAD
 	struct dev_pm_opp *opp, *p_opp;
 	int i, count;
+=======
+	struct dev_pm_opp *opp;
+	int i, count, ret = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * If the devfreq device with passive governor has the specific method
 	 * to determine the next frequency, should use the get_target_freq()
 	 * of struct devfreq_passive_data.
 	 */
+<<<<<<< HEAD
 	if (p_data->get_target_freq)
 		return p_data->get_target_freq(devfreq, freq);
+=======
+	if (p_data->get_target_freq) {
+		ret = p_data->get_target_freq(devfreq, freq);
+		goto out;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * If the parent and passive devfreq device uses the OPP table,
@@ -54,6 +66,7 @@ static int devfreq_passive_get_target_freq(struct devfreq *devfreq,
 	 * list of parent device. Because in this case, *freq is temporary
 	 * value which is decided by ondemand governor.
 	 */
+<<<<<<< HEAD
 	if (devfreq->opp_table && parent_devfreq->opp_table) {
 		p_opp = devfreq_recommended_opp(parent_devfreq->dev.parent,
 						freq, 0);
@@ -75,14 +88,33 @@ static int devfreq_passive_get_target_freq(struct devfreq *devfreq,
 
 	/*
 	 * Get the OPP table's index of decided frequency by governor
+=======
+	opp = devfreq_recommended_opp(parent_devfreq->dev.parent, freq, 0);
+	if (IS_ERR(opp)) {
+		ret = PTR_ERR(opp);
+		goto out;
+	}
+
+	dev_pm_opp_put(opp);
+
+	/*
+	 * Get the OPP table's index of decided freqeuncy by governor
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * of parent device.
 	 */
 	for (i = 0; i < parent_devfreq->profile->max_state; i++)
 		if (parent_devfreq->profile->freq_table[i] == *freq)
 			break;
 
+<<<<<<< HEAD
 	if (i == parent_devfreq->profile->max_state)
 		return -EINVAL;
+=======
+	if (i == parent_devfreq->profile->max_state) {
+		ret = -EINVAL;
+		goto out;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Get the suitable frequency by using index of parent device. */
 	if (i < devfreq->profile->max_state) {
@@ -95,7 +127,12 @@ static int devfreq_passive_get_target_freq(struct devfreq *devfreq,
 	/* Return the suitable frequency for passive device. */
 	*freq = child_freq;
 
+<<<<<<< HEAD
 	return 0;
+=======
+out:
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int devfreq_passive_notifier_call(struct notifier_block *nb,

@@ -137,7 +137,11 @@ extern unsigned int __start___fw_ftr_fixup, __stop___fw_ftr_fixup;
 #ifdef CONFIG_PPC_PSERIES
 void pseries_probe_fw_features(void);
 #else
+<<<<<<< HEAD
 static inline void pseries_probe_fw_features(void) { }
+=======
+static inline void pseries_probe_fw_features(void) { };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #endif /* __ASSEMBLY__ */

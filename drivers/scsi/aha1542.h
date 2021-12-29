@@ -78,6 +78,7 @@ static inline void any2scsi(u8 *p, u32 v)
 #define MAX_CDB 12
 #define MAX_SENSE 14
 
+<<<<<<< HEAD
 /* Command Control Block (CCB), 5.3 */
 struct ccb {
 	u8 op;		/* Command Control Block Operation Code: */
@@ -100,6 +101,25 @@ struct ccb {
 	u8 reserved[2];
 	u8 cdb[MAX_CDB + MAX_SENSE];	/* SCSI Command Descriptor Block */
 					/* followed by the Auto Sense data */
+=======
+struct ccb {		/* Command Control Block 5.3 */
+	u8 op;		/* Command Control Block Operation Code */
+	u8 idlun;	/* op=0,2:Target Id, op=1:Initiator Id */
+			/* Outbound data transfer, length is checked*/
+			/* Inbound data transfer, length is checked */
+			/* Logical Unit Number */
+	u8 cdblen;	/* SCSI Command Length */
+	u8 rsalen;	/* Request Sense Allocation Length/Disable */
+	u8 datalen[3];	/* Data Length (msb, .., lsb) */
+	u8 dataptr[3];	/* Data Pointer */
+	u8 linkptr[3];	/* Link Pointer */
+	u8 commlinkid;	/* Command Linking Identifier */
+	u8 hastat;	/* Host Adapter Status (HASTAT) */
+	u8 tarstat;	/* Target Device Status */
+	u8 reserved[2];
+	u8 cdb[MAX_CDB+MAX_SENSE];	/* SCSI Command Descriptor Block */
+					/* REQUEST SENSE */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define AHA1542_REGION_SIZE 4

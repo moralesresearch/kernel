@@ -32,6 +32,7 @@ static inline int pci_proc_domain(struct pci_bus *bus)
 	/* always show the domain in /proc */
 	return 1;
 }
+<<<<<<< HEAD
 
 #ifdef	CONFIG_NUMA
 
@@ -46,6 +47,8 @@ static inline int pcibus_to_node(struct pci_bus *bus)
 #endif
 #endif	/* CONFIG_NUMA */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif  /* CONFIG_PCI */
 
 #endif  /* _ASM_RISCV_PCI_H */

@@ -43,9 +43,12 @@ __modpost:
 include include/config/auto.conf
 include scripts/Kbuild.include
 
+<<<<<<< HEAD
 # for ld_flags
 include scripts/Makefile.lib
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODPOST = scripts/mod/modpost								\
 	$(if $(CONFIG_MODVERSIONS),-m)							\
 	$(if $(CONFIG_MODULE_SRCVERSION_ALL),-a)					\
@@ -68,7 +71,24 @@ else
 ifeq ($(KBUILD_EXTMOD),)
 
 input-symdump := vmlinux.symvers
+<<<<<<< HEAD
+output-symdump := modules-only.symvers
+
+quiet_cmd_cat = GEN     $@
+      cmd_cat = cat $(real-prereqs) > $@
+
+ifneq ($(wildcard vmlinux.symvers),)
+
+__modpost: Module.symvers
+Module.symvers: vmlinux.symvers modules-only.symvers FORCE
+	$(call if_changed,cat)
+
+targets += Module.symvers
+
+endif
+=======
 output-symdump := Module.symvers
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 else
 
@@ -105,6 +125,7 @@ $(input-symdump):
 	@echo >&2 'WARNING: Symbol version dump "$@" is missing.'
 	@echo >&2 '         Modules may not have dependencies or modversions.'
 
+<<<<<<< HEAD
 ifdef CONFIG_LTO_CLANG
 # With CONFIG_LTO_CLANG, .o files might be LLVM bitcode, so we need to run
 # LTO to compile them into native code before running modpost
@@ -129,6 +150,14 @@ quiet_cmd_modpost = MODPOST $@
       cmd_modpost = sed 's/\.ko$$/$(prelink-ext)\.o/' $< | $(MODPOST) -T -
 
 $(output-symdump): $(MODORDER) $(input-symdump) $(modules:.ko=$(prelink-ext).o) FORCE
+=======
+# Read out modules.order to pass in modpost.
+# Otherwise, allmodconfig would fail with "Argument list too long".
+quiet_cmd_modpost = MODPOST $@
+      cmd_modpost = sed 's/ko$$/o/' $< | $(MODPOST) -T -
+
+$(output-symdump): $(MODORDER) $(input-symdump) FORCE
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	$(call if_changed,modpost)
 
 targets += $(output-symdump)

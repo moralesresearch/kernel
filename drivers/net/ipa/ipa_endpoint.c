@@ -69,11 +69,16 @@ struct ipa_status {
 };
 
 /* Field masks for struct ipa_status structure fields */
+<<<<<<< HEAD
 #define IPA_STATUS_MASK_TAG_VALID_FMASK		GENMASK(4, 4)
 #define IPA_STATUS_SRC_IDX_FMASK		GENMASK(4, 0)
 #define IPA_STATUS_DST_IDX_FMASK		GENMASK(4, 0)
 #define IPA_STATUS_FLAGS1_RT_RULE_ID_FMASK	GENMASK(31, 22)
 #define IPA_STATUS_FLAGS2_TAG_FMASK		GENMASK_ULL(63, 16)
+=======
+#define IPA_STATUS_DST_IDX_FMASK		GENMASK(4, 0)
+#define IPA_STATUS_FLAGS1_RT_RULE_ID_FMASK	GENMASK(31, 22)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef IPA_VALIDATE
 
@@ -174,6 +179,12 @@ static bool ipa_endpoint_data_valid(struct ipa *ipa, u32 count,
 	enum ipa_endpoint_name name;
 	u32 limit;
 
+<<<<<<< HEAD
+=======
+	/* Not sure where this constraint come from... */
+	BUILD_BUG_ON(sizeof(struct ipa_status) % 4);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (count > IPA_ENDPOINT_COUNT) {
 		dev_err(dev, "too many endpoints specified (%u > %u)\n",
 			count, IPA_ENDPOINT_COUNT);
@@ -399,7 +410,11 @@ int ipa_endpoint_modem_exception_reset_all(struct ipa *ipa)
 	 * That won't happen, and we could be more precise, but this is fine
 	 * for now.  We need to end the transaction with a "tag process."
 	 */
+<<<<<<< HEAD
 	count = hweight32(initialized) + ipa_cmd_pipeline_clear_count();
+=======
+	count = hweight32(initialized) + ipa_cmd_tag_process_count();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	trans = ipa_cmd_trans_alloc(ipa, count);
 	if (!trans) {
 		dev_err(&ipa->pdev->dev,
@@ -428,13 +443,20 @@ int ipa_endpoint_modem_exception_reset_all(struct ipa *ipa)
 		ipa_cmd_register_write_add(trans, offset, 0, ~0, false);
 	}
 
+<<<<<<< HEAD
 	ipa_cmd_pipeline_clear_add(trans);
+=======
+	ipa_cmd_tag_process_add(trans);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* XXX This should have a 1 second timeout */
 	gsi_trans_commit_wait(trans);
 
+<<<<<<< HEAD
 	ipa_cmd_pipeline_clear_wait(ipa);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1017,6 +1039,7 @@ err_free_pages:
 }
 
 /**
+<<<<<<< HEAD
  * ipa_endpoint_replenish() - Replenish endpoint receive buffers
  * @endpoint:	Endpoint to be replenished
  * @add_one:	Whether this is replacing a just-consumed buffer
@@ -1030,11 +1053,23 @@ err_free_pages:
  * again.
  */
 static void ipa_endpoint_replenish(struct ipa_endpoint *endpoint, bool add_one)
+=======
+ * ipa_endpoint_replenish() - Replenish the Rx packets cache.
+ * @endpoint:	Endpoint to be replenished
+ * @count:	Number of buffers to send to hardware
+ *
+ * Allocate RX packet wrapper structures with maximal socket buffers
+ * for an endpoint.  These are supplied to the hardware, which fills
+ * them with incoming data.
+ */
+static void ipa_endpoint_replenish(struct ipa_endpoint *endpoint, u32 count)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct gsi *gsi;
 	u32 backlog;
 
 	if (!endpoint->replenish_enabled) {
+<<<<<<< HEAD
 		if (add_one)
 			atomic_inc(&endpoint->replenish_saved);
 		return;
@@ -1045,6 +1080,19 @@ static void ipa_endpoint_replenish(struct ipa_endpoint *endpoint, bool add_one)
 			goto try_again_later;
 	if (add_one)
 		atomic_inc(&endpoint->replenish_backlog);
+=======
+		if (count)
+			atomic_add(count, &endpoint->replenish_saved);
+		return;
+	}
+
+
+	while (atomic_dec_not_zero(&endpoint->replenish_backlog))
+		if (ipa_endpoint_replenish_one(endpoint))
+			goto try_again_later;
+	if (count)
+		atomic_add(count, &endpoint->replenish_backlog);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return;
 
@@ -1052,8 +1100,13 @@ try_again_later:
 	/* The last one didn't succeed, so fix the backlog */
 	backlog = atomic_inc_return(&endpoint->replenish_backlog);
 
+<<<<<<< HEAD
 	if (add_one)
 		atomic_inc(&endpoint->replenish_backlog);
+=======
+	if (count)
+		atomic_add(count, &endpoint->replenish_backlog);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Whenever a receive buffer transaction completes we'll try to
 	 * replenish again.  It's unlikely, but if we fail to supply even
@@ -1080,7 +1133,11 @@ static void ipa_endpoint_replenish_enable(struct ipa_endpoint *endpoint)
 	/* Start replenishing if hardware currently has no buffers */
 	max_backlog = gsi_channel_tre_max(gsi, endpoint->channel_id);
 	if (atomic_read(&endpoint->replenish_backlog) == max_backlog)
+<<<<<<< HEAD
 		ipa_endpoint_replenish(endpoint, false);
+=======
+		ipa_endpoint_replenish(endpoint, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void ipa_endpoint_replenish_disable(struct ipa_endpoint *endpoint)
@@ -1099,7 +1156,11 @@ static void ipa_endpoint_replenish_work(struct work_struct *work)
 
 	endpoint = container_of(dwork, struct ipa_endpoint, replenish_work);
 
+<<<<<<< HEAD
 	ipa_endpoint_replenish(endpoint, false);
+=======
+	ipa_endpoint_replenish(endpoint, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void ipa_endpoint_skb_copy(struct ipa_endpoint *endpoint,
@@ -1177,6 +1238,7 @@ static bool ipa_endpoint_status_skip(struct ipa_endpoint *endpoint,
 	return false;	/* Don't skip this packet, process it */
 }
 
+<<<<<<< HEAD
 static bool ipa_endpoint_status_tag(struct ipa_endpoint *endpoint,
 				    const struct ipa_status *status)
 {
@@ -1216,6 +1278,13 @@ static bool ipa_endpoint_status_drop(struct ipa_endpoint *endpoint,
 	if (ipa_endpoint_status_tag(endpoint, status))
 		return true;
 
+=======
+/* Return whether the status indicates the packet should be dropped */
+static bool ipa_status_drop_packet(const struct ipa_status *status)
+{
+	u32 val;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Deaggregation exceptions we drop; all other types we consume */
 	if (status->exception)
 		return status->exception == IPA_STATUS_EXCEPTION_DEAGGR;
@@ -1252,11 +1321,20 @@ static void ipa_endpoint_status_parse(struct ipa_endpoint *endpoint,
 			continue;
 		}
 
+<<<<<<< HEAD
 		/* Compute the amount of buffer space consumed by the packet,
 		 * including the status element.  If the hardware is configured
 		 * to pad packet data to an aligned boundary, account for that.
 		 * And if checksum offload is enabled a trailer containing
 		 * computed checksum information will be appended.
+=======
+		/* Compute the amount of buffer space consumed by the
+		 * packet, including the status element.  If the hardware
+		 * is configured to pad packet data to an aligned boundary,
+		 * account for that.  And if checksum offload is is enabled
+		 * a trailer containing computed checksum information will
+		 * be appended.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 */
 		align = endpoint->data->rx.pad_align ? : 1;
 		len = le16_to_cpu(status->pkt_len);
@@ -1264,6 +1342,7 @@ static void ipa_endpoint_status_parse(struct ipa_endpoint *endpoint,
 		if (endpoint->data->checksum)
 			len += sizeof(struct rmnet_map_dl_csum_trailer);
 
+<<<<<<< HEAD
 		if (!ipa_endpoint_status_drop(endpoint, status)) {
 			void *data2;
 			u32 extra;
@@ -1279,6 +1358,18 @@ static void ipa_endpoint_status_parse(struct ipa_endpoint *endpoint,
 			 * buffer.
 			 */
 			extra = DIV_ROUND_CLOSEST(unused * len, total_len);
+=======
+		/* Charge the new packet with a proportional fraction of
+		 * the unused space in the original receive buffer.
+		 * XXX Charge a proportion of the *whole* receive buffer?
+		 */
+		if (!ipa_status_drop_packet(status)) {
+			u32 extra = unused * len / total_len;
+			void *data2 = data + sizeof(*status);
+			u32 len2 = le16_to_cpu(status->pkt_len);
+
+			/* Client receives only packet data (no status) */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ipa_endpoint_skb_copy(endpoint, data2, len2, extra);
 		}
 
@@ -1300,7 +1391,11 @@ static void ipa_endpoint_rx_complete(struct ipa_endpoint *endpoint,
 {
 	struct page *page;
 
+<<<<<<< HEAD
 	ipa_endpoint_replenish(endpoint, true);
+=======
+	ipa_endpoint_replenish(endpoint, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (trans->cancelled)
 		return;
@@ -1421,7 +1516,11 @@ static int ipa_endpoint_reset_rx_aggr(struct ipa_endpoint *endpoint)
 	do {
 		if (!ipa_endpoint_aggr_active(endpoint))
 			break;
+<<<<<<< HEAD
 		usleep_range(USEC_PER_MSEC, 2 * USEC_PER_MSEC);
+=======
+		msleep(1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} while (retries--);
 
 	/* Check one last time */
@@ -1442,7 +1541,11 @@ static int ipa_endpoint_reset_rx_aggr(struct ipa_endpoint *endpoint)
 	 */
 	gsi_channel_reset(gsi, endpoint->channel_id, true);
 
+<<<<<<< HEAD
 	usleep_range(USEC_PER_MSEC, 2 * USEC_PER_MSEC);
+=======
+	msleep(1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	goto out_suspend_again;
 
@@ -1607,7 +1710,11 @@ void ipa_endpoint_suspend(struct ipa *ipa)
 	if (ipa->modem_netdev)
 		ipa_modem_suspend(ipa->modem_netdev);
 
+<<<<<<< HEAD
 	ipa_cmd_pipeline_clear(ipa);
+=======
+	ipa_cmd_tag_process(ipa);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ipa_endpoint_suspend_one(ipa->name_map[IPA_ENDPOINT_AP_LAN_RX]);
 	ipa_endpoint_suspend_one(ipa->name_map[IPA_ENDPOINT_AP_COMMAND_TX]);

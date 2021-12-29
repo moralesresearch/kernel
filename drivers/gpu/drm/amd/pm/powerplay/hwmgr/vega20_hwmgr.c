@@ -772,11 +772,26 @@ static int vega20_setup_default_dpm_tables(struct pp_hwmgr *hwmgr)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Initializes the SMC table and uploads it
  *
  * @hwmgr:  the address of the powerplay hardware manager.
  * return:  always 0
  */
+<<<<<<< HEAD
+=======
+=======
+* Initializes the SMC table and uploads it
+*
+* @param    hwmgr  the address of the powerplay hardware manager.
+* @param    pInput  the pointer to input data (PowerState)
+* @return   always 0
+*/
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int vega20_init_smc_table(struct pp_hwmgr *hwmgr)
 {
 	int result;

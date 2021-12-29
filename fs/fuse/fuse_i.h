@@ -912,6 +912,10 @@ struct fuse_io_args {
 		struct {
 			struct fuse_write_in in;
 			struct fuse_write_out out;
+<<<<<<< HEAD
+			bool page_locked;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} write;
 	};
 	struct fuse_args_pages ap;
@@ -1181,8 +1185,18 @@ extern const struct xattr_handler *fuse_no_acl_xattr_handlers[];
 
 struct posix_acl;
 struct posix_acl *fuse_get_acl(struct inode *inode, int type);
+<<<<<<< HEAD
 int fuse_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		 struct posix_acl *acl, int type);
+=======
+<<<<<<< HEAD
+int fuse_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
+		 struct posix_acl *acl, int type);
+=======
+int fuse_set_acl(struct inode *inode, struct posix_acl *acl, int type);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* readdir.c */
 int fuse_readdir(struct file *file, struct dir_context *ctx);

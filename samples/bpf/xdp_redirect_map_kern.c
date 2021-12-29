@@ -19,14 +19,18 @@
 #include <linux/ipv6.h>
 #include <bpf/bpf_helpers.h>
 
+<<<<<<< HEAD
 /* The 2nd xdp prog on egress does not support skb mode, so we define two
  * maps, tx_port_general and tx_port_native.
  */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct {
 	__uint(type, BPF_MAP_TYPE_DEVMAP);
 	__uint(key_size, sizeof(int));
 	__uint(value_size, sizeof(int));
 	__uint(max_entries, 100);
+<<<<<<< HEAD
 } tx_port_general SEC(".maps");
 
 struct {
@@ -35,6 +39,9 @@ struct {
 	__uint(value_size, sizeof(struct bpf_devmap_val));
 	__uint(max_entries, 100);
 } tx_port_native SEC(".maps");
+=======
+} tx_port SEC(".maps");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Count RX packets, as XDP bpf_prog doesn't get direct TX-success
  * feedback.  Redirect TX errors can be caught via a tracepoint.
@@ -46,6 +53,7 @@ struct {
 	__uint(max_entries, 1);
 } rxcnt SEC(".maps");
 
+<<<<<<< HEAD
 /* map to store egress interface mac address */
 struct {
 	__uint(type, BPF_MAP_TYPE_ARRAY);
@@ -54,6 +62,8 @@ struct {
 	__uint(max_entries, 1);
 } tx_mac SEC(".maps");
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void swap_src_dst_mac(void *data)
 {
 	unsigned short *p = data;
@@ -70,16 +80,28 @@ static void swap_src_dst_mac(void *data)
 	p[5] = dst[2];
 }
 
+<<<<<<< HEAD
 static __always_inline int xdp_redirect_map(struct xdp_md *ctx, void *redirect_map)
+=======
+SEC("xdp_redirect_map")
+int xdp_redirect_map_prog(struct xdp_md *ctx)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	void *data_end = (void *)(long)ctx->data_end;
 	void *data = (void *)(long)ctx->data;
 	struct ethhdr *eth = data;
 	int rc = XDP_DROP;
+<<<<<<< HEAD
 	long *value;
 	u32 key = 0;
 	u64 nh_off;
 	int vport;
+=======
+	int vport, port = 0, m = 0;
+	long *value;
+	u32 key = 0;
+	u64 nh_off;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	nh_off = sizeof(*eth);
 	if (data + nh_off > data_end)
@@ -96,6 +118,7 @@ static __always_inline int xdp_redirect_map(struct xdp_md *ctx, void *redirect_m
 	swap_src_dst_mac(data);
 
 	/* send packet out physical port */
+<<<<<<< HEAD
 	return bpf_redirect_map(redirect_map, vport, 0);
 }
 
@@ -130,6 +153,9 @@ int xdp_redirect_map_egress(struct xdp_md *ctx)
 		__builtin_memcpy(eth->h_source, mac, ETH_ALEN);
 
 	return XDP_PASS;
+=======
+	return bpf_redirect_map(&tx_port, vport, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Redirect require an XDP bpf_prog loaded on the TX device */

@@ -210,11 +210,14 @@ static int duration = 0;
 	.bpf_obj_file = "test_core_reloc_existence.o",			\
 	.btf_src_file = "btf__core_reloc_" #name ".o"			\
 
+<<<<<<< HEAD
+=======
 #define FIELD_EXISTS_ERR_CASE(name) {					\
 	FIELD_EXISTS_CASE_COMMON(name),					\
 	.fails = true,							\
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define BITFIELDS_CASE_COMMON(objfile, test_name_prefix,  name)		\
 	.case_name = test_name_prefix#name,				\
 	.bpf_obj_file = objfile,					\
@@ -222,7 +225,11 @@ static int duration = 0;
 
 #define BITFIELDS_CASE(name, ...) {					\
 	BITFIELDS_CASE_COMMON("test_core_reloc_bitfields_probed.o",	\
+<<<<<<< HEAD
+			      "probed:", name),				\
+=======
 			      "direct:", name),				\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.input = STRUCT_TO_CHAR_PTR(core_reloc_##name) __VA_ARGS__,	\
 	.input_len = sizeof(struct core_reloc_##name),			\
 	.output = STRUCT_TO_CHAR_PTR(core_reloc_bitfields_output)	\
@@ -230,7 +237,11 @@ static int duration = 0;
 	.output_len = sizeof(struct core_reloc_bitfields_output),	\
 }, {									\
 	BITFIELDS_CASE_COMMON("test_core_reloc_bitfields_direct.o",	\
+<<<<<<< HEAD
+			      "direct:", name),				\
+=======
 			      "probed:", name),				\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.input = STRUCT_TO_CHAR_PTR(core_reloc_##name) __VA_ARGS__,	\
 	.input_len = sizeof(struct core_reloc_##name),			\
 	.output = STRUCT_TO_CHAR_PTR(core_reloc_bitfields_output)	\
@@ -550,8 +561,12 @@ static struct core_reloc_test_case test_cases[] = {
 	ARRAYS_ERR_CASE(arrays___err_too_small),
 	ARRAYS_ERR_CASE(arrays___err_too_shallow),
 	ARRAYS_ERR_CASE(arrays___err_non_array),
+<<<<<<< HEAD
+	ARRAYS_ERR_CASE(arrays___err_wrong_val_type),
+=======
 	ARRAYS_ERR_CASE(arrays___err_wrong_val_type1),
 	ARRAYS_ERR_CASE(arrays___err_wrong_val_type2),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ARRAYS_ERR_CASE(arrays___err_bad_zero_sz_arr),
 
 	/* enum/ptr/int handling scenarios */
@@ -642,6 +657,27 @@ static struct core_reloc_test_case test_cases[] = {
 		},
 		.output_len = sizeof(struct core_reloc_existence_output),
 	},
+<<<<<<< HEAD
+	{
+		FIELD_EXISTS_CASE_COMMON(existence___wrong_field_defs),
+		.input = STRUCT_TO_CHAR_PTR(core_reloc_existence___wrong_field_defs) {
+		},
+		.input_len = sizeof(struct core_reloc_existence___wrong_field_defs),
+		.output = STRUCT_TO_CHAR_PTR(core_reloc_existence_output) {
+			.a_exists = 0,
+			.b_exists = 0,
+			.c_exists = 0,
+			.arr_exists = 0,
+			.s_exists = 0,
+			.a_value = 0xff000001u,
+			.b_value = 0xff000002u,
+			.c_value = 0xff000003u,
+			.arr_value = 0xff000004u,
+			.s_value = 0xff000005u,
+		},
+		.output_len = sizeof(struct core_reloc_existence_output),
+	},
+=======
 
 	FIELD_EXISTS_ERR_CASE(existence__err_int_sz),
 	FIELD_EXISTS_ERR_CASE(existence__err_int_type),
@@ -649,6 +685,7 @@ static struct core_reloc_test_case test_cases[] = {
 	FIELD_EXISTS_ERR_CASE(existence__err_arr_kind),
 	FIELD_EXISTS_ERR_CASE(existence__err_arr_value_type),
 	FIELD_EXISTS_ERR_CASE(existence__err_struct_type),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* bitfield relocation checks */
 	BITFIELDS_CASE(bitfields, {
@@ -857,13 +894,27 @@ void test_core_reloc(void)
 			  "prog '%s' not found\n", probe_name))
 			goto cleanup;
 
+<<<<<<< HEAD
+
+		if (test_case->btf_src_file) {
+			err = access(test_case->btf_src_file, R_OK);
+			if (!ASSERT_OK(err, "btf_src_file"))
+				goto cleanup;
+		}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		load_attr.obj = obj;
 		load_attr.log_level = 0;
 		load_attr.target_btf_path = test_case->btf_src_file;
 		err = bpf_object__load_xattr(&load_attr);
 		if (err) {
 			if (!test_case->fails)
+<<<<<<< HEAD
+				ASSERT_OK(err, "obj_load");
+=======
 				CHECK(false, "obj_load", "failed to load prog '%s': %d\n", probe_name, err);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto cleanup;
 		}
 
@@ -902,10 +953,15 @@ void test_core_reloc(void)
 			goto cleanup;
 		}
 
+<<<<<<< HEAD
+		if (!ASSERT_FALSE(test_case->fails, "obj_load_should_fail"))
+			goto cleanup;
+=======
 		if (test_case->fails) {
 			CHECK(false, "obj_load_fail", "should fail to load prog '%s'\n", probe_name);
 			goto cleanup;
 		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		equal = memcmp(data->out, test_case->output,
 			       test_case->output_len) == 0;

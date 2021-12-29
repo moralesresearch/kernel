@@ -106,8 +106,11 @@ static int cpu_map_print(const char *str)
 		return -1;
 
 	cpu_map__snprint(map, buf, sizeof(buf));
+<<<<<<< HEAD
 	perf_cpu_map__put(map);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return !strcmp(buf, str);
 }
 

@@ -5,6 +5,38 @@
 #include <linux/sched.h>
 #include <linux/xarray.h>
 
+<<<<<<< HEAD
+=======
+struct io_identity {
+	struct files_struct		*files;
+	struct mm_struct		*mm;
+#ifdef CONFIG_BLK_CGROUP
+	struct cgroup_subsys_state	*blkcg_css;
+#endif
+	const struct cred		*creds;
+	struct nsproxy			*nsproxy;
+	struct fs_struct		*fs;
+	unsigned long			fsize;
+#ifdef CONFIG_AUDIT
+	kuid_t				loginuid;
+	unsigned int			sessionid;
+#endif
+	refcount_t			count;
+};
+
+struct io_uring_task {
+	/* submission side */
+	struct xarray		xa;
+	struct wait_queue_head	wait;
+	struct file		*last;
+	struct percpu_counter	inflight;
+	struct io_identity	__identity;
+	struct io_identity	*identity;
+	atomic_t		in_idle;
+	bool			sqpoll;
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if defined(CONFIG_IO_URING)
 struct sock *io_uring_get_socket(struct file *file);
 void __io_uring_task_cancel(void);
@@ -13,12 +45,20 @@ void __io_uring_free(struct task_struct *tsk);
 
 static inline void io_uring_task_cancel(void)
 {
+<<<<<<< HEAD
 	if (current->io_uring)
+=======
+	if (current->io_uring && !xa_empty(&current->io_uring->xa))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__io_uring_task_cancel();
 }
 static inline void io_uring_files_cancel(struct files_struct *files)
 {
+<<<<<<< HEAD
 	if (current->io_uring)
+=======
+	if (current->io_uring && !xa_empty(&current->io_uring->xa))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__io_uring_files_cancel(files);
 }
 static inline void io_uring_free(struct task_struct *tsk)

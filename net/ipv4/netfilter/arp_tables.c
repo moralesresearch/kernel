@@ -1193,8 +1193,16 @@ static int translate_compat_table(struct net *net,
 	if (!newinfo)
 		goto out_unlock;
 
+<<<<<<< HEAD
 	memset(newinfo->entries, 0, size);
 
+=======
+<<<<<<< HEAD
+	memset(newinfo->entries, 0, size);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	newinfo->number = compatr->num_entries;
 	for (i = 0; i < NF_ARP_NUMHOOKS; i++) {
 		newinfo->hook_entry[i] = compatr->hook_entry[i];
@@ -1541,6 +1549,10 @@ out_free:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void arpt_unregister_table_pre_exit(struct net *net, struct xt_table *table,
 				    const struct nf_hook_ops *ops)
 {
@@ -1550,6 +1562,15 @@ EXPORT_SYMBOL(arpt_unregister_table_pre_exit);
 
 void arpt_unregister_table(struct net *net, struct xt_table *table)
 {
+<<<<<<< HEAD
+=======
+=======
+void arpt_unregister_table(struct net *net, struct xt_table *table,
+			   const struct nf_hook_ops *ops)
+{
+	nf_unregister_net_hooks(net, ops, hweight32(table->valid_hooks));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__arpt_unregister_table(net, table);
 }
 

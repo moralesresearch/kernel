@@ -72,6 +72,10 @@
 					 <1375000 1375000 1375000>;
 			/* only on am/dm37x with speed-binned bit set */
 			opp-supported-hw = <0xffffffff 2>;
+<<<<<<< HEAD
+=======
+			turbo-mode;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 

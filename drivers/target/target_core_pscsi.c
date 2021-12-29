@@ -620,8 +620,14 @@ static void pscsi_complete_cmd(struct se_cmd *cmd, u8 scsi_status,
 			unsigned char *buf;
 
 			buf = transport_kmap_data_sg(cmd);
+<<<<<<< HEAD
+			if (!buf) {
+				; /* XXX: TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE */
+			}
+=======
 			if (!buf)
 				; /* XXX: TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (cdb[0] == MODE_SENSE_10) {
 				if (!(buf[3] & 0x80))
@@ -881,7 +887,16 @@ pscsi_map_sg(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
 
 			if (!bio) {
 new_bio:
+<<<<<<< HEAD
 				nr_vecs = bio_max_segs(nr_pages);
+=======
+<<<<<<< HEAD
+				nr_vecs = bio_max_segs(nr_pages);
+=======
+				nr_vecs = min_t(int, BIO_MAX_PAGES, nr_pages);
+				nr_pages -= nr_vecs;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				/*
 				 * Calls bio_kmalloc() and sets bio->bi_end_io()
 				 */
@@ -1007,7 +1022,16 @@ pscsi_execute_cmd(struct se_cmd *cmd)
 		req->timeout = PS_TIMEOUT_OTHER;
 	scsi_req(req)->retries = PS_RETRY;
 
+<<<<<<< HEAD
 	blk_execute_rq_nowait(NULL, req, (cmd->sam_task_attr == TCM_HEAD_TAG),
+=======
+<<<<<<< HEAD
+	blk_execute_rq_nowait(NULL, req, (cmd->sam_task_attr == TCM_HEAD_TAG),
+=======
+	blk_execute_rq_nowait(pdv->pdv_sd->request_queue, NULL, req,
+			(cmd->sam_task_attr == TCM_HEAD_TAG),
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pscsi_req_done);
 
 	return 0;

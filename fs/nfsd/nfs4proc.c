@@ -378,7 +378,16 @@ nfsd4_open(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
 	 * Before RECLAIM_COMPLETE done, server should deny new lock
 	 */
 	if (nfsd4_has_session(cstate) &&
+<<<<<<< HEAD
 	    !test_bit(NFSD4_CLIENT_RECLAIM_COMPLETE, &cstate->clp->cl_flags) &&
+=======
+<<<<<<< HEAD
+	    !test_bit(NFSD4_CLIENT_RECLAIM_COMPLETE, &cstate->clp->cl_flags) &&
+=======
+	    !test_bit(NFSD4_CLIENT_RECLAIM_COMPLETE,
+		      &cstate->session->se_client->cl_flags) &&
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    open->op_claim_type != NFS4_OPEN_CLAIM_PREVIOUS)
 		return nfserr_grace;
 
@@ -427,7 +436,16 @@ nfsd4_open(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
 				goto out;
 			break;
 		case NFS4_OPEN_CLAIM_PREVIOUS:
+<<<<<<< HEAD
 			status = nfs4_check_open_reclaim(cstate->clp);
+=======
+<<<<<<< HEAD
+			status = nfs4_check_open_reclaim(cstate->clp);
+=======
+			status = nfs4_check_open_reclaim(&open->op_clientid,
+							 cstate, nn);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (status)
 				goto out;
 			open->op_openowner->oo_flags |= NFS4_OO_CONFIRMED;
@@ -1538,8 +1556,13 @@ nfsd4_copy(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
 		if (!nfs4_init_copy_state(nn, copy))
 			goto out_err;
 		refcount_set(&async_copy->refcount, 1);
+<<<<<<< HEAD
+		memcpy(&copy->cp_res.cb_stateid, &copy->cp_stateid.stid,
+			sizeof(copy->cp_res.cb_stateid));
+=======
 		memcpy(&copy->cp_res.cb_stateid, &copy->cp_stateid,
 			sizeof(copy->cp_stateid));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dup_copy_fields(copy, async_copy);
 		async_copy->copy_task = kthread_create(nfsd4_do_async_copy,
 				async_copy, "%s", "copy thread");
@@ -1886,7 +1909,15 @@ nfsd4_getdeviceinfo(struct svc_rqst *rqstp,
 	nfserr = nfs_ok;
 	if (gdp->gd_maxcount != 0) {
 		nfserr = ops->proc_getdeviceinfo(exp->ex_path.mnt->mnt_sb,
+<<<<<<< HEAD
 				rqstp, cstate->clp, gdp);
+=======
+<<<<<<< HEAD
+				rqstp, cstate->clp, gdp);
+=======
+				rqstp, cstate->session->se_client, gdp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	gdp->gd_notify_types &= ops->notify_types;
@@ -2172,7 +2203,15 @@ nfsd4_proc_null(struct svc_rqst *rqstp)
 static inline void nfsd4_increment_op_stats(u32 opnum)
 {
 	if (opnum >= FIRST_NFS4_OP && opnum <= LAST_NFS4_OP)
+<<<<<<< HEAD
 		percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_NFS4_OP(opnum)]);
+=======
+<<<<<<< HEAD
+		percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_NFS4_OP(opnum)]);
+=======
+		nfsdstats.nfs4_opcount[opnum]++;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct nfsd4_operation nfsd4_ops[];
@@ -3303,7 +3342,14 @@ static const struct svc_procedure nfsd_procedures4[2] = {
 		.pc_ressize = sizeof(struct nfsd_voidres),
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = 1,
+<<<<<<< HEAD
 		.pc_name = "NULL",
+=======
+<<<<<<< HEAD
+		.pc_name = "NULL",
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[NFSPROC4_COMPOUND] = {
 		.pc_func = nfsd4_proc_compound,
@@ -3314,7 +3360,14 @@ static const struct svc_procedure nfsd_procedures4[2] = {
 		.pc_release = nfsd4_release_compoundargs,
 		.pc_cachetype = RC_NOCACHE,
 		.pc_xdrressize = NFSD_BUFSIZE/4,
+<<<<<<< HEAD
 		.pc_name = "COMPOUND",
+=======
+<<<<<<< HEAD
+		.pc_name = "COMPOUND",
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

@@ -117,7 +117,11 @@ static unsigned int tegra186_cpufreq_get(unsigned int cpu)
 
 static struct cpufreq_driver tegra186_cpufreq_driver = {
 	.name = "tegra186",
+<<<<<<< HEAD
 	.flags = CPUFREQ_HAVE_GOVERNOR_PER_POLICY |
+=======
+	.flags = CPUFREQ_STICKY | CPUFREQ_HAVE_GOVERNOR_PER_POLICY |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			CPUFREQ_NEED_INITIAL_FREQ_CHECK,
 	.get = tegra186_cpufreq_get,
 	.verify = cpufreq_generic_frequency_table_verify,

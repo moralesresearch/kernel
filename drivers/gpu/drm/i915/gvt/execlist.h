@@ -182,4 +182,10 @@ int intel_vgpu_init_execlist(struct intel_vgpu *vgpu);
 int intel_vgpu_submit_execlist(struct intel_vgpu *vgpu,
 			       const struct intel_engine_cs *engine);
 
+<<<<<<< HEAD
+=======
+void intel_vgpu_reset_execlist(struct intel_vgpu *vgpu,
+			       intel_engine_mask_t engine_mask);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /*_GVT_EXECLIST_H_*/

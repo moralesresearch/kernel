@@ -605,7 +605,10 @@ static void get_detailed_timing(unsigned char *block,
  * fb_create_modedb - create video mode database
  * @edid: EDID data
  * @dbsize: database size
+<<<<<<< HEAD
  * @specs: monitor specifications, may be NULL
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * RETURNS: struct fb_videomode, @dbsize contains length of database
  *
@@ -1101,6 +1104,10 @@ static u32 fb_get_hblank_by_hfreq(u32 hfreq, u32 xres)
  *                                    2 * M
  *        M = 300;
  *        C = 30;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static u32 fb_get_hblank_by_dclk(u32 dclk, u32 xres)
 {

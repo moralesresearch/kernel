@@ -22,7 +22,10 @@ i915_gem_object_put_pages_buddy(struct drm_i915_gem_object *obj,
 int
 i915_gem_object_get_pages_buddy(struct drm_i915_gem_object *obj)
 {
+<<<<<<< HEAD
 	const u64 max_segment = i915_sg_segment_size();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct intel_memory_region *mem = obj->mm.region;
 	struct list_head *blocks = &obj->mm.blocks;
 	resource_size_t size = obj->base.size;
@@ -38,7 +41,11 @@ i915_gem_object_get_pages_buddy(struct drm_i915_gem_object *obj)
 	if (!st)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	if (sg_alloc_table(st, size >> PAGE_SHIFT, GFP_KERNEL)) {
+=======
+	if (sg_alloc_table(st, size >> ilog2(mem->mm.chunk_size), GFP_KERNEL)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree(st);
 		return -ENOMEM;
 	}
@@ -65,6 +72,7 @@ i915_gem_object_get_pages_buddy(struct drm_i915_gem_object *obj)
 				   i915_buddy_block_size(&mem->mm, block));
 		offset = i915_buddy_block_offset(block);
 
+<<<<<<< HEAD
 		while (block_size) {
 			u64 len;
 
@@ -89,6 +97,29 @@ i915_gem_object_get_pages_buddy(struct drm_i915_gem_object *obj)
 
 			prev_end = offset;
 		}
+=======
+		GEM_BUG_ON(overflows_type(block_size, sg->length));
+
+		if (offset != prev_end ||
+		    add_overflows_t(typeof(sg->length), sg->length, block_size)) {
+			if (st->nents) {
+				sg_page_sizes |= sg->length;
+				sg = __sg_next(sg);
+			}
+
+			sg_dma_address(sg) = mem->region.start + offset;
+			sg_dma_len(sg) = block_size;
+
+			sg->length = block_size;
+
+			st->nents++;
+		} else {
+			sg->length += block_size;
+			sg_dma_len(sg) += block_size;
+		}
+
+		prev_end = offset + block_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	sg_page_sizes |= sg->length;
@@ -143,7 +174,10 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
 			      unsigned int flags)
 {
 	struct drm_i915_gem_object *obj;
+<<<<<<< HEAD
 	int err;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * NB: Our use of resource_size_t for the size stems from using struct
@@ -174,6 +208,7 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
 	if (overflows_type(size, obj->base.size))
 		return ERR_PTR(-E2BIG);
 
+<<<<<<< HEAD
 	obj = i915_gem_object_alloc();
 	if (!obj)
 		return ERR_PTR(-ENOMEM);
@@ -188,4 +223,11 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
 err_object_free:
 	i915_gem_object_free(obj);
 	return ERR_PTR(err);
+=======
+	obj = mem->ops->create_object(mem, size, flags);
+	if (!IS_ERR(obj))
+		trace_i915_gem_object_create(obj);
+
+	return obj;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

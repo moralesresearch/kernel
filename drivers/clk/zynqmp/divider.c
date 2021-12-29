@@ -35,7 +35,10 @@
  * @is_frac:	The divider is a fractional divider
  * @clk_id:	Id of clock
  * @div_type:	divisor type (TYPE_DIV1 or TYPE_DIV2)
+<<<<<<< HEAD
  * @max_div:	maximum supported divisor (fetched from firmware)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct zynqmp_clk_divider {
 	struct clk_hw hw;

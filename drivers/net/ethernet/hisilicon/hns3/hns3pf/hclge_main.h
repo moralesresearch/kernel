@@ -17,8 +17,11 @@
 
 #define HCLGE_MAX_PF_NUM		8
 
+<<<<<<< HEAD
 #define HCLGE_VF_VPORT_START_NUM	1
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HCLGE_RD_FIRST_STATS_NUM        2
 #define HCLGE_RD_OTHER_STATS_NUM        4
 
@@ -46,12 +49,21 @@
 #define HCLGE_CMDQ_RX_DEPTH_REG		0x27020
 #define HCLGE_CMDQ_RX_TAIL_REG		0x27024
 #define HCLGE_CMDQ_RX_HEAD_REG		0x27028
+<<<<<<< HEAD
+=======
+#define HCLGE_CMDQ_INTR_SRC_REG		0x27100
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HCLGE_CMDQ_INTR_STS_REG		0x27104
 #define HCLGE_CMDQ_INTR_EN_REG		0x27108
 #define HCLGE_CMDQ_INTR_GEN_REG		0x2710C
 
 /* bar registers for common func */
 #define HCLGE_VECTOR0_OTER_EN_REG	0x20600
+<<<<<<< HEAD
+=======
+#define HCLGE_RAS_OTHER_STS_REG		0x20B00
+#define HCLGE_FUNC_RESET_STS_REG	0x20C00
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HCLGE_GRO_EN_REG		0x28000
 
 /* bar registers for rcb */
@@ -96,6 +108,11 @@
 #define HCLGE_RSS_HASH_ALGO_SIMPLE	1
 #define HCLGE_RSS_HASH_ALGO_SYMMETRIC	2
 #define HCLGE_RSS_HASH_ALGO_MASK	GENMASK(3, 0)
+<<<<<<< HEAD
+=======
+#define HCLGE_RSS_CFG_TBL_NUM \
+	(HCLGE_RSS_IND_TBL_SIZE / HCLGE_RSS_CFG_TBL_SIZE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define HCLGE_RSS_INPUT_TUPLE_OTHER	GENMASK(3, 0)
 #define HCLGE_RSS_INPUT_TUPLE_SCTP	GENMASK(4, 0)
@@ -145,8 +162,11 @@
 /* Factor used to calculate offset and bitmap of VF num */
 #define HCLGE_VF_NUM_PER_CMD           64
 
+<<<<<<< HEAD
 #define HCLGE_MAX_QSET_NUM		1024
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum HLCGE_PORT_TYPE {
 	HOST_PORT,
 	NETWORK_PORT
@@ -725,7 +745,11 @@ struct hclge_vf_vlan_cfg {
  *	x = (~k) & v
  *	y = (k ^ ~v) & k
  */
+<<<<<<< HEAD
 #define calc_x(x, k, v) (x = ~(k) & (v))
+=======
+#define calc_x(x, k, v) ((x) = (~(k) & (v)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define calc_y(y, k, v) \
 	do { \
 		const typeof(k) _k_ = (k); \
@@ -921,7 +945,11 @@ struct hclge_vport {
 
 	u8  rss_hash_key[HCLGE_RSS_KEY_SIZE]; /* User configured hash keys */
 	/* User configured lookup table entries */
+<<<<<<< HEAD
 	u16 *rss_indirection_tbl;
+=======
+	u16 rss_indirection_tbl[HCLGE_RSS_IND_TBL_SIZE];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int rss_algo;		/* User configured hash algorithm */
 	/* User configured rss tuple sets */
 	struct hclge_rss_tuple_cfg rss_tuple_sets;
@@ -1005,8 +1033,11 @@ int hclge_vport_start(struct hclge_vport *vport);
 void hclge_vport_stop(struct hclge_vport *vport);
 int hclge_set_vport_mtu(struct hclge_vport *vport, int new_mtu);
 int hclge_dbg_run_cmd(struct hnae3_handle *handle, const char *cmd_buf);
+<<<<<<< HEAD
 int hclge_dbg_read_cmd(struct hnae3_handle *handle, const char *cmd_buf,
 		       char *buf, int len);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u16 hclge_covert_handle_qid_global(struct hnae3_handle *handle, u16 queue_id);
 int hclge_notify_client(struct hclge_dev *hdev,
 			enum hnae3_reset_notify_type type);

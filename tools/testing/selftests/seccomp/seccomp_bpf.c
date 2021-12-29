@@ -1753,6 +1753,27 @@ TEST_F(TRACE_poke, getpid_runs_normally)
 # define SYSCALL_RET_SET(_regs, _val)				\
 	do {							\
 		typeof(_val) _result = (_val);			\
+<<<<<<< HEAD
+		if ((_regs.trap & 0xfff0) == 0x3000) {		\
+			/*					\
+			 * scv 0 system call uses -ve result	\
+			 * for error, so no need to adjust.	\
+			 */					\
+			SYSCALL_RET(_regs) = _result;		\
+		} else {					\
+			/*					\
+			 * A syscall error is signaled by the	\
+			 * CR0 SO bit and the code is stored as	\
+			 * a positive value.			\
+			 */					\
+			if (_result < 0) {			\
+				SYSCALL_RET(_regs) = -_result;	\
+				(_regs).ccr |= 0x10000000;	\
+			} else {				\
+				SYSCALL_RET(_regs) = _result;	\
+				(_regs).ccr &= ~0x10000000;	\
+			}					\
+=======
 		/*						\
 		 * A syscall error is signaled by CR0 SO bit	\
 		 * and the code is stored as a positive value.	\
@@ -1763,6 +1784,7 @@ TEST_F(TRACE_poke, getpid_runs_normally)
 		} else {					\
 			SYSCALL_RET(_regs) = _result;		\
 			(_regs).ccr &= ~0x10000000;		\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}						\
 	} while (0)
 # define SYSCALL_RET_SET_ON_PTRACE_EXIT
@@ -4019,14 +4041,34 @@ TEST(user_notification_addfd)
 
 	/* Verify we can set an arbitrary remote fd */
 	fd = ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd);
+<<<<<<< HEAD
 	EXPECT_GE(fd, 0);
+=======
+<<<<<<< HEAD
+	EXPECT_GE(fd, 0);
+=======
+	/*
+	 * The child has fds 0(stdin), 1(stdout), 2(stderr), 3(memfd),
+	 * 4(listener), so the newly allocated fd should be 5.
+	 */
+	EXPECT_EQ(fd, 5);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	EXPECT_EQ(filecmp(getpid(), pid, memfd, fd), 0);
 
 	/* Verify we can set an arbitrary remote fd with large size */
 	memset(&big, 0x0, sizeof(big));
 	big.addfd = addfd;
 	fd = ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD_BIG, &big);
+<<<<<<< HEAD
 	EXPECT_GE(fd, 0);
+=======
+<<<<<<< HEAD
+	EXPECT_GE(fd, 0);
+=======
+	EXPECT_EQ(fd, 6);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Verify we can set a specific remote fd */
 	addfd.newfd = 42;

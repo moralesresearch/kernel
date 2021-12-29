@@ -800,13 +800,26 @@ static void dasd_fba_setup_blk_queue(struct dasd_block *block)
 	blk_queue_flag_set(QUEUE_FLAG_DISCARD, q);
 }
 
+<<<<<<< HEAD
+static int dasd_fba_pe_handler(struct dasd_device *device,
+			       __u8 tbvpm, __u8 fcsecpm)
+{
+	return dasd_generic_verify_path(device, tbvpm);
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct dasd_discipline dasd_fba_discipline = {
 	.owner = THIS_MODULE,
 	.name = "FBA ",
 	.ebcname = "FBA ",
 	.check_device = dasd_fba_check_characteristics,
 	.do_analysis = dasd_fba_do_analysis,
+<<<<<<< HEAD
+	.pe_handler = dasd_fba_pe_handler,
+=======
 	.verify_path = dasd_generic_verify_path,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.setup_blk_queue = dasd_fba_setup_blk_queue,
 	.fill_geometry = dasd_fba_fill_geometry,
 	.start_IO = dasd_start_IO,

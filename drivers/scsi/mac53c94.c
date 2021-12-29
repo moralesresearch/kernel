@@ -326,6 +326,10 @@ static void mac53c94_interrupt(int irq, void *dev_id)
 		}
 		cmd->SCp.Status = readb(&regs->fifo);
 		cmd->SCp.Message = readb(&regs->fifo);
+<<<<<<< HEAD
+=======
+		cmd->result = CMD_ACCEPT_MSG;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		writeb(CMD_ACCEPT_MSG, &regs->command);
 		state->phase = busfreeing;
 		break;

@@ -327,11 +327,14 @@ MODULE_PARM_DESC(ql2xrdpenable,
 		"Enables RDP responses. "
 		"0 - no RDP responses (default). "
 		"1 - provide RDP responses.");
+<<<<<<< HEAD
 int ql2xabts_wait_nvme = 1;
 module_param(ql2xabts_wait_nvme, int, 0444);
 MODULE_PARM_DESC(ql2xabts_wait_nvme,
 		 "To wait for ABTS response on I/O timeouts for NVMe. (default: 1)");
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void qla2x00_clear_drv_active(struct qla_hw_data *);
 static void qla2x00_free_device(scsi_qla_host_t *);
@@ -962,7 +965,11 @@ qla2xxx_mqueuecommand(struct Scsi_Host *host, struct scsi_cmnd *cmd,
 	srb_t *sp;
 	int rval;
 
+<<<<<<< HEAD
 	rval = rport ? fc_remote_port_chkready(rport) : (DID_NO_CONNECT << 16);
+=======
+	rval = rport ? fc_remote_port_chkready(rport) : FC_PORTSTATE_OFFLINE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (rval) {
 		cmd->result = rval;
 		ql_dbg(ql_dbg_io + ql_dbg_verbose, vha, 0x3076,
@@ -1013,8 +1020,11 @@ qla2xxx_mqueuecommand(struct Scsi_Host *host, struct scsi_cmnd *cmd,
 	if (rval != QLA_SUCCESS) {
 		ql_dbg(ql_dbg_io + ql_dbg_verbose, vha, 0x3078,
 		    "Start scsi failed rval=%d for cmd=%p.\n", rval, cmd);
+<<<<<<< HEAD
+=======
 		if (rval == QLA_INTERFACE_ERROR)
 			goto qc24_free_sp_fail_command;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto qc24_host_busy_free_sp;
 	}
 
@@ -1026,11 +1036,14 @@ qc24_host_busy_free_sp:
 qc24_target_busy:
 	return SCSI_MLQUEUE_TARGET_BUSY;
 
+<<<<<<< HEAD
+=======
 qc24_free_sp_fail_command:
 	sp->free(sp);
 	CMD_SP(cmd) = NULL;
 	qla2xxx_rel_qpair_sp(sp->qpair, sp);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 qc24_fail_command:
 	cmd->scsi_done(cmd);
 
@@ -1279,8 +1292,11 @@ qla2xxx_eh_abort(struct scsi_cmnd *cmd)
 	sp = scsi_cmd_priv(cmd);
 	qpair = sp->qpair;
 
+<<<<<<< HEAD
 	vha->cmd_timeout_cnt++;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((sp->fcport && sp->fcport->deleted) || !qpair)
 		return SUCCESS;
 
@@ -1449,7 +1465,10 @@ eh_reset_failed:
 	    "%s RESET FAILED: %s nexus=%ld:%d:%llu cmd=%p.\n", name,
 	    reset_errors[err], vha->host_no, cmd->device->id, cmd->device->lun,
 	    cmd);
+<<<<<<< HEAD
 	vha->reset_cmd_err_cnt++;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return FAILED;
 }
 
@@ -3149,10 +3168,13 @@ qla2x00_probe_one(struct pci_dev *pdev, const struct pci_device_id *id)
 	ha->mr.fcport.supported_classes = FC_COS_UNSPECIFIED;
 	ha->mr.fcport.scan_state = 1;
 
+<<<<<<< HEAD
 	qla2xxx_reset_stats(host, QLA2XX_HW_ERROR | QLA2XX_SHT_LNK_DWN |
 			    QLA2XX_INT_ERR | QLA2XX_CMD_TIMEOUT |
 			    QLA2XX_RESET_CMD_ERR | QLA2XX_TGT_SHT_LNK_DOWN);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Set the SG table size based on ISP type */
 	if (!IS_FWI2_CAPABLE(ha)) {
 		if (IS_QLA2100(ha))
@@ -5102,7 +5124,10 @@ void qla24xx_create_new_sess(struct scsi_qla_host *vha, struct qla_work_evt *e)
 			fcport->d_id = e->u.new_sess.id;
 			fcport->flags |= FCF_FABRIC_DEVICE;
 			fcport->fw_login_state = DSC_LS_PLOGI_PEND;
+<<<<<<< HEAD
 			fcport->tgt_short_link_down_cnt = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			memcpy(fcport->port_name, e->u.new_sess.port_name,
 			    WWN_SIZE);
@@ -7074,8 +7099,11 @@ qla2x00_timer(struct timer_list *t)
 	uint16_t        w;
 	struct qla_hw_data *ha = vha->hw;
 	struct req_que *req;
+<<<<<<< HEAD
 	unsigned long flags;
 	fc_port_t *fcport = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ha->flags.eeh_busy) {
 		ql_dbg(ql_dbg_timer, vha, 0x6000,
@@ -7107,6 +7135,7 @@ qla2x00_timer(struct timer_list *t)
 	if (!vha->vp_idx && IS_QLAFX00(ha))
 		qlafx00_timer_routine(vha);
 
+<<<<<<< HEAD
 	if (vha->link_down_time < QLA2XX_MAX_LINK_DOWN_TIME)
 		vha->link_down_time++;
 
@@ -7117,6 +7146,8 @@ qla2x00_timer(struct timer_list *t)
 	}
 	spin_unlock_irqrestore(&vha->hw->tgt.sess_lock, flags);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Loop down handler. */
 	if (atomic_read(&vha->loop_down_timer) > 0 &&
 	    !(test_bit(ABORT_ISP_ACTIVE, &vha->dpc_flags)) &&

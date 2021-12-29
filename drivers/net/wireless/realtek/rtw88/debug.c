@@ -270,7 +270,11 @@ static ssize_t rtw_debugfs_set_rsvd_page(struct file *filp,
 
 	if (num != 2) {
 		rtw_warn(rtwdev, "invalid arguments\n");
+<<<<<<< HEAD
+		return -EINVAL;
+=======
 		return num;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	debugfs_priv->rsvd_page.page_offset = offset;
@@ -800,7 +804,11 @@ static ssize_t rtw_debugfs_set_coex_enable(struct file *filp,
 	}
 
 	mutex_lock(&rtwdev->mutex);
+<<<<<<< HEAD
 	coex->manual_control = !enable;
+=======
+	coex->manual_control = enable == 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&rtwdev->mutex);
 
 	return count;

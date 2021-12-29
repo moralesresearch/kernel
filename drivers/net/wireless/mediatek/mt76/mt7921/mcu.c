@@ -391,6 +391,29 @@ static void
 mt7921_mcu_tx_rate_report(struct mt7921_dev *dev, struct sk_buff *skb,
 			  u16 wlan_idx)
 {
+<<<<<<< HEAD
+	struct mt7921_mcu_wlan_info_event *wtbl_info;
+	struct mt76_phy *mphy = &dev->mphy;
+	struct mt7921_sta_stats *stats;
+	struct rate_info rate = {};
+	struct mt7921_sta *msta;
+	struct mt76_wcid *wcid;
+	u8 idx;
+
+	if (wlan_idx >= MT76_N_WCIDS)
+		return;
+
+	wtbl_info = (struct mt7921_mcu_wlan_info_event *)skb->data;
+	idx = wtbl_info->rate_info.rate_idx;
+	if (idx >= ARRAY_SIZE(wtbl_info->rate_info.rate))
+		return;
+
+	rcu_read_lock();
+
+	wcid = rcu_dereference(dev->mt76.wcid[wlan_idx]);
+	if (!wcid)
+		goto out;
+=======
 	struct mt7921_mcu_wlan_info_event *wtbl_info =
 		(struct mt7921_mcu_wlan_info_event *)(skb->data);
 	struct rate_info rate = {};
@@ -407,13 +430,22 @@ mt7921_mcu_tx_rate_report(struct mt7921_dev *dev, struct sk_buff *skb,
 	wcid = rcu_dereference(dev->mt76.wcid[wlan_idx]);
 	if (!wcid)
 		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	msta = container_of(wcid, struct mt7921_sta, wcid);
 	stats = &msta->stats;
 
 	/* current rate */
+<<<<<<< HEAD
+	mt7921_mcu_tx_rate_parse(mphy, &wtbl_info->peer_cap, &rate,
+				 le16_to_cpu(wtbl_info->rate_info.rate[idx]));
+	stats->tx_rate = rate;
+out:
+	rcu_read_unlock();
+=======
 	mt7921_mcu_tx_rate_parse(mphy, &peer, &rate, curr);
 	stats->tx_rate = rate;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void
@@ -1304,3 +1336,50 @@ mt7921_pm_interface_iter(void *priv, u8 *mac, struct ieee80211_vif *vif)
 		mt76_clear(dev, MT_WF_RFCR(0), MT_WF_RFCR_DROP_OTHER_BEACON);
 	}
 }
+<<<<<<< HEAD
+
+int mt7921_mcu_update_arp_filter(struct ieee80211_hw *hw,
+				 struct ieee80211_vif *vif,
+				 struct ieee80211_bss_conf *info)
+{
+	struct mt7921_vif *mvif = (struct mt7921_vif *)vif->drv_priv;
+	struct mt7921_dev *dev = mt7921_hw_dev(hw);
+	struct sk_buff *skb;
+	int i, len = min_t(int, info->arp_addr_cnt,
+			   IEEE80211_BSS_ARP_ADDR_LIST_LEN);
+	struct {
+		struct {
+			u8 bss_idx;
+			u8 pad[3];
+		} __packed hdr;
+		struct mt76_connac_arpns_tlv arp;
+	} req_hdr = {
+		.hdr = {
+			.bss_idx = mvif->mt76.idx,
+		},
+		.arp = {
+			.tag = cpu_to_le16(UNI_OFFLOAD_OFFLOAD_ARP),
+			.len = cpu_to_le16(sizeof(struct mt76_connac_arpns_tlv)),
+			.ips_num = len,
+			.mode = 2,  /* update */
+			.option = 1,
+		},
+	};
+
+	skb = mt76_mcu_msg_alloc(&dev->mt76, NULL,
+				 sizeof(req_hdr) + len * sizeof(__be32));
+	if (!skb)
+		return -ENOMEM;
+
+	skb_put_data(skb, &req_hdr, sizeof(req_hdr));
+	for (i = 0; i < len; i++) {
+		u8 *addr = (u8 *)skb_put(skb, sizeof(__be32));
+
+		memcpy(addr, &info->arp_addr_list[i], sizeof(__be32));
+	}
+
+	return mt76_mcu_skb_send_msg(&dev->mt76, skb, MCU_UNI_CMD_OFFLOAD,
+				     true);
+}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

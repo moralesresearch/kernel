@@ -222,84 +222,149 @@
 
 	pinctrl: pinctrl {
 		compatible = "ralink,rt2880-pinmux";
+<<<<<<< HEAD
 
 		i2c_pins: i2c0-pins {
 			pinmux {
+=======
+		pinctrl-names = "default";
+		pinctrl-0 = <&state_default>;
+
+		state_default: pinctrl0 {
+		};
+
+		i2c_pins: i2c0 {
+			i2c0 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "i2c";
 				function = "i2c";
 			};
 		};
 
+<<<<<<< HEAD
 		spi_pins: spi0-pins {
 			pinmux {
+=======
+		spi_pins: spi0 {
+			spi0 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "spi";
 				function = "spi";
 			};
 		};
 
+<<<<<<< HEAD
 		uart1_pins: uart1-pins {
 			pinmux {
+=======
+		uart1_pins: uart1 {
+			uart1 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "uart1";
 				function = "uart1";
 			};
 		};
 
+<<<<<<< HEAD
 		uart2_pins: uart2-pins {
 			pinmux {
+=======
+		uart2_pins: uart2 {
+			uart2 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "uart2";
 				function = "uart2";
 			};
 		};
 
+<<<<<<< HEAD
 		uart3_pins: uart3-pins {
 			pinmux {
+=======
+		uart3_pins: uart3 {
+			uart3 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "uart3";
 				function = "uart3";
 			};
 		};
 
+<<<<<<< HEAD
 		rgmii1_pins: rgmii1-pins {
 			pinmux {
+=======
+		rgmii1_pins: rgmii1 {
+			rgmii1 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "rgmii1";
 				function = "rgmii1";
 			};
 		};
 
+<<<<<<< HEAD
 		rgmii2_pins: rgmii2-pins {
 			pinmux {
+=======
+		rgmii2_pins: rgmii2 {
+			rgmii2 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "rgmii2";
 				function = "rgmii2";
 			};
 		};
 
+<<<<<<< HEAD
 		mdio_pins: mdio0-pins {
 			pinmux {
+=======
+		mdio_pins: mdio0 {
+			mdio0 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "mdio";
 				function = "mdio";
 			};
 		};
 
+<<<<<<< HEAD
 		pcie_pins: pcie0-pins {
 			pinmux {
+=======
+		pcie_pins: pcie0 {
+			pcie0 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "pcie";
 				function = "gpio";
 			};
 		};
 
+<<<<<<< HEAD
 		nand_pins: nand0-pins {
 			spi-pinmux {
+=======
+		nand_pins: nand0 {
+			spi-nand {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "spi";
 				function = "nand1";
 			};
 
+<<<<<<< HEAD
 			sdhci-pinmux {
+=======
+			sdhci-nand {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "sdhci";
 				function = "nand2";
 			};
 		};
 
+<<<<<<< HEAD
 		sdhci_pins: sdhci0-pins {
 			pinmux {
+=======
+		sdhci_pins: sdhci0 {
+			sdhci0 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				groups = "sdhci";
 				function = "sdhci";
 			};
@@ -492,6 +557,16 @@
 		};
 	};
 
+<<<<<<< HEAD
+=======
+	gsw: gsw@1e110000 {
+		compatible = "mediatek,mt7621-gsw";
+		reg = <0x1e110000 0x8000>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED 23 IRQ_TYPE_LEVEL_HIGH>;
+	};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pcie: pcie@1e140000 {
 		compatible = "mediatek,mt7621-pci";
 		reg = <0x1e140000 0x100     /* host-pci bridge registers */

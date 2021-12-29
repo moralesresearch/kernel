@@ -1812,6 +1812,7 @@ int perf_pmu__caps_parse(struct perf_pmu *pmu)
 
 	return nr_caps;
 }
+<<<<<<< HEAD
 
 void perf_pmu__warn_invalid_config(struct perf_pmu *pmu, __u64 config,
 				   char *name)
@@ -1845,3 +1846,5 @@ void perf_pmu__warn_invalid_config(struct perf_pmu *pmu, __u64 config,
 		   "'%llx' not supported by kernel)!\n",
 		   name ?: "N/A", buf, config);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

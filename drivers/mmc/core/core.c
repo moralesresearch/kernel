@@ -37,7 +37,10 @@
 
 #include "core.h"
 #include "card.h"
+<<<<<<< HEAD
 #include "crypto.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "bus.h"
 #include "host.h"
 #include "sdio_bus.h"
@@ -548,10 +551,17 @@ int mmc_cqe_recovery(struct mmc_host *host)
 	host->cqe_ops->cqe_recovery_start(host);
 
 	memset(&cmd, 0, sizeof(cmd));
+<<<<<<< HEAD
 	cmd.opcode       = MMC_STOP_TRANSMISSION;
 	cmd.flags        = MMC_RSP_R1B | MMC_CMD_AC;
 	cmd.flags       &= ~MMC_RSP_CRC; /* Ignore CRC */
 	cmd.busy_timeout = MMC_CQE_RECOVERY_TIMEOUT;
+=======
+	cmd.opcode       = MMC_STOP_TRANSMISSION,
+	cmd.flags        = MMC_RSP_R1B | MMC_CMD_AC,
+	cmd.flags       &= ~MMC_RSP_CRC; /* Ignore CRC */
+	cmd.busy_timeout = MMC_CQE_RECOVERY_TIMEOUT,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mmc_wait_for_cmd(host, &cmd, 0);
 
 	memset(&cmd, 0, sizeof(cmd));
@@ -559,7 +569,11 @@ int mmc_cqe_recovery(struct mmc_host *host)
 	cmd.arg          = 1; /* Discard entire queue */
 	cmd.flags        = MMC_RSP_R1B | MMC_CMD_AC;
 	cmd.flags       &= ~MMC_RSP_CRC; /* Ignore CRC */
+<<<<<<< HEAD
 	cmd.busy_timeout = MMC_CQE_RECOVERY_TIMEOUT;
+=======
+	cmd.busy_timeout = MMC_CQE_RECOVERY_TIMEOUT,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = mmc_wait_for_cmd(host, &cmd, 0);
 
 	host->cqe_ops->cqe_recovery_finish(host);
@@ -993,8 +1007,11 @@ void mmc_set_initial_state(struct mmc_host *host)
 		host->ops->hs400_enhanced_strobe(host, &host->ios);
 
 	mmc_set_ios(host);
+<<<<<<< HEAD
 
 	mmc_crypto_set_initial_state(host);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1207,7 +1224,11 @@ int mmc_set_uhs_voltage(struct mmc_host *host, u32 ocr)
 
 	err = mmc_wait_for_cmd(host, &cmd, 0);
 	if (err)
+<<<<<<< HEAD
+		goto power_cycle;
+=======
 		return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!mmc_host_is_spi(host) && (cmd.resp[0] & R1_ERROR))
 		return -EIO;
@@ -2369,6 +2390,8 @@ void mmc_stop_host(struct mmc_host *host)
 	mmc_release_host(host);
 }
 
+<<<<<<< HEAD
+=======
 #ifdef CONFIG_PM_SLEEP
 /* Do the card removal on suspend if card is assumed removeable
  * Do that in pm notifier while userspace isn't yet frozen, so we will be able
@@ -2443,6 +2466,7 @@ void mmc_unregister_pm_notifier(struct mmc_host *host)
 }
 #endif
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __init mmc_init(void)
 {
 	int ret;

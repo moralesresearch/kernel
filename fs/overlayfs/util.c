@@ -422,11 +422,26 @@ void ovl_inode_update(struct inode *inode, struct dentry *upperdentry)
 	}
 }
 
+<<<<<<< HEAD
+static void ovl_dir_version_inc(struct dentry *dentry, bool impurity)
+=======
 static void ovl_dentry_version_inc(struct dentry *dentry, bool impurity)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 
 	WARN_ON(!inode_is_locked(inode));
+<<<<<<< HEAD
+	WARN_ON(!d_is_dir(dentry));
+	/*
+	 * Version is used by readdir code to keep cache consistent.
+	 * For merge dirs (or dirs with origin) all changes need to be noted.
+	 * For non-merge dirs, cache contains only impure entries (i.e. ones
+	 * which have been copied up and have origins), so only need to note
+	 * changes to impure entries.
+	 */
+	if (!ovl_dir_is_real(dentry) || impurity)
+=======
 	/*
 	 * Version is used by readdir code to keep cache consistent.  For merge
 	 * dirs all changes need to be noted.  For non-merge dirs, cache only
@@ -434,6 +449,7 @@ static void ovl_dentry_version_inc(struct dentry *dentry, bool impurity)
 	 * entries, so only need to note changes to impure entries.
 	 */
 	if (OVL_TYPE_MERGE(ovl_path_type(dentry)) || impurity)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		OVL_I(inode)->version++;
 }
 
@@ -442,7 +458,11 @@ void ovl_dir_modified(struct dentry *dentry, bool impurity)
 	/* Copy mtime/ctime */
 	ovl_copyattr(d_inode(ovl_dentry_upper(dentry)), d_inode(dentry));
 
+<<<<<<< HEAD
+	ovl_dir_version_inc(dentry, impurity);
+=======
 	ovl_dentry_version_inc(dentry, impurity);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 u64 ovl_dentry_version_get(struct dentry *dentry)
@@ -479,12 +499,20 @@ struct file *ovl_path_open(struct path *path, int flags)
 		BUG();
 	}
 
+<<<<<<< HEAD
 	err = inode_permission(&init_user_ns, inode, acc_mode | MAY_OPEN);
+=======
+	err = inode_permission(inode, acc_mode | MAY_OPEN);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return ERR_PTR(err);
 
 	/* O_NOATIME is an optimization, don't fail if not permitted */
+<<<<<<< HEAD
 	if (inode_owner_or_capable(&init_user_ns, inode))
+=======
+	if (inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		flags |= O_NOATIME;
 
 	return dentry_open(path, flags, current_cred());
@@ -638,6 +666,8 @@ int ovl_set_impure(struct dentry *dentry, struct dentry *upperdentry)
 	return err;
 }
 
+<<<<<<< HEAD
+=======
 void ovl_set_flag(unsigned long flag, struct inode *inode)
 {
 	set_bit(flag, &OVL_I(inode)->flags);
@@ -653,6 +683,7 @@ bool ovl_test_flag(unsigned long flag, struct inode *inode)
 	return test_bit(flag, &OVL_I(inode)->flags);
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * Caller must hold a reference to inode to prevent it from being freed while
  * it is marked inuse.

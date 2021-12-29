@@ -1701,7 +1701,11 @@ static void qib_7220_quiet_serdes(struct qib_pportdata *ppd)
 
 /**
  * qib_setup_7220_setextled - set the state of the two external LEDs
+<<<<<<< HEAD
  * @ppd: the qlogic_ib device
+=======
+ * @dd: the qlogic_ib device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @on: whether the link is up or not
  *
  * The exact combo of LEDs if on is true is determined by looking
@@ -2146,7 +2150,11 @@ bail:
  * qib_7220_put_tid - write a TID to the chip
  * @dd: the qlogic_ib device
  * @tidptr: pointer to the expected TID (in chip) to update
+<<<<<<< HEAD
  * @type: 0 for eager, 1 for expected
+=======
+ * @tidtype: 0 for eager, 1 for expected
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @pa: physical address of in memory buffer; tidinvalid if freeing
  */
 static void qib_7220_put_tid(struct qib_devdata *dd, u64 __iomem *tidptr,
@@ -2180,7 +2188,11 @@ static void qib_7220_put_tid(struct qib_devdata *dd, u64 __iomem *tidptr,
 /**
  * qib_7220_clear_tids - clear all TID entries for a ctxt, expected and eager
  * @dd: the qlogic_ib device
+<<<<<<< HEAD
  * @rcd: the ctxt
+=======
+ * @ctxt: the ctxt
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * clear all TID entries for a ctxt, expected and eager.
  * Used from qib_close().  On this chip, TIDs are only 32 bits,
@@ -2238,7 +2250,11 @@ static void qib_7220_tidtemplate(struct qib_devdata *dd)
 /**
  * qib_init_7220_get_base_info - set chip-specific flags for user code
  * @rcd: the qlogic_ib ctxt
+<<<<<<< HEAD
  * @kinfo: qib_base_info pointer
+=======
+ * @kbase: qib_base_info pointer
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * We set the PCIE flag because the lower bandwidth on PCIe vs
  * HyperTransport can affect some user packet algorithims.
@@ -2896,8 +2912,13 @@ static void sendctrl_7220_mod(struct qib_pportdata *ppd, u32 op)
 
 /**
  * qib_portcntr_7220 - read a per-port counter
+<<<<<<< HEAD
  * @ppd: the qlogic_ib device
  * @reg: the counter to snapshot
+=======
+ * @dd: the qlogic_ib device
+ * @creg: the counter to snapshot
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static u64 qib_portcntr_7220(struct qib_pportdata *ppd, u32 reg)
 {
@@ -3232,7 +3253,11 @@ done:
 
 /**
  * qib_get_7220_faststats - get word counters from chip before they overflow
+<<<<<<< HEAD
  * @t: contains a pointer to the qlogic_ib device qib_devdata
+=======
+ * @opaque - contains a pointer to the qlogic_ib device qib_devdata
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This needs more work; in particular, decision on whether we really
  * need traffic_wds done the way it is
@@ -4468,7 +4493,11 @@ static int qib_7220_eeprom_wen(struct qib_devdata *dd, int wen)
 
 /**
  * qib_init_iba7220_funcs - set up the chip-specific function pointers
+<<<<<<< HEAD
  * @pdev: the pci_dev for qlogic_ib device
+=======
+ * @dev: the pci_dev for qlogic_ib device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @ent: pci_device_id struct for this dev
  *
  * This is global, and is called directly at init to set up the

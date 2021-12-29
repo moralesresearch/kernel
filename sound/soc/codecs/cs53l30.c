@@ -869,7 +869,11 @@ static struct snd_soc_dai_driver cs53l30_dai = {
 		.formats = CS53L30_FORMATS,
 	},
 	.ops = &cs53l30_ops,
+<<<<<<< HEAD
 	.symmetric_rate = 1,
+=======
+	.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int cs53l30_component_probe(struct snd_soc_component *component)

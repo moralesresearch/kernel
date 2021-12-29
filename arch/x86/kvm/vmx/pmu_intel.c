@@ -152,6 +152,7 @@ static struct kvm_pmc *intel_rdpmc_ecx_to_pmc(struct kvm_vcpu *vcpu,
 	return &counters[array_index_nospec(idx, num_counters)];
 }
 
+<<<<<<< HEAD
 static inline u64 vcpu_get_perf_capabilities(struct kvm_vcpu *vcpu)
 {
 	if (!guest_cpuid_has(vcpu, X86_FEATURE_PDCM))
@@ -163,6 +164,14 @@ static inline u64 vcpu_get_perf_capabilities(struct kvm_vcpu *vcpu)
 static inline bool fw_writes_is_enabled(struct kvm_vcpu *vcpu)
 {
 	return (vcpu_get_perf_capabilities(vcpu) & PMU_CAP_FW_WRITES) != 0;
+=======
+static inline bool fw_writes_is_enabled(struct kvm_vcpu *vcpu)
+{
+	if (!guest_cpuid_has(vcpu, X86_FEATURE_PDCM))
+		return false;
+
+	return vcpu->arch.perf_capabilities & PMU_CAP_FW_WRITES;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline struct kvm_pmc *get_fw_gp_pmc(struct kvm_pmu *pmu, u32 msr)
@@ -173,6 +182,7 @@ static inline struct kvm_pmc *get_fw_gp_pmc(struct kvm_pmu *pmu, u32 msr)
 	return get_gp_pmc(pmu, msr, MSR_IA32_PMC0);
 }
 
+<<<<<<< HEAD
 bool intel_pmu_lbr_is_compatible(struct kvm_vcpu *vcpu)
 {
 	/*
@@ -208,6 +218,8 @@ static bool intel_pmu_is_valid_lbr_msr(struct kvm_vcpu *vcpu, u32 index)
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool intel_is_valid_msr(struct kvm_vcpu *vcpu, u32 msr)
 {
 	struct kvm_pmu *pmu = vcpu_to_pmu(vcpu);
@@ -223,8 +235,12 @@ static bool intel_is_valid_msr(struct kvm_vcpu *vcpu, u32 msr)
 	default:
 		ret = get_gp_pmc(pmu, msr, MSR_IA32_PERFCTR0) ||
 			get_gp_pmc(pmu, msr, MSR_P6_EVNTSEL0) ||
+<<<<<<< HEAD
 			get_fixed_pmc(pmu, msr) || get_fw_gp_pmc(pmu, msr) ||
 			intel_pmu_is_valid_lbr_msr(vcpu, msr);
+=======
+			get_fixed_pmc(pmu, msr) || get_fw_gp_pmc(pmu, msr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -243,6 +259,7 @@ static struct kvm_pmc *intel_msr_idx_to_pmc(struct kvm_vcpu *vcpu, u32 msr)
 	return pmc;
 }
 
+<<<<<<< HEAD
 static inline void intel_pmu_release_guest_lbr_event(struct kvm_vcpu *vcpu)
 {
 	struct lbr_desc *lbr_desc = vcpu_to_lbr_desc(vcpu);
@@ -348,6 +365,8 @@ dummy:
 	return true;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int intel_pmu_get_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
 {
 	struct kvm_pmu *pmu = vcpu_to_pmu(vcpu);
@@ -382,8 +401,12 @@ static int intel_pmu_get_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
 		} else if ((pmc = get_gp_pmc(pmu, msr, MSR_P6_EVNTSEL0))) {
 			msr_info->data = pmc->eventsel;
 			return 0;
+<<<<<<< HEAD
 		} else if (intel_pmu_handle_lbr_msrs_access(vcpu, msr_info, true))
 			return 0;
+=======
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 1;
@@ -454,8 +477,12 @@ static int intel_pmu_set_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
 				reprogram_gp_counter(pmc, data);
 				return 0;
 			}
+<<<<<<< HEAD
 		} else if (intel_pmu_handle_lbr_msrs_access(vcpu, msr_info, false))
 			return 0;
+=======
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 1;
@@ -464,8 +491,11 @@ static int intel_pmu_set_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
 static void intel_pmu_refresh(struct kvm_vcpu *vcpu)
 {
 	struct kvm_pmu *pmu = vcpu_to_pmu(vcpu);
+<<<<<<< HEAD
 	struct lbr_desc *lbr_desc = vcpu_to_lbr_desc(vcpu);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct x86_pmu_capability x86_pmu;
 	struct kvm_cpuid_entry2 *entry;
 	union cpuid10_eax eax;
@@ -477,6 +507,10 @@ static void intel_pmu_refresh(struct kvm_vcpu *vcpu)
 	pmu->counter_bitmask[KVM_PMC_FIXED] = 0;
 	pmu->version = 0;
 	pmu->reserved_bits = 0xffffffff00200000ull;
+<<<<<<< HEAD
+=======
+	vcpu->arch.perf_capabilities = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	entry = kvm_find_cpuid_entry(vcpu, 0xa, 0);
 	if (!entry)
@@ -489,6 +523,11 @@ static void intel_pmu_refresh(struct kvm_vcpu *vcpu)
 		return;
 
 	perf_get_x86_pmu_capability(&x86_pmu);
+<<<<<<< HEAD
+=======
+	if (guest_cpuid_has(vcpu, X86_FEATURE_PDCM))
+		vcpu->arch.perf_capabilities = vmx_get_perf_capabilities();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pmu->nr_arch_gp_counters = min_t(int, eax.split.num_counters,
 					 x86_pmu.num_counters_gp);
@@ -532,6 +571,7 @@ static void intel_pmu_refresh(struct kvm_vcpu *vcpu)
 		INTEL_PMC_MAX_GENERIC, pmu->nr_arch_fixed_counters);
 
 	nested_vmx_pmu_entry_exit_ctls_update(vcpu);
+<<<<<<< HEAD
 
 	if (intel_pmu_lbr_is_compatible(vcpu))
 		x86_perf_get_lbr(&lbr_desc->records);
@@ -540,13 +580,18 @@ static void intel_pmu_refresh(struct kvm_vcpu *vcpu)
 
 	if (lbr_desc->records.nr)
 		bitmap_set(pmu->all_valid_pmc_idx, INTEL_PMC_IDX_FIXED_VLBR, 1);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void intel_pmu_init(struct kvm_vcpu *vcpu)
 {
 	int i;
 	struct kvm_pmu *pmu = vcpu_to_pmu(vcpu);
+<<<<<<< HEAD
 	struct lbr_desc *lbr_desc = vcpu_to_lbr_desc(vcpu);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < INTEL_PMC_MAX_GENERIC; i++) {
 		pmu->gp_counters[i].type = KVM_PMC_GP;
@@ -561,11 +606,14 @@ static void intel_pmu_init(struct kvm_vcpu *vcpu)
 		pmu->fixed_counters[i].idx = i + INTEL_PMC_IDX_FIXED;
 		pmu->fixed_counters[i].current_config = 0;
 	}
+<<<<<<< HEAD
 
 	vcpu->arch.perf_capabilities = vmx_get_perf_capabilities();
 	lbr_desc->records.nr = 0;
 	lbr_desc->event = NULL;
 	lbr_desc->msr_passthrough = false;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void intel_pmu_reset(struct kvm_vcpu *vcpu)
@@ -590,6 +638,7 @@ static void intel_pmu_reset(struct kvm_vcpu *vcpu)
 
 	pmu->fixed_ctr_ctrl = pmu->global_ctrl = pmu->global_status =
 		pmu->global_ovf_ctrl = 0;
+<<<<<<< HEAD
 
 	intel_pmu_release_guest_lbr_event(vcpu);
 }
@@ -703,6 +752,8 @@ static void intel_pmu_cleanup(struct kvm_vcpu *vcpu)
 {
 	if (!(vmcs_read64(GUEST_IA32_DEBUGCTL) & DEBUGCTLMSR_LBR))
 		intel_pmu_release_guest_lbr_event(vcpu);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct kvm_pmu_ops intel_pmu_ops = {
@@ -719,6 +770,9 @@ struct kvm_pmu_ops intel_pmu_ops = {
 	.refresh = intel_pmu_refresh,
 	.init = intel_pmu_init,
 	.reset = intel_pmu_reset,
+<<<<<<< HEAD
 	.deliver_pmi = intel_pmu_deliver_pmi,
 	.cleanup = intel_pmu_cleanup,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

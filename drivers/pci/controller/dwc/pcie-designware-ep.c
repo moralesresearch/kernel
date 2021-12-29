@@ -434,8 +434,15 @@ static void dw_pcie_ep_stop(struct pci_epc *epc)
 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
 
+<<<<<<< HEAD
 	if (pci->ops && pci->ops->stop_link)
 		pci->ops->stop_link(pci);
+=======
+	if (!pci->ops->stop_link)
+		return;
+
+	pci->ops->stop_link(pci);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int dw_pcie_ep_start(struct pci_epc *epc)
@@ -443,7 +450,11 @@ static int dw_pcie_ep_start(struct pci_epc *epc)
 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
 
+<<<<<<< HEAD
 	if (!pci->ops || !pci->ops->start_link)
+=======
+	if (!pci->ops->start_link)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	return pci->ops->start_link(pci);
@@ -705,6 +716,11 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
 		}
 	}
 
+<<<<<<< HEAD
+	dw_pcie_iatu_detect(pci);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "addr_space");
 	if (!res)
 		return -EINVAL;

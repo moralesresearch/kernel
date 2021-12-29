@@ -672,7 +672,11 @@ static void ucan_tx_complete_msg(struct ucan_priv *up,
 			/* update statistics */
 			up->netdev->stats.tx_packets++;
 			up->netdev->stats.tx_bytes += dlc;
+<<<<<<< HEAD
 			can_get_echo_skb(up->netdev, echo_index, NULL);
+=======
+			can_get_echo_skb(up->netdev, echo_index);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			up->netdev->stats.tx_dropped++;
 			can_free_echo_skb(up->netdev, echo_index);
@@ -1137,7 +1141,11 @@ static netdev_tx_t ucan_start_xmit(struct sk_buff *skb,
 
 	/* put the skb on can loopback stack */
 	spin_lock_irqsave(&up->echo_skb_lock, flags);
+<<<<<<< HEAD
 	can_put_echo_skb(skb, up->netdev, echo_index, 0);
+=======
+	can_put_echo_skb(skb, up->netdev, echo_index);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_irqrestore(&up->echo_skb_lock, flags);
 
 	/* transmit it */

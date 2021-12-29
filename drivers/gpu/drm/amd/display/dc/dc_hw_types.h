@@ -71,7 +71,10 @@ struct dc_plane_address {
 	union {
 		struct{
 			PHYSICAL_ADDRESS_LOC addr;
+<<<<<<< HEAD
 			PHYSICAL_ADDRESS_LOC cursor_cache_addr;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			PHYSICAL_ADDRESS_LOC meta_addr;
 			union large_integer dcc_const_color;
 		} grph;

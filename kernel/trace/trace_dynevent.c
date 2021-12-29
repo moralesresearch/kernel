@@ -31,6 +31,7 @@ int dyn_event_register(struct dyn_event_operations *ops)
 	return 0;
 }
 
+<<<<<<< HEAD
 int dyn_event_release(const char *raw_command, struct dyn_event_operations *type)
 {
 	struct dyn_event *pos, *n;
@@ -56,6 +57,25 @@ int dyn_event_release(const char *raw_command, struct dyn_event_operations *type
 		}
 		event++;
 	}
+=======
+int dyn_event_release(int argc, char **argv, struct dyn_event_operations *type)
+{
+	struct dyn_event *pos, *n;
+	char *system = NULL, *event, *p;
+	int ret = -ENOENT;
+
+	if (argv[0][0] == '-') {
+		if (argv[0][1] != ':')
+			return -EINVAL;
+		event = &argv[0][2];
+	} else {
+		event = strchr(argv[0], ':');
+		if (!event)
+			return -EINVAL;
+		event++;
+	}
+	argc--; argv++;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	p = strchr(event, '/');
 	if (p) {
@@ -63,17 +83,26 @@ int dyn_event_release(const char *raw_command, struct dyn_event_operations *type
 		event = p + 1;
 		*p = '\0';
 	}
+<<<<<<< HEAD
 	if (event[0] == '\0') {
 		ret = -EINVAL;
 		goto out;
 	}
+=======
+	if (event[0] == '\0')
+		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&event_mutex);
 	for_each_dyn_event_safe(pos, n) {
 		if (type && type != pos->ops)
 			continue;
 		if (!pos->ops->match(system, event,
+<<<<<<< HEAD
 				argc - 1, (const char **)argv + 1, pos))
+=======
+				argc, (const char **)argv, pos))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			continue;
 
 		ret = pos->ops->free(pos);
@@ -81,22 +110,39 @@ int dyn_event_release(const char *raw_command, struct dyn_event_operations *type
 			break;
 	}
 	mutex_unlock(&event_mutex);
+<<<<<<< HEAD
 out:
 	argv_free(argv);
 	return ret;
 }
 
 static int create_dyn_event(const char *raw_command)
+=======
+
+	return ret;
+}
+
+static int create_dyn_event(int argc, char **argv)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dyn_event_operations *ops;
 	int ret = -ENODEV;
 
+<<<<<<< HEAD
 	if (raw_command[0] == '-' || raw_command[0] == '!')
 		return dyn_event_release(raw_command, NULL);
 
 	mutex_lock(&dyn_event_ops_mutex);
 	list_for_each_entry(ops, &dyn_event_ops_list, list) {
 		ret = ops->create(raw_command);
+=======
+	if (argv[0][0] == '-' || argv[0][0] == '!')
+		return dyn_event_release(argc, argv, NULL);
+
+	mutex_lock(&dyn_event_ops_mutex);
+	list_for_each_entry(ops, &dyn_event_ops_list, list) {
+		ret = ops->create(argc, (const char **)argv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ret || ret != -ECANCELED)
 			break;
 	}

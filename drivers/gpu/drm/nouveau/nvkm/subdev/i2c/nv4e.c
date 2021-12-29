@@ -30,8 +30,14 @@ nv4e_i2c = {
 };
 
 int
+<<<<<<< HEAD
 nv4e_i2c_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	     struct nvkm_i2c **pi2c)
 {
 	return nvkm_i2c_new_(&nv4e_i2c, device, type, inst, pi2c);
+=======
+nv4e_i2c_new(struct nvkm_device *device, int index, struct nvkm_i2c **pi2c)
+{
+	return nvkm_i2c_new_(&nv4e_i2c, device, index, pi2c);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

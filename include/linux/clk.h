@@ -92,7 +92,11 @@ struct clk_bulk_data {
 #ifdef CONFIG_COMMON_CLK
 
 /**
+<<<<<<< HEAD
  * clk_notifier_register - register a clock rate-change notifier callback
+=======
+ * clk_notifier_register: register a clock rate-change notifier callback
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @clk: clock whose rate we are interested in
  * @nb: notifier block with callback function pointer
  *
@@ -103,7 +107,11 @@ struct clk_bulk_data {
 int clk_notifier_register(struct clk *clk, struct notifier_block *nb);
 
 /**
+<<<<<<< HEAD
  * clk_notifier_unregister - unregister a clock rate-change notifier callback
+=======
+ * clk_notifier_unregister: unregister a clock rate-change notifier callback
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @clk: clock whose rate we are no longer interested in
  * @nb: notifier block which will be unregistered
  */
@@ -238,7 +246,10 @@ static inline bool clk_is_match(const struct clk *p, const struct clk *q)
 
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_HAVE_CLK_PREPARE
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * clk_prepare - prepare a clock source
  * @clk: clock source
@@ -247,6 +258,7 @@ static inline bool clk_is_match(const struct clk *p, const struct clk *q)
  *
  * Must not be called from within atomic context.
  */
+<<<<<<< HEAD
 int clk_prepare(struct clk *clk);
 int __must_check clk_bulk_prepare(int num_clks,
 				  const struct clk_bulk_data *clks);
@@ -267,6 +279,12 @@ int __must_check clk_bulk_prepare(int num_clks,
  * to be right.
  */
 bool clk_is_enabled_when_prepared(struct clk *clk);
+=======
+#ifdef CONFIG_HAVE_CLK_PREPARE
+int clk_prepare(struct clk *clk);
+int __must_check clk_bulk_prepare(int num_clks,
+				  const struct clk_bulk_data *clks);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else
 static inline int clk_prepare(struct clk *clk)
 {
@@ -280,11 +298,14 @@ clk_bulk_prepare(int num_clks, const struct clk_bulk_data *clks)
 	might_sleep();
 	return 0;
 }
+<<<<<<< HEAD
 
 static inline bool clk_is_enabled_when_prepared(struct clk *clk)
 {
 	return false;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 /**

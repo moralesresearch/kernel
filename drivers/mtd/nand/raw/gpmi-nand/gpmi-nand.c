@@ -2449,7 +2449,11 @@ static int gpmi_nand_init(struct gpmi_nand_data *this)
 	this->bch_geometry.auxiliary_size = 128;
 	ret = gpmi_alloc_dma_buffer(this);
 	if (ret)
+<<<<<<< HEAD
+		return ret;
+=======
 		goto err_out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	nand_controller_init(&this->base);
 	this->base.ops = &gpmi_nand_controller_ops;

@@ -78,7 +78,11 @@ static inline u32 brcm_usb_readl(void __iomem *addr)
 	 * Other architectures (e.g., ARM) either do not support big endian, or
 	 * else leave I/O in little endian mode.
 	 */
+<<<<<<< HEAD
+	if (IS_ENABLED(CONFIG_MIPS) && IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
+=======
 	if (IS_ENABLED(CONFIG_MIPS) && IS_ENABLED(__BIG_ENDIAN))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return __raw_readl(addr);
 	else
 		return readl_relaxed(addr);
@@ -87,7 +91,11 @@ static inline u32 brcm_usb_readl(void __iomem *addr)
 static inline void brcm_usb_writel(u32 val, void __iomem *addr)
 {
 	/* See brcmnand_readl() comments */
+<<<<<<< HEAD
+	if (IS_ENABLED(CONFIG_MIPS) && IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
+=======
 	if (IS_ENABLED(CONFIG_MIPS) && IS_ENABLED(__BIG_ENDIAN))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		__raw_writel(val, addr);
 	else
 		writel_relaxed(val, addr);

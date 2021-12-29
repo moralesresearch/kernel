@@ -355,7 +355,10 @@ static const struct ieee1394_device_id oxfw_id_table[] = {
 	 *  Onyx-i series (former models):	0x081216
 	 *  Mackie Onyx Satellite:		0x00200f
 	 *  Tapco LINK.firewire 4x6:		0x000460
+<<<<<<< HEAD
+=======
 	 *  d.2 pro:				Unknown
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *  d.4 pro:				Unknown
 	 *  U.420:				Unknown
 	 *  U.420d:				Unknown

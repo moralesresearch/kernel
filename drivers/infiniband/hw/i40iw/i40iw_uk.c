@@ -119,8 +119,11 @@ void i40iw_qp_post_wr(struct i40iw_qp_uk *qp)
  * @qp: hw qp ptr
  * @wqe_idx: return wqe index
  * @wqe_size: size of sq wqe
+<<<<<<< HEAD
  * @total_size: work request length
  * @wr_id: work request id
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 u64 *i40iw_qp_get_next_send_wqe(struct i40iw_qp_uk *qp,
 				u32 *wqe_idx,
@@ -719,6 +722,10 @@ static enum i40iw_status_code i40iw_cq_post_entries(struct i40iw_cq_uk *cq,
  * i40iw_cq_poll_completion - get cq completion info
  * @cq: hw cq
  * @info: cq poll information returned
+<<<<<<< HEAD
+=======
+ * @post_cq: update cq tail
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static enum i40iw_status_code i40iw_cq_poll_completion(struct i40iw_cq_uk *cq,
 						       struct i40iw_cq_poll_info *info)
@@ -1052,7 +1059,11 @@ void i40iw_device_init_uk(struct i40iw_dev_uk *dev)
 
 /**
  * i40iw_clean_cq - clean cq entries
+<<<<<<< HEAD
  * @queue: completion context
+=======
+ * @ queue completion context
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @cq: cq to clean
  */
 void i40iw_clean_cq(void *queue, struct i40iw_cq_uk *cq)

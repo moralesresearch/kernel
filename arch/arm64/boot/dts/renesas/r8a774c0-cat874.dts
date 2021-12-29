@@ -17,6 +17,11 @@
 	aliases {
 		serial0 = &scif2;
 		serial1 = &hscif2;
+<<<<<<< HEAD
+		mmc0 = &sdhi0;
+		mmc1 = &sdhi3;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	chosen {

@@ -406,6 +406,7 @@ static struct sk_buff *page_to_skb(struct virtnet_info *vi,
 	offset += hdr_padded_len;
 	p += hdr_padded_len;
 
+<<<<<<< HEAD
 	/* Copy all frame if it fits skb->head, otherwise
 	 * we let virtio_net_hdr_to_skb() and GRO pull headers as needed.
 	 */
@@ -413,6 +414,11 @@ static struct sk_buff *page_to_skb(struct virtnet_info *vi,
 		copy = len;
 	else
 		copy = ETH_HLEN + metasize;
+=======
+	copy = len;
+	if (copy > skb_tailroom(skb))
+		copy = skb_tailroom(skb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb_put_data(skb, p, copy);
 
 	if (metasize) {
@@ -693,9 +699,18 @@ static struct sk_buff *receive_small(struct net_device *dev,
 			page = xdp_page;
 		}
 
+<<<<<<< HEAD
 		xdp_init_buff(&xdp, buflen, &rq->xdp_rxq);
 		xdp_prepare_buff(&xdp, buf + VIRTNET_RX_PAD + vi->hdr_len,
 				 xdp_headroom, len, true);
+=======
+		xdp.data_hard_start = buf + VIRTNET_RX_PAD + vi->hdr_len;
+		xdp.data = xdp.data_hard_start + xdp_headroom;
+		xdp.data_end = xdp.data + len;
+		xdp.data_meta = xdp.data;
+		xdp.rxq = &rq->xdp_rxq;
+		xdp.frame_sz = buflen;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		orig_data = xdp.data;
 		act = bpf_prog_run_xdp(xdp_prog, &xdp);
 		stats->xdp_packets++;
@@ -733,7 +748,10 @@ static struct sk_buff *receive_small(struct net_device *dev,
 			fallthrough;
 		case XDP_ABORTED:
 			trace_xdp_exception(vi->dev, xdp_prog, act);
+<<<<<<< HEAD
 			goto err_xdp;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case XDP_DROP:
 			goto err_xdp;
 		}
@@ -861,9 +879,18 @@ static struct sk_buff *receive_mergeable(struct net_device *dev,
 		 * the descriptor on if we get an XDP_TX return code.
 		 */
 		data = page_address(xdp_page) + offset;
+<<<<<<< HEAD
 		xdp_init_buff(&xdp, frame_sz - vi->hdr_len, &rq->xdp_rxq);
 		xdp_prepare_buff(&xdp, data - VIRTIO_XDP_HEADROOM + vi->hdr_len,
 				 VIRTIO_XDP_HEADROOM, len - vi->hdr_len, true);
+=======
+		xdp.data_hard_start = data - VIRTIO_XDP_HEADROOM + vi->hdr_len;
+		xdp.data = data + vi->hdr_len;
+		xdp.data_end = xdp.data + (len - vi->hdr_len);
+		xdp.data_meta = xdp.data;
+		xdp.rxq = &rq->xdp_rxq;
+		xdp.frame_sz = frame_sz - vi->hdr_len;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		act = bpf_prog_run_xdp(xdp_prog, &xdp);
 		stats->xdp_packets++;

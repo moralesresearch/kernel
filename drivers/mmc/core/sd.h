@@ -10,7 +10,11 @@ struct mmc_host;
 struct mmc_card;
 
 int mmc_sd_get_cid(struct mmc_host *host, u32 ocr, u32 *cid, u32 *rocr);
+<<<<<<< HEAD
 int mmc_sd_get_csd(struct mmc_card *card);
+=======
+int mmc_sd_get_csd(struct mmc_host *host, struct mmc_card *card);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mmc_decode_cid(struct mmc_card *card);
 int mmc_sd_setup_card(struct mmc_host *host, struct mmc_card *card,
 	bool reinit);

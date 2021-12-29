@@ -234,7 +234,10 @@ static void signal_irq_work(struct irq_work *work)
 		intel_breadcrumbs_disarm_irq(b);
 
 	rcu_read_lock();
+<<<<<<< HEAD
 	atomic_inc(&b->signaler_active);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry_rcu(ce, &b->signalers, signal_link) {
 		struct i915_request *rq;
 
@@ -257,20 +260,33 @@ static void signal_irq_work(struct irq_work *work)
 			list_del_rcu(&rq->signal_link);
 			release = remove_signaling_context(b, ce);
 			spin_unlock(&ce->signal_lock);
+<<<<<<< HEAD
 			if (release) {
 				if (intel_timeline_is_last(ce->timeline, rq))
 					add_retire(b, ce->timeline);
 				intel_context_put(ce);
 			}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (__dma_fence_signal(&rq->fence))
 				/* We own signal_node now, xfer to local list */
 				signal = slist_add(&rq->signal_node, signal);
 			else
 				i915_request_put(rq);
+<<<<<<< HEAD
 		}
 	}
 	atomic_dec(&b->signaler_active);
+=======
+
+			if (release) {
+				add_retire(b, ce->timeline);
+				intel_context_put(ce);
+			}
+		}
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_unlock();
 
 	llist_for_each_safe(signal, sn, signal) {
@@ -329,6 +345,7 @@ void intel_breadcrumbs_reset(struct intel_breadcrumbs *b)
 	spin_unlock_irqrestore(&b->irq_lock, flags);
 }
 
+<<<<<<< HEAD
 void __intel_breadcrumbs_park(struct intel_breadcrumbs *b)
 {
 	if (!READ_ONCE(b->irq_armed))
@@ -337,11 +354,22 @@ void __intel_breadcrumbs_park(struct intel_breadcrumbs *b)
 	/* Kick the work once more to drain the signalers, and disarm the irq */
 	irq_work_sync(&b->irq_work);
 	while (READ_ONCE(b->irq_armed) && !atomic_read(&b->active)) {
+=======
+void intel_breadcrumbs_park(struct intel_breadcrumbs *b)
+{
+	/* Kick the work once more to drain the signalers */
+	irq_work_sync(&b->irq_work);
+	while (unlikely(READ_ONCE(b->irq_armed))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		local_irq_disable();
 		signal_irq_work(&b->irq_work);
 		local_irq_enable();
 		cond_resched();
 	}
+<<<<<<< HEAD
+=======
+	GEM_BUG_ON(!list_empty(&b->signalers));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void intel_breadcrumbs_free(struct intel_breadcrumbs *b)
@@ -473,6 +501,7 @@ void i915_request_cancel_breadcrumb(struct i915_request *rq)
 	i915_request_put(rq);
 }
 
+<<<<<<< HEAD
 void intel_context_remove_breadcrumbs(struct intel_context *ce,
 				      struct intel_breadcrumbs *b)
 {
@@ -506,6 +535,8 @@ unlock:
 		cpu_relax();
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void print_signals(struct intel_breadcrumbs *b, struct drm_printer *p)
 {
 	struct intel_context *ce;
@@ -518,8 +549,13 @@ static void print_signals(struct intel_breadcrumbs *b, struct drm_printer *p)
 		list_for_each_entry_rcu(rq, &ce->signals, signal_link)
 			drm_printf(p, "\t[%llx:%llx%s] @ %dms\n",
 				   rq->fence.context, rq->fence.seqno,
+<<<<<<< HEAD
 				   __i915_request_is_complete(rq) ? "!" :
 				   __i915_request_has_started(rq) ? "*" :
+=======
+				   i915_request_completed(rq) ? "!" :
+				   i915_request_started(rq) ? "*" :
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   "",
 				   jiffies_to_msecs(jiffies - rq->emitted_jiffies));
 	}

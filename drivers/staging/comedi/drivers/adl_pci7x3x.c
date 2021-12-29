@@ -19,15 +19,24 @@
  *   PCI-7234 (adl_pci7234), PCI-7432 (adl_pci7432), PCI-7433 (adl_pci7433),
  *   PCI-7434 (adl_pci7434)
  * Author: H Hartley Sweeten <hsweeten@visionengravers.com>
+<<<<<<< HEAD
  * Updated: Fri, 20 Nov 2020 14:49:36 +0000
  * Status: works (tested on PCI-7230)
+=======
+ * Updated: Thu, 02 Aug 2012 14:27:46 -0700
+ * Status: untested
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * One or two subdevices are setup by this driver depending on
  * the number of digital inputs and/or outputs provided by the
  * board. Each subdevice has a maximum of 32 channels.
  *
+<<<<<<< HEAD
  *	PCI-7230 - 4 subdevices: 0 - 16 input, 1 - 16 output,
  *	                         2 - IRQ_IDI0, 3 - IRQ_IDI1
+=======
+ *	PCI-7230 - 2 subdevices: 0 - 16 input, 1 - 16 output
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	PCI-7233 - 1 subdevice: 0 - 32 input
  *	PCI-7234 - 1 subdevice: 0 - 32 output
  *	PCI-7432 - 2 subdevices: 0 - 32 input, 1 - 32 output
@@ -38,9 +47,14 @@
  * interrupt signals on digital input channels 0 and 1. The PCI-7233
  * has dual-interrupt sources for change-of-state (COS) on any 16
  * digital input channels of LSB and for COS on any 16 digital input
+<<<<<<< HEAD
  * lines of MSB.
  *
  * Currently, this driver only supports interrupts for PCI-7230.
+=======
+ * lines of MSB. Interrupts are not currently supported by this
+ * driver.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Configuration Options: not applicable, uses comedi PCI auto config
  */
@@ -49,6 +63,7 @@
 
 #include "../comedi_pci.h"
 
+<<<<<<< HEAD
 #include "plx9052.h"
 
 /*
@@ -65,6 +80,15 @@
 	(PLX9052_INTCSR_PCIENAB | PLX9052_INTCSR_LI2POL | PLX9052_INTCSR_LI1POL)
 
 enum adl_pci7x3x_boardid {
+=======
+/*
+ * Register I/O map (32-bit access only)
+ */
+#define PCI7X3X_DIO_REG		0x00
+#define PCI743X_DIO_REG		0x04
+
+enum apci1516_boardid {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BOARD_PCI7230,
 	BOARD_PCI7233,
 	BOARD_PCI7234,
@@ -78,16 +102,25 @@ struct adl_pci7x3x_boardinfo {
 	int nsubdevs;
 	int di_nchan;
 	int do_nchan;
+<<<<<<< HEAD
 	int irq_nchan;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct adl_pci7x3x_boardinfo adl_pci7x3x_boards[] = {
 	[BOARD_PCI7230] = {
 		.name		= "adl_pci7230",
+<<<<<<< HEAD
 		.nsubdevs	= 4,  /* IDI, IDO, IRQ_IDI0, IRQ_IDI1 */
 		.di_nchan	= 16,
 		.do_nchan	= 16,
 		.irq_nchan	= 2,
+=======
+		.nsubdevs	= 2,
+		.di_nchan	= 16,
+		.do_nchan	= 16,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[BOARD_PCI7233] = {
 		.name		= "adl_pci7233",
@@ -117,6 +150,7 @@ static const struct adl_pci7x3x_boardinfo adl_pci7x3x_boards[] = {
 	}
 };
 
+<<<<<<< HEAD
 struct adl_pci7x3x_dev_private_data {
 	unsigned long lcr_io_base;
 	unsigned int int_ctrl;
@@ -289,6 +323,8 @@ static int adl_pci7x3x_dirq_insn_bits(struct comedi_device *dev,
 	return insn->n;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int adl_pci7x3x_do_insn_bits(struct comedi_device *dev,
 				    struct comedi_subdevice *s,
 				    struct comedi_insn *insn,
@@ -328,6 +364,7 @@ static int adl_pci7x3x_di_insn_bits(struct comedi_device *dev,
 	return insn->n;
 }
 
+<<<<<<< HEAD
 static int adl_pci7x3x_reset(struct comedi_device *dev)
 {
 	struct adl_pci7x3x_dev_private_data *dev_private = dev->private;
@@ -339,17 +376,25 @@ static int adl_pci7x3x_reset(struct comedi_device *dev)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int adl_pci7x3x_auto_attach(struct comedi_device *dev,
 				   unsigned long context)
 {
 	struct pci_dev *pcidev = comedi_to_pci_dev(dev);
 	const struct adl_pci7x3x_boardinfo *board = NULL;
 	struct comedi_subdevice *s;
+<<<<<<< HEAD
 	struct adl_pci7x3x_dev_private_data *dev_private;
 	int subdev;
 	int nchan;
 	int ret;
 	int ic;
+=======
+	int subdev;
+	int nchan;
+	int ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (context < ARRAY_SIZE(adl_pci7x3x_boards))
 		board = &adl_pci7x3x_boards[context];
@@ -358,14 +403,18 @@ static int adl_pci7x3x_auto_attach(struct comedi_device *dev,
 	dev->board_ptr = board;
 	dev->board_name = board->name;
 
+<<<<<<< HEAD
 	dev_private = comedi_alloc_devpriv(dev, sizeof(*dev_private));
 	if (!dev_private)
 		return -ENOMEM;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = comedi_pci_enable(dev);
 	if (ret)
 		return ret;
 	dev->iobase = pci_resource_start(pcidev, 2);
+<<<<<<< HEAD
 	dev_private->lcr_io_base = pci_resource_start(pcidev, 1);
 
 	adl_pci7x3x_reset(dev);
@@ -386,6 +435,8 @@ static int adl_pci7x3x_auto_attach(struct comedi_device *dev,
 			}
 		}
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = comedi_alloc_subdevices(dev, board->nsubdevs);
 	if (ret)
@@ -459,6 +510,7 @@ static int adl_pci7x3x_auto_attach(struct comedi_device *dev,
 		}
 	}
 
+<<<<<<< HEAD
 	for (ic = 0; ic < board->irq_nchan; ++ic) {
 		struct adl_pci7x3x_sd_private_data *sd_priv;
 
@@ -504,11 +556,20 @@ static void adl_pci7x3x_detach(struct comedi_device *dev)
 	comedi_pci_detach(dev);
 }
 
+=======
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct comedi_driver adl_pci7x3x_driver = {
 	.driver_name	= "adl_pci7x3x",
 	.module		= THIS_MODULE,
 	.auto_attach	= adl_pci7x3x_auto_attach,
+<<<<<<< HEAD
 	.detach		= adl_pci7x3x_detach,
+=======
+	.detach		= comedi_pci_detach,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int adl_pci7x3x_pci_probe(struct pci_dev *dev,

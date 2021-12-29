@@ -2928,7 +2928,12 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
 
 #define HDPORT_STATE			_MMIO(0x45050)
 #define   HDPORT_DPLL_USED_MASK		REG_GENMASK(14, 12)
+<<<<<<< HEAD
 #define   HDPORT_DDI_USED(phy)		REG_BIT(2 * (phy) + 1)
+=======
+#define   HDPORT_PHY_USED_DP(phy)	REG_BIT(2 * (phy) + 2)
+#define   HDPORT_PHY_USED_HDMI(phy)	REG_BIT(2 * (phy) + 1)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define   HDPORT_ENABLED		REG_BIT(0)
 
 /* Make render/texture TLB fetches lower priorty than associated data
@@ -3316,6 +3321,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
 
 #define ILK_DISPLAY_CHICKEN1	_MMIO(0x42000)
 #define   ILK_FBCQ_DIS		(1 << 22)
+<<<<<<< HEAD
 #define   ILK_PABSTRETCH_DIS	REG_BIT(21)
 #define   ILK_SABSTRETCH_DIS	REG_BIT(20)
 #define   IVB_PRI_STRETCH_MAX_MASK	REG_GENMASK(21, 20)
@@ -3328,6 +3334,9 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
 #define   IVB_SPR_STRETCH_MAX_X4	REG_FIELD_PREP(IVB_SPR_STRETCH_MAX_MASK, 1)
 #define   IVB_SPR_STRETCH_MAX_X2	REG_FIELD_PREP(IVB_SPR_STRETCH_MAX_MASK, 2)
 #define   IVB_SPR_STRETCH_MAX_X1	REG_FIELD_PREP(IVB_SPR_STRETCH_MAX_MASK, 3)
+=======
+#define	  ILK_PABSTRETCH_DIS	(1 << 21)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 /*
@@ -4357,6 +4366,7 @@ enum {
 #define _TRANS_VRR_CTL_B		0x61420
 #define _TRANS_VRR_CTL_C		0x62420
 #define _TRANS_VRR_CTL_D		0x63420
+<<<<<<< HEAD
 #define TRANS_VRR_CTL(trans)			_MMIO_TRANS2(trans, _TRANS_VRR_CTL_A)
 #define   VRR_CTL_VRR_ENABLE			REG_BIT(31)
 #define   VRR_CTL_IGN_MAX_SHIFT			REG_BIT(30)
@@ -4364,6 +4374,14 @@ enum {
 #define   VRR_CTL_PIPELINE_FULL_MASK		REG_GENMASK(10, 3)
 #define   VRR_CTL_PIPELINE_FULL(x)		REG_FIELD_PREP(VRR_CTL_PIPELINE_FULL_MASK, (x))
 #define   VRR_CTL_PIPELINE_FULL_OVERRIDE	REG_BIT(0)
+=======
+#define TRANS_VRR_CTL(trans)		_MMIO_TRANS2(trans, _TRANS_VRR_CTL_A)
+#define   VRR_CTL_VRR_ENABLE		REG_BIT(31)
+#define   VRR_CTL_IGN_MAX_SHIFT		REG_BIT(30)
+#define   VRR_CTL_FLIP_LINE_EN		REG_BIT(29)
+#define   VRR_CTL_LINE_COUNT_MASK	REG_GENMASK(10, 3)
+#define   VRR_CTL_SW_FULLLINE_COUNT	REG_BIT(0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define _TRANS_VRR_VMAX_A		0x60424
 #define _TRANS_VRR_VMAX_B		0x61424
@@ -6589,7 +6607,10 @@ enum {
 #define TGL_CURSOR_D_OFFSET 0x73080
 
 /* Display A control */
+<<<<<<< HEAD
 #define _DSPAADDR_VLV				0x7017C /* vlv/chv */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define _DSPACNTR				0x70180
 #define   DISPLAY_PLANE_ENABLE			(1 << 31)
 #define   DISPLAY_PLANE_DISABLE			0
@@ -6626,7 +6647,10 @@ enum {
 #define   DISPPLANE_ROTATE_180			(1 << 15)
 #define   DISPPLANE_TRICKLE_FEED_DISABLE	(1 << 14) /* Ironlake */
 #define   DISPPLANE_TILED			(1 << 10)
+<<<<<<< HEAD
 #define   DISPPLANE_ASYNC_FLIP			(1 << 9) /* g4x+ */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define   DISPPLANE_MIRROR			(1 << 8) /* CHV pipe B */
 #define _DSPAADDR				0x70184
 #define _DSPASTRIDE				0x70188
@@ -6638,7 +6662,10 @@ enum {
 #define _DSPASURFLIVE				0x701AC
 #define _DSPAGAMC				0x701E0
 
+<<<<<<< HEAD
 #define DSPADDR_VLV(plane)	_MMIO_PIPE2(plane, _DSPAADDR_VLV)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DSPCNTR(plane)		_MMIO_PIPE2(plane, _DSPACNTR)
 #define DSPADDR(plane)		_MMIO_PIPE2(plane, _DSPAADDR)
 #define DSPSTRIDE(plane)	_MMIO_PIPE2(plane, _DSPASTRIDE)
@@ -7084,8 +7111,11 @@ enum {
 #define _PLANE_KEYMAX_1_A			0x701a0
 #define _PLANE_KEYMAX_2_A			0x702a0
 #define  PLANE_KEYMAX_ALPHA(a)			((a) << 24)
+<<<<<<< HEAD
 #define _PLANE_CC_VAL_1_A			0x701b4
 #define _PLANE_CC_VAL_2_A			0x702b4
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define _PLANE_AUX_DIST_1_A			0x701c0
 #define _PLANE_AUX_DIST_2_A			0x702c0
 #define _PLANE_AUX_OFFSET_1_A			0x701c4
@@ -7127,6 +7157,7 @@ enum {
 #define _PLANE_NV12_BUF_CFG_1_A		0x70278
 #define _PLANE_NV12_BUF_CFG_2_A		0x70378
 
+<<<<<<< HEAD
 #define _PLANE_CC_VAL_1_B			0x711b4
 #define _PLANE_CC_VAL_2_B			0x712b4
 #define _PLANE_CC_VAL_1(pipe)	_PIPE(pipe, _PLANE_CC_VAL_1_A, _PLANE_CC_VAL_1_B)
@@ -7134,6 +7165,8 @@ enum {
 #define PLANE_CC_VAL(pipe, plane)	\
 	_MMIO_PLANE(plane, _PLANE_CC_VAL_1(pipe), _PLANE_CC_VAL_2(pipe))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Input CSC Register Definitions */
 #define _PLANE_INPUT_CSC_RY_GY_1_A	0x701E0
 #define _PLANE_INPUT_CSC_RY_GY_2_A	0x702E0
@@ -8050,6 +8083,7 @@ enum {
 
 #define _CHICKEN_PIPESL_1_A	0x420b0
 #define _CHICKEN_PIPESL_1_B	0x420b4
+<<<<<<< HEAD
 #define  HSW_PRI_STRETCH_MAX_MASK	REG_GENMASK(28, 27)
 #define  HSW_PRI_STRETCH_MAX_X8		REG_FIELD_PREP(HSW_PRI_STRETCH_MAX_MASK, 0)
 #define  HSW_PRI_STRETCH_MAX_X4		REG_FIELD_PREP(HSW_PRI_STRETCH_MAX_MASK, 1)
@@ -8060,6 +8094,8 @@ enum {
 #define  HSW_SPR_STRETCH_MAX_X4		REG_FIELD_PREP(HSW_SPR_STRETCH_MAX_MASK, 1)
 #define  HSW_SPR_STRETCH_MAX_X2		REG_FIELD_PREP(HSW_SPR_STRETCH_MAX_MASK, 2)
 #define  HSW_SPR_STRETCH_MAX_X1		REG_FIELD_PREP(HSW_SPR_STRETCH_MAX_MASK, 3)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define  HSW_FBCQ_DIS			(1 << 22)
 #define  BDW_DPRS_MASK_VBLANK_SRD	(1 << 0)
 #define CHICKEN_PIPESL_1(pipe) _MMIO_PIPE(pipe, _CHICKEN_PIPESL_1_A, _CHICKEN_PIPESL_1_B)
@@ -8246,7 +8282,10 @@ enum {
 #define  GEN11_LQSC_CLEAN_EVICT_DISABLE		(1 << 6)
 #define  GEN8_LQSC_RO_PERF_DIS			(1 << 27)
 #define  GEN8_LQSC_FLUSH_COHERENT_LINES		(1 << 21)
+<<<<<<< HEAD
 #define  GEN8_LQSQ_NONIA_COHERENT_ATOMICS_ENABLE REG_BIT(22)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* GEN8 chicken */
 #define HDC_CHICKEN0				_MMIO(0x7300)
@@ -9906,7 +9945,10 @@ enum skl_power_gate {
 					  _PORTD_HDCP2_BASE, \
 					  _PORTE_HDCP2_BASE, \
 					  _PORTF_HDCP2_BASE) + (x))
+<<<<<<< HEAD
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PORT_HDCP2_AUTH(port)		_PORT_HDCP2_BASE(port, 0x98)
 #define _TRANSA_HDCP2_AUTH		0x66498
 #define _TRANSB_HDCP2_AUTH		0x66598
@@ -9946,6 +9988,7 @@ enum skl_power_gate {
 					 TRANS_HDCP2_STATUS(trans) : \
 					 PORT_HDCP2_STATUS(port))
 
+<<<<<<< HEAD
 #define _PIPEA_HDCP2_STREAM_STATUS	0x668C0
 #define _PIPEB_HDCP2_STREAM_STATUS	0x665C0
 #define _PIPEC_HDCP2_STREAM_STATUS	0x666C0
@@ -9984,6 +10027,8 @@ enum skl_power_gate {
 					 TRANS_HDCP2_AUTH_STREAM(trans) : \
 					 PORT_HDCP2_AUTH_STREAM(port))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Per-pipe DDI Function Control */
 #define _TRANS_DDI_FUNC_CTL_A		0x60400
 #define _TRANS_DDI_FUNC_CTL_B		0x61400
@@ -10033,7 +10078,10 @@ enum skl_power_gate {
 #define  TRANS_DDI_DP_VC_PAYLOAD_ALLOC	(1 << 8)
 #define  TRANS_DDI_HDMI_SCRAMBLER_CTS_ENABLE (1 << 7)
 #define  TRANS_DDI_HDMI_SCRAMBLER_RESET_FREQ (1 << 6)
+<<<<<<< HEAD
 #define  TRANS_DDI_HDCP_SELECT		REG_BIT(5)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define  TRANS_DDI_BFI_ENABLE		(1 << 4)
 #define  TRANS_DDI_HIGH_TMDS_CHAR_RATE	(1 << 4)
 #define  TRANS_DDI_HDMI_SCRAMBLING	(1 << 0)
@@ -10925,10 +10973,15 @@ enum skl_power_gate {
 #define  CNL_DRAM_RANK_3			(0x2 << 9)
 #define  CNL_DRAM_RANK_4			(0x3 << 9)
 
+<<<<<<< HEAD
 /*
  * Please see hsw_read_dcomp() and hsw_write_dcomp() before using this register,
  * since on HSW we can't write to it using intel_uncore_write.
  */
+=======
+/* Please see hsw_read_dcomp() and hsw_write_dcomp() before using this register,
+ * since on HSW we can't write to it using I915_WRITE. */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define D_COMP_HSW			_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5F0C)
 #define D_COMP_BDW			_MMIO(0x138144)
 #define  D_COMP_RCOMP_IN_PROGRESS	(1 << 9)
@@ -12129,12 +12182,15 @@ enum skl_power_gate {
 #define __GEN11_VCS2_MOCS0	0x10000
 #define GEN11_MFX2_MOCS(i)	_MMIO(__GEN11_VCS2_MOCS0 + (i) * 4)
 
+<<<<<<< HEAD
 #define GEN9_SCRATCH_LNCF1		_MMIO(0xb008)
 #define   GEN9_LNCF_NONIA_COHERENT_ATOMICS_ENABLE REG_BIT(0)
 
 #define GEN9_SCRATCH1			_MMIO(0xb11c)
 #define   EVICTION_PERF_FIX_ENABLE	REG_BIT(8)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define GEN10_SCRATCH_LNCF2		_MMIO(0xb0a0)
 #define   PMFLUSHDONE_LNICRSDROP	(1 << 20)
 #define   PMFLUSH_GAPL3UNBLOCK		(1 << 21)

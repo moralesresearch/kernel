@@ -21,7 +21,10 @@
 #define DMA_MAP_BENCHMARK	_IOWR('d', 1, struct map_benchmark)
 #define DMA_MAP_MAX_THREADS	1024
 #define DMA_MAP_MAX_SECONDS	300
+<<<<<<< HEAD
 #define DMA_MAP_MAX_TRANS_DELAY	(10 * NSEC_PER_MSEC)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DMA_MAP_BIDIRECTIONAL	0
 #define DMA_MAP_TO_DEVICE	1
@@ -37,8 +40,12 @@ struct map_benchmark {
 	__s32 node; /* which numa node this benchmark will run on */
 	__u32 dma_bits; /* DMA addressing capability */
 	__u32 dma_dir; /* DMA data direction */
+<<<<<<< HEAD
 	__u32 dma_trans_ns; /* time for DMA transmission in ns */
 	__u8 expansion[80];	/* For future use */
+=======
+	__u8 expansion[84];	/* For future use */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct map_benchmark_data {
@@ -89,9 +96,12 @@ static int map_benchmark_thread(void *data)
 		map_etime = ktime_get();
 		map_delta = ktime_sub(map_etime, map_stime);
 
+<<<<<<< HEAD
 		/* Pretend DMA is transmitting */
 		ndelay(map->bparam.dma_trans_ns);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unmap_stime = ktime_get();
 		dma_unmap_single(map->dev, dma_addr, PAGE_SIZE, map->dir);
 		unmap_etime = ktime_get();
@@ -223,11 +233,14 @@ static long map_benchmark_ioctl(struct file *file, unsigned int cmd,
 			return -EINVAL;
 		}
 
+<<<<<<< HEAD
 		if (map->bparam.dma_trans_ns > DMA_MAP_MAX_TRANS_DELAY) {
 			pr_err("invalid transmission delay\n");
 			return -EINVAL;
 		}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (map->bparam.node != NUMA_NO_NODE &&
 		    !node_possible(map->bparam.node)) {
 			pr_err("invalid numa node\n");

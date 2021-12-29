@@ -320,7 +320,11 @@ static int virtblk_get_id(struct gendisk *disk, char *id_str)
 	if (err)
 		goto out;
 
+<<<<<<< HEAD
 	blk_execute_rq(vblk->disk, req, false);
+=======
+	blk_execute_rq(vblk->disk->queue, vblk->disk, req, false);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = blk_status_to_errno(virtblk_result(blk_mq_rq_to_pdu(req)));
 out:
 	blk_put_request(req);
@@ -705,7 +709,10 @@ static int virtblk_probe(struct virtio_device *vdev)
 	u32 v, blk_size, max_size, sg_elems, opt_io_size;
 	u16 min_io_size;
 	u8 physical_block_exp, alignment_offset;
+<<<<<<< HEAD
 	unsigned int queue_depth;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!vdev->config->get) {
 		dev_err(&vdev->dev, "%s failure: config access disabled\n",
@@ -757,6 +764,7 @@ static int virtblk_probe(struct virtio_device *vdev)
 	}
 
 	/* Default queue sizing is to fill the ring. */
+<<<<<<< HEAD
 	if (likely(!virtblk_queue_depth)) {
 		queue_depth = vblk->vqs[0].vq->num_free;
 		/* ... but without indirect descs, we use 2 descs per req */
@@ -764,11 +772,22 @@ static int virtblk_probe(struct virtio_device *vdev)
 			queue_depth /= 2;
 	} else {
 		queue_depth = virtblk_queue_depth;
+=======
+	if (!virtblk_queue_depth) {
+		virtblk_queue_depth = vblk->vqs[0].vq->num_free;
+		/* ... but without indirect descs, we use 2 descs per req */
+		if (!virtio_has_feature(vdev, VIRTIO_RING_F_INDIRECT_DESC))
+			virtblk_queue_depth /= 2;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	memset(&vblk->tag_set, 0, sizeof(vblk->tag_set));
 	vblk->tag_set.ops = &virtio_mq_ops;
+<<<<<<< HEAD
 	vblk->tag_set.queue_depth = queue_depth;
+=======
+	vblk->tag_set.queue_depth = virtblk_queue_depth;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vblk->tag_set.numa_node = NUMA_NO_NODE;
 	vblk->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
 	vblk->tag_set.cmd_size =

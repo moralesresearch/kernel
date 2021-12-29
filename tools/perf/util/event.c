@@ -288,6 +288,10 @@ size_t perf_event__fprintf_mmap(union perf_event *event, FILE *fp)
 
 size_t perf_event__fprintf_mmap2(union perf_event *event, FILE *fp)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (event->header.misc & PERF_RECORD_MISC_MMAP_BUILD_ID) {
 		char sbuild_id[SBUILD_ID_SIZE];
 		struct build_id bid;
@@ -318,6 +322,22 @@ size_t perf_event__fprintf_mmap2(union perf_event *event, FILE *fp)
 			       (event->mmap2.flags & MAP_SHARED) ? 's' : 'p',
 			       event->mmap2.filename);
 	}
+<<<<<<< HEAD
+=======
+=======
+	return fprintf(fp, " %d/%d: [%#" PRI_lx64 "(%#" PRI_lx64 ") @ %#" PRI_lx64
+			   " %02x:%02x %"PRI_lu64" %"PRI_lu64"]: %c%c%c%c %s\n",
+		       event->mmap2.pid, event->mmap2.tid, event->mmap2.start,
+		       event->mmap2.len, event->mmap2.pgoff, event->mmap2.maj,
+		       event->mmap2.min, event->mmap2.ino,
+		       event->mmap2.ino_generation,
+		       (event->mmap2.prot & PROT_READ) ? 'r' : '-',
+		       (event->mmap2.prot & PROT_WRITE) ? 'w' : '-',
+		       (event->mmap2.prot & PROT_EXEC) ? 'x' : '-',
+		       (event->mmap2.flags & MAP_SHARED) ? 's' : 'p',
+		       event->mmap2.filename);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 size_t perf_event__fprintf_thread_map(union perf_event *event, FILE *fp)
@@ -645,6 +665,10 @@ struct symbol *thread__find_symbol_fb(struct thread *thread, u8 cpumode,
 	return al->sym;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool check_address_range(struct intlist *addr_list, int addr_range,
 				unsigned long addr)
 {
@@ -658,6 +682,11 @@ static bool check_address_range(struct intlist *addr_list, int addr_range,
 	return false;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Callers need to drop the reference to al->thread, obtained in
  * machine__findnew_thread()
@@ -724,6 +753,10 @@ int machine__resolve(struct machine *machine, struct addr_location *al,
 			ret = strlist__has_entry(symbol_conf.sym_list,
 						al_addr_str);
 		}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ret && symbol_conf.addr_list && al->map) {
 			unsigned long addr = al->map->unmap_ip(al->map, al->addr);
 
@@ -735,6 +768,11 @@ int machine__resolve(struct machine *machine, struct addr_location *al,
 			}
 		}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!ret)
 			al->filtered |= (1 << HIST_FILTER__SYMBOL);
 	}

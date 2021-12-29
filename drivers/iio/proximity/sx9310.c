@@ -763,7 +763,15 @@ static int sx9310_write_far_debounce(struct sx9310_data *data, int val)
 	int ret;
 	unsigned int regval;
 
+<<<<<<< HEAD
+	if (val > 0)
+		val = ilog2(val);
+	if (!FIELD_FIT(SX9310_REG_PROX_CTRL10_FAR_DEBOUNCE_MASK, val))
+		return -EINVAL;
+
+=======
 	val = ilog2(val);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	regval = FIELD_PREP(SX9310_REG_PROX_CTRL10_FAR_DEBOUNCE_MASK, val);
 
 	mutex_lock(&data->mutex);
@@ -780,7 +788,15 @@ static int sx9310_write_close_debounce(struct sx9310_data *data, int val)
 	int ret;
 	unsigned int regval;
 
+<<<<<<< HEAD
+	if (val > 0)
+		val = ilog2(val);
+	if (!FIELD_FIT(SX9310_REG_PROX_CTRL10_CLOSE_DEBOUNCE_MASK, val))
+		return -EINVAL;
+
+=======
 	val = ilog2(val);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	regval = FIELD_PREP(SX9310_REG_PROX_CTRL10_CLOSE_DEBOUNCE_MASK, val);
 
 	mutex_lock(&data->mutex);
@@ -1213,6 +1229,19 @@ static int sx9310_init_compensation(struct iio_dev *indio_dev)
 }
 
 static const struct sx9310_reg_default *
+<<<<<<< HEAD
+sx9310_get_default_reg(struct sx9310_data *data, int idx,
+		       struct sx9310_reg_default *reg_def)
+{
+	const struct device_node *np = data->client->dev.of_node;
+	u32 combined[SX9310_NUM_CHANNELS];
+	u32 start = 0, raw = 0, pos = 0;
+	unsigned long comb_mask = 0;
+	int ret, i, count;
+	const char *res;
+
+	memcpy(reg_def, &sx9310_default_regs[idx], sizeof(*reg_def));
+=======
 sx9310_get_default_reg(struct sx9310_data *data, int i,
 		       struct sx9310_reg_default *reg_def)
 {
@@ -1224,6 +1253,7 @@ sx9310_get_default_reg(struct sx9310_data *data, int i,
 	u32 start = 0, raw = 0, pos = 0;
 
 	memcpy(reg_def, &sx9310_default_regs[i], sizeof(*reg_def));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!np)
 		return reg_def;
 
@@ -1234,6 +1264,33 @@ sx9310_get_default_reg(struct sx9310_data *data, int i,
 			reg_def->def |= SX9310_REG_PROX_CTRL2_SHIELDEN_GROUND;
 		}
 
+<<<<<<< HEAD
+		count = of_property_count_elems_of_size(np, "semtech,combined-sensors",
+							sizeof(u32));
+		if (count > 0 && count <= ARRAY_SIZE(combined)) {
+			ret = of_property_read_u32_array(np, "semtech,combined-sensors",
+							 combined, count);
+			if (ret)
+				break;
+		} else {
+			/*
+			 * Either the property does not exist in the DT or the
+			 * number of entries is incorrect.
+			 */
+			break;
+		}
+		for (i = 0; i < count; i++) {
+			if (combined[i] >= SX9310_NUM_CHANNELS) {
+				/* Invalid sensor (invalid DT). */
+				break;
+			}
+			comb_mask |= BIT(combined[i]);
+		}
+		if (i < count)
+			break;
+
+		reg_def->def &= ~SX9310_REG_PROX_CTRL2_COMBMODE_MASK;
+=======
 		reg_def->def &= ~SX9310_REG_PROX_CTRL2_COMBMODE_MASK;
 		of_property_read_u32_array(np, "semtech,combined-sensors",
 					   combined, ARRAY_SIZE(combined));
@@ -1243,6 +1300,7 @@ sx9310_get_default_reg(struct sx9310_data *data, int i,
 		}
 
 		comb_mask &= 0xf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (comb_mask == (BIT(3) | BIT(2) | BIT(1) | BIT(0)))
 			reg_def->def |= SX9310_REG_PROX_CTRL2_COMBMODE_CS0_CS1_CS2_CS3;
 		else if (comb_mask == (BIT(1) | BIT(2)))

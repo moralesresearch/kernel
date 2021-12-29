@@ -24,4 +24,7 @@ obj-y				+= mv88e6xxx/
 obj-y				+= ocelot/
 obj-y				+= qca/
 obj-y				+= sja1105/
+<<<<<<< HEAD
 obj-y				+= xrs700x/
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -19,8 +19,11 @@
 
 #define HISI_SFC_V3XX_VERSION (0x1f8)
 
+<<<<<<< HEAD
 #define HISI_SFC_V3XX_GLB_CFG (0x100)
 #define HISI_SFC_V3XX_GLB_CFG_CS0_ADDR_MODE BIT(2)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define HISI_SFC_V3XX_RAW_INT_STAT (0x120)
 #define HISI_SFC_V3XX_INT_STAT (0x124)
 #define HISI_SFC_V3XX_INT_MASK (0x128)
@@ -77,7 +80,10 @@ struct hisi_sfc_v3xx_host {
 	void __iomem *regbase;
 	int max_cmd_dword;
 	struct completion *completion;
+<<<<<<< HEAD
 	u8 address_mode;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int irq;
 };
 
@@ -171,18 +177,24 @@ static int hisi_sfc_v3xx_adjust_op_size(struct spi_mem *mem,
 static bool hisi_sfc_v3xx_supports_op(struct spi_mem *mem,
 				      const struct spi_mem_op *op)
 {
+<<<<<<< HEAD
 	struct spi_device *spi = mem->spi;
 	struct hisi_sfc_v3xx_host *host;
 
 	host = spi_controller_get_devdata(spi->master);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (op->data.buswidth > 4 || op->dummy.buswidth > 4 ||
 	    op->addr.buswidth > 4 || op->cmd.buswidth > 4)
 		return false;
 
+<<<<<<< HEAD
 	if (op->addr.nbytes != host->address_mode && op->addr.nbytes)
 		return false;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return spi_mem_default_supports_op(mem, op);
 }
 
@@ -427,7 +439,11 @@ static int hisi_sfc_v3xx_probe(struct platform_device *pdev)
 	struct device *dev = &pdev->dev;
 	struct hisi_sfc_v3xx_host *host;
 	struct spi_controller *ctlr;
+<<<<<<< HEAD
 	u32 version, glb_config;
+=======
+	u32 version;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	ctlr = spi_alloc_master(&pdev->dev, sizeof(*host));
@@ -474,6 +490,7 @@ static int hisi_sfc_v3xx_probe(struct platform_device *pdev)
 	ctlr->num_chipselect = 1;
 	ctlr->mem_ops = &hisi_sfc_v3xx_mem_ops;
 
+<<<<<<< HEAD
 	/*
 	 * The address mode of the controller is either 3 or 4,
 	 * which is indicated by the address mode bit in
@@ -492,6 +509,18 @@ static int hisi_sfc_v3xx_probe(struct platform_device *pdev)
 		host->max_cmd_dword = 64;
 	else
 		host->max_cmd_dword = 16;
+=======
+	version = readl(host->regbase + HISI_SFC_V3XX_VERSION);
+
+	switch (version) {
+	case 0x351:
+		host->max_cmd_dword = 64;
+		break;
+	default:
+		host->max_cmd_dword = 16;
+		break;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = devm_spi_register_controller(dev, ctlr);
 	if (ret)

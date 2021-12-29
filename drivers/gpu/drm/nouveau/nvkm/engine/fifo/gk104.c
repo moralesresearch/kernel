@@ -36,7 +36,23 @@
 #include <nvif/class.h>
 #include <nvif/cl0080.h>
 
+<<<<<<< HEAD
 void
+=======
+struct gk104_fifo_engine_status {
+	bool busy;
+	bool faulted;
+	bool chsw;
+	bool save;
+	bool load;
+	struct {
+		bool tsg;
+		u32 id;
+	} prev, next, *chan;
+};
+
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_engine_status(struct gk104_fifo *fifo, int engn,
 			 struct gk104_fifo_engine_status *status)
 {
@@ -83,7 +99,11 @@ gk104_fifo_engine_status(struct gk104_fifo *fifo, int engn,
 		   status->chan == &status->next ? "*" : " ");
 }
 
+<<<<<<< HEAD
 int
+=======
+static int
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_class_new(struct nvkm_fifo *base, const struct nvkm_oclass *oclass,
 		     void *argv, u32 argc, struct nvkm_object **pobject)
 {
@@ -100,7 +120,11 @@ gk104_fifo_class_new(struct nvkm_fifo *base, const struct nvkm_oclass *oclass,
 	return -EINVAL;
 }
 
+<<<<<<< HEAD
 int
+=======
+static int
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_class_get(struct nvkm_fifo *base, int index,
 		     struct nvkm_oclass *oclass)
 {
@@ -122,14 +146,22 @@ gk104_fifo_class_get(struct nvkm_fifo *base, int index,
 	return c;
 }
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_uevent_fini(struct nvkm_fifo *fifo)
 {
 	struct nvkm_device *device = fifo->engine.subdev.device;
 	nvkm_mask(device, 0x002140, 0x80000000, 0x00000000);
 }
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_uevent_init(struct nvkm_fifo *fifo)
 {
 	struct nvkm_device *device = fifo->engine.subdev.device;
@@ -168,11 +200,19 @@ gk104_fifo_runlist_update(struct gk104_fifo *fifo, int runl)
 {
 	const struct gk104_fifo_runlist_func *func = fifo->func->runlist;
 	struct gk104_fifo_chan *chan;
+<<<<<<< HEAD
+=======
+	struct nvkm_subdev *subdev = &fifo->base.engine.subdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nvkm_memory *mem;
 	struct nvkm_fifo_cgrp *cgrp;
 	int nr = 0;
 
+<<<<<<< HEAD
 	mutex_lock(&fifo->base.mutex);
+=======
+	mutex_lock(&subdev->mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mem = fifo->runlist[runl].mem[fifo->runlist[runl].next];
 	fifo->runlist[runl].next = !fifo->runlist[runl].next;
 
@@ -190,27 +230,43 @@ gk104_fifo_runlist_update(struct gk104_fifo *fifo, int runl)
 	nvkm_done(mem);
 
 	func->commit(fifo, runl, mem, nr);
+<<<<<<< HEAD
 	mutex_unlock(&fifo->base.mutex);
+=======
+	mutex_unlock(&subdev->mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void
 gk104_fifo_runlist_remove(struct gk104_fifo *fifo, struct gk104_fifo_chan *chan)
 {
 	struct nvkm_fifo_cgrp *cgrp = chan->cgrp;
+<<<<<<< HEAD
 	mutex_lock(&fifo->base.mutex);
+=======
+	mutex_lock(&fifo->base.engine.subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!list_empty(&chan->head)) {
 		list_del_init(&chan->head);
 		if (cgrp && !--cgrp->chan_nr)
 			list_del_init(&cgrp->head);
 	}
+<<<<<<< HEAD
 	mutex_unlock(&fifo->base.mutex);
+=======
+	mutex_unlock(&fifo->base.engine.subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void
 gk104_fifo_runlist_insert(struct gk104_fifo *fifo, struct gk104_fifo_chan *chan)
 {
 	struct nvkm_fifo_cgrp *cgrp = chan->cgrp;
+<<<<<<< HEAD
 	mutex_lock(&fifo->base.mutex);
+=======
+	mutex_lock(&fifo->base.engine.subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (cgrp) {
 		if (!cgrp->chan_nr++)
 			list_add_tail(&cgrp->head, &fifo->runlist[chan->runl].cgrp);
@@ -218,7 +274,11 @@ gk104_fifo_runlist_insert(struct gk104_fifo *fifo, struct gk104_fifo_chan *chan)
 	} else {
 		list_add_tail(&chan->head, &fifo->runlist[chan->runl].chan);
 	}
+<<<<<<< HEAD
 	mutex_unlock(&fifo->base.mutex);
+=======
+	mutex_unlock(&fifo->base.engine.subdev.mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void
@@ -258,6 +318,7 @@ gk104_fifo_pbdma = {
 	.init = gk104_fifo_pbdma_init,
 };
 
+<<<<<<< HEAD
 struct nvkm_engine *
 gk104_fifo_id_engine(struct nvkm_fifo *base, int engi)
 {
@@ -285,6 +346,8 @@ gk104_fifo_engine_id(struct nvkm_fifo *base, struct nvkm_engine *engine)
 	return -1;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void
 gk104_fifo_recover_work(struct work_struct *w)
 {
@@ -436,12 +499,20 @@ gk104_fifo_recover_engn(struct gk104_fifo *fifo, int engn)
 	 * called from the fault handler already.
 	 */
 	if (!status.faulted && engine) {
+<<<<<<< HEAD
 		mmui = nvkm_top_fault_id(device, engine->subdev.type, engine->subdev.inst);
 		if (mmui < 0) {
 			const struct nvkm_enum *en = fifo->func->fault.engine;
 			for (; en && en->name; en++) {
 				if (en->data2 == engine->subdev.type &&
 				    en->inst  == engine->subdev.inst) {
+=======
+		mmui = nvkm_top_fault_id(device, engine->subdev.index);
+		if (mmui < 0) {
+			const struct nvkm_enum *en = fifo->func->fault.engine;
+			for (; en && en->name; en++) {
+				if (en->data2 == engine->subdev.index) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					mmui = en->value;
 					break;
 				}
@@ -486,8 +557,13 @@ gk104_fifo_fault(struct nvkm_fifo *base, struct nvkm_fault_data *info)
 	struct nvkm_engine *engine = NULL;
 	struct nvkm_fifo_chan *chan;
 	unsigned long flags;
+<<<<<<< HEAD
 	const char *en = "";
 	char ct[8] = "HUB/";
+=======
+	char ct[8] = "HUB/", en[16] = "";
+	int engn;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	er = nvkm_enum_find(fifo->func->fault.reason, info->reason);
 	ee = nvkm_enum_find(fifo->func->fault.engine, info->engine);
@@ -511,12 +587,17 @@ gk104_fifo_fault(struct nvkm_fifo *base, struct nvkm_fault_data *info)
 			nvkm_mask(device, 0x001718, 0x00000000, 0x00000000);
 			break;
 		default:
+<<<<<<< HEAD
 			engine = nvkm_device_engine(device, ee->data2, 0);
+=======
+			engine = nvkm_device_engine(device, ee->data2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 	}
 
 	if (ee == NULL) {
+<<<<<<< HEAD
 		struct nvkm_subdev *subdev = nvkm_top_fault(device, info->engine);
 		if (subdev) {
 			if (subdev->func == &nvkm_engine)
@@ -525,6 +606,19 @@ gk104_fifo_fault(struct nvkm_fifo *base, struct nvkm_fault_data *info)
 		}
 	} else {
 		en = ee->name;
+=======
+		enum nvkm_devidx engidx = nvkm_top_fault(device, info->engine);
+		if (engidx < NVKM_SUBDEV_NR) {
+			const char *src = nvkm_subdev_name[engidx];
+			char *dst = en;
+			do {
+				*dst++ = toupper(*src++);
+			} while(*src);
+			engine = nvkm_device_engine(device, engidx);
+		}
+	} else {
+		snprintf(en, sizeof(en), "%s", ee->name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	spin_lock_irqsave(&fifo->base.lock, flags);
@@ -547,10 +641,18 @@ gk104_fifo_fault(struct nvkm_fifo *base, struct nvkm_fault_data *info)
 	 * correct engine(s), but just in case we can't find the channel
 	 * information...
 	 */
+<<<<<<< HEAD
 	if (engine) {
 		int engn = fifo->base.func->engine_id(&fifo->base, engine);
 		if (engn >= 0 && engn != GK104_FIFO_ENGN_SW)
 			gk104_fifo_recover_engn(fifo, engn);
+=======
+	for (engn = 0; engn < fifo->engine_nr && engine; engn++) {
+		if (fifo->engine[engn].engine == engine) {
+			gk104_fifo_recover_engn(fifo, engn);
+			break;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	spin_unlock_irqrestore(&fifo->base.lock, flags);
@@ -567,7 +669,11 @@ gk104_fifo_bind_reason[] = {
 	{}
 };
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_intr_bind(struct gk104_fifo *fifo)
 {
 	struct nvkm_subdev *subdev = &fifo->base.engine.subdev;
@@ -638,7 +744,11 @@ gk104_fifo_intr_sched(struct gk104_fifo *fifo)
 	}
 }
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_intr_chsw(struct gk104_fifo *fifo)
 {
 	struct nvkm_subdev *subdev = &fifo->base.engine.subdev;
@@ -648,7 +758,11 @@ gk104_fifo_intr_chsw(struct gk104_fifo *fifo)
 	nvkm_wr32(device, 0x00256c, stat);
 }
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_intr_dropped_fault(struct gk104_fifo *fifo)
 {
 	struct nvkm_subdev *subdev = &fifo->base.engine.subdev;
@@ -691,7 +805,11 @@ static const struct nvkm_bitfield gk104_fifo_pbdma_intr_0[] = {
 	{}
 };
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_intr_pbdma_0(struct gk104_fifo *fifo, int unit)
 {
 	struct nvkm_subdev *subdev = &fifo->base.engine.subdev;
@@ -740,7 +858,11 @@ static const struct nvkm_bitfield gk104_fifo_pbdma_intr_1[] = {
 	{}
 };
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_intr_pbdma_1(struct gk104_fifo *fifo, int unit)
 {
 	struct nvkm_subdev *subdev = &fifo->base.engine.subdev;
@@ -761,7 +883,11 @@ gk104_fifo_intr_pbdma_1(struct gk104_fifo *fifo, int unit)
 	nvkm_wr32(device, 0x040148 + (unit * 0x2000), stat);
 }
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_intr_runlist(struct gk104_fifo *fifo)
 {
 	struct nvkm_device *device = fifo->base.engine.subdev.device;
@@ -774,7 +900,11 @@ gk104_fifo_intr_runlist(struct gk104_fifo *fifo)
 	}
 }
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_intr_engine(struct gk104_fifo *fifo)
 {
 	nvkm_fifo_uevent(&fifo->base);
@@ -872,7 +1002,11 @@ gk104_fifo_intr(struct nvkm_fifo *base)
 	}
 }
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_fini(struct nvkm_fifo *base)
 {
 	struct gk104_fifo *fifo = gk104_fifo(base);
@@ -882,11 +1016,16 @@ gk104_fifo_fini(struct nvkm_fifo *base)
 	nvkm_mask(device, 0x002140, 0x10000000, 0x10000000);
 }
 
+<<<<<<< HEAD
 int
+=======
+static int
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_info(struct nvkm_fifo *base, u64 mthd, u64 *data)
 {
 	struct gk104_fifo *fifo = gk104_fifo(base);
 	switch (mthd) {
+<<<<<<< HEAD
 	case NV_DEVICE_HOST_RUNLISTS:
 		*data = (1ULL << fifo->runlist_nr) - 1;
 		return 0;
@@ -922,6 +1061,21 @@ gk104_fifo_info(struct nvkm_fifo *base, u64 mthd, u64 *data)
 						break;
 					}
 				}
+=======
+	case NV_DEVICE_FIFO_RUNLISTS:
+		*data = (1ULL << fifo->runlist_nr) - 1;
+		return 0;
+	case NV_DEVICE_FIFO_RUNLIST_ENGINES(0)...
+	     NV_DEVICE_FIFO_RUNLIST_ENGINES(63): {
+		int runl = mthd - NV_DEVICE_FIFO_RUNLIST_ENGINES(0), engn;
+		if (runl < fifo->runlist_nr) {
+			unsigned long engm = fifo->runlist[runl].engm;
+			struct nvkm_engine *engine;
+			*data = 0;
+			for_each_set_bit(engn, &engm, fifo->engine_nr) {
+				if ((engine = fifo->engine[engn].engine))
+					*data |= BIT_ULL(engine->subdev.index);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			return 0;
 		}
@@ -932,15 +1086,24 @@ gk104_fifo_info(struct nvkm_fifo *base, u64 mthd, u64 *data)
 	}
 }
 
+<<<<<<< HEAD
 int
+=======
+static int
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_oneinit(struct nvkm_fifo *base)
 {
 	struct gk104_fifo *fifo = gk104_fifo(base);
 	struct nvkm_subdev *subdev = &fifo->base.engine.subdev;
 	struct nvkm_device *device = subdev->device;
 	struct nvkm_vmm *bar = nvkm_bar_bar1_vmm(device);
+<<<<<<< HEAD
 	struct nvkm_top_device *tdev;
 	int pbid, ret, i, j;
+=======
+	int engn, runl, pbid, ret, i, j;
+	enum nvkm_devidx engidx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 *map;
 
 	fifo->pbdma_nr = fifo->func->pbdma->nr(fifo);
@@ -954,6 +1117,7 @@ gk104_fifo_oneinit(struct nvkm_fifo *base)
 		map[i] = nvkm_rd32(device, 0x002390 + (i * 0x04));
 
 	/* Determine runlist configuration from topology device info. */
+<<<<<<< HEAD
 	list_for_each_entry(tdev, &device->top->device, head) {
 		const int engn = tdev->engine;
 		char _en[16], *en;
@@ -964,11 +1128,19 @@ gk104_fifo_oneinit(struct nvkm_fifo *base)
 		/* Determine which PBDMA handles requests for this engine. */
 		for (j = 0, pbid = -1; j < fifo->pbdma_nr; j++) {
 			if (map[j] & BIT(tdev->runlist)) {
+=======
+	i = 0;
+	while ((int)(engidx = nvkm_top_engine(device, i++, &runl, &engn)) >= 0) {
+		/* Determine which PBDMA handles requests for this engine. */
+		for (j = 0, pbid = -1; j < fifo->pbdma_nr; j++) {
+			if (map[j] & (1 << runl)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				pbid = j;
 				break;
 			}
 		}
 
+<<<<<<< HEAD
 		fifo->engine[engn].engine = nvkm_device_engine(device, tdev->type, tdev->inst);
 		if (!fifo->engine[engn].engine) {
 			snprintf(_en, sizeof(_en), "%s, %d",
@@ -989,6 +1161,17 @@ gk104_fifo_oneinit(struct nvkm_fifo *base)
 		if (tdev->type == NVKM_ENGINE_GR)
 			fifo->runlist[tdev->runlist].engm_sw |= BIT(GK104_FIFO_ENGN_SW);
 		fifo->runlist_nr = max(fifo->runlist_nr, tdev->runlist + 1);
+=======
+		nvkm_debug(subdev, "engine %2d: runlist %2d pbdma %2d (%s)\n",
+			   engn, runl, pbid, nvkm_subdev_name[engidx]);
+
+		fifo->engine[engn].engine = nvkm_device_engine(device, engidx);
+		fifo->engine[engn].runl = runl;
+		fifo->engine[engn].pbid = pbid;
+		fifo->engine_nr = max(fifo->engine_nr, engn + 1);
+		fifo->runlist[runl].engm |= 1 << engn;
+		fifo->runlist_nr = max(fifo->runlist_nr, runl + 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	kfree(map);
@@ -1023,7 +1206,11 @@ gk104_fifo_oneinit(struct nvkm_fifo *base)
 	return nvkm_memory_map(fifo->user.mem, 0, bar, fifo->user.bar, NULL, 0);
 }
 
+<<<<<<< HEAD
 void
+=======
+static void
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_init(struct nvkm_fifo *base)
 {
 	struct gk104_fifo *fifo = gk104_fifo(base);
@@ -1055,7 +1242,11 @@ gk104_fifo_init(struct nvkm_fifo *base)
 	nvkm_wr32(device, 0x002140, 0x7fffffff);
 }
 
+<<<<<<< HEAD
 void *
+=======
+static void *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 gk104_fifo_dtor(struct nvkm_fifo *base)
 {
 	struct gk104_fifo *fifo = gk104_fifo(base);
@@ -1082,8 +1273,11 @@ gk104_fifo_ = {
 	.fini = gk104_fifo_fini,
 	.intr = gk104_fifo_intr,
 	.fault = gk104_fifo_fault,
+<<<<<<< HEAD
 	.engine_id = gk104_fifo_engine_id,
 	.id_engine = gk104_fifo_id_engine,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.uevent_init = gk104_fifo_uevent_init,
 	.uevent_fini = gk104_fifo_uevent_fini,
 	.recover_chan = gk104_fifo_recover_chan,
@@ -1093,7 +1287,11 @@ gk104_fifo_ = {
 
 int
 gk104_fifo_new_(const struct gk104_fifo_func *func, struct nvkm_device *device,
+<<<<<<< HEAD
 		enum nvkm_subdev_type type, int inst, int nr, struct nvkm_fifo **pfifo)
+=======
+		int index, int nr, struct nvkm_fifo **pfifo)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct gk104_fifo *fifo;
 
@@ -1103,7 +1301,11 @@ gk104_fifo_new_(const struct gk104_fifo_func *func, struct nvkm_device *device,
 	INIT_WORK(&fifo->recover.work, gk104_fifo_recover_work);
 	*pfifo = &fifo->base;
 
+<<<<<<< HEAD
 	return nvkm_fifo_ctor(&gk104_fifo_, device, type, inst, nr, &fifo->base);
+=======
+	return nvkm_fifo_ctor(&gk104_fifo_, device, index, nr, &fifo->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 const struct nvkm_enum
@@ -1135,12 +1337,21 @@ gk104_fifo_fault_engine[] = {
 	{ 0x11, "MSPPP", NULL, NVKM_ENGINE_MSPPP },
 	{ 0x13, "PERF" },
 	{ 0x14, "MSPDEC", NULL, NVKM_ENGINE_MSPDEC },
+<<<<<<< HEAD
 	{ 0x15, "CE0", NULL, NVKM_ENGINE_CE, 0 },
 	{ 0x16, "CE1", NULL, NVKM_ENGINE_CE, 1 },
 	{ 0x17, "PMU" },
 	{ 0x18, "PTP" },
 	{ 0x19, "MSENC", NULL, NVKM_ENGINE_MSENC },
 	{ 0x1b, "CE2", NULL, NVKM_ENGINE_CE, 2 },
+=======
+	{ 0x15, "CE0", NULL, NVKM_ENGINE_CE0 },
+	{ 0x16, "CE1", NULL, NVKM_ENGINE_CE1 },
+	{ 0x17, "PMU" },
+	{ 0x18, "PTP" },
+	{ 0x19, "MSENC", NULL, NVKM_ENGINE_MSENC },
+	{ 0x1b, "CE2", NULL, NVKM_ENGINE_CE2 },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{}
 };
 
@@ -1242,8 +1453,14 @@ gk104_fifo = {
 };
 
 int
+<<<<<<< HEAD
 gk104_fifo_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	       struct nvkm_fifo **pfifo)
 {
 	return gk104_fifo_new_(&gk104_fifo, device, type, inst, 4096, pfifo);
+=======
+gk104_fifo_new(struct nvkm_device *device, int index, struct nvkm_fifo **pfifo)
+{
+	return gk104_fifo_new_(&gk104_fifo, device, index, 4096, pfifo);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

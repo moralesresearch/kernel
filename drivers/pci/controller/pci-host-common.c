@@ -64,8 +64,11 @@ int pci_host_common_probe(struct platform_device *pdev)
 	if (!bridge)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	platform_set_drvdata(pdev, bridge);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	of_pci_check_probe_only();
 
 	/* Parse and map our Configuration Space windows */
@@ -80,6 +83,11 @@ int pci_host_common_probe(struct platform_device *pdev)
 	bridge->sysdata = cfg;
 	bridge->ops = (struct pci_ops *)&ops->pci_ops;
 
+<<<<<<< HEAD
+=======
+	platform_set_drvdata(pdev, bridge);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return pci_host_probe(bridge);
 }
 EXPORT_SYMBOL_GPL(pci_host_common_probe);

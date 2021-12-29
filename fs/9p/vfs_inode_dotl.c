@@ -33,8 +33,13 @@
 #include "acl.h"
 
 static int
+<<<<<<< HEAD
 v9fs_vfs_mknod_dotl(struct user_namespace *mnt_userns, struct inode *dir,
 		    struct dentry *dentry, umode_t omode, dev_t rdev);
+=======
+v9fs_vfs_mknod_dotl(struct inode *dir, struct dentry *dentry, umode_t omode,
+		    dev_t rdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * v9fs_get_fsgid_for_create - Helper function to get the gid for creating a
@@ -218,10 +223,17 @@ int v9fs_open_to_dotl_flags(int flags)
  */
 
 static int
+<<<<<<< HEAD
 v9fs_vfs_create_dotl(struct user_namespace *mnt_userns, struct inode *dir,
 		     struct dentry *dentry, umode_t omode, bool excl)
 {
 	return v9fs_vfs_mknod_dotl(mnt_userns, dir, dentry, omode, 0);
+=======
+v9fs_vfs_create_dotl(struct inode *dir, struct dentry *dentry, umode_t omode,
+		bool excl)
+{
+	return v9fs_vfs_mknod_dotl(dir, dentry, omode, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int
@@ -367,9 +379,14 @@ err_clunk_old_fid:
  *
  */
 
+<<<<<<< HEAD
 static int v9fs_vfs_mkdir_dotl(struct user_namespace *mnt_userns,
 			       struct inode *dir, struct dentry *dentry,
 			       umode_t omode)
+=======
+static int v9fs_vfs_mkdir_dotl(struct inode *dir,
+			       struct dentry *dentry, umode_t omode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 	struct v9fs_session_info *v9ses;
@@ -458,9 +475,14 @@ error:
 }
 
 static int
+<<<<<<< HEAD
 v9fs_vfs_getattr_dotl(struct user_namespace *mnt_userns,
 		      const struct path *path, struct kstat *stat,
 		      u32 request_mask, unsigned int flags)
+=======
+v9fs_vfs_getattr_dotl(const struct path *path, struct kstat *stat,
+		 u32 request_mask, unsigned int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct dentry *dentry = path->dentry;
 	struct v9fs_session_info *v9ses;
@@ -470,7 +492,11 @@ v9fs_vfs_getattr_dotl(struct user_namespace *mnt_userns,
 	p9_debug(P9_DEBUG_VFS, "dentry: %p\n", dentry);
 	v9ses = v9fs_dentry2v9ses(dentry);
 	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE) {
+<<<<<<< HEAD
 		generic_fillattr(&init_user_ns, d_inode(dentry), stat);
+=======
+		generic_fillattr(d_inode(dentry), stat);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 	fid = v9fs_fid_lookup(dentry);
@@ -487,7 +513,11 @@ v9fs_vfs_getattr_dotl(struct user_namespace *mnt_userns,
 		return PTR_ERR(st);
 
 	v9fs_stat2inode_dotl(st, d_inode(dentry), 0);
+<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, d_inode(dentry), stat);
+=======
+	generic_fillattr(d_inode(dentry), stat);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Change block size to what the server returned */
 	stat->blksize = st->st_blksize;
 
@@ -542,8 +572,12 @@ static int v9fs_mapped_iattr_valid(int iattr_valid)
  *
  */
 
+<<<<<<< HEAD
 int v9fs_vfs_setattr_dotl(struct user_namespace *mnt_userns,
 			  struct dentry *dentry, struct iattr *iattr)
+=======
+int v9fs_vfs_setattr_dotl(struct dentry *dentry, struct iattr *iattr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int retval, use_dentry = 0;
 	struct p9_fid *fid = NULL;
@@ -552,7 +586,11 @@ int v9fs_vfs_setattr_dotl(struct user_namespace *mnt_userns,
 
 	p9_debug(P9_DEBUG_VFS, "\n");
 
+<<<<<<< HEAD
 	retval = setattr_prepare(&init_user_ns, dentry, iattr);
+=======
+	retval = setattr_prepare(dentry, iattr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (retval)
 		return retval;
 
@@ -593,7 +631,11 @@ int v9fs_vfs_setattr_dotl(struct user_namespace *mnt_userns,
 		truncate_setsize(inode, iattr->ia_size);
 
 	v9fs_invalidate_inode_attr(inode);
+<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, iattr);
+=======
+	setattr_copy(inode, iattr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 	if (iattr->ia_valid & ATTR_MODE) {
 		/* We also want to update ACL when we update mode bits */
@@ -687,8 +729,13 @@ v9fs_stat2inode_dotl(struct p9_stat_dotl *stat, struct inode *inode,
 }
 
 static int
+<<<<<<< HEAD
 v9fs_vfs_symlink_dotl(struct user_namespace *mnt_userns, struct inode *dir,
 		      struct dentry *dentry, const char *symname)
+=======
+v9fs_vfs_symlink_dotl(struct inode *dir, struct dentry *dentry,
+		const char *symname)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 	kgid_t gid;
@@ -827,8 +874,13 @@ v9fs_vfs_link_dotl(struct dentry *old_dentry, struct inode *dir,
  *
  */
 static int
+<<<<<<< HEAD
 v9fs_vfs_mknod_dotl(struct user_namespace *mnt_userns, struct inode *dir,
 		    struct dentry *dentry, umode_t omode, dev_t rdev)
+=======
+v9fs_vfs_mknod_dotl(struct inode *dir, struct dentry *dentry, umode_t omode,
+		dev_t rdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 	kgid_t gid;

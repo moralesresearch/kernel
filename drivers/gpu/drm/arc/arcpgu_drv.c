@@ -145,7 +145,11 @@ static void arcpgu_debugfs_init(struct drm_minor *minor)
 }
 #endif
 
+<<<<<<< HEAD
 static const struct drm_driver arcpgu_drm_driver = {
+=======
+static struct drm_driver arcpgu_drm_driver = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
 	.name = "arcpgu",
 	.desc = "ARC PGU Controller",

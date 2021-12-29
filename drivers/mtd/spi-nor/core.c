@@ -465,7 +465,15 @@ static int spi_nor_read_fsr(struct spi_nor *nor, u8 *fsr)
  *
  * Return: 0 on success, -errno otherwise.
  */
+<<<<<<< HEAD
 int spi_nor_read_cr(struct spi_nor *nor, u8 *cr)
+=======
+<<<<<<< HEAD
+int spi_nor_read_cr(struct spi_nor *nor, u8 *cr)
+=======
+static int spi_nor_read_cr(struct spi_nor *nor, u8 *cr)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 
@@ -854,6 +862,10 @@ int spi_nor_wait_till_ready(struct spi_nor *nor)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * spi_nor_global_block_unlock() - Unlock Global Block Protection.
  * @nor:	pointer to 'struct spi_nor'.
  *
@@ -891,6 +903,11 @@ int spi_nor_global_block_unlock(struct spi_nor *nor)
 }
 
 /**
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * spi_nor_write_sr() - Write the Status Register.
  * @nor:	pointer to 'struct spi_nor'.
  * @sr:		pointer to DMA-able buffer to write to the Status Register.
@@ -3301,6 +3318,40 @@ static void spi_nor_resume(struct mtd_info *mtd)
 		dev_err(dev, "resume() failed\n");
 }
 
+<<<<<<< HEAD
+static int spi_nor_get_device(struct mtd_info *mtd)
+{
+	struct mtd_info *master = mtd_get_master(mtd);
+	struct spi_nor *nor = mtd_to_spi_nor(master);
+	struct device *dev;
+
+	if (nor->spimem)
+		dev = nor->spimem->spi->controller->dev.parent;
+	else
+		dev = nor->dev;
+
+	if (!try_module_get(dev->driver->owner))
+		return -ENODEV;
+
+	return 0;
+}
+
+static void spi_nor_put_device(struct mtd_info *mtd)
+{
+	struct mtd_info *master = mtd_get_master(mtd);
+	struct spi_nor *nor = mtd_to_spi_nor(master);
+	struct device *dev;
+
+	if (nor->spimem)
+		dev = nor->spimem->spi->controller->dev.parent;
+	else
+		dev = nor->dev;
+
+	module_put(dev->driver->owner);
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void spi_nor_restore(struct spi_nor *nor)
 {
 	/* restore the addressing mode */
@@ -3495,6 +3546,11 @@ int spi_nor_scan(struct spi_nor *nor, const char *name,
 	mtd->_read = spi_nor_read;
 	mtd->_suspend = spi_nor_suspend;
 	mtd->_resume = spi_nor_resume;
+<<<<<<< HEAD
+	mtd->_get_device = spi_nor_get_device;
+	mtd->_put_device = spi_nor_put_device;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (nor->params->locking_ops) {
 		mtd->_lock = spi_nor_lock;

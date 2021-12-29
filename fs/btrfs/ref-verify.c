@@ -218,11 +218,19 @@ static void __print_stack_trace(struct btrfs_fs_info *fs_info,
 	stack_trace_print(ra->trace, ra->trace_len, 2);
 }
 #else
+<<<<<<< HEAD
 static inline void __save_stack_trace(struct ref_action *ra)
 {
 }
 
 static inline void __print_stack_trace(struct btrfs_fs_info *fs_info,
+=======
+static void inline __save_stack_trace(struct ref_action *ra)
+{
+}
+
+static void inline __print_stack_trace(struct btrfs_fs_info *fs_info,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				       struct ref_action *ra)
 {
 	btrfs_err(fs_info, "  ref-verify: no stacktrace support");
@@ -495,15 +503,23 @@ static int process_extent_item(struct btrfs_fs_info *fs_info,
 }
 
 static int process_leaf(struct btrfs_root *root,
+<<<<<<< HEAD
 			struct btrfs_path *path, u64 *bytenr, u64 *num_bytes,
 			int *tree_block_level)
+=======
+			struct btrfs_path *path, u64 *bytenr, u64 *num_bytes)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct btrfs_fs_info *fs_info = root->fs_info;
 	struct extent_buffer *leaf = path->nodes[0];
 	struct btrfs_extent_data_ref *dref;
 	struct btrfs_shared_data_ref *sref;
 	u32 count;
+<<<<<<< HEAD
 	int i = 0, ret = 0;
+=======
+	int i = 0, tree_block_level = 0, ret = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct btrfs_key key;
 	int nritems = btrfs_header_nritems(leaf);
 
@@ -516,6 +532,7 @@ static int process_leaf(struct btrfs_root *root,
 		case BTRFS_METADATA_ITEM_KEY:
 			*bytenr = key.objectid;
 			ret = process_extent_item(fs_info, path, &key, i,
+<<<<<<< HEAD
 						  tree_block_level);
 			break;
 		case BTRFS_TREE_BLOCK_REF_KEY:
@@ -525,6 +542,17 @@ static int process_leaf(struct btrfs_root *root,
 		case BTRFS_SHARED_BLOCK_REF_KEY:
 			ret = add_tree_block(fs_info, 0, key.offset,
 					     key.objectid, *tree_block_level);
+=======
+						  &tree_block_level);
+			break;
+		case BTRFS_TREE_BLOCK_REF_KEY:
+			ret = add_tree_block(fs_info, key.offset, 0,
+					     key.objectid, tree_block_level);
+			break;
+		case BTRFS_SHARED_BLOCK_REF_KEY:
+			ret = add_tree_block(fs_info, 0, key.offset,
+					     key.objectid, tree_block_level);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case BTRFS_EXTENT_DATA_REF_KEY:
 			dref = btrfs_item_ptr(leaf, i,
@@ -550,8 +578,12 @@ static int process_leaf(struct btrfs_root *root,
 
 /* Walk down to the leaf from the given level */
 static int walk_down_tree(struct btrfs_root *root, struct btrfs_path *path,
+<<<<<<< HEAD
 			  int level, u64 *bytenr, u64 *num_bytes,
 			  int *tree_block_level)
+=======
+			  int level, u64 *bytenr, u64 *num_bytes)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct extent_buffer *eb;
 	int ret = 0;
@@ -567,8 +599,12 @@ static int walk_down_tree(struct btrfs_root *root, struct btrfs_path *path,
 			path->slots[level-1] = 0;
 			path->locks[level-1] = BTRFS_READ_LOCK;
 		} else {
+<<<<<<< HEAD
 			ret = process_leaf(root, path, bytenr, num_bytes,
 					   tree_block_level);
+=======
+			ret = process_leaf(root, path, bytenr, num_bytes);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ret)
 				break;
 		}
@@ -669,18 +705,31 @@ int btrfs_ref_tree_mod(struct btrfs_fs_info *fs_info,
 	u64 bytenr = generic_ref->bytenr;
 	u64 num_bytes = generic_ref->len;
 	u64 parent = generic_ref->parent;
+<<<<<<< HEAD
 	u64 ref_root = 0;
 	u64 owner = 0;
 	u64 offset = 0;
+=======
+	u64 ref_root;
+	u64 owner;
+	u64 offset;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!btrfs_test_opt(fs_info, REF_VERIFY))
 		return 0;
 
 	if (generic_ref->type == BTRFS_REF_METADATA) {
+<<<<<<< HEAD
 		if (!parent)
 			ref_root = generic_ref->tree_ref.root;
 		owner = generic_ref->tree_ref.level;
 	} else if (!parent) {
+=======
+		ref_root = generic_ref->tree_ref.root;
+		owner = generic_ref->tree_ref.level;
+		offset = 0;
+	} else {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ref_root = generic_ref->data_ref.ref_root;
 		owner = generic_ref->data_ref.ino;
 		offset = generic_ref->data_ref.offset;
@@ -696,10 +745,20 @@ int btrfs_ref_tree_mod(struct btrfs_fs_info *fs_info,
 		goto out;
 	}
 
+<<<<<<< HEAD
 	ref->parent = parent;
 	ref->owner = owner;
 	ref->root_objectid = ref_root;
 	ref->offset = offset;
+=======
+	if (parent) {
+		ref->parent = parent;
+	} else {
+		ref->root_objectid = ref_root;
+		ref->owner = owner;
+		ref->offset = offset;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ref->num_refs = (action == BTRFS_DROP_DELAYED_REF) ? -1 : 1;
 
 	memcpy(&ra->ref, ref, sizeof(struct ref_entry));
@@ -974,7 +1033,10 @@ int btrfs_build_ref_tree(struct btrfs_fs_info *fs_info)
 {
 	struct btrfs_path *path;
 	struct extent_buffer *eb;
+<<<<<<< HEAD
 	int tree_block_level = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 bytenr = 0, num_bytes = 0;
 	int ret, level;
 
@@ -999,7 +1061,11 @@ int btrfs_build_ref_tree(struct btrfs_fs_info *fs_info)
 		 * different leaf from the original extent item.
 		 */
 		ret = walk_down_tree(fs_info->extent_root, path, level,
+<<<<<<< HEAD
 				     &bytenr, &num_bytes, &tree_block_level);
+=======
+				     &bytenr, &num_bytes);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret)
 			break;
 		ret = walk_up_tree(path, &level);

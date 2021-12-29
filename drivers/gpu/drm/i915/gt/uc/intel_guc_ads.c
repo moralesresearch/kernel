@@ -4,7 +4,10 @@
  */
 
 #include "gt/intel_gt.h"
+<<<<<<< HEAD
 #include "gt/intel_lrc.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "intel_guc_ads.h"
 #include "intel_uc.h"
 #include "i915_drv.h"

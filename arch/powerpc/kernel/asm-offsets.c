@@ -255,6 +255,13 @@ int main(void)
 #endif /* CONFIG_PPC_MM_SLICES */
 	OFFSET(PACA_EXGEN, paca_struct, exgen);
 	OFFSET(PACA_EXMC, paca_struct, exmc);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	OFFSET(PACA_EXSLB, paca_struct, exslb);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OFFSET(PACA_EXNMI, paca_struct, exnmi);
 #ifdef CONFIG_PPC_PSERIES
 	OFFSET(PACALPPACAPTR, paca_struct, lppaca_ptr);
@@ -525,10 +532,21 @@ int main(void)
 	OFFSET(VCPU_CTRL, kvm_vcpu, arch.ctrl);
 	OFFSET(VCPU_DABR, kvm_vcpu, arch.dabr);
 	OFFSET(VCPU_DABRX, kvm_vcpu, arch.dabrx);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OFFSET(VCPU_DAWR0, kvm_vcpu, arch.dawr0);
 	OFFSET(VCPU_DAWRX0, kvm_vcpu, arch.dawrx0);
 	OFFSET(VCPU_DAWR1, kvm_vcpu, arch.dawr1);
 	OFFSET(VCPU_DAWRX1, kvm_vcpu, arch.dawrx1);
+<<<<<<< HEAD
+=======
+=======
+	OFFSET(VCPU_DAWR, kvm_vcpu, arch.dawr);
+	OFFSET(VCPU_DAWRX, kvm_vcpu, arch.dawrx);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OFFSET(VCPU_CIABR, kvm_vcpu, arch.ciabr);
 	OFFSET(VCPU_HFLAGS, kvm_vcpu, arch.hflags);
 	OFFSET(VCPU_DEC, kvm_vcpu, arch.dec);
@@ -669,6 +687,13 @@ int main(void)
 	HSTATE_FIELD(HSTATE_SAVED_XIRR, saved_xirr);
 	HSTATE_FIELD(HSTATE_HOST_IPI, host_ipi);
 	HSTATE_FIELD(HSTATE_PTID, ptid);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	HSTATE_FIELD(HSTATE_TID, tid);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	HSTATE_FIELD(HSTATE_FAKE_SUSPEND, fake_suspend);
 	HSTATE_FIELD(HSTATE_MMCR0, host_mmcr[0]);
 	HSTATE_FIELD(HSTATE_MMCR1, host_mmcr[1]);
@@ -698,6 +723,14 @@ int main(void)
 	OFFSET(KVM_SPLIT_LDBAR, kvm_split_mode, ldbar);
 	OFFSET(KVM_SPLIT_DO_NAP, kvm_split_mode, do_nap);
 	OFFSET(KVM_SPLIT_NAPPED, kvm_split_mode, napped);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	OFFSET(KVM_SPLIT_DO_SET, kvm_split_mode, do_set);
+	OFFSET(KVM_SPLIT_DO_RESTORE, kvm_split_mode, do_restore);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_KVM_BOOK3S_HV_POSSIBLE */
 
 #ifdef CONFIG_PPC_BOOK3S_64

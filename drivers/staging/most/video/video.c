@@ -245,8 +245,13 @@ static int vidioc_querycap(struct file *file, void *priv,
 	struct comp_fh *fh = priv;
 	struct most_video_dev *mdev = fh->mdev;
 
+<<<<<<< HEAD
 	strscpy(cap->driver, "v4l2_component", sizeof(cap->driver));
 	strscpy(cap->card, "MOST", sizeof(cap->card));
+=======
+	strlcpy(cap->driver, "v4l2_component", sizeof(cap->driver));
+	strlcpy(cap->card, "MOST", sizeof(cap->card));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	snprintf(cap->bus_info, sizeof(cap->bus_info),
 		 "%s", mdev->iface->description);
 	return 0;
@@ -483,7 +488,11 @@ static int comp_probe_channel(struct most_interface *iface, int channel_idx,
 	mdev->v4l2_dev.release = comp_v4l2_dev_release;
 
 	/* Create the v4l2_device */
+<<<<<<< HEAD
 	strscpy(mdev->v4l2_dev.name, name, sizeof(mdev->v4l2_dev.name));
+=======
+	strlcpy(mdev->v4l2_dev.name, name, sizeof(mdev->v4l2_dev.name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = v4l2_device_register(NULL, &mdev->v4l2_dev);
 	if (ret) {
 		pr_err("v4l2_device_register() failed\n");

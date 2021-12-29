@@ -28,6 +28,11 @@
 		serial0 = &scif0;
 		i2c9 = &gpioi2c2;
 		i2c10 = &i2chdmi;
+<<<<<<< HEAD
+		mmc0 = &sdhi0;
+		mmc1 = &sdhi2;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	chosen {

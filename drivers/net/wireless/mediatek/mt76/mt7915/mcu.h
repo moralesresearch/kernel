@@ -49,8 +49,11 @@ enum {
 enum {
 	MCU_ATE_SET_TRX = 0x1,
 	MCU_ATE_SET_FREQ_OFFSET = 0xa,
+<<<<<<< HEAD
 	MCU_ATE_SET_SLOT_TIME = 0x13,
 	MCU_ATE_CLEAN_TXQUEUE = 0x1c,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct mt7915_mcu_rxd {
@@ -120,12 +123,15 @@ struct mt7915_mcu_rdd_report {
 	} hw_pulse[32];
 } __packed;
 
+<<<<<<< HEAD
 struct mt7915_mcu_eeprom {
 	u8 buffer_mode;
 	u8 format;
 	__le16 len;
 } __packed;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mt7915_mcu_eeprom_info {
 	__le32 addr;
 	__le32 valid;
@@ -184,6 +190,7 @@ struct mt7915_mcu_phy_rx_info {
 #define MT_RA_RATE_DCM_EN		BIT(4)
 #define MT_RA_RATE_BW			GENMASK(14, 13)
 
+<<<<<<< HEAD
 struct edca {
 	u8 queue;
 	u8 set;
@@ -208,6 +215,8 @@ struct mt7915_mcu_tx {
 #define WMM_TXOP_SET		BIT(3)
 #define WMM_PARAM_SET		GENMASK(3, 0)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MCU_PQ_ID(p, q)			(((p) << 15) | ((q) << 10))
 #define MCU_PKT_ID			0xa0
 
@@ -225,12 +234,15 @@ enum {
 	MCU_S2D_H2CN
 };
 
+<<<<<<< HEAD
 
 #define __MCU_CMD_FIELD_ID	GENMASK(7, 0)
 #define __MCU_CMD_FIELD_EXT_ID	GENMASK(15, 8)
 #define __MCU_CMD_FIELD_QUERY	BIT(16)
 #define __MCU_CMD_FIELD_WA	BIT(17)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum {
 	MCU_CMD_TARGET_ADDRESS_LEN_REQ = 0x01,
 	MCU_CMD_FW_START_REQ = 0x02,
@@ -239,7 +251,10 @@ enum {
 	MCU_CMD_PATCH_START_REQ = 0x05,
 	MCU_CMD_PATCH_FINISH_REQ = 0x07,
 	MCU_CMD_PATCH_SEM_CONTROL = 0x10,
+<<<<<<< HEAD
 	MCU_CMD_WA_PARAM = 0xC4,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MCU_CMD_EXT_CID = 0xED,
 	MCU_CMD_FW_SCATTER = 0xEE,
 	MCU_CMD_RESTART_DL_REQ = 0xEF,
@@ -247,7 +262,10 @@ enum {
 
 enum {
 	MCU_EXT_CMD_EFUSE_ACCESS = 0x01,
+<<<<<<< HEAD
 	MCU_EXT_CMD_RF_TEST = 0x04,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MCU_EXT_CMD_PM_STATE_CTRL = 0x07,
 	MCU_EXT_CMD_CHANNEL_SWITCH = 0x08,
 	MCU_EXT_CMD_FW_LOG_2_HOST = 0x13,
@@ -279,6 +297,7 @@ enum {
 };
 
 enum {
+<<<<<<< HEAD
 	MCU_WA_PARAM_CMD_QUERY,
 	MCU_WA_PARAM_CMD_SET,
 	MCU_WA_PARAM_CMD_CAPABILITY,
@@ -302,6 +321,8 @@ enum {
 					    MCU_WA_PARAM_CMD_##_t))
 
 enum {
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PATCH_SEM_RELEASE,
 	PATCH_SEM_GET
 };

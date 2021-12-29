@@ -67,7 +67,10 @@
 #include <asm/kup.h>
 #include <asm/early_ioremap.h>
 #include <asm/pgalloc.h>
+<<<<<<< HEAD
 #include <asm/asm-prototypes.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "setup.h"
 
@@ -232,10 +235,30 @@ static void cpu_ready_for_interrupts(void)
 	 * If we are not in hypervisor mode the job is done once for
 	 * the whole partition in configure_exceptions().
 	 */
+<<<<<<< HEAD
+	if (cpu_has_feature(CPU_FTR_HVMODE)) {
+		unsigned long lpcr = mfspr(SPRN_LPCR);
+		unsigned long new_lpcr = lpcr;
+
+		if (cpu_has_feature(CPU_FTR_ARCH_31)) {
+			/* P10 DD1 does not have HAIL */
+			if (pvr_version_is(PVR_POWER10) &&
+					(mfspr(SPRN_PVR) & 0xf00) == 0x100)
+				new_lpcr |= LPCR_AIL_3;
+			else
+				new_lpcr |= LPCR_HAIL;
+		} else if (cpu_has_feature(CPU_FTR_ARCH_207S)) {
+			new_lpcr |= LPCR_AIL_3;
+		}
+
+		if (new_lpcr != lpcr)
+			mtspr(SPRN_LPCR, new_lpcr);
+=======
 	if (cpu_has_feature(CPU_FTR_HVMODE) &&
 	    cpu_has_feature(CPU_FTR_ARCH_207S)) {
 		unsigned long lpcr = mfspr(SPRN_LPCR);
 		mtspr(SPRN_LPCR, lpcr | LPCR_AIL_3);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
@@ -259,7 +282,11 @@ static void cpu_ready_for_interrupts(void)
 
 unsigned long spr_default_dscr = 0;
 
+<<<<<<< HEAD
 static void __init record_spr_defaults(void)
+=======
+void __init record_spr_defaults(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (early_cpu_has_feature(CPU_FTR_DSCR))
 		spr_default_dscr = mfspr(SPRN_DSCR);
@@ -356,11 +383,19 @@ void __init early_setup(unsigned long dt_ptr)
 	apply_feature_fixups();
 	setup_feature_keys();
 
+<<<<<<< HEAD
+	/* Initialize the hash table or TLB handling */
+	early_init_mmu();
+
+	early_ioremap_setup();
+
+=======
 	early_ioremap_setup();
 
 	/* Initialize the hash table or TLB handling */
 	early_init_mmu();
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * After firmware and early platform setup code has set things up,
 	 * we note the SPR values for configurable control/performance
@@ -1009,7 +1044,11 @@ void rfi_flush_enable(bool enable)
 	rfi_flush = enable;
 }
 
+<<<<<<< HEAD
 static void entry_flush_enable(bool enable)
+=======
+void entry_flush_enable(bool enable)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (enable) {
 		do_entry_flush_fixups(enabled_flush_types);
@@ -1021,7 +1060,11 @@ static void entry_flush_enable(bool enable)
 	entry_flush = enable;
 }
 
+<<<<<<< HEAD
 static void uaccess_flush_enable(bool enable)
+=======
+void uaccess_flush_enable(bool enable)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (enable) {
 		do_uaccess_flush_fixups(enabled_flush_types);

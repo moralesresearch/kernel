@@ -358,16 +358,30 @@ static int davinci_mdio_probe(struct platform_device *pdev)
 	}
 
 	if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
+<<<<<<< HEAD
 		const struct davinci_mdio_of_param *of_mdio_data;
+=======
+		const struct of_device_id	*of_id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ret = davinci_mdio_probe_dt(&data->pdata, pdev);
 		if (ret)
 			return ret;
 		snprintf(data->bus->id, MII_BUS_ID_SIZE, "%s", pdev->name);
 
+<<<<<<< HEAD
 		of_mdio_data = of_device_get_match_data(&pdev->dev);
 		if (of_mdio_data) {
 			autosuspend_delay_ms =
+=======
+		of_id = of_match_device(davinci_mdio_of_mtable, &pdev->dev);
+		if (of_id) {
+			const struct davinci_mdio_of_param *of_mdio_data;
+
+			of_mdio_data = of_id->data;
+			if (of_mdio_data)
+				autosuspend_delay_ms =
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					of_mdio_data->autosuspend_delay_ms;
 		}
 	} else {

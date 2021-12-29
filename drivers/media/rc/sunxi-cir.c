@@ -86,6 +86,10 @@ struct sunxi_ir_quirks {
 };
 
 struct sunxi_ir {
+<<<<<<< HEAD
+=======
+	spinlock_t      ir_lock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct rc_dev   *rc;
 	void __iomem    *base;
 	int             irq;
@@ -104,6 +108,11 @@ static irqreturn_t sunxi_ir_irq(int irqno, void *dev_id)
 	struct sunxi_ir *ir = dev_id;
 	struct ir_raw_event rawir = {};
 
+<<<<<<< HEAD
+=======
+	spin_lock(&ir->ir_lock);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = readl(ir->base + SUNXI_IR_RXSTA_REG);
 
 	/* clean all pending statuses */
@@ -134,6 +143,11 @@ static irqreturn_t sunxi_ir_irq(int irqno, void *dev_id)
 		ir_raw_event_handle(ir->rc);
 	}
 
+<<<<<<< HEAD
+=======
+	spin_unlock(&ir->ir_lock);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return IRQ_HANDLED;
 }
 
@@ -155,20 +169,33 @@ static int sunxi_ir_set_timeout(struct rc_dev *rc_dev, unsigned int timeout)
 {
 	struct sunxi_ir *ir = rc_dev->priv;
 	unsigned int base_clk = clk_get_rate(ir->clk);
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	unsigned int ithr = sunxi_usec_to_ithr(base_clk, timeout);
 
 	dev_dbg(rc_dev->dev.parent, "setting idle threshold to %u\n", ithr);
 
+<<<<<<< HEAD
 	/* Set noise threshold and idle threshold */
 	writel(REG_CIR_NTHR(SUNXI_IR_RXNOISE) | REG_CIR_ITHR(ithr),
 	       ir->base + SUNXI_IR_CIR_REG);
+=======
+	spin_lock_irqsave(&ir->ir_lock, flags);
+	/* Set noise threshold and idle threshold */
+	writel(REG_CIR_NTHR(SUNXI_IR_RXNOISE) | REG_CIR_ITHR(ithr),
+	       ir->base + SUNXI_IR_CIR_REG);
+	spin_unlock_irqrestore(&ir->ir_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc_dev->timeout = sunxi_ithr_to_usec(base_clk, ithr);
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static int sunxi_ir_hw_init(struct device *dev)
 {
 	struct sunxi_ir *ir = dev_get_drvdata(dev);
@@ -251,6 +278,12 @@ static SIMPLE_DEV_PM_OPS(sunxi_ir_pm_ops, sunxi_ir_suspend, sunxi_ir_resume);
 static int sunxi_ir_probe(struct platform_device *pdev)
 {
 	int ret = 0;
+=======
+static int sunxi_ir_probe(struct platform_device *pdev)
+{
+	int ret = 0;
+	unsigned long tmp = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct device *dev = &pdev->dev;
 	struct device_node *dn = dev->of_node;
@@ -269,6 +302,11 @@ static int sunxi_ir_probe(struct platform_device *pdev)
 		return -ENODEV;
 	}
 
+<<<<<<< HEAD
+=======
+	spin_lock_init(&ir->ir_lock);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ir->fifo_size = quirks->fifo_size;
 
 	/* Clock */
@@ -291,26 +329,61 @@ static int sunxi_ir_probe(struct platform_device *pdev)
 		ir->rst = devm_reset_control_get_exclusive(dev, NULL);
 		if (IS_ERR(ir->rst))
 			return PTR_ERR(ir->rst);
+<<<<<<< HEAD
+=======
+		ret = reset_control_deassert(ir->rst);
+		if (ret)
+			return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = clk_set_rate(ir->clk, b_clk_freq);
 	if (ret) {
 		dev_err(dev, "set ir base clock failed!\n");
+<<<<<<< HEAD
 		return ret;
 	}
 	dev_dbg(dev, "set base clock frequency to %d Hz.\n", b_clk_freq);
 
+=======
+		goto exit_reset_assert;
+	}
+	dev_dbg(dev, "set base clock frequency to %d Hz.\n", b_clk_freq);
+
+	if (clk_prepare_enable(ir->apb_clk)) {
+		dev_err(dev, "try to enable apb_ir_clk failed\n");
+		ret = -EINVAL;
+		goto exit_reset_assert;
+	}
+
+	if (clk_prepare_enable(ir->clk)) {
+		dev_err(dev, "try to enable ir_clk failed\n");
+		ret = -EINVAL;
+		goto exit_clkdisable_apb_clk;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* IO */
 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	ir->base = devm_ioremap_resource(dev, res);
 	if (IS_ERR(ir->base)) {
+<<<<<<< HEAD
 		return PTR_ERR(ir->base);
+=======
+		ret = PTR_ERR(ir->base);
+		goto exit_clkdisable_clk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ir->rc = rc_allocate_device(RC_DRIVER_IR_RAW);
 	if (!ir->rc) {
 		dev_err(dev, "failed to allocate device\n");
+<<<<<<< HEAD
 		return -ENOMEM;
+=======
+		ret = -ENOMEM;
+		goto exit_clkdisable_clk;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ir->rc->priv = ir;
@@ -326,7 +399,10 @@ static int sunxi_ir_probe(struct platform_device *pdev)
 	ir->rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
 	/* Frequency after IR internal divider with sample period in us */
 	ir->rc->rx_resolution = (USEC_PER_SEC / (b_clk_freq / 64));
+<<<<<<< HEAD
 	ir->rc->timeout = IR_DEFAULT_TIMEOUT;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ir->rc->min_timeout = sunxi_ithr_to_usec(b_clk_freq, 0);
 	ir->rc->max_timeout = sunxi_ithr_to_usec(b_clk_freq, 255);
 	ir->rc->s_timeout = sunxi_ir_set_timeout;
@@ -353,21 +429,57 @@ static int sunxi_ir_probe(struct platform_device *pdev)
 		goto exit_free_dev;
 	}
 
+<<<<<<< HEAD
 	ret = sunxi_ir_hw_init(dev);
 	if (ret)
 		goto exit_free_dev;
+=======
+	/* Enable CIR Mode */
+	writel(REG_CTL_MD, ir->base+SUNXI_IR_CTL_REG);
+
+	/* Set noise threshold and idle threshold */
+	sunxi_ir_set_timeout(ir->rc, IR_DEFAULT_TIMEOUT);
+
+	/* Invert Input Signal */
+	writel(REG_RXCTL_RPPI, ir->base + SUNXI_IR_RXCTL_REG);
+
+	/* Clear All Rx Interrupt Status */
+	writel(REG_RXSTA_CLEARALL, ir->base + SUNXI_IR_RXSTA_REG);
+
+	/*
+	 * Enable IRQ on overflow, packet end, FIFO available with trigger
+	 * level
+	 */
+	writel(REG_RXINT_ROI_EN | REG_RXINT_RPEI_EN |
+	       REG_RXINT_RAI_EN | REG_RXINT_RAL(ir->fifo_size / 2 - 1),
+	       ir->base + SUNXI_IR_RXINT_REG);
+
+	/* Enable IR Module */
+	tmp = readl(ir->base + SUNXI_IR_CTL_REG);
+	writel(tmp | REG_CTL_GEN | REG_CTL_RXEN, ir->base + SUNXI_IR_CTL_REG);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_info(dev, "initialized sunXi IR driver\n");
 	return 0;
 
 exit_free_dev:
 	rc_free_device(ir->rc);
+<<<<<<< HEAD
+=======
+exit_clkdisable_clk:
+	clk_disable_unprepare(ir->clk);
+exit_clkdisable_apb_clk:
+	clk_disable_unprepare(ir->apb_clk);
+exit_reset_assert:
+	reset_control_assert(ir->rst);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
 
 static int sunxi_ir_remove(struct platform_device *pdev)
 {
+<<<<<<< HEAD
 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
 
 	rc_unregister_device(ir->rc);
@@ -379,6 +491,26 @@ static int sunxi_ir_remove(struct platform_device *pdev)
 static void sunxi_ir_shutdown(struct platform_device *pdev)
 {
 	sunxi_ir_hw_exit(&pdev->dev);
+=======
+	unsigned long flags;
+	struct sunxi_ir *ir = platform_get_drvdata(pdev);
+
+	clk_disable_unprepare(ir->clk);
+	clk_disable_unprepare(ir->apb_clk);
+	reset_control_assert(ir->rst);
+
+	spin_lock_irqsave(&ir->ir_lock, flags);
+	/* disable IR IRQ */
+	writel(0, ir->base + SUNXI_IR_RXINT_REG);
+	/* clear All Rx Interrupt Status */
+	writel(REG_RXSTA_CLEARALL, ir->base + SUNXI_IR_RXSTA_REG);
+	/* disable IR */
+	writel(0, ir->base + SUNXI_IR_CTL_REG);
+	spin_unlock_irqrestore(&ir->ir_lock, flags);
+
+	rc_unregister_device(ir->rc);
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct sunxi_ir_quirks sun4i_a10_ir_quirks = {
@@ -416,11 +548,17 @@ MODULE_DEVICE_TABLE(of, sunxi_ir_match);
 static struct platform_driver sunxi_ir_driver = {
 	.probe          = sunxi_ir_probe,
 	.remove         = sunxi_ir_remove,
+<<<<<<< HEAD
 	.shutdown       = sunxi_ir_shutdown,
 	.driver = {
 		.name = SUNXI_IR_DEV,
 		.of_match_table = sunxi_ir_match,
 		.pm = &sunxi_ir_pm_ops,
+=======
+	.driver = {
+		.name = SUNXI_IR_DEV,
+		.of_match_table = sunxi_ir_match,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

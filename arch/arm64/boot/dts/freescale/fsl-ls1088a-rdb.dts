@@ -2,7 +2,11 @@
 /*
  * Device Tree file for NXP LS1088A RDB Board.
  *
+<<<<<<< HEAD
  * Copyright 2017-2020 NXP
+=======
+ * Copyright 2017 NXP
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Harninder Rai <harninder.rai@nxp.com>
  *
@@ -158,8 +162,13 @@
 			rtc@51 {
 				compatible = "nxp,pcf2129";
 				reg = <0x51>;
+<<<<<<< HEAD
 				/* IRQ_RTC_B -> IRQ0_B(CPLD) -> IRQ00(CPU), active low */
 				interrupts-extended = <&extirq 0 IRQ_TYPE_LEVEL_LOW>;
+=======
+				/* IRQ10_B */
+				interrupts = <0 150 IRQ_TYPE_LEVEL_HIGH>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 		};
 	};

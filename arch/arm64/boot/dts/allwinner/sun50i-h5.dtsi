@@ -121,6 +121,7 @@
 			resets = <&ccu RST_BUS_CE>;
 		};
 
+<<<<<<< HEAD
 		deinterlace: deinterlace@1e00000 {
 			compatible = "allwinner,sun8i-h3-deinterlace";
 			reg = <0x01e00000 0x20000>;
@@ -134,6 +135,8 @@
 			interconnect-names = "dma-mem";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mali: gpu@1e80000 {
 			compatible = "allwinner,sun50i-h5-mali", "arm,mali-450";
 			reg = <0x01e80000 0x30000>;

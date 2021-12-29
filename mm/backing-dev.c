@@ -8,7 +8,10 @@
 #include <linux/fs.h>
 #include <linux/pagemap.h>
 #include <linux/mm.h>
+<<<<<<< HEAD
 #include <linux/sched/mm.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/sched.h>
 #include <linux/module.h>
 #include <linux/writeback.h>
@@ -33,8 +36,11 @@ LIST_HEAD(bdi_list);
 /* bdi_wq serves all asynchronous writeback tasks */
 struct workqueue_struct *bdi_wq;
 
+<<<<<<< HEAD
 #define K(x) ((x) << (PAGE_SHIFT - 10))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_DEBUG_FS
 #include <linux/debugfs.h>
 #include <linux/seq_file.h>
@@ -72,6 +78,10 @@ static int bdi_debug_stats_show(struct seq_file *m, void *v)
 	global_dirty_limits(&background_thresh, &dirty_thresh);
 	wb_thresh = wb_calc_thresh(wb, dirty_thresh);
 
+<<<<<<< HEAD
+=======
+#define K(x) ((x) << (PAGE_SHIFT - 10))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_printf(m,
 		   "BdiWriteback:       %10lu kB\n"
 		   "BdiReclaimable:     %10lu kB\n"
@@ -100,6 +110,10 @@ static int bdi_debug_stats_show(struct seq_file *m, void *v)
 		   nr_more_io,
 		   nr_dirty_time,
 		   !list_empty(&bdi->bdi_list), bdi->wb.state);
+<<<<<<< HEAD
+=======
+#undef K
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -147,6 +161,11 @@ static ssize_t read_ahead_kb_store(struct device *dev,
 	return count;
 }
 
+<<<<<<< HEAD
+=======
+#define K(pages) ((pages) << (PAGE_SHIFT - 10))
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define BDI_SHOW(name, expr)						\
 static ssize_t name##_show(struct device *dev,				\
 			   struct device_attribute *attr, char *buf)	\
@@ -579,7 +598,11 @@ struct bdi_writeback *wb_get_create(struct backing_dev_info *bdi,
 {
 	struct bdi_writeback *wb;
 
+<<<<<<< HEAD
 	might_alloc(gfp);
+=======
+	might_sleep_if(gfpflags_allow_blocking(gfp));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!memcg_css->parent)
 		return &bdi->wb;

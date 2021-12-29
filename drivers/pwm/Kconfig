@@ -611,4 +611,17 @@ config PWM_VT8500
 	  To compile this driver as a module, choose M here: the module
 	  will be called pwm-vt8500.
 
+<<<<<<< HEAD
+=======
+config PWM_ZX
+	tristate "ZTE ZX PWM support"
+	depends on ARCH_ZX || COMPILE_TEST
+	depends on HAS_IOMEM
+	help
+	  Generic PWM framework driver for ZTE ZX family SoCs.
+
+	  To compile this driver as a module, choose M here: the module
+	  will be called pwm-zx.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endif

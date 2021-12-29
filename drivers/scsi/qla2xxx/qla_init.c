@@ -136,10 +136,13 @@ static void qla24xx_abort_iocb_timeout(void *data)
 static void qla24xx_abort_sp_done(srb_t *sp, int res)
 {
 	struct srb_iocb *abt = &sp->u.iocb_cmd;
+<<<<<<< HEAD
 	srb_t *orig_sp = sp->cmd_sp;
 
 	if (orig_sp)
 		qla_wait_nvme_release_cmd_kref(orig_sp);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	del_timer(&sp->u.iocb_cmd.timer);
 	if (sp->flags & SRB_WAKEUP_ON_COMP)
@@ -351,11 +354,19 @@ qla2x00_async_login(struct scsi_qla_host *vha, fc_port_t *fcport,
 	if (NVME_TARGET(vha->hw, fcport))
 		lio->u.logio.flags |= SRB_LOGIN_SKIP_PRLI;
 
+<<<<<<< HEAD
 	ql_log(ql_log_warn, vha, 0x2072,
 	       "Async-login - %8phC hdl=%x, loopid=%x portid=%02x%02x%02x retries=%d.\n",
 	       fcport->port_name, sp->handle, fcport->loop_id,
 	       fcport->d_id.b.domain, fcport->d_id.b.area, fcport->d_id.b.al_pa,
 	       fcport->login_retry);
+=======
+	ql_dbg(ql_dbg_disc, vha, 0x2072,
+	    "Async-login - %8phC hdl=%x, loopid=%x portid=%02x%02x%02x "
+		"retries=%d.\n", fcport->port_name, sp->handle, fcport->loop_id,
+	    fcport->d_id.b.domain, fcport->d_id.b.area, fcport->d_id.b.al_pa,
+	    fcport->login_retry);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rval = qla2x00_start_sp(sp);
 	if (rval != QLA_SUCCESS) {
@@ -1194,6 +1205,12 @@ static int qla24xx_post_prli_work(struct scsi_qla_host *vha, fc_port_t *fcport)
 {
 	struct qla_work_evt *e;
 
+<<<<<<< HEAD
+	if (vha->host->active_mode == MODE_TARGET)
+		return QLA_FUNCTION_FAILED;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	e = qla2x00_alloc_work(vha, QLA_EVT_PRLI);
 	if (!e)
 		return QLA_FUNCTION_FAILED;
@@ -3375,7 +3392,12 @@ qla2x00_alloc_fw_dump(scsi_qla_host_t *vha)
 				    "Re-Allocated (%d KB) and save firmware dump.\n",
 				    dump_size / 1024);
 			} else {
+<<<<<<< HEAD
 				vfree(ha->fw_dump);
+=======
+				if (ha->fw_dump)
+					vfree(ha->fw_dump);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				ha->fw_dump = fw_dump;
 
 				ha->fw_dump_len = ha->fw_dump_alloc_len =
@@ -4996,9 +5018,12 @@ qla2x00_alloc_fcport(scsi_qla_host_t *vha, gfp_t flags)
 	fcport->login_retry = vha->hw->login_retry_count;
 	fcport->chip_reset = vha->hw->base_qpair->chip_reset;
 	fcport->logout_on_delete = 1;
+<<<<<<< HEAD
 	fcport->tgt_link_down_time = QLA2XX_MAX_LINK_DOWN_TIME;
 	fcport->tgt_short_link_down_cnt = 0;
 	fcport->dev_loss_tmo = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!fcport->ct_desc.ct_sns) {
 		ql_log(ql_log_warn, vha, 0xd049,
@@ -5496,7 +5521,10 @@ qla2x00_reg_remote_port(scsi_qla_host_t *vha, fc_port_t *fcport)
 	spin_lock_irqsave(fcport->vha->host->host_lock, flags);
 	*((fc_port_t **)rport->dd_data) = fcport;
 	spin_unlock_irqrestore(fcport->vha->host->host_lock, flags);
+<<<<<<< HEAD
 	fcport->dev_loss_tmo = rport->dev_loss_tmo;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rport->supported_classes = fcport->supported_classes;
 
@@ -5555,11 +5583,14 @@ qla2x00_update_fcport(scsi_qla_host_t *vha, fc_port_t *fcport)
 		fcport->logout_on_delete = 1;
 	fcport->n2n_chip_reset = fcport->n2n_link_reset_cnt = 0;
 
+<<<<<<< HEAD
 	if (fcport->tgt_link_down_time < fcport->dev_loss_tmo) {
 		fcport->tgt_short_link_down_cnt++;
 		fcport->tgt_link_down_time = QLA2XX_MAX_LINK_DOWN_TIME;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (vha->hw->current_topology) {
 	case ISP_CFG_N:
 	case ISP_CFG_NL:
@@ -6920,9 +6951,12 @@ qla2x00_abort_isp(scsi_qla_host_t *vha)
 	if (vha->flags.online) {
 		qla2x00_abort_isp_cleanup(vha);
 
+<<<<<<< HEAD
 		if (vha->hw->flags.port_isolated)
 			return status;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (test_and_clear_bit(ISP_ABORT_TO_ROM, &vha->dpc_flags)) {
 			ha->flags.chip_reset_done = 1;
 			vha->flags.online = 1;
@@ -7044,11 +7078,14 @@ qla2x00_abort_isp(scsi_qla_host_t *vha)
 
 	}
 
+<<<<<<< HEAD
 	if (vha->hw->flags.port_isolated) {
 		qla2x00_abort_isp_cleanup(vha);
 		return status;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!status) {
 		ql_dbg(ql_dbg_taskm, vha, 0x8022, "%s succeeded.\n", __func__);
 		qla2x00_configure_hba(vha);
@@ -7875,7 +7912,12 @@ qla24xx_load_risc_flash(scsi_qla_host_t *vha, uint32_t *srisc_addr,
 	templates = (risc_attr & BIT_9) ? 2 : 1;
 	ql_dbg(ql_dbg_init, vha, 0x0160, "-> templates = %u\n", templates);
 	for (j = 0; j < templates; j++, fwdt++) {
+<<<<<<< HEAD
 		vfree(fwdt->template);
+=======
+		if (fwdt->template)
+			vfree(fwdt->template);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		fwdt->template = NULL;
 		fwdt->length = 0;
 
@@ -7935,7 +7977,12 @@ qla24xx_load_risc_flash(scsi_qla_host_t *vha, uint32_t *srisc_addr,
 	return QLA_SUCCESS;
 
 failed:
+<<<<<<< HEAD
 	vfree(fwdt->template);
+=======
+	if (fwdt->template)
+		vfree(fwdt->template);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fwdt->template = NULL;
 	fwdt->length = 0;
 
@@ -8131,7 +8178,12 @@ qla24xx_load_risc_blob(scsi_qla_host_t *vha, uint32_t *srisc_addr)
 	templates = (risc_attr & BIT_9) ? 2 : 1;
 	ql_dbg(ql_dbg_init, vha, 0x0170, "-> templates = %u\n", templates);
 	for (j = 0; j < templates; j++, fwdt++) {
+<<<<<<< HEAD
 		vfree(fwdt->template);
+=======
+		if (fwdt->template)
+			vfree(fwdt->template);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		fwdt->template = NULL;
 		fwdt->length = 0;
 
@@ -8191,7 +8243,12 @@ qla24xx_load_risc_blob(scsi_qla_host_t *vha, uint32_t *srisc_addr)
 	return QLA_SUCCESS;
 
 failed:
+<<<<<<< HEAD
 	vfree(fwdt->template);
+=======
+	if (fwdt->template)
+		vfree(fwdt->template);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fwdt->template = NULL;
 	fwdt->length = 0;
 
@@ -9187,6 +9244,7 @@ int qla2xxx_delete_qpair(struct scsi_qla_host *vha, struct qla_qpair *qpair)
 fail:
 	return ret;
 }
+<<<<<<< HEAD
 
 uint64_t
 qla2x00_count_set_bits(uint32_t num)
@@ -9386,3 +9444,5 @@ int qla2xxx_enable_port(struct Scsi_Host *host)
 
 	return 0;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

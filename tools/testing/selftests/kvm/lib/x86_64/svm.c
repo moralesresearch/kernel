@@ -74,7 +74,11 @@ void generic_svm_setup(struct svm_test_data *svm, void *guest_rip, void *guest_r
 	wrmsr(MSR_VM_HSAVE_PA, svm->save_area_gpa);
 
 	memset(vmcb, 0, sizeof(*vmcb));
+<<<<<<< HEAD
 	asm volatile ("vmsave %0\n\t" : : "a" (vmcb_gpa) : "memory");
+=======
+	asm volatile ("vmsave\n\t" : : "a" (vmcb_gpa) : "memory");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vmcb_set_seg(&save->es, get_es(), 0, -1U, data_seg_attr);
 	vmcb_set_seg(&save->cs, get_cs(), 0, -1U, code_seg_attr);
 	vmcb_set_seg(&save->ss, get_ss(), 0, -1U, data_seg_attr);
@@ -131,19 +135,31 @@ void generic_svm_setup(struct svm_test_data *svm, void *guest_rip, void *guest_r
 void run_guest(struct vmcb *vmcb, uint64_t vmcb_gpa)
 {
 	asm volatile (
+<<<<<<< HEAD
 		"vmload %[vmcb_gpa]\n\t"
+=======
+		"vmload\n\t"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		"mov rflags, %%r15\n\t"	// rflags
 		"mov %%r15, 0x170(%[vmcb])\n\t"
 		"mov guest_regs, %%r15\n\t"	// rax
 		"mov %%r15, 0x1f8(%[vmcb])\n\t"
 		LOAD_GPR_C
+<<<<<<< HEAD
 		"vmrun %[vmcb_gpa]\n\t"
+=======
+		"vmrun\n\t"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		SAVE_GPR_C
 		"mov 0x170(%[vmcb]), %%r15\n\t"	// rflags
 		"mov %%r15, rflags\n\t"
 		"mov 0x1f8(%[vmcb]), %%r15\n\t"	// rax
 		"mov %%r15, guest_regs\n\t"
+<<<<<<< HEAD
 		"vmsave %[vmcb_gpa]\n\t"
+=======
+		"vmsave\n\t"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		: : [vmcb] "r" (vmcb), [vmcb_gpa] "a" (vmcb_gpa)
 		: "r15", "memory");
 }

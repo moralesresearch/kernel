@@ -131,6 +131,10 @@ static void huge_pagevec_release(struct pagevec *pvec)
 static int hugetlbfs_file_mmap(struct file *file, struct vm_area_struct *vma)
 {
 	struct inode *inode = file_inode(file);
+<<<<<<< HEAD
+	struct hugetlbfs_inode_info *info = HUGETLBFS_I(inode);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	loff_t len, vma_len;
 	int ret;
 	struct hstate *h = hstate_file(file);
@@ -146,6 +150,13 @@ static int hugetlbfs_file_mmap(struct file *file, struct vm_area_struct *vma)
 	vma->vm_flags |= VM_HUGETLB | VM_DONTEXPAND;
 	vma->vm_ops = &hugetlb_vm_ops;
 
+<<<<<<< HEAD
+	ret = seal_check_future_write(info->seals, vma);
+	if (ret)
+		return ret;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * page based offset in vm_pgoff could be sufficiently large to
 	 * overflow a loff_t when converted to byte offset.  This can
@@ -171,7 +182,11 @@ static int hugetlbfs_file_mmap(struct file *file, struct vm_area_struct *vma)
 	file_accessed(file);
 
 	ret = -ENOMEM;
+<<<<<<< HEAD
 	if (!hugetlb_reserve_pages(inode,
+=======
+	if (hugetlb_reserve_pages(inode,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				vma->vm_pgoff >> huge_page_order(h),
 				len >> huge_page_shift(h), vma,
 				vma->vm_flags))
@@ -310,7 +325,11 @@ hugetlbfs_read_actor(struct page *page, unsigned long offset,
 
 /*
  * Support for read() - Find the page attached to f_mapping and copy out the
+<<<<<<< HEAD
  * data. Its *very* similar to generic_file_buffered_read(), we can't use that
+=======
+ * data. Its *very* similar to do_generic_mapping_read(), we can't use that
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * since it has PAGE_SIZE assumptions.
  */
 static ssize_t hugetlbfs_read_iter(struct kiocb *iocb, struct iov_iter *to)
@@ -442,15 +461,24 @@ hugetlb_vmdelete_list(struct rb_root_cached *root, pgoff_t start, pgoff_t end)
  *
  * truncation is indicated by end of range being LLONG_MAX
  *	In this case, we first scan the range and release found pages.
+<<<<<<< HEAD
  *	After releasing pages, hugetlb_unreserve_pages cleans up region/reserve
+=======
+ *	After releasing pages, hugetlb_unreserve_pages cleans up region/reserv
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	maps and global counts.  Page faults can not race with truncation
  *	in this routine.  hugetlb_no_page() holds i_mmap_rwsem and prevents
  *	page faults in the truncated range by checking i_size.  i_size is
  *	modified while holding i_mmap_rwsem.
  * hole punch is indicated if end is not LLONG_MAX
  *	In the hole punch case we scan the range and release found pages.
+<<<<<<< HEAD
  *	Only when releasing a page is the associated region/reserve map
  *	deleted.  The region/reserve map for ranges without associated
+=======
+ *	Only when releasing a page is the associated region/reserv map
+ *	deleted.  The region/reserv map for ranges without associated
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	pages are not modified.  Page faults can race with hole punch.
  *	This is indicated if we find a mapped page.
  * Note: If the passed end of range value is beyond the end of file, but
@@ -527,7 +555,11 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
 			 * the subpool and global reserve usage count can need
 			 * to be adjusted.
 			 */
+<<<<<<< HEAD
+			VM_BUG_ON(HPageRestoreReserve(page));
+=======
 			VM_BUG_ON(PagePrivate(page));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			remove_huge_page(page);
 			freed++;
 			if (!truncate_op) {
@@ -567,7 +599,11 @@ static void hugetlbfs_evict_inode(struct inode *inode)
 	clear_inode(inode);
 }
 
+<<<<<<< HEAD
 static void hugetlb_vmtruncate(struct inode *inode, loff_t offset)
+=======
+static int hugetlb_vmtruncate(struct inode *inode, loff_t offset)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	pgoff_t pgoff;
 	struct address_space *mapping = inode->i_mapping;
@@ -582,6 +618,10 @@ static void hugetlb_vmtruncate(struct inode *inode, loff_t offset)
 		hugetlb_vmdelete_list(&mapping->i_mmap, pgoff, 0);
 	i_mmap_unlock_write(mapping);
 	remove_inode_hugepages(inode, offset, LLONG_MAX);
+<<<<<<< HEAD
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static long hugetlbfs_punch_hole(struct inode *inode, loff_t offset, loff_t len)
@@ -603,7 +643,11 @@ static long hugetlbfs_punch_hole(struct inode *inode, loff_t offset, loff_t len)
 
 		inode_lock(inode);
 
+<<<<<<< HEAD
 		/* protected by i_rwsem */
+=======
+		/* protected by i_mutex */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (info->seals & (F_SEAL_WRITE | F_SEAL_FUTURE_WRITE)) {
 			inode_unlock(inode);
 			return -EPERM;
@@ -679,6 +723,10 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
 		 */
 		struct page *page;
 		unsigned long addr;
+<<<<<<< HEAD
+=======
+		int avoid_reserve = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		cond_resched();
 
@@ -714,6 +762,7 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
 			continue;
 		}
 
+<<<<<<< HEAD
 		/*
 		 * Allocate page without setting the avoid_reserve argument.
 		 * There certainly are no reserves associated with the
@@ -723,6 +772,10 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
 		 * to keep reservation accounting consistent.
 		 */
 		page = alloc_huge_page(&pseudo_vma, addr, 0);
+=======
+		/* Allocate page and add to page cache */
+		page = alloc_huge_page(&pseudo_vma, addr, avoid_reserve);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hugetlb_drop_vma_policy(&pseudo_vma);
 		if (IS_ERR(page)) {
 			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
@@ -733,6 +786,10 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
 		__SetPageUptodate(page);
 		error = huge_add_to_page_cache(page, mapping, index);
 		if (unlikely(error)) {
+<<<<<<< HEAD
+			restore_reserve_on_error(h, &pseudo_vma, addr, page);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			put_page(page);
 			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
 			goto out;
@@ -740,7 +797,11 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
 
 		mutex_unlock(&hugetlb_fault_mutex_table[hash]);
 
+<<<<<<< HEAD
 		SetHPageMigratable(page);
+=======
+		set_page_huge_active(page);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * unlock_page because locked by add_to_page_cache()
 		 * put_page() due to reference from alloc_huge_page()
@@ -757,8 +818,12 @@ out:
 	return error;
 }
 
+<<<<<<< HEAD
 static int hugetlbfs_setattr(struct user_namespace *mnt_userns,
 			     struct dentry *dentry, struct iattr *attr)
+=======
+static int hugetlbfs_setattr(struct dentry *dentry, struct iattr *attr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	struct hstate *h = hstate_inode(inode);
@@ -766,7 +831,13 @@ static int hugetlbfs_setattr(struct user_namespace *mnt_userns,
 	unsigned int ia_valid = attr->ia_valid;
 	struct hugetlbfs_inode_info *info = HUGETLBFS_I(inode);
 
+<<<<<<< HEAD
 	error = setattr_prepare(&init_user_ns, dentry, attr);
+=======
+	BUG_ON(!inode);
+
+	error = setattr_prepare(dentry, attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -776,6 +847,7 @@ static int hugetlbfs_setattr(struct user_namespace *mnt_userns,
 
 		if (newsize & ~huge_page_mask(h))
 			return -EINVAL;
+<<<<<<< HEAD
 		/* protected by i_rwsem */
 		if ((newsize < oldsize && (info->seals & F_SEAL_SHRINK)) ||
 		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
@@ -784,6 +856,18 @@ static int hugetlbfs_setattr(struct user_namespace *mnt_userns,
 	}
 
 	setattr_copy(&init_user_ns, inode, attr);
+=======
+		/* protected by i_mutex */
+		if ((newsize < oldsize && (info->seals & F_SEAL_SHRINK)) ||
+		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
+			return -EPERM;
+		error = hugetlb_vmtruncate(inode, newsize);
+		if (error)
+			return error;
+	}
+
+	setattr_copy(inode, attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 	return 0;
 }
@@ -839,7 +923,11 @@ static struct inode *hugetlbfs_get_inode(struct super_block *sb,
 		struct hugetlbfs_inode_info *info = HUGETLBFS_I(inode);
 
 		inode->i_ino = get_next_ino();
+<<<<<<< HEAD
 		inode_init_owner(&init_user_ns, inode, dir, mode);
+=======
+		inode_init_owner(inode, dir, mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		lockdep_set_class(&inode->i_mapping->i_mmap_rwsem,
 				&hugetlbfs_i_mmap_rwsem_key);
 		inode->i_mapping->a_ops = &hugetlbfs_aops;
@@ -901,22 +989,34 @@ static int do_hugetlbfs_mknod(struct inode *dir,
 	return error;
 }
 
+<<<<<<< HEAD
 static int hugetlbfs_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 			   struct dentry *dentry, umode_t mode, dev_t dev)
+=======
+static int hugetlbfs_mknod(struct inode *dir,
+			struct dentry *dentry, umode_t mode, dev_t dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return do_hugetlbfs_mknod(dir, dentry, mode, dev, false);
 }
 
+<<<<<<< HEAD
 static int hugetlbfs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 			   struct dentry *dentry, umode_t mode)
 {
 	int retval = hugetlbfs_mknod(&init_user_ns, dir, dentry,
 				     mode | S_IFDIR, 0);
+=======
+static int hugetlbfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
+{
+	int retval = hugetlbfs_mknod(dir, dentry, mode | S_IFDIR, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!retval)
 		inc_nlink(dir);
 	return retval;
 }
 
+<<<<<<< HEAD
 static int hugetlbfs_create(struct user_namespace *mnt_userns,
 			    struct inode *dir, struct dentry *dentry,
 			    umode_t mode, bool excl)
@@ -927,13 +1027,27 @@ static int hugetlbfs_create(struct user_namespace *mnt_userns,
 static int hugetlbfs_tmpfile(struct user_namespace *mnt_userns,
 			     struct inode *dir, struct dentry *dentry,
 			     umode_t mode)
+=======
+static int hugetlbfs_create(struct inode *dir, struct dentry *dentry, umode_t mode, bool excl)
+{
+	return hugetlbfs_mknod(dir, dentry, mode | S_IFREG, 0);
+}
+
+static int hugetlbfs_tmpfile(struct inode *dir,
+			struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return do_hugetlbfs_mknod(dir, dentry, mode | S_IFREG, 0, true);
 }
 
+<<<<<<< HEAD
 static int hugetlbfs_symlink(struct user_namespace *mnt_userns,
 			     struct inode *dir, struct dentry *dentry,
 			     const char *symname)
+=======
+static int hugetlbfs_symlink(struct inode *dir,
+			struct dentry *dentry, const char *symname)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode;
 	int error = -ENOSPC;
@@ -953,6 +1067,20 @@ static int hugetlbfs_symlink(struct user_namespace *mnt_userns,
 	return error;
 }
 
+<<<<<<< HEAD
+=======
+/*
+ * mark the head page dirty
+ */
+static int hugetlbfs_set_page_dirty(struct page *page)
+{
+	struct page *head = compound_head(page);
+
+	SetPageDirty(head);
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int hugetlbfs_migrate_page(struct address_space *mapping,
 				struct page *newpage, struct page *page,
 				enum migrate_mode mode)
@@ -963,9 +1091,21 @@ static int hugetlbfs_migrate_page(struct address_space *mapping,
 	if (rc != MIGRATEPAGE_SUCCESS)
 		return rc;
 
+<<<<<<< HEAD
 	if (hugetlb_page_subpool(page)) {
 		hugetlb_set_page_subpool(newpage, hugetlb_page_subpool(page));
 		hugetlb_set_page_subpool(page, NULL);
+=======
+	/*
+	 * page_private is subpool pointer in hugetlb pages.  Transfer to
+	 * new page.  PagePrivate is not associated with page_private for
+	 * hugetlb pages and can not be set here as only page_huge_active
+	 * pages can be migrated.
+	 */
+	if (page_private(page)) {
+		set_page_private(newpage, page_private(page));
+		set_page_private(page, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (mode != MIGRATE_SYNC_NO_COPY)
@@ -1140,7 +1280,11 @@ static void hugetlbfs_destroy_inode(struct inode *inode)
 static const struct address_space_operations hugetlbfs_aops = {
 	.write_begin	= hugetlbfs_write_begin,
 	.write_end	= hugetlbfs_write_end,
+<<<<<<< HEAD
 	.set_page_dirty	=  __set_page_dirty_no_writeback,
+=======
+	.set_page_dirty	= hugetlbfs_set_page_dirty,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.migratepage    = hugetlbfs_migrate_page,
 	.error_remove_page	= hugetlbfs_error_remove_page,
 };
@@ -1340,7 +1484,11 @@ hugetlbfs_fill_super(struct super_block *sb, struct fs_context *fc)
 
 	/*
 	 * Allocate and initialize subpool if maximum or minimum size is
+<<<<<<< HEAD
 	 * specified.  Any needed reservations (for minimum size) are taken
+=======
+	 * specified.  Any needed reservations (for minimim size) are taken
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * taken when the subpool is created.
 	 */
 	if (ctx->max_hpages != -1 || ctx->min_hpages != -1) {
@@ -1483,7 +1631,11 @@ struct file *hugetlb_file_setup(const char *name, size_t size,
 	inode->i_size = size;
 	clear_nlink(inode);
 
+<<<<<<< HEAD
 	if (!hugetlb_reserve_pages(inode, 0,
+=======
+	if (hugetlb_reserve_pages(inode, 0,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			size >> huge_page_shift(hstate_inode(inode)), NULL,
 			acctflag))
 		file = ERR_PTR(-ENOMEM);
@@ -1517,8 +1669,13 @@ static struct vfsmount *__init mount_one_hugetlbfs(struct hstate *h)
 		put_fs_context(fc);
 	}
 	if (IS_ERR(mnt))
+<<<<<<< HEAD
 		pr_err("Cannot mount internal hugetlbfs for page size %luK",
 		       huge_page_size(h) >> 10);
+=======
+		pr_err("Cannot mount internal hugetlbfs for page size %uK",
+		       1U << (h->order + PAGE_SHIFT - 10));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return mnt;
 }
 
@@ -1546,7 +1703,11 @@ static int __init init_hugetlbfs_fs(void)
 		goto out_free;
 
 	/* default hstate mount is required */
+<<<<<<< HEAD
 	mnt = mount_one_hugetlbfs(&default_hstate);
+=======
+	mnt = mount_one_hugetlbfs(&hstates[default_hstate_idx]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(mnt)) {
 		error = PTR_ERR(mnt);
 		goto out_unreg;

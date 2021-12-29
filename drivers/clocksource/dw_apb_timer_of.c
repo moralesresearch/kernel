@@ -52,6 +52,36 @@ static int __init timer_get_base_and_rate(struct device_node *np,
 		return 0;
 
 	timer_clk = of_clk_get_by_name(np, "timer");
+<<<<<<< HEAD
+	if (IS_ERR(timer_clk)) {
+		ret = PTR_ERR(timer_clk);
+		goto out_pclk_disable;
+	}
+
+	ret = clk_prepare_enable(timer_clk);
+	if (ret)
+		goto out_timer_clk_put;
+
+	*rate = clk_get_rate(timer_clk);
+	if (!(*rate)) {
+		ret = -EINVAL;
+		goto out_timer_clk_disable;
+	}
+
+	return 0;
+
+out_timer_clk_disable:
+	clk_disable_unprepare(timer_clk);
+out_timer_clk_put:
+	clk_put(timer_clk);
+out_pclk_disable:
+	if (!IS_ERR(pclk)) {
+		clk_disable_unprepare(pclk);
+		clk_put(pclk);
+	}
+	iounmap(*base);
+	return ret;
+=======
 	if (IS_ERR(timer_clk))
 		return PTR_ERR(timer_clk);
 
@@ -64,6 +94,7 @@ static int __init timer_get_base_and_rate(struct device_node *np,
 		return -EINVAL;
 
 	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int __init add_clockevent(struct device_node *event_timer)

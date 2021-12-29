@@ -1581,7 +1581,11 @@ static struct snd_soc_dai_driver cs43130_dai[] = {
 			.formats = CS43130_PCM_FORMATS,
 		},
 		.ops = &cs43130_pcm_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
+=======
+		.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "cs43130-asp-dop",
@@ -1594,7 +1598,11 @@ static struct snd_soc_dai_driver cs43130_dai[] = {
 			.formats = CS43130_DOP_FORMATS,
 		},
 		.ops = &cs43130_dop_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
+=======
+		.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "cs43130-xsp-dop",
@@ -1607,7 +1615,11 @@ static struct snd_soc_dai_driver cs43130_dai[] = {
 			.formats = CS43130_DOP_FORMATS,
 		},
 		.ops = &cs43130_dop_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
+=======
+		.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "cs43130-xsp-dsd",
@@ -1735,6 +1747,17 @@ static DEVICE_ATTR(hpload_dc_r, 0444, cs43130_show_dc_r, NULL);
 static DEVICE_ATTR(hpload_ac_l, 0444, cs43130_show_ac_l, NULL);
 static DEVICE_ATTR(hpload_ac_r, 0444, cs43130_show_ac_r, NULL);
 
+<<<<<<< HEAD
+static struct attribute *hpload_attrs[] = {
+	&dev_attr_hpload_dc_l.attr,
+	&dev_attr_hpload_dc_r.attr,
+	&dev_attr_hpload_ac_l.attr,
+	&dev_attr_hpload_ac_r.attr,
+};
+ATTRIBUTE_GROUPS(hpload);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct reg_sequence hp_en_cal_seq[] = {
 	{CS43130_INT_MASK_4, CS43130_INT_MASK_ALL},
 	{CS43130_HP_MEAS_LOAD_1, 0},
@@ -2302,6 +2325,17 @@ static int cs43130_probe(struct snd_soc_component *component)
 
 	cs43130->hpload_done = false;
 	if (cs43130->dc_meas) {
+<<<<<<< HEAD
+		ret = sysfs_create_groups(&component->dev->kobj, hpload_groups);
+		if (ret)
+			return ret;
+
+		cs43130->wq = create_singlethread_workqueue("cs43130_hp");
+		if (!cs43130->wq) {
+			sysfs_remove_groups(&component->dev->kobj, hpload_groups);
+			return -ENOMEM;
+		}
+=======
 		ret = device_create_file(component->dev, &dev_attr_hpload_dc_l);
 		if (ret < 0)
 			return ret;
@@ -2321,6 +2355,7 @@ static int cs43130_probe(struct snd_soc_component *component)
 		cs43130->wq = create_singlethread_workqueue("cs43130_hp");
 		if (!cs43130->wq)
 			return -ENOMEM;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		INIT_WORK(&cs43130->work, cs43130_imp_meas);
 	}
 

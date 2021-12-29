@@ -82,7 +82,11 @@ static int probe(struct pci_dev *pdev,
 	}
 
 	if (pdev->irq && !pci_intx_mask_supported(pdev))
+<<<<<<< HEAD
+		return -ENODEV;
+=======
 		return -ENOMEM;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	gdev = devm_kzalloc(&pdev->dev, sizeof(struct uio_pci_generic_dev), GFP_KERNEL);
 	if (!gdev)
@@ -92,7 +96,11 @@ static int probe(struct pci_dev *pdev,
 	gdev->info.version = DRIVER_VERSION;
 	gdev->info.release = release;
 	gdev->pdev = pdev;
+<<<<<<< HEAD
 	if (pdev->irq && (pdev->irq != IRQ_NOTCONNECTED)) {
+=======
+	if (pdev->irq) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		gdev->info.irq = pdev->irq;
 		gdev->info.irq_flags = IRQF_SHARED;
 		gdev->info.handler = irqhandler;

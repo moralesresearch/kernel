@@ -319,11 +319,14 @@ enum rt_scope_t {
 #define RTM_F_FIB_MATCH	        0x2000	/* return full fib lookup match */
 #define RTM_F_OFFLOAD		0x4000	/* route is offloaded */
 #define RTM_F_TRAP		0x8000	/* route is trapping packets */
+<<<<<<< HEAD
 #define RTM_F_OFFLOAD_FAILED	0x20000000 /* route offload failed, this value
 					    * is chosen to avoid conflicts with
 					    * other flags defined in
 					    * include/uapi/linux/ipv6_route.h
 					    */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Reserved table identifiers */
 

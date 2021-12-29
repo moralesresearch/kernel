@@ -16,7 +16,10 @@
 #include <asm/boot.h>
 #include <asm/processor-flags.h>
 #include <asm/msr.h>
+<<<<<<< HEAD
 #include <asm/nospec-branch.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <xen/interface/elfnote.h>
 
 	__HEAD
@@ -106,7 +109,10 @@ SYM_CODE_START_LOCAL(pvh_start_xen)
 	/* startup_64 expects boot_params in %rsi. */
 	mov $_pa(pvh_bootparams), %rsi
 	mov $_pa(startup_64), %rax
+<<<<<<< HEAD
 	ANNOTATE_RETPOLINE_SAFE
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	jmp *%rax
 
 #else /* CONFIG_X86_64 */

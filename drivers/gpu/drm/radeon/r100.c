@@ -2612,6 +2612,10 @@ int r100_asic_reset(struct radeon_device *rdev, bool hard)
 
 void r100_set_common_regs(struct radeon_device *rdev)
 {
+<<<<<<< HEAD
+=======
+	struct drm_device *dev = rdev->ddev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool force_dac2 = false;
 	u32 tmp;
 
@@ -2629,7 +2633,11 @@ void r100_set_common_regs(struct radeon_device *rdev)
 	 * don't report it in the bios connector
 	 * table.
 	 */
+<<<<<<< HEAD
 	switch (rdev->pdev->device) {
+=======
+	switch (dev->pdev->device) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* RN50 */
 	case 0x515e:
 	case 0x5969:
@@ -2639,6 +2647,7 @@ void r100_set_common_regs(struct radeon_device *rdev)
 	case 0x5159:
 	case 0x515a:
 		/* DELL triple head servers */
+<<<<<<< HEAD
 		if ((rdev->pdev->subsystem_vendor == 0x1028 /* DELL */) &&
 		    ((rdev->pdev->subsystem_device == 0x016c) ||
 		     (rdev->pdev->subsystem_device == 0x016d) ||
@@ -2650,6 +2659,19 @@ void r100_set_common_regs(struct radeon_device *rdev)
 		     (rdev->pdev->subsystem_device == 0x0183) ||
 		     (rdev->pdev->subsystem_device == 0x018a) ||
 		     (rdev->pdev->subsystem_device == 0x019a)))
+=======
+		if ((dev->pdev->subsystem_vendor == 0x1028 /* DELL */) &&
+		    ((dev->pdev->subsystem_device == 0x016c) ||
+		     (dev->pdev->subsystem_device == 0x016d) ||
+		     (dev->pdev->subsystem_device == 0x016e) ||
+		     (dev->pdev->subsystem_device == 0x016f) ||
+		     (dev->pdev->subsystem_device == 0x0170) ||
+		     (dev->pdev->subsystem_device == 0x017d) ||
+		     (dev->pdev->subsystem_device == 0x017e) ||
+		     (dev->pdev->subsystem_device == 0x0183) ||
+		     (dev->pdev->subsystem_device == 0x018a) ||
+		     (dev->pdev->subsystem_device == 0x019a)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			force_dac2 = true;
 		break;
 	}
@@ -2797,7 +2819,11 @@ void r100_vram_init_sizes(struct radeon_device *rdev)
 			rdev->mc.real_vram_size = 8192 * 1024;
 			WREG32(RADEON_CONFIG_MEMSIZE, rdev->mc.real_vram_size);
 		}
+<<<<<<< HEAD
 		/* Fix for RN50, M6, M7 with 8/16/32(??) MBs of VRAM -
+=======
+		/* Fix for RN50, M6, M7 with 8/16/32(??) MBs of VRAM - 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 * Novell bug 204882 + along with lots of ubuntu ones
 		 */
 		if (rdev->mc.aper_size > config_aper_size)

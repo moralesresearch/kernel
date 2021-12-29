@@ -9,7 +9,11 @@
 
 #include <rtl8192c_recv.h>
 
+<<<<<<< HEAD
 struct rxreport_8723b {
+=======
+typedef struct rxreport_8723b {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* DWORD 0 */
 	u32 pktlen:14;
 	u32 crc32:1;
@@ -79,9 +83,15 @@ struct rxreport_8723b {
 
 	/* DWORD 5 */
 	u32 tsfl;
+<<<<<<< HEAD
 };
 
 struct phystatus_8723b {
+=======
+} RXREPORT, *PRXREPORT;
+
+typedef struct phystatus_8723b {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 rxgain_a:7;
 	u32 trsw_a:1;
 	u32 rxgain_b:7;
@@ -123,7 +133,11 @@ struct phystatus_8723b {
 	u32 anttrainen:1;
 	u32 antselb:1;
 	u32 antsel:1;
+<<<<<<< HEAD
 };
+=======
+} PHYSTATUS, *PPHYSTATUS;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 s32 rtl8723bs_init_recv_priv(struct adapter *padapter);
 void rtl8723bs_free_recv_priv(struct adapter *padapter);

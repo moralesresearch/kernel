@@ -55,7 +55,15 @@
 #include <net/net_namespace.h>
 
 #define RTNL_MAX_TYPE		50
+<<<<<<< HEAD
 #define RTNL_SLAVE_MAX_TYPE	40
+=======
+<<<<<<< HEAD
+#define RTNL_SLAVE_MAX_TYPE	40
+=======
+#define RTNL_SLAVE_MAX_TYPE	36
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct rtnl_link {
 	rtnl_doit_func		doit;
@@ -2147,7 +2155,15 @@ out:
 out_err:
 	cb->args[1] = idx;
 	cb->args[0] = h;
+<<<<<<< HEAD
 	cb->seq = tgt_net->dev_base_seq;
+=======
+<<<<<<< HEAD
+	cb->seq = tgt_net->dev_base_seq;
+=======
+	cb->seq = net->dev_base_seq;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nl_dump_check_consistent(cb, nlmsg_hdr(skb));
 	if (netnsid >= 0)
 		put_net(tgt_net);
@@ -2863,7 +2879,15 @@ static int do_setlink(const struct sk_buff *skb,
 
 			BUG_ON(!(af_ops = rtnl_af_lookup(nla_type(af))));
 
+<<<<<<< HEAD
 			err = af_ops->set_link_af(dev, af, extack);
+=======
+<<<<<<< HEAD
+			err = af_ops->set_link_af(dev, af, extack);
+=======
+			err = af_ops->set_link_af(dev, af);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (err < 0) {
 				rcu_read_unlock();
 				goto errout;
@@ -4833,6 +4857,13 @@ static int rtnl_bridge_notify(struct net_device *dev)
 	if (err < 0)
 		goto errout;
 
+<<<<<<< HEAD
+	/* Notification info is only filled for bridge ports, not the bridge
+	 * device itself. Therefore, a zero notification length is valid and
+	 * should not result in an error.
+	 */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!skb->len)
 		goto errout;
 

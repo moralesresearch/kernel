@@ -20,7 +20,14 @@
 #define IRQ_STACK_SIZE			THREAD_SIZE
 #define IRQ_STACK_START			(IRQ_STACK_SIZE - 16)
 
+<<<<<<< HEAD
 extern void __init init_IRQ(void);
+=======
+<<<<<<< HEAD
+extern void __init init_IRQ(void);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern void *irq_stack[NR_CPUS];
 
 /*

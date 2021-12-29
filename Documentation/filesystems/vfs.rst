@@ -112,7 +112,11 @@ members are defined:
 
 .. code-block:: c
 
+<<<<<<< HEAD
 	struct file_system_type {
+=======
+	struct file_system_operations {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		const char *name;
 		int fs_flags;
 		struct dentry *(*mount) (struct file_system_type *, int,
@@ -270,10 +274,14 @@ or bottom half).
 	->alloc_inode.
 
 ``dirty_inode``
+<<<<<<< HEAD
 	this method is called by the VFS when an inode is marked dirty.
 	This is specifically for the inode itself being marked dirty,
 	not its data.  If the update needs to be persisted by fdatasync(),
 	then I_DIRTY_DATASYNC will be set in the flags argument.
+=======
+	this method is called by the VFS to mark an inode dirty.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 ``write_inode``
 	this method is called when the VFS needs to write an inode to
@@ -418,6 +426,7 @@ As of kernel 2.6.22, the following members are defined:
 .. code-block:: c
 
 	struct inode_operations {
+<<<<<<< HEAD
 		int (*create) (struct user_namespace *, struct inode *,struct dentry *, umode_t, bool);
 		struct dentry * (*lookup) (struct inode *,struct dentry *, unsigned int);
 		int (*link) (struct dentry *,struct inode *,struct dentry *);
@@ -427,20 +436,42 @@ As of kernel 2.6.22, the following members are defined:
 		int (*rmdir) (struct inode *,struct dentry *);
 		int (*mknod) (struct user_namespace *, struct inode *,struct dentry *,umode_t,dev_t);
 		int (*rename) (struct user_namespace *, struct inode *, struct dentry *,
+=======
+		int (*create) (struct inode *,struct dentry *, umode_t, bool);
+		struct dentry * (*lookup) (struct inode *,struct dentry *, unsigned int);
+		int (*link) (struct dentry *,struct inode *,struct dentry *);
+		int (*unlink) (struct inode *,struct dentry *);
+		int (*symlink) (struct inode *,struct dentry *,const char *);
+		int (*mkdir) (struct inode *,struct dentry *,umode_t);
+		int (*rmdir) (struct inode *,struct dentry *);
+		int (*mknod) (struct inode *,struct dentry *,umode_t,dev_t);
+		int (*rename) (struct inode *, struct dentry *,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       struct inode *, struct dentry *, unsigned int);
 		int (*readlink) (struct dentry *, char __user *,int);
 		const char *(*get_link) (struct dentry *, struct inode *,
 					 struct delayed_call *);
+<<<<<<< HEAD
 		int (*permission) (struct user_namespace *, struct inode *, int);
 		int (*get_acl)(struct inode *, int);
 		int (*setattr) (struct user_namespace *, struct dentry *, struct iattr *);
 		int (*getattr) (struct user_namespace *, const struct path *, struct kstat *, u32, unsigned int);
+=======
+		int (*permission) (struct inode *, int);
+		int (*get_acl)(struct inode *, int);
+		int (*setattr) (struct dentry *, struct iattr *);
+		int (*getattr) (const struct path *, struct kstat *, u32, unsigned int);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ssize_t (*listxattr) (struct dentry *, char *, size_t);
 		void (*update_time)(struct inode *, struct timespec *, int);
 		int (*atomic_open)(struct inode *, struct dentry *, struct file *,
 				   unsigned open_flag, umode_t create_mode);
+<<<<<<< HEAD
 		int (*tmpfile) (struct user_namespace *, struct inode *, struct dentry *, umode_t);
 	        int (*set_acl)(struct user_namespace *, struct inode *, struct posix_acl *, int);
+=======
+		int (*tmpfile) (struct inode *, struct dentry *, umode_t);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 Again, all methods are called without any locks being held, unless

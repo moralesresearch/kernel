@@ -105,6 +105,7 @@ static void ncsi_channel_monitor(struct timer_list *t)
 	monitor_state = nc->monitor.state;
 	spin_unlock_irqrestore(&nc->lock, flags);
 
+<<<<<<< HEAD
 	if (!enabled)
 		return;		/* expected race disabling timer */
 	if (WARN_ON_ONCE(chained))
@@ -119,6 +120,15 @@ bad_state:
 		spin_lock_irqsave(&nc->lock, flags);
 		nc->monitor.enabled = false;
 		spin_unlock_irqrestore(&nc->lock, flags);
+=======
+	if (!enabled || chained) {
+		ncsi_stop_channel_monitor(nc);
+		return;
+	}
+	if (state != NCSI_CHANNEL_INACTIVE &&
+	    state != NCSI_CHANNEL_ACTIVE) {
+		ncsi_stop_channel_monitor(nc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -143,9 +153,16 @@ bad_state:
 		ncsi_report_link(ndp, true);
 		ndp->flags |= NCSI_DEV_RESHUFFLE;
 
+<<<<<<< HEAD
 		ncm = &nc->modes[NCSI_MODE_LINK];
 		spin_lock_irqsave(&nc->lock, flags);
 		nc->monitor.enabled = false;
+=======
+		ncsi_stop_channel_monitor(nc);
+
+		ncm = &nc->modes[NCSI_MODE_LINK];
+		spin_lock_irqsave(&nc->lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nc->state = NCSI_CHANNEL_INVISIBLE;
 		ncm->data[2] &= ~0x1;
 		spin_unlock_irqrestore(&nc->lock, flags);

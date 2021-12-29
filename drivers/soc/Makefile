@@ -7,7 +7,10 @@ obj-$(CONFIG_ARCH_ACTIONS)	+= actions/
 obj-y				+= aspeed/
 obj-$(CONFIG_ARCH_AT91)		+= atmel/
 obj-y				+= bcm/
+<<<<<<< HEAD
 obj-$(CONFIG_SOC_CANAAN)	+= canaan/
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_ARCH_DOVE)		+= dove/
 obj-$(CONFIG_MACH_DOVE)		+= dove/
 obj-y				+= fsl/
@@ -29,3 +32,8 @@ obj-y				+= ti/
 obj-$(CONFIG_ARCH_U8500)	+= ux500/
 obj-$(CONFIG_PLAT_VERSATILE)	+= versatile/
 obj-y				+= xilinx/
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_ARCH_ZX)		+= zte/
+obj-$(CONFIG_SOC_KENDRYTE)	+= kendryte/
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

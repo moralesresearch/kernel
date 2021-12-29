@@ -234,7 +234,11 @@ void mmu_mark_initmem_nx(void)
 		if (is_module_segment(i << 28))
 			continue;
 
+<<<<<<< HEAD
 		mtsr(mfsr(i << 28) | 0x10000000, i << 28);
+=======
+		mtsrin(mfsrin(i << 28) | 0x10000000, i << 28);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

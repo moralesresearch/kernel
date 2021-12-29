@@ -310,8 +310,17 @@ unsigned long zone_reclaimable_pages(struct zone *zone)
  * @lru: lru to use
  * @zone_idx: zones to consider (use MAX_NR_ZONES for the whole LRU list)
  */
+<<<<<<< HEAD
 static unsigned long lruvec_lru_size(struct lruvec *lruvec, enum lru_list lru,
 				     int zone_idx)
+=======
+<<<<<<< HEAD
+static unsigned long lruvec_lru_size(struct lruvec *lruvec, enum lru_list lru,
+				     int zone_idx)
+=======
+unsigned long lruvec_lru_size(struct lruvec *lruvec, enum lru_list lru, int zone_idx)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long size = 0;
 	int zid;
@@ -1540,6 +1549,10 @@ unsigned int reclaim_clean_pages_from_list(struct zone *zone,
  * page:	page to consider
  * mode:	one of the LRU isolation modes defined above
  *
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * returns true on success, false on failure.
  */
 bool __isolate_lru_page_prepare(struct page *page, isolate_mode_t mode)
@@ -1551,6 +1564,24 @@ bool __isolate_lru_page_prepare(struct page *page, isolate_mode_t mode)
 	/* Compaction should not handle unevictable pages but CMA can do so */
 	if (PageUnevictable(page) && !(mode & ISOLATE_UNEVICTABLE))
 		return false;
+<<<<<<< HEAD
+=======
+=======
+ * returns 0 on success, -ve errno on failure.
+ */
+int __isolate_lru_page_prepare(struct page *page, isolate_mode_t mode)
+{
+	int ret = -EBUSY;
+
+	/* Only take pages on the LRU. */
+	if (!PageLRU(page))
+		return ret;
+
+	/* Compaction should not handle unevictable pages but CMA can do so */
+	if (PageUnevictable(page) && !(mode & ISOLATE_UNEVICTABLE))
+		return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * To minimise LRU disruption, the caller can indicate that it only
@@ -1563,7 +1594,15 @@ bool __isolate_lru_page_prepare(struct page *page, isolate_mode_t mode)
 	if (mode & ISOLATE_ASYNC_MIGRATE) {
 		/* All the caller can do on PageWriteback is block */
 		if (PageWriteback(page))
+<<<<<<< HEAD
 			return false;
+=======
+<<<<<<< HEAD
+			return false;
+=======
+			return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (PageDirty(page)) {
 			struct address_space *mapping;
@@ -1579,20 +1618,48 @@ bool __isolate_lru_page_prepare(struct page *page, isolate_mode_t mode)
 			 * from the page cache.
 			 */
 			if (!trylock_page(page))
+<<<<<<< HEAD
 				return false;
+=======
+<<<<<<< HEAD
+				return false;
+=======
+				return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			mapping = page_mapping(page);
 			migrate_dirty = !mapping || mapping->a_ops->migratepage;
 			unlock_page(page);
 			if (!migrate_dirty)
+<<<<<<< HEAD
 				return false;
+=======
+<<<<<<< HEAD
+				return false;
+=======
+				return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
 	if ((mode & ISOLATE_UNMAPPED) && page_mapped(page))
+<<<<<<< HEAD
 		return false;
 
 	return true;
+=======
+<<<<<<< HEAD
+		return false;
+
+	return true;
+=======
+		return ret;
+
+	return 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -1676,6 +1743,10 @@ static unsigned long isolate_lru_pages(unsigned long nr_to_scan,
 		 * only when the page is being freed somewhere else.
 		 */
 		scan += nr_pages;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!__isolate_lru_page_prepare(page, mode)) {
 			/* It is being freed elsewhere */
 			list_move(&page->lru, src);
@@ -1701,6 +1772,40 @@ static unsigned long isolate_lru_pages(unsigned long nr_to_scan,
 		nr_taken += nr_pages;
 		nr_zone_taken[page_zonenum(page)] += nr_pages;
 		list_move(&page->lru, dst);
+<<<<<<< HEAD
+=======
+=======
+		switch (__isolate_lru_page_prepare(page, mode)) {
+		case 0:
+			/*
+			 * Be careful not to clear PageLRU until after we're
+			 * sure the page is not being freed elsewhere -- the
+			 * page release code relies on it.
+			 */
+			if (unlikely(!get_page_unless_zero(page)))
+				goto busy;
+
+			if (!TestClearPageLRU(page)) {
+				/*
+				 * This page may in other isolation path,
+				 * but we still hold lru_lock.
+				 */
+				put_page(page);
+				goto busy;
+			}
+
+			nr_taken += nr_pages;
+			nr_zone_taken[page_zonenum(page)] += nr_pages;
+			list_move(&page->lru, dst);
+			break;
+
+		default:
+busy:
+			/* else it is being freed elsewhere */
+			list_move(&page->lru, src);
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/*
@@ -1767,7 +1872,15 @@ int isolate_lru_page(struct page *page)
 
 		get_page(page);
 		lruvec = lock_page_lruvec_irq(page);
+<<<<<<< HEAD
 		del_page_from_lru_list(page, lruvec);
+=======
+<<<<<<< HEAD
+		del_page_from_lru_list(page, lruvec);
+=======
+		del_page_from_lru_list(page, lruvec, page_lru(page));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unlock_page_lruvec_irq(lruvec);
 		ret = 0;
 	}
@@ -1824,6 +1937,13 @@ static unsigned noinline_for_stack move_pages_to_lru(struct lruvec *lruvec,
 	int nr_pages, nr_moved = 0;
 	LIST_HEAD(pages_to_free);
 	struct page *page;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	enum lru_list lru;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	while (!list_empty(list)) {
 		page = lru_to_page(list);
@@ -1850,7 +1970,16 @@ static unsigned noinline_for_stack move_pages_to_lru(struct lruvec *lruvec,
 		SetPageLRU(page);
 
 		if (unlikely(put_page_testzero(page))) {
+<<<<<<< HEAD
 			__clear_page_lru_flags(page);
+=======
+<<<<<<< HEAD
+			__clear_page_lru_flags(page);
+=======
+			__ClearPageLRU(page);
+			__ClearPageActive(page);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (unlikely(PageCompound(page))) {
 				spin_unlock_irq(&lruvec->lru_lock);
@@ -1867,8 +1996,21 @@ static unsigned noinline_for_stack move_pages_to_lru(struct lruvec *lruvec,
 		 * inhibits memcg migration).
 		 */
 		VM_BUG_ON_PAGE(!lruvec_holds_page_lru_lock(page, lruvec), page);
+<<<<<<< HEAD
 		add_page_to_lru_list(page, lruvec);
 		nr_pages = thp_nr_pages(page);
+=======
+<<<<<<< HEAD
+		add_page_to_lru_list(page, lruvec);
+		nr_pages = thp_nr_pages(page);
+=======
+		lru = page_lru(page);
+		nr_pages = thp_nr_pages(page);
+
+		update_lru_size(lruvec, lru, page_zonenum(page), nr_pages);
+		list_add(&page->lru, &lruvec->lists[lru]);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nr_moved += nr_pages;
 		if (PageActive(page))
 			workingset_age_nonresident(lruvec, nr_pages);
@@ -4287,9 +4429,24 @@ void check_move_unevictable_pages(struct pagevec *pvec)
 
 		lruvec = relock_page_lruvec_irq(page, lruvec);
 		if (page_evictable(page) && PageUnevictable(page)) {
+<<<<<<< HEAD
 			del_page_from_lru_list(page, lruvec);
 			ClearPageUnevictable(page);
 			add_page_to_lru_list(page, lruvec);
+=======
+<<<<<<< HEAD
+			del_page_from_lru_list(page, lruvec);
+			ClearPageUnevictable(page);
+			add_page_to_lru_list(page, lruvec);
+=======
+			enum lru_list lru = page_lru_base_type(page);
+
+			VM_BUG_ON_PAGE(PageActive(page), page);
+			ClearPageUnevictable(page);
+			del_page_from_lru_list(page, lruvec, LRU_UNEVICTABLE);
+			add_page_to_lru_list(page, lruvec, lru);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pgrescued += nr_pages;
 		}
 		SetPageLRU(page);

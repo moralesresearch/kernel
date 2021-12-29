@@ -518,8 +518,13 @@ static int mtk_musb_probe(struct platform_device *pdev)
 
 	glue->xceiv = devm_usb_get_phy(dev, USB_PHY_TYPE_USB2);
 	if (IS_ERR(glue->xceiv)) {
+<<<<<<< HEAD
+		ret = PTR_ERR(glue->xceiv);
+		dev_err(dev, "fail to getting usb-phy %d\n", ret);
+=======
 		dev_err(dev, "fail to getting usb-phy %d\n", ret);
 		ret = PTR_ERR(glue->xceiv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto err_unregister_usb_phy;
 	}
 

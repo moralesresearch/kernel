@@ -618,12 +618,22 @@ xfs_iwalk_threaded(
 {
 	struct xfs_pwork_ctl	pctl;
 	xfs_agnumber_t		agno = XFS_INO_TO_AGNO(mp, startino);
+<<<<<<< HEAD
+=======
+	unsigned int		nr_threads;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			error;
 
 	ASSERT(agno < mp->m_sb.sb_agcount);
 	ASSERT(!(flags & ~XFS_IWALK_FLAGS_ALL));
 
+<<<<<<< HEAD
 	error = xfs_pwork_init(mp, &pctl, xfs_iwalk_ag_work, "xfs_iwalk");
+=======
+	nr_threads = xfs_pwork_guess_datadev_parallelism(mp);
+	error = xfs_pwork_init(mp, &pctl, xfs_iwalk_ag_work, "xfs_iwalk",
+			nr_threads);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 

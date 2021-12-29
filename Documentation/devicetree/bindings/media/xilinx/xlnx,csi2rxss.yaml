@@ -97,21 +97,40 @@ properties:
     maxItems: 1
 
   ports:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
       port@0:
         $ref: /schemas/graph.yaml#/$defs/port-base
+=======
+    type: object
+
+    properties:
+      port@0:
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: |
           Input / sink port node, single endpoint describing the
           CSI-2 transmitter.
 
         properties:
+<<<<<<< HEAD
           endpoint:
             $ref: /schemas/media/video-interfaces.yaml#
             unevaluatedProperties: false
 
             properties:
+=======
+          reg:
+            const: 0
+
+          endpoint:
+            type: object
+
+            properties:
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               data-lanes:
                 description: |
                   This is required only in the sink port 0 endpoint which
@@ -127,6 +146,7 @@ properties:
                   - const: 3
                   - const: 4
 
+<<<<<<< HEAD
             required:
               - data-lanes
 
@@ -134,10 +154,46 @@ properties:
 
       port@1:
         $ref: /schemas/graph.yaml#/properties/port
+=======
+              remote-endpoint: true
+
+            required:
+              - data-lanes
+              - remote-endpoint
+
+            additionalProperties: false
+
+        additionalProperties: false
+
+      port@1:
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: |
           Output / source port node, endpoint describing modules
           connected the CSI-2 receiver.
 
+<<<<<<< HEAD
+=======
+        properties:
+
+          reg:
+            const: 1
+
+          endpoint:
+            type: object
+
+            properties:
+
+              remote-endpoint: true
+
+            required:
+              - remote-endpoint
+
+            additionalProperties: false
+
+        additionalProperties: false
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 required:
   - compatible
   - reg

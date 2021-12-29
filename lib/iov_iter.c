@@ -72,6 +72,11 @@
 	__start.bi_bvec_done = skip;			\
 	__start.bi_idx = 0;				\
 	for_each_bvec(__v, i->bvec, __bi, __start) {	\
+<<<<<<< HEAD
+=======
+		if (!__v.bv_len)			\
+			continue;			\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		(void)(STEP);				\
 	}						\
 }
@@ -464,6 +469,23 @@ void iov_iter_init(struct iov_iter *i, unsigned int direction,
 }
 EXPORT_SYMBOL(iov_iter_init);
 
+<<<<<<< HEAD
+=======
+static void memcpy_from_page(char *to, struct page *page, size_t offset, size_t len)
+{
+	char *from = kmap_atomic(page);
+	memcpy(to, from + offset, len);
+	kunmap_atomic(from);
+}
+
+static void memcpy_to_page(struct page *page, size_t offset, const char *from, size_t len)
+{
+	char *to = kmap_atomic(page);
+	memcpy(to + offset, from, len);
+	kunmap_atomic(to);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void memzero_page(struct page *page, size_t offset, size_t len)
 {
 	char *addr = kmap_atomic(page);
@@ -1053,6 +1075,7 @@ static void pipe_advance(struct iov_iter *i, size_t size)
 	pipe_truncate(i);
 }
 
+<<<<<<< HEAD
 static void iov_iter_bvec_advance(struct iov_iter *i, size_t size)
 {
 	struct bvec_iter bi;
@@ -1068,6 +1091,8 @@ static void iov_iter_bvec_advance(struct iov_iter *i, size_t size)
 	i->iov_offset = bi.bi_bvec_done;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void iov_iter_advance(struct iov_iter *i, size_t size)
 {
 	if (unlikely(iov_iter_is_pipe(i))) {
@@ -1078,10 +1103,13 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
 		i->count -= size;
 		return;
 	}
+<<<<<<< HEAD
 	if (iov_iter_is_bvec(i)) {
 		iov_iter_bvec_advance(i, size);
 		return;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iterate_and_advance(i, size, v, 0, 0, 0)
 }
 EXPORT_SYMBOL(iov_iter_advance);

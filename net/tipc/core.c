@@ -119,6 +119,11 @@ static void __net_exit tipc_exit_net(struct net *net)
 #ifdef CONFIG_TIPC_CRYPTO
 	tipc_crypto_stop(&tipc_net(net)->crypto_tx);
 #endif
+<<<<<<< HEAD
+	while (atomic_read(&tn->wq_count))
+		cond_resched();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void __net_exit tipc_pernet_pre_exit(struct net *net)

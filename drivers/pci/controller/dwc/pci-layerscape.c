@@ -232,7 +232,11 @@ static const struct of_device_id ls_pcie_of_match[] = {
 	{ },
 };
 
+<<<<<<< HEAD
 static int ls_pcie_probe(struct platform_device *pdev)
+=======
+static int __init ls_pcie_probe(struct platform_device *pdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct device *dev = &pdev->dev;
 	struct dw_pcie *pci;
@@ -271,11 +275,18 @@ static int ls_pcie_probe(struct platform_device *pdev)
 }
 
 static struct platform_driver ls_pcie_driver = {
+<<<<<<< HEAD
 	.probe = ls_pcie_probe,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.driver = {
 		.name = "layerscape-pcie",
 		.of_match_table = ls_pcie_of_match,
 		.suppress_bind_attrs = true,
 	},
 };
+<<<<<<< HEAD
 builtin_platform_driver(ls_pcie_driver);
+=======
+builtin_platform_driver_probe(ls_pcie_driver, ls_pcie_probe);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

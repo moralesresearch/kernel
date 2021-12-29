@@ -33,6 +33,12 @@
 
 #include "hid-ids.h"
 
+<<<<<<< HEAD
+/* Userspace expects F20 for mic-mute KEY_MICMUTE does not work */
+#define LENOVO_KEY_MICMUTE KEY_F20
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct lenovo_drvdata {
 	u8 led_report[3]; /* Must be first for proper alignment */
 	int led_state;
@@ -62,8 +68,13 @@ struct lenovo_drvdata {
 #define TP10UBKBD_LED_OFF		1
 #define TP10UBKBD_LED_ON		2
 
+<<<<<<< HEAD
+static int lenovo_led_set_tp10ubkbd(struct hid_device *hdev, u8 led_code,
+				    enum led_brightness value)
+=======
 static void lenovo_led_set_tp10ubkbd(struct hid_device *hdev, u8 led_code,
 				     enum led_brightness value)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct lenovo_drvdata *data = hid_get_drvdata(hdev);
 	int ret;
@@ -75,10 +86,25 @@ static void lenovo_led_set_tp10ubkbd(struct hid_device *hdev, u8 led_code,
 	data->led_report[2] = value ? TP10UBKBD_LED_ON : TP10UBKBD_LED_OFF;
 	ret = hid_hw_raw_request(hdev, data->led_report[0], data->led_report, 3,
 				 HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
+<<<<<<< HEAD
+	if (ret != 3) {
+		if (ret != -ENODEV)
+			hid_err(hdev, "Set LED output report error: %d\n", ret);
+
+		ret = ret < 0 ? ret : -EIO;
+	} else {
+		ret = 0;
+	}
+
+	mutex_unlock(&data->led_report_mutex);
+
+	return ret;
+=======
 	if (ret)
 		hid_err(hdev, "Set LED output report error: %d\n", ret);
 
 	mutex_unlock(&data->led_report_mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void lenovo_tp10ubkbd_sync_fn_lock(struct work_struct *work)
@@ -126,7 +152,11 @@ static int lenovo_input_mapping_tpkbd(struct hid_device *hdev,
 	if (usage->hid == (HID_UP_BUTTON | 0x0010)) {
 		/* This sub-device contains trackpoint, mark it */
 		hid_set_drvdata(hdev, (void *)1);
+<<<<<<< HEAD
+		map_key_clear(LENOVO_KEY_MICMUTE);
+=======
 		map_key_clear(KEY_MICMUTE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 	}
 	return 0;
@@ -141,7 +171,11 @@ static int lenovo_input_mapping_cptkbd(struct hid_device *hdev,
 	    (usage->hid & HID_USAGE_PAGE) == HID_UP_LNVENDOR) {
 		switch (usage->hid & HID_USAGE) {
 		case 0x00f1: /* Fn-F4: Mic mute */
+<<<<<<< HEAD
+			map_key_clear(LENOVO_KEY_MICMUTE);
+=======
 			map_key_clear(KEY_MICMUTE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return 1;
 		case 0x00f2: /* Fn-F5: Brightness down */
 			map_key_clear(KEY_BRIGHTNESSDOWN);
@@ -231,7 +265,11 @@ static int lenovo_input_mapping_tp10_ultrabook_kbd(struct hid_device *hdev,
 			map_key_clear(KEY_FN_ESC);
 			return 1;
 		case 9: /* Fn-F4: Mic mute */
+<<<<<<< HEAD
+			map_key_clear(LENOVO_KEY_MICMUTE);
+=======
 			map_key_clear(KEY_MICMUTE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return 1;
 		case 10: /* Fn-F7: Control panel */
 			map_key_clear(KEY_CONFIG);
@@ -349,7 +387,11 @@ static ssize_t attr_fn_lock_store(struct device *dev,
 {
 	struct hid_device *hdev = to_hid_device(dev);
 	struct lenovo_drvdata *data = hid_get_drvdata(hdev);
+<<<<<<< HEAD
+	int value, ret;
+=======
 	int value;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (kstrtoint(buf, 10, &value))
 		return -EINVAL;
@@ -364,7 +406,13 @@ static ssize_t attr_fn_lock_store(struct device *dev,
 		lenovo_features_set_cptkbd(hdev);
 		break;
 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+<<<<<<< HEAD
+		ret = lenovo_led_set_tp10ubkbd(hdev, TP10UBKBD_FN_LOCK_LED, value);
+		if (ret)
+			return ret;
+=======
 		lenovo_led_set_tp10ubkbd(hdev, TP10UBKBD_FN_LOCK_LED, value);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -498,6 +546,12 @@ static int lenovo_event_cptkbd(struct hid_device *hdev,
 static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
 		struct hid_usage *usage, __s32 value)
 {
+<<<<<<< HEAD
+	if (!hid_get_drvdata(hdev))
+		return 0;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (hdev->product) {
 	case USB_DEVICE_ID_LENOVO_CUSBKBD:
 	case USB_DEVICE_ID_LENOVO_CBTKBD:
@@ -777,7 +831,11 @@ static enum led_brightness lenovo_led_brightness_get(
 				: LED_OFF;
 }
 
+<<<<<<< HEAD
+static int lenovo_led_brightness_set(struct led_classdev *led_cdev,
+=======
 static void lenovo_led_brightness_set(struct led_classdev *led_cdev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			enum led_brightness value)
 {
 	struct device *dev = led_cdev->dev->parent;
@@ -785,6 +843,10 @@ static void lenovo_led_brightness_set(struct led_classdev *led_cdev,
 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
 	u8 tp10ubkbd_led[] = { TP10UBKBD_MUTE_LED, TP10UBKBD_MICMUTE_LED };
 	int led_nr = 0;
+<<<<<<< HEAD
+	int ret = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (led_cdev == &data_pointer->led_micmute)
 		led_nr = 1;
@@ -799,9 +861,17 @@ static void lenovo_led_brightness_set(struct led_classdev *led_cdev,
 		lenovo_led_set_tpkbd(hdev);
 		break;
 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+<<<<<<< HEAD
+		ret = lenovo_led_set_tp10ubkbd(hdev, tp10ubkbd_led[led_nr], value);
+		break;
+	}
+
+	return ret;
+=======
 		lenovo_led_set_tp10ubkbd(hdev, tp10ubkbd_led[led_nr], value);
 		break;
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int lenovo_register_leds(struct hid_device *hdev)
@@ -822,7 +892,12 @@ static int lenovo_register_leds(struct hid_device *hdev)
 
 	data->led_mute.name = name_mute;
 	data->led_mute.brightness_get = lenovo_led_brightness_get;
+<<<<<<< HEAD
+	data->led_mute.brightness_set_blocking = lenovo_led_brightness_set;
+	data->led_mute.flags = LED_HW_PLUGGABLE;
+=======
 	data->led_mute.brightness_set = lenovo_led_brightness_set;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	data->led_mute.dev = &hdev->dev;
 	ret = led_classdev_register(&hdev->dev, &data->led_mute);
 	if (ret < 0)
@@ -830,7 +905,12 @@ static int lenovo_register_leds(struct hid_device *hdev)
 
 	data->led_micmute.name = name_micm;
 	data->led_micmute.brightness_get = lenovo_led_brightness_get;
+<<<<<<< HEAD
+	data->led_micmute.brightness_set_blocking = lenovo_led_brightness_set;
+	data->led_micmute.flags = LED_HW_PLUGGABLE;
+=======
 	data->led_micmute.brightness_set = lenovo_led_brightness_set;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	data->led_micmute.dev = &hdev->dev;
 	ret = led_classdev_register(&hdev->dev, &data->led_micmute);
 	if (ret < 0) {

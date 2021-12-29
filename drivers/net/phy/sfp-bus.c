@@ -280,12 +280,21 @@ void sfp_parse_support(struct sfp_bus *bus, const struct sfp_eeprom_id *id,
 	    br_min <= 1300 && br_max >= 1200)
 		phylink_set(modes, 1000baseX_Full);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* 100Base-FX, 100Base-LX, 100Base-PX, 100Base-BX10 */
 	if (id->base.e100_base_fx || id->base.e100_base_lx)
 		phylink_set(modes, 100baseFX_Full);
 	if ((id->base.e_base_px || id->base.e_base_bx10) && br_nom == 100)
 		phylink_set(modes, 100baseFX_Full);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* For active or passive cables, select the link modes
 	 * based on the bit rates and the cable compliance bytes.
 	 */
@@ -358,6 +367,10 @@ void sfp_parse_support(struct sfp_bus *bus, const struct sfp_eeprom_id *id,
 	 * the bitrate to determine supported modes. Some BiDi modules (eg,
 	 * 1310nm/1550nm) are not 1000BASE-BX compliant due to the differing
 	 * wavelengths, so do not set any transceiver bits.
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *
 	 * Do the same for modules supporting 2500BASE-X. Note that some
 	 * modules use 2500Mbaud rather than 3100 or 3200Mbaud for
@@ -368,6 +381,16 @@ void sfp_parse_support(struct sfp_bus *bus, const struct sfp_eeprom_id *id,
 			phylink_set(modes, 1000baseX_Full);
 		if (br_min <= 3200 && br_max >= 2500)
 			phylink_set(modes, 2500baseX_Full);
+<<<<<<< HEAD
+=======
+=======
+	 */
+	if (bitmap_empty(modes, __ETHTOOL_LINK_MODE_MASK_NBITS)) {
+		/* If the bit rate allows 1000baseX */
+		if (br_nom && br_min <= 1300 && br_max >= 1200)
+			phylink_set(modes, 1000baseX_Full);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (bus->sfp_quirk)
@@ -400,9 +423,18 @@ phy_interface_t sfp_select_interface(struct sfp_bus *bus,
 	    phylink_test(link_modes, 10000baseT_Full))
 		return PHY_INTERFACE_MODE_10GBASER;
 
+<<<<<<< HEAD
 	if (phylink_test(link_modes, 5000baseT_Full))
 		return PHY_INTERFACE_MODE_5GBASER;
 
+=======
+<<<<<<< HEAD
+	if (phylink_test(link_modes, 5000baseT_Full))
+		return PHY_INTERFACE_MODE_5GBASER;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (phylink_test(link_modes, 2500baseX_Full))
 		return PHY_INTERFACE_MODE_2500BASEX;
 
@@ -413,9 +445,18 @@ phy_interface_t sfp_select_interface(struct sfp_bus *bus,
 	if (phylink_test(link_modes, 1000baseX_Full))
 		return PHY_INTERFACE_MODE_1000BASEX;
 
+<<<<<<< HEAD
 	if (phylink_test(link_modes, 100baseFX_Full))
 		return PHY_INTERFACE_MODE_100BASEX;
 
+=======
+<<<<<<< HEAD
+	if (phylink_test(link_modes, 100baseFX_Full))
+		return PHY_INTERFACE_MODE_100BASEX;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_warn(bus->sfp_dev, "Unable to ascertain link mode\n");
 
 	return PHY_INTERFACE_MODE_NA;

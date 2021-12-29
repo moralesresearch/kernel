@@ -258,7 +258,11 @@ static u32 pid_controller(struct thermal_zone_device *tz,
 	 * power being applied, slowing down the controller)
 	 */
 	d = mul_frac(tz->tzp->k_d, err - params->prev_err);
+<<<<<<< HEAD
 	d = div_frac(d, jiffies_to_msecs(tz->passive_delay_jiffies));
+=======
+	d = div_frac(d, tz->passive_delay);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	params->prev_err = err;
 
 	power_range = p + i + d;
@@ -590,6 +594,7 @@ static void allow_maximum_power(struct thermal_zone_device *tz)
 }
 
 /**
+<<<<<<< HEAD
  * check_power_actors() - Check all cooling devices and warn when they are
  *			not power actors
  * @tz:		thermal zone to operate on
@@ -618,14 +623,20 @@ static int check_power_actors(struct thermal_zone_device *tz)
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * power_allocator_bind() - bind the power_allocator governor to a thermal zone
  * @tz:	thermal zone to bind it to
  *
  * Initialize the PID controller parameters and bind it to the thermal
  * zone.
  *
+<<<<<<< HEAD
  * Return: 0 on success, or -ENOMEM if we ran out of memory, or -EINVAL
  * when there are unsupported cooling devices in the @tz.
+=======
+ * Return: 0 on success, or -ENOMEM if we ran out of memory.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static int power_allocator_bind(struct thermal_zone_device *tz)
 {
@@ -633,10 +644,13 @@ static int power_allocator_bind(struct thermal_zone_device *tz)
 	struct power_allocator_params *params;
 	int control_temp;
 
+<<<<<<< HEAD
 	ret = check_power_actors(tz);
 	if (ret)
 		return ret;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	params = kzalloc(sizeof(*params), GFP_KERNEL);
 	if (!params)
 		return -ENOMEM;

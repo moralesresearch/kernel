@@ -178,7 +178,11 @@ static int tegra30_voltage_update(struct tegra_regulator_coupler *tegra,
 	 * survive the voltage drop if it's running on a higher frequency.
 	 */
 	if (!cpu_min_uV_consumers)
+<<<<<<< HEAD
+		cpu_min_uV = max(cpu_uV, cpu_min_uV);
+=======
 		cpu_min_uV = cpu_uV;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Bootloader shall set up voltages correctly, but if it

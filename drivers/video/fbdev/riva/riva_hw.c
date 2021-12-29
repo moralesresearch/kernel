@@ -836,6 +836,7 @@ static void nv10CalcArbitration
     nv10_sim_state *arb
 )
 {
+<<<<<<< HEAD
     int data, pagemiss, width, video_enable, bpp;
     int nvclks, mclks, pclks, vpagemiss, crtpagemiss;
     int nvclk_fill;
@@ -847,6 +848,19 @@ static void nv10CalcArbitration
     int clwm_rnd_down;
     int m2us, us_pipe_min, p1clk, p2;
     int min_mclk_extra;
+=======
+    int data, pagemiss, cas,width, video_enable, bpp;
+    int nvclks, mclks, pclks, vpagemiss, crtpagemiss, vbs;
+    int nvclk_fill, us_extra;
+    int found, mclk_extra, mclk_loop, cbs, m1;
+    int mclk_freq, pclk_freq, nvclk_freq, mp_enable;
+    int us_m, us_m_min, us_n, us_p, video_drain_rate, crtc_drain_rate;
+    int vus_m, vus_n, vus_p;
+    int vpm_us, us_video, vlwm, cpm_us, us_crt,clwm;
+    int clwm_rnd_down;
+    int craw, m2us, us_pipe, us_pipe_min, vus_pipe, p1clk, p2;
+    int pclks_2_top_fifo, min_mclk_extra;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     int us_min_mclk_extra;
 
     fifo->valid = 1;
@@ -854,13 +868,24 @@ static void nv10CalcArbitration
     mclk_freq = arb->mclk_khz;
     nvclk_freq = arb->nvclk_khz;
     pagemiss = arb->mem_page_miss;
+<<<<<<< HEAD
+=======
+    cas = arb->mem_latency;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     width = arb->memory_width/64;
     video_enable = arb->enable_video;
     bpp = arb->pix_bpp;
     mp_enable = arb->enable_mp;
     clwm = 0;
+<<<<<<< HEAD
 
     cbs = 512;
+=======
+    vlwm = 1024;
+
+    cbs = 512;
+    vbs = 512;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
     pclks = 4; /* lwm detect. */
 
@@ -921,11 +946,25 @@ static void nv10CalcArbitration
       us_min_mclk_extra = min_mclk_extra *1000*1000 / mclk_freq;
       us_n = nvclks*1000*1000 / nvclk_freq;/* nvclk latency in us */
       us_p = pclks*1000*1000 / pclk_freq;/* nvclk latency in us */
+<<<<<<< HEAD
       us_pipe_min = us_m_min + us_n + us_p;
 
       vus_m = mclk_loop *1000*1000 / mclk_freq; /* Mclk latency in us */
 
       if(video_enable) {
+=======
+      us_pipe = us_m + us_n + us_p;
+      us_pipe_min = us_m_min + us_n + us_p;
+      us_extra = 0;
+
+      vus_m = mclk_loop *1000*1000 / mclk_freq; /* Mclk latency in us */
+      vus_n = (4)*1000*1000 / nvclk_freq;/* nvclk latency in us */
+      vus_p = 0*1000*1000 / pclk_freq;/* pclk latency in us */
+      vus_pipe = vus_m + vus_n + vus_p;
+
+      if(video_enable) {
+        video_drain_rate = pclk_freq * 4; /* MB/s */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         crtc_drain_rate = pclk_freq * bpp/8; /* MB/s */
 
         vpagemiss = 1; /* self generating page miss */
@@ -984,6 +1023,10 @@ static void nv10CalcArbitration
               else if(crtc_drain_rate * 100  >= nvclk_fill * 98) {
                   clwm = 1024;
                   cbs = 512;
+<<<<<<< HEAD
+=======
+                  us_extra = (cbs * 1000 * 1000)/ (8*width)/mclk_freq ;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               }
           }
       }
@@ -1000,6 +1043,10 @@ static void nv10CalcArbitration
 
       m1 = clwm + cbs -  1024; /* Amount of overfill */
       m2us = us_pipe_min + us_min_mclk_extra;
+<<<<<<< HEAD
+=======
+      pclks_2_top_fifo = (1024-clwm)/(8*width);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
       /* pclk cycles to drain */
       p1clk = m2us * pclk_freq/(1000*1000); 
@@ -1027,6 +1074,10 @@ static void nv10CalcArbitration
               min_mclk_extra--;
         }
       }
+<<<<<<< HEAD
+=======
+      craw = clwm;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
       if(clwm < (1024-cbs+8)) clwm = 1024-cbs+8;
       data = (int)(clwm);

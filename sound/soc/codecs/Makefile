@@ -101,14 +101,20 @@ snd-soc-inno-rk3036-objs := inno_rk3036.o
 snd-soc-isabelle-objs := isabelle.o
 snd-soc-jz4740-codec-objs := jz4740.o
 snd-soc-jz4725b-codec-objs := jz4725b.o
+<<<<<<< HEAD
 snd-soc-jz4760-codec-objs := jz4760.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 snd-soc-jz4770-codec-objs := jz4770.o
 snd-soc-l3-objs := l3.o
 snd-soc-lm4857-objs := lm4857.o
 snd-soc-lm49453-objs := lm49453.o
 snd-soc-lochnagar-sc-objs := lochnagar-sc.o
+<<<<<<< HEAD
 snd-soc-lpass-rx-macro-objs := lpass-rx-macro.o
 snd-soc-lpass-tx-macro-objs := lpass-tx-macro.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 snd-soc-lpass-wsa-macro-objs := lpass-wsa-macro.o
 snd-soc-lpass-va-macro-objs := lpass-va-macro.o
 snd-soc-madera-objs := madera.o
@@ -204,6 +210,10 @@ snd-soc-sigmadsp-objs := sigmadsp.o
 snd-soc-sigmadsp-i2c-objs := sigmadsp-i2c.o
 snd-soc-sigmadsp-regmap-objs := sigmadsp-regmap.o
 snd-soc-si476x-objs := si476x.o
+<<<<<<< HEAD
+=======
+snd-soc-sirf-audio-codec-objs := sirf-audio-codec.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 snd-soc-spdif-tx-objs := spdif_transmitter.o
 snd-soc-spdif-rx-objs := spdif_receiver.o
 snd-soc-ssm2305-objs := ssm2305.o
@@ -304,6 +314,10 @@ snd-soc-wm9713-objs := wm9713.o
 snd-soc-wm-hubs-objs := wm_hubs.o
 snd-soc-wsa881x-objs := wsa881x.o
 snd-soc-zl38060-objs := zl38060.o
+<<<<<<< HEAD
+=======
+snd-soc-zx-aud96p22-objs := zx_aud96p22.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # Amp
 snd-soc-max9877-objs := max9877.o
 snd-soc-max98504-objs := max98504.o
@@ -419,7 +433,10 @@ obj-$(CONFIG_SND_SOC_INNO_RK3036)	+= snd-soc-inno-rk3036.o
 obj-$(CONFIG_SND_SOC_ISABELLE)	+= snd-soc-isabelle.o
 obj-$(CONFIG_SND_SOC_JZ4740_CODEC)	+= snd-soc-jz4740-codec.o
 obj-$(CONFIG_SND_SOC_JZ4725B_CODEC)	+= snd-soc-jz4725b-codec.o
+<<<<<<< HEAD
 obj-$(CONFIG_SND_SOC_JZ4760_CODEC)      += snd-soc-jz4760-codec.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_SND_SOC_JZ4770_CODEC)	+= snd-soc-jz4770-codec.o
 obj-$(CONFIG_SND_SOC_L3)	+= snd-soc-l3.o
 obj-$(CONFIG_SND_SOC_LM4857)	+= snd-soc-lm4857.o
@@ -518,6 +535,10 @@ obj-$(CONFIG_SND_SOC_SIGMADSP_I2C)	+= snd-soc-sigmadsp-i2c.o
 obj-$(CONFIG_SND_SOC_SIGMADSP_REGMAP)	+= snd-soc-sigmadsp-regmap.o
 obj-$(CONFIG_SND_SOC_SI476X)	+= snd-soc-si476x.o
 obj-$(CONFIG_SND_SOC_SPDIF)	+= snd-soc-spdif-rx.o snd-soc-spdif-tx.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_SND_SOC_SIRF_AUDIO_CODEC) += sirf-audio-codec.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_SND_SOC_SSM2305)	+= snd-soc-ssm2305.o
 obj-$(CONFIG_SND_SOC_SSM2518)	+= snd-soc-ssm2518.o
 obj-$(CONFIG_SND_SOC_SSM2602)	+= snd-soc-ssm2602.o
@@ -619,6 +640,10 @@ obj-$(CONFIG_SND_SOC_WM_ADSP)	+= snd-soc-wm-adsp.o
 obj-$(CONFIG_SND_SOC_WM_HUBS)	+= snd-soc-wm-hubs.o
 obj-$(CONFIG_SND_SOC_WSA881X)	+= snd-soc-wsa881x.o
 obj-$(CONFIG_SND_SOC_ZL38060)	+= snd-soc-zl38060.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_SND_SOC_ZX_AUD96P22) += snd-soc-zx-aud96p22.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # Amp
 obj-$(CONFIG_SND_SOC_MAX9877)	+= snd-soc-max9877.o
@@ -627,8 +652,11 @@ obj-$(CONFIG_SND_SOC_SIMPLE_AMPLIFIER)	+= snd-soc-simple-amplifier.o
 obj-$(CONFIG_SND_SOC_TPA6130A2)	+= snd-soc-tpa6130a2.o
 obj-$(CONFIG_SND_SOC_LPASS_WSA_MACRO)	+= snd-soc-lpass-wsa-macro.o
 obj-$(CONFIG_SND_SOC_LPASS_VA_MACRO)	+= snd-soc-lpass-va-macro.o
+<<<<<<< HEAD
 obj-$(CONFIG_SND_SOC_LPASS_RX_MACRO)	+= snd-soc-lpass-rx-macro.o
 obj-$(CONFIG_SND_SOC_LPASS_TX_MACRO)	+= snd-soc-lpass-tx-macro.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # Mux
 obj-$(CONFIG_SND_SOC_SIMPLE_MUX)	+= snd-soc-simple-mux.o

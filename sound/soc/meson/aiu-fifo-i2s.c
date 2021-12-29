@@ -124,6 +124,10 @@ const struct snd_soc_dai_ops aiu_fifo_i2s_dai_ops = {
 	.trigger	= aiu_fifo_i2s_trigger,
 	.prepare	= aiu_fifo_i2s_prepare,
 	.hw_params	= aiu_fifo_i2s_hw_params,
+<<<<<<< HEAD
+=======
+	.hw_free	= aiu_fifo_hw_free,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.startup	= aiu_fifo_startup,
 	.shutdown	= aiu_fifo_shutdown,
 };

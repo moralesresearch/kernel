@@ -151,6 +151,10 @@ int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl)
 {
 	struct mhi_event *mhi_event = mhi_cntrl->mhi_event;
 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long irq_flags = IRQF_SHARED | IRQF_NO_SUSPEND;
 	int i, ret;
 
@@ -162,6 +166,17 @@ int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl)
 	ret = request_threaded_irq(mhi_cntrl->irq[0], mhi_intvec_handler,
 				   mhi_intvec_threaded_handler,
 				   irq_flags,
+<<<<<<< HEAD
+=======
+=======
+	int i, ret;
+
+	/* Setup BHI_INTVEC IRQ */
+	ret = request_threaded_irq(mhi_cntrl->irq[0], mhi_intvec_handler,
+				   mhi_intvec_threaded_handler,
+				   IRQF_SHARED | IRQF_NO_SUSPEND,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   "bhi", mhi_cntrl);
 	if (ret)
 		return ret;
@@ -179,7 +194,15 @@ int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl)
 
 		ret = request_irq(mhi_cntrl->irq[mhi_event->irq],
 				  mhi_irq_handler,
+<<<<<<< HEAD
 				  irq_flags,
+=======
+<<<<<<< HEAD
+				  irq_flags,
+=======
+				  IRQF_SHARED | IRQF_NO_SUSPEND,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  "mhi", mhi_event);
 		if (ret) {
 			dev_err(dev, "Error requesting irq:%d for ev:%d\n",
@@ -508,8 +531,11 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
 
 	/* Setup wake db */
 	mhi_cntrl->wake_db = base + val + (8 * MHI_DEV_WAKE_DB);
+<<<<<<< HEAD
+=======
 	mhi_write_reg(mhi_cntrl, mhi_cntrl->wake_db, 4, 0);
 	mhi_write_reg(mhi_cntrl, mhi_cntrl->wake_db, 0, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mhi_cntrl->wake_set = false;
 
 	/* Setup channel db address for each channel in tre_ring */
@@ -552,6 +578,10 @@ void mhi_deinit_chan_ctxt(struct mhi_controller *mhi_cntrl,
 	struct mhi_ring *buf_ring;
 	struct mhi_ring *tre_ring;
 	struct mhi_chan_ctxt *chan_ctxt;
+<<<<<<< HEAD
+	u32 tmp;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	buf_ring = &mhi_chan->buf_ring;
 	tre_ring = &mhi_chan->tre_ring;
@@ -565,7 +595,23 @@ void mhi_deinit_chan_ctxt(struct mhi_controller *mhi_cntrl,
 	vfree(buf_ring->base);
 
 	buf_ring->base = tre_ring->base = NULL;
+<<<<<<< HEAD
+	tre_ring->ctxt_wp = NULL;
 	chan_ctxt->rbase = 0;
+	chan_ctxt->rlen = 0;
+	chan_ctxt->rp = 0;
+	chan_ctxt->wp = 0;
+
+	tmp = chan_ctxt->chcfg;
+	tmp &= ~CHAN_CTX_CHSTATE_MASK;
+	tmp |= (MHI_CH_STATE_DISABLED << CHAN_CTX_CHSTATE_SHIFT);
+	chan_ctxt->chcfg = tmp;
+
+	/* Update to all cores */
+	smp_wmb();
+=======
+	chan_ctxt->rbase = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int mhi_init_chan_ctxt(struct mhi_controller *mhi_cntrl,
@@ -863,12 +909,19 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
 	u32 soc_info;
 	int ret, i;
 
+<<<<<<< HEAD
+	if (!mhi_cntrl || !mhi_cntrl->cntrl_dev || !mhi_cntrl->regs ||
+	    !mhi_cntrl->runtime_get || !mhi_cntrl->runtime_put ||
+	    !mhi_cntrl->status_cb || !mhi_cntrl->read_reg ||
+	    !mhi_cntrl->write_reg || !mhi_cntrl->nr_irqs || !mhi_cntrl->irq)
+=======
 	if (!mhi_cntrl)
 		return -EINVAL;
 
 	if (!mhi_cntrl->runtime_get || !mhi_cntrl->runtime_put ||
 	    !mhi_cntrl->status_cb || !mhi_cntrl->read_reg ||
 	    !mhi_cntrl->write_reg || !mhi_cntrl->nr_irqs)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 
 	ret = parse_config(mhi_cntrl, config);
@@ -890,8 +943,12 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
 	INIT_WORK(&mhi_cntrl->st_worker, mhi_pm_st_worker);
 	init_waitqueue_head(&mhi_cntrl->state_event);
 
+<<<<<<< HEAD
+	mhi_cntrl->hiprio_wq = alloc_ordered_workqueue("mhi_hiprio_wq", WQ_HIGHPRI);
+=======
 	mhi_cntrl->hiprio_wq = alloc_ordered_workqueue
 				("mhi_hiprio_wq", WQ_MEM_RECLAIM | WQ_HIGHPRI);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!mhi_cntrl->hiprio_wq) {
 		dev_err(mhi_cntrl->cntrl_dev, "Failed to allocate workqueue\n");
 		ret = -ENOMEM;
@@ -1296,7 +1353,12 @@ static int mhi_driver_remove(struct device *dev)
 
 		mutex_lock(&mhi_chan->mutex);
 
+<<<<<<< HEAD
+		if ((ch_state[dir] == MHI_CH_STATE_ENABLED ||
+		     ch_state[dir] == MHI_CH_STATE_STOP) &&
+=======
 		if (ch_state[dir] == MHI_CH_STATE_ENABLED &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    !mhi_chan->offload_ch)
 			mhi_deinit_chan_ctxt(mhi_cntrl, mhi_chan);
 

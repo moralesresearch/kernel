@@ -616,7 +616,15 @@ static struct attribute *arm_cmn_cpumask_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group arm_cmn_cpumask_attr_group = {
+=======
+<<<<<<< HEAD
+static const struct attribute_group arm_cmn_cpumask_attr_group = {
+=======
+static struct attribute_group arm_cmn_cpumask_attr_group = {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = arm_cmn_cpumask_attrs,
 };
 

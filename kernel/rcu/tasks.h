@@ -1224,6 +1224,7 @@ void show_rcu_tasks_gp_kthreads(void)
 }
 #endif /* #ifndef CONFIG_TINY_RCU */
 
+<<<<<<< HEAD
 #ifdef CONFIG_PROVE_RCU
 struct rcu_tasks_test_desc {
 	struct rcu_head rh;
@@ -1300,6 +1301,8 @@ late_initcall(rcu_tasks_verify_self_tests);
 static void rcu_tasks_initiate_self_tests(void) { }
 #endif /* #else #ifdef CONFIG_PROVE_RCU */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __init rcu_init_tasks_generic(void)
 {
 #ifdef CONFIG_TASKS_RCU
@@ -1313,9 +1316,12 @@ void __init rcu_init_tasks_generic(void)
 #ifdef CONFIG_TASKS_TRACE_RCU
 	rcu_spawn_tasks_trace_kthread();
 #endif
+<<<<<<< HEAD
 
 	// Run the self-tests.
 	rcu_tasks_initiate_self_tests();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #else /* #ifdef CONFIG_TASKS_RCU_GENERIC */

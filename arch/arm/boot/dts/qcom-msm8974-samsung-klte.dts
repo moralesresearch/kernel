@@ -12,8 +12,13 @@
 
 	aliases {
 		serial0 = &blsp1_uart1;
+<<<<<<< HEAD
 		mmc0 = &sdhc_1; /* SDC1 eMMC slot */
 		mmc1 = &sdhc_2; /* SDC2 SD card slot */
+=======
+		sdhc1 = &sdhc_1; /* SDC1 eMMC slot */
+		sdhc2 = &sdhc_2; /* SDC2 SD card slot */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	chosen {
@@ -30,7 +35,10 @@
 					pma8084_s1: s1 {
 						regulator-min-microvolt = <675000>;
 						regulator-max-microvolt = <1050000>;
+<<<<<<< HEAD
 						regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					};
 
 					pma8084_s2: s2 {
@@ -116,7 +124,10 @@
 					pma8084_l12: l12 {
 						regulator-min-microvolt = <1800000>;
 						regulator-max-microvolt = <1800000>;
+<<<<<<< HEAD
 						regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					};
 
 					pma8084_l13: l13 {
@@ -300,6 +311,7 @@
 		enable-active-high;
 	};
 
+<<<<<<< HEAD
 	vreg_panel: panel-regulator {
 		compatible = "regulator-fixed";
 
@@ -314,12 +326,18 @@
 		enable-active-high;
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/delete-node/ vreg-boost;
 };
 
 &soc {
 	serial@f991e000 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	gpio-keys {
@@ -469,6 +487,7 @@
 				bias-pull-down;
 			};
 		};
+<<<<<<< HEAD
 
 		panel_te_pin: panel {
 			te {
@@ -483,6 +502,12 @@
 
 	sdhc_1: sdhci@f9824900 {
 		status = "okay";
+=======
+	};
+
+	sdhc_1: sdhci@f9824900 {
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		vmmc-supply = <&pma8084_l20>;
 		vqmmc-supply = <&pma8084_s4>;
@@ -495,7 +520,11 @@
 	};
 
 	sdhc_2: sdhci@f9864900 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		max-frequency = <100000000>;
 
@@ -544,7 +573,11 @@
 	};
 
 	usb@f9a55000 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		phys = <&usb_hs1_phy>;
 		phy-select = <&tcsr 0xb000 0>;
@@ -557,7 +590,11 @@
 
 		ulpi {
 			phy@a {
+<<<<<<< HEAD
 				status = "okay";
+=======
+				status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				v1p8-supply = <&pma8084_l6>;
 				v3p3-supply = <&pma8084_l24>;
@@ -717,12 +754,17 @@
 			maxim,rcomp = /bits/ 8 <0x56>;
 
 			interrupt-parent = <&pma8084_gpios>;
+<<<<<<< HEAD
+			interrupts = <21 IRQ_TYPE_LEVEL_LOW>;
+=======
 			interrupts = <21 IRQ_TYPE_EDGE_FALLING>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			pinctrl-names = "default";
 			pinctrl-0 = <&fuelgauge_pin>;
 		};
 	};
+<<<<<<< HEAD
 
 	adreno@fdb00000 {
 		status = "ok";
@@ -781,6 +823,8 @@
 			vddio-supply = <&pma8084_l12>;
 		};
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &spmi_bus {
@@ -810,6 +854,7 @@
 				power-source = <PMA8084_GPIO_S4>;
 			};
 
+<<<<<<< HEAD
 			panel_en_pin: panel-en-pin {
 				pins = "gpio14";
 				function = "normal";
@@ -818,6 +863,8 @@
 				qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
 			};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			wlan_sleep_clk_pin: wlan-sleep-clk-pin {
 				pins = "gpio16";
 				function = "func2";
@@ -827,6 +874,7 @@
 				qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
 			};
 
+<<<<<<< HEAD
 			panel_rst_pin: panel-rst-pin {
 				pins = "gpio17";
 				function = "normal";
@@ -836,6 +884,8 @@
 			};
 
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			fuelgauge_pin: fuelgauge-int-pin {
 				pins = "gpio21";
 				function = "normal";

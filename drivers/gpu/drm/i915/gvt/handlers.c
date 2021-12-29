@@ -83,7 +83,11 @@ static void write_vreg(struct intel_vgpu *vgpu, unsigned int offset,
 	memcpy(&vgpu_vreg(vgpu, offset), p_data, bytes);
 }
 
+<<<<<<< HEAD
 struct intel_gvt_mmio_info *intel_gvt_find_mmio_info(struct intel_gvt *gvt,
+=======
+static struct intel_gvt_mmio_info *find_mmio_info(struct intel_gvt *gvt,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						  unsigned int offset)
 {
 	struct intel_gvt_mmio_info *e;
@@ -96,7 +100,11 @@ struct intel_gvt_mmio_info *intel_gvt_find_mmio_info(struct intel_gvt *gvt,
 }
 
 static int new_mmio_info(struct intel_gvt *gvt,
+<<<<<<< HEAD
 		u32 offset, u16 flags, u32 size,
+=======
+		u32 offset, u8 flags, u32 size,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u32 addr_mask, u32 ro_mask, u32 device,
 		gvt_mmio_func read, gvt_mmio_func write)
 {
@@ -118,7 +126,11 @@ static int new_mmio_info(struct intel_gvt *gvt,
 			return -ENOMEM;
 
 		info->offset = i;
+<<<<<<< HEAD
 		p = intel_gvt_find_mmio_info(gvt, info->offset);
+=======
+		p = find_mmio_info(gvt, info->offset);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (p) {
 			WARN(1, "dup mmio definition offset %x\n",
 				info->offset);
@@ -1651,7 +1663,11 @@ static int edp_psr_imr_iir_write(struct intel_vgpu *vgpu,
 	return 0;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * FixMe:
  * If guest fills non-priv batch buffer on ApolloLake/Broxton as Mesa i965 did:
  * 717e7539124d (i965: Use a WC map and memcpy for the batch instead of pwrite.)
@@ -1965,8 +1981,12 @@ static int init_generic_mmio_info(struct intel_gvt *gvt)
 
 	/* RING MODE */
 #define RING_REG(base) _MMIO((base) + 0x29c)
+<<<<<<< HEAD
 	MMIO_RING_DFH(RING_REG, D_ALL,
 		F_MODE_MASK | F_CMD_ACCESS | F_CMD_WRITE_PATCH, NULL,
+=======
+	MMIO_RING_DFH(RING_REG, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ring_mode_mmio_write);
 #undef RING_REG
 
@@ -2886,8 +2906,13 @@ static int init_bdw_mmio_info(struct intel_gvt *gvt)
 	MMIO_DFH(_MMIO(0xb10c), D_BDW, F_CMD_ACCESS, NULL, NULL);
 	MMIO_D(_MMIO(0xb110), D_BDW);
 
+<<<<<<< HEAD
 	MMIO_F(_MMIO(0x24d0), 48, F_CMD_ACCESS | F_CMD_WRITE_PATCH, 0, 0,
 		D_BDW_PLUS, NULL, force_nonpriv_write);
+=======
+	MMIO_F(_MMIO(0x24d0), 48, F_CMD_ACCESS, 0, 0, D_BDW_PLUS,
+		NULL, force_nonpriv_write);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	MMIO_D(_MMIO(0x44484), D_BDW_PLUS);
 	MMIO_D(_MMIO(0x4448c), D_BDW_PLUS);
@@ -3627,7 +3652,11 @@ int intel_vgpu_mmio_reg_rw(struct intel_vgpu *vgpu, unsigned int offset,
 	/*
 	 * Normal tracked MMIOs.
 	 */
+<<<<<<< HEAD
 	mmio_info = intel_gvt_find_mmio_info(gvt, offset);
+=======
+	mmio_info = find_mmio_info(gvt, offset);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!mmio_info) {
 		gvt_dbg_mmio("untracked MMIO %08x len %d\n", offset, bytes);
 		goto default_rw;
@@ -3687,13 +3716,22 @@ void intel_gvt_restore_fence(struct intel_gvt *gvt)
 	}
 }
 
+<<<<<<< HEAD
 static int mmio_pm_restore_handler(struct intel_gvt *gvt, u32 offset, void *data)
+=======
+static inline int mmio_pm_restore_handler(struct intel_gvt *gvt,
+					  u32 offset, void *data)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct intel_vgpu *vgpu = data;
 	struct drm_i915_private *dev_priv = gvt->gt->i915;
 
 	if (gvt->mmio.mmio_attribute[offset >> 2] & F_PM_SAVE)
+<<<<<<< HEAD
 		intel_uncore_write(&dev_priv->uncore, _MMIO(offset), vgpu_vreg(vgpu, offset));
+=======
+		I915_WRITE(_MMIO(offset), vgpu_vreg(vgpu, offset));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

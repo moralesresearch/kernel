@@ -82,6 +82,10 @@ struct amdgpu_dm_irq_handler_data {
 	struct amdgpu_display_manager *dm;
 	/* DAL irq source which registered for this interrupt. */
 	enum dc_irq_source irq_source;
+<<<<<<< HEAD
+	struct work_struct work;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define DM_IRQ_TABLE_LOCK(adev, flags) \
@@ -111,6 +115,12 @@ static void init_handler_common_data(struct amdgpu_dm_irq_handler_data *hcd,
  */
 static void dm_irq_work_func(struct work_struct *work)
 {
+<<<<<<< HEAD
+	struct amdgpu_dm_irq_handler_data *handler_data =
+		container_of(work, struct amdgpu_dm_irq_handler_data, work);
+
+	handler_data->handler(handler_data->handler_arg);
+=======
 	struct irq_list_head *irq_list_head =
 		container_of(work, struct irq_list_head, work);
 	struct list_head *handler_list = &irq_list_head->head;
@@ -125,6 +135,7 @@ static void dm_irq_work_func(struct work_struct *work)
 
 		handler_data->handler(handler_data->handler_arg);
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Call a DAL subcomponent which registered for interrupt notification
 	 * at INTERRUPT_LOW_IRQ_CONTEXT.
@@ -156,7 +167,11 @@ static struct list_head *remove_irq_handler(struct amdgpu_device *adev,
 		break;
 	case INTERRUPT_LOW_IRQ_CONTEXT:
 	default:
+<<<<<<< HEAD
+		hnd_list = &adev->dm.irq_handler_list_low_tab[irq_source];
+=======
 		hnd_list = &adev->dm.irq_handler_list_low_tab[irq_source].head;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -290,7 +305,12 @@ void *amdgpu_dm_irq_register_interrupt(struct amdgpu_device *adev,
 		break;
 	case INTERRUPT_LOW_IRQ_CONTEXT:
 	default:
+<<<<<<< HEAD
+		hnd_list = &adev->dm.irq_handler_list_low_tab[irq_source];
+		INIT_WORK(&handler_data->work, dm_irq_work_func);
+=======
 		hnd_list = &adev->dm.irq_handler_list_low_tab[irq_source].head;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
@@ -372,7 +392,11 @@ void amdgpu_dm_irq_unregister_interrupt(struct amdgpu_device *adev,
 int amdgpu_dm_irq_init(struct amdgpu_device *adev)
 {
 	int src;
+<<<<<<< HEAD
+	struct list_head *lh;
+=======
 	struct irq_list_head *lh;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	DRM_DEBUG_KMS("DM_IRQ\n");
 
@@ -381,9 +405,13 @@ int amdgpu_dm_irq_init(struct amdgpu_device *adev)
 	for (src = 0; src < DAL_IRQ_SOURCES_NUMBER; src++) {
 		/* low context handler list init */
 		lh = &adev->dm.irq_handler_list_low_tab[src];
+<<<<<<< HEAD
+		INIT_LIST_HEAD(lh);
+=======
 		INIT_LIST_HEAD(&lh->head);
 		INIT_WORK(&lh->work, dm_irq_work_func);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* high context handler init */
 		INIT_LIST_HEAD(&adev->dm.irq_handler_list_high_tab[src]);
 	}
@@ -400,8 +428,16 @@ int amdgpu_dm_irq_init(struct amdgpu_device *adev)
 void amdgpu_dm_irq_fini(struct amdgpu_device *adev)
 {
 	int src;
+<<<<<<< HEAD
+	struct list_head *lh;
+	struct list_head *entry, *tmp;
+	struct amdgpu_dm_irq_handler_data *handler;
+	unsigned long irq_table_flags;
+
+=======
 	struct irq_list_head *lh;
 	unsigned long irq_table_flags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	DRM_DEBUG_KMS("DM_IRQ: releasing resources.\n");
 	for (src = 0; src < DAL_IRQ_SOURCES_NUMBER; src++) {
 		DM_IRQ_TABLE_LOCK(adev, irq_table_flags);
@@ -410,7 +446,20 @@ void amdgpu_dm_irq_fini(struct amdgpu_device *adev)
 		 * (because no code can schedule a new one). */
 		lh = &adev->dm.irq_handler_list_low_tab[src];
 		DM_IRQ_TABLE_UNLOCK(adev, irq_table_flags);
+<<<<<<< HEAD
+
+		if (!list_empty(lh)) {
+			list_for_each_safe(entry, tmp, lh) {
+				handler = list_entry(
+					entry,
+					struct amdgpu_dm_irq_handler_data,
+					list);
+				flush_work(&handler->work);
+			}
+		}
+=======
 		flush_work(&lh->work);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -420,6 +469,11 @@ int amdgpu_dm_irq_suspend(struct amdgpu_device *adev)
 	struct list_head *hnd_list_h;
 	struct list_head *hnd_list_l;
 	unsigned long irq_table_flags;
+<<<<<<< HEAD
+	struct list_head *entry, *tmp;
+	struct amdgpu_dm_irq_handler_data *handler;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	DM_IRQ_TABLE_LOCK(adev, irq_table_flags);
 
@@ -430,14 +484,31 @@ int amdgpu_dm_irq_suspend(struct amdgpu_device *adev)
 	 * will be disabled from manage_dm_interrupts on disable CRTC.
 	 */
 	for (src = DC_IRQ_SOURCE_HPD1; src <= DC_IRQ_SOURCE_HPD6RX; src++) {
+<<<<<<< HEAD
+		hnd_list_l = &adev->dm.irq_handler_list_low_tab[src];
+=======
 		hnd_list_l = &adev->dm.irq_handler_list_low_tab[src].head;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hnd_list_h = &adev->dm.irq_handler_list_high_tab[src];
 		if (!list_empty(hnd_list_l) || !list_empty(hnd_list_h))
 			dc_interrupt_set(adev->dm.dc, src, false);
 
 		DM_IRQ_TABLE_UNLOCK(adev, irq_table_flags);
+<<<<<<< HEAD
+
+		if (!list_empty(hnd_list_l)) {
+			list_for_each_safe (entry, tmp, hnd_list_l) {
+				handler = list_entry(
+					entry,
+					struct amdgpu_dm_irq_handler_data,
+					list);
+				flush_work(&handler->work);
+			}
+		}
+=======
 		flush_work(&adev->dm.irq_handler_list_low_tab[src].work);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		DM_IRQ_TABLE_LOCK(adev, irq_table_flags);
 	}
 
@@ -457,7 +528,11 @@ int amdgpu_dm_irq_resume_early(struct amdgpu_device *adev)
 
 	/* re-enable short pulse interrupts HW interrupt */
 	for (src = DC_IRQ_SOURCE_HPD1RX; src <= DC_IRQ_SOURCE_HPD6RX; src++) {
+<<<<<<< HEAD
+		hnd_list_l = &adev->dm.irq_handler_list_low_tab[src];
+=======
 		hnd_list_l = &adev->dm.irq_handler_list_low_tab[src].head;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hnd_list_h = &adev->dm.irq_handler_list_high_tab[src];
 		if (!list_empty(hnd_list_l) || !list_empty(hnd_list_h))
 			dc_interrupt_set(adev->dm.dc, src, true);
@@ -483,7 +558,11 @@ int amdgpu_dm_irq_resume_late(struct amdgpu_device *adev)
 	 * will be enabled from manage_dm_interrupts on enable CRTC.
 	 */
 	for (src = DC_IRQ_SOURCE_HPD1; src <= DC_IRQ_SOURCE_HPD6; src++) {
+<<<<<<< HEAD
+		hnd_list_l = &adev->dm.irq_handler_list_low_tab[src];
+=======
 		hnd_list_l = &adev->dm.irq_handler_list_low_tab[src].head;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hnd_list_h = &adev->dm.irq_handler_list_high_tab[src];
 		if (!list_empty(hnd_list_l) || !list_empty(hnd_list_h))
 			dc_interrupt_set(adev->dm.dc, src, true);
@@ -500,6 +579,55 @@ int amdgpu_dm_irq_resume_late(struct amdgpu_device *adev)
 static void amdgpu_dm_irq_schedule_work(struct amdgpu_device *adev,
 					enum dc_irq_source irq_source)
 {
+<<<<<<< HEAD
+	struct  list_head *handler_list = &adev->dm.irq_handler_list_low_tab[irq_source];
+	struct  amdgpu_dm_irq_handler_data *handler_data;
+	bool    work_queued = false;
+
+	if (list_empty(handler_list))
+		return;
+
+	list_for_each_entry (handler_data, handler_list, list) {
+		if (!queue_work(system_highpri_wq, &handler_data->work)) {
+			continue;
+		} else {
+			work_queued = true;
+			break;
+		}
+	}
+
+	if (!work_queued) {
+		struct  amdgpu_dm_irq_handler_data *handler_data_add;
+		/*get the amdgpu_dm_irq_handler_data of first item pointed by handler_list*/
+		handler_data = container_of(handler_list->next, struct amdgpu_dm_irq_handler_data, list);
+
+		/*allocate a new amdgpu_dm_irq_handler_data*/
+		handler_data_add = kzalloc(sizeof(*handler_data), GFP_KERNEL);
+		if (!handler_data_add) {
+			DRM_ERROR("DM_IRQ: failed to allocate irq handler!\n");
+			return;
+		}
+
+		/*copy new amdgpu_dm_irq_handler_data members from handler_data*/
+		handler_data_add->handler       = handler_data->handler;
+		handler_data_add->handler_arg   = handler_data->handler_arg;
+		handler_data_add->dm            = handler_data->dm;
+		handler_data_add->irq_source    = irq_source;
+
+		list_add_tail(&handler_data_add->list, handler_list);
+
+		INIT_WORK(&handler_data_add->work, dm_irq_work_func);
+
+		if (queue_work(system_highpri_wq, &handler_data_add->work))
+			DRM_DEBUG("Queued work for handling interrupt from "
+				  "display for IRQ source %d\n",
+				  irq_source);
+		else
+			DRM_ERROR("Failed to queue work for handling interrupt "
+				  "from display for IRQ source %d\n",
+				  irq_source);
+	}
+=======
 	unsigned long irq_table_flags;
 	struct work_struct *work = NULL;
 
@@ -516,6 +644,7 @@ static void amdgpu_dm_irq_schedule_work(struct amdgpu_device *adev,
 						irq_source);
 	}
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -662,6 +791,7 @@ static int amdgpu_dm_set_crtc_irq_state(struct amdgpu_device *adev,
 		__func__);
 }
 
+<<<<<<< HEAD
 static int amdgpu_dm_set_vline0_irq_state(struct amdgpu_device *adev,
 					struct amdgpu_irq_src *source,
 					unsigned int crtc_id,
@@ -676,6 +806,8 @@ static int amdgpu_dm_set_vline0_irq_state(struct amdgpu_device *adev,
 		__func__);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int amdgpu_dm_set_vupdate_irq_state(struct amdgpu_device *adev,
 					   struct amdgpu_irq_src *source,
 					   unsigned int crtc_id,
@@ -695,11 +827,14 @@ static const struct amdgpu_irq_src_funcs dm_crtc_irq_funcs = {
 	.process = amdgpu_dm_irq_handler,
 };
 
+<<<<<<< HEAD
 static const struct amdgpu_irq_src_funcs dm_vline0_irq_funcs = {
 	.set = amdgpu_dm_set_vline0_irq_state,
 	.process = amdgpu_dm_irq_handler,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct amdgpu_irq_src_funcs dm_vupdate_irq_funcs = {
 	.set = amdgpu_dm_set_vupdate_irq_state,
 	.process = amdgpu_dm_irq_handler,
@@ -721,9 +856,12 @@ void amdgpu_dm_set_irq_funcs(struct amdgpu_device *adev)
 	adev->crtc_irq.num_types = adev->mode_info.num_crtc;
 	adev->crtc_irq.funcs = &dm_crtc_irq_funcs;
 
+<<<<<<< HEAD
 	adev->vline0_irq.num_types = adev->mode_info.num_crtc;
 	adev->vline0_irq.funcs = &dm_vline0_irq_funcs;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	adev->vupdate_irq.num_types = adev->mode_info.num_crtc;
 	adev->vupdate_irq.funcs = &dm_vupdate_irq_funcs;
 

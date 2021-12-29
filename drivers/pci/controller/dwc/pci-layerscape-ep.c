@@ -115,17 +115,23 @@ static const struct ls_pcie_ep_drvdata ls2_ep_drvdata = {
 	.dw_pcie_ops = &dw_ls_pcie_ep_ops,
 };
 
+<<<<<<< HEAD
 static const struct ls_pcie_ep_drvdata lx2_ep_drvdata = {
 	.func_offset = 0x8000,
 	.ops = &ls_pcie_ep_ops,
 	.dw_pcie_ops = &dw_ls_pcie_ep_ops,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct of_device_id ls_pcie_ep_of_match[] = {
 	{ .compatible = "fsl,ls1046a-pcie-ep", .data = &ls1_ep_drvdata },
 	{ .compatible = "fsl,ls1088a-pcie-ep", .data = &ls2_ep_drvdata },
 	{ .compatible = "fsl,ls2088a-pcie-ep", .data = &ls2_ep_drvdata },
+<<<<<<< HEAD
 	{ .compatible = "fsl,lx2160ar2-pcie-ep", .data = &lx2_ep_drvdata },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ },
 };
 

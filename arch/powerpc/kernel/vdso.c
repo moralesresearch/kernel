@@ -55,10 +55,17 @@ static int vdso_mremap(const struct vm_special_mapping *sm, struct vm_area_struc
 {
 	unsigned long new_size = new_vma->vm_end - new_vma->vm_start;
 
+<<<<<<< HEAD
+	if (new_size != text_size)
+		return -EINVAL;
+
+	current->mm->context.vdso = (void __user *)new_vma->vm_start;
+=======
 	if (new_size != text_size + PAGE_SIZE)
 		return -EINVAL;
 
 	current->mm->context.vdso = (void __user *)new_vma->vm_start + PAGE_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -73,6 +80,13 @@ static int vdso64_mremap(const struct vm_special_mapping *sm, struct vm_area_str
 	return vdso_mremap(sm, new_vma, &vdso64_end - &vdso64_start);
 }
 
+<<<<<<< HEAD
+static struct vm_special_mapping vvar_spec __ro_after_init = {
+	.name = "[vvar]",
+};
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct vm_special_mapping vdso32_spec __ro_after_init = {
 	.name = "[vdso]",
 	.mremap = vdso32_mremap,
@@ -89,11 +103,19 @@ static struct vm_special_mapping vdso64_spec __ro_after_init = {
  */
 static int __arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
 {
+<<<<<<< HEAD
+	unsigned long vdso_size, vdso_base, mappings_size;
+	struct vm_special_mapping *vdso_spec;
+	unsigned long vvar_size = PAGE_SIZE;
+	struct mm_struct *mm = current->mm;
+	struct vm_area_struct *vma;
+=======
 	struct mm_struct *mm = current->mm;
 	struct vm_special_mapping *vdso_spec;
 	struct vm_area_struct *vma;
 	unsigned long vdso_size;
 	unsigned long vdso_base;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (is_32bit_task()) {
 		vdso_spec = &vdso32_spec;
@@ -110,8 +132,13 @@ static int __arch_setup_additional_pages(struct linux_binprm *bprm, int uses_int
 		vdso_base = 0;
 	}
 
+<<<<<<< HEAD
+	mappings_size = vdso_size + vvar_size;
+	mappings_size += (VDSO_ALIGNMENT - 1) & PAGE_MASK;
+=======
 	/* Add a page to the vdso size for the data page */
 	vdso_size += PAGE_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * pick a base address for the vDSO in process space. We try to put it
@@ -119,9 +146,13 @@ static int __arch_setup_additional_pages(struct linux_binprm *bprm, int uses_int
 	 * and end up putting it elsewhere.
 	 * Add enough to the size so that the result can be aligned.
 	 */
+<<<<<<< HEAD
+	vdso_base = get_unmapped_area(NULL, vdso_base, mappings_size, 0, 0);
+=======
 	vdso_base = get_unmapped_area(NULL, vdso_base,
 				      vdso_size + ((VDSO_ALIGNMENT - 1) & PAGE_MASK),
 				      0, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR_VALUE(vdso_base))
 		return vdso_base;
 
@@ -133,7 +164,17 @@ static int __arch_setup_additional_pages(struct linux_binprm *bprm, int uses_int
 	 * install_special_mapping or the perf counter mmap tracking code
 	 * will fail to recognise it as a vDSO.
 	 */
+<<<<<<< HEAD
+	mm->context.vdso = (void __user *)vdso_base + vvar_size;
+
+	vma = _install_special_mapping(mm, vdso_base, vvar_size,
+				       VM_READ | VM_MAYREAD | VM_IO |
+				       VM_DONTDUMP | VM_PFNMAP, &vvar_spec);
+	if (IS_ERR(vma))
+		return PTR_ERR(vma);
+=======
 	mm->context.vdso = (void __user *)vdso_base + PAGE_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * our vma flags don't have VM_WRITE so by default, the process isn't
@@ -145,9 +186,18 @@ static int __arch_setup_additional_pages(struct linux_binprm *bprm, int uses_int
 	 * It's fine to use that for setting breakpoints in the vDSO code
 	 * pages though.
 	 */
+<<<<<<< HEAD
+	vma = _install_special_mapping(mm, vdso_base + vvar_size, vdso_size,
+				       VM_READ | VM_EXEC | VM_MAYREAD |
+				       VM_MAYWRITE | VM_MAYEXEC, vdso_spec);
+	if (IS_ERR(vma))
+		do_munmap(mm, vdso_base, vvar_size, NULL);
+
+=======
 	vma = _install_special_mapping(mm, vdso_base, vdso_size,
 				       VM_READ | VM_EXEC | VM_MAYREAD |
 				       VM_MAYWRITE | VM_MAYEXEC, vdso_spec);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return PTR_ERR_OR_ZERO(vma);
 }
 
@@ -249,11 +299,30 @@ static struct page ** __init vdso_setup_pages(void *start, void *end)
 	if (!pagelist)
 		panic("%s: Cannot allocate page list for VDSO", __func__);
 
+<<<<<<< HEAD
+	for (i = 0; i < pages; i++)
+		pagelist[i] = virt_to_page(start + i * PAGE_SIZE);
+
+	return pagelist;
+}
+
+static struct page ** __init vvar_setup_pages(void)
+{
+	struct page **pagelist;
+
+	/* .pages is NULL-terminated */
+	pagelist = kcalloc(2, sizeof(struct page *), GFP_KERNEL);
+	if (!pagelist)
+		panic("%s: Cannot allocate page list for VVAR", __func__);
+
+	pagelist[0] = virt_to_page(vdso_data);
+=======
 	pagelist[0] = virt_to_page(vdso_data);
 
 	for (i = 0; i < pages; i++)
 		pagelist[i + 1] = virt_to_page(start + i * PAGE_SIZE);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return pagelist;
 }
 
@@ -295,6 +364,11 @@ static int __init vdso_init(void)
 	if (IS_ENABLED(CONFIG_PPC64))
 		vdso64_spec.pages = vdso_setup_pages(&vdso64_start, &vdso64_end);
 
+<<<<<<< HEAD
+	vvar_spec.pages = vvar_setup_pages();
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	smp_wmb();
 
 	return 0;

@@ -303,6 +303,10 @@
 #define ERR_CNT_INVLD_DW		(PORT_BASE + 0x390)
 #define ERR_CNT_CODE_ERR		(PORT_BASE + 0x394)
 #define ERR_CNT_DISP_ERR		(PORT_BASE + 0x398)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DFX_FIFO_CTRL			(PORT_BASE + 0x3a0)
 #define DFX_FIFO_CTRL_TRIGGER_MODE_OFF	0
 #define DFX_FIFO_CTRL_TRIGGER_MODE_MSK	(0x7 << DFX_FIFO_CTRL_TRIGGER_MODE_OFF)
@@ -316,6 +320,11 @@
 #define DFX_FIFO_TRIGGER_MSK		(PORT_BASE + 0x3a8)
 #define DFX_FIFO_DUMP_MSK		(PORT_BASE + 0x3aC)
 #define DFX_FIFO_RD_DATA		(PORT_BASE + 0x3b0)
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DEFAULT_ITCT_HW		2048 /* reset value, not reprogrammed */
 #if (HISI_SAS_MAX_DEVICES > DEFAULT_ITCT_HW)
@@ -530,6 +539,17 @@ static int prot_mask;
 module_param(prot_mask, int, 0);
 MODULE_PARM_DESC(prot_mask, " host protection capabilities mask, def=0x0 ");
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static bool auto_affine_msi_experimental;
+module_param(auto_affine_msi_experimental, bool, 0444);
+MODULE_PARM_DESC(auto_affine_msi_experimental, "Enable auto-affinity of MSI IRQs as experimental:\n"
+		 "default is off");
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void debugfs_work_handler_v3_hw(struct work_struct *work);
 
 static u32 hisi_sas_read32(struct hisi_hba *hisi_hba, u32 off)
@@ -1588,8 +1608,17 @@ static irqreturn_t phy_down_v3_hw(int phy_no, struct hisi_hba *hisi_hba)
 
 	phy_state = hisi_sas_read32(hisi_hba, PHY_STATE);
 	dev_info(dev, "phydown: phy%d phy_state=0x%x\n", phy_no, phy_state);
+<<<<<<< HEAD
 	hisi_sas_phy_down(hisi_hba, phy_no, (phy_state & 1 << phy_no) ? 1 : 0,
 			  GFP_ATOMIC);
+=======
+<<<<<<< HEAD
+	hisi_sas_phy_down(hisi_hba, phy_no, (phy_state & 1 << phy_no) ? 1 : 0,
+			  GFP_ATOMIC);
+=======
+	hisi_sas_phy_down(hisi_hba, phy_no, (phy_state & 1 << phy_no) ? 1 : 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sl_ctrl = hisi_sas_phy_read32(hisi_hba, phy_no, SL_CONTROL);
 	hisi_sas_phy_write32(hisi_hba, phy_no, SL_CONTROL,
@@ -1615,8 +1644,17 @@ static irqreturn_t phy_bcast_v3_hw(int phy_no, struct hisi_hba *hisi_hba)
 	bcast_status = hisi_sas_phy_read32(hisi_hba, phy_no, RX_PRIMS_STATUS);
 	if ((bcast_status & RX_BCAST_CHG_MSK) &&
 	    !test_bit(HISI_SAS_RESET_BIT, &hisi_hba->flags))
+<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
 				      GFP_ATOMIC);
+=======
+<<<<<<< HEAD
+		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
+				      GFP_ATOMIC);
+=======
+		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hisi_sas_phy_write32(hisi_hba, phy_no, CHL_INT0,
 			     CHL_INT0_SL_RX_BCST_ACK_MSK);
 	hisi_sas_phy_write32(hisi_hba, phy_no, SL_RX_BCAST_CHK_MSK, 0);
@@ -4166,6 +4204,10 @@ static const struct file_operations debugfs_phy_down_cnt_v3_hw_fops = {
 	.owner = THIS_MODULE,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum fifo_dump_mode_v3_hw {
 	FIFO_DUMP_FORVER =		(1U << 0),
 	FIFO_DUMP_AFTER_TRIGGER =	(1U << 1),
@@ -4403,6 +4445,11 @@ static void debugfs_fifo_init_v3_hw(struct hisi_hba *hisi_hba)
 	}
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void debugfs_work_handler_v3_hw(struct work_struct *work)
 {
 	struct hisi_hba *hisi_hba =
@@ -4638,7 +4685,14 @@ static void debugfs_init_v3_hw(struct hisi_hba *hisi_hba)
 			debugfs_create_dir("dump", hisi_hba->debugfs_dir);
 
 	debugfs_phy_down_cnt_init_v3_hw(hisi_hba);
+<<<<<<< HEAD
 	debugfs_fifo_init_v3_hw(hisi_hba);
+=======
+<<<<<<< HEAD
+	debugfs_fifo_init_v3_hw(hisi_hba);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < hisi_sas_debugfs_dump_count; i++) {
 		if (debugfs_alloc_v3_hw(hisi_hba, i)) {
@@ -4799,14 +4853,24 @@ hisi_sas_v3_destroy_irqs(struct pci_dev *pdev, struct hisi_hba *hisi_hba)
 {
 	int i;
 
+<<<<<<< HEAD
+	devm_free_irq(&pdev->dev, pci_irq_vector(pdev, 1), hisi_hba);
+	devm_free_irq(&pdev->dev, pci_irq_vector(pdev, 2), hisi_hba);
+	devm_free_irq(&pdev->dev, pci_irq_vector(pdev, 11), hisi_hba);
+=======
 	free_irq(pci_irq_vector(pdev, 1), hisi_hba);
 	free_irq(pci_irq_vector(pdev, 2), hisi_hba);
 	free_irq(pci_irq_vector(pdev, 11), hisi_hba);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < hisi_hba->cq_nvecs; i++) {
 		struct hisi_sas_cq *cq = &hisi_hba->cq[i];
 		int nr = hisi_sas_intr_conv ? 16 : 16 + i;
 
+<<<<<<< HEAD
+		devm_free_irq(&pdev->dev, pci_irq_vector(pdev, nr), cq);
+=======
 		free_irq(pci_irq_vector(pdev, nr), cq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	pci_free_irq_vectors(pdev);
 }
@@ -4823,7 +4887,14 @@ static void hisi_sas_v3_remove(struct pci_dev *pdev)
 		del_timer(&hisi_hba->timer);
 
 	sas_unregister_ha(sha);
+<<<<<<< HEAD
 	flush_workqueue(hisi_hba->wq);
+=======
+<<<<<<< HEAD
+	flush_workqueue(hisi_hba->wq);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sas_remove_host(sha->core.shost);
 
 	hisi_sas_v3_destroy_irqs(pdev, hisi_hba);

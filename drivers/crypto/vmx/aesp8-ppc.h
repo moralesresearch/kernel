@@ -7,12 +7,15 @@ struct aes_key {
 	int rounds;
 };
 
+<<<<<<< HEAD
 extern struct shash_alg p8_ghash_alg;
 extern struct crypto_alg p8_aes_alg;
 extern struct skcipher_alg p8_aes_cbc_alg;
 extern struct skcipher_alg p8_aes_ctr_alg;
 extern struct skcipher_alg p8_aes_xts_alg;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int aes_p8_set_encrypt_key(const u8 *userKey, const int bits,
 			   struct aes_key *key);
 int aes_p8_set_decrypt_key(const u8 *userKey, const int bits,

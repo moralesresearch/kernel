@@ -201,6 +201,13 @@ struct mips_elf_abiflags_v0 {
 	uint32_t flags2;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#ifndef ELF_ARCH
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* ELF register definitions */
 #define ELF_NGREG	45
 #define ELF_NFPREG	33
@@ -218,7 +225,15 @@ void mips_dump_regs64(u64 *uregs, const struct pt_regs *regs);
 /*
  * This is used to ensure we don't load something for the wrong architecture.
  */
+<<<<<<< HEAD
 #define elf_check_arch elf32_check_arch
+=======
+<<<<<<< HEAD
+#define elf_check_arch elf32_check_arch
+=======
+#define elf_check_arch elfo32_check_arch
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * These are used to set parameters in the core dumps.
@@ -234,8 +249,17 @@ void mips_dump_regs64(u64 *uregs, const struct pt_regs *regs);
 /*
  * This is used to ensure we don't load something for the wrong architecture.
  */
+<<<<<<< HEAD
 #define elf_check_arch elf64_check_arch
 #define compat_elf_check_arch elf32_check_arch
+=======
+<<<<<<< HEAD
+#define elf_check_arch elf64_check_arch
+#define compat_elf_check_arch elf32_check_arch
+=======
+#define elf_check_arch elfn64_check_arch
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * These are used to set parameters in the core dumps.
@@ -257,6 +281,14 @@ void mips_dump_regs64(u64 *uregs, const struct pt_regs *regs);
 #endif
 #define ELF_ARCH	EM_MIPS
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#endif /* !defined(ELF_ARCH) */
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * In order to be sure that we don't attempt to execute an O32 binary which
  * requires 64 bit FP (FR=1) on a system which does not support it we refuse
@@ -275,9 +307,21 @@ void mips_dump_regs64(u64 *uregs, const struct pt_regs *regs);
 #define vmcore_elf64_check_arch mips_elf_check_machine
 
 /*
+<<<<<<< HEAD
  * Return non-zero if HDR identifies an o32 or n32 ELF binary.
  */
 #define elf32_check_arch(hdr)						\
+=======
+<<<<<<< HEAD
+ * Return non-zero if HDR identifies an o32 or n32 ELF binary.
+ */
+#define elf32_check_arch(hdr)						\
+=======
+ * Return non-zero if HDR identifies an o32 ELF binary.
+ */
+#define elfo32_check_arch(hdr)						\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ({									\
 	int __res = 1;							\
 	struct elfhdr *__h = (hdr);					\
@@ -286,6 +330,10 @@ void mips_dump_regs64(u64 *uregs, const struct pt_regs *regs);
 		__res = 0;						\
 	if (__h->e_ident[EI_CLASS] != ELFCLASS32)			\
 		__res = 0;						\
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((__h->e_flags & EF_MIPS_ABI2) != 0) {			\
 		if (!IS_ENABLED(CONFIG_MIPS32_N32) ||			\
 		     (__h->e_flags & EF_MIPS_ABI))			\
@@ -299,13 +347,34 @@ void mips_dump_regs64(u64 *uregs, const struct pt_regs *regs);
 		if (__h->e_flags & __MIPS_O32_FP64_MUST_BE_ZERO)	\
 			__res = 0;					\
 	}								\
+<<<<<<< HEAD
+=======
+=======
+	if ((__h->e_flags & EF_MIPS_ABI2) != 0)				\
+		__res = 0;						\
+	if (((__h->e_flags & EF_MIPS_ABI) != 0) &&			\
+	    ((__h->e_flags & EF_MIPS_ABI) != EF_MIPS_ABI_O32))		\
+		__res = 0;						\
+	if (__h->e_flags & __MIPS_O32_FP64_MUST_BE_ZERO)		\
+		__res = 0;						\
+									\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__res;								\
 })
 
 /*
  * Return non-zero if HDR identifies an n64 ELF binary.
  */
+<<<<<<< HEAD
 #define elf64_check_arch(hdr)						\
+=======
+<<<<<<< HEAD
+#define elf64_check_arch(hdr)						\
+=======
+#define elfn64_check_arch(hdr)						\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ({									\
 	int __res = 1;							\
 	struct elfhdr *__h = (hdr);					\
@@ -318,6 +387,31 @@ void mips_dump_regs64(u64 *uregs, const struct pt_regs *regs);
 	__res;								\
 })
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+/*
+ * Return non-zero if HDR identifies an n32 ELF binary.
+ */
+#define elfn32_check_arch(hdr)						\
+({									\
+	int __res = 1;							\
+	struct elfhdr *__h = (hdr);					\
+									\
+	if (!mips_elf_check_machine(__h))				\
+		__res = 0;						\
+	if (__h->e_ident[EI_CLASS] != ELFCLASS32)			\
+		__res = 0;						\
+	if (((__h->e_flags & EF_MIPS_ABI2) == 0) ||			\
+	    ((__h->e_flags & EF_MIPS_ABI) != 0))			\
+		__res = 0;						\
+									\
+	__res;								\
+})
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mips_abi;
 
 extern struct mips_abi mips_abi;
@@ -453,7 +547,17 @@ extern const char *__elf_base_platform;
    the loader.	We need to make sure that it is out of the way of the program
    that it will "exec", and that there is sufficient room for the brk.	*/
 
+<<<<<<< HEAD
 #define ELF_ET_DYN_BASE		(TASK_SIZE / 3 * 2)
+=======
+<<<<<<< HEAD
+#define ELF_ET_DYN_BASE		(TASK_SIZE / 3 * 2)
+=======
+#ifndef ELF_ET_DYN_BASE
+#define ELF_ET_DYN_BASE		(TASK_SIZE / 3 * 2)
+#endif
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* update AT_VECTOR_SIZE_ARCH if the number of NEW_AUX_ENT entries changes */
 #define ARCH_DLINFO							\

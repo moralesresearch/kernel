@@ -267,7 +267,11 @@ static struct feature_property {
 };
 
 #if defined(CONFIG_44x) && defined(CONFIG_PPC_FPU)
+<<<<<<< HEAD
+static __init void identical_pvr_fixup(unsigned long node)
+=======
 static inline void identical_pvr_fixup(unsigned long node)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned int pvr;
 	const char *model = of_get_flat_dt_prop(node, "model", NULL);
@@ -707,7 +711,11 @@ static void __init save_fscr_to_task(void)
 		init_task.thread.fscr = mfspr(SPRN_FSCR);
 }
 #else
+<<<<<<< HEAD
 static inline void save_fscr_to_task(void) {}
+=======
+static inline void save_fscr_to_task(void) {};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 

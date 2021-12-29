@@ -127,7 +127,11 @@ static size_t vfio_pci_igd_cfg_rw(struct vfio_pci_device *vdev,
 
 		ret = pci_user_read_config_byte(pdev, pos, &val);
 		if (ret)
+<<<<<<< HEAD
 			return ret;
+=======
+			return pcibios_err_to_errno(ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (copy_to_user(buf + count - size, &val, 1))
 			return -EFAULT;
@@ -141,7 +145,11 @@ static size_t vfio_pci_igd_cfg_rw(struct vfio_pci_device *vdev,
 
 		ret = pci_user_read_config_word(pdev, pos, &val);
 		if (ret)
+<<<<<<< HEAD
 			return ret;
+=======
+			return pcibios_err_to_errno(ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		val = cpu_to_le16(val);
 		if (copy_to_user(buf + count - size, &val, 2))
@@ -156,7 +164,11 @@ static size_t vfio_pci_igd_cfg_rw(struct vfio_pci_device *vdev,
 
 		ret = pci_user_read_config_dword(pdev, pos, &val);
 		if (ret)
+<<<<<<< HEAD
 			return ret;
+=======
+			return pcibios_err_to_errno(ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		val = cpu_to_le32(val);
 		if (copy_to_user(buf + count - size, &val, 4))
@@ -171,7 +183,11 @@ static size_t vfio_pci_igd_cfg_rw(struct vfio_pci_device *vdev,
 
 		ret = pci_user_read_config_word(pdev, pos, &val);
 		if (ret)
+<<<<<<< HEAD
 			return ret;
+=======
+			return pcibios_err_to_errno(ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		val = cpu_to_le16(val);
 		if (copy_to_user(buf + count - size, &val, 2))
@@ -186,7 +202,11 @@ static size_t vfio_pci_igd_cfg_rw(struct vfio_pci_device *vdev,
 
 		ret = pci_user_read_config_byte(pdev, pos, &val);
 		if (ret)
+<<<<<<< HEAD
 			return ret;
+=======
+			return pcibios_err_to_errno(ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (copy_to_user(buf + count - size, &val, 1))
 			return -EFAULT;

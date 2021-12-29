@@ -2,7 +2,11 @@
 /*
  * Copyright (c) 2004 Mellanox Technologies Ltd.  All rights reserved.
  * Copyright (c) 2004 Infinicon Corporation.  All rights reserved.
+<<<<<<< HEAD
  * Copyright (c) 2004, 2020 Intel Corporation.  All rights reserved.
+=======
+ * Copyright (c) 2004 Intel Corporation.  All rights reserved.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Copyright (c) 2004 Topspin Corporation.  All rights reserved.
  * Copyright (c) 2004 Voltaire Corporation.  All rights reserved.
  * Copyright (c) 2005 Sun Microsystems, Inc. All rights reserved.
@@ -2434,10 +2438,13 @@ struct ib_device_ops {
 	struct ib_mr *(*reg_user_mr)(struct ib_pd *pd, u64 start, u64 length,
 				     u64 virt_addr, int mr_access_flags,
 				     struct ib_udata *udata);
+<<<<<<< HEAD
 	struct ib_mr *(*reg_user_mr_dmabuf)(struct ib_pd *pd, u64 offset,
 					    u64 length, u64 virt_addr, int fd,
 					    int mr_access_flags,
 					    struct ib_udata *udata);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ib_mr *(*rereg_user_mr)(struct ib_mr *mr, int flags, u64 start,
 				       u64 length, u64 virt_addr,
 				       int mr_access_flags, struct ib_pd *pd,
@@ -4674,7 +4681,10 @@ static inline u32 rdma_calc_flow_label(u32 lqpn, u32 rqpn)
 
 	return (u32)(v & IB_GRH_FLOWLABEL_MASK);
 }
+<<<<<<< HEAD
 
 const struct ib_port_immutable*
 ib_port_immutable_read(struct ib_device *dev, unsigned int port);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* IB_VERBS_H */

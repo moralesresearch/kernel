@@ -260,10 +260,13 @@ ABS_MT_PRESSURE
     of TOUCH and WIDTH for pressure-based devices or any device with a spatial
     signal intensity distribution.
 
+<<<<<<< HEAD
     If the resolution is zero, the pressure data is in arbitrary units.
     If the resolution is nonzero, the pressure data is in units/gram. See
     :ref:`input-event-codes` for details.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ABS_MT_DISTANCE
     The distance, in surface units, between the contact and the surface. Zero
     distance means the contact is touching the surface. A positive number means

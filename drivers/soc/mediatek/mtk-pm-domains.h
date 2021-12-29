@@ -7,7 +7,10 @@
 #define MTK_SCPD_FWAIT_SRAM		BIT(1)
 #define MTK_SCPD_SRAM_ISO		BIT(2)
 #define MTK_SCPD_KEEP_DEFAULT_OFF	BIT(3)
+<<<<<<< HEAD
 #define MTK_SCPD_DOMAIN_SUPPLY		BIT(4)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MTK_SCPD_CAPS(_scpd, _x)	((_scpd)->data->caps & (_x))
 
 #define SPM_VDE_PWR_CON			0x0210
@@ -15,7 +18,10 @@
 #define SPM_VEN_PWR_CON			0x0230
 #define SPM_ISP_PWR_CON			0x0238
 #define SPM_DIS_PWR_CON			0x023c
+<<<<<<< HEAD
 #define SPM_CONN_PWR_CON		0x0280
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SPM_VEN2_PWR_CON		0x0298
 #define SPM_AUDIO_PWR_CON		0x029c
 #define SPM_MFG_2D_PWR_CON		0x02c0
@@ -76,6 +82,10 @@ struct scpsys_bus_prot_data {
 
 /**
  * struct scpsys_domain_data - scp domain data for power on/off flow
+<<<<<<< HEAD
+ * @name: The name of the power domain.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @sta_mask: The mask for power on/off status bit.
  * @ctl_offs: The offset for main power control register.
  * @sram_pdn_bits: The mask for sram power control bits.
@@ -85,6 +95,10 @@ struct scpsys_bus_prot_data {
  * @bp_smi: bus protection for smi subsystem
  */
 struct scpsys_domain_data {
+<<<<<<< HEAD
+	const char *name;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 sta_mask;
 	int ctl_offs;
 	u32 sram_pdn_bits;

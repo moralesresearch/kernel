@@ -522,11 +522,19 @@ static const struct user_regset native_regsets[] = {
 		.size = sizeof(long), .align = sizeof(long),
 		.regset_get = gpr_get, .set = gpr_set
 	},
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_PPC_FPU_REGS
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	[REGSET_FPR] = {
 		.core_note_type = NT_PRFPREG, .n = ELF_NFPREG,
 		.size = sizeof(double), .align = sizeof(double),
 		.regset_get = fpr_get, .set = fpr_set
 	},
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_ALTIVEC
 	[REGSET_VMX] = {
 		.core_note_type = NT_PPC_VMX, .n = 34,

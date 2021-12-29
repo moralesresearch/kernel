@@ -106,8 +106,11 @@ int siw_mr_add_mem(struct siw_mr *mr, struct ib_pd *pd, void *mem_obj,
 	mem->perms = rights & IWARP_ACCESS_MASK;
 	kref_init(&mem->ref);
 
+<<<<<<< HEAD
+=======
 	mr->mem = mem;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	get_random_bytes(&next, 4);
 	next &= 0x00ffffff;
 
@@ -116,6 +119,11 @@ int siw_mr_add_mem(struct siw_mr *mr, struct ib_pd *pd, void *mem_obj,
 		kfree(mem);
 		return -ENOMEM;
 	}
+<<<<<<< HEAD
+
+	mr->mem = mem;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Set the STag index part */
 	mem->stag = id << 8;
 	mr->base_mr.lkey = mr->base_mr.rkey = mem->stag;

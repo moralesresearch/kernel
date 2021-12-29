@@ -64,7 +64,10 @@ int veprintf(int level, int var, const char *fmt, va_list args);
 
 int perf_debug_option(const char *str);
 void debug_set_file(FILE *file);
+<<<<<<< HEAD
 void debug_set_display_time(bool set);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void perf_debug_setup(void);
 int perf_quiet_option(void);
 

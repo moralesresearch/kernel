@@ -48,6 +48,10 @@ static inline uint32_t psb_mmu_pd_index(uint32_t offset)
 	return offset >> PSB_PDE_SHIFT;
 }
 
+<<<<<<< HEAD
+=======
+#if defined(CONFIG_X86)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void psb_clflush(void *addr)
 {
 	__asm__ __volatile__("clflush (%0)\n" : : "r"(addr) : "memory");
@@ -62,6 +66,16 @@ static inline void psb_mmu_clflush(struct psb_mmu_driver *driver, void *addr)
 	psb_clflush(addr);
 	mb();
 }
+<<<<<<< HEAD
+=======
+#else
+
+static inline void psb_mmu_clflush(struct psb_mmu_driver *driver, void *addr)
+{;
+}
+
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void psb_mmu_flush_pd_locked(struct psb_mmu_driver *driver, int force)
 {
@@ -285,6 +299,10 @@ static struct psb_mmu_pt *psb_mmu_alloc_pt(struct psb_mmu_pd *pd)
 	for (i = 0; i < (PAGE_SIZE / sizeof(uint32_t)); ++i)
 		*ptes++ = pd->invalid_pte;
 
+<<<<<<< HEAD
+=======
+#if defined(CONFIG_X86)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pd->driver->has_clflush && pd->hw_context != -1) {
 		mb();
 		for (i = 0; i < clflush_count; ++i) {
@@ -293,6 +311,10 @@ static struct psb_mmu_pt *psb_mmu_alloc_pt(struct psb_mmu_pd *pd)
 		}
 		mb();
 	}
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kunmap_atomic(v);
 	spin_unlock(lock);
 
@@ -303,8 +325,13 @@ static struct psb_mmu_pt *psb_mmu_alloc_pt(struct psb_mmu_pd *pd)
 	return pt;
 }
 
+<<<<<<< HEAD
 static struct psb_mmu_pt *psb_mmu_pt_alloc_map_lock(struct psb_mmu_pd *pd,
 						    unsigned long addr)
+=======
+struct psb_mmu_pt *psb_mmu_pt_alloc_map_lock(struct psb_mmu_pd *pd,
+					     unsigned long addr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	uint32_t index = psb_mmu_pd_index(addr);
 	struct psb_mmu_pt *pt;
@@ -406,6 +433,18 @@ struct psb_mmu_pd *psb_mmu_get_default_pd(struct psb_mmu_driver *driver)
 	return pd;
 }
 
+<<<<<<< HEAD
+=======
+/* Returns the physical address of the PD shared by sgx/msvdx */
+uint32_t psb_get_default_pd_addr(struct psb_mmu_driver *driver)
+{
+	struct psb_mmu_pd *pd;
+
+	pd = psb_mmu_get_default_pd(driver);
+	return page_to_pfn(pd->p) << PAGE_SHIFT;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void psb_mmu_driver_takedown(struct psb_mmu_driver *driver)
 {
 	struct drm_device *dev = driver->dev;
@@ -449,6 +488,10 @@ struct psb_mmu_driver *psb_mmu_driver_init(struct drm_device *dev,
 
 	driver->has_clflush = 0;
 
+<<<<<<< HEAD
+=======
+#if defined(CONFIG_X86)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (boot_cpu_has(X86_FEATURE_CLFLUSH)) {
 		uint32_t tfms, misc, cap0, cap4, clflush_size;
 
@@ -465,6 +508,10 @@ struct psb_mmu_driver *psb_mmu_driver_init(struct drm_device *dev,
 		driver->clflush_mask = driver->clflush_add - 1;
 		driver->clflush_mask = ~driver->clflush_mask;
 	}
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	up_write(&driver->sem);
 	return driver;
@@ -474,6 +521,10 @@ out_err1:
 	return NULL;
 }
 
+<<<<<<< HEAD
+=======
+#if defined(CONFIG_X86)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void psb_mmu_flush_ptes(struct psb_mmu_pd *pd, unsigned long address,
 			       uint32_t num_pages, uint32_t desired_tile_stride,
 			       uint32_t hw_tile_stride)
@@ -521,6 +572,17 @@ static void psb_mmu_flush_ptes(struct psb_mmu_pd *pd, unsigned long address,
 	}
 	mb();
 }
+<<<<<<< HEAD
+=======
+#else
+static void psb_mmu_flush_ptes(struct psb_mmu_pd *pd, unsigned long address,
+			       uint32_t num_pages, uint32_t desired_tile_stride,
+			       uint32_t hw_tile_stride)
+{
+	drm_ttm_cache_flush();
+}
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void psb_mmu_remove_pfn_sequence(struct psb_mmu_pd *pd,
 				 unsigned long address, uint32_t num_pages)
@@ -660,7 +722,11 @@ out:
 	if (pd->hw_context != -1)
 		psb_mmu_flush(pd->driver);
 
+<<<<<<< HEAD
 	return ret;
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int psb_mmu_insert_pages(struct psb_mmu_pd *pd, struct page **pages,

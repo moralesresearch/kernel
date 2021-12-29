@@ -63,7 +63,11 @@ static void enqueue_external_timestamp(struct timestamp_event_queue *queue,
 	spin_unlock_irqrestore(&queue->lock, flags);
 }
 
+<<<<<<< HEAD
+long scaled_ppm_to_ppb(long ppm)
+=======
 s32 scaled_ppm_to_ppb(long ppm)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/*
 	 * The 'freq' field in the 'struct timex' is in parts per
@@ -80,7 +84,11 @@ s32 scaled_ppm_to_ppb(long ppm)
 	s64 ppb = 1 + ppm;
 	ppb *= 125;
 	ppb >>= 13;
+<<<<<<< HEAD
+	return (long) ppb;
+=======
 	return (s32) ppb;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(scaled_ppm_to_ppb);
 
@@ -138,7 +146,11 @@ static int ptp_clock_adjtime(struct posix_clock *pc, struct __kernel_timex *tx)
 		delta = ktime_to_ns(kt);
 		err = ops->adjtime(ops, delta);
 	} else if (tx->modes & ADJ_FREQUENCY) {
+<<<<<<< HEAD
+		long ppb = scaled_ppm_to_ppb(tx->freq);
+=======
 		s32 ppb = scaled_ppm_to_ppb(tx->freq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ppb > ops->max_adj || ppb < -ops->max_adj)
 			return -ERANGE;
 		if (ops->adjfine)

@@ -31,6 +31,10 @@ struct dpu_mdss {
 	void __iomem *mmio;
 	struct dss_module_power mp;
 	struct dpu_irq_controller irq_controller;
+<<<<<<< HEAD
+};
+
+=======
 	struct icc_path *path[2];
 	u32 num_paths;
 };
@@ -65,6 +69,7 @@ static void dpu_mdss_icc_request_bw(struct msm_mdss *mdss)
 		icc_set_bw(dpu_mdss->path[i], avg_bw, kBps_to_icc(MAX_BW));
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void dpu_mdss_irq(struct irq_desc *desc)
 {
 	struct dpu_mdss *dpu_mdss = irq_desc_get_handler_data(desc);
@@ -178,8 +183,11 @@ static int dpu_mdss_enable(struct msm_mdss *mdss)
 	struct dss_module_power *mp = &dpu_mdss->mp;
 	int ret;
 
+<<<<<<< HEAD
+=======
 	dpu_mdss_icc_request_bw(mdss);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = msm_dss_enable_clk(mp->clk_config, mp->num_clk, true);
 	if (ret) {
 		DPU_ERROR("clock enable failed, ret:%d\n", ret);
@@ -213,15 +221,22 @@ static int dpu_mdss_disable(struct msm_mdss *mdss)
 {
 	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
 	struct dss_module_power *mp = &dpu_mdss->mp;
+<<<<<<< HEAD
+	int ret;
+=======
 	int ret, i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = msm_dss_enable_clk(mp->clk_config, mp->num_clk, false);
 	if (ret)
 		DPU_ERROR("clock disable failed, ret:%d\n", ret);
 
+<<<<<<< HEAD
+=======
 	for (i = 0; i < dpu_mdss->num_paths; i++)
 		icc_set_bw(dpu_mdss->path[i], 0, 0);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -232,7 +247,10 @@ static void dpu_mdss_destroy(struct drm_device *dev)
 	struct dpu_mdss *dpu_mdss = to_dpu_mdss(priv->mdss);
 	struct dss_module_power *mp = &dpu_mdss->mp;
 	int irq;
+<<<<<<< HEAD
+=======
 	int i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pm_runtime_suspend(dev->dev);
 	pm_runtime_disable(dev->dev);
@@ -242,9 +260,12 @@ static void dpu_mdss_destroy(struct drm_device *dev)
 	msm_dss_put_clk(mp->clk_config, mp->num_clk);
 	devm_kfree(&pdev->dev, mp->clk_config);
 
+<<<<<<< HEAD
+=======
 	for (i = 0; i < dpu_mdss->num_paths; i++)
 		icc_put(dpu_mdss->path[i]);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dpu_mdss->mmio)
 		devm_iounmap(&pdev->dev, dpu_mdss->mmio);
 	dpu_mdss->mmio = NULL;
@@ -276,12 +297,15 @@ int dpu_mdss_init(struct drm_device *dev)
 
 	DRM_DEBUG("mapped mdss address space @%pK\n", dpu_mdss->mmio);
 
+<<<<<<< HEAD
+=======
 	if (!of_device_is_compatible(dev->dev->of_node, "qcom,sc7180-mdss")) {
 		ret = dpu_mdss_parse_data_bus_icc_path(dev, dpu_mdss);
 		if (ret)
 			return ret;
 	}
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mp = &dpu_mdss->mp;
 	ret = msm_dss_parse_clock(pdev, mp);
 	if (ret) {
@@ -307,8 +331,11 @@ int dpu_mdss_init(struct drm_device *dev)
 
 	pm_runtime_enable(dev->dev);
 
+<<<<<<< HEAD
+=======
 	dpu_mdss_icc_request_bw(priv->mdss);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 
 irq_error:

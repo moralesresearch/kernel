@@ -792,3 +792,11 @@ struct nci_hci_dev *nci_hci_allocate(struct nci_dev *ndev)
 
 	return hdev;
 }
+<<<<<<< HEAD
+
+void nci_hci_deallocate(struct nci_dev *ndev)
+{
+	kfree(ndev->hci_dev);
+}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

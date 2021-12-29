@@ -6,6 +6,10 @@
  *
  * Author: Lu Baolu <baolu.lu@linux.intel.com>
  */
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_INTEL_IOMMU
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #undef TRACE_SYSTEM
 #define TRACE_SYSTEM intel_iommu
 
@@ -134,6 +138,7 @@ DEFINE_EVENT(dma_map_sg, bounce_map_sg,
 		 struct scatterlist *sg),
 	TP_ARGS(dev, index, total, sg)
 );
+<<<<<<< HEAD
 
 TRACE_EVENT(qi_submit,
 	TP_PROTO(struct intel_iommu *iommu, u64 qw0, u64 qw1, u64 qw2, u64 qw3),
@@ -171,7 +176,13 @@ TRACE_EVENT(qi_submit,
 		__entry->qw0, __entry->qw1, __entry->qw2, __entry->qw3
 	)
 );
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _TRACE_INTEL_IOMMU_H */
 
 /* This part must be outside protection */
 #include <trace/define_trace.h>
+<<<<<<< HEAD
+=======
+#endif /* CONFIG_INTEL_IOMMU */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

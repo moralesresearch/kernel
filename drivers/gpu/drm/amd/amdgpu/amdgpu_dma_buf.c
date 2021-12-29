@@ -40,7 +40,10 @@
 #include <linux/dma-buf.h>
 #include <linux/dma-fence-array.h>
 #include <linux/pci-p2pdma.h>
+<<<<<<< HEAD
 #include <linux/pm_runtime.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * amdgpu_gem_prime_mmap - &drm_driver.gem_prime_mmap implementation
@@ -152,6 +155,7 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
 	if (attach->dev->driver == adev->dev->driver)
 		return 0;
 
+<<<<<<< HEAD
 	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
 	if (r < 0)
 		goto out;
@@ -159,6 +163,11 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
 	r = amdgpu_bo_reserve(bo, false);
 	if (unlikely(r != 0))
 		goto out;
+=======
+	r = amdgpu_bo_reserve(bo, false);
+	if (unlikely(r != 0))
+		return r;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * We only create shared fences for internal use, but importers
@@ -170,15 +179,22 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
 	 */
 	r = __dma_resv_make_exclusive(bo->tbo.base.resv);
 	if (r)
+<<<<<<< HEAD
 		goto out;
+=======
+		return r;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bo->prime_shared_count++;
 	amdgpu_bo_unreserve(bo);
 	return 0;
+<<<<<<< HEAD
 
 out:
 	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
 	return r;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -198,9 +214,12 @@ static void amdgpu_dma_buf_detach(struct dma_buf *dmabuf,
 
 	if (attach->dev->driver != adev->dev->driver && bo->prime_shared_count)
 		bo->prime_shared_count--;
+<<<<<<< HEAD
 
 	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
 	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -281,7 +300,11 @@ static struct sg_table *amdgpu_dma_buf_map(struct dma_buf_attachment *attach,
 	case TTM_PL_TT:
 		sgt = drm_prime_pages_to_sg(obj->dev,
 					    bo->tbo.ttm->pages,
+<<<<<<< HEAD
 					    bo->tbo.ttm->num_pages);
+=======
+					    bo->tbo.num_pages);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (IS_ERR(sgt))
 			return sgt;
 

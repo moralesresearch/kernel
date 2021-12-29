@@ -90,6 +90,15 @@ static void of_coresight_get_ports_legacy(const struct device_node *node,
 	struct of_endpoint endpoint;
 	int in = 0, out = 0;
 
+<<<<<<< HEAD
+	/*
+	 * Avoid warnings in of_graph_get_next_endpoint()
+	 * if the device doesn't have any graph connections
+	 */
+	if (!of_graph_is_present(node))
+		return;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	do {
 		ep = of_graph_get_next_endpoint(node, ep);
 		if (!ep)

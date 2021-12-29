@@ -9,6 +9,7 @@
 #include "acpi.h"
 #include "fw/runtime.h"
 
+<<<<<<< HEAD
 const guid_t iwl_guid = GUID_INIT(0xF21202BF, 0x8F78, 0x4DC6,
 				  0xA5, 0xB3, 0x1F, 0x73,
 				  0x8E, 0x28, 0x5A, 0xDE);
@@ -18,6 +19,11 @@ const guid_t iwl_rfi_guid = GUID_INIT(0x7266172C, 0x220B, 0x4B29,
 				      0x81, 0x4F, 0x75, 0xE4,
 				      0xDD, 0x26, 0xB5, 0xFD);
 IWL_EXPORT_SYMBOL(iwl_rfi_guid);
+=======
+static const guid_t intel_wifi_guid = GUID_INIT(0xF21202BF, 0x8F78, 0x4DC6,
+						0xA5, 0xB3, 0x1F, 0x73,
+						0x8E, 0x28, 0x5A, 0xDE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int iwl_acpi_get_handle(struct device *dev, acpi_string method,
 			       acpi_handle *ret_handle)
@@ -70,12 +76,20 @@ IWL_EXPORT_SYMBOL(iwl_acpi_get_object);
  * function.
  */
 static void *iwl_acpi_get_dsm_object(struct device *dev, int rev, int func,
+<<<<<<< HEAD
 				     union acpi_object *args,
 				     const guid_t *guid)
 {
 	union acpi_object *obj;
 
 	obj = acpi_evaluate_dsm(ACPI_HANDLE(dev), guid, rev, func,
+=======
+				     union acpi_object *args)
+{
+	union acpi_object *obj;
+
+	obj = acpi_evaluate_dsm(ACPI_HANDLE(dev), &intel_wifi_guid, rev, func,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				args);
 	if (!obj) {
 		IWL_DEBUG_DEV_RADIO(dev,
@@ -94,13 +108,21 @@ static void *iwl_acpi_get_dsm_object(struct device *dev, int rev, int func,
  * return 0 in success and the appropriate errno otherwise.
  */
 static int iwl_acpi_get_dsm_integer(struct device *dev, int rev, int func,
+<<<<<<< HEAD
 				    const guid_t *guid, u64 *value,
 				    size_t expected_size)
+=======
+				    u64 *value, size_t expected_size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	union acpi_object *obj;
 	int ret = 0;
 
+<<<<<<< HEAD
 	obj = iwl_acpi_get_dsm_object(dev, rev, func, NULL, guid);
+=======
+	obj = iwl_acpi_get_dsm_object(dev, rev, func, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (IS_ERR(obj)) {
 		IWL_DEBUG_DEV_RADIO(dev,
 				    "Failed to get  DSM object. func= %d\n",
@@ -145,14 +167,22 @@ out:
 /*
  * Evaluate a DSM with no arguments and a u8 return value,
  */
+<<<<<<< HEAD
 int iwl_acpi_get_dsm_u8(struct device *dev, int rev, int func,
 			const guid_t *guid, u8 *value)
+=======
+int iwl_acpi_get_dsm_u8(struct device *dev, int rev, int func, u8 *value)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 	u64 val;
 
+<<<<<<< HEAD
 	ret = iwl_acpi_get_dsm_integer(dev, rev, func,
 				       guid, &val, sizeof(u8));
+=======
+	ret = iwl_acpi_get_dsm_integer(dev, rev, func, &val, sizeof(u8));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ret < 0)
 		return ret;
@@ -488,16 +518,23 @@ int iwl_sar_get_wrds_table(struct iwl_fw_runtime *fwrt)
 
 	wifi_pkg = iwl_acpi_get_wifi_pkg(fwrt->dev, data,
 					 ACPI_WRDS_WIFI_DATA_SIZE, &tbl_rev);
+<<<<<<< HEAD
 	if (IS_ERR(wifi_pkg)) {
+=======
+	if (IS_ERR(wifi_pkg) || tbl_rev != 0) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = PTR_ERR(wifi_pkg);
 		goto out_free;
 	}
 
+<<<<<<< HEAD
 	if (tbl_rev != 0) {
 		ret = -EINVAL;
 		goto out_free;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (wifi_pkg->package.elements[1].type != ACPI_TYPE_INTEGER) {
 		ret = -EINVAL;
 		goto out_free;
@@ -531,16 +568,23 @@ int iwl_sar_get_ewrd_table(struct iwl_fw_runtime *fwrt)
 
 	wifi_pkg = iwl_acpi_get_wifi_pkg(fwrt->dev, data,
 					 ACPI_EWRD_WIFI_DATA_SIZE, &tbl_rev);
+<<<<<<< HEAD
 	if (IS_ERR(wifi_pkg)) {
+=======
+	if (IS_ERR(wifi_pkg) || tbl_rev != 0) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = PTR_ERR(wifi_pkg);
 		goto out_free;
 	}
 
+<<<<<<< HEAD
 	if (tbl_rev != 0) {
 		ret = -EINVAL;
 		goto out_free;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (wifi_pkg->package.elements[1].type != ACPI_TYPE_INTEGER ||
 	    wifi_pkg->package.elements[2].type != ACPI_TYPE_INTEGER) {
 		ret = -EINVAL;
@@ -596,17 +640,24 @@ int iwl_sar_get_wgds_table(struct iwl_fw_runtime *fwrt)
 
 	wifi_pkg = iwl_acpi_get_wifi_pkg(fwrt->dev, data,
 					 ACPI_WGDS_WIFI_DATA_SIZE, &tbl_rev);
+<<<<<<< HEAD
 
 	if (IS_ERR(wifi_pkg)) {
+=======
+	if (IS_ERR(wifi_pkg) || tbl_rev > 1) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = PTR_ERR(wifi_pkg);
 		goto out_free;
 	}
 
+<<<<<<< HEAD
 	if (tbl_rev > 1) {
 		ret = -EINVAL;
 		goto out_free;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	fwrt->geo_rev = tbl_rev;
 	for (i = 0; i < ACPI_NUM_GEO_PROFILES; i++) {
 		for (j = 0; j < ACPI_GEO_TABLE_SIZE; j++) {

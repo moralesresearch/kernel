@@ -2694,13 +2694,22 @@ static struct dma_async_tx_descriptor *pl330_prep_dma_cyclic(
 	for (i = 0; i < len / period_len; i++) {
 		desc = pl330_get_desc(pch);
 		if (!desc) {
+<<<<<<< HEAD
+			unsigned long iflags;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_err(pch->dmac->ddma.dev, "%s:%d Unable to fetch desc\n",
 				__func__, __LINE__);
 
 			if (!first)
 				return NULL;
 
+<<<<<<< HEAD
+			spin_lock_irqsave(&pl330->pool_lock, iflags);
+=======
 			spin_lock_irqsave(&pl330->pool_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			while (!list_empty(&first->node)) {
 				desc = list_entry(first->node.next,
@@ -2710,7 +2719,11 @@ static struct dma_async_tx_descriptor *pl330_prep_dma_cyclic(
 
 			list_move_tail(&first->node, &pl330->desc_pool);
 
+<<<<<<< HEAD
+			spin_unlock_irqrestore(&pl330->pool_lock, iflags);
+=======
 			spin_unlock_irqrestore(&pl330->pool_lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			return NULL;
 		}
@@ -3195,7 +3208,11 @@ probe_err2:
 	return ret;
 }
 
+<<<<<<< HEAD
 static void pl330_remove(struct amba_device *adev)
+=======
+static int pl330_remove(struct amba_device *adev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct pl330_dmac *pl330 = amba_get_drvdata(adev);
 	struct dma_pl330_chan *pch, *_p;
@@ -3235,6 +3252,10 @@ static void pl330_remove(struct amba_device *adev)
 
 	if (pl330->rstc)
 		reset_control_assert(pl330->rstc);
+<<<<<<< HEAD
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct amba_id pl330_ids[] = {

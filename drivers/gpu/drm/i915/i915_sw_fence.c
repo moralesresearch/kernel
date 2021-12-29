@@ -18,6 +18,7 @@
 #define I915_SW_FENCE_BUG_ON(expr) BUILD_BUG_ON_INVALID(expr)
 #endif
 
+<<<<<<< HEAD
 static DEFINE_SPINLOCK(i915_sw_fence_lock);
 
 #define WQ_FLAG_BITS \
@@ -26,6 +27,11 @@ static DEFINE_SPINLOCK(i915_sw_fence_lock);
 /* after WQ_FLAG_* for safety */
 #define I915_SW_FENCE_FLAG_FENCE BIT(WQ_FLAG_BITS - 1)
 #define I915_SW_FENCE_FLAG_ALLOC BIT(WQ_FLAG_BITS - 2)
+=======
+#define I915_SW_FENCE_FLAG_ALLOC BIT(3) /* after WQ_FLAG_* for safety */
+
+static DEFINE_SPINLOCK(i915_sw_fence_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 enum {
 	DEBUG_FENCE_IDLE = 0,
@@ -159,10 +165,17 @@ static void __i915_sw_fence_wake_up_all(struct i915_sw_fence *fence,
 	spin_lock_irqsave_nested(&x->lock, flags, 1 + !!continuation);
 	if (continuation) {
 		list_for_each_entry_safe(pos, next, &x->head, entry) {
+<<<<<<< HEAD
 			if (pos->flags & I915_SW_FENCE_FLAG_FENCE)
 				list_move_tail(&pos->entry, continuation);
 			else
 				pos->func(pos, TASK_NORMAL, 0, continuation);
+=======
+			if (pos->func == autoremove_wake_function)
+				pos->func(pos, TASK_NORMAL, 0, continuation);
+			else
+				list_move_tail(&pos->entry, continuation);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else {
 		LIST_HEAD(extra);
@@ -171,9 +184,15 @@ static void __i915_sw_fence_wake_up_all(struct i915_sw_fence *fence,
 			list_for_each_entry_safe(pos, next, &x->head, entry) {
 				int wake_flags;
 
+<<<<<<< HEAD
 				wake_flags = 0;
 				if (pos->flags & I915_SW_FENCE_FLAG_FENCE)
 					wake_flags = fence->error;
+=======
+				wake_flags = fence->error;
+				if (pos->func == autoremove_wake_function)
+					wake_flags = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				pos->func(pos, TASK_NORMAL, wake_flags, &extra);
 			}
@@ -337,8 +356,13 @@ static int __i915_sw_fence_await_sw_fence(struct i915_sw_fence *fence,
 					  struct i915_sw_fence *signaler,
 					  wait_queue_entry_t *wq, gfp_t gfp)
 {
+<<<<<<< HEAD
 	unsigned int pending;
 	unsigned long flags;
+=======
+	unsigned long flags;
+	int pending;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	debug_fence_assert(fence);
 	might_sleep_if(gfpflags_allow_blocking(gfp));
@@ -354,7 +378,11 @@ static int __i915_sw_fence_await_sw_fence(struct i915_sw_fence *fence,
 	if (unlikely(i915_sw_fence_check_if_after(fence, signaler)))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	pending = I915_SW_FENCE_FLAG_FENCE;
+=======
+	pending = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!wq) {
 		wq = kmalloc(sizeof(*wq), gfp);
 		if (!wq) {

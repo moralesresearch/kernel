@@ -51,7 +51,11 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
 		param->value = vmw_overlay_num_free_overlays(dev_priv);
 		break;
 	case DRM_VMW_PARAM_3D:
+<<<<<<< HEAD
 		param->value = vmw_supports_3d(dev_priv) ? 1 : 0;
+=======
+		param->value = vmw_fifo_have_3d(dev_priv) ? 1 : 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case DRM_VMW_PARAM_HW_CAPS:
 		param->value = dev_priv->capabilities;
@@ -67,6 +71,10 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
 		break;
 	case DRM_VMW_PARAM_FIFO_HW_VERSION:
 	{
+<<<<<<< HEAD
+=======
+		u32 *fifo_mem = dev_priv->mmio_virt;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		const struct vmw_fifo_state *fifo = &dev_priv->fifo;
 
 		if ((dev_priv->capabilities & SVGA_CAP_GBOBJECTS)) {
@@ -75,11 +83,19 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
 		}
 
 		param->value =
+<<<<<<< HEAD
 			vmw_fifo_mem_read(dev_priv,
 					  ((fifo->capabilities &
 					    SVGA_FIFO_CAP_3D_HWVERSION_REVISED) ?
 						   SVGA_FIFO_3D_HWVERSION_REVISED :
 						   SVGA_FIFO_3D_HWVERSION));
+=======
+			vmw_mmio_read(fifo_mem +
+				      ((fifo->capabilities &
+					SVGA_FIFO_CAP_3D_HWVERSION_REVISED) ?
+				       SVGA_FIFO_3D_HWVERSION_REVISED :
+				       SVGA_FIFO_3D_HWVERSION));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 	case DRM_VMW_PARAM_MAX_SURF_MEMORY:
@@ -234,7 +250,11 @@ int vmw_get_cap_3d_ioctl(struct drm_device *dev, void *data,
 		if (unlikely(ret != 0))
 			goto out_err;
 	} else {
+<<<<<<< HEAD
 		fifo_mem = dev_priv->fifo_mem;
+=======
+		fifo_mem = dev_priv->mmio_virt;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memcpy(bounce, &fifo_mem[SVGA_FIFO_3D_CAPS], size);
 	}
 

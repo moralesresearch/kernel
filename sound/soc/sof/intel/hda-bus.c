@@ -9,7 +9,10 @@
 
 #include <linux/io.h>
 #include <sound/hdaudio.h>
+<<<<<<< HEAD
 #include <sound/hda_i915.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "../sof-priv.h"
 #include "hda.h"
 
@@ -20,6 +23,7 @@
 #define sof_hda_ext_ops	NULL
 #endif
 
+<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA)
 static void sof_hda_bus_link_power(struct hdac_device *codec, bool enable)
 {
@@ -50,13 +54,19 @@ static const struct hdac_bus_ops bus_core_ops = {
 };
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This can be used for both with/without hda link support.
  */
 void sof_hda_bus_init(struct hdac_bus *bus, struct device *dev)
 {
 #if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA)
+<<<<<<< HEAD
 	snd_hdac_ext_bus_init(bus, dev, &bus_core_ops, sof_hda_ext_ops);
+=======
+	snd_hdac_ext_bus_init(bus, dev, NULL, sof_hda_ext_ops);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else /* CONFIG_SND_SOC_SOF_HDA */
 	memset(bus, 0, sizeof(*bus));
 	bus->dev = dev;

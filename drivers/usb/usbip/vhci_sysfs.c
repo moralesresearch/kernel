@@ -185,8 +185,16 @@ static int vhci_port_disconnect(struct vhci_hcd *vhci_hcd, __u32 rhport)
 
 	usbip_dbg_vhci_sysfs("enter\n");
 
+<<<<<<< HEAD
 	mutex_lock(&vdev->ud.sysfs_lock);
 
+=======
+<<<<<<< HEAD
+	mutex_lock(&vdev->ud.sysfs_lock);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* lock */
 	spin_lock_irqsave(&vhci->lock, flags);
 	spin_lock(&vdev->ud.lock);
@@ -197,7 +205,14 @@ static int vhci_port_disconnect(struct vhci_hcd *vhci_hcd, __u32 rhport)
 		/* unlock */
 		spin_unlock(&vdev->ud.lock);
 		spin_unlock_irqrestore(&vhci->lock, flags);
+<<<<<<< HEAD
 		mutex_unlock(&vdev->ud.sysfs_lock);
+=======
+<<<<<<< HEAD
+		mutex_unlock(&vdev->ud.sysfs_lock);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		return -EINVAL;
 	}
@@ -208,8 +223,16 @@ static int vhci_port_disconnect(struct vhci_hcd *vhci_hcd, __u32 rhport)
 
 	usbip_event_add(&vdev->ud, VDEV_EVENT_DOWN);
 
+<<<<<<< HEAD
 	mutex_unlock(&vdev->ud.sysfs_lock);
 
+=======
+<<<<<<< HEAD
+	mutex_unlock(&vdev->ud.sysfs_lock);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -354,36 +377,80 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
 	else
 		vdev = &vhci->vhci_hcd_hs->vdev[rhport];
 
+<<<<<<< HEAD
 	mutex_lock(&vdev->ud.sysfs_lock);
 
+=======
+<<<<<<< HEAD
+	mutex_lock(&vdev->ud.sysfs_lock);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Extract socket from fd. */
 	socket = sockfd_lookup(sockfd, &err);
 	if (!socket) {
 		dev_err(dev, "failed to lookup sock");
+<<<<<<< HEAD
 		err = -EINVAL;
 		goto unlock_mutex;
+=======
+<<<<<<< HEAD
+		err = -EINVAL;
+		goto unlock_mutex;
+=======
+		return -EINVAL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (socket->type != SOCK_STREAM) {
 		dev_err(dev, "Expecting SOCK_STREAM - found %d",
 			socket->type);
 		sockfd_put(socket);
+<<<<<<< HEAD
 		err = -EINVAL;
 		goto unlock_mutex;
+=======
+<<<<<<< HEAD
+		err = -EINVAL;
+		goto unlock_mutex;
+=======
+		return -EINVAL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* create threads before locking */
 	tcp_rx = kthread_create(vhci_rx_loop, &vdev->ud, "vhci_rx");
 	if (IS_ERR(tcp_rx)) {
 		sockfd_put(socket);
+<<<<<<< HEAD
 		err = -EINVAL;
 		goto unlock_mutex;
+=======
+<<<<<<< HEAD
+		err = -EINVAL;
+		goto unlock_mutex;
+=======
+		return -EINVAL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	tcp_tx = kthread_create(vhci_tx_loop, &vdev->ud, "vhci_tx");
 	if (IS_ERR(tcp_tx)) {
 		kthread_stop(tcp_rx);
 		sockfd_put(socket);
+<<<<<<< HEAD
 		err = -EINVAL;
 		goto unlock_mutex;
+=======
+<<<<<<< HEAD
+		err = -EINVAL;
+		goto unlock_mutex;
+=======
+		return -EINVAL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* get task structs now */
@@ -408,8 +475,17 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
 		 * Will be retried from userspace
 		 * if there's another free port.
 		 */
+<<<<<<< HEAD
 		err = -EBUSY;
 		goto unlock_mutex;
+=======
+<<<<<<< HEAD
+		err = -EBUSY;
+		goto unlock_mutex;
+=======
+		return -EBUSY;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	dev_info(dev, "pdev(%u) rhport(%u) sockfd(%d)\n",
@@ -424,7 +500,14 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
 	vdev->ud.tcp_rx     = tcp_rx;
 	vdev->ud.tcp_tx     = tcp_tx;
 	vdev->ud.status     = VDEV_ST_NOTASSIGNED;
+<<<<<<< HEAD
 	usbip_kcov_handle_init(&vdev->ud);
+=======
+<<<<<<< HEAD
+	usbip_kcov_handle_init(&vdev->ud);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_unlock(&vdev->ud.lock);
 	spin_unlock_irqrestore(&vhci->lock, flags);
@@ -435,6 +518,10 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
 
 	rh_port_connect(vdev, speed);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_info(dev, "Device attached\n");
 
 	mutex_unlock(&vdev->ud.sysfs_lock);
@@ -444,6 +531,12 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
 unlock_mutex:
 	mutex_unlock(&vdev->ud.sysfs_lock);
 	return err;
+<<<<<<< HEAD
+=======
+=======
+	return count;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 static DEVICE_ATTR_WO(attach);
 

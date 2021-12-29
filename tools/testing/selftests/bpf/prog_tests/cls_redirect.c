@@ -7,7 +7,10 @@
 #include <string.h>
 
 #include <linux/pkt_cls.h>
+<<<<<<< HEAD
 #include <netinet/tcp.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <test_progs.h>
 

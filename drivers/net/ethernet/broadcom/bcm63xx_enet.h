@@ -230,6 +230,7 @@ struct bcm_enet_priv {
 	/* next dirty rx descriptor to refill */
 	int rx_dirty_desc;
 
+<<<<<<< HEAD
 	/* size of allocated rx buffers */
 	unsigned int rx_buf_size;
 
@@ -241,6 +242,13 @@ struct bcm_enet_priv {
 
 	/* list of buffer given to hw for rx */
 	void **rx_buf;
+=======
+	/* size of allocated rx skbs */
+	unsigned int rx_skb_size;
+
+	/* list of skb given to hw for rx */
+	struct sk_buff **rx_skb;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* used when rx skb allocation failed, so we defer rx queue
 	 * refill */

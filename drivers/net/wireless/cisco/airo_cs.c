@@ -47,6 +47,10 @@ MODULE_DESCRIPTION("Support for Cisco/Aironet 802.11 wireless ethernet "
 		   "cards.  This is the module that links the PCMCIA card "
 		   "with the airo module.");
 MODULE_LICENSE("Dual BSD/GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("Aironet 4500, 4800 and Cisco 340 PCMCIA cards");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*====================================================================*/
 

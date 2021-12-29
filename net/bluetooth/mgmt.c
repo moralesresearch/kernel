@@ -124,7 +124,10 @@ static const u16 mgmt_commands[] = {
 	MGMT_OP_REMOVE_ADV_MONITOR,
 	MGMT_OP_ADD_EXT_ADV_PARAMS,
 	MGMT_OP_ADD_EXT_ADV_DATA,
+<<<<<<< HEAD
 	MGMT_OP_ADD_ADV_PATTERNS_MONITOR_RSSI,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const u16 mgmt_events[] = {
@@ -4167,6 +4170,7 @@ static void mgmt_adv_monitor_added(struct sock *sk, struct hci_dev *hdev,
 	mgmt_event(MGMT_EV_ADV_MONITOR_ADDED, hdev, &ev, sizeof(ev), sk);
 }
 
+<<<<<<< HEAD
 void mgmt_adv_monitor_removed(struct hci_dev *hdev, u16 handle)
 {
 	struct mgmt_ev_adv_monitor_removed ev;
@@ -4185,6 +4189,16 @@ void mgmt_adv_monitor_removed(struct hci_dev *hdev, u16 handle)
 	ev.monitor_handle = cpu_to_le16(handle);
 
 	mgmt_event(MGMT_EV_ADV_MONITOR_REMOVED, hdev, &ev, sizeof(ev), sk_skip);
+=======
+static void mgmt_adv_monitor_removed(struct sock *sk, struct hci_dev *hdev,
+				     u16 handle)
+{
+	struct mgmt_ev_adv_monitor_added ev;
+
+	ev.monitor_handle = cpu_to_le16(handle);
+
+	mgmt_event(MGMT_EV_ADV_MONITOR_REMOVED, hdev, &ev, sizeof(ev), sk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int read_adv_mon_features(struct sock *sk, struct hci_dev *hdev,
@@ -4195,7 +4209,10 @@ static int read_adv_mon_features(struct sock *sk, struct hci_dev *hdev,
 	int handle, err;
 	size_t rp_size = 0;
 	__u32 supported = 0;
+<<<<<<< HEAD
 	__u32 enabled = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__u16 num_handles = 0;
 	__u16 handles[HCI_MAX_ADV_MONITOR_NUM_HANDLES];
 
@@ -4203,11 +4220,20 @@ static int read_adv_mon_features(struct sock *sk, struct hci_dev *hdev,
 
 	hci_dev_lock(hdev);
 
+<<<<<<< HEAD
 	if (msft_monitor_supported(hdev))
 		supported |= MGMT_ADV_MONITOR_FEATURE_MASK_OR_PATTERNS;
 
 	idr_for_each_entry(&hdev->adv_monitors_idr, monitor, handle)
 		handles[num_handles++] = monitor->handle;
+=======
+	if (msft_get_features(hdev) & MSFT_FEATURE_MASK_LE_ADV_MONITOR)
+		supported |= MGMT_ADV_MONITOR_FEATURE_MASK_OR_PATTERNS;
+
+	idr_for_each_entry(&hdev->adv_monitors_idr, monitor, handle) {
+		handles[num_handles++] = monitor->handle;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hci_dev_unlock(hdev);
 
@@ -4216,11 +4242,19 @@ static int read_adv_mon_features(struct sock *sk, struct hci_dev *hdev,
 	if (!rp)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	/* All supported features are currently enabled */
 	enabled = supported;
 
 	rp->supported_features = cpu_to_le32(supported);
 	rp->enabled_features = cpu_to_le32(enabled);
+=======
+	/* Once controller-based monitoring is in place, the enabled_features
+	 * should reflect the use.
+	 */
+	rp->supported_features = cpu_to_le32(supported);
+	rp->enabled_features = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rp->max_num_handles = cpu_to_le16(HCI_MAX_ADV_MONITOR_NUM_HANDLES);
 	rp->max_num_patterns = HCI_MAX_ADV_MONITOR_NUM_PATTERNS;
 	rp->num_handles = cpu_to_le16(num_handles);
@@ -4236,6 +4270,7 @@ static int read_adv_mon_features(struct sock *sk, struct hci_dev *hdev,
 	return err;
 }
 
+<<<<<<< HEAD
 int mgmt_add_adv_patterns_monitor_complete(struct hci_dev *hdev, u8 status)
 {
 	struct mgmt_rp_add_adv_patterns_monitor rp;
@@ -4395,10 +4430,13 @@ static u8 parse_adv_monitor_pattern(struct adv_monitor *m, u8 pattern_count,
 	return MGMT_STATUS_SUCCESS;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int add_adv_patterns_monitor(struct sock *sk, struct hci_dev *hdev,
 				    void *data, u16 len)
 {
 	struct mgmt_cp_add_adv_patterns_monitor *cp = data;
+<<<<<<< HEAD
 	struct adv_monitor *m = NULL;
 	u8 status = MGMT_STATUS_SUCCESS;
 	size_t expected_size = sizeof(*cp);
@@ -4497,6 +4535,103 @@ done:
 	bt_dev_dbg(hdev, "remove monitor %d complete, status %d",
 		   rp.monitor_handle, status);
 
+=======
+	struct mgmt_rp_add_adv_patterns_monitor rp;
+	struct adv_monitor *m = NULL;
+	struct adv_pattern *p = NULL;
+	unsigned int mp_cnt = 0, prev_adv_monitors_cnt;
+	__u8 cp_ofst = 0, cp_len = 0;
+	int err, i;
+
+	BT_DBG("request for %s", hdev->name);
+
+	if (len <= sizeof(*cp) || cp->pattern_count == 0) {
+		err = mgmt_cmd_status(sk, hdev->id,
+				      MGMT_OP_ADD_ADV_PATTERNS_MONITOR,
+				      MGMT_STATUS_INVALID_PARAMS);
+		goto failed;
+	}
+
+	m = kmalloc(sizeof(*m), GFP_KERNEL);
+	if (!m) {
+		err = -ENOMEM;
+		goto failed;
+	}
+
+	INIT_LIST_HEAD(&m->patterns);
+	m->active = false;
+
+	for (i = 0; i < cp->pattern_count; i++) {
+		if (++mp_cnt > HCI_MAX_ADV_MONITOR_NUM_PATTERNS) {
+			err = mgmt_cmd_status(sk, hdev->id,
+					      MGMT_OP_ADD_ADV_PATTERNS_MONITOR,
+					      MGMT_STATUS_INVALID_PARAMS);
+			goto failed;
+		}
+
+		cp_ofst = cp->patterns[i].offset;
+		cp_len = cp->patterns[i].length;
+		if (cp_ofst >= HCI_MAX_AD_LENGTH ||
+		    cp_len > HCI_MAX_AD_LENGTH ||
+		    (cp_ofst + cp_len) > HCI_MAX_AD_LENGTH) {
+			err = mgmt_cmd_status(sk, hdev->id,
+					      MGMT_OP_ADD_ADV_PATTERNS_MONITOR,
+					      MGMT_STATUS_INVALID_PARAMS);
+			goto failed;
+		}
+
+		p = kmalloc(sizeof(*p), GFP_KERNEL);
+		if (!p) {
+			err = -ENOMEM;
+			goto failed;
+		}
+
+		p->ad_type = cp->patterns[i].ad_type;
+		p->offset = cp->patterns[i].offset;
+		p->length = cp->patterns[i].length;
+		memcpy(p->value, cp->patterns[i].value, p->length);
+
+		INIT_LIST_HEAD(&p->list);
+		list_add(&p->list, &m->patterns);
+	}
+
+	if (mp_cnt != cp->pattern_count) {
+		err = mgmt_cmd_status(sk, hdev->id,
+				      MGMT_OP_ADD_ADV_PATTERNS_MONITOR,
+				      MGMT_STATUS_INVALID_PARAMS);
+		goto failed;
+	}
+
+	hci_dev_lock(hdev);
+
+	prev_adv_monitors_cnt = hdev->adv_monitors_cnt;
+
+	err = hci_add_adv_monitor(hdev, m);
+	if (err) {
+		if (err == -ENOSPC) {
+			mgmt_cmd_status(sk, hdev->id,
+					MGMT_OP_ADD_ADV_PATTERNS_MONITOR,
+					MGMT_STATUS_NO_RESOURCES);
+		}
+		goto unlock;
+	}
+
+	if (hdev->adv_monitors_cnt > prev_adv_monitors_cnt)
+		mgmt_adv_monitor_added(sk, hdev, m->handle);
+
+	hci_dev_unlock(hdev);
+
+	rp.monitor_handle = cpu_to_le16(m->handle);
+
+	return mgmt_cmd_complete(sk, hdev->id, MGMT_OP_ADD_ADV_PATTERNS_MONITOR,
+				 MGMT_STATUS_SUCCESS, &rp, sizeof(rp));
+
+unlock:
+	hci_dev_unlock(hdev);
+
+failed:
+	hci_free_adv_monitor(m);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -4505,6 +4640,7 @@ static int remove_adv_monitor(struct sock *sk, struct hci_dev *hdev,
 {
 	struct mgmt_cp_remove_adv_monitor *cp = data;
 	struct mgmt_rp_remove_adv_monitor rp;
+<<<<<<< HEAD
 	struct mgmt_pending_cmd *cmd;
 	u16 handle = __le16_to_cpu(cp->monitor_handle);
 	int err, status;
@@ -4563,6 +4699,39 @@ unlock:
 	hci_dev_unlock(hdev);
 	return mgmt_cmd_status(sk, hdev->id, MGMT_OP_REMOVE_ADV_MONITOR,
 			       status);
+=======
+	unsigned int prev_adv_monitors_cnt;
+	u16 handle;
+	int err;
+
+	BT_DBG("request for %s", hdev->name);
+
+	hci_dev_lock(hdev);
+
+	handle = __le16_to_cpu(cp->monitor_handle);
+	prev_adv_monitors_cnt = hdev->adv_monitors_cnt;
+
+	err = hci_remove_adv_monitor(hdev, handle);
+	if (err == -ENOENT) {
+		err = mgmt_cmd_status(sk, hdev->id, MGMT_OP_REMOVE_ADV_MONITOR,
+				      MGMT_STATUS_INVALID_INDEX);
+		goto unlock;
+	}
+
+	if (hdev->adv_monitors_cnt < prev_adv_monitors_cnt)
+		mgmt_adv_monitor_removed(sk, hdev, handle);
+
+	hci_dev_unlock(hdev);
+
+	rp.monitor_handle = cp->monitor_handle;
+
+	return mgmt_cmd_complete(sk, hdev->id, MGMT_OP_REMOVE_ADV_MONITOR,
+				 MGMT_STATUS_SUCCESS, &rp, sizeof(rp));
+
+unlock:
+	hci_dev_unlock(hdev);
+	return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void read_local_oob_data_complete(struct hci_dev *hdev, u8 status,
@@ -4998,6 +5167,7 @@ static int start_service_discovery(struct sock *sk, struct hci_dev *hdev,
 		goto failed;
 	}
 
+<<<<<<< HEAD
 	if (hdev->discovery_paused) {
 		err = mgmt_cmd_complete(sk, hdev->id,
 					MGMT_OP_START_SERVICE_DISCOVERY,
@@ -5006,6 +5176,8 @@ static int start_service_discovery(struct sock *sk, struct hci_dev *hdev,
 		goto failed;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uuid_count = __le16_to_cpu(cp->uuid_count);
 	if (uuid_count > max_uuid_count) {
 		bt_dev_err(hdev, "service_discovery: too big uuid_count value %u",
@@ -7976,7 +8148,10 @@ static int add_ext_adv_params(struct sock *sk, struct hci_dev *hdev,
 		goto unlock;
 	}
 
+<<<<<<< HEAD
+=======
 	hdev->cur_adv_instance = cp->instance;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Submit request for advertising params if ext adv available */
 	if (ext_adv_capable(hdev)) {
 		hci_req_init(&req, hdev);
@@ -8442,9 +8617,12 @@ static const struct hci_mgmt_handler mgmt_handlers[] = {
 						HCI_MGMT_VAR_LEN },
 	{ add_ext_adv_data,        MGMT_ADD_EXT_ADV_DATA_SIZE,
 						HCI_MGMT_VAR_LEN },
+<<<<<<< HEAD
 	{ add_adv_patterns_monitor_rssi,
 				   MGMT_ADD_ADV_PATTERNS_MONITOR_RSSI_SIZE,
 						HCI_MGMT_VAR_LEN },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 void mgmt_index_added(struct hci_dev *hdev)

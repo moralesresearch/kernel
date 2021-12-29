@@ -121,6 +121,10 @@ static int bochs_pci_probe(struct pci_dev *pdev,
 	if (ret)
 		goto err_free_dev;
 
+<<<<<<< HEAD
+=======
+	dev->pdev = pdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_set_drvdata(pdev, dev);
 
 	ret = bochs_load(dev);

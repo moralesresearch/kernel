@@ -261,7 +261,12 @@ static const struct blk_mq_ops nvme_loop_admin_mq_ops = {
 
 static void nvme_loop_destroy_admin_queue(struct nvme_loop_ctrl *ctrl)
 {
+<<<<<<< HEAD
+	if (!test_and_clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags))
+		return;
+=======
 	clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
 	blk_cleanup_queue(ctrl->ctrl.admin_q);
 	blk_cleanup_queue(ctrl->ctrl.fabrics_q);
@@ -297,6 +302,10 @@ static void nvme_loop_destroy_io_queues(struct nvme_loop_ctrl *ctrl)
 		clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[i].flags);
 		nvmet_sq_destroy(&ctrl->queues[i].nvme_sq);
 	}
+<<<<<<< HEAD
+	ctrl->ctrl.queue_count = 1;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int nvme_loop_init_io_queues(struct nvme_loop_ctrl *ctrl)
@@ -349,7 +358,11 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
 	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
 	ctrl->admin_tag_set.ops = &nvme_loop_admin_mq_ops;
 	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+<<<<<<< HEAD
 	ctrl->admin_tag_set.reserved_tags = NVMF_RESERVED_TAGS;
+=======
+	ctrl->admin_tag_set.reserved_tags = 2; /* connect + keep-alive */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctrl->admin_tag_set.numa_node = ctrl->ctrl.numa_node;
 	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_loop_iod) +
 		NVME_INLINE_SG_CNT * sizeof(struct scatterlist);
@@ -403,6 +416,10 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
 	return 0;
 
 out_cleanup_queue:
+<<<<<<< HEAD
+	clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blk_cleanup_queue(ctrl->ctrl.admin_q);
 out_cleanup_fabrics_q:
 	blk_cleanup_queue(ctrl->ctrl.fabrics_q);
@@ -460,8 +477,15 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
 	nvme_loop_shutdown_ctrl(ctrl);
 
 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+<<<<<<< HEAD
+		if (ctrl->ctrl.state != NVME_CTRL_DELETING &&
+		    ctrl->ctrl.state != NVME_CTRL_DELETING_NOIO)
+			/* state change failure for non-deleted ctrl? */
+			WARN_ON_ONCE(1);
+=======
 		/* state change failure should never happen */
 		WARN_ON_ONCE(1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -520,7 +544,11 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
 	memset(&ctrl->tag_set, 0, sizeof(ctrl->tag_set));
 	ctrl->tag_set.ops = &nvme_loop_mq_ops;
 	ctrl->tag_set.queue_depth = ctrl->ctrl.opts->queue_size;
+<<<<<<< HEAD
 	ctrl->tag_set.reserved_tags = NVMF_RESERVED_TAGS;
+=======
+	ctrl->tag_set.reserved_tags = 1; /* fabric connect */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ctrl->tag_set.numa_node = ctrl->ctrl.numa_node;
 	ctrl->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
 	ctrl->tag_set.cmd_size = sizeof(struct nvme_loop_iod) +
@@ -588,8 +616,15 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
 
 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_loop_ctrl_ops,
 				0 /* no quirks, we're perfect! */);
+<<<<<<< HEAD
+	if (ret) {
+		kfree(ctrl);
+		goto out;
+	}
+=======
 	if (ret)
 		goto out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
 		WARN_ON_ONCE(1);

@@ -57,7 +57,14 @@ struct qmi_wwan_state {
 enum qmi_wwan_flags {
 	QMI_WWAN_FLAG_RAWIP = 1 << 0,
 	QMI_WWAN_FLAG_MUX = 1 << 1,
+<<<<<<< HEAD
 	QMI_WWAN_FLAG_PASS_THROUGH = 1 << 2,
+=======
+<<<<<<< HEAD
+	QMI_WWAN_FLAG_PASS_THROUGH = 1 << 2,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum qmi_wwan_quirks {
@@ -187,7 +194,15 @@ static int qmimux_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
 		net = qmimux_find_dev(dev, hdr->mux_id);
 		if (!net)
 			goto skip;
+<<<<<<< HEAD
 		skbn = netdev_alloc_skb(net, pkt_len + LL_MAX_HEADER);
+=======
+<<<<<<< HEAD
+		skbn = netdev_alloc_skb(net, pkt_len + LL_MAX_HEADER);
+=======
+		skbn = netdev_alloc_skb(net, pkt_len);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!skbn)
 			return 0;
 		skbn->dev = net;
@@ -204,7 +219,14 @@ static int qmimux_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
 			goto skip;
 		}
 
+<<<<<<< HEAD
 		skb_reserve(skbn, LL_MAX_HEADER);
+=======
+<<<<<<< HEAD
+		skb_reserve(skbn, LL_MAX_HEADER);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		skb_put_data(skbn, skb->data + offset + qmimux_hdr_sz, pkt_len);
 		if (netif_rx(skbn) != NET_RX_SUCCESS) {
 			net->stats.rx_errors++;
@@ -219,6 +241,10 @@ skip:
 	return 1;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t mux_id_show(struct device *d, struct device_attribute *attr, char *buf)
 {
 	struct net_device *dev = to_net_dev(d);
@@ -241,6 +267,11 @@ static struct attribute_group qmi_wwan_sysfs_qmimux_attr_group = {
 	.attrs = qmi_wwan_sysfs_qmimux_attrs,
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int qmimux_register_device(struct net_device *real_dev, u8 mux_id)
 {
 	struct net_device *new_dev;
@@ -263,8 +294,16 @@ static int qmimux_register_device(struct net_device *real_dev, u8 mux_id)
 		goto out_free_newdev;
 	}
 
+<<<<<<< HEAD
 	new_dev->sysfs_groups[0] = &qmi_wwan_sysfs_qmimux_attr_group;
 
+=======
+<<<<<<< HEAD
+	new_dev->sysfs_groups[0] = &qmi_wwan_sysfs_qmimux_attr_group;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = register_netdevice(new_dev);
 	if (err < 0)
 		goto out_free_newdev;
@@ -351,6 +390,10 @@ static ssize_t raw_ip_store(struct device *d,  struct device_attribute *attr, co
 	if (enable == (info->flags & QMI_WWAN_FLAG_RAWIP))
 		return len;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* ip mode cannot be cleared when pass through mode is set */
 	if (!enable && (info->flags & QMI_WWAN_FLAG_PASS_THROUGH)) {
 		netdev_err(dev->net,
@@ -358,6 +401,11 @@ static ssize_t raw_ip_store(struct device *d,  struct device_attribute *attr, co
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!rtnl_trylock())
 		return restart_syscall();
 
@@ -474,6 +522,10 @@ err:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t pass_through_show(struct device *d,
 				 struct device_attribute *attr, char *buf)
 {
@@ -521,12 +573,27 @@ static DEVICE_ATTR_RW(raw_ip);
 static DEVICE_ATTR_RW(add_mux);
 static DEVICE_ATTR_RW(del_mux);
 static DEVICE_ATTR_RW(pass_through);
+<<<<<<< HEAD
+=======
+=======
+static DEVICE_ATTR_RW(raw_ip);
+static DEVICE_ATTR_RW(add_mux);
+static DEVICE_ATTR_RW(del_mux);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct attribute *qmi_wwan_sysfs_attrs[] = {
 	&dev_attr_raw_ip.attr,
 	&dev_attr_add_mux.attr,
 	&dev_attr_del_mux.attr,
+<<<<<<< HEAD
 	&dev_attr_pass_through.attr,
+=======
+<<<<<<< HEAD
+	&dev_attr_pass_through.attr,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NULL,
 };
 
@@ -573,11 +640,20 @@ static int qmi_wwan_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
 	if (info->flags & QMI_WWAN_FLAG_MUX)
 		return qmimux_rx_fixup(dev, skb);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (info->flags & QMI_WWAN_FLAG_PASS_THROUGH) {
 		skb->protocol = htons(ETH_P_MAP);
 		return (netif_rx(skb) == NET_RX_SUCCESS);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (skb->data[0] & 0xf0) {
 	case 0x40:
 		proto = htons(ETH_P_IP);

@@ -1988,7 +1988,11 @@ int rproc_set_firmware(struct rproc *rproc, const char *fw_name)
 		goto out;
 	}
 
+<<<<<<< HEAD
 	kfree_const(rproc->firmware);
+=======
+	kfree(rproc->firmware);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rproc->firmware = p;
 
 out:

@@ -28,6 +28,7 @@ properties:
       - items:
           - enum:
               - sifive,rocket0
+<<<<<<< HEAD
               - sifive,bullet0
               - sifive,e5
               - sifive,e7
@@ -40,6 +41,13 @@ properties:
               - sifive,u5
               - sifive,u7
               - canaan,k210
+=======
+              - sifive,e5
+              - sifive,e51
+              - sifive,u54-mc
+              - sifive,u54
+              - sifive,u5
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: riscv
       - const: riscv    # Simulator only
     description:
@@ -57,7 +65,10 @@ properties:
       - riscv,sv32
       - riscv,sv39
       - riscv,sv48
+<<<<<<< HEAD
       - riscv,none
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   riscv,isa:
     description:

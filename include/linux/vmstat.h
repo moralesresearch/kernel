@@ -313,12 +313,15 @@ static inline void __mod_node_page_state(struct pglist_data *pgdat,
 			enum node_stat_item item, int delta)
 {
 	if (vmstat_item_in_bytes(item)) {
+<<<<<<< HEAD
 		/*
 		 * Only cgroups use subpage accounting right now; at
 		 * the global level, these items still change in
 		 * multiples of whole pages. Store them as pages
 		 * internally to keep the per-cpu counters compact.
 		 */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		VM_WARN_ON_ONCE(delta & (PAGE_SIZE - 1));
 		delta >>= PAGE_SHIFT;
 	}

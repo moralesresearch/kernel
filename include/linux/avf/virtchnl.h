@@ -476,6 +476,10 @@ struct virtchnl_rss_key {
 	u16 vsi_id;
 	u16 key_len;
 	u8 key[1];         /* RSS hash key, packed bytes */
+<<<<<<< HEAD
+=======
+	u8 pad[1];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_key);
@@ -484,6 +488,10 @@ struct virtchnl_rss_lut {
 	u16 vsi_id;
 	u16 lut_entries;
 	u8 lut[1];        /* RSS lookup table */
+<<<<<<< HEAD
+=======
+	u8 pad[1];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_lut);

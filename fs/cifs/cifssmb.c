@@ -1451,9 +1451,15 @@ cifs_discard_remaining_data(struct TCP_Server_Info *server)
 	while (remaining > 0) {
 		int length;
 
+<<<<<<< HEAD
 		length = cifs_discard_from_socket(server,
 				min_t(size_t, remaining,
 				      CIFSMaxBufSize + MAX_HEADER_SIZE(server)));
+=======
+		length = cifs_read_from_socket(server, server->bigbuf,
+				min_t(unsigned int, remaining,
+				    CIFSMaxBufSize + MAX_HEADER_SIZE(server)));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (length < 0)
 			return length;
 		server->total_read += length;

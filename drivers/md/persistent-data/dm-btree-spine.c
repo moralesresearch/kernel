@@ -235,7 +235,11 @@ int shadow_has_parent(struct shadow_spine *s)
 	return s->count >= 2;
 }
 
+<<<<<<< HEAD
 dm_block_t shadow_root(struct shadow_spine *s)
+=======
+int shadow_root(struct shadow_spine *s)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return s->root;
 }

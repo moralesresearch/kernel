@@ -189,6 +189,11 @@ usb_role_switch_find_by_fwnode(const struct fwnode_handle *fwnode)
 		return NULL;
 
 	dev = class_find_device_by_fwnode(role_class, fwnode);
+<<<<<<< HEAD
+	if (dev)
+		WARN_ON(!try_module_get(dev->parent->driver->owner));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return dev ? to_role_switch(dev) : NULL;
 }

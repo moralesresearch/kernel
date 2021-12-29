@@ -25,7 +25,10 @@
 #include <linux/mmc/slot-gpio.h>
 
 #include "core.h"
+<<<<<<< HEAD
 #include "crypto.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "host.h"
 #include "slot-gpio.h"
 #include "pwrseq.h"
@@ -35,6 +38,45 @@
 
 static DEFINE_IDA(mmc_host_ida);
 
+<<<<<<< HEAD
+#ifdef CONFIG_PM_SLEEP
+static int mmc_host_class_prepare(struct device *dev)
+{
+	struct mmc_host *host = cls_dev_to_mmc_host(dev);
+
+	/*
+	 * It's safe to access the bus_ops pointer, as both userspace and the
+	 * workqueue for detecting cards are frozen at this point.
+	 */
+	if (!host->bus_ops)
+		return 0;
+
+	/* Validate conditions for system suspend. */
+	if (host->bus_ops->pre_suspend)
+		return host->bus_ops->pre_suspend(host);
+
+	return 0;
+}
+
+static void mmc_host_class_complete(struct device *dev)
+{
+	struct mmc_host *host = cls_dev_to_mmc_host(dev);
+
+	_mmc_detect_change(host, 0, false);
+}
+
+static const struct dev_pm_ops mmc_host_class_dev_pm_ops = {
+	.prepare = mmc_host_class_prepare,
+	.complete = mmc_host_class_complete,
+};
+
+#define MMC_HOST_CLASS_DEV_PM_OPS (&mmc_host_class_dev_pm_ops)
+#else
+#define MMC_HOST_CLASS_DEV_PM_OPS NULL
+#endif
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void mmc_host_classdev_release(struct device *dev)
 {
 	struct mmc_host *host = cls_dev_to_mmc_host(dev);
@@ -46,6 +88,10 @@ static void mmc_host_classdev_release(struct device *dev)
 static struct class mmc_host_class = {
 	.name		= "mmc_host",
 	.dev_release	= mmc_host_classdev_release,
+<<<<<<< HEAD
+	.pm		= MMC_HOST_CLASS_DEV_PM_OPS,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 int mmc_register_host_class(void)
@@ -164,6 +210,7 @@ static void mmc_retune_timer(struct timer_list *t)
 	mmc_retune_needed(host);
 }
 
+<<<<<<< HEAD
 static void mmc_of_parse_timing_phase(struct device *dev, const char *prop,
 				      struct mmc_clk_phase *phase)
 {
@@ -208,6 +255,8 @@ mmc_of_parse_clk_phase(struct mmc_host *host, struct mmc_clk_phase_map *map)
 }
 EXPORT_SYMBOL(mmc_of_parse_clk_phase);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  *	mmc_of_parse() - parse host's device-tree node
  *	@host: host whose node should be parsed.
@@ -538,8 +587,11 @@ int mmc_add_host(struct mmc_host *host)
 #endif
 
 	mmc_start_host(host);
+<<<<<<< HEAD
+=======
 	mmc_register_pm_notifier(host);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -555,7 +607,10 @@ EXPORT_SYMBOL(mmc_add_host);
  */
 void mmc_remove_host(struct mmc_host *host)
 {
+<<<<<<< HEAD
+=======
 	mmc_unregister_pm_notifier(host);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mmc_stop_host(host);
 
 #ifdef CONFIG_DEBUG_FS

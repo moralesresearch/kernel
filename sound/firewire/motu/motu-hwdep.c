@@ -86,7 +86,11 @@ static int hwdep_get_info(struct snd_motu *motu, void __user *arg)
 	info.card = dev->card->index;
 	*(__be32 *)&info.guid[0] = cpu_to_be32(dev->config_rom[3]);
 	*(__be32 *)&info.guid[4] = cpu_to_be32(dev->config_rom[4]);
+<<<<<<< HEAD
 	strscpy(info.device_name, dev_name(&dev->device),
+=======
+	strlcpy(info.device_name, dev_name(&dev->device),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sizeof(info.device_name));
 
 	if (copy_to_user(arg, &info, sizeof(info)))

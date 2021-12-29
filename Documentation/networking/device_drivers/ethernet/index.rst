@@ -49,7 +49,10 @@ Contents:
    stmicro/stmmac
    ti/cpsw
    ti/cpsw_switchdev
+<<<<<<< HEAD
    ti/am65_nuss_cpsw_switchdev
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    ti/tlan
    toshiba/spider_net
 

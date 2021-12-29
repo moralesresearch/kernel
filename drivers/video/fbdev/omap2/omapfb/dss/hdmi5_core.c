@@ -790,7 +790,11 @@ int hdmi5_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
 	struct hdmi_audio_format audio_format;
 	struct hdmi_audio_dma audio_dma;
 	struct hdmi_core_audio_config core_cfg;
+<<<<<<< HEAD
 	int n, cts, channel_count;
+=======
+	int err, n, cts, channel_count;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int fs_nr;
 	bool word_length_16b = false;
 
@@ -833,7 +837,11 @@ int hdmi5_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	hdmi_compute_acr(pclk, fs_nr, &n, &cts);
+=======
+	err = hdmi_compute_acr(pclk, fs_nr, &n, &cts);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	core_cfg.n = n;
 	core_cfg.cts = cts;
 

@@ -205,6 +205,7 @@ restart_ih:
 	return IRQ_HANDLED;
 }
 
+<<<<<<< HEAD
 /**
  * amdgpu_ih_decode_iv_helper - decode an interrupt vector
  *
@@ -250,3 +251,5 @@ void amdgpu_ih_decode_iv_helper(struct amdgpu_device *adev,
 	/* wptr/rptr are in bytes! */
 	ih->rptr += 32;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

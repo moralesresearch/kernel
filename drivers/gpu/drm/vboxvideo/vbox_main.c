@@ -8,9 +8,13 @@
  *          Hans de Goede <hdegoede@redhat.com>
  */
 
+<<<<<<< HEAD
 #include <linux/pci.h>
 #include <linux/vbox_err.h>
 
+=======
+#include <linux/vbox_err.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/drm_fb_helper.h>
 #include <drm/drm_crtc_helper.h>
 #include <drm/drm_damage_helper.h>
@@ -32,7 +36,10 @@ void vbox_report_caps(struct vbox_private *vbox)
 
 static int vbox_accel_init(struct vbox_private *vbox)
 {
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(vbox->ddev.dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct vbva_buffer *vbva;
 	unsigned int i;
 
@@ -44,7 +51,11 @@ static int vbox_accel_init(struct vbox_private *vbox)
 	/* Take a command buffer for each screen from the end of usable VRAM. */
 	vbox->available_vram_size -= vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE;
 
+<<<<<<< HEAD
 	vbox->vbva_buffers = pci_iomap_range(pdev, 0,
+=======
+	vbox->vbva_buffers = pci_iomap_range(vbox->ddev.pdev, 0,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					     vbox->available_vram_size,
 					     vbox->num_crtcs *
 					     VBVA_MIN_BUFFER_SIZE);
@@ -109,7 +120,10 @@ bool vbox_check_supported(u16 id)
 
 int vbox_hw_init(struct vbox_private *vbox)
 {
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(vbox->ddev.dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = -ENOMEM;
 
 	vbox->full_vram_size = inl(VBE_DISPI_IOPORT_DATA);
@@ -119,7 +133,11 @@ int vbox_hw_init(struct vbox_private *vbox)
 
 	/* Map guest-heap at end of vram */
 	vbox->guest_heap =
+<<<<<<< HEAD
 	    pci_iomap_range(pdev, 0, GUEST_HEAP_OFFSET(vbox),
+=======
+	    pci_iomap_range(vbox->ddev.pdev, 0, GUEST_HEAP_OFFSET(vbox),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    GUEST_HEAP_SIZE);
 	if (!vbox->guest_heap)
 		return -ENOMEM;

@@ -574,6 +574,7 @@ early_param("kvm-arm.vgic_v4_enable", early_gicv4_enable);
  */
 int vgic_v3_probe(const struct gic_kvm_info *info)
 {
+<<<<<<< HEAD
 	u64 ich_vtr_el2 = kvm_call_hyp_ret(__vgic_v3_get_gic_config);
 	bool has_v2;
 	int ret;
@@ -581,6 +582,11 @@ int vgic_v3_probe(const struct gic_kvm_info *info)
 	has_v2 = ich_vtr_el2 >> 63;
 	ich_vtr_el2 = (u32)ich_vtr_el2;
 
+=======
+	u32 ich_vtr_el2 = kvm_call_hyp_ret(__vgic_v3_get_ich_vtr_el2);
+	int ret;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * The ListRegs field is 5 bits, but there is an architectural
 	 * maximum of 16 list registers. Just ignore bit 4...
@@ -598,6 +604,7 @@ int vgic_v3_probe(const struct gic_kvm_info *info)
 			 gicv4_enable ? "en" : "dis");
 	}
 
+<<<<<<< HEAD
 	kvm_vgic_global_state.vcpu_base = 0;
 
 	if (!info->vcpu.start) {
@@ -607,6 +614,15 @@ int vgic_v3_probe(const struct gic_kvm_info *info)
 	} else if (!PAGE_ALIGNED(info->vcpu.start)) {
 		pr_warn("GICV physical address 0x%llx not page aligned\n",
 			(unsigned long long)info->vcpu.start);
+=======
+	if (!info->vcpu.start) {
+		kvm_info("GICv3: no GICV resource entry\n");
+		kvm_vgic_global_state.vcpu_base = 0;
+	} else if (!PAGE_ALIGNED(info->vcpu.start)) {
+		pr_warn("GICV physical address 0x%llx not page aligned\n",
+			(unsigned long long)info->vcpu.start);
+		kvm_vgic_global_state.vcpu_base = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		kvm_vgic_global_state.vcpu_base = info->vcpu.start;
 		kvm_vgic_global_state.can_emulate_gicv2 = true;

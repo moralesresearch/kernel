@@ -78,12 +78,20 @@ static size_t mgag200_probe_vram(struct mga_device *mdev, void __iomem *mem,
 static void mgag200_mm_release(struct drm_device *dev, void *ptr)
 {
 	struct mga_device *mdev = to_mga_device(dev);
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
 
 	mdev->vram_fb_available = 0;
 	iounmap(mdev->vram);
 	arch_io_free_memtype_wc(pci_resource_start(pdev, 0),
 				pci_resource_len(pdev, 0));
+=======
+
+	mdev->vram_fb_available = 0;
+	iounmap(mdev->vram);
+	arch_io_free_memtype_wc(pci_resource_start(dev->pdev, 0),
+				pci_resource_len(dev->pdev, 0));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	arch_phys_wc_del(mdev->fb_mtrr);
 	mdev->fb_mtrr = 0;
 }
@@ -91,7 +99,10 @@ static void mgag200_mm_release(struct drm_device *dev, void *ptr)
 int mgag200_mm_init(struct mga_device *mdev)
 {
 	struct drm_device *dev = &mdev->base;
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 misc;
 	resource_size_t start, len;
 	int ret;
@@ -104,8 +115,13 @@ int mgag200_mm_init(struct mga_device *mdev)
 	WREG8(MGA_MISC_OUT, misc);
 
 	/* BAR 0 is VRAM */
+<<<<<<< HEAD
 	start = pci_resource_start(pdev, 0);
 	len = pci_resource_len(pdev, 0);
+=======
+	start = pci_resource_start(dev->pdev, 0);
+	len = pci_resource_len(dev->pdev, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!devm_request_mem_region(dev->dev, start, len, "mgadrmfb_vram")) {
 		drm_err(dev, "can't reserve VRAM\n");

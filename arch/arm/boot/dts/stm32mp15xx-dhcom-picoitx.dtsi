@@ -36,10 +36,13 @@
 	status = "disabled";
 };
 
+<<<<<<< HEAD
 &fmc {
 	status = "disabled";
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &gpioa {
 	/*
 	 * NOTE: The USB Port on the PicoITX needs a PWR_EN signal to enable
@@ -98,10 +101,13 @@
 	/delete-property/dma-names;
 };
 
+<<<<<<< HEAD
 &ksz8851 {
 	status = "disabled";
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &usart3 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&usart3_pins_a>;
@@ -140,8 +146,18 @@
 
 &usbphyc_port0 {
 	phy-supply = <&vdd_usb>;
+<<<<<<< HEAD
+=======
+	vdda1v1-supply = <&reg11>;
+	vdda1v8-supply = <&reg18>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &usbphyc_port1 {
 	phy-supply = <&vdd_usb>;
+<<<<<<< HEAD
+=======
+	vdda1v1-supply = <&reg11>;
+	vdda1v8-supply = <&reg18>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };

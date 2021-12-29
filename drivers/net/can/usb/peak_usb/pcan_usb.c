@@ -18,6 +18,11 @@
 
 #include "pcan_usb_core.h"
 
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("PEAK-System PCAN-USB adapter");
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* PCAN-USB Endpoints */
 #define PCAN_USB_EP_CMDOUT		1
 #define PCAN_USB_EP_CMDIN		(PCAN_USB_EP_CMDOUT | USB_DIR_IN)

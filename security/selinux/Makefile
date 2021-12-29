@@ -16,8 +16,11 @@ selinux-$(CONFIG_NETLABEL) += netlabel.o
 
 selinux-$(CONFIG_SECURITY_INFINIBAND) += ibpkey.o
 
+<<<<<<< HEAD
 selinux-$(CONFIG_IMA) += ima.o
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ccflags-y := -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
 
 $(addprefix $(obj)/,$(selinux-y)): $(obj)/flask.h

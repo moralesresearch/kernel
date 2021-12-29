@@ -2821,8 +2821,11 @@ static int qcom_nandc_setup(struct qcom_nand_controller *nandc)
 	return 0;
 }
 
+<<<<<<< HEAD
 static const char * const probes[] = { "qcomsmem", NULL };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int qcom_nand_host_init_and_register(struct qcom_nand_controller *nandc,
 					    struct qcom_nand_host *host,
 					    struct device_node *dn)
@@ -2886,7 +2889,11 @@ static int qcom_nand_host_init_and_register(struct qcom_nand_controller *nandc,
 		}
 	}
 
+<<<<<<< HEAD
 	ret = mtd_device_parse_register(mtd, probes, NULL, NULL, 0);
+=======
+	ret = mtd_device_register(mtd, NULL, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		nand_cleanup(chip);
 
@@ -2898,7 +2905,11 @@ static int qcom_probe_nand_devices(struct qcom_nand_controller *nandc)
 	struct device *dev = nandc->dev;
 	struct device_node *dn = dev->of_node, *child;
 	struct qcom_nand_host *host;
+<<<<<<< HEAD
+	int ret = -ENODEV;
+=======
 	int ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for_each_available_child_of_node(dn, child) {
 		host = devm_kzalloc(dev, sizeof(*host), GFP_KERNEL);
@@ -2916,10 +2927,14 @@ static int qcom_probe_nand_devices(struct qcom_nand_controller *nandc)
 		list_add_tail(&host->node, &nandc->host_list);
 	}
 
+<<<<<<< HEAD
+	return ret;
+=======
 	if (list_empty(&nandc->host_list))
 		return -ENODEV;
 
 	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* parse custom DT properties here */

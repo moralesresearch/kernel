@@ -879,8 +879,21 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
 	if (vma_pagesize == PAGE_SIZE && !force_pte)
 		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
 							   &pfn, &fault_ipa);
+<<<<<<< HEAD
 	if (writable)
 		prot |= KVM_PGTABLE_PROT_W;
+=======
+<<<<<<< HEAD
+	if (writable)
+		prot |= KVM_PGTABLE_PROT_W;
+=======
+	if (writable) {
+		prot |= KVM_PGTABLE_PROT_W;
+		kvm_set_pfn_dirty(pfn);
+		mark_page_dirty(kvm, gfn);
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (fault_status != FSC_PERM && !device)
 		clean_dcache_guest_page(pfn, vma_pagesize);
@@ -908,17 +921,34 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
 					     memcache);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Mark the page dirty only if the fault is handled successfully */
 	if (writable && !ret) {
 		kvm_set_pfn_dirty(pfn);
 		mark_page_dirty(kvm, gfn);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out_unlock:
 	spin_unlock(&kvm->mmu_lock);
 	kvm_set_pfn_accessed(pfn);
 	kvm_release_pfn_clean(pfn);
+<<<<<<< HEAD
 	return ret != -EAGAIN ? ret : 0;
+=======
+<<<<<<< HEAD
+	return ret != -EAGAIN ? ret : 0;
+=======
+	return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Resolve the access fault by making the page young again. */

@@ -103,9 +103,14 @@ static int omap_aes_hw_init(struct omap_aes_dev *dd)
 		dd->err = 0;
 	}
 
+<<<<<<< HEAD
+	err = pm_runtime_resume_and_get(dd->dev);
+	if (err < 0) {
+=======
 	err = pm_runtime_get_sync(dd->dev);
 	if (err < 0) {
 		pm_runtime_put_noidle(dd->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(dd->dev, "failed to get sync: %d\n", err);
 		return err;
 	}
@@ -1134,7 +1139,11 @@ static int omap_aes_probe(struct platform_device *pdev)
 	pm_runtime_set_autosuspend_delay(dev, DEFAULT_AUTOSUSPEND_DELAY);
 
 	pm_runtime_enable(dev);
+<<<<<<< HEAD
+	err = pm_runtime_resume_and_get(dev);
+=======
 	err = pm_runtime_get_sync(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0) {
 		dev_err(dev, "%s: failed to get_sync(%d)\n",
 			__func__, err);
@@ -1303,7 +1312,11 @@ static int omap_aes_suspend(struct device *dev)
 
 static int omap_aes_resume(struct device *dev)
 {
+<<<<<<< HEAD
+	pm_runtime_resume_and_get(dev);
+=======
 	pm_runtime_get_sync(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 #endif

@@ -16,10 +16,17 @@
 #define MAX_DIFF		2000000
 #define MAX_DIFF_PERCENT	15
 
+<<<<<<< HEAD
+static int count_of_bits;
+static char cbm_mask[256];
+static unsigned long long_mask;
+static unsigned long cache_size;
+=======
 int count_of_bits;
 char cbm_mask[256];
 unsigned long long_mask;
 unsigned long cache_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int cqm_setup(int num, ...)
 {
@@ -86,7 +93,11 @@ static int check_results(struct resctrl_val_param *param, int no_of_bits)
 		return errno;
 	}
 
+<<<<<<< HEAD
+	while (fgets(temp, sizeof(temp), fp)) {
+=======
 	while (fgets(temp, 1024, fp)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		char *token = strtok(temp, ":\t");
 		int fields = 0;
 
@@ -125,7 +136,11 @@ int cqm_resctrl_val(int cpu_no, int n, char **benchmark_cmd)
 	if (!validate_resctrl_feature_request("cqm"))
 		return -1;
 
+<<<<<<< HEAD
+	ret = get_cbm_mask("L3", cbm_mask);
+=======
 	ret = get_cbm_mask("L3");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -145,7 +160,11 @@ int cqm_resctrl_val(int cpu_no, int n, char **benchmark_cmd)
 	}
 
 	struct resctrl_val_param param = {
+<<<<<<< HEAD
+		.resctrl_val	= CQM_STR,
+=======
 		.resctrl_val	= "cqm",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.ctrlgrp	= "c1",
 		.mongrp		= "m1",
 		.cpu_no		= cpu_no,

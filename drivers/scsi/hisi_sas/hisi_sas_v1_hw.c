@@ -1423,8 +1423,17 @@ static irqreturn_t int_bcast_v1_hw(int irq, void *p)
 	}
 
 	if (!test_bit(HISI_SAS_RESET_BIT, &hisi_hba->flags))
+<<<<<<< HEAD
 		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
 				      GFP_ATOMIC);
+=======
+<<<<<<< HEAD
+		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD,
+				      GFP_ATOMIC);
+=======
+		sas_notify_port_event(sas_phy, PORTE_BROADCAST_RCVD);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 end:
 	hisi_sas_phy_write32(hisi_hba, phy_no, CHL_INT2,
@@ -1453,8 +1462,17 @@ static irqreturn_t int_abnormal_v1_hw(int irq, void *p)
 		u32 phy_state = hisi_sas_read32(hisi_hba, PHY_STATE);
 
 		hisi_sas_phy_down(hisi_hba, phy_no,
+<<<<<<< HEAD
 				  (phy_state & 1 << phy_no) ? 1 : 0,
 				  GFP_ATOMIC);
+=======
+<<<<<<< HEAD
+				  (phy_state & 1 << phy_no) ? 1 : 0,
+				  GFP_ATOMIC);
+=======
+				  (phy_state & 1 << phy_no) ? 1 : 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (irq_value & CHL_INT0_ID_TIMEOUT_MSK)
@@ -1646,7 +1664,11 @@ static int interrupt_init_v1_hw(struct hisi_hba *hisi_hba)
 		idx = i * HISI_SAS_PHY_INT_NR;
 		for (j = 0; j < HISI_SAS_PHY_INT_NR; j++, idx++) {
 			irq = platform_get_irq(pdev, idx);
+<<<<<<< HEAD
+			if (irq < 0) {
+=======
 			if (!irq) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				dev_err(dev, "irq init: fail map phy interrupt %d\n",
 					idx);
 				return -ENOENT;
@@ -1665,7 +1687,11 @@ static int interrupt_init_v1_hw(struct hisi_hba *hisi_hba)
 	idx = hisi_hba->n_phy * HISI_SAS_PHY_INT_NR;
 	for (i = 0; i < hisi_hba->queue_count; i++, idx++) {
 		irq = platform_get_irq(pdev, idx);
+<<<<<<< HEAD
+		if (irq < 0) {
+=======
 		if (!irq) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_err(dev, "irq init: could not map cq interrupt %d\n",
 				idx);
 			return -ENOENT;
@@ -1683,7 +1709,11 @@ static int interrupt_init_v1_hw(struct hisi_hba *hisi_hba)
 	idx = (hisi_hba->n_phy * HISI_SAS_PHY_INT_NR) + hisi_hba->queue_count;
 	for (i = 0; i < HISI_SAS_FATAL_INT_NR; i++, idx++) {
 		irq = platform_get_irq(pdev, idx);
+<<<<<<< HEAD
+		if (irq < 0) {
+=======
 		if (!irq) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_err(dev, "irq init: could not map fatal interrupt %d\n",
 				idx);
 			return -ENOENT;

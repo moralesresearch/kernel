@@ -97,7 +97,11 @@ struct revectored_struct {
 struct vm86_struct {
 	struct vm86_regs regs;
 	unsigned long flags;
+<<<<<<< HEAD
 	unsigned long screen_bitmap;		/* unused, preserved by vm86() */
+=======
+	unsigned long screen_bitmap;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long cpu_type;
 	struct revectored_struct int_revectored;
 	struct revectored_struct int21_revectored;
@@ -106,7 +110,11 @@ struct vm86_struct {
 /*
  * flags masks
  */
+<<<<<<< HEAD
 #define VM86_SCREEN_BITMAP	0x0001        /* no longer supported */
+=======
+#define VM86_SCREEN_BITMAP	0x0001
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct vm86plus_info_struct {
 	unsigned long force_return_for_pic:1;

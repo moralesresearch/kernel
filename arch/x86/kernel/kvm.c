@@ -26,6 +26,10 @@
 #include <linux/kprobes.h>
 #include <linux/nmi.h>
 #include <linux/swait.h>
+<<<<<<< HEAD
+#include <linux/syscore_ops.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/timer.h>
 #include <asm/cpu.h>
 #include <asm/traps.h>
@@ -37,6 +41,10 @@
 #include <asm/tlb.h>
 #include <asm/cpuidle_haltpoll.h>
 #include <asm/ptrace.h>
+<<<<<<< HEAD
+#include <asm/reboot.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/svm.h>
 
 DEFINE_STATIC_KEY_FALSE(kvm_async_pf_enabled);
@@ -374,6 +382,17 @@ static void kvm_pv_disable_apf(void)
 	pr_info("Unregister pv shared memory for cpu %d\n", smp_processor_id());
 }
 
+<<<<<<< HEAD
+static void kvm_disable_steal_time(void)
+{
+	if (!has_steal_clock)
+		return;
+
+	wrmsr(MSR_KVM_STEAL_TIME, 0, 0);
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void kvm_pv_guest_cpu_reboot(void *unused)
 {
 	/*
@@ -416,6 +435,8 @@ static u64 kvm_steal_clock(int cpu)
 	return steal;
 }
 
+<<<<<<< HEAD
+=======
 void kvm_disable_steal_time(void)
 {
 	if (!has_steal_clock)
@@ -424,6 +445,7 @@ void kvm_disable_steal_time(void)
 	wrmsr(MSR_KVM_STEAL_TIME, 0, 0);
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void __set_percpu_decrypted(void *ptr, unsigned long size)
 {
 	early_set_memory_decrypted((unsigned long) ptr, size);
@@ -460,6 +482,30 @@ static bool pv_tlb_flush_supported(void)
 
 static DEFINE_PER_CPU(cpumask_var_t, __pv_cpu_mask);
 
+<<<<<<< HEAD
+static void kvm_guest_cpu_offline(bool shutdown)
+{
+	kvm_disable_steal_time();
+	if (kvm_para_has_feature(KVM_FEATURE_PV_EOI))
+		wrmsrl(MSR_KVM_PV_EOI_EN, 0);
+	kvm_pv_disable_apf();
+	if (!shutdown)
+		apf_task_wake_all();
+	kvmclock_disable();
+}
+
+static int kvm_cpu_online(unsigned int cpu)
+{
+	unsigned long flags;
+
+	local_irq_save(flags);
+	kvm_guest_cpu_init();
+	local_irq_restore(flags);
+	return 0;
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_SMP
 
 static bool pv_ipi_supported(void)
@@ -587,6 +633,48 @@ static void __init kvm_smp_prepare_boot_cpu(void)
 	kvm_spinlock_init();
 }
 
+<<<<<<< HEAD
+static int kvm_cpu_down_prepare(unsigned int cpu)
+{
+	unsigned long flags;
+
+	local_irq_save(flags);
+	kvm_guest_cpu_offline(false);
+	local_irq_restore(flags);
+	return 0;
+}
+
+#endif
+
+static int kvm_suspend(void)
+{
+	kvm_guest_cpu_offline(false);
+
+	return 0;
+}
+
+static void kvm_resume(void)
+{
+	kvm_cpu_online(raw_smp_processor_id());
+}
+
+static struct syscore_ops kvm_syscore_ops = {
+	.suspend	= kvm_suspend,
+	.resume		= kvm_resume,
+};
+
+/*
+ * After a PV feature is registered, the host will keep writing to the
+ * registered memory location. If the guest happens to shutdown, this memory
+ * won't be valid. In cases like kexec, in which you install a new kernel, this
+ * means a random memory location will be kept being written.
+ */
+#ifdef CONFIG_KEXEC_CORE
+static void kvm_crash_shutdown(struct pt_regs *regs)
+{
+	kvm_guest_cpu_offline(true);
+	native_machine_crash_shutdown(regs);
+=======
 static void kvm_guest_cpu_offline(void)
 {
 	kvm_disable_steal_time();
@@ -610,6 +698,7 @@ static int kvm_cpu_down_prepare(unsigned int cpu)
 	kvm_guest_cpu_offline();
 	local_irq_enable();
 	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif
 
@@ -681,6 +770,15 @@ static void __init kvm_guest_init(void)
 	kvm_guest_cpu_init();
 #endif
 
+<<<<<<< HEAD
+#ifdef CONFIG_KEXEC_CORE
+	machine_ops.crash_shutdown = kvm_crash_shutdown;
+#endif
+
+	register_syscore_ops(&kvm_syscore_ops);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Hard lockup detection is enabled by default. Disable it, as guests
 	 * can get false positives too easily, for example if the host is
@@ -836,14 +934,28 @@ static void kvm_kick_cpu(int cpu)
 
 static void kvm_wait(u8 *ptr, u8 val)
 {
+<<<<<<< HEAD
 	if (in_nmi())
 		return;
 
+=======
+	unsigned long flags;
+
+	if (in_nmi())
+		return;
+
+	local_irq_save(flags);
+
+	if (READ_ONCE(*ptr) != val)
+		goto out;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * halt until it's our turn and kicked. Note that we do safe halt
 	 * for irq enabled case to avoid hang when lock info is overwritten
 	 * in irq spinlock slowpath and no spurious interrupt occur to save us.
 	 */
+<<<<<<< HEAD
 	if (irqs_disabled()) {
 		if (READ_ONCE(*ptr) == val)
 			halt();
@@ -855,6 +967,15 @@ static void kvm_wait(u8 *ptr, u8 val)
 
 		local_irq_enable();
 	}
+=======
+	if (arch_irqs_disabled_flags(flags))
+		halt();
+	else
+		safe_halt();
+
+out:
+	local_irq_restore(flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_X86_32

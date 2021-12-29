@@ -345,6 +345,18 @@ static inline enum comp_state do_read(struct rxe_qp *qp,
 
 	ret = copy_data(qp->pd, IB_ACCESS_LOCAL_WRITE,
 			&wqe->dma, payload_addr(pkt),
+<<<<<<< HEAD
+			payload_size(pkt), to_mr_obj, NULL);
+	if (ret) {
+		wqe->status = IB_WC_LOC_PROT_ERR;
+		return COMPST_ERROR;
+	}
+
+	if (wqe->dma.resid == 0 && (pkt->mask & RXE_END_MASK))
+		return COMPST_COMP_ACK;
+
+	return COMPST_UPDATE_COMP;
+=======
 			payload_size(pkt), to_mem_obj, NULL);
 	if (ret)
 		return COMPST_ERROR;
@@ -353,6 +365,7 @@ static inline enum comp_state do_read(struct rxe_qp *qp,
 		return COMPST_COMP_ACK;
 	else
 		return COMPST_UPDATE_COMP;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline enum comp_state do_atomic(struct rxe_qp *qp,
@@ -365,11 +378,21 @@ static inline enum comp_state do_atomic(struct rxe_qp *qp,
 
 	ret = copy_data(qp->pd, IB_ACCESS_LOCAL_WRITE,
 			&wqe->dma, &atomic_orig,
+<<<<<<< HEAD
+			sizeof(u64), to_mr_obj, NULL);
+	if (ret) {
+		wqe->status = IB_WC_LOC_PROT_ERR;
+		return COMPST_ERROR;
+	}
+
+	return COMPST_COMP_ACK;
+=======
 			sizeof(u64), to_mem_obj, NULL);
 	if (ret)
 		return COMPST_ERROR;
 	else
 		return COMPST_COMP_ACK;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void make_send_cqe(struct rxe_qp *qp, struct rxe_send_wqe *wqe,
@@ -515,7 +538,10 @@ static void rxe_drain_resp_pkts(struct rxe_qp *qp, bool notify)
 	while ((skb = skb_dequeue(&qp->resp_pkts))) {
 		rxe_drop_ref(qp);
 		kfree_skb(skb);
+<<<<<<< HEAD
 		ib_device_put(qp->ibqp.device);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	while ((wqe = queue_head(qp->sq.queue))) {
@@ -528,6 +554,7 @@ static void rxe_drain_resp_pkts(struct rxe_qp *qp, bool notify)
 	}
 }
 
+<<<<<<< HEAD
 static void free_pkt(struct rxe_pkt_info *pkt)
 {
 	struct sk_buff *skb = PKT_TO_SKB(pkt);
@@ -539,6 +566,8 @@ static void free_pkt(struct rxe_pkt_info *pkt)
 	ib_device_put(dev);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int rxe_completer(void *arg)
 {
 	struct rxe_qp *qp = (struct rxe_qp *)arg;
@@ -547,7 +576,10 @@ int rxe_completer(void *arg)
 	struct sk_buff *skb = NULL;
 	struct rxe_pkt_info *pkt = NULL;
 	enum comp_state state;
+<<<<<<< HEAD
 	int ret = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rxe_add_ref(qp);
 
@@ -555,8 +587,12 @@ int rxe_completer(void *arg)
 	    qp->req.state == QP_STATE_RESET) {
 		rxe_drain_resp_pkts(qp, qp->valid &&
 				    qp->req.state == QP_STATE_ERROR);
+<<<<<<< HEAD
 		ret = -EAGAIN;
 		goto done;
+=======
+		goto exit;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (qp->comp.timeout) {
@@ -566,10 +602,15 @@ int rxe_completer(void *arg)
 		qp->comp.timeout_retry = 0;
 	}
 
+<<<<<<< HEAD
 	if (qp->req.need_retry) {
 		ret = -EAGAIN;
 		goto done;
 	}
+=======
+	if (qp->req.need_retry)
+		goto exit;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	state = COMPST_GET_ACK;
 
@@ -640,6 +681,14 @@ int rxe_completer(void *arg)
 			break;
 
 		case COMPST_DONE:
+<<<<<<< HEAD
+=======
+			if (pkt) {
+				rxe_drop_ref(pkt->qp);
+				kfree_skb(skb);
+				skb = NULL;
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto done;
 
 		case COMPST_EXIT:
@@ -662,8 +711,12 @@ int rxe_completer(void *arg)
 			    qp->qp_timeout_jiffies)
 				mod_timer(&qp->retrans_timer,
 					  jiffies + qp->qp_timeout_jiffies);
+<<<<<<< HEAD
 			ret = -EAGAIN;
 			goto done;
+=======
+			goto exit;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		case COMPST_ERROR_RETRY:
 			/* we come here if the retry timer fired and we did
@@ -675,18 +728,35 @@ int rxe_completer(void *arg)
 			 */
 
 			/* there is nothing to retry in this case */
+<<<<<<< HEAD
 			if (!wqe || (wqe->state == wqe_state_posted)) {
 				pr_warn("Retry attempted without a valid wqe\n");
 				ret = -EAGAIN;
 				goto done;
 			}
+=======
+			if (!wqe || (wqe->state == wqe_state_posted))
+				goto exit;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			/* if we've started a retry, don't start another
 			 * retry sequence, unless this is a timeout.
 			 */
 			if (qp->comp.started_retry &&
+<<<<<<< HEAD
 			    !qp->comp.timeout_retry)
 				goto done;
+=======
+			    !qp->comp.timeout_retry) {
+				if (pkt) {
+					rxe_drop_ref(pkt->qp);
+					kfree_skb(skb);
+					skb = NULL;
+				}
+
+				goto done;
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (qp->comp.retry_cnt > 0) {
 				if (qp->comp.retry_cnt != 7)
@@ -707,6 +777,16 @@ int rxe_completer(void *arg)
 					qp->comp.started_retry = 1;
 					rxe_run_task(&qp->req.task, 0);
 				}
+<<<<<<< HEAD
+=======
+
+				if (pkt) {
+					rxe_drop_ref(pkt->qp);
+					kfree_skb(skb);
+					skb = NULL;
+				}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				goto done;
 
 			} else {
@@ -727,8 +807,15 @@ int rxe_completer(void *arg)
 				mod_timer(&qp->rnr_nak_timer,
 					  jiffies + rnrnak_jiffies(aeth_syn(pkt)
 						& ~AETH_TYPE_MASK));
+<<<<<<< HEAD
 				ret = -EAGAIN;
 				goto done;
+=======
+				rxe_drop_ref(pkt->qp);
+				kfree_skb(skb);
+				skb = NULL;
+				goto exit;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			} else {
 				rxe_counter_inc(rxe,
 						RXE_CNT_RNR_RETRY_EXCEEDED);
@@ -741,6 +828,7 @@ int rxe_completer(void *arg)
 			WARN_ON_ONCE(wqe->status == IB_WC_SUCCESS);
 			do_complete(qp, wqe);
 			rxe_qp_error(qp);
+<<<<<<< HEAD
 			ret = -EAGAIN;
 			goto done;
 		}
@@ -752,4 +840,32 @@ done:
 	rxe_drop_ref(qp);
 
 	return ret;
+=======
+
+			if (pkt) {
+				rxe_drop_ref(pkt->qp);
+				kfree_skb(skb);
+				skb = NULL;
+			}
+
+			goto exit;
+		}
+	}
+
+exit:
+	/* we come here if we are done with processing and want the task to
+	 * exit from the loop calling us
+	 */
+	WARN_ON_ONCE(skb);
+	rxe_drop_ref(qp);
+	return -EAGAIN;
+
+done:
+	/* we come here if we have processed a packet we want the task to call
+	 * us again to see if there is anything else to do
+	 */
+	WARN_ON_ONCE(skb);
+	rxe_drop_ref(qp);
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

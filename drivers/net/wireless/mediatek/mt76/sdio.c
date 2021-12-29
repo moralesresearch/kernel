@@ -256,6 +256,12 @@ mt76s_tx_queue_skb(struct mt76_dev *dev, struct mt76_queue *q,
 
 	q->entry[q->head].skb = tx_info.skb;
 	q->entry[q->head].buf_sz = len;
+<<<<<<< HEAD
+
+	smp_wmb();
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	q->head = (q->head + 1) % q->ndesc;
 	q->queued++;
 

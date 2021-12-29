@@ -423,7 +423,11 @@ err_out_shost:
 err_out_nodev:
 	for (i = 0; i < pm8001_ha->max_memcnt; i++) {
 		if (pm8001_ha->memoryMap.region[i].virt_ptr != NULL) {
+<<<<<<< HEAD
 			dma_free_coherent(&pm8001_ha->pdev->dev,
+=======
+			pci_free_consistent(pm8001_ha->pdev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				(pm8001_ha->memoryMap.region[i].total_len +
 				pm8001_ha->memoryMap.region[i].alignment),
 				pm8001_ha->memoryMap.region[i].virt_ptr,
@@ -466,12 +470,18 @@ static int pm8001_ioremap(struct pm8001_hba_info *pm8001_ha)
 			pm8001_ha->io_mem[logicalBar].memvirtaddr =
 				ioremap(pm8001_ha->io_mem[logicalBar].membase,
 				pm8001_ha->io_mem[logicalBar].memsize);
+<<<<<<< HEAD
 			if (!pm8001_ha->io_mem[logicalBar].memvirtaddr) {
 				pm8001_dbg(pm8001_ha, INIT,
 					"Failed to ioremap bar %d, logicalBar %d",
 				   bar, logicalBar);
 				return -ENOMEM;
 			}
+=======
+			pm8001_dbg(pm8001_ha, INIT,
+				   "PCI: bar %d, logicalBar %d\n",
+				   bar, logicalBar);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			pm8001_dbg(pm8001_ha, INIT,
 				   "base addr %llx virt_addr=%llx len=%d\n",
 				   (u64)pm8001_ha->io_mem[logicalBar].membase,
@@ -543,11 +553,17 @@ static struct pm8001_hba_info *pm8001_pci_alloc(struct pci_dev *pdev,
 			tasklet_init(&pm8001_ha->tasklet[j], pm8001_tasklet,
 				(unsigned long)&(pm8001_ha->irq_vector[j]));
 #endif
+<<<<<<< HEAD
 	if (pm8001_ioremap(pm8001_ha))
 		goto failed_pci_alloc;
 	if (!pm8001_alloc(pm8001_ha, ent))
 		return pm8001_ha;
 failed_pci_alloc:
+=======
+	pm8001_ioremap(pm8001_ha);
+	if (!pm8001_alloc(pm8001_ha, ent))
+		return pm8001_ha;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm8001_free(pm8001_ha);
 	return NULL;
 }
@@ -1144,8 +1160,13 @@ static int pm8001_pci_probe(struct pci_dev *pdev,
 		goto err_out_shost;
 	}
 	list_add_tail(&pm8001_ha->list, &hba_list);
+<<<<<<< HEAD
+	pm8001_ha->flags = PM8001F_RUN_TIME;
+	scsi_scan_host(pm8001_ha->shost);
+=======
 	scsi_scan_host(pm8001_ha->shost);
 	pm8001_ha->flags = PM8001F_RUN_TIME;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 err_out_shost:
@@ -1197,6 +1218,7 @@ pm8001_init_ccb_tag(struct pm8001_hba_info *pm8001_ha, struct Scsi_Host *shost,
 		goto err_out_noccb;
 	}
 	for (i = 0; i < ccb_count; i++) {
+<<<<<<< HEAD
 		pm8001_ha->ccb_info[i].buf_prd = dma_alloc_coherent(&pdev->dev,
 				sizeof(struct pm8001_prd) * PM8001_MAX_DMA_SG,
 				&pm8001_ha->ccb_info[i].ccb_dma_handle,
@@ -1204,6 +1226,14 @@ pm8001_init_ccb_tag(struct pm8001_hba_info *pm8001_ha, struct Scsi_Host *shost,
 		if (!pm8001_ha->ccb_info[i].buf_prd) {
 			pm8001_dbg(pm8001_ha, FAIL,
 				   "ccb prd memory allocation error\n");
+=======
+		pm8001_ha->ccb_info[i].buf_prd = pci_alloc_consistent(pdev,
+				sizeof(struct pm8001_prd) * PM8001_MAX_DMA_SG,
+				&pm8001_ha->ccb_info[i].ccb_dma_handle);
+		if (!pm8001_ha->ccb_info[i].buf_prd) {
+			pm8001_dbg(pm8001_ha, FAIL,
+				   "pm80xx: ccb prd memory allocation error\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto err_out;
 		}
 		pm8001_ha->ccb_info[i].task = NULL;

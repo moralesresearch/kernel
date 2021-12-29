@@ -185,6 +185,7 @@ int drm_simple_encoder_init(struct drm_device *dev,
 			    struct drm_encoder *encoder,
 			    int encoder_type);
 
+<<<<<<< HEAD
 void *__drmm_simple_encoder_alloc(struct drm_device *dev, size_t size,
 				  size_t offset, int encoder_type);
 
@@ -209,4 +210,6 @@ void *__drmm_simple_encoder_alloc(struct drm_device *dev, size_t size,
 					     offsetof(type, member), \
 					     encoder_type))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __LINUX_DRM_SIMPLE_KMS_HELPER_H */

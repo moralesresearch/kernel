@@ -2833,6 +2833,7 @@ void wait_on_page_writeback(struct page *page)
 }
 EXPORT_SYMBOL_GPL(wait_on_page_writeback);
 
+<<<<<<< HEAD
 /*
  * Wait for a page to complete writeback.  Returns -EINTR if we get a
  * fatal signal while waiting.
@@ -2849,6 +2850,8 @@ int wait_on_page_writeback_killable(struct page *page)
 }
 EXPORT_SYMBOL_GPL(wait_on_page_writeback_killable);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * wait_for_stable_page() - wait for writeback to finish, if necessary.
  * @page:	The page to wait on.

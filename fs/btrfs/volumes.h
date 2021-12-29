@@ -214,7 +214,10 @@ BTRFS_DEVICE_GETSET_FUNCS(bytes_used);
 
 enum btrfs_chunk_allocation_policy {
 	BTRFS_CHUNK_ALLOC_REGULAR,
+<<<<<<< HEAD
 	BTRFS_CHUNK_ALLOC_ZONED,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -424,7 +427,10 @@ static inline enum btrfs_map_op btrfs_op(struct bio *bio)
 	case REQ_OP_DISCARD:
 		return BTRFS_MAP_DISCARD;
 	case REQ_OP_WRITE:
+<<<<<<< HEAD
 	case REQ_OP_ZONE_APPEND:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return BTRFS_MAP_WRITE;
 	default:
 		WARN_ON_ONCE(1);
@@ -442,9 +448,14 @@ int btrfs_map_block(struct btrfs_fs_info *fs_info, enum btrfs_map_op op,
 int btrfs_map_sblock(struct btrfs_fs_info *fs_info, enum btrfs_map_op op,
 		     u64 logical, u64 *length,
 		     struct btrfs_bio **bbio_ret);
+<<<<<<< HEAD
 int btrfs_get_io_geometry(struct btrfs_fs_info *fs_info, struct extent_map *map,
 			  enum btrfs_map_op op, u64 logical, u64 len,
 			  struct btrfs_io_geometry *io_geom);
+=======
+int btrfs_get_io_geometry(struct btrfs_fs_info *fs_info, enum btrfs_map_op op,
+		u64 logical, u64 len, struct btrfs_io_geometry *io_geom);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int btrfs_read_sys_array(struct btrfs_fs_info *fs_info);
 int btrfs_read_chunk_tree(struct btrfs_fs_info *fs_info);
 int btrfs_alloc_chunk(struct btrfs_trans_handle *trans, u64 type);
@@ -599,6 +610,9 @@ void btrfs_scratch_superblocks(struct btrfs_fs_info *fs_info,
 int btrfs_bg_type_to_factor(u64 flags);
 const char *btrfs_bg_type_to_raid_name(u64 flags);
 int btrfs_verify_dev_extents(struct btrfs_fs_info *fs_info);
+<<<<<<< HEAD
 int btrfs_repair_one_zone(struct btrfs_fs_info *fs_info, u64 logical);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif

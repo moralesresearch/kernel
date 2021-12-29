@@ -13,7 +13,14 @@
 #include <linux/ktime.h>
 #include <linux/genhd.h>
 #include <linux/blk-mq.h>
+<<<<<<< HEAD
 #include <linux/keyslot-manager.h>
+=======
+<<<<<<< HEAD
+#include <linux/keyslot-manager.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <trace/events/block.h>
 
@@ -167,10 +174,19 @@ struct dm_table {
 	void *event_context;
 
 	struct dm_md_mempools *mempools;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_BLK_INLINE_ENCRYPTION
 	struct blk_keyslot_manager *ksm;
 #endif
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct completion *dm_get_completion_from_kobject(struct kobject *kobj)

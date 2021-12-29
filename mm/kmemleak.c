@@ -97,7 +97,10 @@
 #include <linux/atomic.h>
 
 #include <linux/kasan.h>
+<<<<<<< HEAD
 #include <linux/kfence.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kmemleak.h>
 #include <linux/memory_hotplug.h>
 
@@ -590,7 +593,11 @@ static struct kmemleak_object *create_object(unsigned long ptr, size_t size,
 	atomic_set(&object->use_count, 1);
 	object->flags = OBJECT_ALLOCATED;
 	object->pointer = ptr;
+<<<<<<< HEAD
 	object->size = kfence_ksize((void *)ptr) ?: size;
+=======
+	object->size = size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	object->excess_ref = 0;
 	object->min_count = min_count;
 	object->count = 0;			/* white color initially */

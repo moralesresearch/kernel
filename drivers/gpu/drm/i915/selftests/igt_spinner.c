@@ -3,7 +3,10 @@
  *
  * Copyright © 2018 Intel Corporation
  */
+<<<<<<< HEAD
 #include "gt/intel_gpu_commands.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_gt.h"
 
 #include "gem/selftests/igt_gem_utils.h"
@@ -220,9 +223,12 @@ void igt_spinner_fini(struct igt_spinner *spin)
 
 bool igt_wait_for_spinner(struct igt_spinner *spin, struct i915_request *rq)
 {
+<<<<<<< HEAD
 	if (i915_request_is_ready(rq))
 		intel_engine_flush_submission(rq->engine);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return !(wait_for_us(i915_seqno_passed(hws_seqno(spin, rq),
 					       rq->fence.seqno),
 			     100) &&

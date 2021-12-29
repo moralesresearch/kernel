@@ -10,7 +10,10 @@
  */
 #include <linux/clk.h>
 #include <linux/crypto.h>
+<<<<<<< HEAD
 #include <linux/debugfs.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/io.h>
 #include <linux/module.h>
 #include <linux/of.h>
@@ -235,6 +238,7 @@ static struct sun4i_ss_alg_template ss_algs[] = {
 #endif
 };
 
+<<<<<<< HEAD
 static int sun4i_ss_dbgfs_read(struct seq_file *seq, void *v)
 {
 	unsigned int i;
@@ -280,6 +284,8 @@ static const struct file_operations sun4i_ss_debugfs_fops = {
 	.release = single_release,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Power management strategy: The device is suspended unless a TFM exists for
  * one of the algorithms proposed by this driver.
@@ -459,7 +465,11 @@ static int sun4i_ss_probe(struct platform_device *pdev)
 	 * this info could be useful
 	 */
 
+<<<<<<< HEAD
+	err = pm_runtime_resume_and_get(ss->dev);
+=======
 	err = pm_runtime_get_sync(ss->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		goto error_pm;
 
@@ -500,12 +510,15 @@ static int sun4i_ss_probe(struct platform_device *pdev)
 			break;
 		}
 	}
+<<<<<<< HEAD
 
 	/* Ignore error of debugfs */
 	ss->dbgfs_dir = debugfs_create_dir("sun4i-ss", NULL);
 	ss->dbgfs_stats = debugfs_create_file("stats", 0444, ss->dbgfs_dir, ss,
 					      &sun4i_ss_debugfs_fops);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 error_alg:
 	i--;

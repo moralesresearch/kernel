@@ -1766,7 +1766,11 @@ static int bq24190_probe(struct i2c_client *client,
 	charger_cfg.drv_data = bdi;
 	charger_cfg.of_node = dev->of_node;
 	charger_cfg.supplied_to = bq24190_charger_supplied_to;
+<<<<<<< HEAD
 	charger_cfg.num_supplicants = ARRAY_SIZE(bq24190_charger_supplied_to);
+=======
+	charger_cfg.num_supplicants = ARRAY_SIZE(bq24190_charger_supplied_to),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bdi->charger = power_supply_register(dev, &bq24190_charger_desc,
 						&charger_cfg);
 	if (IS_ERR(bdi->charger)) {

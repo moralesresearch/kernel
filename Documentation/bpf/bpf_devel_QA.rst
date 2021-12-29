@@ -501,6 +501,7 @@ All LLVM releases can be found at: http://releases.llvm.org/
 
 Q: Got it, so how do I build LLVM manually anyway?
 --------------------------------------------------
+<<<<<<< HEAD
 A: We recommend that developers who want the fastest incremental builds
 use the Ninja build system, you can find it in your system's package
 manager, usually the package is ninja or ninja-build.
@@ -514,6 +515,18 @@ from the git repositories::
      $ cd llvm-project/llvm/build
      $ cmake .. -G "Ninja" -DLLVM_TARGETS_TO_BUILD="BPF;X86" \
                 -DLLVM_ENABLE_PROJECTS="clang"    \
+=======
+A: You need cmake and gcc-c++ as build requisites for LLVM. Once you have
+that set up, proceed with building the latest LLVM and clang version
+from the git repositories::
+
+     $ git clone https://github.com/llvm/llvm-project.git
+     $ mkdir -p llvm-project/llvm/build/install
+     $ cd llvm-project/llvm/build
+     $ cmake .. -G "Ninja" -DLLVM_TARGETS_TO_BUILD="BPF;X86" \
+                -DLLVM_ENABLE_PROJECTS="clang"    \
+                -DBUILD_SHARED_LIBS=OFF           \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
                 -DCMAKE_BUILD_TYPE=Release        \
                 -DLLVM_BUILD_RUNTIME=OFF
      $ ninja

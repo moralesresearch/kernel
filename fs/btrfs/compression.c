@@ -80,10 +80,22 @@ static int compression_compress_pages(int type, struct list_head *ws,
 	case BTRFS_COMPRESS_NONE:
 	default:
 		/*
+<<<<<<< HEAD
+		 * This can happen when compression races with remount setting
+		 * it to 'no compress', while caller doesn't call
+		 * inode_need_compress() to check if we really need to
+		 * compress.
+		 *
+		 * Not a big deal, just need to inform caller that we
+		 * haven't allocated any pages yet.
+		 */
+		*out_pages = 0;
+=======
 		 * This can't happen, the type is validated several times
 		 * before we get here. As a sane fallback, return what the
 		 * callers will understand as 'no compression happened'.
 		 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -E2BIG;
 	}
 }
@@ -141,7 +153,10 @@ static int check_compressed_csum(struct btrfs_inode *inode, struct bio *bio,
 	struct btrfs_fs_info *fs_info = inode->root->fs_info;
 	SHASH_DESC_ON_STACK(shash, fs_info->csum_shash);
 	const u32 csum_size = fs_info->csum_size;
+<<<<<<< HEAD
 	const u32 sectorsize = fs_info->sectorsize;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct page *page;
 	unsigned long i;
 	char *kaddr;
@@ -155,6 +170,7 @@ static int check_compressed_csum(struct btrfs_inode *inode, struct bio *bio,
 	shash->tfm = fs_info->csum_shash;
 
 	for (i = 0; i < cb->nr_pages; i++) {
+<<<<<<< HEAD
 		u32 pg_offset;
 		u32 bytes_left = PAGE_SIZE;
 		page = cb->compressed_pages[i];
@@ -183,6 +199,24 @@ static int check_compressed_csum(struct btrfs_inode *inode, struct bio *bio,
 			cb_sum += csum_size;
 			disk_start += sectorsize;
 		}
+=======
+		page = cb->compressed_pages[i];
+
+		kaddr = kmap_atomic(page);
+		crypto_shash_digest(shash, kaddr, PAGE_SIZE, csum);
+		kunmap_atomic(kaddr);
+
+		if (memcmp(&csum, cb_sum, csum_size)) {
+			btrfs_print_data_csum_error(inode, disk_start,
+					csum, cb_sum, cb->mirror_num);
+			if (btrfs_io_bio(bio)->device)
+				btrfs_dev_stat_inc_and_print(
+					btrfs_io_bio(bio)->device,
+					BTRFS_DEV_STAT_CORRUPTION_ERRS);
+			return -EIO;
+		}
+		cb_sum += csum_size;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	return 0;
 }
@@ -555,11 +589,16 @@ static noinline int add_ra_bio_pages(struct inode *inode,
 			goto next;
 		}
 
+<<<<<<< HEAD
+=======
+		end = last_offset + PAGE_SIZE - 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * at this point, we have a locked page in the page cache
 		 * for these bytes in the file.  But, we have to make
 		 * sure they map to this compressed extent on disk.
 		 */
+<<<<<<< HEAD
 		ret = set_page_extent_mapped(page);
 		if (ret < 0) {
 			unlock_page(page);
@@ -568,6 +607,9 @@ static noinline int add_ra_bio_pages(struct inode *inode,
 		}
 
 		end = last_offset + PAGE_SIZE - 1;
+=======
+		set_page_extent_mapped(page);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		lock_extent(tree, last_offset, end);
 		read_lock(&em_tree->lock);
 		em = lookup_extent_mapping(em_tree, last_offset,
@@ -653,7 +695,11 @@ blk_status_t btrfs_submit_compressed_read(struct inode *inode, struct bio *bio,
 	read_lock(&em_tree->lock);
 	em = lookup_extent_mapping(em_tree,
 				   page_offset(bio_first_page_all(bio)),
+<<<<<<< HEAD
 				   fs_info->sectorsize);
+=======
+				   PAGE_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	read_unlock(&em_tree->lock);
 	if (!em)
 		return BLK_STS_IOERR;
@@ -711,6 +757,7 @@ blk_status_t btrfs_submit_compressed_read(struct inode *inode, struct bio *bio,
 	refcount_set(&cb->pending_bios, 1);
 
 	for (pg_index = 0; pg_index < nr_pages; pg_index++) {
+<<<<<<< HEAD
 		u32 pg_len = PAGE_SIZE;
 		int submit = 0;
 
@@ -725,16 +772,29 @@ blk_status_t btrfs_submit_compressed_read(struct inode *inode, struct bio *bio,
 			pg_len = min_t(u32, PAGE_SIZE,
 					compressed_len - pg_index * PAGE_SIZE);
 
+=======
+		int submit = 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		page = cb->compressed_pages[pg_index];
 		page->mapping = inode->i_mapping;
 		page->index = em_start >> PAGE_SHIFT;
 
 		if (comp_bio->bi_iter.bi_size)
+<<<<<<< HEAD
 			submit = btrfs_bio_fits_in_stripe(page, pg_len,
 							  comp_bio, 0);
 
 		page->mapping = NULL;
 		if (submit || bio_add_page(comp_bio, page, pg_len, 0) < pg_len) {
+=======
+			submit = btrfs_bio_fits_in_stripe(page, PAGE_SIZE,
+							  comp_bio, 0);
+
+		page->mapping = NULL;
+		if (submit || bio_add_page(comp_bio, page, PAGE_SIZE, 0) <
+		    PAGE_SIZE) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			unsigned int nr_sectors;
 
 			ret = btrfs_bio_wq_end_io(fs_info, comp_bio,
@@ -767,9 +827,15 @@ blk_status_t btrfs_submit_compressed_read(struct inode *inode, struct bio *bio,
 			comp_bio->bi_private = cb;
 			comp_bio->bi_end_io = end_compressed_bio_read;
 
+<<<<<<< HEAD
 			bio_add_page(comp_bio, page, pg_len, 0);
 		}
 		cur_disk_byte += pg_len;
+=======
+			bio_add_page(comp_bio, page, PAGE_SIZE, 0);
+		}
+		cur_disk_byte += PAGE_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ret = btrfs_bio_wq_end_io(fs_info, comp_bio, BTRFS_WQ_ENDIO_DATA);
@@ -1261,6 +1327,10 @@ int btrfs_decompress_buf2page(const char *buf, unsigned long buf_start,
 	unsigned long prev_start_byte;
 	unsigned long working_bytes = total_out - buf_start;
 	unsigned long bytes;
+<<<<<<< HEAD
+=======
+	char *kaddr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bio_vec bvec = bio_iter_iovec(bio, bio->bi_iter);
 
 	/*
@@ -1291,8 +1361,14 @@ int btrfs_decompress_buf2page(const char *buf, unsigned long buf_start,
 				PAGE_SIZE - (buf_offset % PAGE_SIZE));
 		bytes = min(bytes, working_bytes);
 
+<<<<<<< HEAD
 		memcpy_to_page(bvec.bv_page, bvec.bv_offset, buf + buf_offset,
 			       bytes);
+=======
+		kaddr = kmap_atomic(bvec.bv_page);
+		memcpy(kaddr + bvec.bv_offset, buf + buf_offset, bytes);
+		kunmap_atomic(kaddr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		flush_dcache_page(bvec.bv_page);
 
 		buf_offset += bytes;

@@ -35,6 +35,10 @@
 #include <linux/ipv6.h>
 #include <linux/tcp.h>
 #include <linux/mlx5/fs.h>
+<<<<<<< HEAD
+#include <linux/mlx5/mpfs.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "en.h"
 #include "lib/mpfs.h"
 
@@ -46,6 +50,10 @@ static void mlx5e_del_l2_flow_rule(struct mlx5e_priv *priv,
 enum {
 	MLX5E_FULLMATCH = 0,
 	MLX5E_ALLMULTI  = 1,
+<<<<<<< HEAD
+=======
+	MLX5E_PROMISC   = 2,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum {
@@ -305,6 +313,7 @@ static int mlx5e_add_any_vid_rules(struct mlx5e_priv *priv)
 	return mlx5e_add_vlan_rule(priv, MLX5E_VLAN_RULE_TYPE_ANY_STAG_VID, 0);
 }
 
+<<<<<<< HEAD
 static struct mlx5_flow_handle *
 mlx5e_add_trap_rule(struct mlx5_flow_table *ft, int trap_id, int tir_num)
 {
@@ -378,6 +387,8 @@ void mlx5e_remove_mac_trap(struct mlx5e_priv *priv)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mlx5e_enable_cvlan_filter(struct mlx5e_priv *priv)
 {
 	if (!priv->fs.vlan.cvlan_filter_disabled)
@@ -491,8 +502,11 @@ static void mlx5e_del_vlan_rules(struct mlx5e_priv *priv)
 
 	WARN_ON_ONCE(!(test_bit(MLX5E_STATE_DESTROYING, &priv->state)));
 
+<<<<<<< HEAD
 	mlx5e_remove_vlan_trap(priv);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* must be called after DESTROY bit is set and
 	 * set_rx_mode is called and flushed
 	 */
@@ -670,6 +684,7 @@ static void mlx5e_handle_netdev_addr(struct mlx5e_priv *priv)
 	mlx5e_apply_netdev_addr(priv);
 }
 
+<<<<<<< HEAD
 #define MLX5E_PROMISC_GROUP0_SIZE BIT(0)
 #define MLX5E_PROMISC_TABLE_SIZE MLX5E_PROMISC_GROUP0_SIZE
 
@@ -747,6 +762,8 @@ static void mlx5e_destroy_promisc_table(struct mlx5e_priv *priv)
 	priv->fs.promisc.ft.t = NULL;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mlx5e_set_rx_mode_work(struct work_struct *work)
 {
 	struct mlx5e_priv *priv = container_of(work, struct mlx5e_priv,
@@ -766,6 +783,7 @@ void mlx5e_set_rx_mode_work(struct work_struct *work)
 	bool disable_allmulti  =  ea->allmulti_enabled  && !allmulti_enabled;
 	bool enable_broadcast  = !ea->broadcast_enabled &&  broadcast_enabled;
 	bool disable_broadcast =  ea->broadcast_enabled && !broadcast_enabled;
+<<<<<<< HEAD
 	int err;
 
 	if (enable_promisc) {
@@ -775,6 +793,16 @@ void mlx5e_set_rx_mode_work(struct work_struct *work)
 		if (!priv->channels.params.vlan_strip_disable && !err)
 			netdev_warn_once(ndev,
 					 "S-tagged traffic will be dropped while C-tag vlan stripping is enabled\n");
+=======
+
+	if (enable_promisc) {
+		if (!priv->channels.params.vlan_strip_disable)
+			netdev_warn_once(ndev,
+					 "S-tagged traffic will be dropped while C-tag vlan stripping is enabled\n");
+		mlx5e_add_l2_flow_rule(priv, &ea->promisc, MLX5E_PROMISC);
+		if (!priv->fs.vlan.cvlan_filter_disabled)
+			mlx5e_add_any_vid_rules(priv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (enable_allmulti)
 		mlx5e_add_l2_flow_rule(priv, &ea->allmulti, MLX5E_ALLMULTI);
@@ -787,8 +815,16 @@ void mlx5e_set_rx_mode_work(struct work_struct *work)
 		mlx5e_del_l2_flow_rule(priv, &ea->broadcast);
 	if (disable_allmulti)
 		mlx5e_del_l2_flow_rule(priv, &ea->allmulti);
+<<<<<<< HEAD
 	if (disable_promisc)
 		mlx5e_destroy_promisc_table(priv);
+=======
+	if (disable_promisc) {
+		if (!priv->fs.vlan.cvlan_filter_disabled)
+			mlx5e_del_any_vid_rules(priv);
+		mlx5e_del_l2_flow_rule(priv, &ea->promisc);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ea->promisc_enabled   = promisc_enabled;
 	ea->allmulti_enabled  = allmulti_enabled;
@@ -1455,6 +1491,12 @@ static int mlx5e_add_l2_flow_rule(struct mlx5e_priv *priv,
 		mc_dmac[0] = 0x01;
 		mv_dmac[0] = 0x01;
 		break;
+<<<<<<< HEAD
+=======
+
+	case MLX5E_PROMISC:
+		break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ai->rule = mlx5_add_flow_rules(ft, spec, &flow_act, &dest, 1);
@@ -1471,12 +1513,21 @@ static int mlx5e_add_l2_flow_rule(struct mlx5e_priv *priv,
 }
 
 #define MLX5E_NUM_L2_GROUPS	   3
+<<<<<<< HEAD
 #define MLX5E_L2_GROUP1_SIZE	   BIT(15)
 #define MLX5E_L2_GROUP2_SIZE	   BIT(0)
 #define MLX5E_L2_GROUP_TRAP_SIZE   BIT(0) /* must be last */
 #define MLX5E_L2_TABLE_SIZE	   (MLX5E_L2_GROUP1_SIZE +\
 				    MLX5E_L2_GROUP2_SIZE +\
 				    MLX5E_L2_GROUP_TRAP_SIZE)
+=======
+#define MLX5E_L2_GROUP1_SIZE	   BIT(0)
+#define MLX5E_L2_GROUP2_SIZE	   BIT(15)
+#define MLX5E_L2_GROUP3_SIZE	   BIT(0)
+#define MLX5E_L2_TABLE_SIZE	   (MLX5E_L2_GROUP1_SIZE +\
+				    MLX5E_L2_GROUP2_SIZE +\
+				    MLX5E_L2_GROUP3_SIZE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mlx5e_create_l2_table_groups(struct mlx5e_l2_table *l2_table)
 {
 	int inlen = MLX5_ST_SZ_BYTES(create_flow_group_in);
@@ -1499,9 +1550,13 @@ static int mlx5e_create_l2_table_groups(struct mlx5e_l2_table *l2_table)
 	mc = MLX5_ADDR_OF(create_flow_group_in, in, match_criteria);
 	mc_dmac = MLX5_ADDR_OF(fte_match_param, mc,
 			       outer_headers.dmac_47_16);
+<<<<<<< HEAD
 	/* Flow Group for full match */
 	eth_broadcast_addr(mc_dmac);
 	MLX5_SET_CFG(in, match_criteria_enable, MLX5_MATCH_OUTER_HEADERS);
+=======
+	/* Flow Group for promiscuous */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MLX5_SET_CFG(in, start_flow_index, ix);
 	ix += MLX5E_L2_GROUP1_SIZE;
 	MLX5_SET_CFG(in, end_flow_index, ix - 1);
@@ -1510,9 +1565,15 @@ static int mlx5e_create_l2_table_groups(struct mlx5e_l2_table *l2_table)
 		goto err_destroy_groups;
 	ft->num_groups++;
 
+<<<<<<< HEAD
 	/* Flow Group for allmulti */
 	eth_zero_addr(mc_dmac);
 	mc_dmac[0] = 0x01;
+=======
+	/* Flow Group for full match */
+	eth_broadcast_addr(mc_dmac);
+	MLX5_SET_CFG(in, match_criteria_enable, MLX5_MATCH_OUTER_HEADERS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MLX5_SET_CFG(in, start_flow_index, ix);
 	ix += MLX5E_L2_GROUP2_SIZE;
 	MLX5_SET_CFG(in, end_flow_index, ix - 1);
@@ -1521,10 +1582,18 @@ static int mlx5e_create_l2_table_groups(struct mlx5e_l2_table *l2_table)
 		goto err_destroy_groups;
 	ft->num_groups++;
 
+<<<<<<< HEAD
 	/* Flow Group for l2 traps */
 	memset(in, 0, inlen);
 	MLX5_SET_CFG(in, start_flow_index, ix);
 	ix += MLX5E_L2_GROUP_TRAP_SIZE;
+=======
+	/* Flow Group for allmulti */
+	eth_zero_addr(mc_dmac);
+	mc_dmac[0] = 0x01;
+	MLX5_SET_CFG(in, start_flow_index, ix);
+	ix += MLX5E_L2_GROUP3_SIZE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	MLX5_SET_CFG(in, end_flow_index, ix - 1);
 	ft->g[ft->num_groups] = mlx5_create_flow_group(ft->t, in);
 	if (IS_ERR(ft->g[ft->num_groups]))
@@ -1582,17 +1651,28 @@ err_destroy_flow_table:
 	return err;
 }
 
+<<<<<<< HEAD
 #define MLX5E_NUM_VLAN_GROUPS	5
+=======
+#define MLX5E_NUM_VLAN_GROUPS	4
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MLX5E_VLAN_GROUP0_SIZE	BIT(12)
 #define MLX5E_VLAN_GROUP1_SIZE	BIT(12)
 #define MLX5E_VLAN_GROUP2_SIZE	BIT(1)
 #define MLX5E_VLAN_GROUP3_SIZE	BIT(0)
+<<<<<<< HEAD
 #define MLX5E_VLAN_GROUP_TRAP_SIZE BIT(0) /* must be last */
 #define MLX5E_VLAN_TABLE_SIZE	(MLX5E_VLAN_GROUP0_SIZE +\
 				 MLX5E_VLAN_GROUP1_SIZE +\
 				 MLX5E_VLAN_GROUP2_SIZE +\
 				 MLX5E_VLAN_GROUP3_SIZE +\
 				 MLX5E_VLAN_GROUP_TRAP_SIZE)
+=======
+#define MLX5E_VLAN_TABLE_SIZE	(MLX5E_VLAN_GROUP0_SIZE +\
+				 MLX5E_VLAN_GROUP1_SIZE +\
+				 MLX5E_VLAN_GROUP2_SIZE +\
+				 MLX5E_VLAN_GROUP3_SIZE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int __mlx5e_create_vlan_table_groups(struct mlx5e_flow_table *ft, u32 *in,
 					    int inlen)
@@ -1647,6 +1727,7 @@ static int __mlx5e_create_vlan_table_groups(struct mlx5e_flow_table *ft, u32 *in
 		goto err_destroy_groups;
 	ft->num_groups++;
 
+<<<<<<< HEAD
 	memset(in, 0, inlen);
 	MLX5_SET_CFG(in, start_flow_index, ix);
 	ix += MLX5E_VLAN_GROUP_TRAP_SIZE;
@@ -1656,6 +1737,8 @@ static int __mlx5e_create_vlan_table_groups(struct mlx5e_flow_table *ft, u32 *in
 		goto err_destroy_groups;
 	ft->num_groups++;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 
 err_destroy_groups:

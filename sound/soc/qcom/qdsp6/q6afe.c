@@ -1681,7 +1681,11 @@ int q6afe_unvote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
 EXPORT_SYMBOL(q6afe_unvote_lpass_core_hw);
 
 int q6afe_vote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
+<<<<<<< HEAD
+			     const char *client_name, uint32_t *client_handle)
+=======
 			     char *client_name, uint32_t *client_handle)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct q6afe *afe = dev_get_drvdata(dev->parent);
 	struct afe_cmd_remote_lpass_core_hw_vote_request *vote_cfg;
@@ -1707,7 +1711,11 @@ int q6afe_vote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
 	pkt->hdr.token = hw_block_id;
 	pkt->hdr.opcode = AFE_CMD_REMOTE_LPASS_CORE_HW_VOTE_REQUEST;
 	vote_cfg->hw_block_id = hw_block_id;
+<<<<<<< HEAD
 	strscpy(vote_cfg->client_name, client_name,
+=======
+	strlcpy(vote_cfg->client_name, client_name,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			sizeof(vote_cfg->client_name));
 
 	ret = afe_apr_send_pkt(afe, pkt, NULL,

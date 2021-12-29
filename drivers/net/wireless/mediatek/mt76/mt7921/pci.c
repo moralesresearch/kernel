@@ -137,7 +137,11 @@ static int mt7921_pci_probe(struct pci_dev *pdev,
 
 	mt76_wr(dev, MT_WFDMA0_HOST_INT_ENA, 0);
 
+<<<<<<< HEAD
+	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
+=======
 	mt7921_l1_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = devm_request_irq(mdev->dev, pdev->irq, mt7921_irq_handler,
 			       IRQF_SHARED, KBUILD_MODNAME, dev);
@@ -146,10 +150,19 @@ static int mt7921_pci_probe(struct pci_dev *pdev,
 
 	ret = mt7921_register_device(dev);
 	if (ret)
+<<<<<<< HEAD
+		goto err_free_irq;
+
+	return 0;
+
+err_free_irq:
+	devm_free_irq(&pdev->dev, pdev->irq, dev);
+=======
 		goto err_free_dev;
 
 	return 0;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_free_dev:
 	mt76_free_device(&dev->mt76);
 err_free_pci_vec:
@@ -193,7 +206,10 @@ static int mt7921_pci_suspend(struct pci_dev *pdev, pm_message_t state)
 	mt76_for_each_q_rx(mdev, i) {
 		napi_disable(&mdev->napi[i]);
 	}
+<<<<<<< HEAD
+=======
 	tasklet_kill(&dev->irq_tasklet);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pci_enable_wake(pdev, pci_choose_state(pdev, state), true);
 
@@ -208,6 +224,18 @@ static int mt7921_pci_suspend(struct pci_dev *pdev, pm_message_t state)
 
 	/* disable interrupt */
 	mt76_wr(dev, MT_WFDMA0_HOST_INT_ENA, 0);
+<<<<<<< HEAD
+	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0x0);
+	synchronize_irq(pdev->irq);
+	tasklet_kill(&dev->irq_tasklet);
+
+	err = mt7921_mcu_fw_pmctrl(dev);
+	if (err)
+		goto restore;
+
+	pci_save_state(pdev);
+	err = pci_set_power_state(pdev, pci_choose_state(pdev, state));
+=======
 
 	pci_save_state(pdev);
 	err = pci_set_power_state(pdev, pci_choose_state(pdev, state));
@@ -215,6 +243,7 @@ static int mt7921_pci_suspend(struct pci_dev *pdev, pm_message_t state)
 		goto restore;
 
 	err = mt7921_mcu_drv_pmctrl(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto restore;
 
@@ -237,18 +266,30 @@ static int mt7921_pci_resume(struct pci_dev *pdev)
 	struct mt7921_dev *dev = container_of(mdev, struct mt7921_dev, mt76);
 	int i, err;
 
+<<<<<<< HEAD
+=======
 	err = mt7921_mcu_fw_pmctrl(dev);
 	if (err < 0)
 		return err;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = pci_set_power_state(pdev, PCI_D0);
 	if (err)
 		return err;
 
 	pci_restore_state(pdev);
 
+<<<<<<< HEAD
+	err = mt7921_mcu_drv_pmctrl(dev);
+	if (err < 0)
+		return err;
+
+	/* enable interrupt */
+	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
+=======
 	/* enable interrupt */
 	mt7921_l1_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mt7921_irq_enable(dev, MT_INT_RX_DONE_ALL | MT_INT_TX_DONE_ALL |
 			  MT_INT_MCU_CMD);
 

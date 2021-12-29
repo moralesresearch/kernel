@@ -35,7 +35,10 @@ struct gk104_fifo {
 		struct list_head cgrp;
 		struct list_head chan;
 		u32 engm;
+<<<<<<< HEAD
 		u32 engm_sw;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} runlist[16];
 	int runlist_nr;
 
@@ -88,6 +91,7 @@ struct gk104_fifo_func {
 	bool cgrp_force;
 };
 
+<<<<<<< HEAD
 struct gk104_fifo_engine_status {
 	bool busy;
 	bool faulted;
@@ -101,10 +105,14 @@ struct gk104_fifo_engine_status {
 };
 
 int gk104_fifo_new_(const struct gk104_fifo_func *, struct nvkm_device *, enum nvkm_subdev_type,
+=======
+int gk104_fifo_new_(const struct gk104_fifo_func *, struct nvkm_device *,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    int index, int nr, struct nvkm_fifo **);
 void gk104_fifo_runlist_insert(struct gk104_fifo *, struct gk104_fifo_chan *);
 void gk104_fifo_runlist_remove(struct gk104_fifo *, struct gk104_fifo_chan *);
 void gk104_fifo_runlist_update(struct gk104_fifo *, int runl);
+<<<<<<< HEAD
 void gk104_fifo_engine_status(struct gk104_fifo *fifo, int engn,
 			      struct gk104_fifo_engine_status *status);
 void gk104_fifo_intr_bind(struct gk104_fifo *fifo);
@@ -125,6 +133,8 @@ int gk104_fifo_class_get(struct nvkm_fifo *base, int index,
 			 struct nvkm_oclass *oclass);
 void gk104_fifo_uevent_fini(struct nvkm_fifo *fifo);
 void gk104_fifo_uevent_init(struct nvkm_fifo *fifo);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern const struct gk104_fifo_pbdma_func gk104_fifo_pbdma;
 int gk104_fifo_pbdma_nr(struct gk104_fifo *);

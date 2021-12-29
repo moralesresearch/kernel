@@ -197,7 +197,10 @@ static int cmp_u32(const void *_a, const void *_b)
 
 static int __live_heartbeat_fast(struct intel_engine_cs *engine)
 {
+<<<<<<< HEAD
 	const unsigned int error_threshold = max(20000u, jiffies_to_usecs(6));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct intel_context *ce;
 	struct i915_request *rq;
 	ktime_t t0, t1;
@@ -255,6 +258,7 @@ static int __live_heartbeat_fast(struct intel_engine_cs *engine)
 		times[0],
 		times[ARRAY_SIZE(times) - 1]);
 
+<<<<<<< HEAD
 	/*
 	 * Ideally, the upper bound on min work delay would be something like
 	 * 2 * 2 (worst), +1 for scheduling, +1 for slack. In practice, we
@@ -267,6 +271,14 @@ static int __live_heartbeat_fast(struct intel_engine_cs *engine)
 		       engine->name,
 		       times[ARRAY_SIZE(times) / 2],
 		       error_threshold);
+=======
+	/* Min work delay is 2 * 2 (worst), +1 for scheduling, +1 for slack */
+	if (times[ARRAY_SIZE(times) / 2] > jiffies_to_usecs(6)) {
+		pr_err("%s: Heartbeat delay was %uus, expected less than %dus\n",
+		       engine->name,
+		       times[ARRAY_SIZE(times) / 2],
+		       jiffies_to_usecs(6));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 	}
 

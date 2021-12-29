@@ -1736,19 +1736,43 @@ static int bpf_prog_release(struct inode *inode, struct file *filp)
 static void bpf_prog_get_stats(const struct bpf_prog *prog,
 			       struct bpf_prog_stats *stats)
 {
+<<<<<<< HEAD
 	u64 nsecs = 0, cnt = 0, misses = 0;
+=======
+<<<<<<< HEAD
+	u64 nsecs = 0, cnt = 0, misses = 0;
+=======
+	u64 nsecs = 0, cnt = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int cpu;
 
 	for_each_possible_cpu(cpu) {
 		const struct bpf_prog_stats *st;
 		unsigned int start;
+<<<<<<< HEAD
 		u64 tnsecs, tcnt, tmisses;
 
 		st = per_cpu_ptr(prog->stats, cpu);
+=======
+<<<<<<< HEAD
+		u64 tnsecs, tcnt, tmisses;
+
+		st = per_cpu_ptr(prog->stats, cpu);
+=======
+		u64 tnsecs, tcnt;
+
+		st = per_cpu_ptr(prog->aux->stats, cpu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		do {
 			start = u64_stats_fetch_begin_irq(&st->syncp);
 			tnsecs = st->nsecs;
 			tcnt = st->cnt;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tmisses = st->misses;
 		} while (u64_stats_fetch_retry_irq(&st->syncp, start));
 		nsecs += tnsecs;
@@ -1758,6 +1782,17 @@ static void bpf_prog_get_stats(const struct bpf_prog *prog,
 	stats->nsecs = nsecs;
 	stats->cnt = cnt;
 	stats->misses = misses;
+<<<<<<< HEAD
+=======
+=======
+		} while (u64_stats_fetch_retry_irq(&st->syncp, start));
+		nsecs += tnsecs;
+		cnt += tcnt;
+	}
+	stats->nsecs = nsecs;
+	stats->cnt = cnt;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PROC_FS
@@ -1776,16 +1811,34 @@ static void bpf_prog_show_fdinfo(struct seq_file *m, struct file *filp)
 		   "memlock:\t%llu\n"
 		   "prog_id:\t%u\n"
 		   "run_time_ns:\t%llu\n"
+<<<<<<< HEAD
 		   "run_cnt:\t%llu\n"
 		   "recursion_misses:\t%llu\n",
+=======
+<<<<<<< HEAD
+		   "run_cnt:\t%llu\n"
+		   "recursion_misses:\t%llu\n",
+=======
+		   "run_cnt:\t%llu\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   prog->type,
 		   prog->jited,
 		   prog_tag,
 		   prog->pages * 1ULL << PAGE_SHIFT,
 		   prog->aux->id,
 		   stats.nsecs,
+<<<<<<< HEAD
 		   stats.cnt,
 		   stats.misses);
+=======
+<<<<<<< HEAD
+		   stats.cnt,
+		   stats.misses);
+=======
+		   stats.cnt);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #endif
 
@@ -3448,7 +3501,14 @@ static int bpf_prog_get_info_by_fd(struct file *file,
 	bpf_prog_get_stats(prog, &stats);
 	info.run_time_ns = stats.nsecs;
 	info.run_cnt = stats.cnt;
+<<<<<<< HEAD
 	info.recursion_misses = stats.misses;
+=======
+<<<<<<< HEAD
+	info.recursion_misses = stats.misses;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!bpf_capable()) {
 		info.jited_prog_len = 0;

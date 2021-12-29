@@ -355,7 +355,11 @@ struct tee_iocl_supp_send_arg {
 };
 
 /**
+<<<<<<< HEAD
  * TEE_IOC_SUPPL_SEND - Send a response to a received request
+=======
+ * TEE_IOC_SUPPL_SEND - Receive a request for a supplicant function
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Takes a struct tee_ioctl_buf_data which contains a struct
  * tee_iocl_supp_send_arg followed by any array of struct tee_param

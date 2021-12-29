@@ -243,7 +243,11 @@ int copy_thread(unsigned long clone_flags, unsigned long stack_start,
 	thread->cpu_domain = get_domain();
 #endif
 
+<<<<<<< HEAD
 	if (likely(!(p->flags & (PF_KTHREAD | PF_IO_WORKER)))) {
+=======
+	if (likely(!(p->flags & PF_KTHREAD))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*childregs = *current_pt_regs();
 		childregs->ARM_r0 = 0;
 		if (stack_start)

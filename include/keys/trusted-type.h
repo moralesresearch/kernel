@@ -30,6 +30,10 @@ struct trusted_key_options {
 	uint16_t keytype;
 	uint32_t keyhandle;
 	unsigned char keyauth[TPM_DIGEST_SIZE];
+<<<<<<< HEAD
+	uint32_t blobauth_len;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned char blobauth[TPM_DIGEST_SIZE];
 	uint32_t pcrinfo_len;
 	unsigned char pcrinfo[MAX_PCRINFO_SIZE];

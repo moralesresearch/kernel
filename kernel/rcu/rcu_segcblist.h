@@ -15,9 +15,12 @@ static inline long rcu_cblist_n_cbs(struct rcu_cblist *rclp)
 	return READ_ONCE(rclp->len);
 }
 
+<<<<<<< HEAD
 /* Return number of callbacks in segmented callback list by summing seglen. */
 long rcu_segcblist_n_segment_cbs(struct rcu_segcblist *rsclp);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void rcu_cblist_init(struct rcu_cblist *rclp);
 void rcu_cblist_enqueue(struct rcu_cblist *rclp, struct rcu_head *rhp);
 void rcu_cblist_flush_enqueue(struct rcu_cblist *drclp,
@@ -53,6 +56,7 @@ static inline long rcu_segcblist_n_cbs(struct rcu_segcblist *rsclp)
 #endif
 }
 
+<<<<<<< HEAD
 static inline void rcu_segcblist_set_flags(struct rcu_segcblist *rsclp,
 					   int flags)
 {
@@ -71,12 +75,15 @@ static inline bool rcu_segcblist_test_flags(struct rcu_segcblist *rsclp,
 	return READ_ONCE(rsclp->flags) & flags;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Is the specified rcu_segcblist enabled, for example, not corresponding
  * to an offline CPU?
  */
 static inline bool rcu_segcblist_is_enabled(struct rcu_segcblist *rsclp)
 {
+<<<<<<< HEAD
 	return rcu_segcblist_test_flags(rsclp, SEGCBLIST_ENABLED);
 }
 
@@ -98,6 +105,15 @@ static inline bool rcu_segcblist_completely_offloaded(struct rcu_segcblist *rscl
 		return true;
 
 	return false;
+=======
+	return rsclp->enabled;
+}
+
+/* Is the specified rcu_segcblist offloaded?  */
+static inline bool rcu_segcblist_is_offloaded(struct rcu_segcblist *rsclp)
+{
+	return IS_ENABLED(CONFIG_RCU_NOCB_CPU) && rsclp->offloaded;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -110,6 +126,7 @@ static inline bool rcu_segcblist_restempty(struct rcu_segcblist *rsclp, int seg)
 	return !READ_ONCE(*READ_ONCE(rsclp->tails[seg]));
 }
 
+<<<<<<< HEAD
 /*
  * Is the specified segment of the specified rcu_segcblist structure
  * empty of callbacks?
@@ -126,6 +143,12 @@ void rcu_segcblist_add_len(struct rcu_segcblist *rsclp, long v);
 void rcu_segcblist_init(struct rcu_segcblist *rsclp);
 void rcu_segcblist_disable(struct rcu_segcblist *rsclp);
 void rcu_segcblist_offload(struct rcu_segcblist *rsclp, bool offload);
+=======
+void rcu_segcblist_inc_len(struct rcu_segcblist *rsclp);
+void rcu_segcblist_init(struct rcu_segcblist *rsclp);
+void rcu_segcblist_disable(struct rcu_segcblist *rsclp);
+void rcu_segcblist_offload(struct rcu_segcblist *rsclp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool rcu_segcblist_ready_cbs(struct rcu_segcblist *rsclp);
 bool rcu_segcblist_pend_cbs(struct rcu_segcblist *rsclp);
 struct rcu_head *rcu_segcblist_first_cb(struct rcu_segcblist *rsclp);
@@ -135,6 +158,11 @@ void rcu_segcblist_enqueue(struct rcu_segcblist *rsclp,
 			   struct rcu_head *rhp);
 bool rcu_segcblist_entrain(struct rcu_segcblist *rsclp,
 			   struct rcu_head *rhp);
+<<<<<<< HEAD
+=======
+void rcu_segcblist_extract_count(struct rcu_segcblist *rsclp,
+				 struct rcu_cblist *rclp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void rcu_segcblist_extract_done_cbs(struct rcu_segcblist *rsclp,
 				    struct rcu_cblist *rclp);
 void rcu_segcblist_extract_pend_cbs(struct rcu_segcblist *rsclp,

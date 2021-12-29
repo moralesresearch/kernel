@@ -18,7 +18,11 @@
 #include <asm/virt.h>
 
 	.text
+<<<<<<< HEAD
 	.pushsection	.idmap.text, "ax"
+=======
+	.pushsection	.hyp.idmap.text, "ax"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	.align	11
 
@@ -57,10 +61,24 @@ __do_hyp_init:
 	cmp	x0, #HVC_STUB_HCALL_NR
 	b.lo	__kvm_handle_stub_hvc
 
+<<<<<<< HEAD
 	mov	x3, #KVM_HOST_SMCCC_FUNC(__kvm_hyp_init)
 	cmp	x0, x3
 	b.eq	1f
 
+=======
+	// We only actively check bits [24:31], and everything
+	// else has to be zero, which we check at build time.
+#if (KVM_HOST_SMCCC_FUNC(__kvm_hyp_init) & 0xFFFFFFFF00FFFFFF)
+#error Unexpected __KVM_HOST_SMCCC_FUNC___kvm_hyp_init value
+#endif
+
+	ror	x0, x0, #24
+	eor	x0, x0, #((KVM_HOST_SMCCC_FUNC(__kvm_hyp_init) >> 24) & 0xF)
+	ror	x0, x0, #4
+	eor	x0, x0, #((KVM_HOST_SMCCC_FUNC(__kvm_hyp_init) >> 28) & 0xF)
+	cbz	x0, 1f
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mov	x0, #SMCCC_RET_NOT_SUPPORTED
 	eret
 
@@ -134,6 +152,10 @@ alternative_else_nop_endif
 
 	/* Set the host vector */
 	ldr	x0, =__kvm_hyp_host_vector
+<<<<<<< HEAD
+=======
+	kimg_hyp_va x0, x1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	msr	vbar_el2, x0
 
 	ret
@@ -183,7 +205,11 @@ SYM_CODE_START_LOCAL(__kvm_hyp_init_cpu)
 2:	msr	SPsel, #1			// We want to use SP_EL{1,2}
 
 	/* Initialize EL2 CPU state to sane values. */
+<<<<<<< HEAD
 	init_el2_state				// Clobbers x0..x2
+=======
+	init_el2_state nvhe			// Clobbers x0..x2
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Enable MMU, set vectors and stack. */
 	mov	x0, x28
@@ -192,6 +218,10 @@ SYM_CODE_START_LOCAL(__kvm_hyp_init_cpu)
 	/* Leave idmap. */
 	mov	x0, x29
 	ldr	x1, =kvm_host_psci_cpu_entry
+<<<<<<< HEAD
+=======
+	kimg_hyp_va x1, x2
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	br	x1
 SYM_CODE_END(__kvm_hyp_init_cpu)
 

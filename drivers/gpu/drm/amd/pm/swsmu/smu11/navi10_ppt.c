@@ -1110,7 +1110,10 @@ static int navi10_force_clk_levels(struct smu_context *smu,
 	case SMU_SOCCLK:
 	case SMU_MCLK:
 	case SMU_UCLK:
+<<<<<<< HEAD
+=======
 	case SMU_DCEFCLK:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case SMU_FCLK:
 		/* There is only 2 levels for fine grained DPM */
 		if (navi10_is_support_fine_grained_dpm(smu, clk_type)) {
@@ -1130,6 +1133,13 @@ static int navi10_force_clk_levels(struct smu_context *smu,
 		if (ret)
 			return size;
 		break;
+<<<<<<< HEAD
+	case SMU_DCEFCLK:
+		dev_info(smu->adev->dev,"Setting DCEFCLK min/max dpm level is not supported!\n");
+		break;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		break;
 	}
@@ -1317,6 +1327,7 @@ static bool navi10_is_dpm_running(struct smu_context *smu)
 	return !!(feature_enabled & SMC_DPM_FEATURE);
 }
 
+<<<<<<< HEAD
 static int navi10_get_fan_speed_percent(struct smu_context *smu,
 					uint32_t *speed)
 {
@@ -1338,6 +1349,17 @@ static int navi10_get_fan_speed_percent(struct smu_context *smu,
 		*speed = smu->user_dpm_profile.fan_speed_percent;
 		return 0;
 	}
+=======
+static int navi10_get_fan_speed_rpm(struct smu_context *smu,
+				    uint32_t *speed)
+{
+	if (!speed)
+		return -EINVAL;
+
+	return navi10_get_smu_metrics_data(smu,
+					   METRICS_CURR_FANSPEED,
+					   speed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int navi10_get_fan_parameters(struct smu_context *smu)
@@ -1685,7 +1707,11 @@ static int navi10_read_sensor(struct smu_context *smu,
 		*size = 4;
 		break;
 	case AMDGPU_PP_SENSOR_GFX_SCLK:
+<<<<<<< HEAD
 		ret = navi10_get_smu_metrics_data(smu, METRICS_AVERAGE_GFXCLK, (uint32_t *)data);
+=======
+		ret = navi10_get_current_clk_freq_by_table(smu, SMU_GFXCLK, (uint32_t *)data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		*(uint32_t *)data *= 100;
 		*size = 4;
 		break;
@@ -2314,7 +2340,11 @@ static ssize_t navi10_get_gpu_metrics(struct smu_context *smu,
 
 	mutex_unlock(&smu->metrics_lock);
 
+<<<<<<< HEAD
 	smu_cmn_init_soft_gpu_metrics(gpu_metrics, 1, 0);
+=======
+	smu_v11_0_init_gpu_metrics_v1_0(gpu_metrics);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	gpu_metrics->temperature_edge = metrics.TemperatureEdge;
 	gpu_metrics->temperature_hotspot = metrics.TemperatureHotspot;
@@ -2354,8 +2384,11 @@ static ssize_t navi10_get_gpu_metrics(struct smu_context *smu,
 	gpu_metrics->pcie_link_speed =
 			smu_v11_0_get_current_pcie_link_speed(smu);
 
+<<<<<<< HEAD
 	gpu_metrics->system_clock_counter = ktime_get_boottime_ns();
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*table = (void *)gpu_metrics;
 
 	return sizeof(struct gpu_metrics_v1_0);
@@ -2363,6 +2396,11 @@ static ssize_t navi10_get_gpu_metrics(struct smu_context *smu,
 
 static int navi10_enable_mgpu_fan_boost(struct smu_context *smu)
 {
+<<<<<<< HEAD
+	struct smu_table_context *table_context = &smu->smu_table;
+	PPTable_t *smc_pptable = table_context->driver_pptable;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct amdgpu_device *adev = smu->adev;
 	uint32_t param = 0;
 
@@ -2370,6 +2408,16 @@ static int navi10_enable_mgpu_fan_boost(struct smu_context *smu)
 	if (adev->asic_type == CHIP_NAVI12)
 		return 0;
 
+<<<<<<< HEAD
+	/*
+	 * Skip the MGpuFanBoost setting for those ASICs
+	 * which do not support it
+	 */
+	if (!smc_pptable->MGpuFanBoostLimitRpm)
+		return 0;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Workaround for WS SKU */
 	if (adev->pdev->device == 0x7312 &&
 	    adev->pdev->revision == 0)
@@ -2427,7 +2475,11 @@ static const struct pptable_funcs navi10_ppt_funcs = {
 	.display_config_changed = navi10_display_config_changed,
 	.notify_smc_display_config = navi10_notify_smc_display_config,
 	.is_dpm_running = navi10_is_dpm_running,
+<<<<<<< HEAD
 	.get_fan_speed_percent = navi10_get_fan_speed_percent,
+=======
+	.get_fan_speed_rpm = navi10_get_fan_speed_rpm,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_power_profile_mode = navi10_get_power_profile_mode,
 	.set_power_profile_mode = navi10_set_power_profile_mode,
 	.set_watermarks_table = navi10_set_watermarks_table,
@@ -2471,6 +2523,10 @@ static const struct pptable_funcs navi10_ppt_funcs = {
 	.get_fan_control_mode = smu_v11_0_get_fan_control_mode,
 	.set_fan_control_mode = smu_v11_0_set_fan_control_mode,
 	.set_fan_speed_percent = smu_v11_0_set_fan_speed_percent,
+<<<<<<< HEAD
+=======
+	.set_fan_speed_rpm = smu_v11_0_set_fan_speed_rpm,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.set_xgmi_pstate = smu_v11_0_set_xgmi_pstate,
 	.gfx_off_control = smu_v11_0_gfx_off_control,
 	.register_irq_handler = smu_v11_0_register_irq_handler,

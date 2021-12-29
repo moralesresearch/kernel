@@ -31,7 +31,11 @@
 #if IS_ENABLED(CONFIG_SONY_LAPTOP)
 int sony_pic_camera_command(int command, u8 value);
 #else
+<<<<<<< HEAD
 static inline int sony_pic_camera_command(int command, u8 value) { return 0; }
+=======
+static inline int sony_pic_camera_command(int command, u8 value) { return 0; };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #endif	/* __KERNEL__ */

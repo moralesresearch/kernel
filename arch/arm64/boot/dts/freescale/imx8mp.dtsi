@@ -218,12 +218,19 @@
 	};
 
 	soc@0 {
+<<<<<<< HEAD
 		compatible = "fsl,imx8mp-soc", "simple-bus";
 		#address-cells = <1>;
 		#size-cells = <1>;
 		ranges = <0x0 0x0 0x0 0x3e000000>;
 		nvmem-cells = <&imx8mp_uid>;
 		nvmem-cell-names = "soc_unique_id";
+=======
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges = <0x0 0x0 0x0 0x3e000000>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		aips1: bus@30000000 {
 			compatible = "fsl,aips-bus", "simple-bus";
@@ -330,6 +337,7 @@
 				#address-cells = <1>;
 				#size-cells = <1>;
 
+<<<<<<< HEAD
 				imx8mp_uid: unique-id@420 {
 					reg = <0x8 0x8>;
 				};
@@ -341,6 +349,11 @@
 				eth_mac1: mac-address@90 {
 					reg = <0x90 6>;
 				};
+=======
+				cpu_speed_grade: speed-grade@10 {
+					reg = <0x10 4>;
+				};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			anatop: anatop@30360000 {
@@ -772,6 +785,7 @@
 				assigned-clocks = <&clk IMX8MP_CLK_ENET_AXI>,
 						  <&clk IMX8MP_CLK_ENET_TIMER>,
 						  <&clk IMX8MP_CLK_ENET_REF>,
+<<<<<<< HEAD
 						  <&clk IMX8MP_CLK_ENET_PHY_REF>;
 				assigned-clock-parents = <&clk IMX8MP_SYS_PLL1_266M>,
 							 <&clk IMX8MP_SYS_PLL2_100M>,
@@ -784,6 +798,15 @@
 				nvmem-cell-names = "mac-address";
 				fsl,stop-mode = <&gpr 0x10 3>;
 				nvmem_macaddr_swap;
+=======
+						  <&clk IMX8MP_CLK_ENET_TIMER>;
+				assigned-clock-parents = <&clk IMX8MP_SYS_PLL1_266M>,
+							 <&clk IMX8MP_SYS_PLL2_100M>,
+							 <&clk IMX8MP_SYS_PLL2_125M>;
+				assigned-clock-rates = <0>, <0>, <125000000>, <100000000>;
+				fsl,num-tx-queues = <3>;
+				fsl,num-rx-queues = <3>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				status = "disabled";
 			};
 		};
@@ -803,6 +826,7 @@
 			reg = <0x3d800000 0x400000>;
 			interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
 		};
+<<<<<<< HEAD
 
 		usb3_phy0: usb-phy@381f0040 {
 			compatible = "fsl,imx8mp-usb-phy";
@@ -885,5 +909,7 @@
 				snps,dis-u2-freeclk-exists-quirk;
 			};
 		};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };

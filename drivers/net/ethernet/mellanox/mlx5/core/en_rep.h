@@ -59,8 +59,11 @@ struct mlx5e_neigh_update_table {
 
 struct mlx5_tc_ct_priv;
 struct mlx5e_rep_bond;
+<<<<<<< HEAD
 struct mlx5e_tc_tun_encap;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mlx5_rep_uplink_priv {
 	/* Filters DB - instantiated by the uplink representor and shared by
 	 * the uplink's VFs
@@ -92,9 +95,12 @@ struct mlx5_rep_uplink_priv {
 
 	/* support eswitch vports bonding */
 	struct mlx5e_rep_bond *bond;
+<<<<<<< HEAD
 
 	/* tc tunneling encapsulation private data */
 	struct mlx5e_tc_tun_encap *encap;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct mlx5e_rep_priv {
@@ -115,6 +121,10 @@ struct mlx5e_rep_priv *mlx5e_rep_to_rep_priv(struct mlx5_eswitch_rep *rep)
 }
 
 struct mlx5e_neigh {
+<<<<<<< HEAD
+=======
+	struct net_device *dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union {
 		__be32	v4;
 		struct in6_addr v6;
@@ -126,7 +136,10 @@ struct mlx5e_neigh_hash_entry {
 	struct rhash_head rhash_node;
 	struct mlx5e_neigh m_neigh;
 	struct mlx5e_priv *priv;
+<<<<<<< HEAD
 	struct net_device *neigh_dev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Save the neigh hash entry in a list on the representor in
 	 * addition to the hash table. In order to iterate easily over the
@@ -158,7 +171,10 @@ enum {
 	/* set when the encap entry is successfully offloaded into HW */
 	MLX5_ENCAP_ENTRY_VALID     = BIT(0),
 	MLX5_REFORMAT_DECAP        = BIT(1),
+<<<<<<< HEAD
 	MLX5_ENCAP_ENTRY_NO_ROUTE  = BIT(2),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct mlx5e_decap_key {
@@ -181,12 +197,19 @@ struct mlx5e_encap_entry {
 	struct mlx5e_neigh_hash_entry *nhe;
 	/* neigh hash entry list of encaps sharing the same neigh */
 	struct list_head encap_list;
+<<<<<<< HEAD
+=======
+	struct mlx5e_neigh m_neigh;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* a node of the eswitch encap hash table which keeping all the encap
 	 * entries
 	 */
 	struct hlist_node encap_hlist;
 	struct list_head flows;
+<<<<<<< HEAD
 	struct list_head route_list;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mlx5_pkt_reformat *pkt_reformat;
 	const struct ip_tunnel_info *tun_info;
 	unsigned char h_dest[ETH_ALEN];	/* destination eth addr	*/

@@ -2463,6 +2463,11 @@ static void AttrOn(const struct cirrusfb_info *cinfo)
  */
 static void WHDR(const struct cirrusfb_info *cinfo, unsigned char val)
 {
+<<<<<<< HEAD
+=======
+	unsigned char dummy;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (is_laguna(cinfo))
 		return;
 	if (cinfo->btype == BT_PICASSO) {
@@ -2471,11 +2476,16 @@ static void WHDR(const struct cirrusfb_info *cinfo, unsigned char val)
 		WGen(cinfo, VGA_PEL_MSK, 0x00);
 		udelay(200);
 		/* next read dummy from pixel address (3c8) */
+<<<<<<< HEAD
 		RGen(cinfo, VGA_PEL_IW);
+=======
+		dummy = RGen(cinfo, VGA_PEL_IW);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		udelay(200);
 	}
 	/* now do the usual stuff to access the HDR */
 
+<<<<<<< HEAD
 	RGen(cinfo, VGA_PEL_MSK);
 	udelay(200);
 	RGen(cinfo, VGA_PEL_MSK);
@@ -2483,6 +2493,15 @@ static void WHDR(const struct cirrusfb_info *cinfo, unsigned char val)
 	RGen(cinfo, VGA_PEL_MSK);
 	udelay(200);
 	RGen(cinfo, VGA_PEL_MSK);
+=======
+	dummy = RGen(cinfo, VGA_PEL_MSK);
+	udelay(200);
+	dummy = RGen(cinfo, VGA_PEL_MSK);
+	udelay(200);
+	dummy = RGen(cinfo, VGA_PEL_MSK);
+	udelay(200);
+	dummy = RGen(cinfo, VGA_PEL_MSK);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	udelay(200);
 
 	WGen(cinfo, VGA_PEL_MSK, val);
@@ -2490,7 +2509,11 @@ static void WHDR(const struct cirrusfb_info *cinfo, unsigned char val)
 
 	if (cinfo->btype == BT_PICASSO) {
 		/* now first reset HDR access counter */
+<<<<<<< HEAD
 		RGen(cinfo, VGA_PEL_IW);
+=======
+		dummy = RGen(cinfo, VGA_PEL_IW);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		udelay(200);
 
 		/* and at the end, restore the mask value */
@@ -2798,9 +2821,15 @@ static void bestclock(long freq, int *nom, int *den, int *div)
 
 #ifdef CIRRUSFB_DEBUG
 
+<<<<<<< HEAD
 /*
  * cirrusfb_dbg_print_regs
  * @regbase: If using newmmio, the newmmio base address, otherwise %NULL
+=======
+/**
+ * cirrusfb_dbg_print_regs
+ * @base: If using newmmio, the newmmio base address, otherwise %NULL
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @reg_class: type of registers to read: %CRT, or %SEQ
  *
  * DESCRIPTION:
@@ -2845,7 +2874,11 @@ static void cirrusfb_dbg_print_regs(struct fb_info *info,
 	va_end(list);
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * cirrusfb_dbg_reg_dump
  * @base: If using newmmio, the newmmio base address, otherwise %NULL
  *

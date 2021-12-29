@@ -1164,6 +1164,7 @@ int clk_enable(struct clk *clk)
 }
 EXPORT_SYMBOL_GPL(clk_enable);
 
+<<<<<<< HEAD
 /**
  * clk_is_enabled_when_prepared - indicate if preparing a clock also enables it.
  * @clk: clock source
@@ -1185,6 +1186,8 @@ bool clk_is_enabled_when_prepared(struct clk *clk)
 }
 EXPORT_SYMBOL_GPL(clk_is_enabled_when_prepared);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int clk_core_prepare_enable(struct clk_core *core)
 {
 	int ret;
@@ -4357,6 +4360,7 @@ int clk_notifier_register(struct clk *clk, struct notifier_block *nb)
 	/* search the list of notifiers for this clk */
 	list_for_each_entry(cn, &clk_notifier_list, node)
 		if (cn->clk == clk)
+<<<<<<< HEAD
 			goto found;
 
 	/* if clk wasn't in the notifier list, allocate new clk_notifier */
@@ -4370,6 +4374,22 @@ int clk_notifier_register(struct clk *clk, struct notifier_block *nb)
 	list_add(&cn->node, &clk_notifier_list);
 
 found:
+=======
+			break;
+
+	/* if clk wasn't in the notifier list, allocate new clk_notifier */
+	if (cn->clk != clk) {
+		cn = kzalloc(sizeof(*cn), GFP_KERNEL);
+		if (!cn)
+			goto out;
+
+		cn->clk = clk;
+		srcu_init_notifier_head(&cn->notifier_head);
+
+		list_add(&cn->node, &clk_notifier_list);
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = srcu_notifier_chain_register(&cn->notifier_head, nb);
 
 	clk->core->notifier_count++;
@@ -4394,14 +4414,20 @@ EXPORT_SYMBOL_GPL(clk_notifier_register);
  */
 int clk_notifier_unregister(struct clk *clk, struct notifier_block *nb)
 {
+<<<<<<< HEAD
 	struct clk_notifier *cn;
 	int ret = -ENOENT;
+=======
+	struct clk_notifier *cn = NULL;
+	int ret = -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!clk || !nb)
 		return -EINVAL;
 
 	clk_prepare_lock();
 
+<<<<<<< HEAD
 	list_for_each_entry(cn, &clk_notifier_list, node) {
 		if (cn->clk == clk) {
 			ret = srcu_notifier_chain_unregister(&cn->notifier_head, nb);
@@ -4416,6 +4442,26 @@ int clk_notifier_unregister(struct clk *clk, struct notifier_block *nb)
 			}
 			break;
 		}
+=======
+	list_for_each_entry(cn, &clk_notifier_list, node)
+		if (cn->clk == clk)
+			break;
+
+	if (cn->clk == clk) {
+		ret = srcu_notifier_chain_unregister(&cn->notifier_head, nb);
+
+		clk->core->notifier_count--;
+
+		/* XXX the notifier code should handle this better */
+		if (!cn->notifier_head.head) {
+			srcu_cleanup_notifier_head(&cn->notifier_head);
+			list_del(&cn->node);
+			kfree(cn);
+		}
+
+	} else {
+		ret = -ENOENT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	clk_prepare_unlock();
@@ -4571,8 +4617,11 @@ int of_clk_add_provider(struct device_node *np,
 	if (ret < 0)
 		of_clk_del_provider(np);
 
+<<<<<<< HEAD
 	fwnode_dev_initialized(&np->fwnode, true);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 EXPORT_SYMBOL_GPL(of_clk_add_provider);
@@ -4690,7 +4739,10 @@ void of_clk_del_provider(struct device_node *np)
 	list_for_each_entry(cp, &of_clk_providers, link) {
 		if (cp->node == np) {
 			list_del(&cp->link);
+<<<<<<< HEAD
 			fwnode_dev_initialized(&np->fwnode, false);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			of_node_put(cp->node);
 			kfree(cp);
 			break;

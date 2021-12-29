@@ -67,6 +67,10 @@ config DRM_LONTIUM_LT9611UXC
 	depends on OF
 	select DRM_PANEL_BRIDGE
 	select DRM_KMS_HELPER
+<<<<<<< HEAD
+	select DRM_MIPI_DSI
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select REGMAP_I2C
 	help
 	  Driver for Lontium LT9611UXC DSI to HDMI bridge
@@ -151,6 +155,10 @@ config DRM_SII902X
 	tristate "Silicon Image sii902x RGB/HDMI bridge"
 	depends on OF
 	select DRM_KMS_HELPER
+<<<<<<< HEAD
+	select DRM_MIPI_DSI
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select REGMAP_I2C
 	select I2C_MUX
 	select SND_SOC_HDMI_CODEC if SND_SOC
@@ -200,6 +208,10 @@ config DRM_TOSHIBA_TC358767
 	tristate "Toshiba TC358767 eDP bridge"
 	depends on OF
 	select DRM_KMS_HELPER
+<<<<<<< HEAD
+	select DRM_MIPI_DSI
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select REGMAP_I2C
 	select DRM_PANEL
 	help

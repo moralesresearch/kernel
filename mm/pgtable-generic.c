@@ -135,9 +135,14 @@ pmd_t pmdp_huge_clear_flush(struct vm_area_struct *vma, unsigned long address,
 {
 	pmd_t pmd;
 	VM_BUG_ON(address & ~HPAGE_PMD_MASK);
+<<<<<<< HEAD
 	VM_BUG_ON(!pmd_present(*pmdp));
 	/* Below assumes pmd_present() is true */
 	VM_BUG_ON(!pmd_trans_huge(*pmdp) && !pmd_devmap(*pmdp));
+=======
+	VM_BUG_ON((pmd_present(*pmdp) && !pmd_trans_huge(*pmdp) &&
+			   !pmd_devmap(*pmdp)) || !pmd_present(*pmdp));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pmd = pmdp_huge_get_and_clear(vma->vm_mm, address, pmdp);
 	flush_pmd_tlb_range(vma, address, address + HPAGE_PMD_SIZE);
 	return pmd;

@@ -56,7 +56,11 @@
 	tca6416: gpio@20 {
 		compatible = "ti,tca6416";
 		reg = <0x20>;
+<<<<<<< HEAD
+		reset-gpios = <&pio 65 GPIO_ACTIVE_LOW>;
+=======
 		reset-gpios = <&pio 65 GPIO_ACTIVE_HIGH>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pinctrl-names = "default";
 		pinctrl-0 = <&tca6416_pins>;
 

@@ -38,8 +38,13 @@ static const struct dice_tc_spec konnekt_24d = {
 };
 
 static const struct dice_tc_spec konnekt_live = {
+<<<<<<< HEAD
+	.tx_pcm_chs = {{16, 16, 6}, {0, 0, 0} },
+	.rx_pcm_chs = {{16, 16, 6}, {0, 0, 0} },
+=======
 	.tx_pcm_chs = {{16, 16, 16}, {0, 0, 0} },
 	.rx_pcm_chs = {{16, 16, 16}, {0, 0, 0} },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.has_midi = true,
 };
 

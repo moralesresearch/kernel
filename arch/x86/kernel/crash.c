@@ -337,7 +337,11 @@ int crash_setup_memmap_entries(struct kimage *image, struct boot_params *params)
 	struct crash_memmap_data cmd;
 	struct crash_mem *cmem;
 
+<<<<<<< HEAD
 	cmem = vzalloc(struct_size(cmem, ranges, 1));
+=======
+	cmem = vzalloc(sizeof(struct crash_mem));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!cmem)
 		return -ENOMEM;
 

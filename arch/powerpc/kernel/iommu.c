@@ -25,7 +25,10 @@
 #include <linux/pci.h>
 #include <linux/iommu.h>
 #include <linux/sched.h>
+<<<<<<< HEAD
 #include <linux/debugfs.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/io.h>
 #include <asm/prom.h>
 #include <asm/iommu.h>
@@ -39,6 +42,7 @@
 
 #define DBG(...)
 
+<<<<<<< HEAD
 #ifdef CONFIG_IOMMU_DEBUGFS
 static int iommu_debugfs_weight_get(void *data, u64 *val)
 {
@@ -80,6 +84,8 @@ static void iommu_debugfs_add(struct iommu_table *tbl){}
 static void iommu_debugfs_del(struct iommu_table *tbl){}
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int novmerge;
 
 static void __iommu_free(struct iommu_table *, dma_addr_t, unsigned int);
@@ -767,8 +773,11 @@ struct iommu_table *iommu_init_table(struct iommu_table *tbl, int nid,
 		welcomed = 1;
 	}
 
+<<<<<<< HEAD
 	iommu_debugfs_add(tbl);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return tbl;
 }
 
@@ -788,8 +797,11 @@ static void iommu_table_free(struct kref *kref)
 		return;
 	}
 
+<<<<<<< HEAD
 	iommu_debugfs_del(tbl);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	iommu_table_release_pages(tbl);
 
 	/* verify that table contains no entries */
@@ -1096,7 +1108,11 @@ int iommu_take_ownership(struct iommu_table *tbl)
 
 	spin_lock_irqsave(&tbl->large_pool.lock, flags);
 	for (i = 0; i < tbl->nr_pools; i++)
+<<<<<<< HEAD
+		spin_lock_nest_lock(&tbl->pools[i].lock, &tbl->large_pool.lock);
+=======
 		spin_lock(&tbl->pools[i].lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	iommu_table_release_pages(tbl);
 
@@ -1124,7 +1140,11 @@ void iommu_release_ownership(struct iommu_table *tbl)
 
 	spin_lock_irqsave(&tbl->large_pool.lock, flags);
 	for (i = 0; i < tbl->nr_pools; i++)
+<<<<<<< HEAD
+		spin_lock_nest_lock(&tbl->pools[i].lock, &tbl->large_pool.lock);
+=======
 		spin_lock(&tbl->pools[i].lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memset(tbl->it_map, 0, sz);
 

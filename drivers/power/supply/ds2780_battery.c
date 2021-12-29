@@ -624,7 +624,11 @@ static ssize_t ds2780_read_param_eeprom_bin(struct file *filp,
 				struct bin_attribute *bin_attr,
 				char *buf, loff_t off, size_t count)
 {
+<<<<<<< HEAD
 	struct device *dev = kobj_to_dev(kobj);
+=======
+	struct device *dev = container_of(kobj, struct device, kobj);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct power_supply *psy = to_power_supply(dev);
 	struct ds2780_device_info *dev_info = to_ds2780_device_info(psy);
 
@@ -637,7 +641,11 @@ static ssize_t ds2780_write_param_eeprom_bin(struct file *filp,
 				struct bin_attribute *bin_attr,
 				char *buf, loff_t off, size_t count)
 {
+<<<<<<< HEAD
 	struct device *dev = kobj_to_dev(kobj);
+=======
+	struct device *dev = container_of(kobj, struct device, kobj);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct power_supply *psy = to_power_supply(dev);
 	struct ds2780_device_info *dev_info = to_ds2780_device_info(psy);
 	int ret;
@@ -669,7 +677,11 @@ static ssize_t ds2780_read_user_eeprom_bin(struct file *filp,
 				struct bin_attribute *bin_attr,
 				char *buf, loff_t off, size_t count)
 {
+<<<<<<< HEAD
 	struct device *dev = kobj_to_dev(kobj);
+=======
+	struct device *dev = container_of(kobj, struct device, kobj);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct power_supply *psy = to_power_supply(dev);
 	struct ds2780_device_info *dev_info = to_ds2780_device_info(psy);
 
@@ -682,7 +694,11 @@ static ssize_t ds2780_write_user_eeprom_bin(struct file *filp,
 				struct bin_attribute *bin_attr,
 				char *buf, loff_t off, size_t count)
 {
+<<<<<<< HEAD
 	struct device *dev = kobj_to_dev(kobj);
+=======
+	struct device *dev = container_of(kobj, struct device, kobj);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct power_supply *psy = to_power_supply(dev);
 	struct ds2780_device_info *dev_info = to_ds2780_device_info(psy);
 	int ret;

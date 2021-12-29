@@ -123,7 +123,11 @@ void dcn21_optimize_pwr_state(
  * PHY will hang on the next mode set attempt.
  * if enable PLL follow by disable PLL (without executing lane enable/disable),
  * RDPCS_PHY_DP_MPLLB_STATE remains 1,
+<<<<<<< HEAD
  * which indicate that PLL disable attempt actually didn't go through.
+=======
+ * which indicate that PLL disable attempt actually didn’t go through.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * As a workaround, insert PHY lane enable/disable before PLL disable.
  */
 void dcn21_PLAT_58856_wa(struct dc_state *context, struct pipe_ctx *pipe_ctx)
@@ -143,7 +147,10 @@ static bool dmub_abm_set_pipe(struct abm *abm, uint32_t otg_inst, uint32_t optio
 	struct dc_context *dc = abm->ctx;
 	uint32_t ramping_boundary = 0xFFFF;
 
+<<<<<<< HEAD
 	memset(&cmd, 0, sizeof(cmd));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cmd.abm_set_pipe.header.type = DMUB_CMD__ABM;
 	cmd.abm_set_pipe.header.sub_type = DMUB_CMD__ABM_SET_PIPE;
 	cmd.abm_set_pipe.abm_set_pipe_data.otg_inst = otg_inst;
@@ -213,7 +220,10 @@ bool dcn21_set_backlight_level(struct pipe_ctx *pipe_ctx,
 	if (abm && panel_cntl)
 		dmub_abm_set_pipe(abm, otg_inst, SET_ABM_PIPE_NORMAL, panel_cntl->inst);
 
+<<<<<<< HEAD
 	memset(&cmd, 0, sizeof(cmd));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cmd.abm_set_backlight.header.type = DMUB_CMD__ABM;
 	cmd.abm_set_backlight.header.sub_type = DMUB_CMD__ABM_SET_BACKLIGHT;
 	cmd.abm_set_backlight.abm_set_backlight_data.frame_ramp = frame_ramp;

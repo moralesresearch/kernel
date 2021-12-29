@@ -168,6 +168,10 @@ machine-$(CONFIG_ARCH_CNS3XXX)		+= cns3xxx
 machine-$(CONFIG_ARCH_DAVINCI)		+= davinci
 machine-$(CONFIG_ARCH_DIGICOLOR)	+= digicolor
 machine-$(CONFIG_ARCH_DOVE)		+= dove
+<<<<<<< HEAD
+=======
+machine-$(CONFIG_ARCH_EFM32)		+= efm32
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 machine-$(CONFIG_ARCH_EP93XX)		+= ep93xx
 machine-$(CONFIG_ARCH_EXYNOS)		+= exynos
 machine-$(CONFIG_ARCH_FOOTBRIDGE)	+= footbridge
@@ -198,6 +202,10 @@ machine-$(CONFIG_ARCH_OXNAS)		+= oxnas
 machine-$(CONFIG_ARCH_OMAP1)		+= omap1
 machine-$(CONFIG_ARCH_OMAP2PLUS)	+= omap2
 machine-$(CONFIG_ARCH_ORION5X)		+= orion5x
+<<<<<<< HEAD
+=======
+machine-$(CONFIG_ARCH_PICOXCELL)	+= picoxcell
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 machine-$(CONFIG_ARCH_PXA)		+= pxa
 machine-$(CONFIG_ARCH_QCOM)		+= qcom
 machine-$(CONFIG_ARCH_RDA)		+= rda
@@ -209,15 +217,29 @@ machine-$(CONFIG_PLAT_SAMSUNG)		+= s3c
 machine-$(CONFIG_ARCH_S5PV210)		+= s5pv210
 machine-$(CONFIG_ARCH_SA1100)		+= sa1100
 machine-$(CONFIG_ARCH_RENESAS)	 	+= shmobile
+<<<<<<< HEAD
+=======
+machine-$(CONFIG_ARCH_SIRF)		+= prima2
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 machine-$(CONFIG_ARCH_SOCFPGA)		+= socfpga
 machine-$(CONFIG_ARCH_STI)		+= sti
 machine-$(CONFIG_ARCH_STM32)		+= stm32
 machine-$(CONFIG_ARCH_SUNXI)		+= sunxi
+<<<<<<< HEAD
 machine-$(CONFIG_ARCH_TEGRA)		+= tegra
+=======
+machine-$(CONFIG_ARCH_TANGO)		+= tango
+machine-$(CONFIG_ARCH_TEGRA)		+= tegra
+machine-$(CONFIG_ARCH_U300)		+= u300
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 machine-$(CONFIG_ARCH_U8500)		+= ux500
 machine-$(CONFIG_ARCH_VERSATILE)	+= versatile
 machine-$(CONFIG_ARCH_VEXPRESS)		+= vexpress
 machine-$(CONFIG_ARCH_VT8500)		+= vt8500
+<<<<<<< HEAD
+=======
+machine-$(CONFIG_ARCH_ZX)		+= zx
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 machine-$(CONFIG_ARCH_ZYNQ)		+= zynq
 machine-$(CONFIG_PLAT_SPEAR)		+= spear
 
@@ -260,6 +282,11 @@ core-y				+= $(machdirs) $(platdirs)
 core-				+= $(patsubst %,arch/arm/mach-%/, $(machine-))
 core-				+= $(patsubst %,arch/arm/plat-%/, $(plat-))
 
+<<<<<<< HEAD
+=======
+drivers-$(CONFIG_OPROFILE)      += arch/arm/oprofile/
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 libs-y				:= arch/arm/lib/ $(libs-y)
 
 # Default target when executing plain make

@@ -60,6 +60,7 @@ static ssize_t bmcfw_version_show(struct device *dev,
 }
 static DEVICE_ATTR_RO(bmcfw_version);
 
+<<<<<<< HEAD
 static ssize_t mac_address_show(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
@@ -106,6 +107,11 @@ static struct attribute *m10bmc_attrs[] = {
 	&dev_attr_bmcfw_version.attr,
 	&dev_attr_mac_address.attr,
 	&dev_attr_mac_count.attr,
+=======
+static struct attribute *m10bmc_attrs[] = {
+	&dev_attr_bmc_version.attr,
+	&dev_attr_bmcfw_version.attr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NULL,
 };
 ATTRIBUTE_GROUPS(m10bmc);

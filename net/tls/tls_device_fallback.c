@@ -424,13 +424,27 @@ struct sk_buff *tls_validate_xmit_skb(struct sock *sk,
 				      struct net_device *dev,
 				      struct sk_buff *skb)
 {
+<<<<<<< HEAD
 	if (dev == tls_get_ctx(sk)->netdev || netif_is_bond_master(dev))
+=======
+	if (dev == tls_get_ctx(sk)->netdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return skb;
 
 	return tls_sw_fallback(sk, skb);
 }
 EXPORT_SYMBOL_GPL(tls_validate_xmit_skb);
 
+<<<<<<< HEAD
+struct sk_buff *tls_validate_xmit_skb_sw(struct sock *sk,
+					 struct net_device *dev,
+					 struct sk_buff *skb)
+{
+	return tls_sw_fallback(sk, skb);
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct sk_buff *tls_encrypt_skb(struct sk_buff *skb)
 {
 	return tls_sw_fallback(skb->sk, skb);

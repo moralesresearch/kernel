@@ -2248,7 +2248,11 @@ static bool is_valid_mcast_lid(struct ib_qp *qp, u16 lid)
 	struct ib_qp_init_attr init_attr = {};
 	struct ib_qp_attr attr = {};
 	int num_eth_ports = 0;
+<<<<<<< HEAD
 	unsigned int port;
+=======
+	int port;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* If QP state >= init, it is assigned to a port and we can check this
 	 * port only.
@@ -2263,7 +2267,11 @@ static bool is_valid_mcast_lid(struct ib_qp *qp, u16 lid)
 	}
 
 	/* Can't get a quick answer, iterate over all ports */
+<<<<<<< HEAD
 	rdma_for_each_port(qp->device, port)
+=======
+	for (port = 0; port < qp->device->phys_port_cnt; port++)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rdma_port_get_link_layer(qp->device, port) !=
 		    IB_LINK_LAYER_INFINIBAND)
 			num_eth_ports++;

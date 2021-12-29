@@ -3,6 +3,10 @@
 
 #include "en/ptp.h"
 #include "en/txrx.h"
+<<<<<<< HEAD
+=======
+#include "lib/clock.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct mlx5e_skb_cb_hwtstamp {
 	ktime_t cqe_hwtstamp;
@@ -69,7 +73,10 @@ static void mlx5e_ptp_handle_ts_cqe(struct mlx5e_ptpsq *ptpsq,
 				    int budget)
 {
 	struct sk_buff *skb = mlx5e_skb_fifo_pop(&ptpsq->skb_fifo);
+<<<<<<< HEAD
 	struct mlx5e_txqsq *sq = &ptpsq->txqsq;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ktime_t hwtstamp;
 
 	if (unlikely(MLX5E_RX_ERR_CQE(cqe))) {
@@ -77,7 +84,11 @@ static void mlx5e_ptp_handle_ts_cqe(struct mlx5e_ptpsq *ptpsq,
 		goto out;
 	}
 
+<<<<<<< HEAD
 	hwtstamp = mlx5e_cqe_ts_to_ns(sq->ptp_cyc2time, sq->clock, get_cqe_ts(cqe));
+=======
+	hwtstamp = mlx5_timecounter_cyc2time(ptpsq->txqsq.clock, get_cqe_ts(cqe));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5e_skb_cb_hwtstamp_handler(skb, MLX5E_SKB_CB_PORT_HWTSTAMP,
 				      hwtstamp, ptpsq->cq_stats);
 	ptpsq->cq_stats->cqe++;
@@ -183,9 +194,12 @@ static int mlx5e_ptp_alloc_txqsq(struct mlx5e_port_ptp *c, int txq_ix,
 	if (!MLX5_CAP_ETH(mdev, wqe_vlan_insert))
 		set_bit(MLX5E_SQ_STATE_VLAN_NEED_L2_INLINE, &sq->state);
 	sq->stop_room = param->stop_room;
+<<<<<<< HEAD
 	sq->ptp_cyc2time = mlx5_is_real_time_sq(mdev) ?
 			   mlx5_real_time_cyc2time :
 			   mlx5_timecounter_cyc2time;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	node = dev_to_node(mlx5_core_dma_dev(mdev));
 
@@ -264,7 +278,11 @@ static int mlx5e_ptp_open_txqsq(struct mlx5e_port_ptp *c, u32 tisn,
 	csp.min_inline_mode = txqsq->min_inline_mode;
 	csp.ts_cqe_to_dest_cqn = ptpsq->ts_cq.mcq.cqn;
 
+<<<<<<< HEAD
 	err = mlx5e_create_sq_rdy(c->mdev, sqp, &csp, 0, &txqsq->sqn);
+=======
+	err = mlx5e_create_sq_rdy(c->mdev, sqp, &csp, &txqsq->sqn);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto err_free_txqsq;
 
@@ -431,6 +449,7 @@ static int mlx5e_ptp_open_queues(struct mlx5e_port_ptp *c,
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	err = mlx5e_ptp_open_txqsqs(c, cparams);
 	if (err)
 		goto close_cqs;
@@ -438,6 +457,18 @@ static int mlx5e_ptp_open_queues(struct mlx5e_port_ptp *c,
 	return 0;
 
 close_cqs:
+=======
+	napi_enable(&c->napi);
+
+	err = mlx5e_ptp_open_txqsqs(c, cparams);
+	if (err)
+		goto disable_napi;
+
+	return 0;
+
+disable_napi:
+	napi_disable(&c->napi);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5e_ptp_close_cqs(c);
 
 	return err;
@@ -446,6 +477,10 @@ close_cqs:
 static void mlx5e_ptp_close_queues(struct mlx5e_port_ptp *c)
 {
 	mlx5e_ptp_close_txqsqs(c);
+<<<<<<< HEAD
+=======
+	napi_disable(&c->napi);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mlx5e_ptp_close_cqs(c);
 }
 
@@ -514,8 +549,11 @@ void mlx5e_ptp_activate_channel(struct mlx5e_port_ptp *c)
 {
 	int tc;
 
+<<<<<<< HEAD
 	napi_enable(&c->napi);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (tc = 0; tc < c->num_tc; tc++)
 		mlx5e_activate_txqsq(&c->ptpsq[tc].txqsq);
 }
@@ -526,6 +564,9 @@ void mlx5e_ptp_deactivate_channel(struct mlx5e_port_ptp *c)
 
 	for (tc = 0; tc < c->num_tc; tc++)
 		mlx5e_deactivate_txqsq(&c->ptpsq[tc].txqsq);
+<<<<<<< HEAD
 
 	napi_disable(&c->napi);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

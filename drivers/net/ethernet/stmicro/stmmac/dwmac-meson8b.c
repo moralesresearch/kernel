@@ -68,6 +68,10 @@
  */
 #define PRG_ETH0_ADJ_SKEW		GENMASK(24, 20)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PRG_ETH1			0x4
 
 /* Defined for adding a delay to the input RX_CLK for better timing.
@@ -78,11 +82,23 @@
  */
 #define PRG_ETH1_CFG_RXCLK_DLY		GENMASK(19, 16)
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct meson8b_dwmac;
 
 struct meson8b_dwmac_data {
 	int (*set_phy_mode)(struct meson8b_dwmac *dwmac);
+<<<<<<< HEAD
 	bool has_prg_eth1_rgmii_rx_delay;
+=======
+<<<<<<< HEAD
+	bool has_prg_eth1_rgmii_rx_delay;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct meson8b_dwmac {
@@ -93,7 +109,15 @@ struct meson8b_dwmac {
 	phy_interface_t			phy_mode;
 	struct clk			*rgmii_tx_clk;
 	u32				tx_delay_ns;
+<<<<<<< HEAD
 	u32				rx_delay_ps;
+=======
+<<<<<<< HEAD
+	u32				rx_delay_ps;
+=======
+	u32				rx_delay_ns;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct clk			*timing_adj_clk;
 };
 
@@ -279,6 +303,10 @@ static int meson8b_devm_clk_prepare_enable(struct meson8b_dwmac *dwmac,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int meson8b_init_rgmii_delays(struct meson8b_dwmac *dwmac)
 {
 	u32 tx_dly_config, rx_adj_config, cfg_rxclk_dly, delay_config;
@@ -305,11 +333,45 @@ static int meson8b_init_rgmii_delays(struct meson8b_dwmac *dwmac)
 		break;
 	case PHY_INTERFACE_MODE_RGMII_TXID:
 		delay_config = rx_adj_config;
+<<<<<<< HEAD
+=======
+=======
+static int meson8b_init_prg_eth(struct meson8b_dwmac *dwmac)
+{
+	u32 tx_dly_config, rx_dly_config, delay_config;
+	int ret;
+
+	tx_dly_config = FIELD_PREP(PRG_ETH0_TXDLY_MASK,
+				   dwmac->tx_delay_ns >> 1);
+
+	if (dwmac->rx_delay_ns == 2)
+		rx_dly_config = PRG_ETH0_ADJ_ENABLE | PRG_ETH0_ADJ_SETUP;
+	else
+		rx_dly_config = 0;
+
+	switch (dwmac->phy_mode) {
+	case PHY_INTERFACE_MODE_RGMII:
+		delay_config = tx_dly_config | rx_dly_config;
+		break;
+	case PHY_INTERFACE_MODE_RGMII_RXID:
+		delay_config = tx_dly_config;
+		break;
+	case PHY_INTERFACE_MODE_RGMII_TXID:
+		delay_config = rx_dly_config;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case PHY_INTERFACE_MODE_RGMII_ID:
 	case PHY_INTERFACE_MODE_RMII:
 		delay_config = 0;
+<<<<<<< HEAD
 		cfg_rxclk_dly = 0;
+=======
+<<<<<<< HEAD
+		cfg_rxclk_dly = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		dev_err(dwmac->dev, "unsupported phy-mode %s\n",
@@ -339,6 +401,10 @@ static int meson8b_init_rgmii_delays(struct meson8b_dwmac *dwmac)
 				PRG_ETH0_ADJ_DELAY | PRG_ETH0_ADJ_SKEW,
 				delay_config);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	meson8b_dwmac_mask_bits(dwmac, PRG_ETH1, PRG_ETH1_CFG_RXCLK_DLY,
 				cfg_rxclk_dly);
 
@@ -349,6 +415,11 @@ static int meson8b_init_prg_eth(struct meson8b_dwmac *dwmac)
 {
 	int ret;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (phy_interface_mode_is_rgmii(dwmac->phy_mode)) {
 		/* only relevant for RMII mode -> disable in RGMII mode */
 		meson8b_dwmac_mask_bits(dwmac, PRG_ETH0,
@@ -432,6 +503,10 @@ static int meson8b_dwmac_probe(struct platform_device *pdev)
 				 &dwmac->tx_delay_ns))
 		dwmac->tx_delay_ns = 2;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* RX delay defaults to 0ps since this is what many boards use */
 	if (of_property_read_u32(pdev->dev.of_node, "rx-internal-delay-ps",
 				 &dwmac->rx_delay_ps)) {
@@ -456,6 +531,21 @@ static int meson8b_dwmac_probe(struct platform_device *pdev)
 			ret = -EINVAL;
 			goto err_remove_config_dt;
 		}
+<<<<<<< HEAD
+=======
+=======
+	/* use 0ns as fallback since this is what most boards actually use */
+	if (of_property_read_u32(pdev->dev.of_node, "amlogic,rx-delay-ns",
+				 &dwmac->rx_delay_ns))
+		dwmac->rx_delay_ns = 0;
+
+	if (dwmac->rx_delay_ns != 0 && dwmac->rx_delay_ns != 2) {
+		dev_err(&pdev->dev,
+			"The only allowed RX delays values are: 0ns, 2ns");
+		ret = -EINVAL;
+		goto err_remove_config_dt;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	dwmac->timing_adj_clk = devm_clk_get_optional(dwmac->dev,
@@ -465,10 +555,19 @@ static int meson8b_dwmac_probe(struct platform_device *pdev)
 		goto err_remove_config_dt;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = meson8b_init_rgmii_delays(dwmac);
 	if (ret)
 		goto err_remove_config_dt;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = meson8b_init_rgmii_tx_clk(dwmac);
 	if (ret)
 		goto err_remove_config_dt;
@@ -497,17 +596,33 @@ err_remove_config_dt:
 
 static const struct meson8b_dwmac_data meson8b_dwmac_data = {
 	.set_phy_mode = meson8b_set_phy_mode,
+<<<<<<< HEAD
 	.has_prg_eth1_rgmii_rx_delay = false,
+=======
+<<<<<<< HEAD
+	.has_prg_eth1_rgmii_rx_delay = false,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct meson8b_dwmac_data meson_axg_dwmac_data = {
 	.set_phy_mode = meson_axg_set_phy_mode,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.has_prg_eth1_rgmii_rx_delay = false,
 };
 
 static const struct meson8b_dwmac_data meson_g12a_dwmac_data = {
 	.set_phy_mode = meson_axg_set_phy_mode,
 	.has_prg_eth1_rgmii_rx_delay = true,
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct of_device_id meson8b_dwmac_match[] = {
@@ -529,7 +644,15 @@ static const struct of_device_id meson8b_dwmac_match[] = {
 	},
 	{
 		.compatible = "amlogic,meson-g12a-dwmac",
+<<<<<<< HEAD
 		.data = &meson_g12a_dwmac_data,
+=======
+<<<<<<< HEAD
+		.data = &meson_g12a_dwmac_data,
+=======
+		.data = &meson_axg_dwmac_data,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{ }
 };

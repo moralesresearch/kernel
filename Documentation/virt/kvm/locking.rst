@@ -16,6 +16,7 @@ The acquisition orders for mutexes are as follows:
 - kvm->slots_lock is taken outside kvm->irq_lock, though acquiring
   them together is quite rare.
 
+<<<<<<< HEAD
 On x86:
 
 - vcpu->mutex is taken outside kvm->arch.hyperv.hv_lock
@@ -24,6 +25,9 @@ On x86:
   taken inside kvm->arch.mmu_lock, and cannot be taken without already
   holding kvm->arch.mmu_lock (typically with ``read_lock``, otherwise
   there's no need to take kvm->arch.tdp_mmu_pages_lock at all).
+=======
+On x86, vcpu->mutex is taken outside kvm->arch.hyperv.hv_lock.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Everything else is a leaf: no other lock is taken inside the critical
 sections.

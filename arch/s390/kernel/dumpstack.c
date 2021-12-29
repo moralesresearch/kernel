@@ -79,6 +79,10 @@ static bool in_nodat_stack(unsigned long sp, struct stack_info *info)
 	return in_stack(sp, info, STACK_TYPE_NODAT, top - THREAD_SIZE, top);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool in_mcck_stack(unsigned long sp, struct stack_info *info)
 {
 	unsigned long frame_size, top;
@@ -88,6 +92,11 @@ static bool in_mcck_stack(unsigned long sp, struct stack_info *info)
 	return in_stack(sp, info, STACK_TYPE_MCCK, top - THREAD_SIZE, top);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool in_restart_stack(unsigned long sp, struct stack_info *info)
 {
 	unsigned long frame_size, top;
@@ -117,8 +126,17 @@ int get_stack_info(unsigned long sp, struct task_struct *task,
 	/* Check per-cpu stacks */
 	if (!in_irq_stack(sp, info) &&
 	    !in_nodat_stack(sp, info) &&
+<<<<<<< HEAD
 	    !in_restart_stack(sp, info) &&
 	    !in_mcck_stack(sp, info))
+=======
+<<<<<<< HEAD
+	    !in_restart_stack(sp, info) &&
+	    !in_mcck_stack(sp, info))
+=======
+	    !in_restart_stack(sp, info))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto unknown;
 
 recursion_check:

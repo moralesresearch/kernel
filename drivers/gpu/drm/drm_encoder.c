@@ -26,7 +26,10 @@
 #include <drm/drm_device.h>
 #include <drm/drm_drv.h>
 #include <drm/drm_encoder.h>
+<<<<<<< HEAD
 #include <drm/drm_managed.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "drm_crtc_internal.h"
 
@@ -73,7 +76,11 @@ int drm_encoder_register_all(struct drm_device *dev)
 	int ret = 0;
 
 	drm_for_each_encoder(encoder, dev) {
+<<<<<<< HEAD
 		if (encoder->funcs && encoder->funcs->late_register)
+=======
+		if (encoder->funcs->late_register)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = encoder->funcs->late_register(encoder);
 		if (ret)
 			return ret;
@@ -87,16 +94,42 @@ void drm_encoder_unregister_all(struct drm_device *dev)
 	struct drm_encoder *encoder;
 
 	drm_for_each_encoder(encoder, dev) {
+<<<<<<< HEAD
 		if (encoder->funcs && encoder->funcs->early_unregister)
+=======
+		if (encoder->funcs->early_unregister)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			encoder->funcs->early_unregister(encoder);
 	}
 }
 
+<<<<<<< HEAD
 __printf(5, 0)
 static int __drm_encoder_init(struct drm_device *dev,
 			      struct drm_encoder *encoder,
 			      const struct drm_encoder_funcs *funcs,
 			      int encoder_type, const char *name, va_list ap)
+=======
+/**
+ * drm_encoder_init - Init a preallocated encoder
+ * @dev: drm device
+ * @encoder: the encoder to init
+ * @funcs: callbacks for this encoder
+ * @encoder_type: user visible type of the encoder
+ * @name: printf style format string for the encoder name, or NULL for default name
+ *
+ * Initialises a preallocated encoder. Encoder should be subclassed as part of
+ * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
+ * called from the driver's &drm_encoder_funcs.destroy hook.
+ *
+ * Returns:
+ * Zero on success, error code on failure.
+ */
+int drm_encoder_init(struct drm_device *dev,
+		     struct drm_encoder *encoder,
+		     const struct drm_encoder_funcs *funcs,
+		     int encoder_type, const char *name, ...)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 
@@ -112,7 +145,15 @@ static int __drm_encoder_init(struct drm_device *dev,
 	encoder->encoder_type = encoder_type;
 	encoder->funcs = funcs;
 	if (name) {
+<<<<<<< HEAD
 		encoder->name = kvasprintf(GFP_KERNEL, name, ap);
+=======
+		va_list ap;
+
+		va_start(ap, name);
+		encoder->name = kvasprintf(GFP_KERNEL, name, ap);
+		va_end(ap);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		encoder->name = kasprintf(GFP_KERNEL, "%s-%d",
 					  drm_encoder_enum_list[encoder_type].name,
@@ -133,6 +174,7 @@ out_put:
 
 	return ret;
 }
+<<<<<<< HEAD
 
 /**
  * drm_encoder_init - Init a preallocated encoder
@@ -171,6 +213,8 @@ int drm_encoder_init(struct drm_device *dev,
 
 	return ret;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 EXPORT_SYMBOL(drm_encoder_init);
 
 /**
@@ -202,6 +246,7 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
 }
 EXPORT_SYMBOL(drm_encoder_cleanup);
 
+<<<<<<< HEAD
 static void drmm_encoder_alloc_release(struct drm_device *dev, void *ptr)
 {
 	struct drm_encoder *encoder = ptr;
@@ -244,6 +289,8 @@ void *__drmm_encoder_alloc(struct drm_device *dev, size_t size, size_t offset,
 }
 EXPORT_SYMBOL(__drmm_encoder_alloc);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct drm_crtc *drm_encoder_get_crtc(struct drm_encoder *encoder)
 {
 	struct drm_connector *connector;

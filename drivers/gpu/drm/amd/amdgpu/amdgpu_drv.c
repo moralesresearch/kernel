@@ -132,12 +132,23 @@ uint amdgpu_pg_mask = 0xffffffff;
 uint amdgpu_sdma_phase_quantum = 32;
 char *amdgpu_disable_cu = NULL;
 char *amdgpu_virtual_display = NULL;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * OverDrive(bit 14) disabled by default
  * GFX DCS(bit 19) disabled by default
  */
 uint amdgpu_pp_feature_mask = 0xfff7bfff;
+<<<<<<< HEAD
+=======
+=======
+/* OverDrive(bit 14) disabled by default*/
+uint amdgpu_pp_feature_mask = 0xffffbfff;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 uint amdgpu_force_long_training;
 int amdgpu_job_hang_limit;
 int amdgpu_lbpw = -1;
@@ -797,9 +808,21 @@ module_param_named(tmz, amdgpu_tmz, int, 0444);
 
 /**
  * DOC: reset_method (int)
+<<<<<<< HEAD
  * GPU reset method (-1 = auto (default), 0 = legacy, 1 = mode0, 2 = mode1, 3 = mode2, 4 = baco, 5 = pci)
  */
 MODULE_PARM_DESC(reset_method, "GPU reset method (-1 = auto (default), 0 = legacy, 1 = mode0, 2 = mode1, 3 = mode2, 4 = baco/bamaco, 5 = pci)");
+=======
+<<<<<<< HEAD
+ * GPU reset method (-1 = auto (default), 0 = legacy, 1 = mode0, 2 = mode1, 3 = mode2, 4 = baco, 5 = pci)
+ */
+MODULE_PARM_DESC(reset_method, "GPU reset method (-1 = auto (default), 0 = legacy, 1 = mode0, 2 = mode1, 3 = mode2, 4 = baco/bamaco, 5 = pci)");
+=======
+ * GPU reset method (-1 = auto (default), 0 = legacy, 1 = mode0, 2 = mode1, 3 = mode2, 4 = baco)
+ */
+MODULE_PARM_DESC(reset_method, "GPU reset method (-1 = auto (default), 0 = legacy, 1 = mode0, 2 = mode1, 3 = mode2, 4 = baco/bamaco)");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 module_param_named(reset_method, amdgpu_reset_method, int, 0444);
 
 /**
@@ -1102,7 +1125,14 @@ static const struct pci_device_id pciidlist[] = {
 
 	/* Sienna_Cichlid */
 	{0x1002, 0x73A0, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_SIENNA_CICHLID},
+<<<<<<< HEAD
 	{0x1002, 0x73A1, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_SIENNA_CICHLID},
+=======
+<<<<<<< HEAD
+	{0x1002, 0x73A1, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_SIENNA_CICHLID},
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{0x1002, 0x73A2, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_SIENNA_CICHLID},
 	{0x1002, 0x73A3, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_SIENNA_CICHLID},
 	{0x1002, 0x73AB, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_SIENNA_CICHLID},
@@ -1216,6 +1246,13 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	ddev->pdev = pdev;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_set_drvdata(pdev, ddev);
 
 	ret = amdgpu_driver_load_kms(adev, ent->driver_data);
@@ -1275,13 +1312,27 @@ amdgpu_pci_shutdown(struct pci_dev *pdev)
 	 */
 	if (!amdgpu_passthrough(adev))
 		adev->mp1_state = PP_MP1_STATE_UNLOAD;
+<<<<<<< HEAD
 	amdgpu_device_ip_suspend(adev);
+=======
+<<<<<<< HEAD
+	amdgpu_device_ip_suspend(adev);
+=======
+	adev->in_poweroff_reboot_com = true;
+	amdgpu_device_ip_suspend(adev);
+	adev->in_poweroff_reboot_com = false;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	adev->mp1_state = PP_MP1_STATE_NONE;
 }
 
 static int amdgpu_pmops_suspend(struct device *dev)
 {
 	struct drm_device *drm_dev = dev_get_drvdata(dev);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct amdgpu_device *adev = drm_to_adev(drm_dev);
 	int r;
 
@@ -1292,11 +1343,22 @@ static int amdgpu_pmops_suspend(struct device *dev)
 	adev->in_s3 = false;
 
 	return r;
+<<<<<<< HEAD
+=======
+=======
+
+	return amdgpu_device_suspend(drm_dev, true);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int amdgpu_pmops_resume(struct device *dev)
 {
 	struct drm_device *drm_dev = dev_get_drvdata(dev);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct amdgpu_device *adev = drm_to_adev(drm_dev);
 	int r;
 
@@ -1304,6 +1366,13 @@ static int amdgpu_pmops_resume(struct device *dev)
 	if (amdgpu_acpi_is_s0ix_supported(adev))
 		adev->in_s0ix = false;
 	return r;
+<<<<<<< HEAD
+=======
+=======
+
+	return amdgpu_device_resume(drm_dev, true);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int amdgpu_pmops_freeze(struct device *dev)
@@ -1312,9 +1381,21 @@ static int amdgpu_pmops_freeze(struct device *dev)
 	struct amdgpu_device *adev = drm_to_adev(drm_dev);
 	int r;
 
+<<<<<<< HEAD
 	adev->in_s4 = true;
 	r = amdgpu_device_suspend(drm_dev, true);
 	adev->in_s4 = false;
+=======
+<<<<<<< HEAD
+	adev->in_s4 = true;
+	r = amdgpu_device_suspend(drm_dev, true);
+	adev->in_s4 = false;
+=======
+	adev->in_hibernate = true;
+	r = amdgpu_device_suspend(drm_dev, true);
+	adev->in_hibernate = false;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (r)
 		return r;
 	return amdgpu_asic_reset(adev);
@@ -1330,8 +1411,23 @@ static int amdgpu_pmops_thaw(struct device *dev)
 static int amdgpu_pmops_poweroff(struct device *dev)
 {
 	struct drm_device *drm_dev = dev_get_drvdata(dev);
+<<<<<<< HEAD
 
 	return amdgpu_device_suspend(drm_dev, true);
+=======
+<<<<<<< HEAD
+
+	return amdgpu_device_suspend(drm_dev, true);
+=======
+	struct amdgpu_device *adev = drm_to_adev(drm_dev);
+	int r;
+
+	adev->in_poweroff_reboot_com = true;
+	r =  amdgpu_device_suspend(drm_dev, true);
+	adev->in_poweroff_reboot_com = false;
+	return r;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int amdgpu_pmops_restore(struct device *dev)
@@ -1366,12 +1462,26 @@ static int amdgpu_pmops_runtime_suspend(struct device *dev)
 	adev->in_runpm = true;
 	if (amdgpu_device_supports_atpx(drm_dev))
 		drm_dev->switch_power_state = DRM_SWITCH_POWER_CHANGING;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = amdgpu_device_suspend(drm_dev, false);
 	if (ret) {
 		adev->in_runpm = false;
 		return ret;
 	}
+<<<<<<< HEAD
+=======
+=======
+	drm_kms_helper_poll_disable(drm_dev);
+
+	ret = amdgpu_device_suspend(drm_dev, false);
+	if (ret)
+		return ret;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (amdgpu_device_supports_atpx(drm_dev)) {
 		/* Only need to handle PCI state in the driver for ATPX
@@ -1424,6 +1534,13 @@ static int amdgpu_pmops_runtime_resume(struct device *dev)
 		amdgpu_device_baco_exit(drm_dev);
 	}
 	ret = amdgpu_device_resume(drm_dev, false);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	drm_kms_helper_poll_enable(drm_dev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (amdgpu_device_supports_atpx(drm_dev))
 		drm_dev->switch_power_state = DRM_SWITCH_POWER_ON;
 	adev->in_runpm = false;

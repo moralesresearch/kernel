@@ -110,9 +110,14 @@ extern int ebt_register_table(struct net *net,
 			      const struct ebt_table *table,
 			      const struct nf_hook_ops *ops,
 			      struct ebt_table **res);
+<<<<<<< HEAD
 extern void ebt_unregister_table(struct net *net, struct ebt_table *table);
 void ebt_unregister_table_pre_exit(struct net *net, const char *tablename,
 				   const struct nf_hook_ops *ops);
+=======
+extern void ebt_unregister_table(struct net *net, struct ebt_table *table,
+				 const struct nf_hook_ops *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern unsigned int ebt_do_table(struct sk_buff *skb,
 				 const struct nf_hook_state *state,
 				 struct ebt_table *table);

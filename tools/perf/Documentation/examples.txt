@@ -3,7 +3,11 @@
 		****** perf by examples ******
 		------------------------------
 
+<<<<<<< HEAD
 [ From an e-mail by Ingo Molnar, https://lore.kernel.org/lkml/20090804195717.GA5998@elte.hu ]
+=======
+[ From an e-mail by Ingo Molnar, http://lkml.org/lkml/2009/8/4/346 ]
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 First, discovery/enumeration of available counters can be done via

@@ -10,7 +10,10 @@
 #include <dt-bindings/power/meson8-power.h>
 #include <dt-bindings/reset/amlogic,meson8b-reset.h>
 #include <dt-bindings/reset/amlogic,meson8b-clkc-reset.h>
+<<<<<<< HEAD
 #include <dt-bindings/thermal/thermal.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "meson.dtsi"
 
 / {
@@ -27,7 +30,10 @@
 			resets = <&clkc CLKC_RESET_CPU0_SOFT_RESET>;
 			operating-points-v2 = <&cpu_opp_table>;
 			clocks = <&clkc CLKID_CPUCLK>;
+<<<<<<< HEAD
 			#cooling-cells = <2>; /* min followed by max */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		cpu1: cpu@201 {
@@ -39,7 +45,10 @@
 			resets = <&clkc CLKC_RESET_CPU1_SOFT_RESET>;
 			operating-points-v2 = <&cpu_opp_table>;
 			clocks = <&clkc CLKID_CPUCLK>;
+<<<<<<< HEAD
 			#cooling-cells = <2>; /* min followed by max */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		cpu2: cpu@202 {
@@ -51,7 +60,10 @@
 			resets = <&clkc CLKC_RESET_CPU2_SOFT_RESET>;
 			operating-points-v2 = <&cpu_opp_table>;
 			clocks = <&clkc CLKID_CPUCLK>;
+<<<<<<< HEAD
 			#cooling-cells = <2>; /* min followed by max */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		cpu3: cpu@203 {
@@ -63,7 +75,10 @@
 			resets = <&clkc CLKC_RESET_CPU3_SOFT_RESET>;
 			operating-points-v2 = <&cpu_opp_table>;
 			clocks = <&clkc CLKID_CPUCLK>;
+<<<<<<< HEAD
 			#cooling-cells = <2>; /* min followed by max */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 
@@ -172,6 +187,7 @@
 		};
 	};
 
+<<<<<<< HEAD
 	thermal-zones {
 		soc {
 			polling-delay-passive = <250>; /* milliseconds */
@@ -220,6 +236,8 @@
 		};
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mmcbus: bus@c8000000 {
 		compatible = "simple-bus";
 		reg = <0xc8000000 0x8000>;
@@ -274,7 +292,10 @@
 			clocks = <&clkc CLKID_CLK81>, <&clkc CLKID_MALI>;
 			clock-names = "bus", "core";
 			operating-points-v2 = <&gpu_opp_table>;
+<<<<<<< HEAD
 			#cooling-cells = <2>; /* min followed by max */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 }; /* end of / */
@@ -320,6 +341,7 @@
 	};
 };
 
+<<<<<<< HEAD
 &ao_arc_rproc {
 	compatible= "amlogic,meson8b-ao-arc", "amlogic,meson-mx-ao-arc";
 	amlogic,secbus2 = <&secbus2>;
@@ -328,6 +350,8 @@
 	clocks = <&clkc CLKID_AO_MEDIA_CPU>;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &cbus {
 	reset: reset-controller@4404 {
 		compatible = "amlogic,meson8b-reset";
@@ -472,12 +496,15 @@
 };
 
 &ahb_sram {
+<<<<<<< HEAD
 	ao_arc_sram: ao-arc-sram@0 {
 		compatible = "amlogic,meson8b-ao-arc-sram";
 		reg = <0x0 0x8000>;
 		pool;
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	smp-sram@1ff80 {
 		compatible = "amlogic,meson8b-smp-sram";
 		reg = <0x1ff80 0x8>;
@@ -642,6 +669,7 @@
 	clock-names = "clkin0", "clkin1", "clkin2", "clkin3", "pclk";
 };
 
+<<<<<<< HEAD
 &secbus {
 	secbus2: system-controller@4000 {
 		compatible = "amlogic,meson8b-secbus2", "syscon";
@@ -649,6 +677,8 @@
 	};
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &sdio {
 	compatible = "amlogic,meson8b-sdio", "amlogic,meson-mx-sdio";
 	clocks = <&clkc CLKID_SDIO>, <&clkc CLKID_CLK81>;

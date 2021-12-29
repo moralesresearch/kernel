@@ -224,9 +224,14 @@ void multiorder_checks(void)
 
 int __weak main(void)
 {
+<<<<<<< HEAD
 	rcu_register_thread();
 	radix_tree_init();
 	multiorder_checks();
 	rcu_unregister_thread();
+=======
+	radix_tree_init();
+	multiorder_checks();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }

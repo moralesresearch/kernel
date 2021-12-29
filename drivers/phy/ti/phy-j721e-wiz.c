@@ -615,6 +615,15 @@ static void wiz_clock_cleanup(struct wiz *wiz, struct device_node *node)
 		of_clk_del_provider(clk_node);
 		of_node_put(clk_node);
 	}
+<<<<<<< HEAD
+
+	for (i = 0; i < wiz->clk_div_sel_num; i++) {
+		clk_node = of_get_child_by_name(node, clk_div_sel[i].node_name);
+		of_clk_del_provider(clk_node);
+		of_node_put(clk_node);
+	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int wiz_clock_init(struct wiz *wiz, struct device_node *node)
@@ -888,6 +897,10 @@ static int wiz_probe(struct platform_device *pdev)
 
 		if (wiz->typec_dir_delay < WIZ_TYPEC_DIR_DEBOUNCE_MIN ||
 		    wiz->typec_dir_delay > WIZ_TYPEC_DIR_DEBOUNCE_MAX) {
+<<<<<<< HEAD
+			ret = -EINVAL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_err(dev, "Invalid typec-dir-debounce property\n");
 			goto err_addr_to_resource;
 		}
@@ -947,10 +960,25 @@ static int wiz_probe(struct platform_device *pdev)
 		goto err_get_sync;
 	}
 
+<<<<<<< HEAD
+	ret = wiz_init(wiz);
+	if (ret) {
+		dev_err(dev, "WIZ initialization failed\n");
+		goto err_wiz_init;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	serdes_pdev = of_platform_device_create(child_node, NULL, dev);
 	if (!serdes_pdev) {
 		dev_WARN(dev, "Unable to create SERDES platform device\n");
 		ret = -ENOMEM;
+<<<<<<< HEAD
+		goto err_wiz_init;
+	}
+	wiz->serdes_pdev = serdes_pdev;
+
+=======
 		goto err_pdev_create;
 	}
 	wiz->serdes_pdev = serdes_pdev;
@@ -961,13 +989,17 @@ static int wiz_probe(struct platform_device *pdev)
 		goto err_wiz_init;
 	}
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	of_node_put(child_node);
 	return 0;
 
 err_wiz_init:
+<<<<<<< HEAD
+=======
 	of_platform_device_destroy(&serdes_pdev->dev, NULL);
 
 err_pdev_create:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wiz_clock_cleanup(wiz, node);
 
 err_get_sync:

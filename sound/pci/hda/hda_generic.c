@@ -1202,11 +1202,25 @@ static const char *get_line_out_pfx(struct hda_codec *codec, int ch,
 		*index = ch;
 		return "Headphone";
 	case AUTO_PIN_LINE_OUT:
+<<<<<<< HEAD
+		/* This deals with the case where one HP or one Speaker or
+		 * one HP + one Speaker need to share the DAC with LO
+		 */
+		if (!ch) {
+			bool hp_lo_shared = false, spk_lo_shared = false;
+
+			if (cfg->speaker_outs)
+				spk_lo_shared = !path_has_mixer(codec,
+								spec->speaker_paths[0],	ctl_type);
+			if (cfg->hp_outs)
+				hp_lo_shared = !path_has_mixer(codec, spec->hp_paths[0], ctl_type);
+=======
 		/* This deals with the case where we have two DACs and
 		 * one LO, one HP and one Speaker */
 		if (!ch && cfg->speaker_outs && cfg->hp_outs) {
 			bool hp_lo_shared = !path_has_mixer(codec, spec->hp_paths[0], ctl_type);
 			bool spk_lo_shared = !path_has_mixer(codec, spec->speaker_paths[0], ctl_type);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (hp_lo_shared && spk_lo_shared)
 				return spec->vmaster_mute.hook ? "PCM" : "Master";
 			if (hp_lo_shared)
@@ -3923,7 +3937,15 @@ static void vmaster_update_mute_led(void *private_data, int enabled)
 }
 
 /**
+<<<<<<< HEAD
  * snd_hda_gen_add_mute_led_cdev - Create a LED classdev and enable as vmaster mute LED
+=======
+<<<<<<< HEAD
+ * snd_hda_gen_add_mute_led_cdev - Create a LED classdev and enable as vmaster mute LED
+=======
+ * snd_dha_gen_add_mute_led_cdev - Create a LED classdev and enable as vmaster mute LED
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @codec: the HDA codec
  * @callback: the callback for LED classdev brightness_set_blocking
  */
@@ -4074,7 +4096,15 @@ static int add_micmute_led_hook(struct hda_codec *codec)
 }
 
 /**
+<<<<<<< HEAD
  * snd_hda_gen_add_micmute_led_cdev - Create a LED classdev and enable as mic-mute LED
+=======
+<<<<<<< HEAD
+ * snd_hda_gen_add_micmute_led_cdev - Create a LED classdev and enable as mic-mute LED
+=======
+ * snd_dha_gen_add_micmute_led_cdev - Create a LED classdev and enable as mic-mute LED
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @codec: the HDA codec
  * @callback: the callback for LED classdev brightness_set_blocking
  *
@@ -5721,7 +5751,15 @@ static void fill_pcm_stream_name(char *str, size_t len, const char *sfx,
 
 	if (*str)
 		return;
+<<<<<<< HEAD
 	strscpy(str, chip_name, len);
+=======
+<<<<<<< HEAD
+	strscpy(str, chip_name, len);
+=======
+	strlcpy(str, chip_name, len);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* drop non-alnum chars after a space */
 	for (p = strchr(str, ' '); p; p = strchr(p + 1, ' ')) {

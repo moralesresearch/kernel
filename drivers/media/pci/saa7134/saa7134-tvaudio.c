@@ -871,6 +871,7 @@ void saa7134_enable_i2s(struct saa7134_dev *dev)
 	switch (dev->pci->device) {
 	case PCI_DEVICE_ID_PHILIPS_SAA7133:
 	case PCI_DEVICE_ID_PHILIPS_SAA7135:
+<<<<<<< HEAD
 		/* Set I2S format (SONY)  */
 		saa_writeb(SAA7133_I2S_AUDIO_CONTROL, 0x00);
 		/* Start I2S */
@@ -889,6 +890,25 @@ void saa7134_enable_i2s(struct saa7134_dev *dev)
 
 	default:
 		break;
+=======
+	    /* Set I2S format (SONY)  */
+	    saa_writeb(SAA7133_I2S_AUDIO_CONTROL, 0x00);
+	    /* Start I2S */
+	    saa_writeb(SAA7134_I2S_AUDIO_OUTPUT, 0x11);
+	    break;
+
+	case PCI_DEVICE_ID_PHILIPS_SAA7134:
+	    i2s_format = (dev->input->amux == TV) ? 0x00 : 0x01;
+
+	    /* enable I2S audio output for the mpeg encoder */
+	    saa_writeb(SAA7134_I2S_OUTPUT_SELECT, 0x80);
+	    saa_writeb(SAA7134_I2S_OUTPUT_FORMAT, i2s_format);
+	    saa_writeb(SAA7134_I2S_OUTPUT_LEVEL,  0x0F);
+	    saa_writeb(SAA7134_I2S_AUDIO_OUTPUT,  0x01);
+
+	default:
+	    break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

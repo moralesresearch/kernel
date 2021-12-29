@@ -658,6 +658,10 @@ ds1685_rtc_irq_handler(int irq, void *dev_id)
 {
 	struct platform_device *pdev = dev_id;
 	struct ds1685_priv *rtc = platform_get_drvdata(pdev);
+<<<<<<< HEAD
+=======
+	struct mutex *rtc_mutex;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 ctrlb, ctrlc;
 	unsigned long events = 0;
 	u8 num_irqs = 0;
@@ -666,7 +670,12 @@ ds1685_rtc_irq_handler(int irq, void *dev_id)
 	if (unlikely(!rtc))
 		return IRQ_HANDLED;
 
+<<<<<<< HEAD
 	rtc_lock(rtc->dev);
+=======
+	rtc_mutex = &rtc->dev->ops_lock;
+	mutex_lock(rtc_mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Ctrlb holds the interrupt-enable bits and ctrlc the flag bits. */
 	ctrlb = rtc->read(rtc, RTC_CTRL_B);
@@ -711,7 +720,11 @@ ds1685_rtc_irq_handler(int irq, void *dev_id)
 		}
 	}
 	rtc_update_irq(rtc->dev, num_irqs, events);
+<<<<<<< HEAD
 	rtc_unlock(rtc->dev);
+=======
+	mutex_unlock(rtc_mutex);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return events ? IRQ_HANDLED : IRQ_NONE;
 }

@@ -538,7 +538,15 @@ static struct snd_soc_dai_driver es8316_dai = {
 		.formats = ES8316_FORMATS,
 	},
 	.ops = &es8316_ops,
+<<<<<<< HEAD
 	.symmetric_rate = 1,
+=======
+<<<<<<< HEAD
+	.symmetric_rate = 1,
+=======
+	.symmetric_rates = 1,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void es8316_enable_micbias_for_mic_gnd_short_detect(
@@ -676,9 +684,18 @@ static void es8316_disable_jack_detect(struct snd_soc_component *component)
 {
 	struct es8316_priv *es8316 = snd_soc_component_get_drvdata(component);
 
+<<<<<<< HEAD
 	if (!es8316->jack)
 		return; /* Already disabled (or never enabled) */
 
+=======
+<<<<<<< HEAD
+	if (!es8316->jack)
+		return; /* Already disabled (or never enabled) */
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	disable_irq(es8316->irq);
 
 	mutex_lock(&es8316->lock);

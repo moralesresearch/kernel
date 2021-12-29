@@ -3616,7 +3616,11 @@ static int adv76xx_remove(struct i2c_client *client)
 	io_write(sd, 0x6e, 0);
 	io_write(sd, 0x73, 0);
 
+<<<<<<< HEAD
+	cancel_delayed_work_sync(&state->delayed_work_enable_hotplug);
+=======
 	cancel_delayed_work(&state->delayed_work_enable_hotplug);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	v4l2_async_unregister_subdev(sd);
 	media_entity_cleanup(&sd->entity);
 	adv76xx_unregister_clients(to_state(sd));

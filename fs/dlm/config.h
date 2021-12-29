@@ -48,7 +48,10 @@ void dlm_config_exit(void);
 int dlm_config_nodes(char *lsname, struct dlm_config_node **nodes_out,
 		     int *count_out);
 int dlm_comm_seq(int nodeid, uint32_t *seq);
+<<<<<<< HEAD
+=======
 void dlm_comm_mark(int nodeid, unsigned int *mark);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dlm_our_nodeid(void);
 int dlm_our_addr(struct sockaddr_storage *addr, int num);
 

@@ -51,6 +51,10 @@ static const struct regulator_ops fan53880_ops = {
 		      REGULATOR_LINEAR_RANGE(800000, 0xf, 0x73, 25000),	\
 		},							\
 		.n_linear_ranges = 2,					\
+<<<<<<< HEAD
+		.n_voltages =	   0x74,				\
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.vsel_reg =	   FAN53880_LDO ## _num ## VOUT,	\
 		.vsel_mask =	   0x7f,				\
 		.enable_reg =	   FAN53880_ENABLE,			\
@@ -76,6 +80,10 @@ static const struct regulator_desc fan53880_regulators[] = {
 		      REGULATOR_LINEAR_RANGE(600000, 0x1f, 0xf7, 12500),
 		},
 		.n_linear_ranges = 2,
+<<<<<<< HEAD
+		.n_voltages =	   0xf8,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.vsel_reg =	   FAN53880_BUCKVOUT,
 		.vsel_mask =	   0x7f,
 		.enable_reg =	   FAN53880_ENABLE,
@@ -95,6 +103,10 @@ static const struct regulator_desc fan53880_regulators[] = {
 		      REGULATOR_LINEAR_RANGE(3000000, 0x4, 0x70, 25000),
 		},
 		.n_linear_ranges = 2,
+<<<<<<< HEAD
+		.n_voltages =	   0x71,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.vsel_reg =	   FAN53880_BOOSTVOUT,
 		.vsel_mask =	   0x7f,
 		.enable_reg =	   FAN53880_ENABLE_BOOST,

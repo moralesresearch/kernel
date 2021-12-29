@@ -160,6 +160,7 @@ config MTD_REDBOOT_PARTS_READONLY
 	  'FIS directory' images, enable this option.
 
 endif # MTD_REDBOOT_PARTS
+<<<<<<< HEAD
 
 config MTD_QCOMSMEM_PARTS
 	tristate "Qualcomm SMEM NAND flash partition parser"
@@ -168,3 +169,5 @@ config MTD_QCOMSMEM_PARTS
 	help
 	  This provides support for parsing partitions from Shared Memory (SMEM)
 	  for NAND flash on Qualcomm platforms.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

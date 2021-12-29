@@ -61,6 +61,7 @@
 					0x060 MUX_M1 /* UART6_TXD */
 				>;
 			};
+<<<<<<< HEAD
 
 			i2c3_pmx_func: i2c3_pmx_func {
 				pinctrl-single,pins = <
@@ -208,6 +209,8 @@
 			gpio185_pmx_idle: gpio185_pmx_idle {
 				pinctrl-single,pins = <0x01C    0x0>;
 			};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		pmx2: pinmux@e896c800 {
@@ -331,6 +334,7 @@
 					DRIVE7_02MA DRIVE6_MASK
 				>;
 			};
+<<<<<<< HEAD
 
 			i2c3_cfg_func: i2c3_cfg_func {
 				pinctrl-single,pins = <
@@ -505,6 +509,8 @@
 					DRIVE7_04MA DRIVE6_MASK
 				>;
 			};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 
 		pmx5: pinmux@fc182000 {
@@ -659,11 +665,26 @@
 			};
 		};
 
+<<<<<<< HEAD
+=======
+		pmx1: pinmux@fff11000 {
+			compatible = "pinctrl-single";
+			reg = <0x0 0xfff11000 0x0 0x73c>;
+			#gpio-range-cells = <0x3>;
+			#pinctrl-cells = <1>;
+			pinctrl-single,register-width = <0x20>;
+			pinctrl-single,function-mask = <0x7>;
+			/* pin base, nr pins & gpio function */
+			pinctrl-single,gpio-range = <&range 0 46 0>;
+		};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pmx16: pinmux@fff11800 {
 			compatible = "pinconf-single";
 			reg = <0x0 0xfff11800 0x0 0x73c>;
 			#pinctrl-cells = <1>;
 			pinctrl-single,register-width = <0x20>;
+<<<<<<< HEAD
 
 			pwr_key_cfg_func: pwr_key_cfg_func {
 				pinctrl-single,pins = <
@@ -964,6 +985,8 @@
 				pinctrl-single,drive-strength = <0x00 0x70>;
 				pinctrl-single,slew-rate = <0x0 0x80>;
 			};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 	};
 };

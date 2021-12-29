@@ -9,9 +9,18 @@ mt7921_fw_debug_set(void *data, u64 val)
 {
 	struct mt7921_dev *dev = data;
 
+<<<<<<< HEAD
+	mt7921_mutex_acquire(dev);
+
+	dev->fw_debug = (u8)val;
+	mt7921_mcu_fw_log_2_host(dev, dev->fw_debug);
+
+	mt7921_mutex_release(dev);
+=======
 	dev->fw_debug = (u8)val;
 
 	mt7921_mcu_fw_log_2_host(dev, dev->fw_debug);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -44,14 +53,22 @@ mt7921_ampdu_stat_read_phy(struct mt7921_phy *phy,
 		range[i] = mt76_rr(dev, MT_MIB_ARNG(0, i));
 
 	for (i = 0; i < ARRAY_SIZE(bound); i++)
+<<<<<<< HEAD
+		bound[i] = MT_MIB_ARNCR_RANGE(range[i / 4], i % 4) + 1;
+=======
 		bound[i] = MT_MIB_ARNCR_RANGE(range[i / 4], i) + 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	seq_printf(file, "\nPhy0\n");
 
 	seq_printf(file, "Length: %8d | ", bound[0]);
 	for (i = 0; i < ARRAY_SIZE(bound) - 1; i++)
+<<<<<<< HEAD
+		seq_printf(file, "%3d  %3d | ", bound[i] + 1, bound[i + 1]);
+=======
 		seq_printf(file, "%3d -%3d | ",
 			   bound[i] + 1, bound[i + 1]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	seq_puts(file, "\nCount:  ");
 	for (i = 0; i < ARRAY_SIZE(bound); i++)

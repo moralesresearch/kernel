@@ -324,6 +324,10 @@ void cfg80211_pmsr_complete(struct wireless_dev *wdev,
 			    gfp_t gfp)
 {
 	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wdev->wiphy);
+<<<<<<< HEAD
+	struct cfg80211_pmsr_request *tmp, *prev, *to_free = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sk_buff *msg;
 	void *hdr;
 
@@ -354,9 +358,26 @@ free_msg:
 	nlmsg_free(msg);
 free_request:
 	spin_lock_bh(&wdev->pmsr_lock);
+<<<<<<< HEAD
+	/*
+	 * cfg80211_pmsr_process_abort() may have already moved this request
+	 * to the free list, and will free it later. In this case, don't free
+	 * it here.
+	 */
+	list_for_each_entry_safe(tmp, prev, &wdev->pmsr_list, list) {
+		if (tmp == req) {
+			list_del(&req->list);
+			to_free = req;
+			break;
+		}
+	}
+	spin_unlock_bh(&wdev->pmsr_lock);
+	kfree(to_free);
+=======
 	list_del(&req->list);
 	spin_unlock_bh(&wdev->pmsr_lock);
 	kfree(req);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(cfg80211_pmsr_complete);
 

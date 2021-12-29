@@ -203,6 +203,10 @@ static bool program_hpd_filter(const struct dc_link *link)
 	return result;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool dc_link_wait_for_t12(struct dc_link *link)
 {
 	if (link->connector_signal == SIGNAL_TYPE_EDP && link->dc->hwss.edp_wait_for_T12) {
@@ -218,6 +222,14 @@ bool dc_link_wait_for_t12(struct dc_link *link)
  * dc_link_detect_sink() - Determine if there is a sink connected
  *
  * @link: pointer to the dc link
+<<<<<<< HEAD
+=======
+=======
+/**
+ * dc_link_detect_sink() - Determine if there is a sink connected
+ *
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @type: Returned connection type
  * Does not detect downstream devices, such as MST sinks
  * or display connected through active dongles
@@ -354,7 +366,15 @@ static enum signal_type get_basic_signal_type(struct graphics_object_id encoder,
 	return SIGNAL_TYPE_NONE;
 }
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * dc_link_is_dp_sink_present() - Check if there is a native DP
  * or passive DP-HDMI dongle connected
  */
@@ -608,6 +628,14 @@ static void query_hdcp_capability(enum signal_type signal, struct dc_link *link)
 	dc_process_hdcp_msg(signal, link, &msg22);
 
 	if (signal == SIGNAL_TYPE_DISPLAY_PORT || signal == SIGNAL_TYPE_DISPLAY_PORT_MST) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		enum hdcp_message_status status = HDCP_MESSAGE_UNSUPPORTED;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		msg14.data = &link->hdcp_caps.bcaps.raw;
 		msg14.length = sizeof(link->hdcp_caps.bcaps.raw);
 		msg14.msg_id = HDCP_MESSAGE_ID_READ_BCAPS;
@@ -615,7 +643,15 @@ static void query_hdcp_capability(enum signal_type signal, struct dc_link *link)
 		msg14.link = HDCP_LINK_PRIMARY;
 		msg14.max_retries = 5;
 
+<<<<<<< HEAD
 		dc_process_hdcp_msg(signal, link, &msg14);
+=======
+<<<<<<< HEAD
+		dc_process_hdcp_msg(signal, link, &msg14);
+=======
+		status = dc_process_hdcp_msg(signal, link, &msg14);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 }
@@ -840,7 +876,15 @@ static bool wait_for_entering_dp_alt_mode(struct dc_link *link)
 	return false;
 }
 
+<<<<<<< HEAD
 /*
+=======
+<<<<<<< HEAD
+/*
+=======
+/**
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * dc_link_detect() - Detect if a sink is attached to a given link
  *
  * link->local_sink is created or destroyed as needed.
@@ -1067,6 +1111,27 @@ static bool dc_link_detect_helper(struct dc_link *link,
 			    dc_is_dvi_signal(link->connector_signal)) {
 				if (prev_sink)
 					dc_sink_release(prev_sink);
+<<<<<<< HEAD
+				link_disconnect_sink(link);
+
+				return false;
+			}
+			/*
+			 * Abort detection for DP connectors if we have
+			 * no EDID and connector is active converter
+			 * as there are no display downstream
+			 *
+			 */
+			if (dc_is_dp_sst_signal(link->connector_signal) &&
+				(link->dpcd_caps.dongle_type ==
+						DISPLAY_DONGLE_DP_VGA_CONVERTER ||
+				link->dpcd_caps.dongle_type ==
+						DISPLAY_DONGLE_DP_DVI_CONVERTER)) {
+				if (prev_sink)
+					dc_sink_release(prev_sink);
+				link_disconnect_sink(link);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				return false;
 			}
@@ -1075,6 +1140,15 @@ static bool dc_link_detect_helper(struct dc_link *link,
 			break;
 		}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		if (link->local_sink->edid_caps.panel_patch.disable_fec)
+			link->ctx->dc->debug.disable_fec = true;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		// Check if edid is the same
 		if ((prev_sink) &&
 		    (edid_status == EDID_THE_SAME || edid_status == EDID_OK))
@@ -1373,17 +1447,34 @@ static bool dc_link_construct(struct dc_link *link,
 	struct dc_context *dc_ctx = init_params->ctx;
 	struct encoder_init_data enc_init_data = { 0 };
 	struct panel_cntl_init_data panel_cntl_init_data = { 0 };
+<<<<<<< HEAD
 	struct integrated_info *info;
+=======
+<<<<<<< HEAD
+	struct integrated_info *info;
+=======
+	struct integrated_info info = {{{ 0 }}};
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct dc_bios *bios = init_params->dc->ctx->dc_bios;
 	const struct dc_vbios_funcs *bp_funcs = bios->funcs;
 	struct bp_disp_connector_caps_info disp_connect_caps_info = { 0 };
 
 	DC_LOGGER_INIT(dc_ctx->logger);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	info = kzalloc(sizeof(*info), GFP_KERNEL);
 	if (!info)
 		goto create_fail;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	link->irq_source_hpd = DC_IRQ_SOURCE_INVALID;
 	link->irq_source_hpd_rx = DC_IRQ_SOURCE_INVALID;
 
@@ -1401,12 +1492,26 @@ static bool dc_link_construct(struct dc_link *link,
 	link->link_id =
 		bios->funcs->get_connector_id(bios, init_params->connector_index);
 
+<<<<<<< HEAD
 	DC_LOG_DC("BIOS object table - link_id: %d", link->link_id.id);
+=======
+<<<<<<< HEAD
+	DC_LOG_DC("BIOS object table - link_id: %d", link->link_id.id);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (bios->funcs->get_disp_connector_caps_info) {
 		bios->funcs->get_disp_connector_caps_info(bios, link->link_id, &disp_connect_caps_info);
 		link->is_internal_display = disp_connect_caps_info.INTERNAL_DISPLAY;
+<<<<<<< HEAD
 		DC_LOG_DC("BIOS object table - is_internal_display: %d", link->is_internal_display);
+=======
+<<<<<<< HEAD
+		DC_LOG_DC("BIOS object table - is_internal_display: %d", link->is_internal_display);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (link->link_id.type != OBJECT_TYPE_CONNECTOR) {
@@ -1421,14 +1526,30 @@ static bool dc_link_construct(struct dc_link *link,
 
 	link->hpd_gpio = get_hpd_gpio(link->ctx->dc_bios, link->link_id,
 				      link->ctx->gpio_service);
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (link->hpd_gpio) {
 		dal_gpio_open(link->hpd_gpio, GPIO_MODE_INTERRUPT);
 		dal_gpio_unlock_pin(link->hpd_gpio);
 		link->irq_source_hpd = dal_irq_get_source(link->hpd_gpio);
+<<<<<<< HEAD
 
 		DC_LOG_DC("BIOS object table - hpd_gpio id: %d", link->hpd_gpio->id);
 		DC_LOG_DC("BIOS object table - hpd_gpio en: %d", link->hpd_gpio->en);
+=======
+<<<<<<< HEAD
+
+		DC_LOG_DC("BIOS object table - hpd_gpio id: %d", link->hpd_gpio->id);
+		DC_LOG_DC("BIOS object table - hpd_gpio en: %d", link->hpd_gpio->en);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	switch (link->link_id.id) {
@@ -1530,8 +1651,16 @@ static bool dc_link_construct(struct dc_link *link,
 		goto link_enc_create_fail;
 	}
 
+<<<<<<< HEAD
 	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
 
+=======
+<<<<<<< HEAD
+	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	link->link_enc_hw_inst = link->link_enc->transmitter;
 
 	for (i = 0; i < 4; i++) {
@@ -1554,20 +1683,45 @@ static bool dc_link_construct(struct dc_link *link,
 		if (link->device_tag.dev_id.device_type == DEVICE_TYPE_LCD &&
 		    link->connector_signal == SIGNAL_TYPE_RGB)
 			continue;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		DC_LOG_DC("BIOS object table - device_tag.acpi_device: %d", link->device_tag.acpi_device);
 		DC_LOG_DC("BIOS object table - device_tag.dev_id.device_type: %d", link->device_tag.dev_id.device_type);
 		DC_LOG_DC("BIOS object table - device_tag.dev_id.enum_id: %d", link->device_tag.dev_id.enum_id);
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	}
 
 	if (bios->integrated_info)
+<<<<<<< HEAD
 		memcpy(info, bios->integrated_info, sizeof(*info));
+=======
+<<<<<<< HEAD
+		memcpy(info, bios->integrated_info, sizeof(*info));
+=======
+		info = *bios->integrated_info;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Look for channel mapping corresponding to connector and device tag */
 	for (i = 0; i < MAX_NUMBER_OF_EXT_DISPLAY_PATH; i++) {
 		struct external_display_path *path =
+<<<<<<< HEAD
 			&info->ext_disp_conn_info.path[i];
+=======
+<<<<<<< HEAD
+			&info->ext_disp_conn_info.path[i];
+=======
+			&info.ext_disp_conn_info.path[i];
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (path->device_connector_id.enum_id == link->link_id.enum_id &&
 		    path->device_connector_id.id == link->link_id.id &&
@@ -1576,14 +1730,30 @@ static bool dc_link_construct(struct dc_link *link,
 			    path->device_acpi_enum == link->device_tag.acpi_device) {
 				link->ddi_channel_mapping = path->channel_mapping;
 				link->chip_caps = path->caps;
+<<<<<<< HEAD
 				DC_LOG_DC("BIOS object table - ddi_channel_mapping: 0x%04X", link->ddi_channel_mapping.raw);
 				DC_LOG_DC("BIOS object table - chip_caps: %d", link->chip_caps);
+=======
+<<<<<<< HEAD
+				DC_LOG_DC("BIOS object table - ddi_channel_mapping: 0x%04X", link->ddi_channel_mapping.raw);
+				DC_LOG_DC("BIOS object table - chip_caps: %d", link->chip_caps);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			} else if (path->device_tag ==
 				   link->device_tag.dev_id.raw_device_tag) {
 				link->ddi_channel_mapping = path->channel_mapping;
 				link->chip_caps = path->caps;
+<<<<<<< HEAD
 				DC_LOG_DC("BIOS object table - ddi_channel_mapping: 0x%04X", link->ddi_channel_mapping.raw);
 				DC_LOG_DC("BIOS object table - chip_caps: %d", link->chip_caps);
+=======
+<<<<<<< HEAD
+				DC_LOG_DC("BIOS object table - ddi_channel_mapping: 0x%04X", link->ddi_channel_mapping.raw);
+				DC_LOG_DC("BIOS object table - chip_caps: %d", link->chip_caps);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			break;
 		}
@@ -1602,7 +1772,15 @@ static bool dc_link_construct(struct dc_link *link,
 
 	link->psr_settings.psr_version = DC_PSR_VERSION_UNSUPPORTED;
 
+<<<<<<< HEAD
 	DC_LOG_DC("BIOS object table - %s finished successfully.\n", __func__);
+	kfree(info);
+=======
+<<<<<<< HEAD
+	DC_LOG_DC("BIOS object table - %s finished successfully.\n", __func__);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return true;
 device_tag_fail:
 	link->link_enc->funcs->destroy(&link->link_enc);
@@ -1619,9 +1797,18 @@ create_fail:
 		link->hpd_gpio = NULL;
 	}
 
+<<<<<<< HEAD
 	DC_LOG_DC("BIOS object table - %s failed.\n", __func__);
 	kfree(info);
 
+=======
+<<<<<<< HEAD
+	DC_LOG_DC("BIOS object table - %s failed.\n", __func__);
+	kfree(info);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return false;
 }
 
@@ -3168,6 +3355,10 @@ static void update_psp_stream_config(struct pipe_ctx *pipe_ctx, bool dpms_off)
 {
 	struct cp_psp *cp_psp = &pipe_ctx->stream->ctx->cp_psp;
 	if (cp_psp && cp_psp->funcs.update_stream_config) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct cp_psp_stream_config config = {0};
 		enum dp_panel_mode panel_mode =
 				dp_get_panel_mode(pipe_ctx->stream->link);
@@ -3179,6 +3370,22 @@ static void update_psp_stream_config(struct pipe_ctx *pipe_ctx, bool dpms_off)
 		config.dm_stream_ctx = pipe_ctx->stream->dm_stream_context;
 		config.assr_enabled = (panel_mode == DP_PANEL_MODE_EDP);
 		config.mst_enabled = (pipe_ctx->stream->signal ==
+<<<<<<< HEAD
+=======
+=======
+		struct cp_psp_stream_config config;
+
+		memset(&config, 0, sizeof(config));
+
+		config.otg_inst = (uint8_t) pipe_ctx->stream_res.tg->inst;
+		/*stream_enc_inst*/
+		config.stream_enc_inst = (uint8_t) pipe_ctx->stream_res.stream_enc->stream_enc_inst;
+		config.link_enc_inst = pipe_ctx->stream->link->link_enc_hw_inst;
+		config.dpms_off = dpms_off;
+		config.dm_stream_ctx = pipe_ctx->stream->dm_stream_context;
+		config.mst_supported = (pipe_ctx->stream->signal ==
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				SIGNAL_TYPE_DISPLAY_PORT_MST);
 		cp_psp->funcs.update_stream_config(cp_psp->handle, &config);
 	}
@@ -3431,7 +3638,18 @@ void core_link_set_avmute(struct pipe_ctx *pipe_ctx, bool enable)
 }
 
 /**
+<<<<<<< HEAD
  *  dc_link_enable_hpd_filter:
+=======
+<<<<<<< HEAD
+ *  dc_link_enable_hpd_filter:
+=======
+ *****************************************************************************
+ *  Function: dc_link_enable_hpd_filter
+ *
+ *  @brief
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *     If enable is true, programs HPD filter on associated HPD line using
  *     delay_on_disconnect/delay_on_connect values dependent on
  *     link->connector_signal
@@ -3439,8 +3657,19 @@ void core_link_set_avmute(struct pipe_ctx *pipe_ctx, bool enable)
  *     If enable is false, programs HPD filter on associated HPD line with no
  *     delays on connect or disconnect
  *
+<<<<<<< HEAD
  *  @link:   pointer to the dc link
  *  @enable: boolean specifying whether to enable hbd
+=======
+<<<<<<< HEAD
+ *  @link:   pointer to the dc link
+ *  @enable: boolean specifying whether to enable hbd
+=======
+ *  @param [in] link: pointer to the dc link
+ *  @param [in] enable: boolean specifying whether to enable hbd
+ *****************************************************************************
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 void dc_link_enable_hpd_filter(struct dc_link *link, bool enable)
 {
@@ -3666,7 +3895,15 @@ uint32_t dc_link_bandwidth_kbps(
 	link_bw_kbps *= 8;   /* 8 bits per byte*/
 	link_bw_kbps *= link_setting->lane_count;
 
+<<<<<<< HEAD
 	if (dc_link_should_enable_fec(link)) {
+=======
+<<<<<<< HEAD
+	if (dc_link_should_enable_fec(link)) {
+=======
+	if (dc_link_is_fec_supported(link) && !link->dc->debug.disable_fec) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Account for FEC overhead.
 		 * We have to do it based on caps,
 		 * and not based on FEC being set ready,
@@ -3687,8 +3924,18 @@ uint32_t dc_link_bandwidth_kbps(
 		 * but the difference is minimal and is in a safe direction,
 		 * which all works well around potential ambiguity of DP 1.4a spec.
 		 */
+<<<<<<< HEAD
 		long long fec_link_bw_kbps = link_bw_kbps * 970LL;
 		link_bw_kbps = (uint32_t)(div64_s64(fec_link_bw_kbps, 1000LL));
+=======
+<<<<<<< HEAD
+		long long fec_link_bw_kbps = link_bw_kbps * 970LL;
+		link_bw_kbps = (uint32_t)(div64_s64(fec_link_bw_kbps, 1000LL));
+=======
+		link_bw_kbps = mul_u64_u32_shr(BIT_ULL(32) * 970LL / 1000,
+					       link_bw_kbps, 32);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return link_bw_kbps;
@@ -3718,6 +3965,10 @@ bool dc_link_is_fec_supported(const struct dc_link *link)
 			!IS_FPGA_MAXIMUS_DC(link->ctx->dce_environment));
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool dc_link_should_enable_fec(const struct dc_link *link)
 {
 	bool is_fec_disable = false;
@@ -3734,3 +3985,8 @@ bool dc_link_should_enable_fec(const struct dc_link *link)
 
 	return ret;
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

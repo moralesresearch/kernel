@@ -24,7 +24,11 @@ static void update_recvframe_attrib(struct adapter *padapter,
 {
 	struct rx_pkt_attrib *pattrib;
 	struct recv_stat report;
+<<<<<<< HEAD
 	struct rxreport_8723b *prxreport = (struct rxreport_8723b *)&report;
+=======
+	PRXREPORT prxreport = (PRXREPORT)&report;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	report.rxdw0 = prxstat->rxdw0;
 	report.rxdw1 = prxstat->rxdw1;

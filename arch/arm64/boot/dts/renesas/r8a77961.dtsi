@@ -453,6 +453,7 @@
 			reg = <0 0xe6060000 0 0x50c>;
 		};
 
+<<<<<<< HEAD
 		cmt0: timer@e60f0000 {
 			compatible = "renesas,r8a77961-cmt0",
 				     "renesas,rcar-gen3-cmt0";
@@ -523,6 +524,8 @@
 			status = "disabled";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cpg: clock-controller@e6150000 {
 			compatible = "renesas,r8a77961-cpg-mssr";
 			reg = <0 0xe6150000 0 0x1000>;
@@ -565,6 +568,7 @@
 			/* placeholder */
 		};
 
+<<<<<<< HEAD
 		tmu0: timer@e61e0000 {
 			compatible = "renesas,tmu-r8a77961", "renesas,tmu";
 			reg = <0 0xe61e0000 0 0x30>;
@@ -630,6 +634,8 @@
 			status = "disabled";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		i2c0: i2c@e6500000 {
 			#address-cells = <1>;
 			#size-cells = <0>;

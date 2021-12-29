@@ -19,7 +19,10 @@ void intel_guc_submission_disable(struct intel_guc *guc);
 void intel_guc_submission_fini(struct intel_guc *guc);
 int intel_guc_preempt_work_create(struct intel_guc *guc);
 void intel_guc_preempt_work_destroy(struct intel_guc *guc);
+<<<<<<< HEAD
 int intel_guc_submission_setup(struct intel_engine_cs *engine);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool intel_engine_in_guc_submission_mode(const struct intel_engine_cs *engine);
 
 static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)

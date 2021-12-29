@@ -217,7 +217,12 @@ void test_ni_assign_device_routes(void)
 	const u8 *table, *oldtable;
 
 	init_pci_6070e();
+<<<<<<< HEAD
+	ni_assign_device_routes(ni_eseries, pci_6070e, NULL,
+				&private.routing_tables);
+=======
 	ni_assign_device_routes(ni_eseries, pci_6070e, &private.routing_tables);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	devroutes = private.routing_tables.valid_routes;
 	table = private.routing_tables.route_values;
 
@@ -253,7 +258,12 @@ void test_ni_assign_device_routes(void)
 	olddevroutes = devroutes;
 	oldtable = table;
 	init_pci_6220();
+<<<<<<< HEAD
+	ni_assign_device_routes(ni_mseries, pci_6220, NULL,
+				&private.routing_tables);
+=======
 	ni_assign_device_routes(ni_mseries, pci_6220, &private.routing_tables);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	devroutes = private.routing_tables.valid_routes;
 	table = private.routing_tables.route_values;
 

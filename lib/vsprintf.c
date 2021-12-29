@@ -2090,6 +2090,7 @@ char *fwnode_string(char *buf, char *end, struct fwnode_handle *fwnode,
 	return widen_string(buf, buf - buf_start, end, spec);
 }
 
+<<<<<<< HEAD
 /* Disable pointer hashing if requested */
 bool no_hash_pointers __ro_after_init;
 EXPORT_SYMBOL_GPL(no_hash_pointers);
@@ -2116,6 +2117,8 @@ static int __init no_hash_pointers_enable(char *str)
 }
 early_param("no_hash_pointers", no_hash_pointers_enable);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Show a '%p' thing.  A kernel extension is that the '%p' is followed
  * by an extra set of alphanumeric characters that are extended format
@@ -2323,6 +2326,7 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
 		}
 	}
 
+<<<<<<< HEAD
 	/*
 	 * default is to _not_ leak addresses, so hash before printing,
 	 * unless no_hash_pointers is specified on the command line.
@@ -2331,6 +2335,10 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
 		return pointer_string(buf, end, ptr, spec);
 	else
 		return ptr_to_id(buf, end, ptr, spec);
+=======
+	/* default is to _not_ leak addresses, hash before printing */
+	return ptr_to_id(buf, end, ptr, spec);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -3135,8 +3143,11 @@ int bstr_printf(char *buf, size_t size, const char *fmt, const u32 *bin_buf)
 			switch (*fmt) {
 			case 'S':
 			case 's':
+<<<<<<< HEAD
+=======
 			case 'F':
 			case 'f':
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			case 'x':
 			case 'K':
 			case 'e':

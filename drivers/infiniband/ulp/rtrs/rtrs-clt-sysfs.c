@@ -471,12 +471,34 @@ int rtrs_clt_create_sysfs_root_files(struct rtrs_clt *clt)
 	return sysfs_create_group(&clt->dev.kobj, &rtrs_clt_attr_group);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void rtrs_clt_destroy_sysfs_root(struct rtrs_clt *clt)
 {
 	sysfs_remove_group(&clt->dev.kobj, &rtrs_clt_attr_group);
 
+<<<<<<< HEAD
+=======
+=======
+void rtrs_clt_destroy_sysfs_root_folders(struct rtrs_clt *clt)
+{
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (clt->kobj_paths) {
 		kobject_del(clt->kobj_paths);
 		kobject_put(clt->kobj_paths);
 	}
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+void rtrs_clt_destroy_sysfs_root_files(struct rtrs_clt *clt)
+{
+	sysfs_remove_group(&clt->dev.kobj, &rtrs_clt_attr_group);
+}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

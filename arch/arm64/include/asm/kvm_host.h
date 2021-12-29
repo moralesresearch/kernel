@@ -30,6 +30,10 @@
 
 #define __KVM_HAVE_ARCH_INTC_INITIALIZED
 
+<<<<<<< HEAD
+=======
+#define KVM_USER_MEM_SLOTS 512
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define KVM_HALT_POLL_NS_DEFAULT 500000
 
 #include <kvm/arm_vgic.h>
@@ -713,6 +717,10 @@ static inline void kvm_arch_sched_in(struct kvm_vcpu *vcpu, int cpu) {}
 static inline void kvm_arch_vcpu_block_finish(struct kvm_vcpu *vcpu) {}
 
 void kvm_arm_init_debug(void);
+<<<<<<< HEAD
+void kvm_arm_vcpu_init_debug(struct kvm_vcpu *vcpu);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void kvm_arm_setup_debug(struct kvm_vcpu *vcpu);
 void kvm_arm_clear_debug(struct kvm_vcpu *vcpu);
 void kvm_arm_reset_debug_ptr(struct kvm_vcpu *vcpu);
@@ -770,6 +778,9 @@ bool kvm_arm_vcpu_is_finalized(struct kvm_vcpu *vcpu);
 #define kvm_vcpu_has_pmu(vcpu)					\
 	(test_bit(KVM_ARM_VCPU_PMU_V3, (vcpu)->arch.features))
 
+<<<<<<< HEAD
 int kvm_trng_call(struct kvm_vcpu *vcpu);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __ARM64_KVM_HOST_H__ */

@@ -193,7 +193,10 @@ enum iscsi_connection_state {
 	ISCSI_CONN_UP = 0,
 	ISCSI_CONN_DOWN,
 	ISCSI_CONN_FAILED,
+<<<<<<< HEAD
 	ISCSI_CONN_BOUND,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct iscsi_cls_conn {

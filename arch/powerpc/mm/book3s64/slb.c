@@ -10,7 +10,10 @@
  */
 
 #include <asm/asm-prototypes.h>
+<<<<<<< HEAD
 #include <asm/interrupt.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/mmu.h>
 #include <asm/mmu_context.h>
 #include <asm/paca.h>
@@ -814,9 +817,14 @@ static long slb_allocate_user(struct mm_struct *mm, unsigned long ea)
 	return slb_insert_entry(ea, context, flags, ssize, false);
 }
 
+<<<<<<< HEAD
 DEFINE_INTERRUPT_HANDLER_RAW(do_slb_fault)
 {
 	unsigned long ea = regs->dar;
+=======
+long do_slb_fault(struct pt_regs *regs, unsigned long ea)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long id = get_region_id(ea);
 
 	/* IRQs are not reconciled here, so can't check irqs_disabled */
@@ -826,6 +834,7 @@ DEFINE_INTERRUPT_HANDLER_RAW(do_slb_fault)
 		return -EINVAL;
 
 	/*
+<<<<<<< HEAD
 	 * SLB kernel faults must be very careful not to touch anything that is
 	 * not bolted. E.g., PACA and global variables are okay, mm->context
 	 * stuff is not. SLB user faults may access all of memory (and induce
@@ -841,6 +850,21 @@ DEFINE_INTERRUPT_HANDLER_RAW(do_slb_fault)
 	 * would make them first-class kernel code and able to be traced and
 	 * instrumented, although performance would suffer a bit, it would
 	 * probably be a good tradeoff.
+=======
+	 * SLB kernel faults must be very careful not to touch anything
+	 * that is not bolted. E.g., PACA and global variables are okay,
+	 * mm->context stuff is not.
+	 *
+	 * SLB user faults can access all of kernel memory, but must be
+	 * careful not to touch things like IRQ state because it is not
+	 * "reconciled" here. The difficulty is that we must use
+	 * fast_exception_return to return from kernel SLB faults without
+	 * looking at possible non-bolted memory. We could test user vs
+	 * kernel faults in the interrupt handler asm and do a full fault,
+	 * reconcile, ret_from_except for user faults which would make them
+	 * first class kernel code. But for performance it's probably nicer
+	 * if they go via fast_exception_return too.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (id >= LINEAR_MAP_REGION_ID) {
 		long err;
@@ -869,6 +893,7 @@ DEFINE_INTERRUPT_HANDLER_RAW(do_slb_fault)
 	}
 }
 
+<<<<<<< HEAD
 DEFINE_INTERRUPT_HANDLER(do_bad_slb_fault)
 {
 	int err = regs->result;
@@ -878,6 +903,15 @@ DEFINE_INTERRUPT_HANDLER(do_bad_slb_fault)
 			_exception(SIGSEGV, regs, SEGV_BNDERR, regs->dar);
 		else
 			bad_page_fault(regs, SIGSEGV);
+=======
+void do_bad_slb_fault(struct pt_regs *regs, unsigned long ea, long err)
+{
+	if (err == -EFAULT) {
+		if (user_mode(regs))
+			_exception(SIGSEGV, regs, SEGV_BNDERR, ea);
+		else
+			bad_page_fault(regs, ea, SIGSEGV);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (err == -EINVAL) {
 		unrecoverable_exception(regs);
 	} else {

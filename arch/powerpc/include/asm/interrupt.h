@@ -138,6 +138,16 @@ static inline void interrupt_nmi_enter_prepare(struct pt_regs *regs, struct inte
 	local_paca->irq_soft_mask = IRQS_ALL_DISABLED;
 	local_paca->irq_happened |= PACA_IRQ_HARD_DIS;
 
+<<<<<<< HEAD
+	if (IS_ENABLED(CONFIG_PPC_BOOK3S_64) && !(regs->msr & MSR_PR) &&
+				regs->nip < (unsigned long)__end_interrupts) {
+		// Kernel code running below __end_interrupts is
+		// implicitly soft-masked.
+		regs->softe = IRQS_ALL_DISABLED;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Don't do any per-CPU operations until interrupt state is fixed */
 #endif
 	/* Allow DEC and PMI to be traced when they are soft-NMI */

@@ -18,15 +18,22 @@
 #include <linux/spinlock.h>
 #include <linux/fs.h>
 #include <linux/proc_fs.h>
+<<<<<<< HEAD
 #include <linux/pseudo_fs.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/sched.h>
 #include <linux/seq_file.h>
 #include <linux/device.h>
 #include <linux/pfn.h>
 #include <linux/mm.h>
+<<<<<<< HEAD
 #include <linux/mount.h>
 #include <linux/resource_ext.h>
 #include <uapi/linux/magic.h>
+=======
+#include <linux/resource_ext.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/io.h>
 
 
@@ -457,7 +464,11 @@ int walk_system_ram_res(u64 start, u64 end, void *arg,
 {
 	unsigned long flags = IORESOURCE_SYSTEM_RAM | IORESOURCE_BUSY;
 
+<<<<<<< HEAD
+	return __walk_iomem_res_desc(start, end, flags, IORES_DESC_NONE, false,
+=======
 	return __walk_iomem_res_desc(start, end, flags, IORES_DESC_NONE, true,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     arg, func);
 }
 
@@ -470,7 +481,11 @@ int walk_mem_res(u64 start, u64 end, void *arg,
 {
 	unsigned long flags = IORESOURCE_MEM | IORESOURCE_BUSY;
 
+<<<<<<< HEAD
+	return __walk_iomem_res_desc(start, end, flags, IORES_DESC_NONE, false,
+=======
 	return __walk_iomem_res_desc(start, end, flags, IORES_DESC_NONE, true,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     arg, func);
 }
 
@@ -1122,6 +1137,7 @@ resource_size_t resource_alignment(struct resource *res)
 
 static DECLARE_WAIT_QUEUE_HEAD(muxed_resource_wait);
 
+<<<<<<< HEAD
 static struct inode *iomem_inode;
 
 #ifdef CONFIG_IO_STRICT_DEVMEM
@@ -1171,6 +1187,8 @@ struct address_space *iomem_get_mapping(void)
 	return smp_load_acquire(&iomem_inode)->i_mapping;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * __request_region - create a new busy resource region
  * @parent: parent resource descriptor
@@ -1238,7 +1256,11 @@ struct resource * __request_region(struct resource *parent,
 	write_unlock(&resource_lock);
 
 	if (res && orig_parent == &iomem_resource)
+<<<<<<< HEAD
 		revoke_iomem(res);
+=======
+		revoke_devmem(res);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return res;
 }
@@ -1838,6 +1860,7 @@ static int __init strict_iomem(char *str)
 	return 1;
 }
 
+<<<<<<< HEAD
 static int iomem_fs_init_fs_context(struct fs_context *fc)
 {
 	return init_pseudo(fc, DEVMEM_MAGIC) ? 0 : -ENOMEM;
@@ -1882,4 +1905,6 @@ static int __init iomem_init_inode(void)
 
 fs_initcall(iomem_init_inode);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 __setup("iomem=", strict_iomem);

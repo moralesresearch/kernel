@@ -314,8 +314,11 @@ struct kvmppc_ops {
 			      int size);
 	int (*enable_svm)(struct kvm *kvm);
 	int (*svm_off)(struct kvm *kvm);
+<<<<<<< HEAD
 	int (*enable_dawr1)(struct kvm *kvm);
 	bool (*hash_v3_possible)(void);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 extern struct kvmppc_ops *kvmppc_hv_ops;
@@ -629,9 +632,15 @@ extern int h_ipi_redirect;
 static inline struct kvmppc_passthru_irqmap *kvmppc_get_passthru_irqmap(
 				struct kvm *kvm)
 	{ return NULL; }
+<<<<<<< HEAD
 static inline void kvmppc_alloc_host_rm_ops(void) {}
 static inline void kvmppc_free_host_rm_ops(void) {}
 static inline void kvmppc_free_pimap(struct kvm *kvm) {}
+=======
+static inline void kvmppc_alloc_host_rm_ops(void) {};
+static inline void kvmppc_free_host_rm_ops(void) {};
+static inline void kvmppc_free_pimap(struct kvm *kvm) {};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int kvmppc_xics_rm_complete(struct kvm_vcpu *vcpu, u32 hcall)
 	{ return 0; }
 static inline int kvmppc_xics_enabled(struct kvm_vcpu *vcpu)
@@ -883,9 +892,15 @@ static inline void kvmppc_mmu_flush_icache(kvm_pfn_t pfn)
 
 	/* Clear i-cache for new pages */
 	page = pfn_to_page(pfn);
+<<<<<<< HEAD
 	if (!test_bit(PG_dcache_clean, &page->flags)) {
 		flush_dcache_icache_page(page);
 		set_bit(PG_dcache_clean, &page->flags);
+=======
+	if (!test_bit(PG_arch_1, &page->flags)) {
+		flush_dcache_icache_page(page);
+		set_bit(PG_arch_1, &page->flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 

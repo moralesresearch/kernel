@@ -614,10 +614,19 @@ static int get_serial_info(struct tty_struct *tty,
 	ss->line = gb_tty->minor;
 	ss->xmit_fifo_size = 16;
 	ss->baud_base = 9600;
+<<<<<<< HEAD
+	ss->close_delay = jiffies_to_msecs(gb_tty->port.close_delay) / 10;
+	ss->closing_wait =
+		gb_tty->port.closing_wait == ASYNC_CLOSING_WAIT_NONE ?
+		ASYNC_CLOSING_WAIT_NONE :
+		jiffies_to_msecs(gb_tty->port.closing_wait) / 10;
+
+=======
 	ss->close_delay = gb_tty->port.close_delay / 10;
 	ss->closing_wait =
 		gb_tty->port.closing_wait == ASYNC_CLOSING_WAIT_NONE ?
 		ASYNC_CLOSING_WAIT_NONE : gb_tty->port.closing_wait / 10;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -629,17 +638,27 @@ static int set_serial_info(struct tty_struct *tty,
 	unsigned int close_delay;
 	int retval = 0;
 
+<<<<<<< HEAD
+	close_delay = msecs_to_jiffies(ss->close_delay * 10);
+	closing_wait = ss->closing_wait == ASYNC_CLOSING_WAIT_NONE ?
+			ASYNC_CLOSING_WAIT_NONE :
+			msecs_to_jiffies(ss->closing_wait * 10);
+=======
 	close_delay = ss->close_delay * 10;
 	closing_wait = ss->closing_wait == ASYNC_CLOSING_WAIT_NONE ?
 			ASYNC_CLOSING_WAIT_NONE : ss->closing_wait * 10;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&gb_tty->port.mutex);
 	if (!capable(CAP_SYS_ADMIN)) {
 		if ((close_delay != gb_tty->port.close_delay) ||
 		    (closing_wait != gb_tty->port.closing_wait))
 			retval = -EPERM;
+<<<<<<< HEAD
+=======
 		else
 			retval = -EOPNOTSUPP;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		gb_tty->port.close_delay = close_delay;
 		gb_tty->port.closing_wait = closing_wait;

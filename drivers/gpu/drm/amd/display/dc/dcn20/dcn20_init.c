@@ -94,7 +94,10 @@ static const struct hw_sequencer_funcs dcn20_funcs = {
 	.optimize_timing_for_fsft = dcn20_optimize_timing_for_fsft,
 #endif
 	.set_disp_pattern_generator = dcn20_set_disp_pattern_generator,
+<<<<<<< HEAD
 	.set_hubp_blank = dcn10_set_hubp_blank,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct hwseq_private_funcs dcn20_private_funcs = {

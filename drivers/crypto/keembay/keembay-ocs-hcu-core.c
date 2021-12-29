@@ -1220,8 +1220,15 @@ static int kmb_ocs_hcu_probe(struct platform_device *pdev)
 
 	/* Initialize crypto engine */
 	hcu_dev->engine = crypto_engine_alloc_init(dev, 1);
+<<<<<<< HEAD
+	if (!hcu_dev->engine) {
+		rc = -ENOMEM;
+		goto list_del;
+	}
+=======
 	if (!hcu_dev->engine)
 		goto list_del;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = crypto_engine_start(hcu_dev->engine);
 	if (rc) {

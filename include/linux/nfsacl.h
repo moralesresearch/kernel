@@ -38,8 +38,11 @@ nfsacl_encode(struct xdr_buf *buf, unsigned int base, struct inode *inode,
 extern int
 nfsacl_decode(struct xdr_buf *buf, unsigned int base, unsigned int *aclcnt,
 	      struct posix_acl **pacl);
+<<<<<<< HEAD
 extern bool
 nfs_stream_decode_acl(struct xdr_stream *xdr, unsigned int *aclcnt,
 		      struct posix_acl **pacl);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #endif  /* __LINUX_NFSACL_H */

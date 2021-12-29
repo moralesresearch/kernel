@@ -28,6 +28,18 @@
 #endif /* CONFIG_I8259 */
 #endif
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_IRQ_CPU_RM7K
+#ifndef RM7K_CPU_IRQ_BASE
+#define RM7K_CPU_IRQ_BASE (MIPS_CPU_IRQ_BASE+8)
+#endif
+#endif
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* CONFIG_IRQ_MIPS_CPU */
 
 #endif /* __ASM_MACH_GENERIC_IRQ_H */

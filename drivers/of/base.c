@@ -1297,8 +1297,13 @@ int of_phandle_iterator_next(struct of_phandle_iterator *it)
 
 		if (it->cells_name) {
 			if (!it->node) {
+<<<<<<< HEAD
 				pr_err("%pOF: could not find phandle %d\n",
 				       it->parent, it->phandle);
+=======
+				pr_err("%pOF: could not find phandle\n",
+				       it->parent);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				goto err;
 			}
 

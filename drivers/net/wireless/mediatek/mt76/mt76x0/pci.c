@@ -16,7 +16,11 @@ static int mt76x0e_start(struct ieee80211_hw *hw)
 
 	mt76x02_mac_start(dev);
 	mt76x0_phy_calibrate(dev, true);
+<<<<<<< HEAD
 	ieee80211_queue_delayed_work(dev->mt76.hw, &dev->mphy.mac_work,
+=======
+	ieee80211_queue_delayed_work(dev->mt76.hw, &dev->mt76.mac_work,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				     MT_MAC_WORK_INTERVAL);
 	ieee80211_queue_delayed_work(dev->mt76.hw, &dev->cal_work,
 				     MT_CALIBRATE_INTERVAL);
@@ -28,7 +32,11 @@ static int mt76x0e_start(struct ieee80211_hw *hw)
 static void mt76x0e_stop_hw(struct mt76x02_dev *dev)
 {
 	cancel_delayed_work_sync(&dev->cal_work);
+<<<<<<< HEAD
 	cancel_delayed_work_sync(&dev->mphy.mac_work);
+=======
+	cancel_delayed_work_sync(&dev->mt76.mac_work);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clear_bit(MT76_RESTART, &dev->mphy.state);
 
 	if (!mt76_poll(dev, MT_WPDMA_GLO_CFG, MT_WPDMA_GLO_CFG_TX_DMA_BUSY,
@@ -87,7 +95,11 @@ static const struct ieee80211_ops mt76x0e_ops = {
 	.reconfig_complete = mt76x02_reconfig_complete,
 };
 
+<<<<<<< HEAD
+static int mt76x0e_init_hardware(struct mt76x02_dev *dev, bool resume)
+=======
 static int mt76x0e_register_device(struct mt76x02_dev *dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 
@@ -100,9 +112,17 @@ static int mt76x0e_register_device(struct mt76x02_dev *dev)
 	if (err < 0)
 		return err;
 
+<<<<<<< HEAD
+	if (!resume) {
+		err = mt76x02_dma_init(dev);
+		if (err < 0)
+			return err;
+	}
+=======
 	err = mt76x02_dma_init(dev);
 	if (err < 0)
 		return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = mt76x0_init_hardware(dev);
 	if (err < 0)
@@ -123,6 +143,20 @@ static int mt76x0e_register_device(struct mt76x02_dev *dev)
 	mt76_clear(dev, 0x110, BIT(9));
 	mt76_set(dev, MT_MAX_LEN_CFG, BIT(13));
 
+<<<<<<< HEAD
+	return 0;
+}
+
+static int mt76x0e_register_device(struct mt76x02_dev *dev)
+{
+	int err;
+
+	err = mt76x0e_init_hardware(dev, false);
+	if (err < 0)
+		return err;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = mt76x0_register_device(dev);
 	if (err < 0)
 		return err;
@@ -167,6 +201,11 @@ mt76x0e_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
+	mt76_pci_disable_aspm(pdev);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mdev = mt76_alloc_device(&pdev->dev, sizeof(*dev), &mt76x0e_ops,
 				 &drv_ops);
 	if (!mdev)
@@ -220,6 +259,63 @@ mt76x0e_remove(struct pci_dev *pdev)
 	mt76_free_device(mdev);
 }
 
+<<<<<<< HEAD
+#ifdef CONFIG_PM
+static int mt76x0e_suspend(struct pci_dev *pdev, pm_message_t state)
+{
+	struct mt76_dev *mdev = pci_get_drvdata(pdev);
+	struct mt76x02_dev *dev = container_of(mdev, struct mt76x02_dev, mt76);
+	int i;
+
+	mt76_worker_disable(&mdev->tx_worker);
+	for (i = 0; i < ARRAY_SIZE(mdev->phy.q_tx); i++)
+		mt76_queue_tx_cleanup(dev, mdev->phy.q_tx[i], true);
+	for (i = 0; i < ARRAY_SIZE(mdev->q_mcu); i++)
+		mt76_queue_tx_cleanup(dev, mdev->q_mcu[i], true);
+	napi_disable(&mdev->tx_napi);
+
+	mt76_for_each_q_rx(mdev, i)
+		napi_disable(&mdev->napi[i]);
+
+	mt76x02_dma_disable(dev);
+	mt76x02_mcu_cleanup(dev);
+	mt76x0_chip_onoff(dev, false, false);
+
+	pci_enable_wake(pdev, pci_choose_state(pdev, state), true);
+	pci_save_state(pdev);
+
+	return pci_set_power_state(pdev, pci_choose_state(pdev, state));
+}
+
+static int mt76x0e_resume(struct pci_dev *pdev)
+{
+	struct mt76_dev *mdev = pci_get_drvdata(pdev);
+	struct mt76x02_dev *dev = container_of(mdev, struct mt76x02_dev, mt76);
+	int err, i;
+
+	err = pci_set_power_state(pdev, PCI_D0);
+	if (err)
+		return err;
+
+	pci_restore_state(pdev);
+
+	mt76_worker_enable(&mdev->tx_worker);
+
+	mt76_for_each_q_rx(mdev, i) {
+		mt76_queue_rx_reset(dev, i);
+		napi_enable(&mdev->napi[i]);
+		napi_schedule(&mdev->napi[i]);
+	}
+
+	napi_enable(&mdev->tx_napi);
+	napi_schedule(&mdev->tx_napi);
+
+	return mt76x0e_init_hardware(dev, true);
+}
+#endif /* CONFIG_PM */
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct pci_device_id mt76x0e_device_table[] = {
 	{ PCI_DEVICE(0x14c3, 0x7610) },
 	{ PCI_DEVICE(0x14c3, 0x7630) },
@@ -237,6 +333,13 @@ static struct pci_driver mt76x0e_driver = {
 	.id_table	= mt76x0e_device_table,
 	.probe		= mt76x0e_probe,
 	.remove		= mt76x0e_remove,
+<<<<<<< HEAD
+#ifdef CONFIG_PM
+	.suspend	= mt76x0e_suspend,
+	.resume		= mt76x0e_resume,
+#endif /* CONFIG_PM */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 module_pci_driver(mt76x0e_driver);

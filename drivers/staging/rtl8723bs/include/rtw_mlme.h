@@ -524,16 +524,28 @@ static inline void set_fwstate(struct mlme_priv *pmlmepriv, sint state)
 {
 	pmlmepriv->fw_state |= state;
 	/* FOR HW integration */
+<<<<<<< HEAD
 	if (state == _FW_UNDER_SURVEY)
 		pmlmepriv->bScanInProcess = true;
+=======
+	if (_FW_UNDER_SURVEY == state) {
+		pmlmepriv->bScanInProcess = true;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void _clr_fwstate_(struct mlme_priv *pmlmepriv, sint state)
 {
 	pmlmepriv->fw_state &= ~state;
 	/* FOR HW integration */
+<<<<<<< HEAD
 	if (state == _FW_UNDER_SURVEY)
 		pmlmepriv->bScanInProcess = false;
+=======
+	if (_FW_UNDER_SURVEY == state) {
+		pmlmepriv->bScanInProcess = false;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*

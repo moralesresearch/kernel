@@ -52,6 +52,7 @@ static char *twl_aen_severity_table[] =
 };
 
 /* Liberator register offsets */
+<<<<<<< HEAD
 #define TWL_STATUS			   0x0  /* Status */
 #define TWL_HIBDB			   0x20 /* Inbound doorbell */
 #define TWL_HISTAT			   0x30 /* Host interrupt status */
@@ -63,6 +64,19 @@ static char *twl_aen_severity_table[] =
 #define TWL_HIBQPH			   0xC4 /* Host inbound Q high */
 #define TWL_HOBQPL			   0xC8 /* Host outbound Q low */
 #define TWL_HOBQPH			   0xCC /* Host outbound Q high */
+=======
+#define TWL_STATUS                         0x0  /* Status */
+#define TWL_HIBDB                          0x20 /* Inbound doorbell */
+#define TWL_HISTAT                         0x30 /* Host interrupt status */
+#define TWL_HIMASK                         0x34 /* Host interrupt mask */
+#define TWL_HOBDB			   0x9C /* Outbound doorbell */
+#define TWL_HOBDBC                         0xA0 /* Outbound doorbell clear */
+#define TWL_SCRPD3                         0xBC /* Scratchpad */
+#define TWL_HIBQPL                         0xC0 /* Host inbound Q low */
+#define TWL_HIBQPH                         0xC4 /* Host inbound Q high */
+#define TWL_HOBQPL                         0xC8 /* Host outbound Q low */
+#define TWL_HOBQPH                         0xCC /* Host outbound Q high */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TWL_HISTATUS_VALID_INTERRUPT	   0xC
 #define TWL_HISTATUS_ATTENTION_INTERRUPT   0x4
 #define TWL_HISTATUS_RESPONSE_INTERRUPT	   0x8
@@ -80,12 +94,21 @@ static char *twl_aen_severity_table[] =
 #define TW_OP_EXECUTE_SCSI    0x10
 
 /* Asynchronous Event Notification (AEN) codes used by the driver */
+<<<<<<< HEAD
 #define TW_AEN_QUEUE_EMPTY	 0x0000
 #define TW_AEN_SOFT_RESET	 0x0001
 #define TW_AEN_SYNC_TIME_WITH_HOST 0x031
 #define TW_AEN_SEVERITY_ERROR	 0x1
 #define TW_AEN_SEVERITY_DEBUG	 0x4
 #define TW_AEN_NOT_RETRIEVED	 0x1
+=======
+#define TW_AEN_QUEUE_EMPTY       0x0000
+#define TW_AEN_SOFT_RESET        0x0001
+#define TW_AEN_SYNC_TIME_WITH_HOST 0x031
+#define TW_AEN_SEVERITY_ERROR    0x1
+#define TW_AEN_SEVERITY_DEBUG    0x4
+#define TW_AEN_NOT_RETRIEVED 0x1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Command state defines */
 #define TW_S_INITIAL   0x1  /* Initial state */
@@ -101,7 +124,11 @@ static char *twl_aen_severity_table[] =
 #define TW_CURRENT_DRIVER_BRANCH 0
 
 /* Misc defines */
+<<<<<<< HEAD
 #define TW_SECTOR_SIZE			      512
+=======
+#define TW_SECTOR_SIZE                        512
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TW_MAX_UNITS			      32
 #define TW_INIT_MESSAGE_CREDITS		      0x100
 #define TW_INIT_COMMAND_PACKET_SIZE	      0x3
@@ -116,6 +143,7 @@ static char *twl_aen_severity_table[] =
 #define TW_MAX_RESET_TRIES		      2
 #define TW_MAX_CMDS_PER_LUN		      254
 #define TW_MAX_AEN_DRAIN		      255
+<<<<<<< HEAD
 #define TW_IN_RESET			      2
 #define TW_USING_MSI			      3
 #define TW_IN_ATTENTION_LOOP		      4
@@ -125,6 +153,17 @@ static char *twl_aen_severity_table[] =
 #define TW_IOCTL_CHRDEV_FREE		      -1
 #define TW_COMMAND_OFFSET		      128 /* 128 bytes */
 #define TW_VERSION_TABLE		      0x0402
+=======
+#define TW_IN_RESET                           2
+#define TW_USING_MSI			      3
+#define TW_IN_ATTENTION_LOOP		      4
+#define TW_MAX_SECTORS                        256
+#define TW_MAX_CDB_LEN                        16
+#define TW_IOCTL_CHRDEV_TIMEOUT               60 /* 60 seconds */
+#define TW_IOCTL_CHRDEV_FREE                  -1
+#define TW_COMMAND_OFFSET                     128 /* 128 bytes */
+#define TW_VERSION_TABLE                      0x0402
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TW_TIMEKEEP_TABLE		      0x040A
 #define TW_INFORMATION_TABLE		      0x0403
 #define TW_PARAM_FWVER			      3
@@ -136,15 +175,26 @@ static char *twl_aen_severity_table[] =
 #define TW_PARAM_PHY_SUMMARY_TABLE	      1
 #define TW_PARAM_PHYCOUNT		      2
 #define TW_PARAM_PHYCOUNT_LENGTH	      1
+<<<<<<< HEAD
 #define TW_IOCTL_FIRMWARE_PASS_THROUGH	      0x108  // Used by smartmontools
+=======
+#define TW_IOCTL_FIRMWARE_PASS_THROUGH        0x108  // Used by smartmontools
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TW_ALLOCATION_LENGTH		      128
 #define TW_SENSE_DATA_LENGTH		      18
 #define TW_ERROR_LOGICAL_UNIT_NOT_SUPPORTED   0x10a
 #define TW_ERROR_INVALID_FIELD_IN_CDB	      0x10d
+<<<<<<< HEAD
 #define TW_ERROR_UNIT_OFFLINE		      0x128
 #define TW_MESSAGE_SOURCE_CONTROLLER_ERROR    3
 #define TW_MESSAGE_SOURCE_CONTROLLER_EVENT    4
 #define TW_DRIVER			      6
+=======
+#define TW_ERROR_UNIT_OFFLINE                 0x128
+#define TW_MESSAGE_SOURCE_CONTROLLER_ERROR    3
+#define TW_MESSAGE_SOURCE_CONTROLLER_EVENT    4
+#define TW_DRIVER 			      6
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef PCI_DEVICE_ID_3WARE_9750
 #define PCI_DEVICE_ID_3WARE_9750 0x1010
 #endif
@@ -167,6 +217,7 @@ static char *twl_aen_severity_table[] =
 #define TW_NOTMFA_OUT(x) (x & 0x1)
 
 /* request_id: 12, lun: 4 */
+<<<<<<< HEAD
 #define TW_REQ_LUN_IN(lun, request_id)			\
 	(((lun << 12) & 0xf000) | (request_id & 0xfff))
 #define TW_LUN_OUT(lun) ((lun >> 12) & 0xf)
@@ -202,6 +253,27 @@ static char *twl_aen_severity_table[] =
 	(writel(~0, TWL_HOBDBC_REG_ADDR(tw_dev)))
 #define TWL_SOFT_RESET(x)					\
 	(writel(TWL_ISSUE_SOFT_RESET, TWL_HIBDB_REG_ADDR(tw_dev)))
+=======
+#define TW_REQ_LUN_IN(lun, request_id) (((lun << 12) & 0xf000) | (request_id & 0xfff))
+#define TW_LUN_OUT(lun) ((lun >> 12) & 0xf)
+
+/* Register access macros */
+#define TWL_STATUS_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_STATUS)
+#define TWL_HOBQPL_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_HOBQPL)
+#define TWL_HOBQPH_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_HOBQPH)
+#define TWL_HOBDB_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_HOBDB)
+#define TWL_HOBDBC_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_HOBDBC)
+#define TWL_HIMASK_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_HIMASK)
+#define TWL_HISTAT_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_HISTAT)
+#define TWL_HIBQPH_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_HIBQPH)
+#define TWL_HIBQPL_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_HIBQPL)
+#define TWL_HIBDB_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_HIBDB)
+#define TWL_SCRPD3_REG_ADDR(x) ((unsigned char __iomem *)x->base_addr + TWL_SCRPD3)
+#define TWL_MASK_INTERRUPTS(x) (writel(~0, TWL_HIMASK_REG_ADDR(tw_dev)))
+#define TWL_UNMASK_INTERRUPTS(x) (writel(~TWL_HISTATUS_VALID_INTERRUPT, TWL_HIMASK_REG_ADDR(tw_dev)))
+#define TWL_CLEAR_DB_INTERRUPT(x) (writel(~0, TWL_HOBDBC_REG_ADDR(tw_dev)))
+#define TWL_SOFT_RESET(x) (writel(TWL_ISSUE_SOFT_RESET, TWL_HIBDB_REG_ADDR(tw_dev)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Macros */
 #define TW_PRINTK(h,a,b,c) { \
@@ -333,7 +405,11 @@ typedef struct TAG_TW_Ioctl_Driver_Command {
 
 typedef struct TAG_TW_Ioctl_Apache {
 	TW_Ioctl_Driver_Command driver_command;
+<<<<<<< HEAD
 	char padding[488];
+=======
+        char padding[488];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	TW_Command_Full firmware_command;
 	char data_buffer[1];
 } TW_Ioctl_Buf_Apache;
@@ -368,10 +444,17 @@ typedef struct TAG_TW_Compatibility_Info
 #pragma pack()
 
 typedef struct TAG_TW_Device_Extension {
+<<<<<<< HEAD
 	void			__iomem *base_addr;
 	unsigned long		*generic_buffer_virt[TW_Q_LENGTH];
 	dma_addr_t		generic_buffer_phys[TW_Q_LENGTH];
 	TW_Command_Full		*command_packet_virt[TW_Q_LENGTH];
+=======
+	void                     __iomem *base_addr;
+	unsigned long	       	*generic_buffer_virt[TW_Q_LENGTH];
+	dma_addr_t	       	generic_buffer_phys[TW_Q_LENGTH];
+	TW_Command_Full	       	*command_packet_virt[TW_Q_LENGTH];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dma_addr_t		command_packet_phys[TW_Q_LENGTH];
 	TW_Command_Apache_Header *sense_buffer_virt[TW_Q_LENGTH];
 	dma_addr_t		sense_buffer_phys[TW_Q_LENGTH];
@@ -380,7 +463,11 @@ typedef struct TAG_TW_Device_Extension {
 	unsigned char		free_queue[TW_Q_LENGTH];
 	unsigned char		free_head;
 	unsigned char		free_tail;
+<<<<<<< HEAD
 	int			state[TW_Q_LENGTH];
+=======
+	int     		state[TW_Q_LENGTH];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int		posted_request_count;
 	unsigned int		max_posted_request_count;
 	unsigned int		max_sgl_entries;
@@ -391,9 +478,15 @@ typedef struct TAG_TW_Device_Extension {
 	unsigned int		aen_count;
 	struct Scsi_Host	*host;
 	long			flags;
+<<<<<<< HEAD
 	TW_Event		*event_queue[TW_Q_LENGTH];
 	unsigned char		error_index;
 	unsigned int		error_sequence_id;
+=======
+	TW_Event                *event_queue[TW_Q_LENGTH];
+	unsigned char           error_index;
+	unsigned int            error_sequence_id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			chrdev_request_id;
 	wait_queue_head_t	ioctl_wqueue;
 	struct mutex		ioctl_lock;

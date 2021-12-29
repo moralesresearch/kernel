@@ -787,7 +787,11 @@ int amdgpu_bo_kmap(struct amdgpu_bo *bo, void **ptr)
 	if (r < 0)
 		return r;
 
+<<<<<<< HEAD
 	r = ttm_bo_kmap(&bo->tbo, 0, bo->tbo.mem.num_pages, &bo->kmap);
+=======
+	r = ttm_bo_kmap(&bo->tbo, 0, bo->tbo.num_pages, &bo->kmap);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (r)
 		return r;
 
@@ -911,16 +915,22 @@ int amdgpu_bo_pin_restricted(struct amdgpu_bo *bo, u32 domain,
 
 	if (bo->tbo.pin_count) {
 		uint32_t mem_type = bo->tbo.mem.mem_type;
+<<<<<<< HEAD
 		uint32_t mem_flags = bo->tbo.mem.placement;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!(domain & amdgpu_mem_type_to_domain(mem_type)))
 			return -EINVAL;
 
+<<<<<<< HEAD
 		if ((mem_type == TTM_PL_VRAM) &&
 		    (bo->flags & AMDGPU_GEM_CREATE_VRAM_CONTIGUOUS) &&
 		    !(mem_flags & TTM_PL_FLAG_CONTIGUOUS))
 			return -EINVAL;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ttm_bo_pin(&bo->tbo);
 
 		if (max_offset != 0) {
@@ -936,6 +946,10 @@ int amdgpu_bo_pin_restricted(struct amdgpu_bo *bo, u32 domain,
 	if (bo->tbo.base.import_attach)
 		dma_buf_pin(bo->tbo.base.import_attach);
 
+<<<<<<< HEAD
+=======
+	bo->flags |= AMDGPU_GEM_CREATE_VRAM_CONTIGUOUS;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* force to pin into visible video ram */
 	if (!(bo->flags & AMDGPU_GEM_CREATE_NO_CPU_ACCESS))
 		bo->flags |= AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
@@ -988,7 +1002,10 @@ error:
  */
 int amdgpu_bo_pin(struct amdgpu_bo *bo, u32 domain)
 {
+<<<<<<< HEAD
 	bo->flags |= AMDGPU_GEM_CREATE_VRAM_CONTIGUOUS;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return amdgpu_bo_pin_restricted(bo, domain, 0, 0);
 }
 
@@ -1028,10 +1045,20 @@ int amdgpu_bo_evict_vram(struct amdgpu_device *adev)
 {
 	struct ttm_resource_manager *man;
 
+<<<<<<< HEAD
 	if (adev->in_s3 && (adev->flags & AMD_IS_APU)) {
 		/* No need to evict vram on APUs for suspend to ram */
 		return 0;
 	}
+=======
+	/* late 2.6.33 fix IGP hibernate - we need pm ops to do this correct */
+#ifndef CONFIG_HIBERNATION
+	if (adev->flags & AMD_IS_APU) {
+		/* Useless to evict on IGP chips */
+		return 0;
+	}
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
 	return ttm_resource_manager_evict_all(&adev->mman.bdev, man);

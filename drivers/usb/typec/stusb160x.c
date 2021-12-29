@@ -682,8 +682,13 @@ static int stusb160x_probe(struct i2c_client *client)
 	}
 
 	fwnode = device_get_named_child_node(chip->dev, "connector");
+<<<<<<< HEAD
+	if (!fwnode)
+		return -ENODEV;
+=======
 	if (IS_ERR(fwnode))
 		return PTR_ERR(fwnode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * When both VDD and VSYS power supplies are present, the low power

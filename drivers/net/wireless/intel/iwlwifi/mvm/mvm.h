@@ -419,10 +419,13 @@ struct iwl_mvm_vif {
 
 	/* 26-tone RU OFDMA transmissions should be blocked */
 	bool he_ru_2mhz_block;
+<<<<<<< HEAD
 
 	struct {
 		struct ieee80211_key_conf __rcu *keys[2];
 	} bcn_prot;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct iwl_mvm_vif *
@@ -800,8 +803,11 @@ struct iwl_mvm {
 	bool hw_registered;
 	bool rfkill_safe_init_done;
 
+<<<<<<< HEAD
 	u8 cca_40mhz_workaround;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 ampdu_ref;
 	bool ampdu_toggle;
 
@@ -893,12 +899,17 @@ struct iwl_mvm {
 	/* last smart fifo state that was successfully sent to firmware */
 	enum iwl_sf_state sf_state;
 
+<<<<<<< HEAD
 	/*
 	 * Leave this pointer outside the ifdef below so that it can be
 	 * assigned without ifdef in the source code.
 	 */
 	struct dentry *debugfs_dir;
 #ifdef CONFIG_IWLWIFI_DEBUGFS
+=======
+#ifdef CONFIG_IWLWIFI_DEBUGFS
+	struct dentry *debugfs_dir;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 dbgfs_sram_offset, dbgfs_sram_len;
 	u32 dbgfs_prph_reg_addr;
 	bool disable_power_off;
@@ -1481,9 +1492,16 @@ const char *iwl_mvm_get_tx_fail_reason(u32 status);
 #else
 static inline const char *iwl_mvm_get_tx_fail_reason(u32 status) { return ""; }
 #endif
+<<<<<<< HEAD
 int iwl_mvm_flush_tx_path(struct iwl_mvm *mvm, u32 tfd_msk);
 int iwl_mvm_flush_sta(struct iwl_mvm *mvm, void *sta, bool internal);
 int iwl_mvm_flush_sta_tids(struct iwl_mvm *mvm, u32 sta_id, u16 tids);
+=======
+int iwl_mvm_flush_tx_path(struct iwl_mvm *mvm, u32 tfd_msk, u32 flags);
+int iwl_mvm_flush_sta(struct iwl_mvm *mvm, void *sta, bool internal);
+int iwl_mvm_flush_sta_tids(struct iwl_mvm *mvm, u32 sta_id,
+			   u16 tids, u32 flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void iwl_mvm_async_handlers_purge(struct iwl_mvm *mvm);
 
@@ -1556,9 +1574,12 @@ bool iwl_mvm_bcast_filter_build_cmd(struct iwl_mvm *mvm,
  * FW notifications / CMD responses handlers
  * Convention: iwl_mvm_rx_<NAME OF THE CMD>
  */
+<<<<<<< HEAD
 void iwl_mvm_rx_mq(struct iwl_op_mode *op_mode,
 		   struct napi_struct *napi,
 		   struct iwl_rx_cmd_buffer *rxb);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void iwl_mvm_rx_rx_phy_cmd(struct iwl_mvm *mvm, struct iwl_rx_cmd_buffer *rxb);
 void iwl_mvm_rx_rx_mpdu(struct iwl_mvm *mvm, struct napi_struct *napi,
 			struct iwl_rx_cmd_buffer *rxb);
@@ -1704,11 +1725,20 @@ void iwl_mvm_rx_umac_scan_iter_complete_notif(struct iwl_mvm *mvm,
 
 /* MVM debugfs */
 #ifdef CONFIG_IWLWIFI_DEBUGFS
+<<<<<<< HEAD
 void iwl_mvm_dbgfs_register(struct iwl_mvm *mvm);
 void iwl_mvm_vif_dbgfs_register(struct iwl_mvm *mvm, struct ieee80211_vif *vif);
 void iwl_mvm_vif_dbgfs_clean(struct iwl_mvm *mvm, struct ieee80211_vif *vif);
 #else
 static inline void iwl_mvm_dbgfs_register(struct iwl_mvm *mvm)
+=======
+void iwl_mvm_dbgfs_register(struct iwl_mvm *mvm, struct dentry *dbgfs_dir);
+void iwl_mvm_vif_dbgfs_register(struct iwl_mvm *mvm, struct ieee80211_vif *vif);
+void iwl_mvm_vif_dbgfs_clean(struct iwl_mvm *mvm, struct ieee80211_vif *vif);
+#else
+static inline void iwl_mvm_dbgfs_register(struct iwl_mvm *mvm,
+					  struct dentry *dbgfs_dir)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 }
 static inline void
@@ -1909,6 +1939,10 @@ int iwl_mvm_reconfig_scd(struct iwl_mvm *mvm, int queue, int fifo, int sta_id,
 
 /* Thermal management and CT-kill */
 void iwl_mvm_tt_tx_backoff(struct iwl_mvm *mvm, u32 backoff);
+<<<<<<< HEAD
+=======
+void iwl_mvm_tt_temp_changed(struct iwl_mvm *mvm, u32 temp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void iwl_mvm_temp_notif(struct iwl_mvm *mvm,
 			struct iwl_rx_cmd_buffer *rxb);
 void iwl_mvm_tt_handler(struct iwl_mvm *mvm);
@@ -2005,7 +2039,10 @@ void iwl_mvm_sync_rx_queues_internal(struct iwl_mvm *mvm,
 				     u32 size);
 void iwl_mvm_reorder_timer_expired(struct timer_list *t);
 struct ieee80211_vif *iwl_mvm_get_bss_vif(struct iwl_mvm *mvm);
+<<<<<<< HEAD
 struct ieee80211_vif *iwl_mvm_get_vif_by_macid(struct iwl_mvm *mvm, u32 macid);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool iwl_mvm_is_vif_assoc(struct iwl_mvm *mvm);
 
 #define MVM_TCM_PERIOD_MSEC 500
@@ -2040,10 +2077,13 @@ void iwl_mvm_sta_add_debugfs(struct ieee80211_hw *hw,
 			     struct dentry *dir);
 #endif
 
+<<<<<<< HEAD
 int iwl_rfi_send_config_cmd(struct iwl_mvm *mvm,
 			    struct iwl_rfi_lut_entry *rfi_table);
 struct iwl_rfi_freq_table_resp_cmd *iwl_rfi_get_freq_table(struct iwl_mvm *mvm);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline u8 iwl_mvm_phy_band_from_nl80211(enum nl80211_band band)
 {
 	switch (band) {

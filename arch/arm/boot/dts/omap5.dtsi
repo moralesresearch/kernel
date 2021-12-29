@@ -25,11 +25,14 @@
 		i2c2 = &i2c3;
 		i2c3 = &i2c4;
 		i2c4 = &i2c5;
+<<<<<<< HEAD
 		mmc0 = &mmc1;
 		mmc1 = &mmc2;
 		mmc2 = &mmc3;
 		mmc3 = &mmc4;
 		mmc4 = &mmc5;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		serial0 = &uart1;
 		serial1 = &uart2;
 		serial2 = &uart3;
@@ -523,9 +526,12 @@
 						clocks = <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 8>,
 							 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>;
 						clock-names = "fck", "sys_clk";
+<<<<<<< HEAD
 
 						#address-cells = <1>;
 						#size-cells = <0>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					};
 				};
 
@@ -558,9 +564,12 @@
 						clocks = <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 8>,
 							 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>;
 						clock-names = "fck", "sys_clk";
+<<<<<<< HEAD
 
 						#address-cells = <1>;
 						#size-cells = <0>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					};
 				};
 

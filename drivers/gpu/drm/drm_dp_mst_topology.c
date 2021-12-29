@@ -1154,6 +1154,10 @@ static void build_clear_payload_id_table(struct drm_dp_sideband_msg_tx *msg)
 
 	req.req_type = DP_CLEAR_PAYLOAD_ID_TABLE;
 	drm_dp_encode_sideband_req(&req, msg);
+<<<<<<< HEAD
+	msg->path_msg = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int build_enum_path_resources(struct drm_dp_sideband_msg_tx *msg,
@@ -2752,7 +2756,15 @@ static void drm_dp_mst_link_probe_work(struct work_struct *work)
 	drm_dp_mst_topology_put_mstb(mstb);
 
 	mutex_unlock(&mgr->probe_lock);
+<<<<<<< HEAD
 	if (ret > 0)
+=======
+<<<<<<< HEAD
+	if (ret > 0)
+=======
+	if (ret)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		drm_kms_helper_hotplug_event(dev);
 }
 
@@ -2824,15 +2836,32 @@ static int set_hdr_from_dst_qlock(struct drm_dp_sideband_msg_hdr *hdr,
 
 	req_type = txmsg->msg[0] & 0x7f;
 	if (req_type == DP_CONNECTION_STATUS_NOTIFY ||
+<<<<<<< HEAD
+		req_type == DP_RESOURCE_STATUS_NOTIFY ||
+		req_type == DP_CLEAR_PAYLOAD_ID_TABLE)
+=======
 		req_type == DP_RESOURCE_STATUS_NOTIFY)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hdr->broadcast = 1;
 	else
 		hdr->broadcast = 0;
 	hdr->path_msg = txmsg->path_msg;
+<<<<<<< HEAD
+	if (hdr->broadcast) {
+		hdr->lct = 1;
+		hdr->lcr = 6;
+	} else {
+		hdr->lct = mstb->lct;
+		hdr->lcr = mstb->lct - 1;
+	}
+
+	memcpy(hdr->rad, mstb->rad, hdr->lct / 2);
+=======
 	hdr->lct = mstb->lct;
 	hdr->lcr = mstb->lct - 1;
 	if (mstb->lct > 1)
 		memcpy(hdr->rad, mstb->rad, mstb->lct / 2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -5838,7 +5867,16 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
 	if (drm_dp_read_desc(port->mgr->aux, &desc, true))
 		return NULL;
 
+<<<<<<< HEAD
 	if (drm_dp_has_quirk(&desc, DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) &&
+=======
+<<<<<<< HEAD
+	if (drm_dp_has_quirk(&desc, DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) &&
+=======
+	if (drm_dp_has_quirk(&desc, 0,
+			     DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) &&
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    port->mgr->dpcd[DP_DPCD_REV] >= DP_DPCD_REV_14 &&
 	    port->parent == port->mgr->mst_primary) {
 		u8 downstreamport;

@@ -93,10 +93,13 @@
 			vclamp-usb-supply = <&vdd_1v8ao>;
 
 			ports {
+<<<<<<< HEAD
 				usb2-0 {
 					vbus-supply = <&vdd_5v0_sys>;
 				};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				usb2-1 {
 					vbus-supply = <&vdd_5v0_sys>;
 				};
@@ -109,10 +112,13 @@
 					vbus-supply = <&vdd_5v0_sys>;
 				};
 
+<<<<<<< HEAD
 				usb3-2 {
 					vbus-supply = <&vdd_5v0_sys>;
 				};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				usb3-3 {
 					vbus-supply = <&vdd_5v0_sys>;
 				};

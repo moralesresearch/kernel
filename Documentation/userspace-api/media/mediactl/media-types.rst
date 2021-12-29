@@ -39,7 +39,10 @@ Types and flags used to represent the media graph elements
 .. _MEDIA-ENT-F-PROC-VIDEO-STATISTICS:
 .. _MEDIA-ENT-F-PROC-VIDEO-ENCODER:
 .. _MEDIA-ENT-F-PROC-VIDEO-DECODER:
+<<<<<<< HEAD
 .. _MEDIA-ENT-F-PROC-VIDEO-ISP:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .. _MEDIA-ENT-F-VID-MUX:
 .. _MEDIA-ENT-F-VID-IF-BRIDGE:
 .. _MEDIA-ENT-F-DV-DECODER:
@@ -202,12 +205,15 @@ Types and flags used to represent the media graph elements
           decompressing a compressed video stream into uncompressed video
 	  frames. Must have one sink pad and at least one source pad.
 
+<<<<<<< HEAD
     *  -  ``MEDIA_ENT_F_PROC_VIDEO_ISP``
        -  An Image Signal Processor (ISP) device. ISPs generally are one of a
 	  kind devices that have their specific control interfaces using a
 	  combination of custom V4L2 controls and IOCTLs, and parameters
 	  supplied in a metadata buffer.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     *  -  ``MEDIA_ENT_F_VID_MUX``
        - Video multiplexer. An entity capable of multiplexing must have at
          least two sink pads and one source pad, and must pass the video

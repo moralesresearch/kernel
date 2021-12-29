@@ -22,6 +22,11 @@ struct rcar_du_encoder {
 #define to_rcar_encoder(e) \
 	container_of(e, struct rcar_du_encoder, base)
 
+<<<<<<< HEAD
+=======
+#define rcar_encoder_to_drm_encoder(e)	(&(e)->base)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int rcar_du_encoder_init(struct rcar_du_device *rcdu,
 			 enum rcar_du_output output,
 			 struct device_node *enc_node);

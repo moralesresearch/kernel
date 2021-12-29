@@ -17,13 +17,21 @@
 #include <linux/phylink.h>
 
 #define MTK_QDMA_PAGE_SIZE	2048
+<<<<<<< HEAD
 #define MTK_MAX_RX_LENGTH	1536
 #define MTK_MAX_RX_LENGTH_2K	2048
+=======
+#define	MTK_MAX_RX_LENGTH	1536
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MTK_TX_DMA_BUF_LEN	0x3fff
 #define MTK_DMA_SIZE		256
 #define MTK_NAPI_WEIGHT		64
 #define MTK_MAC_COUNT		2
+<<<<<<< HEAD
 #define MTK_RX_ETH_HLEN		(ETH_HLEN + ETH_FCS_LEN)
+=======
+#define MTK_RX_ETH_HLEN		(VLAN_ETH_HLEN + VLAN_HLEN + ETH_FCS_LEN)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MTK_RX_HLEN		(NET_SKB_PAD + MTK_RX_ETH_HLEN + NET_IP_ALIGN)
 #define MTK_DMA_DUMMY_DESC	0xffffffff
 #define MTK_DEFAULT_MSG_ENABLE	(NETIF_MSG_DRV | \
@@ -267,8 +275,26 @@
 /* QDMA FQ Free Page Buffer Length Register */
 #define MTK_QDMA_FQ_BLEN	0x1B2C
 
+<<<<<<< HEAD
+/* GMA1 counter / statics register */
+#define MTK_GDM1_RX_GBCNT_L	0x2400
+#define MTK_GDM1_RX_GBCNT_H	0x2404
+#define MTK_GDM1_RX_GPCNT	0x2408
+#define MTK_GDM1_RX_OERCNT	0x2410
+#define MTK_GDM1_RX_FERCNT	0x2414
+#define MTK_GDM1_RX_SERCNT	0x2418
+#define MTK_GDM1_RX_LENCNT	0x241c
+#define MTK_GDM1_RX_CERCNT	0x2420
+#define MTK_GDM1_RX_FCCNT	0x2424
+#define MTK_GDM1_TX_SKIPCNT	0x2428
+#define MTK_GDM1_TX_COLCNT	0x242c
+#define MTK_GDM1_TX_GBCNT_L	0x2430
+#define MTK_GDM1_TX_GBCNT_H	0x2434
+#define MTK_GDM1_TX_GPCNT	0x2438
+=======
 /* GMA1 Received Good Byte Count Register */
 #define MTK_GDM1_TX_GBCNT	0x2400
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MTK_STAT_OFFSET		0x40
 
 /* QDMA descriptor txd4 */
@@ -296,6 +322,10 @@
 #define RX_DMA_LSO		BIT(30)
 #define RX_DMA_PLEN0(_x)	(((_x) & 0x3fff) << 16)
 #define RX_DMA_GET_PLEN0(_x)	(((_x) >> 16) & 0x3fff)
+<<<<<<< HEAD
+#define RX_DMA_VTAG		BIT(15)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* QDMA descriptor rxd3 */
 #define RX_DMA_VID(_x)		((_x) & 0xfff)
@@ -321,12 +351,16 @@
 
 /* Mac control registers */
 #define MTK_MAC_MCR(x)		(0x10100 + (x * 0x100))
+<<<<<<< HEAD
 #define MAC_MCR_MAX_RX_MASK	GENMASK(25, 24)
 #define MAC_MCR_MAX_RX(_x)	(MAC_MCR_MAX_RX_MASK & ((_x) << 24))
 #define MAC_MCR_MAX_RX_1518	0x0
 #define MAC_MCR_MAX_RX_1536	0x1
 #define MAC_MCR_MAX_RX_1552	0x2
 #define MAC_MCR_MAX_RX_2048	0x3
+=======
+#define MAC_MCR_MAX_RX_1536	BIT(24)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MAC_MCR_IPG_CFG		(BIT(18) | BIT(16))
 #define MAC_MCR_FORCE_MODE	BIT(15)
 #define MAC_MCR_TX_EN		BIT(14)
@@ -483,6 +517,16 @@
 #define MT7628_SDM_MAC_ADRL	(MT7628_SDM_OFFSET + 0x0c)
 #define MT7628_SDM_MAC_ADRH	(MT7628_SDM_OFFSET + 0x10)
 
+<<<<<<< HEAD
+/* Counter / stat register */
+#define MT7628_SDM_TPCNT	(MT7628_SDM_OFFSET + 0x100)
+#define MT7628_SDM_TBCNT	(MT7628_SDM_OFFSET + 0x104)
+#define MT7628_SDM_RPCNT	(MT7628_SDM_OFFSET + 0x108)
+#define MT7628_SDM_RBCNT	(MT7628_SDM_OFFSET + 0x10c)
+#define MT7628_SDM_CS_ERR	(MT7628_SDM_OFFSET + 0x110)
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct mtk_rx_dma {
 	unsigned int rxd1;
 	unsigned int rxd2;

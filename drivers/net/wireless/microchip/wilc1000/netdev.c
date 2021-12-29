@@ -575,7 +575,10 @@ static int wilc_mac_open(struct net_device *ndev)
 {
 	struct wilc_vif *vif = netdev_priv(ndev);
 	struct wilc *wl = vif->wilc;
+<<<<<<< HEAD
+=======
 	unsigned char mac_add[ETH_ALEN] = {0};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = 0;
 	struct mgmt_frame_regs mgmt_regs = {};
 
@@ -598,9 +601,18 @@ static int wilc_mac_open(struct net_device *ndev)
 
 	wilc_set_operation_mode(vif, wilc_get_vif_idx(vif), vif->iftype,
 				vif->idx);
+<<<<<<< HEAD
+
+	if (is_valid_ether_addr(ndev->dev_addr))
+		wilc_set_mac_address(vif, ndev->dev_addr);
+	else
+		wilc_get_mac_address(vif, ndev->dev_addr);
+	netdev_dbg(ndev, "Mac address: %pM\n", ndev->dev_addr);
+=======
 	wilc_get_mac_address(vif, mac_add);
 	netdev_dbg(ndev, "Mac address: %pM\n", mac_add);
 	ether_addr_copy(ndev->dev_addr, mac_add);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!is_valid_ether_addr(ndev->dev_addr)) {
 		netdev_err(ndev, "Wrong MAC address\n");
@@ -639,7 +651,18 @@ static int wilc_set_mac_addr(struct net_device *dev, void *p)
 	int srcu_idx;
 
 	if (!is_valid_ether_addr(addr->sa_data))
+<<<<<<< HEAD
+		return -EADDRNOTAVAIL;
+
+	if (!vif->mac_opened) {
+		eth_commit_mac_addr_change(dev, p);
+		return 0;
+	}
+
+	/* Verify MAC Address is not already in use: */
+=======
 		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	srcu_idx = srcu_read_lock(&wilc->srcu);
 	list_for_each_entry_rcu(tmp_vif, &wilc->vif_list, list) {
@@ -647,7 +670,11 @@ static int wilc_set_mac_addr(struct net_device *dev, void *p)
 		if (ether_addr_equal(addr->sa_data, mac_addr)) {
 			if (vif != tmp_vif) {
 				srcu_read_unlock(&wilc->srcu, srcu_idx);
+<<<<<<< HEAD
+				return -EADDRNOTAVAIL;
+=======
 				return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			srcu_read_unlock(&wilc->srcu, srcu_idx);
 			return 0;
@@ -659,9 +686,13 @@ static int wilc_set_mac_addr(struct net_device *dev, void *p)
 	if (result)
 		return result;
 
+<<<<<<< HEAD
+	eth_commit_mac_addr_change(dev, p);
+=======
 	ether_addr_copy(vif->bssid, addr->sa_data);
 	ether_addr_copy(vif->ndev->dev_addr, addr->sa_data);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return result;
 }
 
@@ -950,7 +981,15 @@ struct wilc_vif *wilc_netdev_ifc_init(struct wilc *wl, const char *name,
 	vif->priv.dev = ndev;
 
 	if (rtnl_locked)
+<<<<<<< HEAD
 		ret = cfg80211_register_netdevice(ndev);
+=======
+<<<<<<< HEAD
+		ret = cfg80211_register_netdevice(ndev);
+=======
+		ret = register_netdevice(ndev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		ret = register_netdev(ndev);
 

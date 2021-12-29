@@ -12,7 +12,11 @@
 
 #include "common.h"
 
+<<<<<<< HEAD
 /* Ftrace callback handler for kprobes -- called under preepmt disabled */
+=======
+/* Ftrace callback handler for kprobes -- called under preepmt disabed */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void kprobe_ftrace_handler(unsigned long ip, unsigned long parent_ip,
 			   struct ftrace_ops *ops, struct ftrace_regs *fregs)
 {

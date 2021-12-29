@@ -12,13 +12,19 @@
 #include <linux/signal.h>
 #include <linux/kdebug.h>
 #include <linux/uaccess.h>
+<<<<<<< HEAD
 #include <linux/kprobes.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/mm.h>
 #include <linux/module.h>
 #include <linux/irq.h>
 
+<<<<<<< HEAD
 #include <asm/asm-prototypes.h>
 #include <asm/bug.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/processor.h>
 #include <asm/ptrace.h>
 #include <asm/csr.h>
@@ -69,7 +75,11 @@ void do_trap(struct pt_regs *regs, int signo, int code, unsigned long addr)
 			tsk->comm, task_pid_nr(tsk), signo, code, addr);
 		print_vma_addr(KERN_CONT " in ", instruction_pointer(regs));
 		pr_cont("\n");
+<<<<<<< HEAD
 		__show_regs(regs);
+=======
+		show_regs(regs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	force_sig_fault(signo, code, (void __user *)addr);
@@ -78,8 +88,11 @@ void do_trap(struct pt_regs *regs, int signo, int code, unsigned long addr)
 static void do_trap_error(struct pt_regs *regs, int signo, int code,
 	unsigned long addr, const char *str)
 {
+<<<<<<< HEAD
 	current->thread.bad_cause = regs->cause;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (user_mode(regs)) {
 		do_trap(regs, signo, code, addr);
 	} else {
@@ -150,6 +163,7 @@ static inline unsigned long get_break_insn_length(unsigned long pc)
 
 asmlinkage __visible void do_trap_break(struct pt_regs *regs)
 {
+<<<<<<< HEAD
 #ifdef CONFIG_KPROBES
 	if (kprobe_single_step_handler(regs))
 		return;
@@ -166,6 +180,8 @@ asmlinkage __visible void do_trap_break(struct pt_regs *regs)
 #endif
 	current->thread.bad_cause = regs->cause;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (user_mode(regs))
 		force_sig_fault(SIGTRAP, TRAP_BRKPT, (void __user *)regs->epc);
 #ifdef CONFIG_KGDB
@@ -178,7 +194,10 @@ asmlinkage __visible void do_trap_break(struct pt_regs *regs)
 	else
 		die(regs, "Kernel BUG");
 }
+<<<<<<< HEAD
 NOKPROBE_SYMBOL(do_trap_break);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_GENERIC_BUG
 int is_valid_bugaddr(unsigned long pc)

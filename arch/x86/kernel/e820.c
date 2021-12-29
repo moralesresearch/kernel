@@ -31,8 +31,13 @@
  *       - inform the user about the firmware's notion of memory layout
  *         via /sys/firmware/memmap
  *
+<<<<<<< HEAD
+ *       - the hibernation code uses it to generate a kernel-independent CRC32
+ *         checksum of the physical memory layout of a system.
+=======
  *       - the hibernation code uses it to generate a kernel-independent MD5
  *         fingerprint of the physical memory layout of a system.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * - 'e820_table_kexec': a slightly modified (by the kernel) firmware version
  *   passed to us by the bootloader - the major difference between

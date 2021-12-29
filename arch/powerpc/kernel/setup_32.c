@@ -164,7 +164,11 @@ void __init irqstack_early_init(void)
 }
 
 #ifdef CONFIG_VMAP_STACK
+<<<<<<< HEAD
+void *emergency_ctx[NR_CPUS] __ro_after_init = {[0] = &init_stack};
+=======
 void *emergency_ctx[NR_CPUS] __ro_after_init;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void __init emergency_stack_init(void)
 {

@@ -44,11 +44,14 @@
 #define RVU_AF_PFME_INT_W1S                 (0x28c8)
 #define RVU_AF_PFME_INT_ENA_W1S             (0x28d0)
 #define RVU_AF_PFME_INT_ENA_W1C             (0x28d8)
+<<<<<<< HEAD
 #define RVU_AF_PFX_BAR4_ADDR(a)             (0x5000 | (a) << 4)
 #define RVU_AF_PFX_BAR4_CFG                 (0x5200 | (a) << 4)
 #define RVU_AF_PFX_VF_BAR4_ADDR             (0x5400 | (a) << 4)
 #define RVU_AF_PFX_VF_BAR4_CFG              (0x5600 | (a) << 4)
 #define RVU_AF_PFX_LMTLINE_ADDR             (0x5800 | (a) << 4)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Admin function's privileged PF/VF registers */
 #define RVU_PRIV_CONST                      (0x8000000)
@@ -105,8 +108,11 @@
 #define RVU_PF_MSIX_VECX_ADDR(a)            (0x000 | (a) << 4)
 #define RVU_PF_MSIX_VECX_CTL(a)             (0x008 | (a) << 4)
 #define RVU_PF_MSIX_PBAX(a)                 (0xF0000 | (a) << 3)
+<<<<<<< HEAD
 #define RVU_PF_VF_MBOX_ADDR                 (0xC40)
 #define RVU_PF_LMTLINE_ADDR                 (0xC48)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* RVU VF registers */
 #define	RVU_VF_VFPF_MBOX0		    (0x00000)
@@ -406,16 +412,22 @@
 #define NIX_AF_RX_NPC_MIRROR_RCV	(0x4720)
 #define NIX_AF_RX_NPC_MIRROR_DROP	(0x4730)
 #define NIX_AF_RX_ACTIVE_CYCLES_PCX(a)	(0x4800 | (a) << 16)
+<<<<<<< HEAD
 #define NIX_AF_LINKX_CFG(a)		(0x4010 | (a) << 17)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define NIX_PRIV_AF_INT_CFG		(0x8000000)
 #define NIX_PRIV_LFX_CFG		(0x8000010)
 #define NIX_PRIV_LFX_INT_CFG		(0x8000020)
 #define NIX_AF_RVU_LF_CFG_DEBUG		(0x8000030)
 
+<<<<<<< HEAD
 #define NIX_AF_LINKX_BASE_MASK		GENMASK_ULL(11, 0)
 #define NIX_AF_LINKX_RANGE_MASK		GENMASK_ULL(19, 16)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* SSO */
 #define SSO_AF_CONST			(0x1000)
 #define SSO_AF_CONST1			(0x1008)
@@ -495,6 +507,7 @@
 #define CPT_AF_RAS_INT_ENA_W1S          (0x47030)
 #define CPT_AF_RAS_INT_ENA_W1C          (0x47038)
 
+<<<<<<< HEAD
 #define AF_BAR2_ALIASX(a, b)            (0x9100000ull | (a) << 12 | (b))
 #define CPT_AF_BAR2_SEL                 0x9000000
 #define CPT_AF_BAR2_ALIASX(a, b)        AF_BAR2_ALIASX(a, b)
@@ -506,6 +519,11 @@
 #define CPT_LF_INPROG                   0x40
 #define CPT_LF_Q_GRP_PTR                0x120
 
+=======
+#define CPT_AF_LF_CTL2_SHIFT 3
+#define CPT_AF_LF_SSO_PF_FUNC_SHIFT 32
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define NPC_AF_BLK_RST                  (0x00040)
 
 /* NPC */
@@ -648,6 +666,7 @@
 		(0x00F00 | (a) << 5 | (b) << 4)
 #define NDC_AF_BANKX_HIT_PC(a)		(0x01000 | (a) << 3)
 #define NDC_AF_BANKX_MISS_PC(a)		(0x01100 | (a) << 3)
+<<<<<<< HEAD
 
 /* LBK */
 #define LBK_CONST			(0x10ull)
@@ -661,4 +680,6 @@
 #define LBK_LINK_CFG_ID_MASK		GENMASK_ULL(11, 6)
 #define LBK_LINK_CFG_BASE_MASK		GENMASK_ULL(5, 0)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* RVU_REG_H */

@@ -767,7 +767,15 @@ smb2_cancelled_close_fid(struct work_struct *work)
 	int rc;
 
 	if (cancelled->mid)
+<<<<<<< HEAD
 		cifs_tcon_dbg(VFS, "Close unmatched open for MID:%llu\n",
+=======
+<<<<<<< HEAD
+		cifs_tcon_dbg(VFS, "Close unmatched open for MID:%llu\n",
+=======
+		cifs_tcon_dbg(VFS, "Close unmatched open for MID:%llx\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      cancelled->mid);
 	else
 		cifs_tcon_dbg(VFS, "Close interrupted close\n");

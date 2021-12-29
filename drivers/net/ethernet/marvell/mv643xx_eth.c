@@ -2684,7 +2684,11 @@ static const struct of_device_id mv643xx_eth_shared_ids[] = {
 MODULE_DEVICE_TABLE(of, mv643xx_eth_shared_ids);
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_OF_IRQ
+=======
+#if defined(CONFIG_OF_IRQ) && !defined(CONFIG_MV64X60)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define mv643xx_eth_property(_np, _name, _v)				\
 	do {								\
 		u32 tmp;						\

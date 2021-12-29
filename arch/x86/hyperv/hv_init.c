@@ -10,7 +10,10 @@
 #include <linux/acpi.h>
 #include <linux/efi.h>
 #include <linux/types.h>
+<<<<<<< HEAD
 #include <linux/bitfield.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/apic.h>
 #include <asm/desc.h>
 #include <asm/hypervisor.h>
@@ -27,11 +30,16 @@
 #include <linux/cpuhotplug.h>
 #include <linux/syscore_ops.h>
 #include <clocksource/hyperv_timer.h>
+<<<<<<< HEAD
 #include <linux/highmem.h>
 
 int hyperv_init_cpuhp;
 u64 hv_current_partition_id = ~0ull;
 EXPORT_SYMBOL_GPL(hv_current_partition_id);
+=======
+
+int hyperv_init_cpuhp;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void *hv_hypercall_pg;
 EXPORT_SYMBOL_GPL(hv_hypercall_pg);
@@ -48,9 +56,12 @@ EXPORT_SYMBOL_GPL(hv_vp_assist_page);
 void  __percpu **hyperv_pcpu_input_arg;
 EXPORT_SYMBOL_GPL(hyperv_pcpu_input_arg);
 
+<<<<<<< HEAD
 void  __percpu **hyperv_pcpu_output_arg;
 EXPORT_SYMBOL_GPL(hyperv_pcpu_output_arg);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u32 hv_max_vp_index;
 EXPORT_SYMBOL_GPL(hv_max_vp_index);
 
@@ -83,6 +94,7 @@ static int hv_cpu_init(unsigned int cpu)
 	void **input_arg;
 	struct page *pg;
 
+<<<<<<< HEAD
 	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
 	pg = alloc_pages(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL, hv_root_partition ? 1 : 0);
 	if (unlikely(!pg))
@@ -96,6 +108,14 @@ static int hv_cpu_init(unsigned int cpu)
 		output_arg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
 		*output_arg = page_address(pg + 1);
 	}
+=======
+	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
+	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
+	pg = alloc_page(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL);
+	if (unlikely(!pg))
+		return -ENOMEM;
+	*input_arg = page_address(pg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hv_get_vp_index(msr_vp_index);
 
@@ -222,6 +242,7 @@ static int hv_cpu_die(unsigned int cpu)
 	unsigned int new_cpu;
 	unsigned long flags;
 	void **input_arg;
+<<<<<<< HEAD
 	void *pg;
 
 	local_irq_save(flags);
@@ -239,6 +260,16 @@ static int hv_cpu_die(unsigned int cpu)
 	local_irq_restore(flags);
 
 	free_pages((unsigned long)pg, hv_root_partition ? 1 : 0);
+=======
+	void *input_pg = NULL;
+
+	local_irq_save(flags);
+	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
+	input_pg = *input_arg;
+	*input_arg = NULL;
+	local_irq_restore(flags);
+	free_page((unsigned long)input_pg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (hv_vp_assist_page && hv_vp_assist_page[cpu])
 		wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, 0);
@@ -287,9 +318,12 @@ static int hv_suspend(void)
 	union hv_x64_msr_hypercall_contents hypercall_msr;
 	int ret;
 
+<<<<<<< HEAD
 	if (hv_root_partition)
 		return -EPERM;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Reset the hypercall page as it is going to be invalidated
 	 * accross hibernation. Setting hv_hypercall_pg to NULL ensures
@@ -360,6 +394,7 @@ static void __init hv_stimer_setup_percpu_clockev(void)
 		old_setup_percpu_clockev();
 }
 
+<<<<<<< HEAD
 static void __init hv_get_partition_id(void)
 {
 	struct hv_get_partition_id *output_page;
@@ -378,6 +413,8 @@ static void __init hv_get_partition_id(void)
 	local_irq_restore(flags);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This function is to be invoked early in the boot sequence after the
  * hypervisor has been detected.
@@ -412,12 +449,15 @@ void __init hyperv_init(void)
 
 	BUG_ON(hyperv_pcpu_input_arg == NULL);
 
+<<<<<<< HEAD
 	/* Allocate the per-CPU state for output arg for root */
 	if (hv_root_partition) {
 		hyperv_pcpu_output_arg = alloc_percpu(void *);
 		BUG_ON(hyperv_pcpu_output_arg == NULL);
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Allocate percpu VP index */
 	hv_vp_index = kmalloc_array(num_possible_cpus(), sizeof(*hv_vp_index),
 				    GFP_KERNEL);
@@ -458,6 +498,7 @@ void __init hyperv_init(void)
 
 	rdmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
 	hypercall_msr.enable = 1;
+<<<<<<< HEAD
 
 	if (hv_root_partition) {
 		struct page *pg;
@@ -487,6 +528,10 @@ void __init hyperv_init(void)
 		hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
 		wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
 	}
+=======
+	hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
+	wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * hyperv_init() is called before LAPIC is initialized: see
@@ -505,6 +550,7 @@ void __init hyperv_init(void)
 	register_syscore_ops(&hv_syscore_ops);
 
 	hyperv_init_cpuhp = cpuhp;
+<<<<<<< HEAD
 
 	if (cpuid_ebx(HYPERV_CPUID_FEATURES) & HV_ACCESS_PARTITION_ID)
 		hv_get_partition_id();
@@ -520,6 +566,8 @@ void __init hyperv_init(void)
 		x86_init.irqs.create_pci_msi_domain = hv_create_pci_msi_domain;
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return;
 
 remove_cpuhp_state:
@@ -644,6 +692,7 @@ EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
 
 bool hv_is_hibernation_supported(void)
 {
+<<<<<<< HEAD
 	return !hv_root_partition && acpi_sleep_state_supported(ACPI_STATE_S4);
 }
 EXPORT_SYMBOL_GPL(hv_is_hibernation_supported);
@@ -661,3 +710,8 @@ bool hv_is_isolation_supported(void)
 	return hv_get_isolation_type() != HV_ISOLATION_TYPE_NONE;
 }
 EXPORT_SYMBOL_GPL(hv_is_isolation_supported);
+=======
+	return acpi_sleep_state_supported(ACPI_STATE_S4);
+}
+EXPORT_SYMBOL_GPL(hv_is_hibernation_supported);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -734,7 +734,11 @@
 			clocks = <&sys_clk 6>;
 			reset-names = "ether";
 			resets = <&sys_rst 6>;
+<<<<<<< HEAD
+			phy-mode = "rgmii-id";
+=======
 			phy-mode = "rgmii";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			local-mac-address = [00 00 00 00 00 00];
 			socionext,syscon-phy-mode = <&soc_glue 0>;
 

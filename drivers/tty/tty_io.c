@@ -540,6 +540,10 @@ void tty_wakeup(struct tty_struct *tty)
 EXPORT_SYMBOL_GPL(tty_wakeup);
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	tty_release_redirect	-	Release a redirect on a pty if present
  *	@tty: tty device
  *
@@ -562,6 +566,11 @@ struct file *tty_release_redirect(struct tty_struct *tty)
 EXPORT_SYMBOL_GPL(tty_release_redirect);
 
 /**
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *	__tty_hangup		-	actual handler for hangup events
  *	@tty: tty device
  *	@exit_session: if non-zero, signal all foreground group processes
@@ -587,7 +596,15 @@ EXPORT_SYMBOL_GPL(tty_release_redirect);
 static void __tty_hangup(struct tty_struct *tty, int exit_session)
 {
 	struct file *cons_filp = NULL;
+<<<<<<< HEAD
 	struct file *filp, *f;
+=======
+<<<<<<< HEAD
+	struct file *filp, *f;
+=======
+	struct file *filp, *f = NULL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct tty_file_private *priv;
 	int    closecount = 0, n;
 	int refs;
@@ -595,7 +612,21 @@ static void __tty_hangup(struct tty_struct *tty, int exit_session)
 	if (!tty)
 		return;
 
+<<<<<<< HEAD
 	f = tty_release_redirect(tty);
+=======
+<<<<<<< HEAD
+	f = tty_release_redirect(tty);
+=======
+
+	spin_lock(&redirect_lock);
+	if (redirect && file_tty(redirect) == tty) {
+		f = redirect;
+		redirect = NULL;
+	}
+	spin_unlock(&redirect_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	tty_lock(tty);
 
@@ -1971,7 +2002,30 @@ static struct tty_driver *tty_lookup_driver(dev_t device, struct file *filp,
 	return driver;
 }
 
+<<<<<<< HEAD
 static struct tty_struct *tty_kopen(dev_t device, int shared)
+=======
+<<<<<<< HEAD
+static struct tty_struct *tty_kopen(dev_t device, int shared)
+=======
+/**
+ *	tty_kopen	-	open a tty device for kernel
+ *	@device: dev_t of device to open
+ *
+ *	Opens tty exclusively for kernel. Performs the driver lookup,
+ *	makes sure it's not already opened and performs the first-time
+ *	tty initialization.
+ *
+ *	Returns the locked initialized &tty_struct
+ *
+ *	Claims the global tty_mutex to serialize:
+ *	  - concurrent first-time tty initialization
+ *	  - concurrent tty driver removal w/ lookup
+ *	  - concurrent tty removal from driver table
+ */
+struct tty_struct *tty_kopen(dev_t device)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct tty_struct *tty;
 	struct tty_driver *driver;
@@ -1986,7 +2040,15 @@ static struct tty_struct *tty_kopen(dev_t device, int shared)
 
 	/* check whether we're reopening an existing tty */
 	tty = tty_driver_lookup_tty(driver, NULL, index);
+<<<<<<< HEAD
 	if (IS_ERR(tty) || shared)
+=======
+<<<<<<< HEAD
+	if (IS_ERR(tty) || shared)
+=======
+	if (IS_ERR(tty))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 
 	if (tty) {
@@ -2004,6 +2066,10 @@ out:
 	tty_driver_kref_put(driver);
 	return tty;
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  *	tty_kopen_exclusive	-	open a tty device for kernel
@@ -2040,6 +2106,12 @@ struct tty_struct *tty_kopen_shared(dev_t device)
 	return tty_kopen(device, 1);
 }
 EXPORT_SYMBOL_GPL(tty_kopen_shared);
+<<<<<<< HEAD
+=======
+=======
+EXPORT_SYMBOL_GPL(tty_kopen);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  *	tty_open_by_driver	-	open a tty device
@@ -2530,14 +2602,22 @@ out:
  *	@p: pointer to result
  *
  *	Obtain the modem status bits from the tty driver if the feature
+<<<<<<< HEAD
+ *	is supported. Return -ENOTTY if it is not available.
+=======
  *	is supported. Return -EINVAL if it is not available.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *	Locking: none (up to the driver)
  */
 
 static int tty_tiocmget(struct tty_struct *tty, int __user *p)
 {
+<<<<<<< HEAD
+	int retval = -ENOTTY;
+=======
 	int retval = -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (tty->ops->tiocmget) {
 		retval = tty->ops->tiocmget(tty);
@@ -2555,7 +2635,11 @@ static int tty_tiocmget(struct tty_struct *tty, int __user *p)
  *	@p: pointer to desired bits
  *
  *	Set the modem status bits from the tty driver if the feature
+<<<<<<< HEAD
+ *	is supported. Return -ENOTTY if it is not available.
+=======
  *	is supported. Return -EINVAL if it is not available.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *	Locking: none (up to the driver)
  */
@@ -2567,7 +2651,11 @@ static int tty_tiocmset(struct tty_struct *tty, unsigned int cmd,
 	unsigned int set, clear, val;
 
 	if (tty->ops->tiocmset == NULL)
+<<<<<<< HEAD
+		return -ENOTTY;
+=======
 		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	retval = get_user(val, p);
 	if (retval)
@@ -2590,6 +2678,10 @@ static int tty_tiocmset(struct tty_struct *tty, unsigned int cmd,
 	return tty->ops->tiocmset(tty, set, clear);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  *	tty_get_icount		-	get tty statistics
  *	@tty: tty device
@@ -2607,7 +2699,11 @@ int tty_get_icount(struct tty_struct *tty,
 	if (tty->ops->get_icount)
 		return tty->ops->get_icount(tty, icount);
 	else
+<<<<<<< HEAD
+		return -ENOTTY;
+=======
 		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(tty_get_icount);
 
@@ -2620,6 +2716,20 @@ static int tty_tiocgicount(struct tty_struct *tty, void __user *arg)
 	if (retval != 0)
 		return retval;
 
+<<<<<<< HEAD
+=======
+=======
+static int tty_tiocgicount(struct tty_struct *tty, void __user *arg)
+{
+	int retval = -EINVAL;
+	struct serial_icounter_struct icount;
+	memset(&icount, 0, sizeof(icount));
+	if (tty->ops->get_icount)
+		retval = tty->ops->get_icount(tty, &icount);
+	if (retval != 0)
+		return retval;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (copy_to_user(arg, &icount, sizeof(icount)))
 		return -EFAULT;
 	return 0;

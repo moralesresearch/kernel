@@ -1168,7 +1168,11 @@ static void notify_rule_change(int event, struct fib_rule *rule,
 {
 	struct net *net;
 	struct sk_buff *skb;
+<<<<<<< HEAD
+	int err = -ENOMEM;
+=======
 	int err = -ENOBUFS;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	net = ops->fro_net;
 	skb = nlmsg_new(fib_rule_nlmsg_size(ops, rule), GFP_KERNEL);

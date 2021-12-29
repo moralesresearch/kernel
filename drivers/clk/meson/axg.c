@@ -1879,6 +1879,10 @@ static MESON_GATE(axg_mmc_pclk, HHI_GCLK_MPEG2, 11);
 static MESON_GATE(axg_vpu_intr, HHI_GCLK_MPEG2, 25);
 static MESON_GATE(axg_sec_ahb_ahb3_bridge, HHI_GCLK_MPEG2, 26);
 static MESON_GATE(axg_gic, HHI_GCLK_MPEG2, 30);
+<<<<<<< HEAD
+=======
+static MESON_GATE(axg_mipi_enable, HHI_MIPI_CNTL0, 29);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Always On (AO) domain gates */
 
@@ -1973,6 +1977,10 @@ static struct clk_hw_onecell_data axg_hw_onecell_data = {
 		[CLKID_PCIE_REF]		= &axg_pcie_ref.hw,
 		[CLKID_PCIE_CML_EN0]		= &axg_pcie_cml_en0.hw,
 		[CLKID_PCIE_CML_EN1]		= &axg_pcie_cml_en1.hw,
+<<<<<<< HEAD
+=======
+		[CLKID_MIPI_ENABLE]		= &axg_mipi_enable.hw,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		[CLKID_GEN_CLK_SEL]		= &axg_gen_clk_sel.hw,
 		[CLKID_GEN_CLK_DIV]		= &axg_gen_clk_div.hw,
 		[CLKID_GEN_CLK]			= &axg_gen_clk.hw,
@@ -2113,6 +2121,10 @@ static struct clk_regmap *const axg_clk_regmaps[] = {
 	&axg_pcie_ref,
 	&axg_pcie_cml_en0,
 	&axg_pcie_cml_en1,
+<<<<<<< HEAD
+=======
+	&axg_mipi_enable,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	&axg_gen_clk_sel,
 	&axg_gen_clk_div,
 	&axg_gen_clk,

@@ -271,7 +271,12 @@ int init_dell_smbios_wmi(void)
 
 void exit_dell_smbios_wmi(void)
 {
+<<<<<<< HEAD
+	if (wmi_supported)
+		wmi_driver_unregister(&dell_smbios_wmi_driver);
+=======
 	wmi_driver_unregister(&dell_smbios_wmi_driver);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 MODULE_DEVICE_TABLE(wmi, dell_smbios_wmi_id_table);

@@ -1166,8 +1166,16 @@ static int safexcel_request_ring_irq(void *pdev, int irqid,
 		dev = &plf_pdev->dev;
 		irq = platform_get_irq_byname(plf_pdev, irq_name);
 
+<<<<<<< HEAD
 		if (irq < 0)
 			return irq;
+=======
+		if (irq < 0) {
+			dev_err(dev, "unable to get IRQ '%s' (err %d)\n",
+				irq_name, irq);
+			return irq;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		return -ENXIO;
 	}
@@ -1996,4 +2004,7 @@ MODULE_AUTHOR("Ofer Heifetz <oferh@marvell.com>");
 MODULE_AUTHOR("Igal Liberman <igall@marvell.com>");
 MODULE_DESCRIPTION("Support for SafeXcel cryptographic engines: EIP97 & EIP197");
 MODULE_LICENSE("GPL v2");
+<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

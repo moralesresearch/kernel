@@ -42,30 +42,89 @@ properties:
     const: refclk
 
   ports:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
       port@0:
         $ref: /schemas/graph.yaml#/$defs/port-base
         unevaluatedProperties: false
+=======
+    type: object
+
+    properties:
+      "#address-cells":
+        const: 1
+
+      "#size-cells":
+        const: 0
+
+      port@0:
+        type: object
+        additionalProperties: false
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: |
           Video port for RGB input
 
         properties:
+<<<<<<< HEAD
           endpoint:
             $ref: /schemas/graph.yaml#/$defs/endpoint-base
             unevaluatedProperties: false
+=======
+          reg:
+            const: 0
+
+        patternProperties:
+          endpoint:
+            type: object
+            additionalProperties: false
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
             properties:
               data-lines:
                 enum: [ 16, 18, 24 ]
 
+<<<<<<< HEAD
       port@1:
         $ref: /schemas/graph.yaml#/properties/port
         description: |
           Video port for DSI output (panel or connector).
 
     required:
+=======
+              remote-endpoint: true
+
+        required:
+          - reg
+
+      port@1:
+        type: object
+        additionalProperties: false
+
+        description: |
+          Video port for DSI output (panel or connector).
+
+        properties:
+          reg:
+            const: 1
+
+        patternProperties:
+          endpoint:
+            type: object
+            additionalProperties: false
+
+            properties:
+              remote-endpoint: true
+
+        required:
+          - reg
+
+    required:
+      - "#address-cells"
+      - "#size-cells"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - port@0
       - port@1
 
@@ -121,3 +180,7 @@ examples:
         };
       };
     };
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

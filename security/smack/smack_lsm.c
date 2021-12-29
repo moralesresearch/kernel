@@ -1240,8 +1240,12 @@ static int smack_inode_getattr(const struct path *path)
  *
  * Returns 0 if access is permitted, an error code otherwise
  */
+<<<<<<< HEAD
 static int smack_inode_setxattr(struct user_namespace *mnt_userns,
 				struct dentry *dentry, const char *name,
+=======
+static int smack_inode_setxattr(struct dentry *dentry, const char *name,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				const void *value, size_t size, int flags)
 {
 	struct smk_audit_info ad;
@@ -1363,8 +1367,12 @@ static int smack_inode_getxattr(struct dentry *dentry, const char *name)
  *
  * Returns 0 if access is permitted, an error code otherwise
  */
+<<<<<<< HEAD
 static int smack_inode_removexattr(struct user_namespace *mnt_userns,
 				   struct dentry *dentry, const char *name)
+=======
+static int smack_inode_removexattr(struct dentry *dentry, const char *name)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode_smack *isp;
 	struct smk_audit_info ad;
@@ -1379,7 +1387,11 @@ static int smack_inode_removexattr(struct user_namespace *mnt_userns,
 		if (!smack_privileged(CAP_MAC_ADMIN))
 			rc = -EPERM;
 	} else
+<<<<<<< HEAD
 		rc = cap_inode_removexattr(mnt_userns, dentry, name);
+=======
+		rc = cap_inode_removexattr(dentry, name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (rc != 0)
 		return rc;
@@ -1422,9 +1434,15 @@ static int smack_inode_removexattr(struct user_namespace *mnt_userns,
  *
  * Returns the size of the attribute or an error code
  */
+<<<<<<< HEAD
 static int smack_inode_getsecurity(struct user_namespace *mnt_userns,
 				   struct inode *inode, const char *name,
 				   void **buffer, bool alloc)
+=======
+static int smack_inode_getsecurity(struct inode *inode,
+				   const char *name, void **buffer,
+				   bool alloc)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct socket_smack *ssp;
 	struct socket *sock;
@@ -3427,7 +3445,11 @@ static void smack_d_instantiate(struct dentry *opt_dentry, struct inode *inode)
 			 */
 			if (isp->smk_flags & SMK_INODE_CHANGED) {
 				isp->smk_flags &= ~SMK_INODE_CHANGED;
+<<<<<<< HEAD
 				rc = __vfs_setxattr(&init_user_ns, dp, inode,
+=======
+				rc = __vfs_setxattr(dp, inode,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					XATTR_NAME_SMACKTRANSMUTE,
 					TRANS_TRUE, TRANS_TRUE_SIZE,
 					0);
@@ -4599,14 +4621,22 @@ static int smack_secctx_to_secid(const char *secdata, u32 seclen, u32 *secid)
 
 static int smack_inode_notifysecctx(struct inode *inode, void *ctx, u32 ctxlen)
 {
+<<<<<<< HEAD
 	return smack_inode_setsecurity(inode, XATTR_SMACK_SUFFIX, ctx,
 				       ctxlen, 0);
+=======
+	return smack_inode_setsecurity(inode, XATTR_SMACK_SUFFIX, ctx, ctxlen, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int smack_inode_setsecctx(struct dentry *dentry, void *ctx, u32 ctxlen)
 {
+<<<<<<< HEAD
 	return __vfs_setxattr_noperm(&init_user_ns, dentry, XATTR_NAME_SMACK,
 				     ctx, ctxlen, 0);
+=======
+	return __vfs_setxattr_noperm(dentry, XATTR_NAME_SMACK, ctx, ctxlen, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int smack_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen)

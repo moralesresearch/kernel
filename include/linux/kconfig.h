@@ -2,6 +2,11 @@
 #ifndef __LINUX_KCONFIG_H
 #define __LINUX_KCONFIG_H
 
+<<<<<<< HEAD
+=======
+/* CONFIG_CC_VERSION_TEXT (Do not delete this comment. See help in Kconfig) */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <generated/autoconf.h>
 
 #ifdef CONFIG_CPU_BIG_ENDIAN
@@ -70,10 +75,13 @@
  */
 #define IS_ENABLED(option) __or(IS_BUILTIN(option), IS_MODULE(option))
 
+<<<<<<< HEAD
 /*
  * IF_ENABLED(CONFIG_FOO, ptr) evaluates to (ptr) if CONFIG_FOO is set to 'y'
  * or 'm', NULL otherwise.
  */
 #define IF_ENABLED(option, ptr) (IS_ENABLED(option) ? (ptr) : NULL)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __LINUX_KCONFIG_H */

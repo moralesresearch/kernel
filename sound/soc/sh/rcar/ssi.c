@@ -507,10 +507,21 @@ static int rsnd_ssi_init(struct rsnd_mod *mod,
 			 struct rsnd_priv *priv)
 {
 	struct rsnd_ssi *ssi = rsnd_mod_to_ssi(mod);
+<<<<<<< HEAD
+	int ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!rsnd_ssi_is_run_mods(mod, io))
 		return 0;
 
+<<<<<<< HEAD
+	ret = rsnd_ssi_master_clk_start(mod, io);
+	if (ret < 0)
+		return ret;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ssi->usrcnt++;
 
 	rsnd_mod_power_on(mod);
@@ -792,7 +803,10 @@ static void __rsnd_ssi_interrupt(struct rsnd_mod *mod,
 						       SSI_SYS_STATUS(i * 2),
 						       0xf << (id * 4));
 					stop = true;
+<<<<<<< HEAD
+=======
 					break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				}
 			}
 			break;
@@ -810,7 +824,10 @@ static void __rsnd_ssi_interrupt(struct rsnd_mod *mod,
 						SSI_SYS_STATUS((i * 2) + 1),
 						0xf << 4);
 					stop = true;
+<<<<<<< HEAD
+=======
 					break;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				}
 			}
 			break;
@@ -1060,6 +1077,8 @@ static int rsnd_ssi_pio_pointer(struct rsnd_mod *mod,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
 static int rsnd_ssi_prepare(struct rsnd_mod *mod,
 			    struct rsnd_dai_stream *io,
 			    struct rsnd_priv *priv)
@@ -1067,6 +1086,7 @@ static int rsnd_ssi_prepare(struct rsnd_mod *mod,
 	return rsnd_ssi_master_clk_start(mod, io);
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct rsnd_mod_ops rsnd_ssi_pio_ops = {
 	.name		= SSI_NAME,
 	.probe		= rsnd_ssi_common_probe,
@@ -1079,7 +1099,10 @@ static struct rsnd_mod_ops rsnd_ssi_pio_ops = {
 	.pointer	= rsnd_ssi_pio_pointer,
 	.pcm_new	= rsnd_ssi_pcm_new,
 	.hw_params	= rsnd_ssi_hw_params,
+<<<<<<< HEAD
+=======
 	.prepare	= rsnd_ssi_prepare,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_status	= rsnd_ssi_get_status,
 };
 
@@ -1166,7 +1189,10 @@ static struct rsnd_mod_ops rsnd_ssi_dma_ops = {
 	.pcm_new	= rsnd_ssi_pcm_new,
 	.fallback	= rsnd_ssi_fallback,
 	.hw_params	= rsnd_ssi_hw_params,
+<<<<<<< HEAD
+=======
 	.prepare	= rsnd_ssi_prepare,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_status	= rsnd_ssi_get_status,
 };
 

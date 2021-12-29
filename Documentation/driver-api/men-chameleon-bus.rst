@@ -18,7 +18,10 @@ MEN Chameleon Bus
        4.1 The driver structure
        4.2 Probing and attaching
        4.3 Initializing the driver
+<<<<<<< HEAD
        4.4 Using DMA
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 Introduction
@@ -174,6 +177,7 @@ module at the MCB core::
 The module_mcb_driver() macro can be used to reduce the above code::
 
 	module_mcb_driver(foo_driver);
+<<<<<<< HEAD
 
 Using DMA
 ---------
@@ -185,3 +189,5 @@ pointer (->dma_dev) to the carrier's device for DMA purposes::
         ret = dma_set_mask_and_coherent(&mdev->dma_dev, DMA_BIT_MASK(dma_bits));
         if (rc)
                 /* Handle errors */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

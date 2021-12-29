@@ -17,7 +17,11 @@
 #include <asm/sections.h>
 #include <linux/stop_machine.h>
 
+<<<<<<< HEAD
 #define __ALT_PTR(a, f)		((void *)&(a)->f + (a)->f)
+=======
+#define __ALT_PTR(a,f)		((void *)&(a)->f + (a)->f)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ALT_ORIG_PTR(a)		__ALT_PTR(a, orig_offset)
 #define ALT_REPL_PTR(a)		__ALT_PTR(a, alt_offset)
 

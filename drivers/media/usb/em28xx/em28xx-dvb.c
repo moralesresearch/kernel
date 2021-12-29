@@ -62,7 +62,10 @@
 #include "si2157.h"
 #include "tc90522.h"
 #include "qm1d1c0042.h"
+<<<<<<< HEAD
 #include "mxl692.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 MODULE_AUTHOR("Mauro Carvalho Chehab <mchehab@kernel.org>");
 MODULE_LICENSE("GPL v2");
@@ -1460,6 +1463,7 @@ static int em28174_dvb_init_hauppauge_wintv_dualhd_01595(struct em28xx *dev)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int em2874_dvb_init_hauppauge_usb_quadhd(struct em28xx *dev)
 {
 	struct em28xx_dvb *dvb = dev->dvb;
@@ -1480,6 +1484,8 @@ static int em2874_dvb_init_hauppauge_usb_quadhd(struct em28xx *dev)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int em28xx_dvb_init(struct em28xx *dev)
 {
 	int result = 0, dvb_alt = 0;
@@ -1966,11 +1972,14 @@ static int em28xx_dvb_init(struct em28xx *dev)
 		if (result)
 			goto out_free;
 		break;
+<<<<<<< HEAD
 	case EM2874_BOARD_HAUPPAUGE_USB_QUADHD:
 		result = em2874_dvb_init_hauppauge_usb_quadhd(dev);
 		if (result)
 			goto out_free;
 		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		dev_err(&dev->intf->dev,
 			"The frontend of your DVB/ATSC card isn't supported yet\n");
@@ -2010,6 +2019,10 @@ ret:
 	return result;
 
 out_free:
+<<<<<<< HEAD
+	em28xx_uninit_usb_xfer(dev, EM28XX_DIGITAL_MODE);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(dvb);
 	dev->dvb = NULL;
 	goto ret;

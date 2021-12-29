@@ -286,10 +286,13 @@ qla_dfs_tgt_counters_show(struct seq_file *s, void *unused)
 		core_qla_snd_status, qla_core_ret_sta_ctio, core_qla_free_cmd,
 		num_q_full_sent, num_alloc_iocb_failed, num_term_xchg_sent;
 	u16 i;
+<<<<<<< HEAD
 	fc_port_t *fcport = NULL;
 
 	if (qla2x00_chip_is_down(vha))
 		return 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	qla_core_sbt_cmd = qpair->tgt_counters.qla_core_sbt_cmd;
 	core_qla_que_buf = qpair->tgt_counters.core_qla_que_buf;
@@ -353,6 +356,7 @@ qla_dfs_tgt_counters_show(struct seq_file *s, void *unused)
 		vha->qla_stats.qla_dif_stats.dif_ref_tag_err);
 	seq_printf(s, "DIF App tag err = %d\n",
 		vha->qla_stats.qla_dif_stats.dif_app_tag_err);
+<<<<<<< HEAD
 
 	seq_puts(s, "\n");
 	seq_puts(s, "Initiator Error Counters\n");
@@ -377,6 +381,8 @@ qla_dfs_tgt_counters_show(struct seq_file *s, void *unused)
 	}
 	seq_puts(s, "\n");
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

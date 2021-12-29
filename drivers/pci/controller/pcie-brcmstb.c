@@ -97,7 +97,10 @@
 
 #define PCIE_MISC_REVISION				0x406c
 #define  BRCM_PCIE_HW_REV_33				0x0303
+<<<<<<< HEAD
 #define  BRCM_PCIE_HW_REV_3_20				0x0320
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define PCIE_MISC_CPU_2_PCIE_MEM_WIN0_BASE_LIMIT		0x4070
 #define  PCIE_MISC_CPU_2_PCIE_MEM_WIN0_BASE_LIMIT_LIMIT_MASK	0xfff00000
@@ -188,7 +191,10 @@
 struct brcm_pcie;
 static inline void brcm_pcie_bridge_sw_init_set_7278(struct brcm_pcie *pcie, u32 val);
 static inline void brcm_pcie_bridge_sw_init_set_generic(struct brcm_pcie *pcie, u32 val);
+<<<<<<< HEAD
 static inline void brcm_pcie_perst_set_4908(struct brcm_pcie *pcie, u32 val);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void brcm_pcie_perst_set_7278(struct brcm_pcie *pcie, u32 val);
 static inline void brcm_pcie_perst_set_generic(struct brcm_pcie *pcie, u32 val);
 
@@ -205,7 +211,10 @@ enum {
 
 enum pcie_type {
 	GENERIC,
+<<<<<<< HEAD
 	BCM4908,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	BCM7278,
 	BCM2711,
 };
@@ -230,6 +239,7 @@ static const struct pcie_cfg_data generic_cfg = {
 	.bridge_sw_init_set = brcm_pcie_bridge_sw_init_set_generic,
 };
 
+<<<<<<< HEAD
 static const struct pcie_cfg_data bcm4908_cfg = {
 	.offsets	= pcie_offsets,
 	.type		= BCM4908,
@@ -237,6 +247,8 @@ static const struct pcie_cfg_data bcm4908_cfg = {
 	.bridge_sw_init_set = brcm_pcie_bridge_sw_init_set_generic,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const int pcie_offset_bcm7278[] = {
 	[RGR1_SW_INIT_1] = 0xc010,
 	[EXT_CFG_INDEX] = 0x9000,
@@ -289,7 +301,10 @@ struct brcm_pcie {
 	const int		*reg_offsets;
 	enum pcie_type		type;
 	struct reset_control	*rescal;
+<<<<<<< HEAD
 	struct reset_control	*perst_reset;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			num_memc;
 	u64			memc_size[PCIE_BRCM_MAX_MEMC];
 	u32			hw_rev;
@@ -614,7 +629,12 @@ static void brcm_msi_remove(struct brcm_pcie *pcie)
 
 	if (!msi)
 		return;
+<<<<<<< HEAD
 	irq_set_chained_handler_and_data(msi->irq, NULL, NULL);
+=======
+	irq_set_chained_handler(msi->irq, NULL);
+	irq_set_handler_data(msi->irq, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	brcm_free_domains(msi);
 }
 
@@ -745,6 +765,7 @@ static inline void brcm_pcie_bridge_sw_init_set_7278(struct brcm_pcie *pcie, u32
 	writel(tmp, pcie->base + PCIE_RGR1_SW_INIT_1(pcie));
 }
 
+<<<<<<< HEAD
 static inline void brcm_pcie_perst_set_4908(struct brcm_pcie *pcie, u32 val)
 {
 	if (WARN_ONCE(!pcie->perst_reset, "missing PERST# reset controller\n"))
@@ -756,6 +777,8 @@ static inline void brcm_pcie_perst_set_4908(struct brcm_pcie *pcie, u32 val)
 		reset_control_deassert(pcie->perst_reset);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void brcm_pcie_perst_set_7278(struct brcm_pcie *pcie, u32 val)
 {
 	u32 tmp;
@@ -1148,6 +1171,10 @@ static int brcm_pcie_suspend(struct device *dev)
 
 	brcm_pcie_turn_off(pcie);
 	ret = brcm_phy_stop(pcie);
+<<<<<<< HEAD
+	reset_control_rearm(pcie->rescal);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_disable_unprepare(pcie->clk);
 
 	return ret;
@@ -1163,9 +1190,19 @@ static int brcm_pcie_resume(struct device *dev)
 	base = pcie->base;
 	clk_prepare_enable(pcie->clk);
 
+<<<<<<< HEAD
+	ret = reset_control_reset(pcie->rescal);
+	if (ret)
+		goto err_disable_clk;
+
+	ret = brcm_phy_start(pcie);
+	if (ret)
+		goto err_reset;
+=======
 	ret = brcm_phy_start(pcie);
 	if (ret)
 		goto err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Take bridge out of reset so we can access the SERDES reg */
 	pcie->bridge_sw_init_set(pcie, 0);
@@ -1180,14 +1217,24 @@ static int brcm_pcie_resume(struct device *dev)
 
 	ret = brcm_pcie_setup(pcie);
 	if (ret)
+<<<<<<< HEAD
+		goto err_reset;
+=======
 		goto err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (pcie->msi)
 		brcm_msi_set_regs(pcie->msi);
 
 	return 0;
 
+<<<<<<< HEAD
+err_reset:
+	reset_control_rearm(pcie->rescal);
+err_disable_clk:
+=======
 err:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_disable_unprepare(pcie->clk);
 	return ret;
 }
@@ -1197,7 +1244,11 @@ static void __brcm_pcie_remove(struct brcm_pcie *pcie)
 	brcm_msi_remove(pcie);
 	brcm_pcie_turn_off(pcie);
 	brcm_phy_stop(pcie);
+<<<<<<< HEAD
+	reset_control_rearm(pcie->rescal);
+=======
 	reset_control_assert(pcie->rescal);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clk_disable_unprepare(pcie->clk);
 }
 
@@ -1215,7 +1266,10 @@ static int brcm_pcie_remove(struct platform_device *pdev)
 
 static const struct of_device_id brcm_pcie_match[] = {
 	{ .compatible = "brcm,bcm2711-pcie", .data = &bcm2711_cfg },
+<<<<<<< HEAD
 	{ .compatible = "brcm,bcm4908-pcie", .data = &bcm4908_cfg },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "brcm,bcm7211-pcie", .data = &generic_cfg },
 	{ .compatible = "brcm,bcm7278-pcie", .data = &bcm7278_cfg },
 	{ .compatible = "brcm,bcm7216-pcie", .data = &bcm7278_cfg },
@@ -1272,19 +1326,28 @@ static int brcm_pcie_probe(struct platform_device *pdev)
 		clk_disable_unprepare(pcie->clk);
 		return PTR_ERR(pcie->rescal);
 	}
+<<<<<<< HEAD
 	pcie->perst_reset = devm_reset_control_get_optional_exclusive(&pdev->dev, "perst");
 	if (IS_ERR(pcie->perst_reset)) {
 		clk_disable_unprepare(pcie->clk);
 		return PTR_ERR(pcie->perst_reset);
 	}
 
+	ret = reset_control_reset(pcie->rescal);
+=======
+
 	ret = reset_control_deassert(pcie->rescal);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		dev_err(&pdev->dev, "failed to deassert 'rescal'\n");
 
 	ret = brcm_phy_start(pcie);
 	if (ret) {
+<<<<<<< HEAD
+		reset_control_rearm(pcie->rescal);
+=======
 		reset_control_assert(pcie->rescal);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		clk_disable_unprepare(pcie->clk);
 		return ret;
 	}
@@ -1294,10 +1357,14 @@ static int brcm_pcie_probe(struct platform_device *pdev)
 		goto fail;
 
 	pcie->hw_rev = readl(pcie->base + PCIE_MISC_REVISION);
+<<<<<<< HEAD
 	if (pcie->type == BCM4908 && pcie->hw_rev >= BRCM_PCIE_HW_REV_3_20) {
 		dev_err(pcie->dev, "hardware revision with unsupported PERST# setup\n");
+		ret = -ENODEV;
 		goto fail;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	msi_np = of_parse_phandle(pcie->np, "msi-parent", 0);
 	if (pci_msi_enabled() && msi_np == pcie->np) {

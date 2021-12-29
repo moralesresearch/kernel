@@ -59,7 +59,11 @@ int copy_thread(unsigned long clone_flags, unsigned long usp, unsigned long arg,
 	struct pt_regs *childregs = task_pt_regs(p);
 	struct thread_info *ti = task_thread_info(p);
 
+<<<<<<< HEAD
 	if (unlikely(p->flags & (PF_KTHREAD | PF_IO_WORKER))) {
+=======
+	if (unlikely(p->flags & PF_KTHREAD)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* if we're creating a new kernel thread then just zeroing all
 		 * the registers. That's OK for a brand new thread.*/
 		memset(childregs, 0, sizeof(struct pt_regs));

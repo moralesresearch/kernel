@@ -280,7 +280,10 @@ struct ti_temp_sensor {
  *	has Errata 814
  * TI_BANDGAP_FEATURE_UNRELIABLE - used when the sensor readings are too
  *	inaccurate.
+<<<<<<< HEAD
  * TI_BANDGAP_FEATURE_CONT_MODE_ONLY - used when single mode hangs the sensor
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * TI_BANDGAP_HAS(b, f) - macro to check if a bandgap device is capable of a
  *      specific feature (above) or not. Return non-zero, if yes.
  */
@@ -296,7 +299,10 @@ struct ti_temp_sensor {
 #define TI_BANDGAP_FEATURE_HISTORY_BUFFER	BIT(9)
 #define TI_BANDGAP_FEATURE_ERRATA_814		BIT(10)
 #define TI_BANDGAP_FEATURE_UNRELIABLE		BIT(11)
+<<<<<<< HEAD
 #define TI_BANDGAP_FEATURE_CONT_MODE_ONLY	BIT(12)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TI_BANDGAP_HAS(b, f)			\
 			((b)->conf->features & TI_BANDGAP_FEATURE_ ## f)
 

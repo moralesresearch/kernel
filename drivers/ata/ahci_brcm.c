@@ -86,7 +86,12 @@ struct brcm_ahci_priv {
 	u32 port_mask;
 	u32 quirks;
 	enum brcm_ahci_version version;
+<<<<<<< HEAD
+	struct reset_control *rcdev_rescal;
+	struct reset_control *rcdev_ahci;
+=======
 	struct reset_control *rcdev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline u32 brcm_sata_readreg(void __iomem *addr)
@@ -352,8 +357,13 @@ static int brcm_ahci_suspend(struct device *dev)
 	else
 		ret = 0;
 
+<<<<<<< HEAD
+	reset_control_assert(priv->rcdev_ahci);
+	reset_control_rearm(priv->rcdev_rescal);
+=======
 	if (priv->version != BRCM_SATA_BCM7216)
 		reset_control_assert(priv->rcdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -365,10 +375,17 @@ static int __maybe_unused brcm_ahci_resume(struct device *dev)
 	struct brcm_ahci_priv *priv = hpriv->plat_data;
 	int ret = 0;
 
+<<<<<<< HEAD
+	ret = reset_control_deassert(priv->rcdev_ahci);
+	if (ret)
+		return ret;
+	ret = reset_control_reset(priv->rcdev_rescal);
+=======
 	if (priv->version == BRCM_SATA_BCM7216)
 		ret = reset_control_reset(priv->rcdev);
 	else
 		ret = reset_control_deassert(priv->rcdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -434,7 +451,10 @@ static int brcm_ahci_probe(struct platform_device *pdev)
 {
 	const struct of_device_id *of_id;
 	struct device *dev = &pdev->dev;
+<<<<<<< HEAD
+=======
 	const char *reset_name = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct brcm_ahci_priv *priv;
 	struct ahci_host_priv *hpriv;
 	struct resource *res;
@@ -456,6 +476,17 @@ static int brcm_ahci_probe(struct platform_device *pdev)
 	if (IS_ERR(priv->top_ctrl))
 		return PTR_ERR(priv->top_ctrl);
 
+<<<<<<< HEAD
+	if (priv->version == BRCM_SATA_BCM7216) {
+		priv->rcdev_rescal = devm_reset_control_get_optional_shared(
+			&pdev->dev, "rescal");
+		if (IS_ERR(priv->rcdev_rescal))
+			return PTR_ERR(priv->rcdev_rescal);
+	}
+	priv->rcdev_ahci = devm_reset_control_get_optional(&pdev->dev, "ahci");
+	if (IS_ERR(priv->rcdev_ahci))
+		return PTR_ERR(priv->rcdev_ahci);
+=======
 	/* Reset is optional depending on platform and named differently */
 	if (priv->version == BRCM_SATA_BCM7216)
 		reset_name = "rescal";
@@ -465,6 +496,7 @@ static int brcm_ahci_probe(struct platform_device *pdev)
 	priv->rcdev = devm_reset_control_get_optional(&pdev->dev, reset_name);
 	if (IS_ERR(priv->rcdev))
 		return PTR_ERR(priv->rcdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hpriv = ahci_platform_get_resources(pdev, 0);
 	if (IS_ERR(hpriv))
@@ -485,10 +517,17 @@ static int brcm_ahci_probe(struct platform_device *pdev)
 		break;
 	}
 
+<<<<<<< HEAD
+	ret = reset_control_reset(priv->rcdev_rescal);
+	if (ret)
+		return ret;
+	ret = reset_control_deassert(priv->rcdev_ahci);
+=======
 	if (priv->version == BRCM_SATA_BCM7216)
 		ret = reset_control_reset(priv->rcdev);
 	else
 		ret = reset_control_deassert(priv->rcdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		return ret;
 
@@ -539,8 +578,13 @@ out_disable_regulators:
 out_disable_clks:
 	ahci_platform_disable_clks(hpriv);
 out_reset:
+<<<<<<< HEAD
+	reset_control_assert(priv->rcdev_ahci);
+	reset_control_rearm(priv->rcdev_rescal);
+=======
 	if (priv->version != BRCM_SATA_BCM7216)
 		reset_control_assert(priv->rcdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 

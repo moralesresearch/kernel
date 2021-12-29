@@ -159,15 +159,24 @@ static int jpeg_v3_0_hw_init(void *handle)
 static int jpeg_v3_0_hw_fini(void *handle)
 {
 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+<<<<<<< HEAD
+
+	cancel_delayed_work_sync(&adev->vcn.idle_work);
+
+=======
 	struct amdgpu_ring *ring;
 
 	ring = &adev->jpeg.inst->ring_dec;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (adev->jpeg.cur_state != AMD_PG_STATE_GATE &&
 	      RREG32_SOC15(JPEG, 0, mmUVD_JRBC_STATUS))
 		jpeg_v3_0_set_powergating_state(adev, AMD_PG_STATE_GATE);
 
+<<<<<<< HEAD
+=======
 	ring->sched.ready = false;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

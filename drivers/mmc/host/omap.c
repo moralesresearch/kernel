@@ -878,9 +878,15 @@ static void mmc_omap_cover_timer(struct timer_list *t)
 	tasklet_schedule(&slot->cover_tasklet);
 }
 
+<<<<<<< HEAD
 static void mmc_omap_cover_handler(struct tasklet_struct *t)
 {
 	struct mmc_omap_slot *slot = from_tasklet(slot, t, cover_tasklet);
+=======
+static void mmc_omap_cover_handler(unsigned long param)
+{
+	struct mmc_omap_slot *slot = (struct mmc_omap_slot *)param;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int cover_open = mmc_omap_cover_is_open(slot);
 
 	mmc_detect_change(slot->mmc, 0);
@@ -1269,7 +1275,12 @@ static int mmc_omap_new_slot(struct mmc_omap_host *host, int id)
 
 	if (slot->pdata->get_cover_state != NULL) {
 		timer_setup(&slot->cover_timer, mmc_omap_cover_timer, 0);
+<<<<<<< HEAD
 		tasklet_setup(&slot->cover_tasklet, mmc_omap_cover_handler);
+=======
+		tasklet_init(&slot->cover_tasklet, mmc_omap_cover_handler,
+			     (unsigned long)slot);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	r = mmc_add_host(mmc);

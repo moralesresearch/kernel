@@ -311,7 +311,11 @@ enum {
 	WQ_MEM_RECLAIM		= 1 << 3, /* may be used for memory reclaim */
 	WQ_HIGHPRI		= 1 << 4, /* high priority */
 	WQ_CPU_INTENSIVE	= 1 << 5, /* cpu intensive workqueue */
+<<<<<<< HEAD
 	WQ_SYSFS		= 1 << 6, /* visible in sysfs, see workqueue_sysfs_register() */
+=======
+	WQ_SYSFS		= 1 << 6, /* visible in sysfs, see wq_sysfs_register() */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Per-cpu workqueues are generally preferred because they tend to

@@ -141,6 +141,10 @@ typedef struct {
   uint32_t MaxGfxClk;
 
   uint8_t NumDfPstatesEnabled;
+<<<<<<< HEAD
+=======
+  uint8_t NumDpmLevelsEnabled;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   uint8_t NumDcfclkLevelsEnabled;
   uint8_t NumDispClkLevelsEnabled;  //applies to both dispclk and dppclk
   uint8_t NumSocClkLevelsEnabled;

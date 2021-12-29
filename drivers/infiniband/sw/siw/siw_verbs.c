@@ -300,7 +300,10 @@ struct ib_qp *siw_create_qp(struct ib_pd *pd,
 	struct siw_ucontext *uctx =
 		rdma_udata_to_drv_context(udata, struct siw_ucontext,
 					  base_ucontext);
+<<<<<<< HEAD
+=======
 	struct siw_cq *scq = NULL, *rcq = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long flags;
 	int num_sqe, num_rqe, rv = 0;
 	size_t length;
@@ -343,10 +346,15 @@ struct ib_qp *siw_create_qp(struct ib_pd *pd,
 		rv = -EINVAL;
 		goto err_out;
 	}
+<<<<<<< HEAD
+
+	if (!attrs->send_cq || (!attrs->recv_cq && !attrs->srq)) {
+=======
 	scq = to_siw_cq(attrs->send_cq);
 	rcq = to_siw_cq(attrs->recv_cq);
 
 	if (!scq || (!rcq && !attrs->srq)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		siw_dbg(base_dev, "send CQ or receive CQ invalid\n");
 		rv = -EINVAL;
 		goto err_out;
@@ -378,7 +386,11 @@ struct ib_qp *siw_create_qp(struct ib_pd *pd,
 	else {
 		/* Zero sized SQ is not supported */
 		rv = -EINVAL;
+<<<<<<< HEAD
+		goto err_out_xa;
+=======
 		goto err_out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	if (num_rqe)
 		num_rqe = roundup_pow_of_two(num_rqe);
@@ -401,8 +413,13 @@ struct ib_qp *siw_create_qp(struct ib_pd *pd,
 		}
 	}
 	qp->pd = pd;
+<<<<<<< HEAD
+	qp->scq = to_siw_cq(attrs->send_cq);
+	qp->rcq = to_siw_cq(attrs->recv_cq);
+=======
 	qp->scq = scq;
 	qp->rcq = rcq;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (attrs->srq) {
 		/*

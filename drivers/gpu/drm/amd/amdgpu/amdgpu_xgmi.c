@@ -324,7 +324,11 @@ static void amdgpu_xgmi_sysfs_rem_dev_info(struct amdgpu_device *adev,
 
 struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
 {
+<<<<<<< HEAD
 	struct amdgpu_hive_info *hive = NULL;
+=======
+	struct amdgpu_hive_info *hive = NULL, *tmp = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (!adev->gmc.xgmi.hive_id)
@@ -337,9 +341,17 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
 
 	mutex_lock(&xgmi_mutex);
 
+<<<<<<< HEAD
 	list_for_each_entry(hive, &xgmi_hive_list, node)  {
 		if (hive->hive_id == adev->gmc.xgmi.hive_id)
 			goto pro_end;
+=======
+	if (!list_empty(&xgmi_hive_list)) {
+		list_for_each_entry_safe(hive, tmp, &xgmi_hive_list, node)  {
+			if (hive->hive_id == adev->gmc.xgmi.hive_id)
+				goto pro_end;
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	hive = kzalloc(sizeof(*hive), GFP_KERNEL);
@@ -468,15 +480,32 @@ int amdgpu_xgmi_update_topology(struct amdgpu_hive_info *hive, struct amdgpu_dev
 }
 
 
+<<<<<<< HEAD
+/*
+ * NOTE psp_xgmi_node_info.num_hops layout is as follows:
+ * num_hops[7:6] = link type (0 = xGMI2, 1 = xGMI3, 2/3 = reserved)
+ * num_hops[5:3] = reserved
+ * num_hops[2:0] = number of hops
+ */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int amdgpu_xgmi_get_hops_count(struct amdgpu_device *adev,
 		struct amdgpu_device *peer_adev)
 {
 	struct psp_xgmi_topology_info *top = &adev->psp.xgmi_context.top_info;
+<<<<<<< HEAD
+	uint8_t num_hops_mask = 0x7;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	for (i = 0 ; i < top->num_nodes; ++i)
 		if (top->nodes[i].node_id == peer_adev->gmc.xgmi.node_id)
+<<<<<<< HEAD
+			return top->nodes[i].num_hops & num_hops_mask;
+=======
 			return top->nodes[i].num_hops;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return	-EINVAL;
 }
 

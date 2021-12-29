@@ -171,6 +171,14 @@ static void sp_encaps(struct sixpack *sp, unsigned char *icp, int len)
 		goto out_drop;
 	}
 
+<<<<<<< HEAD
+=======
+	if (len > sp->mtu) {	/* sp->mtu = AX25_MTU = max. PACLEN = 256 */
+		msg = "oversized transmit packet!";
+		goto out_drop;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (p[0] > 5) {
 		msg = "invalid KISS command";
 		goto out_drop;

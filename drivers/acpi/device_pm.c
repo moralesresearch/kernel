@@ -10,8 +10,11 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
+<<<<<<< HEAD
 #define pr_fmt(fmt) "ACPI: PM: " fmt
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/acpi.h>
 #include <linux/export.h>
 #include <linux/mutex.h>
@@ -22,6 +25,12 @@
 
 #include "internal.h"
 
+<<<<<<< HEAD
+=======
+#define _COMPONENT	ACPI_POWER_COMPONENT
+ACPI_MODULE_NAME("device_pm");
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * acpi_power_state_string - String representation of ACPI device power state.
  * @state: ACPI device power state to return the string representation of.
@@ -129,8 +138,13 @@ int acpi_device_get_power(struct acpi_device *device, int *state)
 	*state = result;
 
  out:
+<<<<<<< HEAD
 	dev_dbg(&device->dev, "Device power state is %s\n",
 		acpi_power_state_string(*state));
+=======
+	ACPI_DEBUG_PRINT((ACPI_DB_INFO, "Device [%s] power state is %s\n",
+			  device->pnp.bus_id, acpi_power_state_string(*state)));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -173,8 +187,14 @@ int acpi_device_set_power(struct acpi_device *device, int state)
 
 	/* There is a special case for D0 addressed below. */
 	if (state > ACPI_STATE_D0 && state == device->power.state) {
+<<<<<<< HEAD
 		dev_dbg(&device->dev, "Device already in %s\n",
 			acpi_power_state_string(state));
+=======
+		ACPI_DEBUG_PRINT((ACPI_DB_INFO, "Device [%s] already in %s\n",
+				  device->pnp.bus_id,
+				  acpi_power_state_string(state)));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 
@@ -274,8 +294,15 @@ int acpi_device_set_power(struct acpi_device *device, int state)
 			 acpi_power_state_string(target_state));
 	} else {
 		device->power.state = target_state;
+<<<<<<< HEAD
 		dev_dbg(&device->dev, "Power state changed to %s\n",
 			acpi_power_state_string(target_state));
+=======
+		ACPI_DEBUG_PRINT((ACPI_DB_INFO,
+				  "Device [%s] transitioned to %s\n",
+				  device->pnp.bus_id,
+				  acpi_power_state_string(target_state)));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return result;
@@ -1310,6 +1337,10 @@ int acpi_dev_pm_attach(struct device *dev, bool power_on)
 		{"PNP0C0B", }, /* Generic ACPI fan */
 		{"INT3404", }, /* Fan */
 		{"INTC1044", }, /* Fan for Tiger Lake generation */
+<<<<<<< HEAD
+		{"INTC1048", }, /* Fan for Alder Lake generation */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{}
 	};
 	struct acpi_device *adev = ACPI_COMPANION(dev);

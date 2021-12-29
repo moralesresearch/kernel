@@ -324,8 +324,11 @@ static const struct hid_device_id hid_battery_quirks[] = {
 	  HID_BATTERY_QUIRK_IGNORE },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN),
 	  HID_BATTERY_QUIRK_IGNORE },
+<<<<<<< HEAD
 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_15),
 	  HID_BATTERY_QUIRK_IGNORE },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{}
 };
 
@@ -963,6 +966,12 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
 
 		case 0x0cd: map_key_clear(KEY_PLAYPAUSE);	break;
 		case 0x0cf: map_key_clear(KEY_VOICECOMMAND);	break;
+<<<<<<< HEAD
+
+		case 0x0d9: map_key_clear(KEY_EMOJI_PICKER);	break;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case 0x0e0: map_abs_clear(ABS_VOLUME);		break;
 		case 0x0e2: map_key_clear(KEY_MUTE);		break;
 		case 0x0e5: map_key_clear(KEY_BASSBOOST);	break;
@@ -1856,6 +1865,7 @@ static struct hid_input *hidinput_match_application(struct hid_report *report)
 	list_for_each_entry(hidinput, &hid->inputs, list) {
 		if (hidinput->application == report->application)
 			return hidinput;
+<<<<<<< HEAD
 
 		/*
 		 * Keep SystemControl and ConsumerControl applications together
@@ -1866,6 +1876,8 @@ static struct hid_input *hidinput_match_application(struct hid_report *report)
 		    hidinput->application == HID_GD_KEYBOARD) {
 			return hidinput;
 		}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return NULL;

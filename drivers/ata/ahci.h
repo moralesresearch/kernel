@@ -242,6 +242,10 @@ enum {
 							suspend/resume */
 	AHCI_HFLAG_IGN_NOTSUPP_POWER_ON	= (1 << 27), /* ignore -EOPNOTSUPP
 							from phy_power_on() */
+<<<<<<< HEAD
+	AHCI_HFLAG_NO_SXS		= (1 << 28), /* SXS not supported */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* ap->flags bits */
 

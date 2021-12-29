@@ -128,7 +128,10 @@ static int sev_cmd_buffer_len(int cmd)
 	case SEV_CMD_LAUNCH_UPDATE_SECRET:	return sizeof(struct sev_data_launch_secret);
 	case SEV_CMD_DOWNLOAD_FIRMWARE:		return sizeof(struct sev_data_download_firmware);
 	case SEV_CMD_GET_ID:			return sizeof(struct sev_data_get_id);
+<<<<<<< HEAD
 	case SEV_CMD_ATTESTATION_REPORT:	return sizeof(struct sev_data_attestation_report);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:				return 0;
 	}
 
@@ -150,6 +153,12 @@ static int __sev_do_cmd_locked(int cmd, void *data, int *psp_ret)
 
 	sev = psp->sev_data;
 
+<<<<<<< HEAD
+	if (data && WARN_ON_ONCE(!virt_addr_valid(data)))
+		return -EINVAL;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Get the physical address of the command buffer */
 	phys_lsb = data ? lower_32_bits(__psp_pa(data)) : 0;
 	phys_msb = data ? upper_32_bits(__psp_pa(data)) : 0;
@@ -987,7 +996,11 @@ int sev_dev_init(struct psp_device *psp)
 	if (!sev->vdata) {
 		ret = -ENODEV;
 		dev_err(dev, "sev: missing driver data\n");
+<<<<<<< HEAD
+		goto e_sev;
+=======
 		goto e_err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	psp_set_sev_irq_handler(psp, sev_irq_handler, sev);
@@ -1002,6 +1015,11 @@ int sev_dev_init(struct psp_device *psp)
 
 e_irq:
 	psp_clear_sev_irq_handler(psp);
+<<<<<<< HEAD
+e_sev:
+	devm_kfree(dev, sev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 e_err:
 	psp->sev_data = NULL;
 

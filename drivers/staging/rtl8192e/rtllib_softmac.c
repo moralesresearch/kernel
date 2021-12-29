@@ -1352,8 +1352,14 @@ rtllib_association_req(struct rtllib_network *beacon,
 		rtllib_WMM_Info(ieee, &tag);
 	}
 
+<<<<<<< HEAD
 	if (wps_ie_len && ieee->wps_ie)
 		skb_put_data(skb, ieee->wps_ie, wps_ie_len);
+=======
+	if (wps_ie_len && ieee->wps_ie) {
+		skb_put_data(skb, ieee->wps_ie, wps_ie_len);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (turbo_info_len) {
 		tag = skb_put(skb, turbo_info_len);

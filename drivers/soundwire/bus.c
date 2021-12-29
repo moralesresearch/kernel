@@ -267,10 +267,21 @@ static int sdw_transfer_unlocked(struct sdw_bus *bus, struct sdw_msg *msg)
 
 	ret = do_transfer(bus, msg);
 	if (ret != 0 && ret != -ENODATA)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(bus->dev, "trf on Slave %d failed:%d %s addr %x count %d\n",
 			msg->dev_num, ret,
 			(msg->flags & SDW_MSG_FLAG_WRITE) ? "write" : "read",
 			msg->addr, msg->len);
+<<<<<<< HEAD
+=======
+=======
+		dev_err(bus->dev, "trf on Slave %d failed:%d\n",
+			msg->dev_num, ret);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (msg->page)
 		sdw_reset_page(bus, msg->dev_num);
@@ -638,7 +649,14 @@ err:
 
 static int sdw_assign_device_num(struct sdw_slave *slave)
 {
+<<<<<<< HEAD
 	struct sdw_bus *bus = slave->bus;
+=======
+<<<<<<< HEAD
+	struct sdw_bus *bus = slave->bus;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret, dev_num;
 	bool new_device = false;
 
@@ -649,7 +667,15 @@ static int sdw_assign_device_num(struct sdw_slave *slave)
 			dev_num = sdw_get_device_num(slave);
 			mutex_unlock(&slave->bus->bus_lock);
 			if (dev_num < 0) {
+<<<<<<< HEAD
 				dev_err(bus->dev, "Get dev_num failed: %d\n",
+=======
+<<<<<<< HEAD
+				dev_err(bus->dev, "Get dev_num failed: %d\n",
+=======
+				dev_err(slave->bus->dev, "Get dev_num failed: %d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					dev_num);
 				return dev_num;
 			}
@@ -662,7 +688,15 @@ static int sdw_assign_device_num(struct sdw_slave *slave)
 	}
 
 	if (!new_device)
+<<<<<<< HEAD
 		dev_dbg(bus->dev,
+=======
+<<<<<<< HEAD
+		dev_dbg(bus->dev,
+=======
+		dev_dbg(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"Slave already registered, reusing dev_num:%d\n",
 			slave->dev_num);
 
@@ -672,7 +706,15 @@ static int sdw_assign_device_num(struct sdw_slave *slave)
 
 	ret = sdw_write_no_pm(slave, SDW_SCP_DEVNUMBER, dev_num);
 	if (ret < 0) {
+<<<<<<< HEAD
 		dev_err(bus->dev, "Program device_num %d failed: %d\n",
+=======
+<<<<<<< HEAD
+		dev_err(bus->dev, "Program device_num %d failed: %d\n",
+=======
+		dev_err(&slave->dev, "Program device_num %d failed: %d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_num, ret);
 		return ret;
 	}
@@ -695,8 +737,19 @@ void sdw_extract_slave_id(struct sdw_bus *bus,
 	id->class_id = SDW_CLASS_ID(addr);
 
 	dev_dbg(bus->dev,
+<<<<<<< HEAD
 		"SDW Slave class_id 0x%02x, mfg_id 0x%04x, part_id 0x%04x, unique_id 0x%x, version 0x%x\n",
 		id->class_id, id->mfg_id, id->part_id, id->unique_id, id->sdw_version);
+=======
+<<<<<<< HEAD
+		"SDW Slave class_id 0x%02x, mfg_id 0x%04x, part_id 0x%04x, unique_id 0x%x, version 0x%x\n",
+		id->class_id, id->mfg_id, id->part_id, id->unique_id, id->sdw_version);
+=======
+		"SDW Slave class_id %x, part_id %x, mfg_id %x, unique_id %x, version %x\n",
+				id->class_id, id->part_id, id->mfg_id,
+				id->unique_id, id->sdw_version);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int sdw_program_device_num(struct sdw_bus *bus)
@@ -705,7 +758,11 @@ static int sdw_program_device_num(struct sdw_bus *bus)
 	struct sdw_slave *slave, *_s;
 	struct sdw_slave_id id;
 	struct sdw_msg msg;
+<<<<<<< HEAD
+	bool found;
+=======
 	bool found = false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int count = 0, ret;
 	u64 addr;
 
@@ -737,6 +794,10 @@ static int sdw_program_device_num(struct sdw_bus *bus)
 
 		sdw_extract_slave_id(bus, addr, &id);
 
+<<<<<<< HEAD
+		found = false;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Now compare with entries */
 		list_for_each_entry_safe(slave, _s, &bus->slaves, node) {
 			if (sdw_compare_devid(slave, id) == 0) {
@@ -750,7 +811,15 @@ static int sdw_program_device_num(struct sdw_bus *bus)
 				 */
 				ret = sdw_assign_device_num(slave);
 				if (ret) {
+<<<<<<< HEAD
 					dev_err(bus->dev,
+=======
+<<<<<<< HEAD
+					dev_err(bus->dev,
+=======
+					dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						"Assign dev_num failed:%d\n",
 						ret);
 					return ret;
@@ -790,17 +859,37 @@ static int sdw_program_device_num(struct sdw_bus *bus)
 static void sdw_modify_slave_status(struct sdw_slave *slave,
 				    enum sdw_slave_status status)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sdw_bus *bus = slave->bus;
 
 	mutex_lock(&bus->bus_lock);
 
 	dev_vdbg(bus->dev,
+<<<<<<< HEAD
+=======
+=======
+	mutex_lock(&slave->bus->bus_lock);
+
+	dev_vdbg(&slave->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 "%s: changing status slave %d status %d new status %d\n",
 		 __func__, slave->dev_num, slave->status, status);
 
 	if (status == SDW_SLAVE_UNATTACHED) {
 		dev_dbg(&slave->dev,
+<<<<<<< HEAD
 			"%s: initializing enumeration and init completion for Slave %d\n",
+=======
+<<<<<<< HEAD
+			"%s: initializing enumeration and init completion for Slave %d\n",
+=======
+			"%s: initializing completion for Slave %d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			__func__, slave->dev_num);
 
 		init_completion(&slave->enumeration_complete);
@@ -809,13 +898,29 @@ static void sdw_modify_slave_status(struct sdw_slave *slave,
 	} else if ((status == SDW_SLAVE_ATTACHED) &&
 		   (slave->status == SDW_SLAVE_UNATTACHED)) {
 		dev_dbg(&slave->dev,
+<<<<<<< HEAD
 			"%s: signaling enumeration completion for Slave %d\n",
+=======
+<<<<<<< HEAD
+			"%s: signaling enumeration completion for Slave %d\n",
+=======
+			"%s: signaling completion for Slave %d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			__func__, slave->dev_num);
 
 		complete(&slave->enumeration_complete);
 	}
 	slave->status = status;
+<<<<<<< HEAD
 	mutex_unlock(&bus->bus_lock);
+=======
+<<<<<<< HEAD
+	mutex_unlock(&bus->bus_lock);
+=======
+	mutex_unlock(&slave->bus->bus_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static enum sdw_clk_stop_mode sdw_get_clk_stop_mode(struct sdw_slave *slave)
@@ -967,17 +1072,37 @@ int sdw_bus_prep_clk_stop(struct sdw_bus *bus)
 			simple_clk_stop = false;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Skip remaining clock stop preparation if no Slave is attached */
 	if (!is_slave)
 		return ret;
 
 	if (!simple_clk_stop) {
+<<<<<<< HEAD
+=======
+=======
+	if (is_slave && !simple_clk_stop) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = sdw_bus_wait_for_clk_prep_deprep(bus,
 						       SDW_BROADCAST_DEV_NUM);
 		if (ret < 0)
 			return ret;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	/* Don't need to inform slaves if there is no slave attached */
+	if (!is_slave)
+		return ret;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Inform slaves that prep is done */
 	list_for_each_entry(slave, &bus->slaves, node) {
 		if (!slave->dev_num)
@@ -1091,6 +1216,10 @@ int sdw_bus_exit_clk_stop(struct sdw_bus *bus)
 				 "clk stop deprep failed:%d", ret);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Skip remaining clock stop de-preparation if no Slave is attached */
 	if (!is_slave)
 		return 0;
@@ -1098,6 +1227,21 @@ int sdw_bus_exit_clk_stop(struct sdw_bus *bus)
 	if (!simple_clk_stop)
 		sdw_bus_wait_for_clk_prep_deprep(bus, SDW_BROADCAST_DEV_NUM);
 
+<<<<<<< HEAD
+=======
+=======
+	if (is_slave && !simple_clk_stop)
+		sdw_bus_wait_for_clk_prep_deprep(bus, SDW_BROADCAST_DEV_NUM);
+
+	/*
+	 * Don't need to call slave callback function if there is no slave
+	 * attached
+	 */
+	if (!is_slave)
+		return 0;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_for_each_entry(slave, &bus->slaves, node) {
 		if (!slave->dev_num)
 			continue;
@@ -1141,7 +1285,15 @@ int sdw_configure_dpn_intr(struct sdw_slave *slave,
 
 	ret = sdw_update(slave, addr, (mask | SDW_DPN_INT_PORT_READY), val);
 	if (ret < 0)
+<<<<<<< HEAD
 		dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		dev_err(&slave->dev,
+=======
+		dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"SDW_DPN_INTMASK write failed:%d\n", val);
 
 	return ret;
@@ -1272,7 +1424,15 @@ static int sdw_initialize_slave(struct sdw_slave *slave)
 	/* Enable SCP interrupts */
 	ret = sdw_update_no_pm(slave, SDW_SCP_INTMASK1, val, val);
 	if (ret < 0) {
+<<<<<<< HEAD
 		dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		dev_err(&slave->dev,
+=======
+		dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"SDW_SCP_INTMASK1 write failed:%d\n", ret);
 		return ret;
 	}
@@ -1287,7 +1447,15 @@ static int sdw_initialize_slave(struct sdw_slave *slave)
 
 	ret = sdw_update_no_pm(slave, SDW_DP0_INTMASK, val, val);
 	if (ret < 0)
+<<<<<<< HEAD
 		dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		dev_err(&slave->dev,
+=======
+		dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"SDW_DP0_INTMASK read failed:%d\n", ret);
 	return ret;
 }
@@ -1297,9 +1465,21 @@ static int sdw_handle_dp0_interrupt(struct sdw_slave *slave, u8 *slave_status)
 	u8 clear, impl_int_mask;
 	int status, status2, ret, count = 0;
 
+<<<<<<< HEAD
 	status = sdw_read_no_pm(slave, SDW_DP0_INT);
 	if (status < 0) {
 		dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+	status = sdw_read_no_pm(slave, SDW_DP0_INT);
+	if (status < 0) {
+		dev_err(&slave->dev,
+=======
+	status = sdw_read(slave, SDW_DP0_INT);
+	if (status < 0) {
+		dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"SDW_DP0_INT read failed:%d\n", status);
 		return status;
 	}
@@ -1336,17 +1516,41 @@ static int sdw_handle_dp0_interrupt(struct sdw_slave *slave, u8 *slave_status)
 		}
 
 		/* clear the interrupts but don't touch reserved and SDCA_CASCADE fields */
+<<<<<<< HEAD
 		ret = sdw_write_no_pm(slave, SDW_DP0_INT, clear);
 		if (ret < 0) {
 			dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		ret = sdw_write_no_pm(slave, SDW_DP0_INT, clear);
+		if (ret < 0) {
+			dev_err(&slave->dev,
+=======
+		ret = sdw_write(slave, SDW_DP0_INT, clear);
+		if (ret < 0) {
+			dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				"SDW_DP0_INT write failed:%d\n", ret);
 			return ret;
 		}
 
 		/* Read DP0 interrupt again */
+<<<<<<< HEAD
 		status2 = sdw_read_no_pm(slave, SDW_DP0_INT);
 		if (status2 < 0) {
 			dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		status2 = sdw_read_no_pm(slave, SDW_DP0_INT);
+		if (status2 < 0) {
+			dev_err(&slave->dev,
+=======
+		status2 = sdw_read(slave, SDW_DP0_INT);
+		if (status2 < 0) {
+			dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				"SDW_DP0_INT read failed:%d\n", status2);
 			return status2;
 		}
@@ -1359,7 +1563,15 @@ static int sdw_handle_dp0_interrupt(struct sdw_slave *slave, u8 *slave_status)
 	} while ((status & SDW_DP0_INTERRUPTS) && (count < SDW_READ_INTR_CLEAR_RETRY));
 
 	if (count == SDW_READ_INTR_CLEAR_RETRY)
+<<<<<<< HEAD
 		dev_warn(&slave->dev, "Reached MAX_RETRY on DP0 read\n");
+=======
+<<<<<<< HEAD
+		dev_warn(&slave->dev, "Reached MAX_RETRY on DP0 read\n");
+=======
+		dev_warn(slave->bus->dev, "Reached MAX_RETRY on DP0 read\n");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -1375,9 +1587,21 @@ static int sdw_handle_port_interrupt(struct sdw_slave *slave,
 		return sdw_handle_dp0_interrupt(slave, slave_status);
 
 	addr = SDW_DPN_INT(port);
+<<<<<<< HEAD
 	status = sdw_read_no_pm(slave, addr);
 	if (status < 0) {
 		dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+	status = sdw_read_no_pm(slave, addr);
+	if (status < 0) {
+		dev_err(&slave->dev,
+=======
+	status = sdw_read(slave, addr);
+	if (status < 0) {
+		dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"SDW_DPN_INT read failed:%d\n", status);
 
 		return status;
@@ -1409,17 +1633,41 @@ static int sdw_handle_port_interrupt(struct sdw_slave *slave,
 		}
 
 		/* clear the interrupt but don't touch reserved fields */
+<<<<<<< HEAD
 		ret = sdw_write_no_pm(slave, addr, clear);
 		if (ret < 0) {
 			dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		ret = sdw_write_no_pm(slave, addr, clear);
+		if (ret < 0) {
+			dev_err(&slave->dev,
+=======
+		ret = sdw_write(slave, addr, clear);
+		if (ret < 0) {
+			dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				"SDW_DPN_INT write failed:%d\n", ret);
 			return ret;
 		}
 
 		/* Read DPN interrupt again */
+<<<<<<< HEAD
 		status2 = sdw_read_no_pm(slave, addr);
 		if (status2 < 0) {
 			dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		status2 = sdw_read_no_pm(slave, addr);
+		if (status2 < 0) {
+			dev_err(&slave->dev,
+=======
+		status2 = sdw_read(slave, addr);
+		if (status2 < 0) {
+			dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				"SDW_DPN_INT read failed:%d\n", status2);
 			return status2;
 		}
@@ -1432,7 +1680,15 @@ static int sdw_handle_port_interrupt(struct sdw_slave *slave,
 	} while ((status & SDW_DPN_INTERRUPTS) && (count < SDW_READ_INTR_CLEAR_RETRY));
 
 	if (count == SDW_READ_INTR_CLEAR_RETRY)
+<<<<<<< HEAD
 		dev_warn(&slave->dev, "Reached MAX_RETRY on port read");
+=======
+<<<<<<< HEAD
+		dev_warn(&slave->dev, "Reached MAX_RETRY on port read");
+=======
+		dev_warn(slave->bus->dev, "Reached MAX_RETRY on port read");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -1459,25 +1715,61 @@ static int sdw_handle_slave_alerts(struct sdw_slave *slave)
 	}
 
 	/* Read Intstat 1, Intstat 2 and Intstat 3 registers */
+<<<<<<< HEAD
 	ret = sdw_read_no_pm(slave, SDW_SCP_INT1);
 	if (ret < 0) {
 		dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+	ret = sdw_read_no_pm(slave, SDW_SCP_INT1);
+	if (ret < 0) {
+		dev_err(&slave->dev,
+=======
+	ret = sdw_read(slave, SDW_SCP_INT1);
+	if (ret < 0) {
+		dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"SDW_SCP_INT1 read failed:%d\n", ret);
 		goto io_err;
 	}
 	buf = ret;
 
+<<<<<<< HEAD
 	ret = sdw_nread_no_pm(slave, SDW_SCP_INTSTAT2, 2, buf2);
 	if (ret < 0) {
 		dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+	ret = sdw_nread_no_pm(slave, SDW_SCP_INTSTAT2, 2, buf2);
+	if (ret < 0) {
+		dev_err(&slave->dev,
+=======
+	ret = sdw_nread(slave, SDW_SCP_INTSTAT2, 2, buf2);
+	if (ret < 0) {
+		dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			"SDW_SCP_INT2/3 read failed:%d\n", ret);
 		goto io_err;
 	}
 
 	if (slave->prop.is_sdca) {
+<<<<<<< HEAD
 		ret = sdw_read_no_pm(slave, SDW_DP0_INT);
 		if (ret < 0) {
 			dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		ret = sdw_read_no_pm(slave, SDW_DP0_INT);
+		if (ret < 0) {
+			dev_err(&slave->dev,
+=======
+		ret = sdw_read(slave, SDW_DP0_INT);
+		if (ret < 0) {
+			dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				"SDW_DP0_INT read failed:%d\n", ret);
 			goto io_err;
 		}
@@ -1572,9 +1864,21 @@ static int sdw_handle_slave_alerts(struct sdw_slave *slave)
 		}
 
 		/* Ack interrupt */
+<<<<<<< HEAD
 		ret = sdw_write_no_pm(slave, SDW_SCP_INT1, clear);
 		if (ret < 0) {
 			dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		ret = sdw_write_no_pm(slave, SDW_SCP_INT1, clear);
+		if (ret < 0) {
+			dev_err(&slave->dev,
+=======
+		ret = sdw_write(slave, SDW_SCP_INT1, clear);
+		if (ret < 0) {
+			dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				"SDW_SCP_INT1 write failed:%d\n", ret);
 			goto io_err;
 		}
@@ -1586,25 +1890,61 @@ static int sdw_handle_slave_alerts(struct sdw_slave *slave)
 		 * Read status again to ensure no new interrupts arrived
 		 * while servicing interrupts.
 		 */
+<<<<<<< HEAD
 		ret = sdw_read_no_pm(slave, SDW_SCP_INT1);
 		if (ret < 0) {
 			dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		ret = sdw_read_no_pm(slave, SDW_SCP_INT1);
+		if (ret < 0) {
+			dev_err(&slave->dev,
+=======
+		ret = sdw_read(slave, SDW_SCP_INT1);
+		if (ret < 0) {
+			dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				"SDW_SCP_INT1 read failed:%d\n", ret);
 			goto io_err;
 		}
 		_buf = ret;
 
+<<<<<<< HEAD
 		ret = sdw_nread_no_pm(slave, SDW_SCP_INTSTAT2, 2, _buf2);
 		if (ret < 0) {
 			dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+		ret = sdw_nread_no_pm(slave, SDW_SCP_INTSTAT2, 2, _buf2);
+		if (ret < 0) {
+			dev_err(&slave->dev,
+=======
+		ret = sdw_nread(slave, SDW_SCP_INTSTAT2, 2, _buf2);
+		if (ret < 0) {
+			dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				"SDW_SCP_INT2/3 read failed:%d\n", ret);
 			goto io_err;
 		}
 
 		if (slave->prop.is_sdca) {
+<<<<<<< HEAD
 			ret = sdw_read_no_pm(slave, SDW_DP0_INT);
 			if (ret < 0) {
 				dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+			ret = sdw_read_no_pm(slave, SDW_DP0_INT);
+			if (ret < 0) {
+				dev_err(&slave->dev,
+=======
+			ret = sdw_read(slave, SDW_DP0_INT);
+			if (ret < 0) {
+				dev_err(slave->bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					"SDW_DP0_INT read failed:%d\n", ret);
 				goto io_err;
 			}
@@ -1630,7 +1970,15 @@ static int sdw_handle_slave_alerts(struct sdw_slave *slave)
 	} while (stat != 0 && count < SDW_READ_INTR_CLEAR_RETRY);
 
 	if (count == SDW_READ_INTR_CLEAR_RETRY)
+<<<<<<< HEAD
 		dev_warn(&slave->dev, "Reached MAX_RETRY on alert read\n");
+=======
+<<<<<<< HEAD
+		dev_warn(&slave->dev, "Reached MAX_RETRY on alert read\n");
+=======
+		dev_warn(slave->bus->dev, "Reached MAX_RETRY on alert read\n");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 io_err:
 	pm_runtime_mark_last_busy(&slave->dev);
@@ -1736,7 +2084,15 @@ int sdw_handle_slave_status(struct sdw_bus *bus,
 		case SDW_SLAVE_ALERT:
 			ret = sdw_handle_slave_alerts(slave);
 			if (ret)
+<<<<<<< HEAD
 				dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+				dev_err(&slave->dev,
+=======
+				dev_err(bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					"Slave %d alert handling failed: %d\n",
 					i, ret);
 			break;
@@ -1755,20 +2111,40 @@ int sdw_handle_slave_status(struct sdw_bus *bus,
 
 			ret = sdw_initialize_slave(slave);
 			if (ret)
+<<<<<<< HEAD
 				dev_err(&slave->dev,
+=======
+<<<<<<< HEAD
+				dev_err(&slave->dev,
+=======
+				dev_err(bus->dev,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					"Slave %d initialization failed: %d\n",
 					i, ret);
 
 			break;
 
 		default:
+<<<<<<< HEAD
 			dev_err(&slave->dev, "Invalid slave %d status:%d\n",
+=======
+<<<<<<< HEAD
+			dev_err(&slave->dev, "Invalid slave %d status:%d\n",
+=======
+			dev_err(bus->dev, "Invalid slave %d status:%d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				i, status[i]);
 			break;
 		}
 
 		ret = sdw_update_slave_status(slave, status[i]);
 		if (ret)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_err(&slave->dev,
 				"Update Slave status failed:%d\n", ret);
 		if (attached_initializing) {
@@ -1778,6 +2154,15 @@ int sdw_handle_slave_status(struct sdw_bus *bus,
 
 			complete(&slave->initialization_complete);
 		}
+<<<<<<< HEAD
+=======
+=======
+			dev_err(slave->bus->dev,
+				"Update Slave status failed:%d\n", ret);
+		if (attached_initializing)
+			complete(&slave->initialization_complete);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return ret;

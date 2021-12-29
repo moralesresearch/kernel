@@ -51,7 +51,11 @@ const u8 crc7_be_syndrome_table[256] = {
 EXPORT_SYMBOL(crc7_be_syndrome_table);
 
 /**
+<<<<<<< HEAD
  * crc7_be - update the CRC7 for the data buffer
+=======
+ * crc7 - update the CRC7 for the data buffer
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @crc:     previous CRC7 value
  * @buffer:  data pointer
  * @len:     number of bytes in the buffer

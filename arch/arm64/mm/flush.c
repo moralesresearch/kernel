@@ -55,8 +55,15 @@ void __sync_icache_dcache(pte_t pte)
 {
 	struct page *page = pte_page(pte);
 
+<<<<<<< HEAD
+	if (!test_bit(PG_dcache_clean, &page->flags)) {
+		sync_icache_aliases(page_address(page), page_size(page));
+		set_bit(PG_dcache_clean, &page->flags);
+	}
+=======
 	if (!test_and_set_bit(PG_dcache_clean, &page->flags))
 		sync_icache_aliases(page_address(page), page_size(page));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(__sync_icache_dcache);
 

@@ -982,6 +982,7 @@ int __weak memcmp_pages(struct page *page1, struct page *page2)
 	kunmap_atomic(addr1);
 	return ret;
 }
+<<<<<<< HEAD
 
 /**
  * mem_dump_obj - Print available provenance information
@@ -1013,3 +1014,5 @@ void mem_dump_obj(void *object)
 	}
 	pr_cont(" non-slab/vmalloc memory.\n");
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

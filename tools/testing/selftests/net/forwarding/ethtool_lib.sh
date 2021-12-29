@@ -22,6 +22,7 @@ ethtool_set()
 	check_err $out "error in configuration. $cmd"
 }
 
+<<<<<<< HEAD
 dev_linkmodes_params_get()
 {
 	local dev=$1; shift
@@ -56,6 +57,8 @@ dev_linkmodes_params_get()
 	echo ${linkmodes_params[@]}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 dev_speeds_get()
 {
 	local dev=$1; shift

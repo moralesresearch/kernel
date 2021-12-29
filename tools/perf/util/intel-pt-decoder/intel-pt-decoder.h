@@ -32,7 +32,14 @@ enum intel_pt_sample_type {
 	INTEL_PT_TRACE_BEGIN	= 1 << 9,
 	INTEL_PT_TRACE_END	= 1 << 10,
 	INTEL_PT_BLK_ITEMS	= 1 << 11,
+<<<<<<< HEAD
 	INTEL_PT_PSB_EVT	= 1 << 12,
+=======
+<<<<<<< HEAD
+	INTEL_PT_PSB_EVT	= 1 << 12,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum intel_pt_period_type {
@@ -201,11 +208,24 @@ struct intel_pt_blk_items {
 
 struct intel_pt_state {
 	enum intel_pt_sample_type type;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool from_nr;
 	bool to_nr;
 	int err;
 	uint64_t from_ip;
 	uint64_t to_ip;
+<<<<<<< HEAD
+=======
+=======
+	int err;
+	uint64_t from_ip;
+	uint64_t to_ip;
+	uint64_t cr3;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint64_t tot_insn_cnt;
 	uint64_t tot_cyc_cnt;
 	uint64_t timestamp;
@@ -216,7 +236,14 @@ struct intel_pt_state {
 	uint64_t pwre_payload;
 	uint64_t pwrx_payload;
 	uint64_t cbr_payload;
+<<<<<<< HEAD
 	uint64_t psb_offset;
+=======
+<<<<<<< HEAD
+	uint64_t psb_offset;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint32_t cbr;
 	uint32_t flags;
 	enum intel_pt_insn_op insn_op;

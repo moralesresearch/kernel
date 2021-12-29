@@ -38,10 +38,16 @@ xfs_xattr_get(const struct xattr_handler *handler, struct dentry *unused,
 }
 
 static int
+<<<<<<< HEAD
 xfs_xattr_set(const struct xattr_handler *handler,
 	      struct user_namespace *mnt_userns, struct dentry *unused,
 	      struct inode *inode, const char *name, const void *value,
 	      size_t size, int flags)
+=======
+xfs_xattr_set(const struct xattr_handler *handler, struct dentry *unused,
+		struct inode *inode, const char *name, const void *value,
+		size_t size, int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct xfs_da_args	args = {
 		.dp		= XFS_I(inode),

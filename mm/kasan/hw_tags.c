@@ -48,7 +48,11 @@ EXPORT_SYMBOL(kasan_flag_enabled);
 /* Whether to collect alloc/free stack traces. */
 DEFINE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
 
+<<<<<<< HEAD
 /* Whether to panic or print a report and disable tag checking on fault. */
+=======
+/* Whether panic or disable tag checking on fault. */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool kasan_flag_panic __ro_after_init;
 
 /* kasan=off/on */
@@ -185,6 +189,7 @@ struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
 
 	return &alloc_meta->free_track[0];
 }
+<<<<<<< HEAD
 
 #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
 
@@ -201,3 +206,5 @@ void kasan_enable_tagging(void)
 EXPORT_SYMBOL_GPL(kasan_enable_tagging);
 
 #endif
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

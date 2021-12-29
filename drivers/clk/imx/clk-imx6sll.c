@@ -76,6 +76,8 @@ static u32 share_count_ssi1;
 static u32 share_count_ssi2;
 static u32 share_count_ssi3;
 
+<<<<<<< HEAD
+=======
 static const int uart_clk_ids[] __initconst = {
 	IMX6SLL_CLK_UART1_IPG,
 	IMX6SLL_CLK_UART1_SERIAL,
@@ -91,11 +93,15 @@ static const int uart_clk_ids[] __initconst = {
 
 static struct clk **uart_clks[ARRAY_SIZE(uart_clk_ids) + 1] __initdata;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void __init imx6sll_clocks_init(struct device_node *ccm_node)
 {
 	struct device_node *np;
 	void __iomem *base;
+<<<<<<< HEAD
+=======
 	int i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	clk_hw_data = kzalloc(struct_size(clk_hw_data, hws,
 					  IMX6SLL_CLK_END), GFP_KERNEL);
@@ -356,6 +362,9 @@ static void __init imx6sll_clocks_init(struct device_node *ccm_node)
 
 	of_clk_add_hw_provider(np, of_clk_hw_onecell_get, clk_hw_data);
 
+<<<<<<< HEAD
+	imx_register_uart_clocks(5);
+=======
 	for (i = 0; i < ARRAY_SIZE(uart_clk_ids); i++) {
 		int index = uart_clk_ids[i];
 
@@ -363,6 +372,7 @@ static void __init imx6sll_clocks_init(struct device_node *ccm_node)
 	}
 
 	imx_register_uart_clocks(uart_clks);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Lower the AHB clock rate before changing the clock source. */
 	clk_set_rate(hws[IMX6SLL_CLK_AHB]->clk, 99000000);

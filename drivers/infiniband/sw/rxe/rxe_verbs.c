@@ -106,12 +106,21 @@ static enum rdma_link_layer rxe_get_link_layer(struct ib_device *dev,
 	return IB_LINK_LAYER_ETHERNET;
 }
 
+<<<<<<< HEAD
 static int rxe_alloc_ucontext(struct ib_ucontext *ibuc, struct ib_udata *udata)
 {
 	struct rxe_dev *rxe = to_rdev(ibuc->device);
 	struct rxe_ucontext *uc = to_ruc(ibuc);
 
 	return rxe_add_to_pool(&rxe->uc_pool, uc);
+=======
+static int rxe_alloc_ucontext(struct ib_ucontext *uctx, struct ib_udata *udata)
+{
+	struct rxe_dev *rxe = to_rdev(uctx->device);
+	struct rxe_ucontext *uc = to_ruc(uctx);
+
+	return rxe_add_to_pool(&rxe->uc_pool, &uc->pelem);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void rxe_dealloc_ucontext(struct ib_ucontext *ibuc)
@@ -145,7 +154,11 @@ static int rxe_alloc_pd(struct ib_pd *ibpd, struct ib_udata *udata)
 	struct rxe_dev *rxe = to_rdev(ibpd->device);
 	struct rxe_pd *pd = to_rpd(ibpd);
 
+<<<<<<< HEAD
 	return rxe_add_to_pool(&rxe->pd_pool, pd);
+=======
+	return rxe_add_to_pool(&rxe->pd_pool, &pd->pelem);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int rxe_dealloc_pd(struct ib_pd *ibpd, struct ib_udata *udata)
@@ -169,7 +182,11 @@ static int rxe_create_ah(struct ib_ah *ibah,
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	err = rxe_add_to_pool(&rxe->ah_pool, ah);
+=======
+	err = rxe_add_to_pool(&rxe->ah_pool, &ah->pelem);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		return err;
 
@@ -273,7 +290,11 @@ static int rxe_create_srq(struct ib_srq *ibsrq, struct ib_srq_init_attr *init,
 	if (err)
 		goto err1;
 
+<<<<<<< HEAD
 	err = rxe_add_to_pool(&rxe->srq_pool, srq);
+=======
+	err = rxe_add_to_pool(&rxe->srq_pool, &srq->pelem);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto err1;
 
@@ -555,6 +576,7 @@ static void init_send_wr(struct rxe_qp *qp, struct rxe_send_wr *wr,
 	}
 }
 
+<<<<<<< HEAD
 static void copy_inline_data_to_wqe(struct rxe_send_wqe *wqe,
 				    const struct ib_send_wr *ibwr)
 {
@@ -569,10 +591,14 @@ static void copy_inline_data_to_wqe(struct rxe_send_wqe *wqe,
 }
 
 static void init_send_wqe(struct rxe_qp *qp, const struct ib_send_wr *ibwr,
+=======
+static int init_send_wqe(struct rxe_qp *qp, const struct ib_send_wr *ibwr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 unsigned int mask, unsigned int length,
 			 struct rxe_send_wqe *wqe)
 {
 	int num_sge = ibwr->num_sge;
+<<<<<<< HEAD
 
 	init_send_wr(qp, &wqe->wr, ibwr);
 
@@ -583,14 +609,40 @@ static void init_send_wqe(struct rxe_qp *qp, const struct ib_send_wr *ibwr,
 		return;
 	}
 
+=======
+	struct ib_sge *sge;
+	int i;
+	u8 *p;
+
+	init_send_wr(qp, &wqe->wr, ibwr);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (qp_type(qp) == IB_QPT_UD ||
 	    qp_type(qp) == IB_QPT_SMI ||
 	    qp_type(qp) == IB_QPT_GSI)
 		memcpy(&wqe->av, &to_rah(ud_wr(ibwr)->ah)->av, sizeof(wqe->av));
 
+<<<<<<< HEAD
 	if (unlikely(ibwr->send_flags & IB_SEND_INLINE))
 		copy_inline_data_to_wqe(wqe, ibwr);
 	else
+=======
+	if (unlikely(ibwr->send_flags & IB_SEND_INLINE)) {
+		p = wqe->dma.inline_data;
+
+		sge = ibwr->sg_list;
+		for (i = 0; i < num_sge; i++, sge++) {
+			memcpy(p, (void *)(uintptr_t)sge->addr,
+					sge->length);
+
+			p += sge->length;
+		}
+	} else if (mask & WR_REG_MASK) {
+		wqe->mask = mask;
+		wqe->state = wqe_state_posted;
+		return 0;
+	} else
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		memcpy(wqe->dma.sge, ibwr->sg_list,
 		       num_sge * sizeof(struct ib_sge));
 
@@ -604,6 +656,11 @@ static void init_send_wqe(struct rxe_qp *qp, const struct ib_send_wr *ibwr,
 	wqe->dma.sge_offset	= 0;
 	wqe->state		= wqe_state_posted;
 	wqe->ssn		= atomic_add_return(1, &qp->ssn);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int post_one_send(struct rxe_qp *qp, const struct ib_send_wr *ibwr,
@@ -626,7 +683,14 @@ static int post_one_send(struct rxe_qp *qp, const struct ib_send_wr *ibwr,
 	}
 
 	send_wqe = producer_addr(sq->queue);
+<<<<<<< HEAD
 	init_send_wqe(qp, ibwr, mask, length, send_wqe);
+=======
+
+	err = init_send_wqe(qp, ibwr, mask, length, send_wqe);
+	if (unlikely(err))
+		goto err1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	advance_producer(sq->queue);
 	spin_unlock_irqrestore(&qp->sq.sq_lock, flags);
@@ -774,7 +838,11 @@ static int rxe_create_cq(struct ib_cq *ibcq, const struct ib_cq_init_attr *attr,
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	return rxe_add_to_pool(&rxe->cq_pool, cq);
+=======
+	return rxe_add_to_pool(&rxe->cq_pool, &cq->pelem);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int rxe_destroy_cq(struct ib_cq *ibcq, struct ib_udata *udata)
@@ -865,7 +933,11 @@ static struct ib_mr *rxe_get_dma_mr(struct ib_pd *ibpd, int access)
 {
 	struct rxe_dev *rxe = to_rdev(ibpd->device);
 	struct rxe_pd *pd = to_rpd(ibpd);
+<<<<<<< HEAD
+	struct rxe_mr *mr;
+=======
 	struct rxe_mem *mr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mr = rxe_alloc(&rxe->mr_pool);
 	if (!mr)
@@ -873,7 +945,11 @@ static struct ib_mr *rxe_get_dma_mr(struct ib_pd *ibpd, int access)
 
 	rxe_add_index(mr);
 	rxe_add_ref(pd);
+<<<<<<< HEAD
+	rxe_mr_init_dma(pd, access, mr);
+=======
 	rxe_mem_init_dma(pd, access, mr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return &mr->ibmr;
 }
@@ -887,7 +963,11 @@ static struct ib_mr *rxe_reg_user_mr(struct ib_pd *ibpd,
 	int err;
 	struct rxe_dev *rxe = to_rdev(ibpd->device);
 	struct rxe_pd *pd = to_rpd(ibpd);
+<<<<<<< HEAD
+	struct rxe_mr *mr;
+=======
 	struct rxe_mem *mr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mr = rxe_alloc(&rxe->mr_pool);
 	if (!mr) {
@@ -899,8 +979,12 @@ static struct ib_mr *rxe_reg_user_mr(struct ib_pd *ibpd,
 
 	rxe_add_ref(pd);
 
+<<<<<<< HEAD
+	err = rxe_mr_init_user(pd, start, length, iova, access, udata, mr);
+=======
 	err = rxe_mem_init_user(pd, start, length, iova,
 				access, udata, mr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto err3;
 
@@ -916,9 +1000,15 @@ err2:
 
 static int rxe_dereg_mr(struct ib_mr *ibmr, struct ib_udata *udata)
 {
+<<<<<<< HEAD
+	struct rxe_mr *mr = to_rmr(ibmr);
+
+	mr->state = RXE_MR_STATE_ZOMBIE;
+=======
 	struct rxe_mem *mr = to_rmr(ibmr);
 
 	mr->state = RXE_MEM_STATE_ZOMBIE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rxe_drop_ref(mr_pd(mr));
 	rxe_drop_index(mr);
 	rxe_drop_ref(mr);
@@ -930,7 +1020,11 @@ static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_type mr_type,
 {
 	struct rxe_dev *rxe = to_rdev(ibpd->device);
 	struct rxe_pd *pd = to_rpd(ibpd);
+<<<<<<< HEAD
+	struct rxe_mr *mr;
+=======
 	struct rxe_mem *mr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err;
 
 	if (mr_type != IB_MR_TYPE_MEM_REG)
@@ -946,7 +1040,11 @@ static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_type mr_type,
 
 	rxe_add_ref(pd);
 
+<<<<<<< HEAD
+	err = rxe_mr_init_fast(pd, max_num_sg, mr);
+=======
 	err = rxe_mem_init_fast(pd, max_num_sg, mr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto err2;
 
@@ -962,7 +1060,11 @@ err1:
 
 static int rxe_set_page(struct ib_mr *ibmr, u64 addr)
 {
+<<<<<<< HEAD
+	struct rxe_mr *mr = to_rmr(ibmr);
+=======
 	struct rxe_mem *mr = to_rmr(ibmr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct rxe_map *map;
 	struct rxe_phys_buf *buf;
 
@@ -982,7 +1084,11 @@ static int rxe_set_page(struct ib_mr *ibmr, u64 addr)
 static int rxe_map_mr_sg(struct ib_mr *ibmr, struct scatterlist *sg,
 			 int sg_nents, unsigned int *sg_offset)
 {
+<<<<<<< HEAD
+	struct rxe_mr *mr = to_rmr(ibmr);
+=======
 	struct rxe_mem *mr = to_rmr(ibmr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int n;
 
 	mr->nbuf = 0;
@@ -1110,6 +1216,10 @@ static const struct ib_device_ops rxe_dev_ops = {
 	INIT_RDMA_OBJ_SIZE(ib_pd, rxe_pd, ibpd),
 	INIT_RDMA_OBJ_SIZE(ib_srq, rxe_srq, ibsrq),
 	INIT_RDMA_OBJ_SIZE(ib_ucontext, rxe_ucontext, ibuc),
+<<<<<<< HEAD
+	INIT_RDMA_OBJ_SIZE(ib_mw, rxe_mw, ibmw),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 int rxe_register_device(struct rxe_dev *rxe, const char *ibdev_name)
@@ -1118,7 +1228,11 @@ int rxe_register_device(struct rxe_dev *rxe, const char *ibdev_name)
 	struct ib_device *dev = &rxe->ib_dev;
 	struct crypto_shash *tfm;
 
+<<<<<<< HEAD
 	strscpy(dev->node_desc, "rxe", sizeof(dev->node_desc));
+=======
+	strlcpy(dev->node_desc, "rxe", sizeof(dev->node_desc));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev->node_type = RDMA_NODE_IB_CA;
 	dev->phys_port_cnt = 1;

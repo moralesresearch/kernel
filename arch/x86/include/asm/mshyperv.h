@@ -78,6 +78,7 @@ extern int hyperv_init_cpuhp;
 
 extern void *hv_hypercall_pg;
 extern void  __percpu  **hyperv_pcpu_input_arg;
+<<<<<<< HEAD
 extern void  __percpu  **hyperv_pcpu_output_arg;
 
 extern u64 hv_current_partition_id;
@@ -85,6 +86,8 @@ extern u64 hv_current_partition_id;
 int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
 int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
 int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
 {
@@ -246,8 +249,11 @@ int hyperv_fill_flush_guest_mapping_list(
 		struct hv_guest_mapping_flush_list *flush,
 		u64 start_gfn, u64 end_gfn);
 
+<<<<<<< HEAD
 extern bool hv_root_partition;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_X86_64
 void hv_apic_init(void);
 void __init hv_init_spinlocks(void);
@@ -259,6 +265,7 @@ static inline void hv_apic_init(void) {}
 static inline void hv_set_msi_entry_from_desc(union hv_msi_entry *msi_entry,
 					      struct msi_desc *msi_desc)
 {
+<<<<<<< HEAD
 	msi_entry->address.as_uint32 = msi_desc->msg.address_lo;
 	msi_entry->data.as_uint32 = msi_desc->msg.data;
 }
@@ -269,6 +276,12 @@ int hv_map_ioapic_interrupt(int ioapic_id, bool level, int vcpu, int vector,
 		struct hv_interrupt_entry *entry);
 int hv_unmap_ioapic_interrupt(int ioapic_id, struct hv_interrupt_entry *entry);
 
+=======
+	msi_entry->address = msi_desc->msg.address_lo;
+	msi_entry->data = msi_desc->msg.data;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else /* CONFIG_HYPERV */
 static inline void hyperv_init(void) {}
 static inline void hyperv_setup_mmu_ops(void) {}

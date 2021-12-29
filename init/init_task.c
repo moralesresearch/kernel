@@ -210,7 +210,11 @@ struct task_struct init_task
 #ifdef CONFIG_SECURITY
 	.security	= NULL,
 #endif
+<<<<<<< HEAD
+#ifdef CONFIG_SECCOMP_FILTER
+=======
 #ifdef CONFIG_SECCOMP
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.seccomp	= { .filter_count = ATOMIC_INIT(0) },
 #endif
 };

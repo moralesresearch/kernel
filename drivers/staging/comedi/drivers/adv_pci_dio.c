@@ -34,6 +34,7 @@
  */
 
 /* PCI-1730, PCI-1733, PCI-1736 interrupt control registers */
+<<<<<<< HEAD
 #define PCI173X_INT_EN_REG	0x0008	/* R/W: enable/disable */
 #define PCI173X_INT_RF_REG	0x000c	/* R/W: falling/rising edge */
 #define PCI173X_INT_FLAG_REG	0x0010	/* R: status */
@@ -43,6 +44,11 @@
 #define PCI173X_INT_IDI1 0x02  /* IDI1 edge occurred */
 #define PCI173X_INT_DI0  0x04  /* DI0 edge occurred */
 #define PCI173X_INT_DI1  0x08  /* DI1 edge occurred */
+=======
+#define PCI173X_INT_EN_REG	0x08	/* R/W: enable/disable */
+#define PCI173X_INT_RF_REG	0x0c	/* R/W: falling/rising edge */
+#define PCI173X_INT_CLR_REG	0x10	/* R/W: clear */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* PCI-1739U, PCI-1750, PCI1751 interrupt control registers */
 #define PCI1750_INT_REG		0x20	/* R/W: status/control */
@@ -69,7 +75,10 @@
 #define PCI_DIO_MAX_DI_SUBDEVS	2	/* 2 x 8/16/32 input channels max */
 #define PCI_DIO_MAX_DO_SUBDEVS	2	/* 2 x 8/16/32 output channels max */
 #define PCI_DIO_MAX_DIO_SUBDEVG	2	/* 2 x any number of 8255 devices max */
+<<<<<<< HEAD
 #define PCI_DIO_MAX_IRQ_SUBDEVS	4	/* 4 x 1 input IRQ channels max */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 enum pci_dio_boardid {
 	TYPE_PCI1730,
@@ -91,12 +100,16 @@ enum pci_dio_boardid {
 
 struct diosubd_data {
 	int chans;		/*  num of chans or 8255 devices */
+<<<<<<< HEAD
 	unsigned long addr;	/*  PCI address offset */
 };
 
 struct dio_irq_subd_data {
 	unsigned short int_en;		/* interrupt enable/status bit */
 	unsigned long addr;		/* PCI address offset */
+=======
+	unsigned long addr;	/*  PCI address ofset */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct dio_boardtype {
@@ -105,7 +118,10 @@ struct dio_boardtype {
 	struct diosubd_data sdi[PCI_DIO_MAX_DI_SUBDEVS];
 	struct diosubd_data sdo[PCI_DIO_MAX_DO_SUBDEVS];
 	struct diosubd_data sdio[PCI_DIO_MAX_DIO_SUBDEVG];
+<<<<<<< HEAD
 	struct dio_irq_subd_data sdirq[PCI_DIO_MAX_IRQ_SUBDEVS];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long id_reg;
 	unsigned long timer_regbase;
 	unsigned int is_16bit:1;
@@ -114,17 +130,24 @@ struct dio_boardtype {
 static const struct dio_boardtype boardtypes[] = {
 	[TYPE_PCI1730] = {
 		.name		= "pci1730",
+<<<<<<< HEAD
 		/* DI, IDI, DO, IDO, ID, IRQ_DI0, IRQ_DI1, IRQ_IDI0, IRQ_IDI1 */
 		.nsubdevs	= 9,
+=======
+		.nsubdevs	= 5,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.sdi[0]		= { 16, 0x02, },	/* DI 0-15 */
 		.sdi[1]		= { 16, 0x00, },	/* ISO DI 0-15 */
 		.sdo[0]		= { 16, 0x02, },	/* DO 0-15 */
 		.sdo[1]		= { 16, 0x00, },	/* ISO DO 0-15 */
 		.id_reg		= 0x04,
+<<<<<<< HEAD
 		.sdirq[0]	= { PCI173X_INT_DI0,  0x02, },	/* DI 0 */
 		.sdirq[1]	= { PCI173X_INT_DI1,  0x02, },	/* DI 1 */
 		.sdirq[2]	= { PCI173X_INT_IDI0, 0x00, },	/* ISO DI 0 */
 		.sdirq[3]	= { PCI173X_INT_IDI1, 0x00, },	/* ISO DI 1 */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	[TYPE_PCI1733] = {
 		.name		= "pci1733",
@@ -223,6 +246,7 @@ static const struct dio_boardtype boardtypes[] = {
 	},
 };
 
+<<<<<<< HEAD
 struct pci_dio_dev_private_data {
 	int boardtype;
 	int irq_subd;
@@ -405,6 +429,8 @@ static int pci_dio_insn_bits_dirq_b(struct comedi_device *dev,
 	return insn->n;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int pci_dio_insn_bits_di_b(struct comedi_device *dev,
 				  struct comedi_subdevice *s,
 				  struct comedi_insn *insn,
@@ -483,7 +509,10 @@ static int pci_dio_insn_bits_do_w(struct comedi_device *dev,
 
 static int pci_dio_reset(struct comedi_device *dev, unsigned long cardtype)
 {
+<<<<<<< HEAD
 	struct pci_dio_dev_private_data *dev_private = dev->private;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* disable channel freeze function on the PCI-1752/1756 boards */
 	if (cardtype == TYPE_PCI1752 || cardtype == TYPE_PCI1756)
 		outw(0, dev->iobase + PCI1752_CFC_REG);
@@ -493,6 +522,7 @@ static int pci_dio_reset(struct comedi_device *dev, unsigned long cardtype)
 	case TYPE_PCI1730:
 	case TYPE_PCI1733:
 	case TYPE_PCI1736:
+<<<<<<< HEAD
 		dev_private->int_ctrl = 0x00;
 		outb(dev_private->int_ctrl, dev->iobase + PCI173X_INT_EN_REG);
 		/* Reset all 4 Int Flags */
@@ -500,6 +530,11 @@ static int pci_dio_reset(struct comedi_device *dev, unsigned long cardtype)
 		/* Rising Edge => IRQ . On all 4 Pins */
 		dev_private->int_rf = 0x00;
 		outb(dev_private->int_rf, dev->iobase + PCI173X_INT_RF_REG);
+=======
+		outb(0, dev->iobase + PCI173X_INT_EN_REG);
+		outb(0x0f, dev->iobase + PCI173X_INT_CLR_REG);
+		outb(0, dev->iobase + PCI173X_INT_RF_REG);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case TYPE_PCI1739:
 	case TYPE_PCI1750:
@@ -551,8 +586,13 @@ static int pci_dio_auto_attach(struct comedi_device *dev,
 {
 	struct pci_dev *pcidev = comedi_to_pci_dev(dev);
 	const struct dio_boardtype *board = NULL;
+<<<<<<< HEAD
 	struct comedi_subdevice *s;
 	struct pci_dio_dev_private_data *dev_private;
+=======
+	const struct diosubd_data *d;
+	struct comedi_subdevice *s;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret, subdev, i, j;
 
 	if (context < ARRAY_SIZE(boardtypes))
@@ -562,10 +602,13 @@ static int pci_dio_auto_attach(struct comedi_device *dev,
 	dev->board_ptr = board;
 	dev->board_name = board->name;
 
+<<<<<<< HEAD
 	dev_private = comedi_alloc_devpriv(dev, sizeof(*dev_private));
 	if (!dev_private)
 		return -ENOMEM;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = comedi_pci_enable(dev);
 	if (ret)
 		return ret;
@@ -574,6 +617,7 @@ static int pci_dio_auto_attach(struct comedi_device *dev,
 	else
 		dev->iobase = pci_resource_start(pcidev, 2);
 
+<<<<<<< HEAD
 	dev_private->boardtype = context;
 	pci_dio_reset(dev, context);
 
@@ -585,14 +629,22 @@ static int pci_dio_auto_attach(struct comedi_device *dev,
 			dev->irq = pcidev->irq;
 	}
 
+=======
+	pci_dio_reset(dev, context);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = comedi_alloc_subdevices(dev, board->nsubdevs);
 	if (ret)
 		return ret;
 
 	subdev = 0;
 	for (i = 0; i < PCI_DIO_MAX_DI_SUBDEVS; i++) {
+<<<<<<< HEAD
 		const struct diosubd_data *d = &board->sdi[i];
 
+=======
+		d = &board->sdi[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (d->chans) {
 			s = &dev->subdevices[subdev++];
 			s->type		= COMEDI_SUBD_DI;
@@ -604,13 +656,20 @@ static int pci_dio_auto_attach(struct comedi_device *dev,
 						? pci_dio_insn_bits_di_w
 						: pci_dio_insn_bits_di_b;
 			s->private	= (void *)d->addr;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
 	for (i = 0; i < PCI_DIO_MAX_DO_SUBDEVS; i++) {
+<<<<<<< HEAD
 		const struct diosubd_data *d = &board->sdo[i];
 
+=======
+		d = &board->sdo[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (d->chans) {
 			s = &dev->subdevices[subdev++];
 			s->type		= COMEDI_SUBD_DO;
@@ -641,8 +700,12 @@ static int pci_dio_auto_attach(struct comedi_device *dev,
 	}
 
 	for (i = 0; i < PCI_DIO_MAX_DIO_SUBDEVG; i++) {
+<<<<<<< HEAD
 		const struct diosubd_data *d = &board->sdio[i];
 
+=======
+		d = &board->sdio[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		for (j = 0; j < d->chans; j++) {
 			s = &dev->subdevices[subdev++];
 			ret = subdev_8255_init(dev, s, NULL,
@@ -676,6 +739,7 @@ static int pci_dio_auto_attach(struct comedi_device *dev,
 		comedi_8254_subdevice_init(s, dev->pacer);
 	}
 
+<<<<<<< HEAD
 	dev_private->irq_subd = subdev; /* first interrupt subdevice index */
 	for (i = 0; i < PCI_DIO_MAX_IRQ_SUBDEVS; ++i) {
 		struct pci_dio_sd_private_data *sd_priv = NULL;
@@ -722,11 +786,20 @@ static void pci_dio_detach(struct comedi_device *dev)
 	comedi_pci_detach(dev);
 }
 
+=======
+	return 0;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct comedi_driver adv_pci_dio_driver = {
 	.driver_name	= "adv_pci_dio",
 	.module		= THIS_MODULE,
 	.auto_attach	= pci_dio_auto_attach,
+<<<<<<< HEAD
 	.detach		= pci_dio_detach,
+=======
+	.detach		= comedi_pci_detach,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static unsigned long pci_dio_override_cardtype(struct pci_dev *pcidev,

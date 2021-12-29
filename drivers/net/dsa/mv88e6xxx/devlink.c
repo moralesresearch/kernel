@@ -678,7 +678,11 @@ static int mv88e6xxx_setup_devlink_regions_global(struct dsa_switch *ds,
 				sizeof(struct mv88e6xxx_devlink_atu_entry);
 			break;
 		case MV88E6XXX_REGION_VTU:
+<<<<<<< HEAD
+			size = (mv88e6xxx_max_vid(chip) + 1) *
+=======
 			size = mv88e6xxx_max_vid(chip) *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				sizeof(struct mv88e6xxx_devlink_vtu_entry);
 			break;
 		}

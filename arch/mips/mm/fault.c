@@ -156,11 +156,22 @@ good_area:
 	 */
 	fault = handle_mm_fault(vma, address, flags, regs);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fault_signal_pending(fault, regs)) {
 		if (!user_mode(regs))
 			goto no_context;
 		return;
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (fault_signal_pending(fault, regs))
+		return;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(fault & VM_FAULT_ERROR)) {
 		if (fault & VM_FAULT_OOM)

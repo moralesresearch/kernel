@@ -18,7 +18,10 @@
 #include "br_private_stp.h"
 #include "br_private_cfm.h"
 #include "br_private_tunnel.h"
+<<<<<<< HEAD
 #include "br_private_mcast_eht.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int __get_num_vlan_infos(struct net_bridge_vlan_group *vg,
 				u32 filter_mask)
@@ -103,8 +106,14 @@ static size_t br_get_link_af_size_filtered(const struct net_device *dev,
 
 	rcu_read_lock();
 	if (netif_is_bridge_port(dev)) {
+<<<<<<< HEAD
+		p = br_port_get_check_rcu(dev);
+		if (p)
+			vg = nbp_vlan_group_rcu(p);
+=======
 		p = br_port_get_rcu(dev);
 		vg = nbp_vlan_group_rcu(p);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (dev->priv_flags & IFF_EBRIDGE) {
 		br = netdev_priv(dev);
 		vg = br_vlan_group_rcu(br);
@@ -200,8 +209,11 @@ static inline size_t br_port_info_size(void)
 		+ nla_total_size(sizeof(u16))	/* IFLA_BRPORT_GROUP_FWD_MASK */
 		+ nla_total_size(sizeof(u8))	/* IFLA_BRPORT_MRP_RING_OPEN */
 		+ nla_total_size(sizeof(u8))	/* IFLA_BRPORT_MRP_IN_OPEN */
+<<<<<<< HEAD
 		+ nla_total_size(sizeof(u32))	/* IFLA_BRPORT_MCAST_EHT_HOSTS_LIMIT */
 		+ nla_total_size(sizeof(u32))	/* IFLA_BRPORT_MCAST_EHT_HOSTS_CNT */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		+ 0;
 }
 
@@ -286,11 +298,15 @@ static int br_port_fill_attrs(struct sk_buff *skb,
 
 #ifdef CONFIG_BRIDGE_IGMP_SNOOPING
 	if (nla_put_u8(skb, IFLA_BRPORT_MULTICAST_ROUTER,
+<<<<<<< HEAD
 		       p->multicast_router) ||
 	    nla_put_u32(skb, IFLA_BRPORT_MCAST_EHT_HOSTS_LIMIT,
 			p->multicast_eht_hosts_limit) ||
 	    nla_put_u32(skb, IFLA_BRPORT_MCAST_EHT_HOSTS_CNT,
 			p->multicast_eht_hosts_cnt))
+=======
+		       p->multicast_router))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EMSGSIZE;
 #endif
 
@@ -827,7 +843,10 @@ static const struct nla_policy br_port_policy[IFLA_BRPORT_MAX + 1] = {
 	[IFLA_BRPORT_NEIGH_SUPPRESS] = { .type = NLA_U8 },
 	[IFLA_BRPORT_ISOLATED]	= { .type = NLA_U8 },
 	[IFLA_BRPORT_BACKUP_PORT] = { .type = NLA_U32 },
+<<<<<<< HEAD
 	[IFLA_BRPORT_MCAST_EHT_HOSTS_LIMIT] = { .type = NLA_U32 },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* Change the state of the port and notify spanning tree */
@@ -853,6 +872,7 @@ static int br_set_port_state(struct net_bridge_port *p, u8 state)
 }
 
 /* Set/clear or port flags based on attribute */
+<<<<<<< HEAD
 static void br_set_port_flag(struct net_bridge_port *p, struct nlattr *tb[],
 			     int attrtype, unsigned long mask)
 {
@@ -900,12 +920,94 @@ static int br_setport(struct net_bridge_port *p, struct nlattr *tb[],
 		p->flags = old_flags;
 		return err;
 	}
+=======
+static int br_set_port_flag(struct net_bridge_port *p, struct nlattr *tb[],
+			    int attrtype, unsigned long mask)
+{
+	unsigned long flags;
+	int err;
+
+	if (!tb[attrtype])
+		return 0;
+
+	if (nla_get_u8(tb[attrtype]))
+		flags = p->flags | mask;
+	else
+		flags = p->flags & ~mask;
+
+	err = br_switchdev_set_port_flag(p, flags, mask);
+	if (err)
+		return err;
+
+	p->flags = flags;
+	return 0;
+}
+
+/* Process bridge protocol info on port */
+static int br_setport(struct net_bridge_port *p, struct nlattr *tb[])
+{
+	unsigned long old_flags = p->flags;
+	bool br_vlan_tunnel_old = false;
+	int err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_MODE, BR_HAIRPIN_MODE);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_GUARD, BR_BPDU_GUARD);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_FAST_LEAVE, BR_MULTICAST_FAST_LEAVE);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_PROTECT, BR_ROOT_BLOCK);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_LEARNING, BR_LEARNING);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_UNICAST_FLOOD, BR_FLOOD);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_MCAST_FLOOD, BR_MCAST_FLOOD);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_MCAST_TO_UCAST, BR_MULTICAST_TO_UNICAST);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_BCAST_FLOOD, BR_BCAST_FLOOD);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_PROXYARP, BR_PROXYARP);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_PROXYARP_WIFI, BR_PROXYARP_WIFI);
+	if (err)
+		return err;
+
+	br_vlan_tunnel_old = (p->flags & BR_VLAN_TUNNEL) ? true : false;
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_VLAN_TUNNEL, BR_VLAN_TUNNEL);
+	if (err)
+		return err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (br_vlan_tunnel_old && !(p->flags & BR_VLAN_TUNNEL))
 		nbp_vlan_tunnel_info_flush(p);
 
+<<<<<<< HEAD
 	br_port_flags_change(p, changed_mask);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (tb[IFLA_BRPORT_COST]) {
 		err = br_stp_set_path_cost(p, nla_get_u32(tb[IFLA_BRPORT_COST]));
 		if (err)
@@ -935,6 +1037,7 @@ static int br_setport(struct net_bridge_port *p, struct nlattr *tb[],
 		if (err)
 			return err;
 	}
+<<<<<<< HEAD
 
 	if (tb[IFLA_BRPORT_MCAST_EHT_HOSTS_LIMIT]) {
 		u32 hlimit;
@@ -944,6 +1047,8 @@ static int br_setport(struct net_bridge_port *p, struct nlattr *tb[],
 		if (err)
 			return err;
 	}
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 	if (tb[IFLA_BRPORT_GROUP_FWD_MASK]) {
@@ -954,6 +1059,18 @@ static int br_setport(struct net_bridge_port *p, struct nlattr *tb[],
 		p->group_fwd_mask = fwd_mask;
 	}
 
+<<<<<<< HEAD
+=======
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_NEIGH_SUPPRESS,
+			       BR_NEIGH_SUPPRESS);
+	if (err)
+		return err;
+
+	err = br_set_port_flag(p, tb, IFLA_BRPORT_ISOLATED, BR_ISOLATED);
+	if (err)
+		return err;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (tb[IFLA_BRPORT_BACKUP_PORT]) {
 		struct net_device *backup_dev = NULL;
 		u32 backup_ifindex;
@@ -971,6 +1088,10 @@ static int br_setport(struct net_bridge_port *p, struct nlattr *tb[],
 			return err;
 	}
 
+<<<<<<< HEAD
+=======
+	br_port_flags_change(p, old_flags ^ p->flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1008,7 +1129,11 @@ int br_setlink(struct net_device *dev, struct nlmsghdr *nlh, u16 flags,
 				return err;
 
 			spin_lock_bh(&p->br->lock);
+<<<<<<< HEAD
 			err = br_setport(p, tb, extack);
+=======
+			err = br_setport(p, tb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			spin_unlock_bh(&p->br->lock);
 		} else {
 			/* Binary compatibility with old RSTP */
@@ -1075,9 +1200,21 @@ static int br_validate(struct nlattr *tb[], struct nlattr *data[],
 		return 0;
 
 #ifdef CONFIG_BRIDGE_VLAN_FILTERING
+<<<<<<< HEAD
 	if (data[IFLA_BR_VLAN_PROTOCOL] &&
 	    !eth_type_vlan(nla_get_be16(data[IFLA_BR_VLAN_PROTOCOL])))
 		return -EPROTONOSUPPORT;
+=======
+	if (data[IFLA_BR_VLAN_PROTOCOL]) {
+		switch (nla_get_be16(data[IFLA_BR_VLAN_PROTOCOL])) {
+		case htons(ETH_P_8021Q):
+		case htons(ETH_P_8021AD):
+			break;
+		default:
+			return -EPROTONOSUPPORT;
+		}
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (data[IFLA_BR_VLAN_DEFAULT_PVID]) {
 		__u16 defpvid = nla_get_u16(data[IFLA_BR_VLAN_DEFAULT_PVID]);
@@ -1103,7 +1240,11 @@ static int br_port_slave_changelink(struct net_device *brdev,
 		return 0;
 
 	spin_lock_bh(&br->lock);
+<<<<<<< HEAD
 	ret = br_setport(br_port_get_rtnl(dev), data, extack);
+=======
+	ret = br_setport(br_port_get_rtnl(dev), data);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_bh(&br->lock);
 
 	return ret;
@@ -1212,7 +1353,11 @@ static int br_changelink(struct net_device *brdev, struct nlattr *tb[],
 	if (data[IFLA_BR_VLAN_FILTERING]) {
 		u8 vlan_filter = nla_get_u8(data[IFLA_BR_VLAN_FILTERING]);
 
+<<<<<<< HEAD
 		err = br_vlan_filter_toggle(br, vlan_filter, extack);
+=======
+		err = __br_vlan_filter_toggle(br, vlan_filter);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}
@@ -1221,7 +1366,11 @@ static int br_changelink(struct net_device *brdev, struct nlattr *tb[],
 	if (data[IFLA_BR_VLAN_PROTOCOL]) {
 		__be16 vlan_proto = nla_get_be16(data[IFLA_BR_VLAN_PROTOCOL]);
 
+<<<<<<< HEAD
 		err = __br_vlan_set_proto(br, vlan_proto, extack);
+=======
+		err = __br_vlan_set_proto(br, vlan_proto);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}
@@ -1293,7 +1442,13 @@ static int br_changelink(struct net_device *brdev, struct nlattr *tb[],
 	if (data[IFLA_BR_MCAST_SNOOPING]) {
 		u8 mcast_snooping = nla_get_u8(data[IFLA_BR_MCAST_SNOOPING]);
 
+<<<<<<< HEAD
+		err = br_multicast_toggle(br, mcast_snooping, extack);
+		if (err)
+			return err;
+=======
 		br_multicast_toggle(br, mcast_snooping);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (data[IFLA_BR_MCAST_QUERY_USE_IFADDR]) {

@@ -753,6 +753,7 @@ struct brcmf_assoclist_le {
 };
 
 /**
+<<<<<<< HEAD
  * struct brcmf_rssi_be - RSSI threshold event format
  *
  * @rssi: receive signal strength (in dBm)
@@ -781,6 +782,8 @@ struct brcmf_rssi_event_le {
 };
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * struct brcmf_wowl_wakeind_le - Wakeup indicators
  *	Note: note both fields contain same information.
  *

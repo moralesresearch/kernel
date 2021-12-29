@@ -2,7 +2,11 @@
 /*
  * Copyright (C) 2010 IBM Corporation
  * Copyright (C) 2010 Politecnico di Torino, Italy
+<<<<<<< HEAD
  *                    TORSEC group -- https://security.polito.it
+=======
+ *                    TORSEC group -- http://security.polito.it
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Authors:
  * Mimi Zohar <zohar@us.ibm.com>

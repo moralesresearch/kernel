@@ -389,7 +389,10 @@ static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
 void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
 {
 	const struct firmware *firmware = NULL;
+<<<<<<< HEAD
+=======
 	struct image_info *image_info;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
 	const char *fw_name;
 	void *buf;
@@ -491,15 +494,43 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
 fw_load_ee_pthru:
 	/* Transitioning into MHI RESET->READY state */
 	ret = mhi_ready_state_transition(mhi_cntrl);
+<<<<<<< HEAD
+=======
 
 	if (!mhi_cntrl->fbc_download)
 		return;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		dev_err(dev, "MHI did not enter READY state\n");
 		goto error_ready_state;
 	}
 
+<<<<<<< HEAD
+	dev_info(dev, "Wait for device to enter SBL or Mission mode\n");
+	return;
+
+error_ready_state:
+	if (mhi_cntrl->fbc_download) {
+		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
+		mhi_cntrl->fbc_image = NULL;
+	}
+
+error_fw_load:
+	mhi_cntrl->pm_state = MHI_PM_FW_DL_ERR;
+	wake_up_all(&mhi_cntrl->state_event);
+}
+
+int mhi_download_amss_image(struct mhi_controller *mhi_cntrl)
+{
+	struct image_info *image_info = mhi_cntrl->fbc_image;
+	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+	int ret;
+
+	if (!image_info)
+		return -EIO;
+
+=======
 	/* Wait for the SBL event */
 	ret = wait_event_timeout(mhi_cntrl->state_event,
 				 mhi_cntrl->ee == MHI_EE_SBL ||
@@ -513,10 +544,19 @@ fw_load_ee_pthru:
 
 	/* Start full firmware image download */
 	image_info = mhi_cntrl->fbc_image;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = mhi_fw_load_bhie(mhi_cntrl,
 			       /* Vector table is the last entry */
 			       &image_info->mhi_buf[image_info->entries - 1]);
 	if (ret) {
+<<<<<<< HEAD
+		dev_err(dev, "MHI did not load AMSS, ret:%d\n", ret);
+		mhi_cntrl->pm_state = MHI_PM_FW_DL_ERR;
+		wake_up_all(&mhi_cntrl->state_event);
+	}
+
+	return ret;
+=======
 		dev_err(dev, "MHI did not load image over BHIe, ret: %d\n",
 			ret);
 		goto error_fw_load;
@@ -531,4 +571,5 @@ error_ready_state:
 error_fw_load:
 	mhi_cntrl->pm_state = MHI_PM_FW_DL_ERR;
 	wake_up_all(&mhi_cntrl->state_event);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

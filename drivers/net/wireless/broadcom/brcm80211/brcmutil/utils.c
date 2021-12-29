@@ -12,6 +12,10 @@
 
 MODULE_AUTHOR("Broadcom Corporation");
 MODULE_DESCRIPTION("Broadcom 802.11n wireless LAN driver utilities.");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("Broadcom 802.11n WLAN cards");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("Dual BSD/GPL");
 
 struct sk_buff *brcmu_pkt_buf_get_skb(uint len)

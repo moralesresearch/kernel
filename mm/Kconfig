@@ -804,6 +804,12 @@ config DEVICE_PRIVATE
 config VMAP_PFN
 	bool
 
+<<<<<<< HEAD
+=======
+config FRAME_VECTOR
+	bool
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config ARCH_USES_HIGH_VMA_FLAGS
 	bool
 config ARCH_HAS_PKEYS

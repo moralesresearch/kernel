@@ -774,8 +774,13 @@ int tty_mode_ioctl(struct tty_struct *tty, struct file *file,
 	case TCSETX:
 	case TCSETXW:
 	case TCSETXF:
+<<<<<<< HEAD
+		return -ENOTTY;
+#endif
+=======
 		return -EINVAL;
 #endif		
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case TIOCGSOFTCAR:
 		copy_termios(real_tty, &kterm);
 		ret = put_user((kterm.c_cflag & CLOCAL) ? 1 : 0,

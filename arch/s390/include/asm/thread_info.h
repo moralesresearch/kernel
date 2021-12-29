@@ -36,7 +36,14 @@
  */
 struct thread_info {
 	unsigned long		flags;		/* low level flags */
+<<<<<<< HEAD
 	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
+=======
+<<<<<<< HEAD
+	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /*
@@ -47,8 +54,16 @@ struct thread_info {
 	.flags		= 0,			\
 }
 
+<<<<<<< HEAD
 struct task_struct;
 
+=======
+<<<<<<< HEAD
+struct task_struct;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void arch_release_task_struct(struct task_struct *tsk);
 int arch_dup_task_struct(struct task_struct *dst, struct task_struct *src);
 
@@ -71,7 +86,14 @@ void arch_setup_new_exec(void);
 #define TIF_NOTIFY_SIGNAL	7	/* signal notifications exist */
 #define TIF_ISOLATE_BP		8	/* Run process with isolated BP */
 #define TIF_ISOLATE_BP_GUEST	9	/* Run KVM guests with isolated BP */
+<<<<<<< HEAD
 #define TIF_PER_TRAP		10	/* Need to handle PER trap on exit to usermode */
+=======
+<<<<<<< HEAD
+#define TIF_PER_TRAP		10	/* Need to handle PER trap on exit to usermode */
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define TIF_31BIT		16	/* 32bit process */
 #define TIF_MEMDIE		17	/* is terminating due to OOM killer */
@@ -95,7 +117,14 @@ void arch_setup_new_exec(void);
 #define _TIF_PATCH_PENDING	BIT(TIF_PATCH_PENDING)
 #define _TIF_ISOLATE_BP		BIT(TIF_ISOLATE_BP)
 #define _TIF_ISOLATE_BP_GUEST	BIT(TIF_ISOLATE_BP_GUEST)
+<<<<<<< HEAD
 #define _TIF_PER_TRAP		BIT(TIF_PER_TRAP)
+=======
+<<<<<<< HEAD
+#define _TIF_PER_TRAP		BIT(TIF_PER_TRAP)
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define _TIF_31BIT		BIT(TIF_31BIT)
 #define _TIF_SINGLE_STEP	BIT(TIF_SINGLE_STEP)

@@ -27,7 +27,11 @@
 
 static struct gen_pool *muram_pool;
 static spinlock_t cpm_muram_lock;
+<<<<<<< HEAD
 static void __iomem *muram_vbase;
+=======
+static u8 __iomem *muram_vbase;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static phys_addr_t muram_pbase;
 
 struct muram_block {
@@ -223,9 +227,15 @@ void __iomem *cpm_muram_addr(unsigned long offset)
 }
 EXPORT_SYMBOL(cpm_muram_addr);
 
+<<<<<<< HEAD
 unsigned long cpm_muram_offset(const void __iomem *addr)
 {
 	return addr - muram_vbase;
+=======
+unsigned long cpm_muram_offset(void __iomem *addr)
+{
+	return addr - (void __iomem *)muram_vbase;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(cpm_muram_offset);
 
@@ -235,6 +245,7 @@ EXPORT_SYMBOL(cpm_muram_offset);
  */
 dma_addr_t cpm_muram_dma(void __iomem *addr)
 {
+<<<<<<< HEAD
 	return muram_pbase + (addr - muram_vbase);
 }
 EXPORT_SYMBOL(cpm_muram_dma);
@@ -250,3 +261,8 @@ void cpm_muram_free_addr(const void __iomem *addr)
 	cpm_muram_free(cpm_muram_offset(addr));
 }
 EXPORT_SYMBOL(cpm_muram_free_addr);
+=======
+	return muram_pbase + ((u8 __iomem *)addr - muram_vbase);
+}
+EXPORT_SYMBOL(cpm_muram_dma);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

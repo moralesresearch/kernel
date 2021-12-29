@@ -17,6 +17,10 @@
 #include <linux/workqueue.h>
 #include <uapi/linux/thermal.h>
 
+<<<<<<< HEAD
+=======
+#define THERMAL_TRIPS_NONE	-1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define THERMAL_MAX_TRIPS	12
 
 /* invalid cooling state */
@@ -76,6 +80,11 @@ struct thermal_zone_device_ops {
 	int (*set_emul_temp) (struct thermal_zone_device *, int);
 	int (*get_trend) (struct thermal_zone_device *, int,
 			  enum thermal_trend *);
+<<<<<<< HEAD
+=======
+	int (*notify) (struct thermal_zone_device *, int,
+		       enum thermal_trip_type);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void (*hot)(struct thermal_zone_device *);
 	void (*critical)(struct thermal_zone_device *);
 };
@@ -115,9 +124,15 @@ struct thermal_cooling_device {
  * @devdata:	private pointer for device private data
  * @trips:	number of trip points the thermal zone supports
  * @trips_disabled;	bitmap for disabled trips
+<<<<<<< HEAD
  * @passive_delay_jiffies: number of jiffies to wait between polls when
  *			performing passive cooling.
  * @polling_delay_jiffies: number of jiffies to wait between polls when
+=======
+ * @passive_delay:	number of milliseconds to wait between polls when
+ *			performing passive cooling.
+ * @polling_delay:	number of milliseconds to wait between polls when
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *			checking whether trip points have been crossed (0 for
  *			interrupt driven systems)
  * @temperature:	current temperature.  This is only for core code,
@@ -130,6 +145,12 @@ struct thermal_cooling_device {
 			trip point.
  * @prev_high_trip:	the above current temperature if you've crossed a
 			passive trip point.
+<<<<<<< HEAD
+=======
+ * @forced_passive:	If > 0, temperature at which to switch on all ACPI
+ *			processor cooling devices.  Currently only used by the
+ *			step-wise governor.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @need_update:	if equals 1, thermal_zone_device_update needs to be invoked.
  * @ops:	operations this &thermal_zone_device supports
  * @tzp:	thermal zone parameters
@@ -155,14 +176,23 @@ struct thermal_zone_device {
 	void *devdata;
 	int trips;
 	unsigned long trips_disabled;	/* bitmap for disabled trips */
+<<<<<<< HEAD
 	unsigned long passive_delay_jiffies;
 	unsigned long polling_delay_jiffies;
+=======
+	int passive_delay;
+	int polling_delay;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int temperature;
 	int last_temperature;
 	int emul_temperature;
 	int passive;
 	int prev_low_trip;
 	int prev_high_trip;
+<<<<<<< HEAD
+=======
+	unsigned int forced_passive;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_t need_update;
 	struct thermal_zone_device_ops *ops;
 	struct thermal_zone_params *tzp;
@@ -390,6 +420,10 @@ int thermal_zone_get_temp(struct thermal_zone_device *tz, int *temp);
 int thermal_zone_get_slope(struct thermal_zone_device *tz);
 int thermal_zone_get_offset(struct thermal_zone_device *tz);
 
+<<<<<<< HEAD
+=======
+void thermal_cdev_update(struct thermal_cooling_device *);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void thermal_notify_framework(struct thermal_zone_device *, int);
 int thermal_zone_device_enable(struct thermal_zone_device *tz);
 int thermal_zone_device_disable(struct thermal_zone_device *tz);
@@ -436,6 +470,11 @@ static inline int thermal_zone_get_offset(
 		struct thermal_zone_device *tz)
 { return -ENODEV; }
 
+<<<<<<< HEAD
+=======
+static inline void thermal_cdev_update(struct thermal_cooling_device *cdev)
+{ }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void thermal_notify_framework(struct thermal_zone_device *tz,
 	int trip)
 { }

@@ -19,6 +19,10 @@
 #include <asm/dt_cpu_ftrs.h>
 #include <asm/mce.h>
 #include <asm/mmu.h>
+<<<<<<< HEAD
+=======
+#include <asm/oprofile_impl.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/prom.h>
 #include <asm/setup.h>
 
@@ -102,6 +106,10 @@ static struct cpu_spec __initdata base_cpu_spec = {
 	.num_pmcs		= 0,
 	.pmc_type		= PPC_PMC_DEFAULT,
 	.oprofile_cpu_type	= NULL,
+<<<<<<< HEAD
+=======
+	.oprofile_type		= PPC_OPROFILE_INVALID,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.cpu_setup		= NULL,
 	.cpu_restore		= __restore_cpu_cpufeatures,
 	.machine_check_early	= NULL,

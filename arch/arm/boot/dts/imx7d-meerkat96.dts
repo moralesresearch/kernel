@@ -193,7 +193,11 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_usdhc1>;
 	keep-power-in-suspend;
+<<<<<<< HEAD
+	fsl,tuning-step = <2>;
+=======
 	tuning-step = <2>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vmmc-supply = <&reg_3p3v>;
 	no-1-8-v;
 	broken-cd;

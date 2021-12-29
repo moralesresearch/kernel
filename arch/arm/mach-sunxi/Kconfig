@@ -6,8 +6,11 @@ menuconfig ARCH_SUNXI
 	select CLKSRC_MMIO
 	select GENERIC_IRQ_CHIP
 	select GPIOLIB
+<<<<<<< HEAD
 	select IRQ_DOMAIN_HIERARCHY
 	select IRQ_FASTEOI_HIERARCHY_HANDLERS
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select PINCTRL
 	select PM_OPP
 	select SUN4I_TIMER

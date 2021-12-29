@@ -228,6 +228,10 @@ static void xhci_zero_64b_regs(struct xhci_hcd *xhci)
 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
 	int err, i;
 	u64 val;
+<<<<<<< HEAD
+	u32 intrs;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Some Renesas controllers get into a weird state if they are
@@ -266,7 +270,14 @@ static void xhci_zero_64b_regs(struct xhci_hcd *xhci)
 	if (upper_32_bits(val))
 		xhci_write_64(xhci, 0, &xhci->op_regs->cmd_ring);
 
+<<<<<<< HEAD
+	intrs = min_t(u32, HCS_MAX_INTRS(xhci->hcs_params1),
+		      ARRAY_SIZE(xhci->run_regs->ir_set));
+
+	for (i = 0; i < intrs; i++) {
+=======
 	for (i = 0; i < HCS_MAX_INTRS(xhci->hcs_params1); i++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct xhci_intr_reg __iomem *ir;
 
 		ir = &xhci->run_regs->ir_set[i];
@@ -1448,6 +1459,21 @@ static unsigned int xhci_get_endpoint_flag(struct usb_endpoint_descriptor *desc)
 	return 1 << (xhci_get_endpoint_index(desc) + 1);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+/* Find the flag for this endpoint (for use in the control context).  Use the
+ * endpoint index to create a bitmask.  The slot context is bit 0, endpoint 0 is
+ * bit 1, etc.
+ */
+static unsigned int xhci_get_endpoint_flag_from_index(unsigned int ep_index)
+{
+	return 1 << (ep_index + 1);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Compute the last valid endpoint context index.  Basically, this is the
  * endpoint index plus one.  For slot contexts with more than valid endpoint,
  * we find the most significant bit set in the added contexts flags.
@@ -1510,7 +1536,11 @@ static int xhci_configure_endpoint(struct xhci_hcd *xhci,
  * we need to issue an evaluate context command and wait on it.
  */
 static int xhci_check_maxpacket(struct xhci_hcd *xhci, unsigned int slot_id,
+<<<<<<< HEAD
+		unsigned int ep_index, struct urb *urb, gfp_t mem_flags)
+=======
 		unsigned int ep_index, struct urb *urb)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct xhci_container_ctx *out_ctx;
 	struct xhci_input_control_ctx *ctrl_ctx;
@@ -1541,7 +1571,11 @@ static int xhci_check_maxpacket(struct xhci_hcd *xhci, unsigned int slot_id,
 		 * changes max packet sizes.
 		 */
 
+<<<<<<< HEAD
+		command = xhci_alloc_command(xhci, true, mem_flags);
+=======
 		command = xhci_alloc_command(xhci, true, GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!command)
 			return -ENOMEM;
 
@@ -1635,7 +1669,11 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
 		 */
 		if (urb->dev->speed == USB_SPEED_FULL) {
 			ret = xhci_check_maxpacket(xhci, slot_id,
+<<<<<<< HEAD
+					ep_index, urb, mem_flags);
+=======
 					ep_index, urb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (ret < 0) {
 				xhci_urb_free_priv(urb_priv);
 				urb->hcpriv = NULL;
@@ -1809,12 +1847,22 @@ static int xhci_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
 
 	for (; i < urb_priv->num_tds; i++) {
 		td = &urb_priv->td[i];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* TD can already be on cancelled list if ep halted on it */
 		if (list_empty(&td->cancelled_td_list)) {
 			td->cancel_status = TD_DIRTY;
 			list_add_tail(&td->cancelled_td_list,
 				      &ep->cancelled_td_list);
 		}
+<<<<<<< HEAD
+=======
+=======
+		list_add_tail(&td->cancelled_td_list, &ep->cancelled_td_list);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Queue a stop endpoint command, but only if this is
@@ -3123,6 +3171,90 @@ static void xhci_setup_input_ctx_for_config_ep(struct xhci_hcd *xhci,
 	ctrl_ctx->add_flags |= cpu_to_le32(SLOT_FLAG);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static void xhci_setup_input_ctx_for_quirk(struct xhci_hcd *xhci,
+		unsigned int slot_id, unsigned int ep_index,
+		struct xhci_dequeue_state *deq_state)
+{
+	struct xhci_input_control_ctx *ctrl_ctx;
+	struct xhci_container_ctx *in_ctx;
+	struct xhci_ep_ctx *ep_ctx;
+	u32 added_ctxs;
+	dma_addr_t addr;
+
+	in_ctx = xhci->devs[slot_id]->in_ctx;
+	ctrl_ctx = xhci_get_input_control_ctx(in_ctx);
+	if (!ctrl_ctx) {
+		xhci_warn(xhci, "%s: Could not get input context, bad type.\n",
+				__func__);
+		return;
+	}
+
+	xhci_endpoint_copy(xhci, xhci->devs[slot_id]->in_ctx,
+			xhci->devs[slot_id]->out_ctx, ep_index);
+	ep_ctx = xhci_get_ep_ctx(xhci, in_ctx, ep_index);
+	addr = xhci_trb_virt_to_dma(deq_state->new_deq_seg,
+			deq_state->new_deq_ptr);
+	if (addr == 0) {
+		xhci_warn(xhci, "WARN Cannot submit config ep after "
+				"reset ep command\n");
+		xhci_warn(xhci, "WARN deq seg = %p, deq ptr = %p\n",
+				deq_state->new_deq_seg,
+				deq_state->new_deq_ptr);
+		return;
+	}
+	ep_ctx->deq = cpu_to_le64(addr | deq_state->new_cycle_state);
+
+	added_ctxs = xhci_get_endpoint_flag_from_index(ep_index);
+	xhci_setup_input_ctx_for_config_ep(xhci, xhci->devs[slot_id]->in_ctx,
+			xhci->devs[slot_id]->out_ctx, ctrl_ctx,
+			added_ctxs, added_ctxs);
+}
+
+void xhci_cleanup_stalled_ring(struct xhci_hcd *xhci, unsigned int slot_id,
+			       unsigned int ep_index, unsigned int stream_id,
+			       struct xhci_td *td)
+{
+	struct xhci_dequeue_state deq_state;
+
+	xhci_dbg_trace(xhci, trace_xhci_dbg_reset_ep,
+			"Cleaning up stalled endpoint ring");
+	/* We need to move the HW's dequeue pointer past this TD,
+	 * or it will attempt to resend it on the next doorbell ring.
+	 */
+	xhci_find_new_dequeue_state(xhci, slot_id, ep_index, stream_id, td,
+				    &deq_state);
+
+	if (!deq_state.new_deq_ptr || !deq_state.new_deq_seg)
+		return;
+
+	/* HW with the reset endpoint quirk will use the saved dequeue state to
+	 * issue a configure endpoint command later.
+	 */
+	if (!(xhci->quirks & XHCI_RESET_EP_QUIRK)) {
+		xhci_dbg_trace(xhci, trace_xhci_dbg_reset_ep,
+				"Queueing new dequeue state");
+		xhci_queue_new_dequeue_state(xhci, slot_id,
+				ep_index, &deq_state);
+	} else {
+		/* Better hope no one uses the input context between now and the
+		 * reset endpoint completion!
+		 * XXX: No idea how this hardware will react when stream rings
+		 * are enabled.
+		 */
+		xhci_dbg_trace(xhci, trace_xhci_dbg_quirks,
+				"Setting up input context for "
+				"configure endpoint command");
+		xhci_setup_input_ctx_for_quirk(xhci, slot_id,
+				ep_index, &deq_state);
+	}
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void xhci_endpoint_disable(struct usb_hcd *hcd,
 				  struct usb_host_endpoint *host_ep)
 {
@@ -3269,6 +3401,17 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
 
 	/* config ep command clears toggle if add and drop ep flags are set */
 	ctrl_ctx = xhci_get_input_control_ctx(cfg_cmd->in_ctx);
+<<<<<<< HEAD
+	if (!ctrl_ctx) {
+		spin_unlock_irqrestore(&xhci->lock, flags);
+		xhci_free_command(xhci, cfg_cmd);
+		xhci_warn(xhci, "%s: Could not get input context, bad type.\n",
+				__func__);
+		goto cleanup;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xhci_setup_input_ctx_for_config_ep(xhci, cfg_cmd->in_ctx, vdev->out_ctx,
 					   ctrl_ctx, ep_flag, ep_flag);
 	xhci_endpoint_copy(xhci, cfg_cmd->in_ctx, vdev->out_ctx, ep_index);

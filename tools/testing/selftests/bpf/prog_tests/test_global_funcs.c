@@ -61,6 +61,7 @@ void test_test_global_funcs(void)
 		{ "test_global_func6.o" , "modified ctx ptr R2" },
 		{ "test_global_func7.o" , "foo() doesn't return scalar" },
 		{ "test_global_func8.o" },
+<<<<<<< HEAD
 		{ "test_global_func9.o" },
 		{ "test_global_func10.o", "invalid indirect read from stack" },
 		{ "test_global_func11.o", "Caller passes invalid args into func#1" },
@@ -69,6 +70,8 @@ void test_test_global_funcs(void)
 		{ "test_global_func14.o", "reference type('FWD S') size cannot be determined" },
 		{ "test_global_func15.o", "At program exit the register R0 has value" },
 		{ "test_global_func16.o", "invalid indirect read from stack" },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 	libbpf_print_fn_t old_print_fn = NULL;
 	int err, i, duration = 0;

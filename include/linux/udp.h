@@ -51,7 +51,13 @@ struct udp_sock {
 					   * different encapsulation layer set
 					   * this
 					   */
+<<<<<<< HEAD
+			 gro_enabled:1,	/* Request GRO aggregation */
+			 accept_udp_l4:1,
+			 accept_udp_fraglist:1;
+=======
 			 gro_enabled:1;	/* Can accept GRO packets */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Following member retains the information to create a UDP header
 	 * when the socket is uncorked.
@@ -131,8 +137,21 @@ static inline void udp_cmsg_recv(struct msghdr *msg, struct sock *sk,
 
 static inline bool udp_unexpected_gso(struct sock *sk, struct sk_buff *skb)
 {
+<<<<<<< HEAD
+	if (!skb_is_gso(skb))
+		return false;
+
+	if (skb_shinfo(skb)->gso_type & SKB_GSO_UDP_L4 && !udp_sk(sk)->accept_udp_l4)
+		return true;
+
+	if (skb_shinfo(skb)->gso_type & SKB_GSO_FRAGLIST && !udp_sk(sk)->accept_udp_fraglist)
+		return true;
+
+	return false;
+=======
 	return !udp_sk(sk)->gro_enabled && skb_is_gso(skb) &&
 	       skb_shinfo(skb)->gso_type & SKB_GSO_UDP_L4;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define udp_portaddr_for_each_entry(__sk, list) \

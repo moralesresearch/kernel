@@ -304,7 +304,11 @@ static struct clk_rcg2 cam_cc_bps_clk_src = {
 		.name = "cam_cc_bps_clk_src",
 		.parent_data = cam_cc_parent_data_2,
 		.num_parents = 5,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -325,7 +329,11 @@ static struct clk_rcg2 cam_cc_cci_0_clk_src = {
 		.name = "cam_cc_cci_0_clk_src",
 		.parent_data = cam_cc_parent_data_5,
 		.num_parents = 3,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -339,7 +347,11 @@ static struct clk_rcg2 cam_cc_cci_1_clk_src = {
 		.name = "cam_cc_cci_1_clk_src",
 		.parent_data = cam_cc_parent_data_5,
 		.num_parents = 3,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -360,7 +372,11 @@ static struct clk_rcg2 cam_cc_cphy_rx_clk_src = {
 		.name = "cam_cc_cphy_rx_clk_src",
 		.parent_data = cam_cc_parent_data_3,
 		.num_parents = 6,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -379,7 +395,11 @@ static struct clk_rcg2 cam_cc_csi0phytimer_clk_src = {
 		.name = "cam_cc_csi0phytimer_clk_src",
 		.parent_data = cam_cc_parent_data_0,
 		.num_parents = 4,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -393,7 +413,11 @@ static struct clk_rcg2 cam_cc_csi1phytimer_clk_src = {
 		.name = "cam_cc_csi1phytimer_clk_src",
 		.parent_data = cam_cc_parent_data_0,
 		.num_parents = 4,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -407,7 +431,11 @@ static struct clk_rcg2 cam_cc_csi2phytimer_clk_src = {
 		.name = "cam_cc_csi2phytimer_clk_src",
 		.parent_data = cam_cc_parent_data_0,
 		.num_parents = 4,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -421,7 +449,11 @@ static struct clk_rcg2 cam_cc_csi3phytimer_clk_src = {
 		.name = "cam_cc_csi3phytimer_clk_src",
 		.parent_data = cam_cc_parent_data_0,
 		.num_parents = 4,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -443,7 +475,11 @@ static struct clk_rcg2 cam_cc_fast_ahb_clk_src = {
 		.name = "cam_cc_fast_ahb_clk_src",
 		.parent_data = cam_cc_parent_data_0,
 		.num_parents = 4,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -466,7 +502,11 @@ static struct clk_rcg2 cam_cc_icp_clk_src = {
 		.name = "cam_cc_icp_clk_src",
 		.parent_data = cam_cc_parent_data_2,
 		.num_parents = 5,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -488,7 +528,11 @@ static struct clk_rcg2 cam_cc_ife_0_clk_src = {
 		.name = "cam_cc_ife_0_clk_src",
 		.parent_data = cam_cc_parent_data_4,
 		.num_parents = 4,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -510,7 +554,11 @@ static struct clk_rcg2 cam_cc_ife_0_csid_clk_src = {
 		.name = "cam_cc_ife_0_csid_clk_src",
 		.parent_data = cam_cc_parent_data_3,
 		.num_parents = 6,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -524,7 +572,11 @@ static struct clk_rcg2 cam_cc_ife_1_clk_src = {
 		.name = "cam_cc_ife_1_clk_src",
 		.parent_data = cam_cc_parent_data_4,
 		.num_parents = 4,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -538,7 +590,11 @@ static struct clk_rcg2 cam_cc_ife_1_csid_clk_src = {
 		.name = "cam_cc_ife_1_csid_clk_src",
 		.parent_data = cam_cc_parent_data_3,
 		.num_parents = 6,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -553,7 +609,11 @@ static struct clk_rcg2 cam_cc_ife_lite_clk_src = {
 		.parent_data = cam_cc_parent_data_4,
 		.num_parents = 4,
 		.flags = CLK_SET_RATE_PARENT,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -567,7 +627,11 @@ static struct clk_rcg2 cam_cc_ife_lite_csid_clk_src = {
 		.name = "cam_cc_ife_lite_csid_clk_src",
 		.parent_data = cam_cc_parent_data_3,
 		.num_parents = 6,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -590,7 +654,11 @@ static struct clk_rcg2 cam_cc_ipe_0_clk_src = {
 		.name = "cam_cc_ipe_0_clk_src",
 		.parent_data = cam_cc_parent_data_2,
 		.num_parents = 5,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -613,7 +681,11 @@ static struct clk_rcg2 cam_cc_jpeg_clk_src = {
 		.name = "cam_cc_jpeg_clk_src",
 		.parent_data = cam_cc_parent_data_2,
 		.num_parents = 5,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -635,7 +707,11 @@ static struct clk_rcg2 cam_cc_lrme_clk_src = {
 		.name = "cam_cc_lrme_clk_src",
 		.parent_data = cam_cc_parent_data_6,
 		.num_parents = 5,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -656,7 +732,11 @@ static struct clk_rcg2 cam_cc_mclk0_clk_src = {
 		.name = "cam_cc_mclk0_clk_src",
 		.parent_data = cam_cc_parent_data_1,
 		.num_parents = 3,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -670,7 +750,11 @@ static struct clk_rcg2 cam_cc_mclk1_clk_src = {
 		.name = "cam_cc_mclk1_clk_src",
 		.parent_data = cam_cc_parent_data_1,
 		.num_parents = 3,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -684,7 +768,11 @@ static struct clk_rcg2 cam_cc_mclk2_clk_src = {
 		.name = "cam_cc_mclk2_clk_src",
 		.parent_data = cam_cc_parent_data_1,
 		.num_parents = 3,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -698,7 +786,11 @@ static struct clk_rcg2 cam_cc_mclk3_clk_src = {
 		.name = "cam_cc_mclk3_clk_src",
 		.parent_data = cam_cc_parent_data_1,
 		.num_parents = 3,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -712,7 +804,11 @@ static struct clk_rcg2 cam_cc_mclk4_clk_src = {
 		.name = "cam_cc_mclk4_clk_src",
 		.parent_data = cam_cc_parent_data_1,
 		.num_parents = 3,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 
@@ -732,7 +828,11 @@ static struct clk_rcg2 cam_cc_slow_ahb_clk_src = {
 		.parent_data = cam_cc_parent_data_0,
 		.num_parents = 4,
 		.flags = CLK_SET_RATE_PARENT | CLK_OPS_PARENT_ENABLE,
+<<<<<<< HEAD
 		.ops = &clk_rcg2_shared_ops,
+=======
+		.ops = &clk_rcg2_ops,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 };
 

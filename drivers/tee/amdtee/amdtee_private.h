@@ -21,6 +21,10 @@
 #define TEEC_SUCCESS			0x00000000
 #define TEEC_ERROR_GENERIC		0xFFFF0000
 #define TEEC_ERROR_BAD_PARAMETERS	0xFFFF0006
+<<<<<<< HEAD
+#define TEEC_ERROR_OUT_OF_MEMORY	0xFFFF000C
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TEEC_ERROR_COMMUNICATION	0xFFFF000E
 
 #define TEEC_ORIGIN_COMMS		0x00000002
@@ -93,6 +97,21 @@ struct amdtee_shm_data {
 	u32     buf_id;
 };
 
+<<<<<<< HEAD
+/**
+ * struct amdtee_ta_data - Keeps track of all TAs loaded in AMD Secure
+ *			   Processor
+ * @ta_handle:	Handle to TA loaded in TEE
+ * @refcount:	Reference count for the loaded TA
+ */
+struct amdtee_ta_data {
+	struct list_head list_node;
+	u32 ta_handle;
+	u32 refcount;
+};
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define LOWER_TWO_BYTE_MASK	0x0000FFFF
 
 /**

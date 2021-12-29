@@ -72,8 +72,15 @@ gv100_devinit = {
 };
 
 int
+<<<<<<< HEAD
 gv100_devinit_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 		  struct nvkm_devinit **pinit)
 {
 	return nv50_devinit_new_(&gv100_devinit, device, type, inst, pinit);
+=======
+gv100_devinit_new(struct nvkm_device *device, int index,
+		struct nvkm_devinit **pinit)
+{
+	return nv50_devinit_new_(&gv100_devinit, device, index, pinit);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

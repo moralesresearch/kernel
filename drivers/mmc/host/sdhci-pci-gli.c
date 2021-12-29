@@ -84,6 +84,7 @@
 #define   GLI_9763E_VHS_REV_W      0x2
 #define PCIE_GLI_9763E_MB	 0x888
 #define   GLI_9763E_MB_CMDQ_OFF	   BIT(19)
+<<<<<<< HEAD
 #define   GLI_9763E_MB_ERP_ON      BIT(7)
 #define PCIE_GLI_9763E_SCR	 0x8E0
 #define   GLI_9763E_SCR_AXI_REQ	   BIT(9)
@@ -99,6 +100,14 @@
 #define   GLI_9763E_HS400_RXDLY    GENMASK(31, 28)
 #define   GLI_9763E_HS400_RXDLY_5  0x5
 
+=======
+#define PCIE_GLI_9763E_SCR	 0x8E0
+#define   GLI_9763E_SCR_AXI_REQ	   BIT(9)
+
+#define PCIE_GLI_9763E_MMC_CTRL  0x960
+#define   GLI_9763E_HS400_SLOW     BIT(3)
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SDHCI_GLI_9763E_CQE_BASE_ADDR	 0x200
 #define GLI_9763E_CQE_TRNS_MODE	   (SDHCI_TRNS_MULTI | \
 				    SDHCI_TRNS_BLK_CNT_EN | \
@@ -587,8 +596,18 @@ static void sdhci_gli_voltage_switch(struct sdhci_host *host)
 	 *
 	 * Wait 5ms after set 1.8V signal enable in Host Control 2 register
 	 * to ensure 1.8V signal enable bit is set by GL9750/GL9755.
+<<<<<<< HEAD
+	 *
+	 * ...however, the controller in the NUC10i3FNK4 (a 9755) requires
+	 * slightly longer than 5ms before the control register reports that
+	 * 1.8V is ready, and far longer still before the card will actually
+	 * work reliably.
+	 */
+	usleep_range(100000, 110000);
+=======
 	 */
 	usleep_range(5000, 5500);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void sdhci_gl9750_reset(struct sdhci_host *host, u8 mask)
@@ -800,6 +819,7 @@ static void gli_set_gl9763e(struct sdhci_pci_slot *slot)
 	value &= ~GLI_9763E_HS400_SLOW;
 	pci_write_config_dword(pdev, PCIE_GLI_9763E_MMC_CTRL, value);
 
+<<<<<<< HEAD
 	pci_read_config_dword(pdev, PCIE_GLI_9763E_CFG2, &value);
 	value &= ~GLI_9763E_CFG2_L1DLY;
 	/* set ASPM L1 entry delay to 260us */
@@ -811,6 +831,8 @@ static void gli_set_gl9763e(struct sdhci_pci_slot *slot)
 	value |= FIELD_PREP(GLI_9763E_HS400_RXDLY, GLI_9763E_HS400_RXDLY_5);
 	pci_write_config_dword(pdev, PCIE_GLI_9763E_CLKRXDLY, value);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pci_read_config_dword(pdev, PCIE_GLI_9763E_VHS, &value);
 	value &= ~GLI_9763E_VHS_REV;
 	value |= FIELD_PREP(GLI_9763E_VHS_REV, GLI_9763E_VHS_REV_R);
@@ -834,8 +856,12 @@ static int gli_probe_slot_gl9763e(struct sdhci_pci_slot *slot)
 
 	pci_read_config_dword(pdev, PCIE_GLI_9763E_MB, &value);
 	if (!(value & GLI_9763E_MB_CMDQ_OFF))
+<<<<<<< HEAD
 		if (value & GLI_9763E_MB_ERP_ON)
 			host->mmc->caps2 |= MMC_CAP2_CQE | MMC_CAP2_CQE_DCMD;
+=======
+		host->mmc->caps2 |= MMC_CAP2_CQE | MMC_CAP2_CQE_DCMD;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	gli_pcie_enable_msi(slot);
 	host->mmc_host_ops.hs400_enhanced_strobe =

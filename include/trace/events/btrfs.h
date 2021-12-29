@@ -99,8 +99,12 @@ struct btrfs_space_info;
 	EM( ALLOC_CHUNK,		"ALLOC_CHUNK")			\
 	EM( ALLOC_CHUNK_FORCE,		"ALLOC_CHUNK_FORCE")		\
 	EM( RUN_DELAYED_IPUTS,		"RUN_DELAYED_IPUTS")		\
+<<<<<<< HEAD
 	EM( COMMIT_TRANS,		"COMMIT_TRANS")			\
 	EMe(FORCE_COMMIT_TRANS,		"FORCE_COMMIT_TRANS")
+=======
+	EMe(COMMIT_TRANS,		"COMMIT_TRANS")
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * First define the enums in the above macros to be exported to userspace via
@@ -500,6 +504,7 @@ DEFINE_EVENT(
 
 #define show_ordered_flags(flags)					   \
 	__print_flags(flags, "|",					   \
+<<<<<<< HEAD
 		{ (1 << BTRFS_ORDERED_REGULAR), 	"REGULAR" 	}, \
 		{ (1 << BTRFS_ORDERED_NOCOW), 		"NOCOW" 	}, \
 		{ (1 << BTRFS_ORDERED_PREALLOC), 	"PREALLOC" 	}, \
@@ -507,6 +512,14 @@ DEFINE_EVENT(
 		{ (1 << BTRFS_ORDERED_DIRECT),	 	"DIRECT" 	}, \
 		{ (1 << BTRFS_ORDERED_IO_DONE), 	"IO_DONE" 	}, \
 		{ (1 << BTRFS_ORDERED_COMPLETE), 	"COMPLETE" 	}, \
+=======
+		{ (1 << BTRFS_ORDERED_IO_DONE), 	"IO_DONE" 	}, \
+		{ (1 << BTRFS_ORDERED_COMPLETE), 	"COMPLETE" 	}, \
+		{ (1 << BTRFS_ORDERED_NOCOW), 		"NOCOW" 	}, \
+		{ (1 << BTRFS_ORDERED_COMPRESSED), 	"COMPRESSED" 	}, \
+		{ (1 << BTRFS_ORDERED_PREALLOC), 	"PREALLOC" 	}, \
+		{ (1 << BTRFS_ORDERED_DIRECT),	 	"DIRECT" 	}, \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{ (1 << BTRFS_ORDERED_IOERR), 		"IOERR" 	}, \
 		{ (1 << BTRFS_ORDERED_TRUNCATED), 	"TRUNCATED"	})
 
@@ -1113,16 +1126,25 @@ TRACE_EVENT(btrfs_trigger_flush,
 TRACE_EVENT(btrfs_flush_space,
 
 	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 flags, u64 num_bytes,
+<<<<<<< HEAD
 		 int state, int ret, bool for_preempt),
 
 	TP_ARGS(fs_info, flags, num_bytes, state, ret, for_preempt),
+=======
+		 int state, int ret),
+
+	TP_ARGS(fs_info, flags, num_bytes, state, ret),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	TP_STRUCT__entry_btrfs(
 		__field(	u64,	flags			)
 		__field(	u64,	num_bytes		)
 		__field(	int,	state			)
 		__field(	int,	ret			)
+<<<<<<< HEAD
 		__field(       bool,	for_preempt		)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	),
 
 	TP_fast_assign_btrfs(fs_info,
@@ -1130,16 +1152,26 @@ TRACE_EVENT(btrfs_flush_space,
 		__entry->num_bytes	=	num_bytes;
 		__entry->state		=	state;
 		__entry->ret		=	ret;
+<<<<<<< HEAD
 		__entry->for_preempt	=	for_preempt;
 	),
 
 	TP_printk_btrfs("state=%d(%s) flags=%llu(%s) num_bytes=%llu ret=%d for_preempt=%d",
+=======
+	),
+
+	TP_printk_btrfs("state=%d(%s) flags=%llu(%s) num_bytes=%llu ret=%d",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		  __entry->state,
 		  __print_symbolic(__entry->state, FLUSH_STATES),
 		  __entry->flags,
 		  __print_flags((unsigned long)__entry->flags, "|",
 				BTRFS_GROUP_FLAGS),
+<<<<<<< HEAD
 		  __entry->num_bytes, __entry->ret, __entry->for_preempt)
+=======
+		  __entry->num_bytes, __entry->ret)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 );
 
 DECLARE_EVENT_CLASS(btrfs__reserved_extent,
@@ -2029,6 +2061,7 @@ TRACE_EVENT(btrfs_convert_extent_bit,
 		  __print_flags(__entry->clear_bits, "|", EXTENT_FLAGS))
 );
 
+<<<<<<< HEAD
 DECLARE_EVENT_CLASS(btrfs_dump_space_info,
 	TP_PROTO(const struct btrfs_fs_info *fs_info,
 		 const struct btrfs_space_info *sinfo),
@@ -2120,6 +2153,8 @@ TRACE_EVENT(btrfs_reserve_ticket,
 			__entry->error)
 );
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 DECLARE_EVENT_CLASS(btrfs_sleep_tree_lock,
 	TP_PROTO(const struct extent_buffer *eb, u64 start_ns),
 

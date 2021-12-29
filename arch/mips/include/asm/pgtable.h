@@ -64,7 +64,14 @@ struct vm_area_struct;
 #define __S111 __pgprot(0)
 
 extern unsigned long _page_cachable_default;
+<<<<<<< HEAD
 extern void __update_cache(unsigned long address, pte_t pte);
+=======
+<<<<<<< HEAD
+extern void __update_cache(unsigned long address, pte_t pte);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * ZERO_PAGE is a global shared page that is always zero; used
@@ -95,31 +102,73 @@ extern void paging_init(void);
 
 #define htw_stop()							\
 do {									\
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long __flags;						\
 									\
 	if (cpu_has_htw) {						\
 		local_irq_save(__flags);				\
+<<<<<<< HEAD
+=======
+=======
+	unsigned long flags;						\
+									\
+	if (cpu_has_htw) {						\
+		local_irq_save(flags);					\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if(!raw_current_cpu_data.htw_seq++) {			\
 			write_c0_pwctl(read_c0_pwctl() &		\
 				       ~(1 << MIPS_PWCTL_PWEN_SHIFT));	\
 			back_to_back_c0_hazard();			\
 		}							\
+<<<<<<< HEAD
 		local_irq_restore(__flags);				\
+=======
+<<<<<<< HEAD
+		local_irq_restore(__flags);				\
+=======
+		local_irq_restore(flags);				\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}								\
 } while(0)
 
 #define htw_start()							\
 do {									\
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long __flags;						\
 									\
 	if (cpu_has_htw) {						\
 		local_irq_save(__flags);				\
+<<<<<<< HEAD
+=======
+=======
+	unsigned long flags;						\
+									\
+	if (cpu_has_htw) {						\
+		local_irq_save(flags);					\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!--raw_current_cpu_data.htw_seq) {			\
 			write_c0_pwctl(read_c0_pwctl() |		\
 				       (1 << MIPS_PWCTL_PWEN_SHIFT));	\
 			back_to_back_c0_hazard();			\
 		}							\
+<<<<<<< HEAD
 		local_irq_restore(__flags);				\
+=======
+<<<<<<< HEAD
+		local_irq_restore(__flags);				\
+=======
+		local_irq_restore(flags);				\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}								\
 } while(0)
 
@@ -225,6 +274,13 @@ static inline void pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *pt
 static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
 			      pte_t *ptep, pte_t pteval)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	extern void __update_cache(unsigned long address, pte_t pte);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!pte_present(pteval))
 		goto cache_sync_done;

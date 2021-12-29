@@ -709,16 +709,26 @@ static int tpm_tis_gen_interrupt(struct tpm_chip *chip)
 	cap_t cap;
 	int ret;
 
+<<<<<<< HEAD
+=======
 	/* TPM 2.0 */
 	if (chip->flags & TPM_CHIP_FLAG_TPM2)
 		return tpm2_get_tpm_pt(chip, 0x100, &cap2, desc);
 
 	/* TPM 1.2 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = request_locality(chip, 0);
 	if (ret < 0)
 		return ret;
 
+<<<<<<< HEAD
+	if (chip->flags & TPM_CHIP_FLAG_TPM2)
+		ret = tpm2_get_tpm_pt(chip, 0x100, &cap2, desc);
+	else
+		ret = tpm1_getcap(chip, TPM_CAP_PROP_TIS_TIMEOUT, &cap, desc, 0);
+=======
 	ret = tpm1_getcap(chip, TPM_CAP_PROP_TIS_TIMEOUT, &cap, desc, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	release_locality(chip, 0);
 
@@ -1127,12 +1137,29 @@ int tpm_tis_resume(struct device *dev)
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
+	/*
+	 * TPM 1.2 requires self-test on resume. This function actually returns
+	 * an error code but for unknown reason it isn't handled.
+	 */
+	if (!(chip->flags & TPM_CHIP_FLAG_TPM2)) {
+		ret = request_locality(chip, 0);
+		if (ret < 0)
+			return ret;
+
+		tpm1_do_selftest(chip);
+
+		release_locality(chip, 0);
+	}
+
+=======
 	/* TPM 1.2 requires self-test on resume. This function actually returns
 	 * an error code but for unknown reason it isn't handled.
 	 */
 	if (!(chip->flags & TPM_CHIP_FLAG_TPM2))
 		tpm1_do_selftest(chip);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 EXPORT_SYMBOL_GPL(tpm_tis_resume);

@@ -416,7 +416,11 @@ static void mt76x02_reset_state(struct mt76x02_dev *dev)
 		memset(msta, 0, sizeof(*msta));
 	}
 
+<<<<<<< HEAD
 	dev->mt76.vif_mask = 0;
+=======
+	dev->mphy.vif_mask = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->mt76.beacon_mask = 0;
 }
 

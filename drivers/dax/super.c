@@ -480,7 +480,11 @@ static void dax_free_inode(struct inode *inode)
 	kfree(dax_dev->host);
 	dax_dev->host = NULL;
 	if (inode->i_rdev)
+<<<<<<< HEAD
 		ida_simple_remove(&dax_minor_ida, iminor(inode));
+=======
+		ida_simple_remove(&dax_minor_ida, MINOR(inode->i_rdev));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kmem_cache_free(dax_cache, dax_dev);
 }
 

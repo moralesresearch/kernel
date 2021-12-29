@@ -19,8 +19,12 @@
 
 /* ld/ldx fields */
 #define BPF_DW		0x18	/* double word (64-bit) */
+<<<<<<< HEAD
 #define BPF_ATOMIC	0xc0	/* atomic memory ops - op type in immediate */
 #define BPF_XADD	0xc0	/* exclusive add - legacy name */
+=======
+#define BPF_XADD	0xc0	/* exclusive add */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* alu/jmp fields */
 #define BPF_MOV		0xb0	/* mov reg to reg */
@@ -44,11 +48,14 @@
 #define BPF_CALL	0x80	/* function call */
 #define BPF_EXIT	0x90	/* function return */
 
+<<<<<<< HEAD
 /* atomic op type fields (stored in immediate) */
 #define BPF_FETCH	0x01	/* not an opcode on its own, used to build others */
 #define BPF_XCHG	(0xe0 | BPF_FETCH)	/* atomic exchange */
 #define BPF_CMPXCHG	(0xf0 | BPF_FETCH)	/* atomic compare-and-write */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Register numbers */
 enum {
 	BPF_REG_0 = 0,
@@ -1656,21 +1663,31 @@ union bpf_attr {
  * 		networking traffic statistics as it provides a global socket
  * 		identifier that can be assumed unique.
  * 	Return
+<<<<<<< HEAD
  * 		A 8-byte long unique number on success, or 0 if the socket
  * 		field is missing inside *skb*.
+=======
+ * 		A 8-byte long non-decreasing number on success, or 0 if the
+ * 		socket field is missing inside *skb*.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * u64 bpf_get_socket_cookie(struct bpf_sock_addr *ctx)
  * 	Description
  * 		Equivalent to bpf_get_socket_cookie() helper that accepts
  * 		*skb*, but gets socket from **struct bpf_sock_addr** context.
  * 	Return
+<<<<<<< HEAD
  * 		A 8-byte long unique number.
+=======
+ * 		A 8-byte long non-decreasing number.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * u64 bpf_get_socket_cookie(struct bpf_sock_ops *ctx)
  * 	Description
  * 		Equivalent to **bpf_get_socket_cookie**\ () helper that accepts
  * 		*skb*, but gets socket from **struct bpf_sock_ops** context.
  * 	Return
+<<<<<<< HEAD
  * 		A 8-byte long unique number.
  *
  * u64 bpf_get_socket_cookie(struct sock *sk)
@@ -1680,6 +1697,9 @@ union bpf_attr {
  * 		also works for sleepable programs.
  * 	Return
  * 		A 8-byte long unique number or 0 if *sk* is NULL.
+=======
+ * 		A 8-byte long non-decreasing number.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * u32 bpf_get_socket_uid(struct sk_buff *skb)
  * 	Return
@@ -2239,9 +2259,12 @@ union bpf_attr {
  *		* > 0 one of **BPF_FIB_LKUP_RET_** codes explaining why the
  *		  packet is not forwarded or needs assist from full stack
  *
+<<<<<<< HEAD
  *		If lookup fails with BPF_FIB_LKUP_RET_FRAG_NEEDED, then the MTU
  *		was exceeded and output params->mtu_result contains the MTU.
  *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * long bpf_sock_hash_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
  *	Description
  *		Add an entry to, or update a sockhash *map* referencing sockets.
@@ -2465,7 +2488,11 @@ union bpf_attr {
  *		running simultaneously.
  *
  *		A user should care about the synchronization by himself.
+<<<<<<< HEAD
  *		For example, by using the **BPF_ATOMIC** instructions to alter
+=======
+ *		For example, by using the **BPF_STX_XADD** instruction to alter
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *		the shared data.
  *	Return
  *		A pointer to the local storage area.
@@ -3010,10 +3037,17 @@ union bpf_attr {
  * 		string length is larger than *size*, just *size*-1 bytes are
  * 		copied and the last byte is set to NUL.
  *
+<<<<<<< HEAD
  * 		On success, returns the number of bytes that were written,
  * 		including the terminal NUL. This makes this helper useful in
  * 		tracing programs for reading strings, and more importantly to
  * 		get its length at runtime. See the following snippet:
+=======
+ * 		On success, the length of the copied string is returned. This
+ * 		makes this helper useful in tracing programs for reading
+ * 		strings, and more importantly to get its length at runtime. See
+ * 		the following snippet:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * 		::
  *
@@ -3041,7 +3075,11 @@ union bpf_attr {
  * 		**->mm->env_start**: using this helper and the return value,
  * 		one can quickly iterate at the right offset of the memory area.
  * 	Return
+<<<<<<< HEAD
  * 		On success, the strictly positive length of the output string,
+=======
+ * 		On success, the strictly positive length of the string,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * 		including the trailing NUL character. On error, a negative
  * 		value.
  *
@@ -3847,6 +3885,7 @@ union bpf_attr {
  *	Return
  *		A pointer to a struct socket on success or NULL if the file is
  *		not a socket.
+<<<<<<< HEAD
  *
  * long bpf_check_mtu(void *ctx, u32 ifindex, u32 *mtu_len, s32 len_diff, u64 flags)
  *	Description
@@ -3909,6 +3948,8 @@ union bpf_attr {
  *		* **BPF_MTU_CHK_RET_FRAG_NEEDED**
  *		* **BPF_MTU_CHK_RET_SEGS_TOOBIG**
  *
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 #define __BPF_FUNC_MAPPER(FN)		\
 	FN(unspec),			\
@@ -4074,7 +4115,10 @@ union bpf_attr {
 	FN(ktime_get_coarse_ns),	\
 	FN(ima_inode_hash),		\
 	FN(sock_from_file),		\
+<<<<<<< HEAD
 	FN(check_mtu),			\
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* */
 
 /* integer value in 'imm' field of BPF_CALL instruction selects which helper
@@ -4575,7 +4619,10 @@ struct bpf_prog_info {
 	__aligned_u64 prog_tags;
 	__u64 run_time_ns;
 	__u64 run_cnt;
+<<<<<<< HEAD
 	__u64 recursion_misses;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } __attribute__((aligned(8)));
 
 struct bpf_map_info {
@@ -5056,6 +5103,7 @@ struct bpf_fib_lookup {
 	__be16	sport;
 	__be16	dport;
 
+<<<<<<< HEAD
 	union {	/* used for MTU check */
 		/* input to lookup */
 		__u16	tot_len; /* L3 length from network hdr (iph->tot_len) */
@@ -5063,6 +5111,11 @@ struct bpf_fib_lookup {
 		/* output: MTU value */
 		__u16	mtu_result;
 	};
+=======
+	/* total length of packet from network header - used for MTU check */
+	__u16	tot_len;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* input: L3 device index for lookup
 	 * output: device index from FIB lookup
 	 */
@@ -5108,6 +5161,7 @@ struct bpf_redir_neigh {
 	};
 };
 
+<<<<<<< HEAD
 /* bpf_check_mtu flags*/
 enum  bpf_check_mtu_flags {
 	BPF_MTU_CHK_SEGS  = (1U << 0),
@@ -5119,6 +5173,8 @@ enum bpf_check_mtu_ret {
 	BPF_MTU_CHK_RET_SEGS_TOOBIG,  /* GSO re-segmentation needed to fwd */
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum bpf_task_fd_type {
 	BPF_FD_TYPE_RAW_TRACEPOINT,	/* tp name */
 	BPF_FD_TYPE_TRACEPOINT,		/* tp name */

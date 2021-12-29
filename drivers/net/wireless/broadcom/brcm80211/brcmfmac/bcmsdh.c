@@ -1217,6 +1217,11 @@ static struct sdio_driver brcmf_sdmmc_driver = {
 	},
 };
 
+<<<<<<< HEAD
+int brcmf_sdio_register(void)
+{
+	return sdio_register_driver(&brcmf_sdmmc_driver);
+=======
 void brcmf_sdio_register(void)
 {
 	int ret;
@@ -1224,6 +1229,7 @@ void brcmf_sdio_register(void)
 	ret = sdio_register_driver(&brcmf_sdmmc_driver);
 	if (ret)
 		brcmf_err("sdio_register_driver failed: %d\n", ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void brcmf_sdio_exit(void)

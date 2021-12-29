@@ -1106,11 +1106,16 @@ static void synaptics_process_packet(struct psmouse *psmouse)
 					num_fingers = hw.w + 2;
 				break;
 			case 2:
+<<<<<<< HEAD
 				/*
 				 * SYN_MODEL_PEN(info->model_id): even if
 				 * the device supports pen, we treat it as
 				 * a single finger.
 				 */
+=======
+				if (SYN_MODEL_PEN(info->model_id))
+					;   /* Nothing, treat a pen as a single finger */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				break;
 			case 4 ... 15:
 				if (SYN_CAP_PALMDETECT(info->capabilities))

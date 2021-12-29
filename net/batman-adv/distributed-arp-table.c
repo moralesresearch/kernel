@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
+<<<<<<< HEAD
 /* Copyright (C) B.A.T.M.A.N. contributors:
+=======
+/* Copyright (C) 2011-2020  B.A.T.M.A.N. contributors:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Antonio Quartulli
  */
@@ -87,7 +91,11 @@ struct batadv_dhcp_packet {
 	__u8 sname[64];
 	__u8 file[128];
 	__be32 magic;
+<<<<<<< HEAD
 	/* __u8 options[]; */
+=======
+	__u8 options[];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define BATADV_DHCP_YIADDR_LEN sizeof(((struct batadv_dhcp_packet *)0)->yiaddr)
@@ -1564,7 +1572,11 @@ static int batadv_dat_get_dhcp_message_type(struct sk_buff *skb)
 }
 
 /**
+<<<<<<< HEAD
  * batadv_dat_dhcp_get_yiaddr() - get yiaddr from a DHCP packet
+=======
+ * batadv_dat_get_dhcp_yiaddr() - get yiaddr from a DHCP packet
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @skb: the DHCP packet to parse
  * @buf: a buffer to store the yiaddr in
  *

@@ -32,7 +32,10 @@
 
 #ifndef _HNS_ROCE_COMMON_H
 #define _HNS_ROCE_COMMON_H
+<<<<<<< HEAD
 #include <linux/bitfield.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define roce_write(dev, reg, val)	writel((val), (dev)->reg_base + (reg))
 #define roce_read(dev, reg)		readl((dev)->reg_base + (reg))
@@ -66,6 +69,7 @@
 
 #define hr_reg_enable(ptr, field) _hr_reg_enable(ptr, field)
 
+<<<<<<< HEAD
 #define _hr_reg_clear(ptr, field_type, field_h, field_l)                       \
 	({                                                                     \
 		const field_type *_ptr = ptr;                                  \
@@ -87,6 +91,8 @@
 
 #define hr_reg_write(ptr, field, val) _hr_reg_write(ptr, field, val)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ROCEE_GLB_CFG_ROCEE_DB_SQ_MODE_S 3
 #define ROCEE_GLB_CFG_ROCEE_DB_OTH_MODE_S 4
 
@@ -364,8 +370,13 @@
 #define ROCEE_TX_CMQ_BASEADDR_L_REG		0x07000
 #define ROCEE_TX_CMQ_BASEADDR_H_REG		0x07004
 #define ROCEE_TX_CMQ_DEPTH_REG			0x07008
+<<<<<<< HEAD
 #define ROCEE_TX_CMQ_HEAD_REG			0x07010
 #define ROCEE_TX_CMQ_TAIL_REG			0x07014
+=======
+#define ROCEE_TX_CMQ_TAIL_REG			0x07010
+#define ROCEE_TX_CMQ_HEAD_REG			0x07014
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define ROCEE_RX_CMQ_BASEADDR_L_REG		0x07018
 #define ROCEE_RX_CMQ_BASEADDR_H_REG		0x0701c

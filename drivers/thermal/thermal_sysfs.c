@@ -217,6 +217,55 @@ trip_point_hyst_show(struct device *dev, struct device_attribute *attr,
 }
 
 static ssize_t
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+passive_store(struct device *dev, struct device_attribute *attr,
+	      const char *buf, size_t count)
+{
+	struct thermal_zone_device *tz = to_thermal_zone(dev);
+	int state;
+
+	if (sscanf(buf, "%d\n", &state) != 1)
+		return -EINVAL;
+
+	/* sanity check: values below 1000 millicelcius don't make sense
+	 * and can cause the system to go into a thermal heart attack
+	 */
+	if (state && state < 1000)
+		return -EINVAL;
+
+	if (state && !tz->forced_passive) {
+		if (!tz->passive_delay)
+			tz->passive_delay = 1000;
+		thermal_zone_device_rebind_exception(tz, "Processor",
+						     sizeof("Processor"));
+	} else if (!state && tz->forced_passive) {
+		tz->passive_delay = 0;
+		thermal_zone_device_unbind_exception(tz, "Processor",
+						     sizeof("Processor"));
+	}
+
+	tz->forced_passive = state;
+
+	thermal_zone_device_update(tz, THERMAL_EVENT_UNSPECIFIED);
+
+	return count;
+}
+
+static ssize_t
+passive_show(struct device *dev, struct device_attribute *attr,
+	     char *buf)
+{
+	struct thermal_zone_device *tz = to_thermal_zone(dev);
+
+	return sprintf(buf, "%d\n", tz->forced_passive);
+}
+
+static ssize_t
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 policy_store(struct device *dev, struct device_attribute *attr,
 	     const char *buf, size_t count)
 {
@@ -360,6 +409,13 @@ static DEVICE_ATTR_RW(sustainable_power);
 
 /* These thermal zone device attributes are created based on conditions */
 static DEVICE_ATTR_RW(mode);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static DEVICE_ATTR_RW(passive);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* These attributes are unconditionally added to a thermal zone */
 static struct attribute *thermal_zone_dev_attrs[] = {
@@ -394,9 +450,57 @@ static const struct attribute_group thermal_zone_mode_attribute_group = {
 	.attrs = thermal_zone_mode_attrs,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group *thermal_zone_attribute_groups[] = {
 	&thermal_zone_attribute_group,
 	&thermal_zone_mode_attribute_group,
+=======
+<<<<<<< HEAD
+static const struct attribute_group *thermal_zone_attribute_groups[] = {
+	&thermal_zone_attribute_group,
+	&thermal_zone_mode_attribute_group,
+=======
+/* We expose passive only if passive trips are present */
+static struct attribute *thermal_zone_passive_attrs[] = {
+	&dev_attr_passive.attr,
+	NULL,
+};
+
+static umode_t thermal_zone_passive_is_visible(struct kobject *kobj,
+					       struct attribute *attr,
+					       int attrno)
+{
+	struct device *dev = kobj_to_dev(kobj);
+	struct thermal_zone_device *tz;
+	enum thermal_trip_type trip_type;
+	int count, passive = 0;
+
+	tz = container_of(dev, struct thermal_zone_device, device);
+
+	for (count = 0; count < tz->trips && !passive; count++) {
+		tz->ops->get_trip_type(tz, count, &trip_type);
+
+		if (trip_type == THERMAL_TRIP_PASSIVE)
+			passive = 1;
+	}
+
+	if (!passive)
+		return attr->mode;
+
+	return 0;
+}
+
+static const struct attribute_group thermal_zone_passive_attribute_group = {
+	.attrs = thermal_zone_passive_attrs,
+	.is_visible = thermal_zone_passive_is_visible,
+};
+
+static const struct attribute_group *thermal_zone_attribute_groups[] = {
+	&thermal_zone_attribute_group,
+	&thermal_zone_mode_attribute_group,
+	&thermal_zone_passive_attribute_group,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* This is not NULL terminated as we create the group dynamically */
 };
 
@@ -878,7 +982,18 @@ trip_point_show(struct device *dev, struct device_attribute *attr, char *buf)
 	instance =
 	    container_of(attr, struct thermal_instance, attr);
 
+<<<<<<< HEAD
 	return sprintf(buf, "%d\n", instance->trip);
+=======
+<<<<<<< HEAD
+	return sprintf(buf, "%d\n", instance->trip);
+=======
+	if (instance->trip == THERMAL_TRIPS_NONE)
+		return sprintf(buf, "-1\n");
+	else
+		return sprintf(buf, "%d\n", instance->trip);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 ssize_t

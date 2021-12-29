@@ -3,7 +3,11 @@
  *
  * Name: actbl2.h - ACPI Table Definitions (tables not in ACPI spec)
  *
+<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
+=======
+ * Copyright (C) 2000 - 2020, Intel Corp.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 
@@ -33,6 +37,10 @@
 #define ACPI_SIG_MPST           "MPST"	/* Memory Power State Table */
 #define ACPI_SIG_MSCT           "MSCT"	/* Maximum System Characteristics Table */
 #define ACPI_SIG_MSDM           "MSDM"	/* Microsoft Data Management Table */
+<<<<<<< HEAD
+=======
+#define ACPI_SIG_MTMR           "MTMR"	/* MID Timer table */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ACPI_SIG_NFIT           "NFIT"	/* NVDIMM Firmware Interface Table */
 #define ACPI_SIG_PCCT           "PCCT"	/* Platform Communications Channel Table */
 #define ACPI_SIG_PDTT           "PDTT"	/* Platform Debug Trigger Table */
@@ -936,6 +944,32 @@ struct acpi_table_msdm {
 
 /*******************************************************************************
  *
+<<<<<<< HEAD
+=======
+ * MTMR - MID Timer Table
+ *        Version 1
+ *
+ * Conforms to "Simple Firmware Interface Specification",
+ * Draft 0.8.2, Oct 19, 2010
+ * NOTE: The ACPI MTMR is equivalent to the SFI MTMR table.
+ *
+ ******************************************************************************/
+
+struct acpi_table_mtmr {
+	struct acpi_table_header header;	/* Common ACPI table header */
+};
+
+/* MTMR entry */
+
+struct acpi_mtmr_entry {
+	struct acpi_generic_address physical_address;
+	u32 frequency;
+	u32 irq;
+};
+
+/*******************************************************************************
+ *
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * NFIT - NVDIMM Interface Table (ACPI 6.0+)
  *        Version 1
  *

@@ -22,10 +22,16 @@ static const struct snd_sof_debugfs_map tgl_dsp_debugfs[] = {
 
 /* Tigerlake ops */
 const struct snd_sof_dsp_ops sof_tgl_ops = {
+<<<<<<< HEAD
 	/* probe/remove/shutdown */
 	.probe		= hda_dsp_probe,
 	.remove		= hda_dsp_remove,
 	.shutdown	= hda_dsp_shutdown,
+=======
+	/* probe and remove */
+	.probe		= hda_dsp_probe,
+	.remove		= hda_dsp_remove,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Register IO */
 	.write		= sof_io_write,
@@ -156,6 +162,7 @@ const struct sof_intel_dsp_desc tglh_chip_info = {
 };
 EXPORT_SYMBOL_NS(tglh_chip_info, SND_SOC_SOF_INTEL_HDA_COMMON);
 
+<<<<<<< HEAD
 const struct sof_intel_dsp_desc ehl_chip_info = {
 	/* Elkhartlake */
 	.cores_num = 4,
@@ -172,6 +179,8 @@ const struct sof_intel_dsp_desc ehl_chip_info = {
 };
 EXPORT_SYMBOL_NS(ehl_chip_info, SND_SOC_SOF_INTEL_HDA_COMMON);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 const struct sof_intel_dsp_desc adls_chip_info = {
 	/* Alderlake-S */
 	.cores_num = 2,

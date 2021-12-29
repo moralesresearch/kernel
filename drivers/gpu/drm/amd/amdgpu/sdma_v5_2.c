@@ -119,7 +119,19 @@ static int sdma_v5_2_init_inst_ctx(struct amdgpu_sdma_instance *sdma_inst)
 
 static void sdma_v5_2_destroy_inst_ctx(struct amdgpu_device *adev)
 {
+<<<<<<< HEAD
 	release_firmware(adev->sdma.instance[0].fw);
+=======
+	int i;
+
+	for (i = 0; i < adev->sdma.num_instances; i++) {
+		release_firmware(adev->sdma.instance[i].fw);
+		adev->sdma.instance[i].fw = NULL;
+
+		if (adev->asic_type == CHIP_SIENNA_CICHLID)
+			break;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memset((void *)adev->sdma.instance, 0,
 	       sizeof(struct amdgpu_sdma_instance) * AMDGPU_MAX_SDMA_INSTANCES);
@@ -177,10 +189,30 @@ static int sdma_v5_2_init_microcode(struct amdgpu_device *adev)
 	if (err)
 		goto out;
 
+<<<<<<< HEAD
 	for (i = 1; i < adev->sdma.num_instances; i++)
 		memcpy((void *)&adev->sdma.instance[i],
 		       (void *)&adev->sdma.instance[0],
 		       sizeof(struct amdgpu_sdma_instance));
+=======
+	for (i = 1; i < adev->sdma.num_instances; i++) {
+		if (adev->asic_type >= CHIP_SIENNA_CICHLID &&
+		    adev->asic_type <= CHIP_DIMGREY_CAVEFISH) {
+			memcpy((void *)&adev->sdma.instance[i],
+			       (void *)&adev->sdma.instance[0],
+			       sizeof(struct amdgpu_sdma_instance));
+		} else {
+			snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_sdma%d.bin", chip_name, i);
+			err = request_firmware(&adev->sdma.instance[i].fw, fw_name, adev->dev);
+			if (err)
+				goto out;
+
+			err = sdma_v5_2_init_inst_ctx(&adev->sdma.instance[i]);
+			if (err)
+				goto out;
+		}
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	DRM_DEBUG("psp_load == '%s'\n",
 		  adev->firmware.load_type == AMDGPU_FW_LOAD_PSP ? "true" : "false");
@@ -470,11 +502,14 @@ static void sdma_v5_2_gfx_stop(struct amdgpu_device *adev)
 		ib_cntl = REG_SET_FIELD(ib_cntl, SDMA0_GFX_IB_CNTL, IB_ENABLE, 0);
 		WREG32(sdma_v5_2_get_reg_offset(adev, i, mmSDMA0_GFX_IB_CNTL), ib_cntl);
 	}
+<<<<<<< HEAD
+=======
 
 	sdma0->sched.ready = false;
 	sdma1->sched.ready = false;
 	sdma2->sched.ready = false;
 	sdma3->sched.ready = false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**

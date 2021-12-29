@@ -189,8 +189,13 @@ static bool dce60_is_tg_enabled(struct timing_generator *tg)
 	return field == 1;
 }
 
+<<<<<<< HEAD
 static bool dce60_configure_crc(struct timing_generator *tg,
 				const struct crc_params *params)
+=======
+bool dce60_configure_crc(struct timing_generator *tg,
+			  const struct crc_params *params)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/* Cannot configure crc on a CRTC that is disabled */
 	if (!dce60_is_tg_enabled(tg))

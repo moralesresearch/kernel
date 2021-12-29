@@ -125,6 +125,10 @@ static int vmw_ldu_commit_list(struct vmw_private *dev_priv)
 		vmw_write(dev_priv, SVGA_REG_DISPLAY_POSITION_Y, crtc->y);
 		vmw_write(dev_priv, SVGA_REG_DISPLAY_WIDTH, crtc->mode.hdisplay);
 		vmw_write(dev_priv, SVGA_REG_DISPLAY_HEIGHT, crtc->mode.vdisplay);
+<<<<<<< HEAD
+=======
+		vmw_write(dev_priv, SVGA_REG_DISPLAY_ID, SVGA_ID_INVALID);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		i++;
 	}
@@ -354,7 +358,11 @@ static const struct drm_crtc_helper_funcs vmw_ldu_crtc_helper_funcs = {
 static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
 {
 	struct vmw_legacy_display_unit *ldu;
+<<<<<<< HEAD
 	struct drm_device *dev = &dev_priv->drm;
+=======
+	struct drm_device *dev = dev_priv->dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_connector *connector;
 	struct drm_encoder *encoder;
 	struct drm_plane *primary, *cursor;
@@ -478,7 +486,11 @@ err_free:
 
 int vmw_kms_ldu_init_display(struct vmw_private *dev_priv)
 {
+<<<<<<< HEAD
 	struct drm_device *dev = &dev_priv->drm;
+=======
+	struct drm_device *dev = dev_priv->dev;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, ret;
 
 	if (dev_priv->ldu_priv) {
@@ -553,7 +565,11 @@ int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
 	} *cmd;
 
 	fifo_size = sizeof(*cmd) * num_clips;
+<<<<<<< HEAD
 	cmd = VMW_CMD_RESERVE(dev_priv, fifo_size);
+=======
+	cmd = VMW_FIFO_RESERVE(dev_priv, fifo_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -566,6 +582,10 @@ int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
 		cmd[i].body.height = clips->y2 - clips->y1;
 	}
 
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, fifo_size);
+=======
+	vmw_fifo_commit(dev_priv, fifo_size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }

@@ -20,9 +20,12 @@ properties:
     oneOf:
       - const: allwinner,sun8i-h3-deinterlace
       - items:
+<<<<<<< HEAD
           - const: allwinner,sun8i-r40-deinterlace
           - const: allwinner,sun8i-h3-deinterlace
       - items:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
           - const: allwinner,sun50i-a64-deinterlace
           - const: allwinner,sun8i-h3-deinterlace
 

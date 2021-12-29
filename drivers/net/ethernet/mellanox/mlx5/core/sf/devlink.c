@@ -128,10 +128,17 @@ static enum devlink_port_fn_state mlx5_sf_to_devlink_state(u8 hw_state)
 	switch (hw_state) {
 	case MLX5_VHCA_STATE_ACTIVE:
 	case MLX5_VHCA_STATE_IN_USE:
+<<<<<<< HEAD
+		return DEVLINK_PORT_FN_STATE_ACTIVE;
+	case MLX5_VHCA_STATE_INVALID:
+	case MLX5_VHCA_STATE_ALLOCATED:
+	case MLX5_VHCA_STATE_TEARDOWN_REQUEST:
+=======
 	case MLX5_VHCA_STATE_TEARDOWN_REQUEST:
 		return DEVLINK_PORT_FN_STATE_ACTIVE;
 	case MLX5_VHCA_STATE_INVALID:
 	case MLX5_VHCA_STATE_ALLOCATED:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return DEVLINK_PORT_FN_STATE_INACTIVE;
 	}
@@ -184,14 +191,26 @@ sf_err:
 	return err;
 }
 
+<<<<<<< HEAD
+static int mlx5_sf_activate(struct mlx5_core_dev *dev, struct mlx5_sf *sf,
+			    struct netlink_ext_ack *extack)
+=======
 static int mlx5_sf_activate(struct mlx5_core_dev *dev, struct mlx5_sf *sf)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 
 	if (mlx5_sf_is_active(sf))
 		return 0;
+<<<<<<< HEAD
+	if (sf->hw_state != MLX5_VHCA_STATE_ALLOCATED) {
+		NL_SET_ERR_MSG_MOD(extack, "SF is inactivated but it is still attached");
+		return -EBUSY;
+	}
+=======
 	if (sf->hw_state != MLX5_VHCA_STATE_ALLOCATED)
 		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = mlx5_cmd_sf_enable_hca(dev, sf->hw_fn_id);
 	if (err)
@@ -218,7 +237,12 @@ static int mlx5_sf_deactivate(struct mlx5_core_dev *dev, struct mlx5_sf *sf)
 
 static int mlx5_sf_state_set(struct mlx5_core_dev *dev, struct mlx5_sf_table *table,
 			     struct mlx5_sf *sf,
+<<<<<<< HEAD
+			     enum devlink_port_fn_state state,
+			     struct netlink_ext_ack *extack)
+=======
 			     enum devlink_port_fn_state state)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err = 0;
 
@@ -226,7 +250,11 @@ static int mlx5_sf_state_set(struct mlx5_core_dev *dev, struct mlx5_sf_table *ta
 	if (state == mlx5_sf_to_devlink_state(sf->hw_state))
 		goto out;
 	if (state == DEVLINK_PORT_FN_STATE_ACTIVE)
+<<<<<<< HEAD
+		err = mlx5_sf_activate(dev, sf, extack);
+=======
 		err = mlx5_sf_activate(dev, sf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else if (state == DEVLINK_PORT_FN_STATE_INACTIVE)
 		err = mlx5_sf_deactivate(dev, sf);
 	else
@@ -257,7 +285,11 @@ int mlx5_devlink_sf_port_fn_state_set(struct devlink *devlink, struct devlink_po
 		goto out;
 	}
 
+<<<<<<< HEAD
+	err = mlx5_sf_state_set(dev, table, sf, state, extack);
+=======
 	err = mlx5_sf_state_set(dev, table, sf, state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	mlx5_sf_table_put(table);
 	return err;

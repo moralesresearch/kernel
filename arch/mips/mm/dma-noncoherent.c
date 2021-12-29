@@ -10,6 +10,13 @@
 
 #include <asm/cache.h>
 #include <asm/cpu-type.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#include <asm/dma-coherence.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/io.h>
 
 /*
@@ -135,7 +142,15 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
 }
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
+=======
+<<<<<<< HEAD
+#ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
+=======
+#ifdef CONFIG_DMA_PERDEV_COHERENT
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
 		const struct iommu_ops *iommu, bool coherent)
 {

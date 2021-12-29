@@ -9,4 +9,7 @@ obj-$(CONFIG_MTD_AFS_PARTS)		+= afs.o
 obj-$(CONFIG_MTD_PARSER_TRX)		+= parser_trx.o
 obj-$(CONFIG_MTD_SHARPSL_PARTS)		+= sharpslpart.o
 obj-$(CONFIG_MTD_REDBOOT_PARTS)		+= redboot.o
+<<<<<<< HEAD
 obj-$(CONFIG_MTD_QCOMSMEM_PARTS)	+= qcomsmempart.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

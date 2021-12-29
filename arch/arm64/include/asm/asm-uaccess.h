@@ -15,10 +15,17 @@
 	.macro	__uaccess_ttbr0_disable, tmp1
 	mrs	\tmp1, ttbr1_el1			// swapper_pg_dir
 	bic	\tmp1, \tmp1, #TTBR_ASID_MASK
+<<<<<<< HEAD
 	sub	\tmp1, \tmp1, #RESERVED_SWAPPER_OFFSET	// reserved_pg_dir
 	msr	ttbr0_el1, \tmp1			// set reserved TTBR0_EL1
 	isb
 	add	\tmp1, \tmp1, #RESERVED_SWAPPER_OFFSET
+=======
+	sub	\tmp1, \tmp1, #PAGE_SIZE		// reserved_pg_dir just before swapper_pg_dir
+	msr	ttbr0_el1, \tmp1			// set reserved TTBR0_EL1
+	isb
+	add	\tmp1, \tmp1, #PAGE_SIZE
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	msr	ttbr1_el1, \tmp1		// set reserved ASID
 	isb
 	.endm

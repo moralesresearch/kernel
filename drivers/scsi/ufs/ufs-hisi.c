@@ -467,21 +467,40 @@ static int ufs_hisi_init_common(struct ufs_hba *hba)
 	host->hba = hba;
 	ufshcd_set_variant(hba, host);
 
+<<<<<<< HEAD
+	host->rst = devm_reset_control_get(dev, "rst");
+	if (IS_ERR(host->rst)) {
+		dev_err(dev, "%s: failed to get reset control\n", __func__);
+		err = PTR_ERR(host->rst);
+		goto error;
+=======
 	host->rst  = devm_reset_control_get(dev, "rst");
 	if (IS_ERR(host->rst)) {
 		dev_err(dev, "%s: failed to get reset control\n", __func__);
 		return PTR_ERR(host->rst);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	ufs_hisi_set_pm_lvl(hba);
 
 	err = ufs_hisi_get_resource(host);
+<<<<<<< HEAD
+	if (err)
+		goto error;
+
+	return 0;
+
+error:
+	ufshcd_set_variant(hba, NULL);
+	return err;
+=======
 	if (err) {
 		ufshcd_set_variant(hba, NULL);
 		return err;
 	}
 
 	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ufs_hi3660_init(struct ufs_hba *hba)

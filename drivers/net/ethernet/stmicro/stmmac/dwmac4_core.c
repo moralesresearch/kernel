@@ -638,6 +638,10 @@ static void dwmac4_set_filter(struct mac_device_info *hw,
 	value &= ~GMAC_PACKET_FILTER_PCF;
 	value &= ~GMAC_PACKET_FILTER_PM;
 	value &= ~GMAC_PACKET_FILTER_PR;
+<<<<<<< HEAD
+	value &= ~GMAC_PACKET_FILTER_RA;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dev->flags & IFF_PROMISC) {
 		/* VLAN Tag Filter Fail Packets Queuing */
 		if (hw->vlan_fail_q_en) {

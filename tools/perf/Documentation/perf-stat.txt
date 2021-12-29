@@ -75,6 +75,7 @@ report::
 --tid=<tid>::
         stat events on existing thread id (comma separated list)
 
+<<<<<<< HEAD
 -b::
 --bpf-prog::
         stat events on existing bpf program id (comma separated list),
@@ -93,6 +94,8 @@ report::
 
         1.102235068 seconds time elapsed
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ifdef::HAVE_LIBPFM[]
 --pfm-events events::
 Select a PMU event using libpfm4 syntax (see http://perfmon2.sf.net)
@@ -376,7 +379,11 @@ See perf list output for the possble metrics and metricgroups.
 Do not aggregate counts across all monitored CPUs.
 
 --topdown::
+<<<<<<< HEAD
 Print complete top-down metrics supported by the CPU. This allows to
+=======
+Print top down level 1 metrics if supported by the CPU. This allows to
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 determine bottle necks in the CPU pipeline for CPU bound workloads,
 by breaking the cycles consumed down into frontend bound, backend bound,
 bad speculation and retiring.
@@ -411,6 +418,7 @@ To interpret the results it is usually needed to know on which
 CPUs the workload runs on. If needed the CPUs can be forced using
 taskset.
 
+<<<<<<< HEAD
 --td-level::
 Print the top-down statistics that equal to or lower than the input level.
 It allows users to print the interested top-down metrics level instead of
@@ -423,6 +431,8 @@ supports both L1 and L2 top-down metrics.
 Default: 0 means the max level that the current hardware support.
 Error out if the input is higher than the supported max level.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 --no-merge::
 Do not merge results from same PMUs.
 

@@ -370,14 +370,21 @@ static int qxl_clientcap_ioctl(struct drm_device *dev, void *data,
 				  struct drm_file *file_priv)
 {
 	struct qxl_device *qdev = to_qxl(dev);
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct drm_qxl_clientcap *param = data;
 	int byte, idx;
 
 	byte = param->index / 8;
 	idx = param->index % 8;
 
+<<<<<<< HEAD
 	if (pdev->revision < 4)
+=======
+	if (dev->pdev->revision < 4)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENOSYS;
 
 	if (byte >= 58)

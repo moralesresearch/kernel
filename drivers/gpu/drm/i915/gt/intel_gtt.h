@@ -573,9 +573,12 @@ int i915_vm_pin_pt_stash(struct i915_address_space *vm,
 void i915_vm_free_pt_stash(struct i915_address_space *vm,
 			   struct i915_vm_pt_stash *stash);
 
+<<<<<<< HEAD
 struct i915_vma *
 __vm_create_scratch_for_read(struct i915_address_space *vm, unsigned long size);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline struct sgt_dma {
 	struct scatterlist *sg;
 	dma_addr_t dma, max;

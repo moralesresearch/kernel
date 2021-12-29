@@ -61,6 +61,11 @@ struct snd_usb_audio {
 	struct media_intf_devnode *ctl_intf_media_devnode;
 };
 
+<<<<<<< HEAD
+#define USB_AUDIO_IFACE_UNUSED	((void *)-1L)
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define usb_audio_err(chip, fmt, args...) \
 	dev_err(&(chip)->dev->dev, fmt, ##args)
 #define usb_audio_warn(chip, fmt, args...) \

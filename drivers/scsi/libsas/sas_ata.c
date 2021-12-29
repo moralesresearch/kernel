@@ -201,17 +201,29 @@ static unsigned int sas_ata_qc_issue(struct ata_queued_cmd *qc)
 		memcpy(task->ata_task.atapi_packet, qc->cdb, qc->dev->cdb_len);
 		task->total_xfer_len = qc->nbytes;
 		task->num_scatter = qc->n_elem;
+<<<<<<< HEAD
 		task->data_dir = qc->dma_dir;
 	} else if (qc->tf.protocol == ATA_PROT_NODATA) {
 		task->data_dir = DMA_NONE;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		for_each_sg(qc->sg, sg, qc->n_elem, si)
 			xfer += sg_dma_len(sg);
 
 		task->total_xfer_len = xfer;
 		task->num_scatter = si;
+<<<<<<< HEAD
 		task->data_dir = qc->dma_dir;
 	}
+=======
+	}
+
+	if (qc->tf.protocol == ATA_PROT_NODATA)
+		task->data_dir = DMA_NONE;
+	else
+		task->data_dir = qc->dma_dir;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	task->scatter = qc->sg;
 	task->ata_task.retry_count = 1;
 	task->task_state_flags = SAS_TASK_STATE_PENDING;

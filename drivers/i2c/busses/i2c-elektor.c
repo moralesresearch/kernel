@@ -49,7 +49,11 @@ static int mmapped;
 
 static wait_queue_head_t pcf_wait;
 static int pcf_pending;
+<<<<<<< HEAD
 static DEFINE_SPINLOCK(lock);
+=======
+static spinlock_t lock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct i2c_adapter pcf_isa_ops;
 
@@ -132,6 +136,10 @@ static irqreturn_t pcf_isa_handler(int this_irq, void *dev_id) {
 
 static int pcf_isa_init(void)
 {
+<<<<<<< HEAD
+=======
+	spin_lock_init(&lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!mmapped) {
 		if (!request_region(base, 2, pcf_isa_ops.name)) {
 			printk(KERN_ERR "%s: requested I/O region (%#x:2) is "
@@ -281,7 +289,11 @@ static int elektor_probe(struct device *dev, unsigned int id)
 	return -ENODEV;
 }
 
+<<<<<<< HEAD
 static void elektor_remove(struct device *dev, unsigned int id)
+=======
+static int elektor_remove(struct device *dev, unsigned int id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	i2c_del_adapter(&pcf_isa_ops);
 
@@ -297,6 +309,11 @@ static void elektor_remove(struct device *dev, unsigned int id)
 		iounmap(base_iomem);
 		release_mem_region(base, 2);
 	}
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct isa_driver i2c_elektor_driver = {

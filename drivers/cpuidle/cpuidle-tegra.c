@@ -135,6 +135,15 @@ static int tegra_cpuidle_c7_enter(void)
 {
 	int err;
 
+<<<<<<< HEAD
+	err = call_firmware_op(prepare_idle, TF_PM_MODE_LP2_NOFLUSH_L2);
+	if (err && err != -ENOSYS)
+		return err;
+
+	err = call_firmware_op(do_idle, 0);
+	if (err != -ENOSYS)
+		return err;
+=======
 	if (tegra_cpuidle_using_firmware()) {
 		err = call_firmware_op(prepare_idle, TF_PM_MODE_LP2_NOFLUSH_L2);
 		if (err)
@@ -142,6 +151,7 @@ static int tegra_cpuidle_c7_enter(void)
 
 		return call_firmware_op(do_idle, 0);
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return cpu_suspend(0, tegra30_pm_secondary_cpu_suspend);
 }

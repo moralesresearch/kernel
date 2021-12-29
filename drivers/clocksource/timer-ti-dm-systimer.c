@@ -2,6 +2,10 @@
 #include <linux/clk.h>
 #include <linux/clocksource.h>
 #include <linux/clockchips.h>
+<<<<<<< HEAD
+#include <linux/cpuhotplug.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/interrupt.h>
 #include <linux/io.h>
 #include <linux/iopoll.h>
@@ -449,6 +453,15 @@ static int dmtimer_set_next_event(unsigned long cycles,
 	struct dmtimer_systimer *t = &clkevt->t;
 	void __iomem *pend = t->base + t->pend;
 
+<<<<<<< HEAD
+	while (readl_relaxed(pend) & WP_TCRR)
+		cpu_relax();
+	writel_relaxed(0xffffffff - cycles, t->base + t->counter);
+
+	while (readl_relaxed(pend) & WP_TCLR)
+		cpu_relax();
+	writel_relaxed(OMAP_TIMER_CTRL_ST, t->base + t->ctrl);
+=======
 	writel_relaxed(0xffffffff - cycles, t->base + t->counter);
 	while (readl_relaxed(pend) & WP_TCRR)
 		cpu_relax();
@@ -456,6 +469,7 @@ static int dmtimer_set_next_event(unsigned long cycles,
 	writel_relaxed(OMAP_TIMER_CTRL_ST, t->base + t->ctrl);
 	while (readl_relaxed(pend) & WP_TCLR)
 		cpu_relax();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -490,6 +504,20 @@ static int dmtimer_set_periodic(struct clock_event_device *evt)
 	dmtimer_clockevent_shutdown(evt);
 
 	/* Looks like we need to first set the load value separately */
+<<<<<<< HEAD
+	while (readl_relaxed(pend) & WP_TLDR)
+		cpu_relax();
+	writel_relaxed(clkevt->period, t->base + t->load);
+
+	while (readl_relaxed(pend) & WP_TCRR)
+		cpu_relax();
+	writel_relaxed(clkevt->period, t->base + t->counter);
+
+	while (readl_relaxed(pend) & WP_TCLR)
+		cpu_relax();
+	writel_relaxed(OMAP_TIMER_CTRL_AR | OMAP_TIMER_CTRL_ST,
+		       t->base + t->ctrl);
+=======
 	writel_relaxed(clkevt->period, t->base + t->load);
 	while (readl_relaxed(pend) & WP_TLDR)
 		cpu_relax();
@@ -502,6 +530,7 @@ static int dmtimer_set_periodic(struct clock_event_device *evt)
 		       t->base + t->ctrl);
 	while (readl_relaxed(pend) & WP_TCLR)
 		cpu_relax();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -530,17 +559,30 @@ static void omap_clockevent_unidle(struct clock_event_device *evt)
 	writel_relaxed(OMAP_TIMER_INT_OVERFLOW, t->base + t->wakeup);
 }
 
+<<<<<<< HEAD
+static int __init dmtimer_clkevt_init_common(struct dmtimer_clockevent *clkevt,
+					     struct device_node *np,
+					     unsigned int features,
+					     const struct cpumask *cpumask,
+					     const char *name,
+					     int rating)
+{
+=======
 static int __init dmtimer_clockevent_init(struct device_node *np)
 {
 	struct dmtimer_clockevent *clkevt;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct clock_event_device *dev;
 	struct dmtimer_systimer *t;
 	int error;
 
+<<<<<<< HEAD
+=======
 	clkevt = kzalloc(sizeof(*clkevt), GFP_KERNEL);
 	if (!clkevt)
 		return -ENOMEM;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	t = &clkevt->t;
 	dev = &clkevt->dev;
 
@@ -548,12 +590,30 @@ static int __init dmtimer_clockevent_init(struct device_node *np)
 	 * We mostly use cpuidle_coupled with ARM local timers for runtime,
 	 * so there's probably no use for CLOCK_EVT_FEAT_DYNIRQ here.
 	 */
+<<<<<<< HEAD
+	dev->features = features;
+	dev->rating = rating;
+=======
 	dev->features = CLOCK_EVT_FEAT_PERIODIC | CLOCK_EVT_FEAT_ONESHOT;
 	dev->rating = 300;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev->set_next_event = dmtimer_set_next_event;
 	dev->set_state_shutdown = dmtimer_clockevent_shutdown;
 	dev->set_state_periodic = dmtimer_set_periodic;
 	dev->set_state_oneshot = dmtimer_clockevent_shutdown;
+<<<<<<< HEAD
+	dev->set_state_oneshot_stopped = dmtimer_clockevent_shutdown;
+	dev->tick_resume = dmtimer_clockevent_shutdown;
+	dev->cpumask = cpumask;
+
+	dev->irq = irq_of_parse_and_map(np, 0);
+	if (!dev->irq)
+		return -ENXIO;
+
+	error = dmtimer_systimer_setup(np, &clkevt->t);
+	if (error)
+		return error;
+=======
 	dev->tick_resume = dmtimer_clockevent_shutdown;
 	dev->cpumask = cpu_possible_mask;
 
@@ -566,6 +626,7 @@ static int __init dmtimer_clockevent_init(struct device_node *np)
 	error = dmtimer_systimer_setup(np, &clkevt->t);
 	if (error)
 		goto err_out_free;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	clkevt->period = 0xffffffff - DIV_ROUND_CLOSEST(t->rate, HZ);
 
@@ -577,38 +638,159 @@ static int __init dmtimer_clockevent_init(struct device_node *np)
 	writel_relaxed(OMAP_TIMER_CTRL_POSTED, t->base + t->ifctrl);
 
 	error = request_irq(dev->irq, dmtimer_clockevent_interrupt,
+<<<<<<< HEAD
+			    IRQF_TIMER, name, clkevt);
+=======
 			    IRQF_TIMER, "clockevent", clkevt);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto err_out_unmap;
 
 	writel_relaxed(OMAP_TIMER_INT_OVERFLOW, t->base + t->irq_ena);
 	writel_relaxed(OMAP_TIMER_INT_OVERFLOW, t->base + t->wakeup);
 
-	pr_info("TI gptimer clockevent: %s%lu Hz at %pOF\n",
-		of_find_property(np, "ti,timer-alwon", NULL) ?
+<<<<<<< HEAD
+	pr_info("TI gptimer %s: %s%lu Hz at %pOF\n",
+		name, of_find_property(np, "ti,timer-alwon", NULL) ?
 		"always-on " : "", t->rate, np->parent);
-
-	clockevents_config_and_register(dev, t->rate,
-					3, /* Timer internal resynch latency */
-					0xffffffff);
-
-	if (of_machine_is_compatible("ti,am33xx") ||
-	    of_machine_is_compatible("ti,am43")) {
-		dev->suspend = omap_clockevent_idle;
-		dev->resume = omap_clockevent_unidle;
-	}
 
 	return 0;
 
 err_out_unmap:
 	iounmap(t->base);
 
+	return error;
+}
+
+static int __init dmtimer_clockevent_init(struct device_node *np)
+{
+	struct dmtimer_clockevent *clkevt;
+	int error;
+
+	clkevt = kzalloc(sizeof(*clkevt), GFP_KERNEL);
+	if (!clkevt)
+		return -ENOMEM;
+
+	error = dmtimer_clkevt_init_common(clkevt, np,
+					   CLOCK_EVT_FEAT_PERIODIC |
+					   CLOCK_EVT_FEAT_ONESHOT,
+					   cpu_possible_mask, "clockevent",
+					   300);
+	if (error)
+		goto err_out_free;
+
+	clockevents_config_and_register(&clkevt->dev, clkevt->t.rate,
+					3, /* Timer internal resync latency */
+=======
+	pr_info("TI gptimer clockevent: %s%lu Hz at %pOF\n",
+		of_find_property(np, "ti,timer-alwon", NULL) ?
+		"always-on " : "", t->rate, np->parent);
+
+	clockevents_config_and_register(dev, t->rate,
+					3, /* Timer internal resynch latency */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+					0xffffffff);
+
+	if (of_machine_is_compatible("ti,am33xx") ||
+	    of_machine_is_compatible("ti,am43")) {
+<<<<<<< HEAD
+		clkevt->dev.suspend = omap_clockevent_idle;
+		clkevt->dev.resume = omap_clockevent_unidle;
+=======
+		dev->suspend = omap_clockevent_idle;
+		dev->resume = omap_clockevent_unidle;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
+	}
+
+	return 0;
+
+<<<<<<< HEAD
+=======
+err_out_unmap:
+	iounmap(t->base);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_out_free:
 	kfree(clkevt);
 
 	return error;
 }
 
+<<<<<<< HEAD
+/* Dmtimer as percpu timer. See dra7 ARM architected timer wrap erratum i940 */
+static DEFINE_PER_CPU(struct dmtimer_clockevent, dmtimer_percpu_timer);
+
+static int __init dmtimer_percpu_timer_init(struct device_node *np, int cpu)
+{
+	struct dmtimer_clockevent *clkevt;
+	int error;
+
+	if (!cpu_possible(cpu))
+		return -EINVAL;
+
+	if (!of_property_read_bool(np->parent, "ti,no-reset-on-init") ||
+	    !of_property_read_bool(np->parent, "ti,no-idle"))
+		pr_warn("Incomplete dtb for percpu dmtimer %pOF\n", np->parent);
+
+	clkevt = per_cpu_ptr(&dmtimer_percpu_timer, cpu);
+
+	error = dmtimer_clkevt_init_common(clkevt, np, CLOCK_EVT_FEAT_ONESHOT,
+					   cpumask_of(cpu), "percpu-dmtimer",
+					   500);
+	if (error)
+		return error;
+
+	return 0;
+}
+
+/* See TRM for timer internal resynch latency */
+static int omap_dmtimer_starting_cpu(unsigned int cpu)
+{
+	struct dmtimer_clockevent *clkevt = per_cpu_ptr(&dmtimer_percpu_timer, cpu);
+	struct clock_event_device *dev = &clkevt->dev;
+	struct dmtimer_systimer *t = &clkevt->t;
+
+	clockevents_config_and_register(dev, t->rate, 3, ULONG_MAX);
+	irq_force_affinity(dev->irq, cpumask_of(cpu));
+
+	return 0;
+}
+
+static int __init dmtimer_percpu_timer_startup(void)
+{
+	struct dmtimer_clockevent *clkevt = per_cpu_ptr(&dmtimer_percpu_timer, 0);
+	struct dmtimer_systimer *t = &clkevt->t;
+
+	if (t->sysc) {
+		cpuhp_setup_state(CPUHP_AP_TI_GP_TIMER_STARTING,
+				  "clockevents/omap/gptimer:starting",
+				  omap_dmtimer_starting_cpu, NULL);
+	}
+
+	return 0;
+}
+subsys_initcall(dmtimer_percpu_timer_startup);
+
+static int __init dmtimer_percpu_quirk_init(struct device_node *np, u32 pa)
+{
+	struct device_node *arm_timer;
+
+	arm_timer = of_find_compatible_node(NULL, NULL, "arm,armv7-timer");
+	if (of_device_is_available(arm_timer)) {
+		pr_warn_once("ARM architected timer wrap issue i940 detected\n");
+		return 0;
+	}
+
+	if (pa == 0x48034000)		/* dra7 dmtimer3 */
+		return dmtimer_percpu_timer_init(np, 0);
+	else if (pa == 0x48036000)	/* dra7 dmtimer4 */
+		return dmtimer_percpu_timer_init(np, 1);
+
+	return 0;
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Clocksource */
 static struct dmtimer_clocksource *
 to_dmtimer_clocksource(struct clocksource *cs)
@@ -742,6 +924,12 @@ static int __init dmtimer_systimer_init(struct device_node *np)
 	if (clockevent == pa)
 		return dmtimer_clockevent_init(np);
 
+<<<<<<< HEAD
+	if (of_machine_is_compatible("ti,dra7"))
+		return dmtimer_percpu_quirk_init(np, pa);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

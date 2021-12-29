@@ -37,6 +37,13 @@ struct olpc_ec_priv {
 	struct mutex cmd_lock;
 
 	/* DCON regulator */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	struct regulator_dev *dcon_rdev;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool dcon_enabled;
 
 	/* Pending EC commands */
@@ -386,26 +393,55 @@ static int dcon_regulator_is_enabled(struct regulator_dev *rdev)
 	return ec->dcon_enabled ? 1 : 0;
 }
 
+<<<<<<< HEAD
 static const struct regulator_ops dcon_regulator_ops = {
+=======
+<<<<<<< HEAD
+static const struct regulator_ops dcon_regulator_ops = {
+=======
+static struct regulator_ops dcon_regulator_ops = {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.enable		= dcon_regulator_enable,
 	.disable	= dcon_regulator_disable,
 	.is_enabled	= dcon_regulator_is_enabled,
 };
 
 static const struct regulator_desc dcon_desc = {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name		= "dcon",
 	.id		= 0,
 	.ops		= &dcon_regulator_ops,
 	.type		= REGULATOR_VOLTAGE,
 	.owner		= THIS_MODULE,
 	.enable_time	= 25000,
+<<<<<<< HEAD
+=======
+=======
+	.name	= "dcon",
+	.id	= 0,
+	.ops	= &dcon_regulator_ops,
+	.type	= REGULATOR_VOLTAGE,
+	.owner	= THIS_MODULE,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int olpc_ec_probe(struct platform_device *pdev)
 {
 	struct olpc_ec_priv *ec;
 	struct regulator_config config = { };
+<<<<<<< HEAD
 	struct regulator_dev *regulator;
+=======
+<<<<<<< HEAD
+	struct regulator_dev *regulator;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err;
 
 	if (!ec_driver)
@@ -433,10 +469,24 @@ static int olpc_ec_probe(struct platform_device *pdev)
 	config.dev = pdev->dev.parent;
 	config.driver_data = ec;
 	ec->dcon_enabled = true;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	regulator = devm_regulator_register(&pdev->dev, &dcon_desc, &config);
 	if (IS_ERR(regulator)) {
 		dev_err(&pdev->dev, "failed to register DCON regulator\n");
 		err = PTR_ERR(regulator);
+<<<<<<< HEAD
+=======
+=======
+	ec->dcon_rdev = devm_regulator_register(&pdev->dev, &dcon_desc,
+								&config);
+	if (IS_ERR(ec->dcon_rdev)) {
+		dev_err(&pdev->dev, "failed to register DCON regulator\n");
+		err = PTR_ERR(ec->dcon_rdev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto error;
 	}
 

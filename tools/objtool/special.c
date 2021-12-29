@@ -11,11 +11,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+<<<<<<< HEAD
 #include <arch/special.h>
 #include <objtool/builtin.h>
 #include <objtool/special.h>
 #include <objtool/warn.h>
 #include <objtool/endianness.h>
+=======
+#include "builtin.h"
+#include "special.h"
+#include "warn.h"
+#include "arch_special.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct special_entry {
 	const char *sec;
@@ -78,9 +85,14 @@ static int get_alt_entry(struct elf *elf, struct special_entry *entry,
 	if (entry->feature) {
 		unsigned short feature;
 
+<<<<<<< HEAD
 		feature = bswap_if_needed(*(unsigned short *)(sec->data->d_buf +
 							      offset +
 							      entry->feature));
+=======
+		feature = *(unsigned short *)(sec->data->d_buf + offset +
+					      entry->feature);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		arch_handle_alternative(feature, alt);
 	}
 

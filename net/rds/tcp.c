@@ -313,8 +313,13 @@ out:
 }
 #endif
 
+<<<<<<< HEAD
+int rds_tcp_laddr_check(struct net *net, const struct in6_addr *addr,
+			__u32 scope_id)
+=======
 static int rds_tcp_laddr_check(struct net *net, const struct in6_addr *addr,
 			       __u32 scope_id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct net_device *dev = NULL;
 #if IS_ENABLED(CONFIG_IPV6)

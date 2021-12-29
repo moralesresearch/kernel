@@ -10,7 +10,10 @@
  */
 
 #include <crypto/algapi.h>
+<<<<<<< HEAD
 #include <crypto/internal/cipher.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <crypto/internal/skcipher.h>
 #include <linux/err.h>
 #include <linux/init.h>
@@ -192,4 +195,7 @@ module_exit(crypto_pcbc_module_exit);
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("PCBC block cipher mode of operation");
 MODULE_ALIAS_CRYPTO("pcbc");
+<<<<<<< HEAD
 MODULE_IMPORT_NS(CRYPTO_INTERNAL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

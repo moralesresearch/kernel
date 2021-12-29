@@ -36,9 +36,15 @@ struct power_pmu {
 	unsigned long	test_adder;
 	int		(*compute_mmcr)(u64 events[], int n_ev,
 				unsigned int hwc[], struct mmcr_regs *mmcr,
+<<<<<<< HEAD
 				struct perf_event *pevents[], u32 flags);
 	int		(*get_constraint)(u64 event_id, unsigned long *mskp,
 				unsigned long *valp, u64 event_config1);
+=======
+				struct perf_event *pevents[]);
+	int		(*get_constraint)(u64 event_id, unsigned long *mskp,
+				unsigned long *valp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int		(*get_alternatives)(u64 event_id, unsigned int flags,
 				u64 alt[]);
 	void		(*get_mem_data_src)(union perf_mem_data_src *dsrc,
@@ -83,7 +89,10 @@ struct power_pmu {
 #define PPMU_NO_SIAR		0x00000100 /* Do not use SIAR */
 #define PPMU_ARCH_31		0x00000200 /* Has MMCR3, SIER2 and SIER3 */
 #define PPMU_P10_DD1		0x00000400 /* Is power10 DD1 processor version */
+<<<<<<< HEAD
 #define PPMU_HAS_ATTR_CONFIG1	0x00000800 /* Using config1 attribute */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Values for flags to get_alternatives()

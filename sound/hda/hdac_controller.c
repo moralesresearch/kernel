@@ -648,6 +648,7 @@ void snd_hdac_bus_free_stream_pages(struct hdac_bus *bus)
 		snd_dma_free_pages(&bus->posbuf);
 }
 EXPORT_SYMBOL_GPL(snd_hdac_bus_free_stream_pages);
+<<<<<<< HEAD
 
 /**
  * snd_hdac_bus_link_power - power up/down codec link
@@ -662,3 +663,5 @@ void snd_hdac_bus_link_power(struct hdac_device *codec, bool enable)
 		clear_bit(codec->addr, &codec->bus->codec_powered);
 }
 EXPORT_SYMBOL_GPL(snd_hdac_bus_link_power);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

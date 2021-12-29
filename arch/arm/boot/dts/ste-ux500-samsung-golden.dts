@@ -5,7 +5,10 @@
 #include "ste-ab8505.dtsi"
 #include "ste-dbx5x0-pinctrl.dtsi"
 #include <dt-bindings/gpio/gpio.h>
+<<<<<<< HEAD
 #include <dt-bindings/leds/common.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 
@@ -73,7 +76,11 @@
 
 	soc {
 		/* External Micro SD card slot */
+<<<<<<< HEAD
 		mmc@80126000 {
+=======
+		sdi0_per1@80126000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "okay";
 
 			arm,primecell-periphid = <0x10480180>;
@@ -101,7 +108,11 @@
 		};
 
 		/* WLAN SDIO */
+<<<<<<< HEAD
 		mmc@80118000 {
+=======
+		sdi1_per2@80118000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "okay";
 
 			arm,primecell-periphid = <0x10480180>;
@@ -135,7 +146,11 @@
 		};
 
 		/* eMMC */
+<<<<<<< HEAD
 		mmc@80005000 {
+=======
+		sdi2_per3@80005000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "okay";
 
 			arm,primecell-periphid = <0x10480180>;
@@ -375,6 +390,7 @@
 		};
 	};
 
+<<<<<<< HEAD
 	/* Richtek RT8515GQW Flash LED Driver IC */
 	flash {
 		compatible = "richtek,rt8515";
@@ -401,6 +417,8 @@
 		};
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vibrator {
 		compatible = "gpio-vibrator";
 		/* GPIO195 (MOT_EN) */
@@ -526,6 +544,7 @@
 		};
 	};
 
+<<<<<<< HEAD
 	flash {
 		gpio_flash_default_mode: flash_default {
 			golden_cfg1 {
@@ -535,6 +554,8 @@
 		};
 	};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	i2c-gpio-1 {
 		i2c_gpio_1_default: i2c_gpio_1 {
 			golden_cfg1 {

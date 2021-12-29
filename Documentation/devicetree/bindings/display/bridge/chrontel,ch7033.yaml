@@ -19,16 +19,28 @@ properties:
     description: I2C address of the device
 
   ports:
+<<<<<<< HEAD
     $ref: /schemas/graph.yaml#/properties/ports
 
     properties:
       port@0:
         $ref: /schemas/graph.yaml#/properties/port
+=======
+    type: object
+
+    properties:
+      port@0:
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: |
           Video port for RGB input.
 
       port@1:
+<<<<<<< HEAD
         $ref: /schemas/graph.yaml#/properties/port
+=======
+        type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
         description: |
           DVI port, should be connected to a node compatible with the
           dvi-connector binding.

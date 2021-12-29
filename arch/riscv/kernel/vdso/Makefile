@@ -23,7 +23,11 @@ ifneq ($(c-gettimeofday-y),)
 endif
 
 # Build rules
+<<<<<<< HEAD
+targets := $(obj-vdso) vdso.so vdso.so.dbg vdso.lds vdso-syms.S
+=======
 targets := $(obj-vdso) vdso.so vdso.so.dbg vdso.lds vdso-dummy.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-vdso := $(addprefix $(obj)/, $(obj-vdso))
 
 obj-y += vdso.o vdso-syms.o
@@ -41,11 +45,18 @@ KASAN_SANITIZE := n
 $(obj)/vdso.o: $(obj)/vdso.so
 
 # link rule for the .so file, .lds has to be first
+<<<<<<< HEAD
+$(obj)/vdso.so.dbg: $(obj)/vdso.lds $(obj-vdso) FORCE
+	$(call if_changed,vdsold)
+LDFLAGS_vdso.so.dbg = -shared -s -soname=linux-vdso.so.1 \
+	--build-id=sha1 --hash-style=both --eh-frame-hdr
+=======
 SYSCFLAGS_vdso.so.dbg = $(c_flags)
 $(obj)/vdso.so.dbg: $(src)/vdso.lds $(obj-vdso) FORCE
 	$(call if_changed,vdsold)
 SYSCFLAGS_vdso.so.dbg = -shared -s -Wl,-soname=linux-vdso.so.1 \
 	-Wl,--build-id=sha1 -Wl,--hash-style=both
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # We also create a special relocatable object that should mirror the symbol
 # table and layout of the linked DSO. With ld --just-symbols we can then
@@ -60,6 +71,12 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
 
 # actual build commands
 # The DSO images are built using a special linker script
+<<<<<<< HEAD
+# Make sure only to export the intended __vdso_xxx symbol offsets.
+quiet_cmd_vdsold = VDSOLD  $@
+      cmd_vdsold = $(LD) $(ld_flags) -T $(filter-out FORCE,$^) -o $@.tmp && \
+                   $(OBJCOPY) $(patsubst %, -G __vdso_%, $(vdso-syms)) $@.tmp $@ && \
+=======
 # Add -lgcc so rv32 gets static muldi3 and lshrdi3 definitions.
 # Make sure only to export the intended __vdso_xxx symbol offsets.
 quiet_cmd_vdsold = VDSOLD  $@
@@ -67,6 +84,7 @@ quiet_cmd_vdsold = VDSOLD  $@
                            -Wl,-T,$(filter-out FORCE,$^) -o $@.tmp && \
                    $(CROSS_COMPILE)objcopy \
                            $(patsubst %, -G __vdso_%, $(vdso-syms)) $@.tmp $@ && \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
                    rm $@.tmp
 
 # Extracts symbol offsets from the VDSO, converting them into an assembly file

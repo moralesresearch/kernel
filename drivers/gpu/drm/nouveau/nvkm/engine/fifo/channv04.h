@@ -9,11 +9,15 @@ struct nv04_fifo_chan {
 	struct nvkm_fifo_chan base;
 	struct nv04_fifo *fifo;
 	u32 ramfc;
+<<<<<<< HEAD
 #define NV04_FIFO_ENGN_SW   0
 #define NV04_FIFO_ENGN_GR   1
 #define NV04_FIFO_ENGN_MPEG 2
 #define NV04_FIFO_ENGN_DMA  3
 	struct nvkm_gpuobj *engn[NVKM_FIFO_ENGN_NR];
+=======
+	struct nvkm_gpuobj *engn[NVKM_SUBDEV_NR];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 extern const struct nvkm_fifo_chan_func nv04_fifo_dma_func;

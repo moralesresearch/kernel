@@ -63,19 +63,41 @@ smb2_add_credits(struct TCP_Server_Info *server,
 		 const struct cifs_credits *credits, const int optype)
 {
 	int *val, rc = -1;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int scredits, in_flight;
 	unsigned int add = credits->value;
 	unsigned int instance = credits->instance;
 	bool reconnect_detected = false;
 	bool reconnect_with_invalid_credits = false;
+<<<<<<< HEAD
+=======
+=======
+	unsigned int add = credits->value;
+	unsigned int instance = credits->instance;
+	bool reconnect_detected = false;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock(&server->req_lock);
 	val = server->ops->get_credits_field(server, optype);
 
 	/* eg found case where write overlapping reconnect messed up credits */
 	if (((optype & CIFS_OP_MASK) == CIFS_NEG_OP) && (*val != 0))
+<<<<<<< HEAD
 		reconnect_with_invalid_credits = true;
 
+=======
+<<<<<<< HEAD
+		reconnect_with_invalid_credits = true;
+
+=======
+		trace_smb3_reconnect_with_invalid_credits(server->CurrentMid,
+			server->hostname, *val, add);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((instance == 0) || (instance == server->reconnect_instance))
 		*val += add;
 	else
@@ -86,9 +108,19 @@ smb2_add_credits(struct TCP_Server_Info *server,
 		pr_warn_once("server overflowed SMB3 credits\n");
 	}
 	server->in_flight--;
+<<<<<<< HEAD
 	if (server->in_flight == 0 &&
 	   ((optype & CIFS_OP_MASK) != CIFS_NEG_OP) &&
 	   ((optype & CIFS_OP_MASK) != CIFS_SESS_OP))
+=======
+<<<<<<< HEAD
+	if (server->in_flight == 0 &&
+	   ((optype & CIFS_OP_MASK) != CIFS_NEG_OP) &&
+	   ((optype & CIFS_OP_MASK) != CIFS_SESS_OP))
+=======
+	if (server->in_flight == 0 && (optype & CIFS_OP_MASK) != CIFS_NEG_OP)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = change_conf(server);
 	/*
 	 * Sometimes server returns 0 credits on oplock break ack - we need to
@@ -101,19 +133,40 @@ smb2_add_credits(struct TCP_Server_Info *server,
 			server->oplock_credits++;
 		}
 	}
+<<<<<<< HEAD
 	scredits = *val;
 	in_flight = server->in_flight;
+=======
+<<<<<<< HEAD
+	scredits = *val;
+	in_flight = server->in_flight;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock(&server->req_lock);
 	wake_up(&server->request_q);
 
 	if (reconnect_detected) {
+<<<<<<< HEAD
 		trace_smb3_reconnect_detected(server->CurrentMid,
 			server->conn_id, server->hostname, scredits, add, in_flight);
 
+=======
+<<<<<<< HEAD
+		trace_smb3_reconnect_detected(server->CurrentMid,
+			server->conn_id, server->hostname, scredits, add, in_flight);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cifs_dbg(FYI, "trying to put %d credits from the old server instance %d\n",
 			 add, instance);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (reconnect_with_invalid_credits) {
 		trace_smb3_reconnect_with_invalid_credits(server->CurrentMid,
 			server->conn_id, server->hostname, scredits, add, in_flight);
@@ -121,6 +174,11 @@ smb2_add_credits(struct TCP_Server_Info *server,
 			 optype, scredits, add);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (server->tcpStatus == CifsNeedReconnect
 	    || server->tcpStatus == CifsExiting)
 		return;
@@ -139,6 +197,10 @@ smb2_add_credits(struct TCP_Server_Info *server,
 		cifs_dbg(FYI, "disabling oplocks\n");
 		break;
 	default:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* change_conf rebalanced credits for different types */
 		break;
 	}
@@ -146,23 +208,53 @@ smb2_add_credits(struct TCP_Server_Info *server,
 	trace_smb3_add_credits(server->CurrentMid,
 			server->conn_id, server->hostname, scredits, add, in_flight);
 	cifs_dbg(FYI, "%s: added %u credits total=%d\n", __func__, add, scredits);
+<<<<<<< HEAD
+=======
+=======
+		trace_smb3_add_credits(server->CurrentMid,
+			server->hostname, rc, add);
+		cifs_dbg(FYI, "%s: added %u credits total=%d\n", __func__, add, rc);
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void
 smb2_set_credits(struct TCP_Server_Info *server, const int val)
 {
+<<<<<<< HEAD
 	int scredits, in_flight;
 
+=======
+<<<<<<< HEAD
+	int scredits, in_flight;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock(&server->req_lock);
 	server->credits = val;
 	if (val == 1)
 		server->reconnect_instance++;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	scredits = server->credits;
 	in_flight = server->in_flight;
 	spin_unlock(&server->req_lock);
 
 	trace_smb3_set_credits(server->CurrentMid,
 			server->conn_id, server->hostname, scredits, val, in_flight);
+<<<<<<< HEAD
+=======
+=======
+	spin_unlock(&server->req_lock);
+
+	trace_smb3_set_credits(server->CurrentMid,
+			server->hostname, val, val);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cifs_dbg(FYI, "%s: set %u credits\n", __func__, val);
 
 	/* don't log while holding the lock */
@@ -194,7 +286,15 @@ smb2_wait_mtu_credits(struct TCP_Server_Info *server, unsigned int size,
 		      unsigned int *num, struct cifs_credits *credits)
 {
 	int rc = 0;
+<<<<<<< HEAD
 	unsigned int scredits, in_flight;
+=======
+<<<<<<< HEAD
+	unsigned int scredits, in_flight;
+=======
+	unsigned int scredits;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock(&server->req_lock);
 	while (1) {
@@ -231,18 +331,38 @@ smb2_wait_mtu_credits(struct TCP_Server_Info *server, unsigned int size,
 				DIV_ROUND_UP(*num, SMB2_MAX_BUFFER_SIZE);
 			credits->instance = server->reconnect_instance;
 			server->credits -= credits->value;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+			scredits = server->credits;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			server->in_flight++;
 			if (server->in_flight > server->max_in_flight)
 				server->max_in_flight = server->in_flight;
 			break;
 		}
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	scredits = server->credits;
 	in_flight = server->in_flight;
 	spin_unlock(&server->req_lock);
 
 	trace_smb3_add_credits(server->CurrentMid,
 			server->conn_id, server->hostname, scredits, -(credits->value), in_flight);
+<<<<<<< HEAD
+=======
+=======
+	spin_unlock(&server->req_lock);
+
+	trace_smb3_add_credits(server->CurrentMid,
+			server->hostname, scredits, -(credits->value));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cifs_dbg(FYI, "%s: removed %u credits total=%d\n",
 			__func__, credits->value, scredits);
 
@@ -255,14 +375,30 @@ smb2_adjust_credits(struct TCP_Server_Info *server,
 		    const unsigned int payload_size)
 {
 	int new_val = DIV_ROUND_UP(payload_size, SMB2_MAX_BUFFER_SIZE);
+<<<<<<< HEAD
 	int scredits, in_flight;
+=======
+<<<<<<< HEAD
+	int scredits, in_flight;
+=======
+	int scredits;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!credits->value || credits->value == new_val)
 		return 0;
 
 	if (credits->value < new_val) {
 		trace_smb3_too_many_credits(server->CurrentMid,
+<<<<<<< HEAD
 				server->conn_id, server->hostname, 0, credits->value - new_val, 0);
+=======
+<<<<<<< HEAD
+				server->conn_id, server->hostname, 0, credits->value - new_val, 0);
+=======
+				server->hostname, 0, credits->value - new_val);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cifs_server_dbg(VFS, "request has less credits (%d) than required (%d)",
 				credits->value, new_val);
 
@@ -272,6 +408,10 @@ smb2_adjust_credits(struct TCP_Server_Info *server,
 	spin_lock(&server->req_lock);
 
 	if (server->reconnect_instance != credits->instance) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		scredits = server->credits;
 		in_flight = server->in_flight;
 		spin_unlock(&server->req_lock);
@@ -279,6 +419,14 @@ smb2_adjust_credits(struct TCP_Server_Info *server,
 		trace_smb3_reconnect_detected(server->CurrentMid,
 			server->conn_id, server->hostname, scredits,
 			credits->value - new_val, in_flight);
+<<<<<<< HEAD
+=======
+=======
+		spin_unlock(&server->req_lock);
+		trace_smb3_reconnect_detected(server->CurrentMid,
+			server->hostname, 0, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cifs_server_dbg(VFS, "trying to return %d credits to old session\n",
 			 credits->value - new_val);
 		return -EAGAIN;
@@ -286,6 +434,10 @@ smb2_adjust_credits(struct TCP_Server_Info *server,
 
 	server->credits += credits->value - new_val;
 	scredits = server->credits;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	in_flight = server->in_flight;
 	spin_unlock(&server->req_lock);
 	wake_up(&server->request_q);
@@ -298,6 +450,20 @@ smb2_adjust_credits(struct TCP_Server_Info *server,
 
 	credits->value = new_val;
 
+<<<<<<< HEAD
+=======
+=======
+	spin_unlock(&server->req_lock);
+	wake_up(&server->request_q);
+	credits->value = new_val;
+
+	trace_smb3_add_credits(server->CurrentMid,
+			server->hostname, scredits, credits->value - new_val);
+	cifs_dbg(FYI, "%s: adjust added %u credits total=%d\n",
+			__func__, credits->value - new_val, scredits);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1763,6 +1929,16 @@ smb2_ioctl_query_info(const unsigned int xid,
 	}
 
  iqinf_exit:
+<<<<<<< HEAD
+	cifs_small_buf_release(rqst[0].rq_iov[0].iov_base);
+	cifs_small_buf_release(rqst[1].rq_iov[0].iov_base);
+	cifs_small_buf_release(rqst[2].rq_iov[0].iov_base);
+	free_rsp_buf(resp_buftype[0], rsp_iov[0].iov_base);
+	free_rsp_buf(resp_buftype[1], rsp_iov[1].iov_base);
+	free_rsp_buf(resp_buftype[2], rsp_iov[2].iov_base);
+	kfree(vars);
+	kfree(buffer);
+=======
 	kfree(vars);
 	kfree(buffer);
 	SMB2_open_free(&rqst[0]);
@@ -1775,6 +1951,7 @@ smb2_ioctl_query_info(const unsigned int xid,
 	free_rsp_buf(resp_buftype[0], rsp_iov[0].iov_base);
 	free_rsp_buf(resp_buftype[1], rsp_iov[1].iov_base);
 	free_rsp_buf(resp_buftype[2], rsp_iov[2].iov_base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return rc;
 
 e_fault:
@@ -1826,6 +2003,11 @@ smb2_copychunk_range(const unsigned int xid,
 			cpu_to_le32(min_t(u32, len, tcon->max_bytes_chunk));
 
 		/* Request server copy to target from src identified by key */
+<<<<<<< HEAD
+		kfree(retbuf);
+		retbuf = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rc = SMB2_ioctl(xid, tcon, trgtfile->fid.persistent_fid,
 			trgtfile->fid.volatile_fid, FSCTL_SRV_COPYCHUNK_WRITE,
 			true /* is_fsctl */, (char *)pcchunk,
@@ -2232,7 +2414,11 @@ smb3_notify(const unsigned int xid, struct file *pfile,
 
 	cifs_sb = CIFS_SB(inode->i_sb);
 
+<<<<<<< HEAD
+	utf16_path = cifs_convert_path_to_utf16(path, cifs_sb);
+=======
 	utf16_path = cifs_convert_path_to_utf16(path + 1, cifs_sb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (utf16_path == NULL) {
 		rc = -ENOMEM;
 		goto notify_exit;
@@ -2412,7 +2598,15 @@ static bool
 smb2_is_status_pending(char *buf, struct TCP_Server_Info *server)
 {
 	struct smb2_sync_hdr *shdr = (struct smb2_sync_hdr *)buf;
+<<<<<<< HEAD
 	int scredits, in_flight;
+=======
+<<<<<<< HEAD
+	int scredits, in_flight;
+=======
+	int scredits;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (shdr->Status != STATUS_PENDING)
 		return false;
@@ -2421,13 +2615,29 @@ smb2_is_status_pending(char *buf, struct TCP_Server_Info *server)
 		spin_lock(&server->req_lock);
 		server->credits += le16_to_cpu(shdr->CreditRequest);
 		scredits = server->credits;
+<<<<<<< HEAD
 		in_flight = server->in_flight;
+=======
+<<<<<<< HEAD
+		in_flight = server->in_flight;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_unlock(&server->req_lock);
 		wake_up(&server->request_q);
 
 		trace_smb3_add_credits(server->CurrentMid,
+<<<<<<< HEAD
 				server->conn_id, server->hostname, scredits,
 				le16_to_cpu(shdr->CreditRequest), in_flight);
+=======
+<<<<<<< HEAD
+				server->conn_id, server->hostname, scredits,
+				le16_to_cpu(shdr->CreditRequest), in_flight);
+=======
+				server->hostname, scredits, le16_to_cpu(shdr->CreditRequest));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cifs_dbg(FYI, "%s: status pending add %u credits total=%d\n",
 				__func__, le16_to_cpu(shdr->CreditRequest), scredits);
 	}
@@ -2463,6 +2673,10 @@ smb2_is_status_io_timeout(char *buf)
 		return false;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void
 smb2_is_network_name_deleted(char *buf, struct TCP_Server_Info *server)
 {
@@ -2491,6 +2705,11 @@ smb2_is_network_name_deleted(char *buf, struct TCP_Server_Info *server)
 	spin_unlock(&cifs_tcp_ses_lock);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int
 smb2_oplock_response(struct cifs_tcon *tcon, struct cifs_fid *fid,
 		     struct cifsInodeInfo *cinode)
@@ -4178,7 +4397,11 @@ smb2_get_enc_key(struct TCP_Server_Info *server, __u64 ses_id, int enc, u8 *key)
 	}
 	spin_unlock(&cifs_tcp_ses_lock);
 
+<<<<<<< HEAD
+	return -EAGAIN;
+=======
 	return 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 /*
  * Encrypt or decrypt @rqst message. @rqst[0] has the following format:
@@ -4679,10 +4902,19 @@ static void smb2_decrypt_offload(struct work_struct *work)
 #ifdef CONFIG_CIFS_STATS2
 			mid->when_received = jiffies;
 #endif
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (dw->server->ops->is_network_name_deleted)
 				dw->server->ops->is_network_name_deleted(dw->buf,
 									 dw->server);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mid->callback(mid);
 		} else {
 			spin_lock(&GlobalMid_Lock);
@@ -4801,12 +5033,21 @@ non_offloaded_decrypt:
 		rc = handle_read_data(server, *mid, buf,
 				      server->vals->read_rsp_size,
 				      pages, npages, len, false);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (rc >= 0) {
 			if (server->ops->is_network_name_deleted) {
 				server->ops->is_network_name_deleted(buf,
 								server);
 			}
 		}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 free_pages:
@@ -5156,7 +5397,14 @@ struct smb_version_operations smb20_operations = {
 	.fiemap = smb3_fiemap,
 	.llseek = smb3_llseek,
 	.is_status_io_timeout = smb2_is_status_io_timeout,
+<<<<<<< HEAD
 	.is_network_name_deleted = smb2_is_network_name_deleted,
+=======
+<<<<<<< HEAD
+	.is_network_name_deleted = smb2_is_network_name_deleted,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct smb_version_operations smb21_operations = {
@@ -5258,7 +5506,14 @@ struct smb_version_operations smb21_operations = {
 	.fiemap = smb3_fiemap,
 	.llseek = smb3_llseek,
 	.is_status_io_timeout = smb2_is_status_io_timeout,
+<<<<<<< HEAD
 	.is_network_name_deleted = smb2_is_network_name_deleted,
+=======
+<<<<<<< HEAD
+	.is_network_name_deleted = smb2_is_network_name_deleted,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct smb_version_operations smb30_operations = {
@@ -5372,7 +5627,14 @@ struct smb_version_operations smb30_operations = {
 	.fiemap = smb3_fiemap,
 	.llseek = smb3_llseek,
 	.is_status_io_timeout = smb2_is_status_io_timeout,
+<<<<<<< HEAD
 	.is_network_name_deleted = smb2_is_network_name_deleted,
+=======
+<<<<<<< HEAD
+	.is_network_name_deleted = smb2_is_network_name_deleted,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct smb_version_operations smb311_operations = {
@@ -5486,7 +5748,14 @@ struct smb_version_operations smb311_operations = {
 	.fiemap = smb3_fiemap,
 	.llseek = smb3_llseek,
 	.is_status_io_timeout = smb2_is_status_io_timeout,
+<<<<<<< HEAD
 	.is_network_name_deleted = smb2_is_network_name_deleted,
+=======
+<<<<<<< HEAD
+	.is_network_name_deleted = smb2_is_network_name_deleted,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct smb_version_values smb20_values = {

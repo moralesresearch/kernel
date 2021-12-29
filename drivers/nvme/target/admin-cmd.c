@@ -74,6 +74,10 @@ static void nvmet_execute_get_log_page_error(struct nvmet_req *req)
 static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
 		struct nvme_smart_log *slog)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 host_reads, host_writes, data_units_read, data_units_written;
 	u16 status;
 
@@ -91,11 +95,45 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
 	host_writes = part_stat_read(req->ns->bdev, ios[WRITE]);
 	data_units_written =
 		DIV_ROUND_UP(part_stat_read(req->ns->bdev, sectors[WRITE]), 1000);
+<<<<<<< HEAD
+=======
+=======
+	struct nvmet_ns *ns;
+	u64 host_reads, host_writes, data_units_read, data_units_written;
+
+	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->get_log_page.nsid);
+	if (!ns) {
+		pr_err("Could not find namespace id : %d\n",
+				le32_to_cpu(req->cmd->get_log_page.nsid));
+		req->error_loc = offsetof(struct nvme_rw_command, nsid);
+		return NVME_SC_INVALID_NS;
+	}
+
+	/* we don't have the right data for file backed ns */
+	if (!ns->bdev)
+		goto out;
+
+	host_reads = part_stat_read(ns->bdev, ios[READ]);
+	data_units_read =
+		DIV_ROUND_UP(part_stat_read(ns->bdev, sectors[READ]), 1000);
+	host_writes = part_stat_read(ns->bdev, ios[WRITE]);
+	data_units_written =
+		DIV_ROUND_UP(part_stat_read(ns->bdev, sectors[WRITE]), 1000);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	put_unaligned_le64(host_reads, &slog->host_reads[0]);
 	put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
 	put_unaligned_le64(host_writes, &slog->host_writes[0]);
 	put_unaligned_le64(data_units_written, &slog->data_units_written[0]);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+out:
+	nvmet_put_namespace(ns);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return NVME_SC_SUCCESS;
 }
@@ -307,12 +345,20 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
 	case NVME_LOG_ANA:
 		return nvmet_execute_get_log_page_ana(req);
 	}
+<<<<<<< HEAD
+	pr_debug("unhandled lid %d on qid %d\n",
+=======
 	pr_err("unhandled lid %d on qid %d\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	       req->cmd->get_log_page.lid, req->sq->qid);
 	req->error_loc = offsetof(struct nvme_get_log_page_command, lid);
 	nvmet_req_complete(req, NVME_SC_INVALID_FIELD | NVME_SC_DNR);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u16 nvmet_set_model_number(struct nvmet_subsys *subsys)
 {
 	u16 status = 0;
@@ -327,16 +373,44 @@ static u16 nvmet_set_model_number(struct nvmet_subsys *subsys)
 	mutex_unlock(&subsys->lock);
 
 	return status;
+<<<<<<< HEAD
+=======
+=======
+static void nvmet_id_set_model_number(struct nvme_id_ctrl *id,
+				      struct nvmet_subsys *subsys)
+{
+	const char *model = NVMET_DEFAULT_CTRL_MODEL;
+	struct nvmet_subsys_model *subsys_model;
+
+	rcu_read_lock();
+	subsys_model = rcu_dereference(subsys->model);
+	if (subsys_model)
+		model = subsys_model->number;
+	memcpy_and_pad(id->mn, sizeof(id->mn), model, strlen(model), ' ');
+	rcu_read_unlock();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
 {
 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+<<<<<<< HEAD
 	struct nvmet_subsys *subsys = ctrl->subsys;
+=======
+<<<<<<< HEAD
+	struct nvmet_subsys *subsys = ctrl->subsys;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nvme_id_ctrl *id;
 	u32 cmd_capsule_size;
 	u16 status = 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * If there is no model number yet, set it now.  It will then remain
 	 * stable for the life time of the subsystem.
@@ -347,6 +421,11 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
 			goto out;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	id = kzalloc(sizeof(*id), GFP_KERNEL);
 	if (!id) {
 		status = NVME_SC_INTERNAL;
@@ -360,8 +439,17 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
 	memset(id->sn, ' ', sizeof(id->sn));
 	bin2hex(id->sn, &ctrl->subsys->serial,
 		min(sizeof(ctrl->subsys->serial), sizeof(id->sn) / 2));
+<<<<<<< HEAD
 	memcpy_and_pad(id->mn, sizeof(id->mn), subsys->model_number,
 		       strlen(subsys->model_number), ' ');
+=======
+<<<<<<< HEAD
+	memcpy_and_pad(id->mn, sizeof(id->mn), subsys->model_number,
+		       strlen(subsys->model_number), ' ');
+=======
+	nvmet_id_set_model_number(id, ctrl->subsys);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memcpy_and_pad(id->fr, sizeof(id->fr),
 		       UTS_RELEASE, strlen(UTS_RELEASE), ' ');
 
@@ -476,8 +564,19 @@ out:
 
 static void nvmet_execute_identify_ns(struct nvmet_req *req)
 {
+<<<<<<< HEAD
 	struct nvme_id_ns *id;
 	u16 status;
+=======
+<<<<<<< HEAD
+	struct nvme_id_ns *id;
+	u16 status;
+=======
+	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+	struct nvme_id_ns *id;
+	u16 status = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (le32_to_cpu(req->cmd->identify.nsid) == NVME_NSID_ALL) {
 		req->error_loc = offsetof(struct nvme_identify, nsid);
@@ -492,8 +591,18 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
 	}
 
 	/* return an all zeroed buffer if we can't find an active namespace */
+<<<<<<< HEAD
 	status = nvmet_req_find_ns(req);
 	if (status) {
+=======
+<<<<<<< HEAD
+	status = nvmet_req_find_ns(req);
+	if (status) {
+=======
+	req->ns = nvmet_find_namespace(ctrl, req->cmd->identify.nsid);
+	if (!req->ns) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		status = 0;
 		goto done;
 	}
@@ -536,7 +645,15 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
 
 	id->lbaf[0].ds = req->ns->blksize_shift;
 
+<<<<<<< HEAD
 	if (req->sq->ctrl->pi_support && nvmet_ns_has_pi(req->ns)) {
+=======
+<<<<<<< HEAD
+	if (req->sq->ctrl->pi_support && nvmet_ns_has_pi(req->ns)) {
+=======
+	if (ctrl->pi_support && nvmet_ns_has_pi(req->ns)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		id->dpc = NVME_NS_DPC_PI_FIRST | NVME_NS_DPC_PI_LAST |
 			  NVME_NS_DPC_PI_TYPE1 | NVME_NS_DPC_PI_TYPE2 |
 			  NVME_NS_DPC_PI_TYPE3;
@@ -613,6 +730,10 @@ static u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
 
 static void nvmet_execute_identify_desclist(struct nvmet_req *req)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	off_t off = 0;
 	u16 status;
 
@@ -633,12 +754,50 @@ static void nvmet_execute_identify_desclist(struct nvmet_req *req)
 						  &req->ns->nguid, &off);
 		if (status)
 			goto out;
+<<<<<<< HEAD
+=======
+=======
+	struct nvmet_ns *ns;
+	u16 status = 0;
+	off_t off = 0;
+
+	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
+	if (!ns) {
+		req->error_loc = offsetof(struct nvme_identify, nsid);
+		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
+		goto out;
+	}
+
+	if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
+		status = nvmet_copy_ns_identifier(req, NVME_NIDT_UUID,
+						  NVME_NIDT_UUID_LEN,
+						  &ns->uuid, &off);
+		if (status)
+			goto out_put_ns;
+	}
+	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid))) {
+		status = nvmet_copy_ns_identifier(req, NVME_NIDT_NGUID,
+						  NVME_NIDT_NGUID_LEN,
+						  &ns->nguid, &off);
+		if (status)
+			goto out_put_ns;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (sg_zero_buffer(req->sg, req->sg_cnt, NVME_IDENTIFY_DATA_SIZE - off,
 			off) != NVME_IDENTIFY_DATA_SIZE - off)
 		status = NVME_SC_INTERNAL | NVME_SC_DNR;
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+out_put_ns:
+	nvmet_put_namespace(ns);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	nvmet_req_complete(req, status);
 }
@@ -659,7 +818,11 @@ static void nvmet_execute_identify(struct nvmet_req *req)
 		return nvmet_execute_identify_desclist(req);
 	}
 
+<<<<<<< HEAD
+	pr_debug("unhandled identify cns %d on qid %d\n",
+=======
 	pr_err("unhandled identify cns %d on qid %d\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	       req->cmd->identify.cns, req->sq->qid);
 	req->error_loc = offsetof(struct nvme_identify, cns);
 	nvmet_req_complete(req, NVME_SC_INVALID_FIELD | NVME_SC_DNR);
@@ -697,12 +860,29 @@ static u16 nvmet_write_protect_flush_sync(struct nvmet_req *req)
 static u16 nvmet_set_feat_write_protect(struct nvmet_req *req)
 {
 	u32 write_protect = le32_to_cpu(req->cmd->common.cdw11);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
 	u16 status;
 
 	status = nvmet_req_find_ns(req);
 	if (status)
 		return status;
+<<<<<<< HEAD
+=======
+=======
+	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+	u16 status = NVME_SC_FEATURE_NOT_CHANGEABLE;
+
+	req->ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->rw.nsid);
+	if (unlikely(!req->ns)) {
+		req->error_loc = offsetof(struct nvme_common_command, nsid);
+		return status;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&subsys->lock);
 	switch (write_protect) {
@@ -756,7 +936,15 @@ u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask)
 
 void nvmet_execute_set_features(struct nvmet_req *req)
 {
+<<<<<<< HEAD
 	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
+=======
+<<<<<<< HEAD
+	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
+=======
+	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
 	u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
 	u16 status = 0;
@@ -800,6 +988,10 @@ void nvmet_execute_set_features(struct nvmet_req *req)
 
 static u16 nvmet_get_feat_write_protect(struct nvmet_req *req)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
 	u32 result;
 
@@ -807,6 +999,19 @@ static u16 nvmet_get_feat_write_protect(struct nvmet_req *req)
 	if (result)
 		return result;
 
+<<<<<<< HEAD
+=======
+=======
+	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+	u32 result;
+
+	req->ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->common.nsid);
+	if (!req->ns)  {
+		req->error_loc = offsetof(struct nvme_common_command, nsid);
+		return NVME_SC_INVALID_NS | NVME_SC_DNR;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&subsys->lock);
 	if (req->ns->readonly == true)
 		result = NVME_NS_WRITE_PROTECT;
@@ -830,7 +1035,15 @@ void nvmet_get_feat_async_event(struct nvmet_req *req)
 
 void nvmet_execute_get_features(struct nvmet_req *req)
 {
+<<<<<<< HEAD
 	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
+=======
+<<<<<<< HEAD
+	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
+=======
+	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
 	u16 status = 0;
 
@@ -919,15 +1132,32 @@ void nvmet_execute_async_event(struct nvmet_req *req)
 void nvmet_execute_keep_alive(struct nvmet_req *req)
 {
 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+<<<<<<< HEAD
+	u16 status = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!nvmet_check_transfer_len(req, 0))
 		return;
 
+<<<<<<< HEAD
+	if (!ctrl->kato) {
+		status = NVME_SC_KA_TIMEOUT_INVALID;
+		goto out;
+	}
+
+	pr_debug("ctrl %d update keep-alive timer for %d secs\n",
+		ctrl->cntlid, ctrl->kato);
+	mod_delayed_work(system_wq, &ctrl->ka_work, ctrl->kato * HZ);
+out:
+	nvmet_req_complete(req, status);
+=======
 	pr_debug("ctrl %d update keep-alive timer for %d secs\n",
 		ctrl->cntlid, ctrl->kato);
 
 	mod_delayed_work(system_wq, &ctrl->ka_work, ctrl->kato * HZ);
 	nvmet_req_complete(req, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
@@ -937,7 +1167,15 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
 
 	if (nvme_is_fabrics(cmd))
 		return nvmet_parse_fabrics_cmd(req);
+<<<<<<< HEAD
 	if (nvmet_req_subsys(req)->type == NVME_NQN_DISC)
+=======
+<<<<<<< HEAD
+	if (nvmet_req_subsys(req)->type == NVME_NQN_DISC)
+=======
+	if (req->sq->ctrl->subsys->type == NVME_NQN_DISC)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return nvmet_parse_discovery_cmd(req);
 
 	ret = nvmet_check_ctrl_status(req, cmd);
@@ -971,7 +1209,11 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
 		return 0;
 	}
 
+<<<<<<< HEAD
+	pr_debug("unhandled cmd %d on qid %d\n", cmd->common.opcode,
+=======
 	pr_err("unhandled cmd %d on qid %d\n", cmd->common.opcode,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	       req->sq->qid);
 	req->error_loc = offsetof(struct nvme_common_command, opcode);
 	return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;

@@ -538,6 +538,7 @@ static ssize_t phys_switch_id_show(struct device *dev,
 }
 static DEVICE_ATTR_RO(phys_switch_id);
 
+<<<<<<< HEAD
 static ssize_t threaded_show(struct device *dev,
 			     struct device_attribute *attr, char *buf)
 {
@@ -577,6 +578,8 @@ static ssize_t threaded_store(struct device *dev,
 }
 static DEVICE_ATTR_RW(threaded);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct attribute *net_class_attrs[] __ro_after_init = {
 	&dev_attr_netdev_group.attr,
 	&dev_attr_type.attr,
@@ -609,7 +612,10 @@ static struct attribute *net_class_attrs[] __ro_after_init = {
 	&dev_attr_proto_down.attr,
 	&dev_attr_carrier_up_count.attr,
 	&dev_attr_carrier_down_count.attr,
+<<<<<<< HEAD
 	&dev_attr_threaded.attr,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NULL,
 };
 ATTRIBUTE_GROUPS(net_class);
@@ -1176,25 +1182,37 @@ static ssize_t traffic_class_show(struct netdev_queue *queue,
 				  char *buf)
 {
 	struct net_device *dev = queue->dev;
+<<<<<<< HEAD
 	int num_tc, tc;
 	int index;
+=======
+	int index;
+	int tc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!netif_is_multiqueue(dev))
 		return -ENOENT;
 
+<<<<<<< HEAD
 	if (!rtnl_trylock())
 		return restart_syscall();
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	index = get_netdev_queue_index(queue);
 
 	/* If queue belongs to subordinate dev use its TC mapping */
 	dev = netdev_get_tx_queue(dev, index)->sb_dev ? : dev;
 
+<<<<<<< HEAD
 	num_tc = dev->num_tc;
 	tc = netdev_txq_to_tc(dev, index);
 
 	rtnl_unlock();
 
+=======
+	tc = netdev_txq_to_tc(dev, index);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (tc < 0)
 		return -EINVAL;
 
@@ -1205,8 +1223,13 @@ static ssize_t traffic_class_show(struct netdev_queue *queue,
 	 * belongs to the root device it will be reported with just the
 	 * traffic class, so just "0" for TC 0 for example.
 	 */
+<<<<<<< HEAD
 	return num_tc < 0 ? sprintf(buf, "%d%d\n", tc, num_tc) :
 			    sprintf(buf, "%d\n", tc);
+=======
+	return dev->num_tc < 0 ? sprintf(buf, "%d%d\n", tc, dev->num_tc) :
+				 sprintf(buf, "%d\n", tc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_XPS

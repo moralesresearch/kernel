@@ -293,7 +293,15 @@ static int  edge_startup(struct usb_serial *serial);
 static void edge_disconnect(struct usb_serial *serial);
 static void edge_release(struct usb_serial *serial);
 static int edge_port_probe(struct usb_serial_port *port);
+<<<<<<< HEAD
 static void edge_port_remove(struct usb_serial_port *port);
+=======
+<<<<<<< HEAD
+static void edge_port_remove(struct usb_serial_port *port);
+=======
+static int edge_port_remove(struct usb_serial_port *port);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* function prototypes for all of our local functions */
 
@@ -3084,12 +3092,28 @@ static int edge_port_probe(struct usb_serial_port *port)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void edge_port_remove(struct usb_serial_port *port)
+=======
+<<<<<<< HEAD
+static void edge_port_remove(struct usb_serial_port *port)
+=======
+static int edge_port_remove(struct usb_serial_port *port)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct edgeport_port *edge_port;
 
 	edge_port = usb_get_serial_port_data(port);
 	kfree(edge_port);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct usb_serial_driver edgeport_2port_device = {

@@ -38,6 +38,10 @@
 #include <linux/of.h>
 #include <linux/gpio/consumer.h>
 #include <linux/regulator/consumer.h>
+<<<<<<< HEAD
+#include <linux/uuid.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/unaligned.h>
 
 /* Device, Driver information */
@@ -56,7 +60,10 @@
 #define QUEUE_HEADER_SINGLE	0x62
 #define QUEUE_HEADER_NORMAL	0X63
 #define QUEUE_HEADER_WAIT	0x64
+<<<<<<< HEAD
 #define QUEUE_HEADER_NORMAL2	0x66
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Command header definition */
 #define CMD_HEADER_WRITE	0x54
@@ -70,7 +77,10 @@
 #define CMD_HEADER_REK		0x66
 
 /* FW position data */
+<<<<<<< HEAD
 #define PACKET_SIZE_OLD		40
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PACKET_SIZE		55
 #define MAX_CONTACT_NUM		10
 #define FW_POS_HEADER		0
@@ -92,8 +102,11 @@
 /* FW read command, 0x53 0x?? 0x0, 0x01 */
 #define E_ELAN_INFO_FW_VER	0x00
 #define E_ELAN_INFO_BC_VER	0x10
+<<<<<<< HEAD
 #define E_ELAN_INFO_X_RES	0x60
 #define E_ELAN_INFO_Y_RES	0x63
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define E_ELAN_INFO_REK		0xD0
 #define E_ELAN_INFO_TEST_VER	0xE0
 #define E_ELAN_INFO_FW_ID	0xF0
@@ -116,11 +129,14 @@
 #define ELAN_POWERON_DELAY_USEC	500
 #define ELAN_RESET_DELAY_MSEC	20
 
+<<<<<<< HEAD
 enum elants_chip_id {
 	EKTH3500,
 	EKTF3624,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum elants_state {
 	ELAN_STATE_NORMAL,
 	ELAN_WAIT_QUEUE_HEADER,
@@ -152,12 +168,18 @@ struct elants_data {
 	unsigned int y_res;
 	unsigned int x_max;
 	unsigned int y_max;
+<<<<<<< HEAD
 	unsigned int phy_x;
 	unsigned int phy_y;
 	struct touchscreen_properties prop;
 
 	enum elants_state state;
 	enum elants_chip_id chip_id;
+=======
+	struct touchscreen_properties prop;
+
+	enum elants_state state;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enum elants_iap_mode iap_mode;
 
 	/* Guards against concurrent access to the device via sysfs */
@@ -445,6 +467,7 @@ static int elants_i2c_query_bc_version(struct elants_data *ts)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int elants_i2c_query_ts_info_ektf(struct elants_data *ts)
 {
 	struct i2c_client *client = ts->client;
@@ -490,6 +513,9 @@ static int elants_i2c_query_ts_info_ektf(struct elants_data *ts)
 }
 
 static int elants_i2c_query_ts_info_ekth(struct elants_data *ts)
+=======
+static int elants_i2c_query_ts_info(struct elants_data *ts)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct i2c_client *client = ts->client;
 	int error;
@@ -564,8 +590,11 @@ static int elants_i2c_query_ts_info_ekth(struct elants_data *ts)
 		ts->x_res = DIV_ROUND_CLOSEST(ts->x_max, phy_x);
 		ts->y_max = ELAN_TS_RESOLUTION(cols, osr);
 		ts->y_res = DIV_ROUND_CLOSEST(ts->y_max, phy_y);
+<<<<<<< HEAD
 		ts->phy_x = phy_x;
 		ts->phy_y = phy_y;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -645,6 +674,7 @@ static int elants_i2c_initialize(struct elants_data *ts)
 		error = elants_i2c_query_fw_version(ts);
 	if (!error)
 		error = elants_i2c_query_test_version(ts);
+<<<<<<< HEAD
 
 	switch (ts->chip_id) {
 	case EKTH3500:
@@ -658,6 +688,10 @@ static int elants_i2c_initialize(struct elants_data *ts)
 	default:
 		BUG();
 	}
+=======
+	if (!error)
+		error = elants_i2c_query_ts_info(ts);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (error)
 		ts->iap_mode = ELAN_IAP_RECOVERY;
@@ -922,8 +956,12 @@ out:
  * Event reporting.
  */
 
+<<<<<<< HEAD
 static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf,
 				size_t packet_size)
+=======
+static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct input_dev *input = ts->input;
 	unsigned int n_fingers;
@@ -950,6 +988,7 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf,
 			pos = &buf[FW_POS_XY + i * 3];
 			x = (((u16)pos[0] & 0xf0) << 4) | pos[1];
 			y = (((u16)pos[0] & 0x0f) << 8) | pos[2];
+<<<<<<< HEAD
 
 			/*
 			 * eKTF3624 may have use "old" touch-report format,
@@ -968,6 +1007,10 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf,
 				p = buf[FW_POS_PRESSURE + i];
 				w = buf[FW_POS_WIDTH + i];
 			}
+=======
+			p = buf[FW_POS_PRESSURE + i];
+			w = buf[FW_POS_WIDTH + i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			dev_dbg(&ts->client->dev, "i=%d x=%d y=%d p=%d w=%d\n",
 				i, x, y, p, w);
@@ -999,8 +1042,12 @@ static u8 elants_i2c_calculate_checksum(u8 *buf)
 	return checksum;
 }
 
+<<<<<<< HEAD
 static void elants_i2c_event(struct elants_data *ts, u8 *buf,
 			     size_t packet_size)
+=======
+static void elants_i2c_event(struct elants_data *ts, u8 *buf)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u8 checksum = elants_i2c_calculate_checksum(buf);
 
@@ -1014,7 +1061,11 @@ static void elants_i2c_event(struct elants_data *ts, u8 *buf,
 			 "%s: unknown packet type: %02x\n",
 			 __func__, buf[FW_POS_HEADER]);
 	else
+<<<<<<< HEAD
 		elants_i2c_mt_event(ts, buf, packet_size);
+=======
+		elants_i2c_mt_event(ts, buf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static irqreturn_t elants_i2c_irq(int irq, void *_dev)
@@ -1057,6 +1108,10 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
 		switch (ts->buf[FW_HDR_TYPE]) {
 		case CMD_HEADER_HELLO:
 		case CMD_HEADER_RESP:
+<<<<<<< HEAD
+=======
+		case CMD_HEADER_REK:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 
 		case QUEUE_HEADER_WAIT:
@@ -1071,6 +1126,7 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
 			break;
 
 		case QUEUE_HEADER_SINGLE:
+<<<<<<< HEAD
 			elants_i2c_event(ts, &ts->buf[HEADER_SIZE],
 					 ts->buf[FW_HDR_LENGTH]);
 			break;
@@ -1089,6 +1145,11 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
 
 			fallthrough;
 
+=======
+			elants_i2c_event(ts, &ts->buf[HEADER_SIZE]);
+			break;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case QUEUE_HEADER_NORMAL:
 			report_count = ts->buf[FW_HDR_COUNT];
 			if (report_count == 0 || report_count > 3) {
@@ -1099,12 +1160,16 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
 			}
 
 			report_len = ts->buf[FW_HDR_LENGTH] / report_count;
+<<<<<<< HEAD
 
 			if (report_len == PACKET_SIZE_OLD &&
 			    ts->chip_id == EKTF3624) {
 				dev_dbg_once(&client->dev,
 					     "using old report format\n");
 			} else if (report_len != PACKET_SIZE) {
+=======
+			if (report_len != PACKET_SIZE) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				dev_err(&client->dev,
 					"mismatching report length: %*ph\n",
 					HEADER_SIZE, ts->buf);
@@ -1113,8 +1178,13 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
 
 			for (i = 0; i < report_count; i++) {
 				u8 *buf = ts->buf + HEADER_SIZE +
+<<<<<<< HEAD
 							i * report_len;
 				elants_i2c_event(ts, buf, report_len);
+=======
+							i * PACKET_SIZE;
+				elants_i2c_event(ts, buf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			break;
 
@@ -1334,6 +1404,43 @@ static void elants_i2c_power_off(void *_data)
 	}
 }
 
+<<<<<<< HEAD
+#ifdef CONFIG_ACPI
+static const struct acpi_device_id i2c_hid_ids[] = {
+	{"ACPI0C50", 0 },
+	{"PNP0C50", 0 },
+	{ },
+};
+
+static const guid_t i2c_hid_guid =
+	GUID_INIT(0x3CDFF6F7, 0x4267, 0x4555,
+		  0xAD, 0x05, 0xB3, 0x0A, 0x3D, 0x89, 0x38, 0xDE);
+
+static bool elants_acpi_is_hid_device(struct device *dev)
+{
+	acpi_handle handle = ACPI_HANDLE(dev);
+	union acpi_object *obj;
+
+	if (acpi_match_device_ids(ACPI_COMPANION(dev), i2c_hid_ids))
+		return false;
+
+	obj = acpi_evaluate_dsm_typed(handle, &i2c_hid_guid, 1, 1, NULL, ACPI_TYPE_INTEGER);
+	if (obj) {
+		ACPI_FREE(obj);
+		return true;
+	}
+
+	return false;
+}
+#else
+static bool elants_acpi_is_hid_device(struct device *dev)
+{
+	return false;
+}
+#endif
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int elants_i2c_probe(struct i2c_client *client,
 			    const struct i2c_device_id *id)
 {
@@ -1342,9 +1449,20 @@ static int elants_i2c_probe(struct i2c_client *client,
 	unsigned long irqflags;
 	int error;
 
+<<<<<<< HEAD
+	/* Don't bind to i2c-hid compatible devices, these are handled by the i2c-hid drv. */
+	if (elants_acpi_is_hid_device(&client->dev)) {
+		dev_warn(&client->dev, "This device appears to be an I2C-HID device, not binding\n");
+		return -ENODEV;
+	}
+
+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+		dev_err(&client->dev, "I2C check functionality error\n");
+=======
 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
 		dev_err(&client->dev,
 			"%s: i2c check functionality error\n", DEVICE_NAME);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENXIO;
 	}
 
@@ -1356,7 +1474,10 @@ static int elants_i2c_probe(struct i2c_client *client,
 	init_completion(&ts->cmd_done);
 
 	ts->client = client;
+<<<<<<< HEAD
 	ts->chip_id = (enum elants_chip_id)id->driver_data;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	i2c_set_clientdata(client, ts);
 
 	ts->vcc33 = devm_regulator_get(&client->dev, "vcc33");
@@ -1438,6 +1559,7 @@ static int elants_i2c_probe(struct i2c_client *client,
 	input_set_abs_params(ts->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
 	input_set_abs_params(ts->input, ABS_MT_TOOL_TYPE,
 			     0, MT_TOOL_PALM, 0, 0);
+<<<<<<< HEAD
 
 	touchscreen_parse_properties(ts->input, true, &ts->prop);
 
@@ -1450,6 +1572,14 @@ static int elants_i2c_probe(struct i2c_client *client,
 	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
 	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
 	input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, ts->major_res);
+=======
+	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
+	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
+	if (ts->major_res > 0)
+		input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, ts->major_res);
+
+	touchscreen_parse_properties(ts->input, true, &ts->prop);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	error = input_mt_init_slots(ts->input, MAX_CONTACT_NUM,
 				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
@@ -1579,16 +1709,24 @@ static SIMPLE_DEV_PM_OPS(elants_i2c_pm_ops,
 			 elants_i2c_suspend, elants_i2c_resume);
 
 static const struct i2c_device_id elants_i2c_id[] = {
+<<<<<<< HEAD
 	{ DEVICE_NAME, EKTH3500 },
 	{ "ekth3500", EKTH3500 },
 	{ "ektf3624", EKTF3624 },
+=======
+	{ DEVICE_NAME, 0 },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ }
 };
 MODULE_DEVICE_TABLE(i2c, elants_i2c_id);
 
 #ifdef CONFIG_ACPI
 static const struct acpi_device_id elants_acpi_id[] = {
+<<<<<<< HEAD
 	{ "ELAN0001", EKTH3500 },
+=======
+	{ "ELAN0001", 0 },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ }
 };
 MODULE_DEVICE_TABLE(acpi, elants_acpi_id);
@@ -1597,7 +1735,10 @@ MODULE_DEVICE_TABLE(acpi, elants_acpi_id);
 #ifdef CONFIG_OF
 static const struct of_device_id elants_of_match[] = {
 	{ .compatible = "elan,ekth3500" },
+<<<<<<< HEAD
 	{ .compatible = "elan,ektf3624" },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ /* sentinel */ }
 };
 MODULE_DEVICE_TABLE(of, elants_of_match);

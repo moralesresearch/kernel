@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
+<<<<<<< HEAD
 /* Copyright (C) B.A.T.M.A.N. contributors:
+=======
+/* Copyright (C) 2012-2020  B.A.T.M.A.N. contributors:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Edo Monticelli, Antonio Quartulli
  */
@@ -131,7 +135,11 @@ static u32 batadv_tp_cwnd(u32 base, u32 increment, u32 min)
 }
 
 /**
+<<<<<<< HEAD
  * batadv_tp_update_cwnd() - update the Congestion Windows
+=======
+ * batadv_tp_updated_cwnd() - update the Congestion Windows
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @tp_vars: the private data of the current TP meter session
  * @mss: maximum segment size of transmission
  *

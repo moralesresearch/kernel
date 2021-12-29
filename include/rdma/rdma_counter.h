@@ -46,8 +46,12 @@ struct rdma_counter {
 void rdma_counter_init(struct ib_device *dev);
 void rdma_counter_release(struct ib_device *dev);
 int rdma_counter_set_auto_mode(struct ib_device *dev, u8 port,
+<<<<<<< HEAD
 			       enum rdma_nl_counter_mask mask,
 			       struct netlink_ext_ack *extack);
+=======
+			       bool on, enum rdma_nl_counter_mask mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int rdma_counter_bind_qp_auto(struct ib_qp *qp, u8 port);
 int rdma_counter_unbind_qp(struct ib_qp *qp, bool force);
 

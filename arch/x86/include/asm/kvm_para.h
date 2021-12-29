@@ -7,8 +7,11 @@
 #include <linux/interrupt.h>
 #include <uapi/asm/kvm_para.h>
 
+<<<<<<< HEAD
+=======
 extern void kvmclock_init(void);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_KVM_GUEST
 bool kvm_check_and_clear_guest_paused(void);
 #else
@@ -86,13 +89,21 @@ static inline long kvm_hypercall4(unsigned int nr, unsigned long p1,
 }
 
 #ifdef CONFIG_KVM_GUEST
+<<<<<<< HEAD
+void kvmclock_init(void);
+void kvmclock_disable(void);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool kvm_para_available(void);
 unsigned int kvm_arch_para_features(void);
 unsigned int kvm_arch_para_hints(void);
 void kvm_async_pf_task_wait_schedule(u32 token);
 void kvm_async_pf_task_wake(u32 token);
 u32 kvm_read_and_reset_apf_flags(void);
+<<<<<<< HEAD
+=======
 void kvm_disable_steal_time(void);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool __kvm_handle_async_pf(struct pt_regs *regs, u32 token);
 
 DECLARE_STATIC_KEY_FALSE(kvm_async_pf_enabled);
@@ -137,11 +148,14 @@ static inline u32 kvm_read_and_reset_apf_flags(void)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
 static inline void kvm_disable_steal_time(void)
 {
 	return;
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __always_inline bool kvm_handle_async_pf(struct pt_regs *regs, u32 token)
 {
 	return false;

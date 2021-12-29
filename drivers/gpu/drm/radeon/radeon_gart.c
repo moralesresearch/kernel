@@ -301,7 +301,12 @@ int radeon_gart_bind(struct radeon_device *rdev, unsigned offset,
 	p = t / (PAGE_SIZE / RADEON_GPU_PAGE_SIZE);
 
 	for (i = 0; i < pages; i++, p++) {
+<<<<<<< HEAD
+		rdev->gart.pages[p] = pagelist ? pagelist[i] :
+			rdev->dummy_page.page;
+=======
 		rdev->gart.pages[p] = pagelist[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		page_base = dma_addr[i];
 		for (j = 0; j < (PAGE_SIZE / RADEON_GPU_PAGE_SIZE); j++, t++) {
 			page_entry = radeon_gart_get_page_entry(page_base, flags);

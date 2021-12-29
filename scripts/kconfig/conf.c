@@ -84,6 +84,11 @@ static void xfgets(char *str, int size, FILE *in)
 
 static int conf_askvalue(struct symbol *sym, const char *def)
 {
+<<<<<<< HEAD
+=======
+	enum symbol_type type = sym_get_type(sym);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!sym_has_value(sym))
 		printf("(NEW) ");
 
@@ -105,12 +110,33 @@ static int conf_askvalue(struct symbol *sym, const char *def)
 			return 0;
 		}
 		/* fall through */
+<<<<<<< HEAD
 	default:
 		fflush(stdout);
 		xfgets(line, sizeof(line), stdin);
 		break;
 	}
 
+=======
+	case oldaskconfig:
+		fflush(stdout);
+		xfgets(line, sizeof(line), stdin);
+		return 1;
+	default:
+		break;
+	}
+
+	switch (type) {
+	case S_INT:
+	case S_HEX:
+	case S_STRING:
+		printf("%s\n", def);
+		return 1;
+	default:
+		;
+	}
+	printf("%s", line);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 1;
 }
 
@@ -123,7 +149,11 @@ static int conf_string(struct menu *menu)
 		printf("%*s%s ", indent - 1, "", menu->prompt->text);
 		printf("(%s) ", sym->name);
 		def = sym_get_string_value(sym);
+<<<<<<< HEAD
 		if (def)
+=======
+		if (sym_get_string_value(sym))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			printf("[%s] ", def);
 		if (!conf_askvalue(sym, def))
 			return 0;
@@ -405,6 +435,7 @@ static void check_conf(struct menu *menu)
 		return;
 
 	sym = menu->sym;
+<<<<<<< HEAD
 	if (sym && !sym_has_value(sym) &&
 	    (sym_is_changeable(sym) ||
 	     (sym_is_choice(sym) && sym_get_tristate_value(sym) == yes))) {
@@ -436,6 +467,36 @@ static void check_conf(struct menu *menu)
 			rootEntry = menu_get_parent_menu(menu);
 			conf(rootEntry);
 			break;
+=======
+	if (sym && !sym_has_value(sym)) {
+		if (sym_is_changeable(sym) ||
+		    (sym_is_choice(sym) && sym_get_tristate_value(sym) == yes)) {
+			if (input_mode == listnewconfig) {
+				if (sym->name) {
+					const char *str;
+
+					if (sym->type == S_STRING) {
+						str = sym_get_string_value(sym);
+						str = sym_escape_string_value(str);
+						printf("%s%s=%s\n", CONFIG_, sym->name, str);
+						free((void *)str);
+					} else {
+						str = sym_get_string_value(sym);
+						printf("%s%s=%s\n", CONFIG_, sym->name, str);
+					}
+				}
+			} else if (input_mode == helpnewconfig) {
+				printf("-----\n");
+				print_help(menu);
+				printf("-----\n");
+
+			} else {
+				if (!conf_cnt++)
+					printf("*\n* Restart config...\n*\n");
+				rootEntry = menu_get_parent_menu(menu);
+				conf(rootEntry);
+			}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -483,7 +544,10 @@ static void conf_usage(const char *progname)
 	printf("  --randconfig            New config with random answer to all options\n");
 	printf("  --yes2modconfig         Change answers from yes to mod if possible\n");
 	printf("  --mod2yesconfig         Change answers from mod to yes if possible\n");
+<<<<<<< HEAD
 	printf("  (If none of the above is given, --oldaskconfig is the default)\n");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int main(int ac, char **av)
@@ -495,7 +559,11 @@ int main(int ac, char **av)
 
 	tty_stdio = isatty(0) && isatty(1);
 
+<<<<<<< HEAD
 	while ((opt = getopt_long(ac, av, "hs", long_opts, NULL)) != -1) {
+=======
+	while ((opt = getopt_long(ac, av, "s", long_opts, NULL)) != -1) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (opt == 's') {
 			conf_set_message_callback(NULL);
 			continue;
@@ -551,7 +619,11 @@ int main(int ac, char **av)
 		case yes2modconfig:
 		case mod2yesconfig:
 			break;
+<<<<<<< HEAD
 		case 'h':
+=======
+		case '?':
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			conf_usage(progname);
 			exit(1);
 			break;

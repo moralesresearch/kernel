@@ -15,7 +15,11 @@
 
 static dev_t ocxl_dev;
 static struct class *ocxl_class;
+<<<<<<< HEAD
 static DEFINE_MUTEX(minors_idr_lock);
+=======
+static struct mutex minors_idr_lock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct idr minors_idr;
 
 static struct ocxl_file_info *find_and_get_file_info(dev_t devno)
@@ -588,6 +592,10 @@ int ocxl_file_init(void)
 {
 	int rc;
 
+<<<<<<< HEAD
+=======
+	mutex_init(&minors_idr_lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	idr_init(&minors_idr);
 
 	rc = alloc_chrdev_region(&ocxl_dev, 0, OCXL_NUM_MINORS, "ocxl");

@@ -13,15 +13,24 @@
 #include <linux/f2fs_fs.h>
 #include <linux/pagevec.h>
 #include <linux/swap.h>
+<<<<<<< HEAD
 #include <linux/kthread.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "f2fs.h"
 #include "node.h"
 #include "segment.h"
+<<<<<<< HEAD
 #include <trace/events/f2fs.h>
 
 #define DEFAULT_CHECKPOINT_IOPRIO (IOPRIO_PRIO_VALUE(IOPRIO_CLASS_BE, 3))
 
+=======
+#include "trace.h"
+#include <trace/events/f2fs.h>
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct kmem_cache *ino_entry_slab;
 struct kmem_cache *f2fs_inode_entry_slab;
 
@@ -292,7 +301,11 @@ void f2fs_ra_meta_pages_cond(struct f2fs_sb_info *sbi, pgoff_t index)
 	f2fs_put_page(page, 0);
 
 	if (readahead)
+<<<<<<< HEAD
 		f2fs_ra_meta_pages(sbi, index, BIO_MAX_VECS, META_POR, true);
+=======
+		f2fs_ra_meta_pages(sbi, index, BIO_MAX_PAGES, META_POR, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int __f2fs_write_meta_page(struct page *page,
@@ -445,6 +458,10 @@ static int f2fs_set_meta_page_dirty(struct page *page)
 		__set_page_dirty_nobuffers(page);
 		inc_page_count(F2FS_P_SB(page), F2FS_DIRTY_META);
 		f2fs_set_page_private(page, 0);
+<<<<<<< HEAD
+=======
+		f2fs_trace_pid(page);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 	}
 	return 0;
@@ -1018,6 +1035,10 @@ void f2fs_update_dirty_page(struct inode *inode, struct page *page)
 	spin_unlock(&sbi->inode_lock[type]);
 
 	f2fs_set_page_private(page, 0);
+<<<<<<< HEAD
+=======
+	f2fs_trace_pid(page);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void f2fs_remove_dirty_inode(struct inode *inode)
@@ -1707,6 +1728,7 @@ void f2fs_destroy_checkpoint_caches(void)
 	kmem_cache_destroy(ino_entry_slab);
 	kmem_cache_destroy(f2fs_inode_entry_slab);
 }
+<<<<<<< HEAD
 
 static int __write_checkpoint_sync(struct f2fs_sb_info *sbi)
 {
@@ -1878,3 +1900,5 @@ void f2fs_init_ckpt_req_control(struct f2fs_sb_info *sbi)
 	init_llist_head(&cprc->issue_list);
 	spin_lock_init(&cprc->stat_lock);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

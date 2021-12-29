@@ -104,7 +104,11 @@ static int spi_clps711x_probe(struct platform_device *pdev)
 	master->use_gpio_descriptors = true;
 	master->bus_num = -1;
 	master->mode_bits = SPI_CPHA | SPI_CS_HIGH;
+<<<<<<< HEAD
 	master->bits_per_word_mask = SPI_BPW_RANGE_MASK(1, 8);
+=======
+	master->bits_per_word_mask =  SPI_BPW_RANGE_MASK(1, 8);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	master->dev.of_node = pdev->dev.of_node;
 	master->prepare_message = spi_clps711x_prepare_message;
 	master->transfer_one = spi_clps711x_transfer_one;

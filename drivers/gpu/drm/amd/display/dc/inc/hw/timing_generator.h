@@ -190,7 +190,10 @@ struct timing_generator_funcs {
 	void (*set_blank)(struct timing_generator *tg,
 					bool enable_blanking);
 	bool (*is_blanked)(struct timing_generator *tg);
+<<<<<<< HEAD
 	bool (*is_locked)(struct timing_generator *tg);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void (*set_overscan_blank_color) (struct timing_generator *tg, const struct tg_color *color);
 	void (*set_blank_color)(struct timing_generator *tg, const struct tg_color *color);
 	void (*set_colors)(struct timing_generator *tg,

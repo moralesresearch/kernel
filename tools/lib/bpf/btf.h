@@ -173,6 +173,10 @@ struct btf_dump_emit_type_decl_opts {
 	int indent_level;
 	/* strip all the const/volatile/restrict mods */
 	bool strip_mods;
+<<<<<<< HEAD
+	size_t :0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 #define btf_dump_emit_type_decl_opts__last_field strip_mods
 

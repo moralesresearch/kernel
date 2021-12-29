@@ -102,13 +102,21 @@ static int afs_inode_init_from_status(struct afs_operation *op,
 
 	switch (status->type) {
 	case AFS_FTYPE_FILE:
+<<<<<<< HEAD
+		inode->i_mode	= S_IFREG | (status->mode & S_IALLUGO);
+=======
 		inode->i_mode	= S_IFREG | status->mode;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		inode->i_op	= &afs_file_inode_operations;
 		inode->i_fop	= &afs_file_operations;
 		inode->i_mapping->a_ops	= &afs_fs_aops;
 		break;
 	case AFS_FTYPE_DIR:
+<<<<<<< HEAD
+		inode->i_mode	= S_IFDIR |  (status->mode & S_IALLUGO);
+=======
 		inode->i_mode	= S_IFDIR | status->mode;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		inode->i_op	= &afs_dir_inode_operations;
 		inode->i_fop	= &afs_dir_file_operations;
 		inode->i_mapping->a_ops	= &afs_dir_aops;
@@ -198,7 +206,11 @@ static void afs_apply_status(struct afs_operation *op,
 	if (status->mode != vnode->status.mode) {
 		mode = inode->i_mode;
 		mode &= ~S_IALLUGO;
+<<<<<<< HEAD
+		mode |= status->mode & S_IALLUGO;
+=======
 		mode |= status->mode;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		WRITE_ONCE(inode->i_mode, mode);
 	}
 
@@ -293,8 +305,14 @@ void afs_vnode_commit_status(struct afs_operation *op, struct afs_vnode_param *v
 			op->flags &= ~AFS_OPERATION_DIR_CONFLICT;
 		}
 	} else if (vp->scb.have_status) {
+<<<<<<< HEAD
+		if (vp->speculative &&
+		    (test_bit(AFS_VNODE_MODIFYING, &vnode->flags) ||
+		     vp->dv_before != vnode->status.data_version))
+=======
 		if (vp->dv_before + vp->dv_delta != vp->scb.status.data_version &&
 		    vp->speculative)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Ignore the result of a speculative bulk status fetch
 			 * if it splits around a modification op, thereby
 			 * appearing to regress the data version.
@@ -733,8 +751,18 @@ error_unlock:
 /*
  * read the attributes of an inode
  */
+<<<<<<< HEAD
 int afs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 		struct kstat *stat, u32 request_mask, unsigned int query_flags)
+=======
+<<<<<<< HEAD
+int afs_getattr(struct user_namespace *mnt_userns, const struct path *path,
+		struct kstat *stat, u32 request_mask, unsigned int query_flags)
+=======
+int afs_getattr(const struct path *path, struct kstat *stat,
+		u32 request_mask, unsigned int query_flags)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(path->dentry);
 	struct afs_vnode *vnode = AFS_FS_I(inode);
@@ -744,7 +772,15 @@ int afs_getattr(struct user_namespace *mnt_userns, const struct path *path,
 
 	do {
 		read_seqbegin_or_lock(&vnode->cb_lock, &seq);
+<<<<<<< HEAD
 		generic_fillattr(&init_user_ns, inode, stat);
+=======
+<<<<<<< HEAD
+		generic_fillattr(&init_user_ns, inode, stat);
+=======
+		generic_fillattr(inode, stat);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (test_bit(AFS_VNODE_SILLY_DELETED, &vnode->flags) &&
 		    stat->nlink > 0)
 			stat->nlink -= 1;
@@ -856,8 +892,17 @@ static const struct afs_operation_ops afs_setattr_operation = {
 /*
  * set the attributes of an inode
  */
+<<<<<<< HEAD
 int afs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		struct iattr *attr)
+=======
+<<<<<<< HEAD
+int afs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
+		struct iattr *attr)
+=======
+int afs_setattr(struct dentry *dentry, struct iattr *attr)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct afs_operation *op;
 	struct afs_vnode *vnode = AFS_FS_I(d_inode(dentry));
@@ -910,6 +955,10 @@ int afs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 	}
 	op->ctime = attr->ia_ctime;
 	op->file[0].update_ctime = 1;
+<<<<<<< HEAD
+	op->file[0].modification = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	op->ops = &afs_setattr_operation;
 	ret = afs_do_sync_operation(op);

@@ -681,6 +681,12 @@ static int vcc_remove(struct vio_dev *vdev)
 {
 	struct vcc_port *port = dev_get_drvdata(&vdev->dev);
 
+<<<<<<< HEAD
+=======
+	if (!port)
+		return -ENODEV;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	del_timer_sync(&port->rx_timer);
 	del_timer_sync(&port->tx_timer);
 
@@ -692,9 +698,18 @@ static int vcc_remove(struct vio_dev *vdev)
 		tty_vhangup(port->tty);
 
 	/* Get exclusive reference to VCC, ensures that there are no other
+<<<<<<< HEAD
 	 * clients to this port. This cannot fail.
 	 */
 	vcc_get(port->index, true);
+=======
+	 * clients to this port
+	 */
+	port = vcc_get(port->index, true);
+
+	if (WARN_ON(!port))
+		return -ENODEV;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	tty_unregister_device(vcc_tty_driver, port->index);
 

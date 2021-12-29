@@ -17,7 +17,10 @@
 #include "rx_common.h"
 #include "nic.h"
 #include "sriov.h"
+<<<<<<< HEAD
 #include "workarounds.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* This is the first interrupt mode to try out of:
  * 0 => MSI-X
@@ -138,7 +141,10 @@ static int efx_allocate_msix_channels(struct efx_nic *efx,
 {
 	unsigned int n_channels = parallelism;
 	int vec_count;
+<<<<<<< HEAD
 	int tx_per_ev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int n_xdp_tx;
 	int n_xdp_ev;
 
@@ -151,9 +157,15 @@ static int efx_allocate_msix_channels(struct efx_nic *efx,
 	 * multiple tx queues, assuming tx and ev queues are both
 	 * maximum size.
 	 */
+<<<<<<< HEAD
 	tx_per_ev = EFX_MAX_EVQ_SIZE / EFX_TXQ_MAX_ENT(efx);
 	n_xdp_tx = num_possible_cpus();
 	n_xdp_ev = DIV_ROUND_UP(n_xdp_tx, tx_per_ev);
+=======
+
+	n_xdp_tx = num_possible_cpus();
+	n_xdp_ev = DIV_ROUND_UP(n_xdp_tx, EFX_MAX_TXQ_PER_CHANNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vec_count = pci_msix_vec_count(efx->pci_dev);
 	if (vec_count < 0)
@@ -914,6 +926,11 @@ int efx_set_channels(struct efx_nic *efx)
 			}
 		}
 	}
+<<<<<<< HEAD
+	if (xdp_queue_number)
+		efx->xdp_tx_queue_count = xdp_queue_number;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = netif_set_real_num_tx_queues(efx->net_dev, efx->n_tx_channels);
 	if (rc)

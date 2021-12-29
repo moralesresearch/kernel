@@ -45,8 +45,11 @@ enum tb_cfg_pkg_type {
  * @TB_SECURITY_USBONLY: Only tunnel USB controller of the connected
  *			 Thunderbolt dock (and Display Port). All PCIe
  *			 links downstream of the dock are removed.
+<<<<<<< HEAD
  * @TB_SECURITY_NOPCIE: For USB4 systems this level is used when the
  *			PCIe tunneling is disabled from the BIOS.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 enum tb_security_level {
 	TB_SECURITY_NONE,
@@ -54,7 +57,10 @@ enum tb_security_level {
 	TB_SECURITY_SECURE,
 	TB_SECURITY_DPONLY,
 	TB_SECURITY_USBONLY,
+<<<<<<< HEAD
 	TB_SECURITY_NOPCIE,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /**

@@ -624,6 +624,13 @@ static int set_wqe_buf_attr(struct hns_roce_dev *hr_dev,
 		return -EINVAL;
 
 	buf_attr->page_shift = HNS_HW_PAGE_SHIFT + hr_dev->caps.mtt_buf_pg_sz;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	buf_attr->fixed_page = true;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	buf_attr->region_count = idx;
 
 	return 0;

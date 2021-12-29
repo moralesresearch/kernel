@@ -1133,7 +1133,15 @@ EXPORT_SYMBOL_GPL(__pm_runtime_resume);
  * suspending the device when both its runtime PM status is %RPM_ACTIVE and its
  * runtime PM usage counter is not zero.
  *
+<<<<<<< HEAD
  * The caller is responsible for decrementing the runtime PM usage counter of
+=======
+<<<<<<< HEAD
+ * The caller is responsible for decrementing the runtime PM usage counter of
+=======
+ * The caller is resposible for decrementing the runtime PM usage counter of
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dev after this function has returned a positive value for it.
  */
 int pm_runtime_get_if_active(struct device *dev, bool ign_usage_count)
@@ -1637,6 +1645,10 @@ void pm_runtime_init(struct device *dev)
 	dev->power.request_pending = false;
 	dev->power.request = RPM_REQ_NONE;
 	dev->power.deferred_resume = false;
+<<<<<<< HEAD
+	dev->power.needs_force_resume = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_WORK(&dev->power.work, pm_runtime_work);
 
 	dev->power.timer_expires = 0;
@@ -1804,10 +1816,19 @@ int pm_runtime_force_suspend(struct device *dev)
 	 * its parent, but set its status to RPM_SUSPENDED anyway in case this
 	 * function will be called again for it in the meantime.
 	 */
+<<<<<<< HEAD
+	if (pm_runtime_need_not_resume(dev)) {
+		pm_runtime_set_suspended(dev);
+	} else {
+		__update_runtime_status(dev, RPM_SUSPENDED);
+		dev->power.needs_force_resume = 1;
+	}
+=======
 	if (pm_runtime_need_not_resume(dev))
 		pm_runtime_set_suspended(dev);
 	else
 		__update_runtime_status(dev, RPM_SUSPENDED);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 
@@ -1834,7 +1855,11 @@ int pm_runtime_force_resume(struct device *dev)
 	int (*callback)(struct device *);
 	int ret = 0;
 
+<<<<<<< HEAD
+	if (!pm_runtime_status_suspended(dev) || !dev->power.needs_force_resume)
+=======
 	if (!pm_runtime_status_suspended(dev) || pm_runtime_need_not_resume(dev))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 
 	/*
@@ -1853,6 +1878,10 @@ int pm_runtime_force_resume(struct device *dev)
 
 	pm_runtime_mark_last_busy(dev);
 out:
+<<<<<<< HEAD
+	dev->power.needs_force_resume = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_enable(dev);
 	return ret;
 }

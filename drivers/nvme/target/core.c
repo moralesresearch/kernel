@@ -82,6 +82,10 @@ inline u16 errno_to_nvme_status(struct nvmet_req *req, int errno)
 	return status;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u16 nvmet_report_invalid_opcode(struct nvmet_req *req)
 {
 	pr_debug("unhandled cmd %d on qid %d\n", req->cmd->common.opcode,
@@ -91,6 +95,11 @@ u16 nvmet_report_invalid_opcode(struct nvmet_req *req)
 	return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
 		const char *subsysnqn);
 
@@ -388,10 +397,17 @@ static void nvmet_keep_alive_timer(struct work_struct *work)
 {
 	struct nvmet_ctrl *ctrl = container_of(to_delayed_work(work),
 			struct nvmet_ctrl, ka_work);
+<<<<<<< HEAD
+	bool reset_tbkas = ctrl->reset_tbkas;
+
+	ctrl->reset_tbkas = false;
+	if (reset_tbkas) {
+=======
 	bool cmd_seen = ctrl->cmd_seen;
 
 	ctrl->cmd_seen = false;
 	if (cmd_seen) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pr_debug("ctrl %d reschedule traffic based keep-alive timer\n",
 			ctrl->cntlid);
 		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
@@ -426,6 +442,10 @@ void nvmet_stop_keep_alive_timer(struct nvmet_ctrl *ctrl)
 	cancel_delayed_work_sync(&ctrl->ka_work);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 u16 nvmet_req_find_ns(struct nvmet_req *req)
 {
 	u32 nsid = le32_to_cpu(req->cmd->common.nsid);
@@ -438,6 +458,20 @@ u16 nvmet_req_find_ns(struct nvmet_req *req)
 
 	percpu_ref_get(&req->ns->ref);
 	return NVME_SC_SUCCESS;
+<<<<<<< HEAD
+=======
+=======
+struct nvmet_ns *nvmet_find_namespace(struct nvmet_ctrl *ctrl, __le32 nsid)
+{
+	struct nvmet_ns *ns;
+
+	ns = xa_load(&ctrl->subsys->namespaces, le32_to_cpu(nsid));
+	if (ns)
+		percpu_ref_get(&ns->ref);
+
+	return ns;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void nvmet_destroy_namespace(struct percpu_ref *ref)
@@ -804,6 +838,16 @@ void nvmet_sq_destroy(struct nvmet_sq *sq)
 	percpu_ref_exit(&sq->ref);
 
 	if (ctrl) {
+<<<<<<< HEAD
+		/*
+		 * The teardown flow may take some time, and the host may not
+		 * send us keep-alive during this period, hence reset the
+		 * traffic based keep-alive timer so we don't trigger a
+		 * controller teardown as a result of a keep-alive expiration.
+		 */
+		ctrl->reset_tbkas = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nvmet_ctrl_put(ctrl);
 		sq->ctrl = NULL; /* allows reusing the queue later */
 	}
@@ -874,10 +918,24 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
 	if (nvmet_req_passthru_ctrl(req))
 		return nvmet_parse_passthru_io_cmd(req);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = nvmet_req_find_ns(req);
 	if (unlikely(ret))
 		return ret;
 
+<<<<<<< HEAD
+=======
+=======
+	req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
+	if (unlikely(!req->ns)) {
+		req->error_loc = offsetof(struct nvme_common_command, nsid);
+		return NVME_SC_INVALID_NS | NVME_SC_DNR;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = nvmet_check_ana_state(req->port, req->ns);
 	if (unlikely(ret)) {
 		req->error_loc = offsetof(struct nvme_common_command, nsid);
@@ -891,8 +949,18 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
 
 	if (req->ns->file)
 		return nvmet_file_parse_io_cmd(req);
+<<<<<<< HEAD
 
 	return nvmet_bdev_parse_io_cmd(req);
+=======
+<<<<<<< HEAD
+
+	return nvmet_bdev_parse_io_cmd(req);
+=======
+	else
+		return nvmet_bdev_parse_io_cmd(req);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
@@ -953,7 +1021,11 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
 	}
 
 	if (sq->ctrl)
+<<<<<<< HEAD
+		sq->ctrl->reset_tbkas = true;
+=======
 		sq->ctrl->cmd_seen = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return true;
 
@@ -999,19 +1071,36 @@ static unsigned int nvmet_data_transfer_len(struct nvmet_req *req)
 	return req->transfer_len - req->metadata_len;
 }
 
+<<<<<<< HEAD
+static int nvmet_req_alloc_p2pmem_sgls(struct pci_dev *p2p_dev,
+		struct nvmet_req *req)
+{
+	req->sg = pci_p2pmem_alloc_sgl(p2p_dev, &req->sg_cnt,
+=======
 static int nvmet_req_alloc_p2pmem_sgls(struct nvmet_req *req)
 {
 	req->sg = pci_p2pmem_alloc_sgl(req->p2p_dev, &req->sg_cnt,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			nvmet_data_transfer_len(req));
 	if (!req->sg)
 		goto out_err;
 
 	if (req->metadata_len) {
+<<<<<<< HEAD
+		req->metadata_sg = pci_p2pmem_alloc_sgl(p2p_dev,
+=======
 		req->metadata_sg = pci_p2pmem_alloc_sgl(req->p2p_dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				&req->metadata_sg_cnt, req->metadata_len);
 		if (!req->metadata_sg)
 			goto out_free_sg;
 	}
+<<<<<<< HEAD
+
+	req->p2p_dev = p2p_dev;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 out_free_sg:
 	pci_p2pmem_free_sgl(req->p2p_dev, req->sg);
@@ -1019,6 +1108,14 @@ out_err:
 	return -ENOMEM;
 }
 
+<<<<<<< HEAD
+static struct pci_dev *nvmet_req_find_p2p_dev(struct nvmet_req *req)
+{
+	if (!IS_ENABLED(CONFIG_PCI_P2PDMA) ||
+	    !req->sq->ctrl || !req->sq->qid || !req->ns)
+		return NULL;
+	return radix_tree_lookup(&req->sq->ctrl->p2p_ns_map, req->ns->nsid);
+=======
 static bool nvmet_req_find_p2p_dev(struct nvmet_req *req)
 {
 	if (!IS_ENABLED(CONFIG_PCI_P2PDMA))
@@ -1033,11 +1130,18 @@ static bool nvmet_req_find_p2p_dev(struct nvmet_req *req)
 
 	req->p2p_dev = NULL;
 	return false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int nvmet_req_alloc_sgls(struct nvmet_req *req)
 {
+<<<<<<< HEAD
+	struct pci_dev *p2p_dev = nvmet_req_find_p2p_dev(req);
+
+	if (p2p_dev && !nvmet_req_alloc_p2pmem_sgls(p2p_dev, req))
+=======
 	if (nvmet_req_find_p2p_dev(req) && !nvmet_req_alloc_p2pmem_sgls(req))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	req->sg = sgl_alloc(nvmet_data_transfer_len(req), GFP_KERNEL,
@@ -1066,6 +1170,10 @@ void nvmet_req_free_sgls(struct nvmet_req *req)
 		pci_p2pmem_free_sgl(req->p2p_dev, req->sg);
 		if (req->metadata_sg)
 			pci_p2pmem_free_sgl(req->p2p_dev, req->metadata_sg);
+<<<<<<< HEAD
+		req->p2p_dev = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		sgl_free(req->sg);
 		if (req->metadata_sg)
@@ -1371,7 +1479,11 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
 		goto out_free_changed_ns_list;
 
 	if (subsys->cntlid_min > subsys->cntlid_max)
+<<<<<<< HEAD
+		goto out_free_sqs;
+=======
 		goto out_free_changed_ns_list;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = ida_simple_get(&cntlid_ida,
 			     subsys->cntlid_min, subsys->cntlid_max,
@@ -1543,7 +1655,15 @@ static void nvmet_subsys_free(struct kref *ref)
 	nvmet_passthru_subsys_free(subsys);
 
 	kfree(subsys->subsysnqn);
+<<<<<<< HEAD
 	kfree(subsys->model_number);
+=======
+<<<<<<< HEAD
+	kfree(subsys->model_number);
+=======
+	kfree_rcu(subsys->model, rcuhead);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(subsys);
 }
 

@@ -4,10 +4,17 @@
 #include <engine/disp.h>
 #include "outp.h"
 
+<<<<<<< HEAD
 int nvkm_disp_ctor(const struct nvkm_disp_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		   struct nvkm_disp *);
 int nvkm_disp_new_(const struct nvkm_disp_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		   struct nvkm_disp **);
+=======
+int nvkm_disp_ctor(const struct nvkm_disp_func *, struct nvkm_device *,
+		   int index, struct nvkm_disp *);
+int nvkm_disp_new_(const struct nvkm_disp_func *, struct nvkm_device *,
+		   int index, struct nvkm_disp **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void nvkm_disp_vblank(struct nvkm_disp *, int head);
 
 struct nvkm_disp_func {

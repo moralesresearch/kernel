@@ -13,13 +13,17 @@
 #include <linux/perf_event.h>
 #include <linux/signal.h>
 #include <linux/uaccess.h>
+<<<<<<< HEAD
 #include <linux/kprobes.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/ptrace.h>
 #include <asm/tlbflush.h>
 
 #include "../kernel/head.h"
 
+<<<<<<< HEAD
 static void die_kernel_fault(const char *msg, unsigned long addr,
 		struct pt_regs *regs)
 {
@@ -37,6 +41,10 @@ static inline void no_context(struct pt_regs *regs, unsigned long addr)
 {
 	const char *msg;
 
+=======
+static inline void no_context(struct pt_regs *regs, unsigned long addr)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Are we prepared to handle this kernel fault? */
 	if (fixup_exception(regs))
 		return;
@@ -45,8 +53,17 @@ static inline void no_context(struct pt_regs *regs, unsigned long addr)
 	 * Oops. The kernel tried to access some bad page. We'll have to
 	 * terminate things with extreme prejudice.
 	 */
+<<<<<<< HEAD
 	msg = (addr < PAGE_SIZE) ? "NULL pointer dereference" : "paging request";
 	die_kernel_fault(msg, addr, regs);
+=======
+	bust_spinlocks(1);
+	pr_alert("Unable to handle kernel %s at virtual address " REG_FMT "\n",
+		(addr < PAGE_SIZE) ? "NULL pointer dereference" :
+		"paging request", addr);
+	die(regs, "Oops");
+	do_exit(SIGKILL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void mm_fault_error(struct pt_regs *regs, unsigned long addr, vm_fault_t fault)
@@ -214,9 +231,12 @@ asmlinkage void do_page_fault(struct pt_regs *regs)
 	tsk = current;
 	mm = tsk->mm;
 
+<<<<<<< HEAD
 	if (kprobe_page_fault(regs, cause))
 		return;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Fault-in kernel-space virtual memory on-demand.
 	 * The 'reference' page table is init_mm.pgd.
@@ -240,7 +260,10 @@ asmlinkage void do_page_fault(struct pt_regs *regs)
 	 * in an atomic region, then we must not take the fault.
 	 */
 	if (unlikely(faulthandler_disabled() || !mm)) {
+<<<<<<< HEAD
 		tsk->thread.bad_cause = cause;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		no_context(regs, addr);
 		return;
 	}
@@ -248,11 +271,14 @@ asmlinkage void do_page_fault(struct pt_regs *regs)
 	if (user_mode(regs))
 		flags |= FAULT_FLAG_USER;
 
+<<<<<<< HEAD
 	if (!user_mode(regs) && addr < TASK_SIZE &&
 			unlikely(!(regs->status & SR_SUM)))
 		die_kernel_fault("access to user memory without uaccess routines",
 				addr, regs);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, addr);
 
 	if (cause == EXC_STORE_PAGE_FAULT)
@@ -263,19 +289,28 @@ retry:
 	mmap_read_lock(mm);
 	vma = find_vma(mm, addr);
 	if (unlikely(!vma)) {
+<<<<<<< HEAD
 		tsk->thread.bad_cause = cause;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bad_area(regs, mm, code, addr);
 		return;
 	}
 	if (likely(vma->vm_start <= addr))
 		goto good_area;
 	if (unlikely(!(vma->vm_flags & VM_GROWSDOWN))) {
+<<<<<<< HEAD
 		tsk->thread.bad_cause = cause;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bad_area(regs, mm, code, addr);
 		return;
 	}
 	if (unlikely(expand_stack(vma, addr))) {
+<<<<<<< HEAD
 		tsk->thread.bad_cause = cause;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bad_area(regs, mm, code, addr);
 		return;
 	}
@@ -288,7 +323,10 @@ good_area:
 	code = SEGV_ACCERR;
 
 	if (unlikely(access_error(cause, vma))) {
+<<<<<<< HEAD
 		tsk->thread.bad_cause = cause;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bad_area(regs, mm, code, addr);
 		return;
 	}
@@ -322,10 +360,16 @@ good_area:
 	mmap_read_unlock(mm);
 
 	if (unlikely(fault & VM_FAULT_ERROR)) {
+<<<<<<< HEAD
 		tsk->thread.bad_cause = cause;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mm_fault_error(regs, addr, fault);
 		return;
 	}
 	return;
 }
+<<<<<<< HEAD
 NOKPROBE_SYMBOL(do_page_fault);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

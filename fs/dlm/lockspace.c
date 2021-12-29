@@ -404,12 +404,15 @@ static int threads_start(void)
 	return error;
 }
 
+<<<<<<< HEAD
+=======
 static void threads_stop(void)
 {
 	dlm_scand_stop();
 	dlm_lowcomms_stop();
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int new_lockspace(const char *name, const char *cluster,
 			 uint32_t flags, int lvblen,
 			 const struct dlm_lockspace_ops *ops, void *ops_arg,
@@ -702,8 +705,16 @@ int dlm_new_lockspace(const char *name, const char *cluster,
 		ls_count++;
 	if (error > 0)
 		error = 0;
+<<<<<<< HEAD
+	if (!ls_count) {
+		dlm_scand_stop();
+		dlm_lowcomms_shutdown();
+		dlm_lowcomms_stop();
+	}
+=======
 	if (!ls_count)
 		threads_stop();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  out:
 	mutex_unlock(&ls_lock);
 	return error;
@@ -788,6 +799,14 @@ static int release_lockspace(struct dlm_ls *ls, int force)
 
 	dlm_recoverd_stop(ls);
 
+<<<<<<< HEAD
+	if (ls_count == 1) {
+		dlm_scand_stop();
+		dlm_lowcomms_shutdown();
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dlm_callback_stop(ls);
 
 	remove_lockspace(ls);
@@ -880,7 +899,11 @@ int dlm_release_lockspace(void *lockspace, int force)
 	if (!error)
 		ls_count--;
 	if (!ls_count)
+<<<<<<< HEAD
+		dlm_lowcomms_stop();
+=======
 		threads_stop();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&ls_lock);
 
 	return error;

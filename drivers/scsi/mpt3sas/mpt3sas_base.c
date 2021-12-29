@@ -2505,8 +2505,18 @@ _base_check_pcie_native_sgl(struct MPT3SAS_ADAPTER *ioc,
 	}
 
 	/* Check if we need to build a native SG list. */
+<<<<<<< HEAD
 	if (!base_is_prp_possible(ioc, pcie_device,
 				scmd, sges_left)) {
+=======
+<<<<<<< HEAD
+	if (!base_is_prp_possible(ioc, pcie_device,
+				scmd, sges_left)) {
+=======
+	if (base_is_prp_possible(ioc, pcie_device,
+				scmd, sges_left) == 0) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* We built a native SG list, just return. */
 		goto out;
 	}
@@ -3648,6 +3658,10 @@ _base_get_msix_index(struct MPT3SAS_ADAPTER *ioc,
 		    base_mod64(atomic64_add_return(1,
 		    &ioc->total_io_cnt), ioc->reply_queue_count) : 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (scmd && ioc->shost->nr_hw_queues > 1) {
 		u32 tag = blk_mq_unique_tag(scmd->request);
 
@@ -3658,6 +3672,30 @@ _base_get_msix_index(struct MPT3SAS_ADAPTER *ioc,
 	return ioc->cpu_msix_table[raw_smp_processor_id()];
 }
 
+<<<<<<< HEAD
+=======
+=======
+	return ioc->cpu_msix_table[raw_smp_processor_id()];
+}
+
+/**
+ * _base_sdev_nr_inflight_request -get number of inflight requests
+ *				   of a request queue.
+ * @q: request_queue object
+ *
+ * returns number of inflight request of a request queue.
+ */
+inline unsigned long
+_base_sdev_nr_inflight_request(struct request_queue *q)
+{
+	struct blk_mq_hw_ctx *hctx = q->queue_hw_ctx[0];
+
+	return atomic_read(&hctx->nr_active);
+}
+
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * _base_get_high_iops_msix_index - get the msix index of
  *				high iops queues
@@ -3677,8 +3715,17 @@ _base_get_high_iops_msix_index(struct MPT3SAS_ADAPTER *ioc,
 	 * reply queues in terms of batch count 16 when outstanding
 	 * IOs on the target device is >=8.
 	 */
+<<<<<<< HEAD
 
 	if (atomic_read(&scmd->device->device_busy) >
+=======
+<<<<<<< HEAD
+
+	if (atomic_read(&scmd->device->device_busy) >
+=======
+	if (_base_sdev_nr_inflight_request(scmd->device->request_queue) >
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    MPT3SAS_DEVICE_HIGH_IOPS_DEPTH)
 		return base_mod64((
 		    atomic64_add_return(1, &ioc->high_iops_outstanding) /
@@ -3731,6 +3778,10 @@ mpt3sas_base_get_smid_scsiio(struct MPT3SAS_ADAPTER *ioc, u8 cb_idx,
 	struct scsi_cmnd *scmd)
 {
 	struct scsiio_tracker *request = scsi_cmd_priv(scmd);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 smid;
 	u32 tag, unique_tag;
 
@@ -3748,6 +3799,13 @@ mpt3sas_base_get_smid_scsiio(struct MPT3SAS_ADAPTER *ioc, u8 cb_idx,
 	 * unique_tag = ioc->io_queue_num[tag] << BLK_MQ_UNIQUE_TAG_BITS | tag;
 	 */
 	ioc->io_queue_num[tag] = blk_mq_unique_tag_to_hwq(unique_tag);
+<<<<<<< HEAD
+=======
+=======
+	unsigned int tag = scmd->request->tag;
+	u16 smid;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	smid = tag + 1;
 	request->cb_idx = cb_idx;
@@ -3838,7 +3896,14 @@ mpt3sas_base_free_smid(struct MPT3SAS_ADAPTER *ioc, u16 smid)
 
 		mpt3sas_base_clear_st(ioc, st);
 		_base_recovery_check(ioc);
+<<<<<<< HEAD
 		ioc->io_queue_num[smid - 1] = 0;
+=======
+<<<<<<< HEAD
+		ioc->io_queue_num[smid - 1] = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 
@@ -5370,9 +5435,18 @@ _base_release_memory_pools(struct MPT3SAS_ADAPTER *ioc)
 		kfree(ioc->chain_lookup);
 		ioc->chain_lookup = NULL;
 	}
+<<<<<<< HEAD
 
 	kfree(ioc->io_queue_num);
 	ioc->io_queue_num = NULL;
+=======
+<<<<<<< HEAD
+
+	kfree(ioc->io_queue_num);
+	ioc->io_queue_num = NULL;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -5652,8 +5726,17 @@ _base_allocate_memory_pools(struct MPT3SAS_ADAPTER *ioc)
 	reply_post_free_sz = ioc->reply_post_queue_depth *
 	    sizeof(Mpi2DefaultReplyDescriptor_t);
 	rdpq_sz = reply_post_free_sz * RDPQ_MAX_INDEX_IN_ONE_CHUNK;
+<<<<<<< HEAD
 	if ((_base_is_controller_msix_enabled(ioc) && !ioc->rdpq_array_enable)
 	    || (ioc->reply_queue_count < RDPQ_MAX_INDEX_IN_ONE_CHUNK))
+=======
+<<<<<<< HEAD
+	if ((_base_is_controller_msix_enabled(ioc) && !ioc->rdpq_array_enable)
+	    || (ioc->reply_queue_count < RDPQ_MAX_INDEX_IN_ONE_CHUNK))
+=======
+	if (_base_is_controller_msix_enabled(ioc) && !ioc->rdpq_array_enable)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		rdpq_sz = reply_post_free_sz * ioc->reply_queue_count;
 	ret = base_alloc_rdpq_dma_pool(ioc, rdpq_sz);
 	if (ret == -EAGAIN) {
@@ -5784,11 +5867,20 @@ _base_allocate_memory_pools(struct MPT3SAS_ADAPTER *ioc)
 		    ioc_info(ioc, "internal(0x%p): depth(%d), start smid(%d)\n",
 			     ioc->internal,
 			     ioc->internal_depth, ioc->internal_smid));
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ioc->io_queue_num = kcalloc(ioc->scsiio_depth,
 	    sizeof(u16), GFP_KERNEL);
 	if (!ioc->io_queue_num)
 		goto out;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * The number of NVMe page sized blocks needed is:
 	 *     (((sg_tablesize * 8) - 1) / (page_size - 8)) + 1
@@ -7252,6 +7344,11 @@ _base_diag_reset(struct MPT3SAS_ADAPTER *ioc)
 
 	ioc_info(ioc, "sending diag reset !!\n");
 
+<<<<<<< HEAD
+	pci_cfg_access_lock(ioc->pdev);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	drsprintk(ioc, ioc_info(ioc, "clear interrupts\n"));
 
 	count = 0;
@@ -7342,10 +7439,18 @@ _base_diag_reset(struct MPT3SAS_ADAPTER *ioc)
 		goto out;
 	}
 
+<<<<<<< HEAD
+	pci_cfg_access_unlock(ioc->pdev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ioc_info(ioc, "diag reset: SUCCESS\n");
 	return 0;
 
  out:
+<<<<<<< HEAD
+	pci_cfg_access_unlock(ioc->pdev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ioc_err(ioc, "diag reset: FAILED\n");
 	return -EFAULT;
 }
@@ -8195,11 +8300,22 @@ mpt3sas_base_hard_reset_handler(struct MPT3SAS_ADAPTER *ioc,
 		ioc_state = mpt3sas_base_get_iocstate(ioc, 0);
 		if ((ioc_state & MPI2_IOC_STATE_MASK) == MPI2_IOC_STATE_FAULT ||
 		    (ioc_state & MPI2_IOC_STATE_MASK) ==
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    MPI2_IOC_STATE_COREDUMP) {
 			is_fault = 1;
 			ioc->htb_rel.trigger_info_dwords[1] =
 			    (ioc_state & MPI2_DOORBELL_DATA_MASK);
 		}
+<<<<<<< HEAD
+=======
+=======
+		    MPI2_IOC_STATE_COREDUMP)
+			is_fault = 1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	_base_pre_reset_handler(ioc);
 	mpt3sas_wait_for_commands_to_complete(ioc);

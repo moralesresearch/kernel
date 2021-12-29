@@ -606,6 +606,8 @@ static int bq25980_get_state(struct bq25980_device *bq,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
 static int bq25980_set_battery_property(struct power_supply *psy,
 				enum power_supply_property psp,
 				const union power_supply_propval *val)
@@ -633,6 +635,7 @@ static int bq25980_set_battery_property(struct power_supply *psy,
 	return ret;
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int bq25980_get_battery_property(struct power_supply *psy,
 				enum power_supply_property psp,
 				union power_supply_propval *val)
@@ -701,6 +704,21 @@ static int bq25980_set_charger_property(struct power_supply *psy,
 			return ret;
 		break;
 
+<<<<<<< HEAD
+	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT:
+		ret = bq25980_set_const_charge_curr(bq, val->intval);
+		if (ret)
+			return ret;
+		break;
+
+	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
+		ret = bq25980_set_const_charge_volt(bq, val->intval);
+		if (ret)
+			return ret;
+		break;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		return -EINVAL;
 	}
@@ -922,7 +940,10 @@ static struct power_supply_desc bq25980_battery_desc = {
 	.name			= "bq25980-battery",
 	.type			= POWER_SUPPLY_TYPE_BATTERY,
 	.get_property		= bq25980_get_battery_property,
+<<<<<<< HEAD
+=======
 	.set_property		= bq25980_set_battery_property,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.properties		= bq25980_battery_props,
 	.num_properties		= ARRAY_SIZE(bq25980_battery_props),
 	.property_is_writeable	= bq25980_property_is_writeable,
@@ -1285,7 +1306,11 @@ static int bq25980_probe(struct i2c_client *client,
 static const struct i2c_device_id bq25980_i2c_ids[] = {
 	{ "bq25980", BQ25980 },
 	{ "bq25975", BQ25975 },
+<<<<<<< HEAD
 	{ "bq25960", BQ25960 },
+=======
+	{ "bq25975", BQ25975 },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{},
 };
 MODULE_DEVICE_TABLE(i2c, bq25980_i2c_ids);

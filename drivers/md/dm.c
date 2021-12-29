@@ -28,7 +28,14 @@
 #include <linux/refcount.h>
 #include <linux/part_stat.h>
 #include <linux/blk-crypto.h>
+<<<<<<< HEAD
 #include <linux/keyslot-manager.h>
+=======
+<<<<<<< HEAD
+#include <linux/keyslot-manager.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DM_MSG_PREFIX "core"
 
@@ -106,16 +113,35 @@ struct dm_io {
 	struct dm_target_io tio;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define DM_TARGET_IO_BIO_OFFSET (offsetof(struct dm_target_io, clone))
 #define DM_IO_BIO_OFFSET \
 	(offsetof(struct dm_target_io, clone) + offsetof(struct dm_io, tio))
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void *dm_per_bio_data(struct bio *bio, size_t data_size)
 {
 	struct dm_target_io *tio = container_of(bio, struct dm_target_io, clone);
 	if (!tio->inside_dm_io)
+<<<<<<< HEAD
 		return (char *)bio - DM_TARGET_IO_BIO_OFFSET - data_size;
 	return (char *)bio - DM_IO_BIO_OFFSET - data_size;
+=======
+<<<<<<< HEAD
+		return (char *)bio - DM_TARGET_IO_BIO_OFFSET - data_size;
+	return (char *)bio - DM_IO_BIO_OFFSET - data_size;
+=======
+		return (char *)bio - offsetof(struct dm_target_io, clone) - data_size;
+	return (char *)bio - offsetof(struct dm_target_io, clone) - offsetof(struct dm_io, tio) - data_size;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(dm_per_bio_data);
 
@@ -123,9 +149,21 @@ struct bio *dm_bio_from_per_bio_data(void *data, size_t data_size)
 {
 	struct dm_io *io = (struct dm_io *)((char *)data + data_size);
 	if (io->magic == DM_IO_MAGIC)
+<<<<<<< HEAD
 		return (struct bio *)((char *)io + DM_IO_BIO_OFFSET);
 	BUG_ON(io->magic != DM_TIO_MAGIC);
 	return (struct bio *)((char *)io + DM_TARGET_IO_BIO_OFFSET);
+=======
+<<<<<<< HEAD
+		return (struct bio *)((char *)io + DM_IO_BIO_OFFSET);
+	BUG_ON(io->magic != DM_TIO_MAGIC);
+	return (struct bio *)((char *)io + DM_TARGET_IO_BIO_OFFSET);
+=======
+		return (struct bio *)((char *)io + offsetof(struct dm_io, tio) + offsetof(struct dm_target_io, clone));
+	BUG_ON(io->magic != DM_TIO_MAGIC);
+	return (struct bio *)((char *)io + offsetof(struct dm_target_io, clone));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(dm_bio_from_per_bio_data);
 
@@ -997,6 +1035,10 @@ static void clone_endio(struct bio *bio)
 	struct mapped_device *md = tio->io->md;
 	dm_endio_fn endio = tio->ti->type->end_io;
 	struct bio *orig_bio = io->orig_bio;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct request_queue *q = bio->bi_bdev->bd_disk->queue;
 
 	if (unlikely(error == BLK_STS_TARGET)) {
@@ -1008,6 +1050,21 @@ static void clone_endio(struct bio *bio)
 			disable_write_same(md);
 		else if (bio_op(bio) == REQ_OP_WRITE_ZEROES &&
 			 !q->limits.max_write_zeroes_sectors)
+<<<<<<< HEAD
+=======
+=======
+
+	if (unlikely(error == BLK_STS_TARGET)) {
+		if (bio_op(bio) == REQ_OP_DISCARD &&
+		    !bio->bi_disk->queue->limits.max_discard_sectors)
+			disable_discard(md);
+		else if (bio_op(bio) == REQ_OP_WRITE_SAME &&
+			 !bio->bi_disk->queue->limits.max_write_same_sectors)
+			disable_write_same(md);
+		else if (bio_op(bio) == REQ_OP_WRITE_ZEROES &&
+			 !bio->bi_disk->queue->limits.max_write_zeroes_sectors)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			disable_write_zeroes(md);
 	}
 
@@ -1017,7 +1074,15 @@ static void clone_endio(struct bio *bio)
 	 */
 	if (bio_op(orig_bio) == REQ_OP_ZONE_APPEND) {
 		sector_t written_sector = bio->bi_iter.bi_sector;
+<<<<<<< HEAD
 		struct request_queue *q = orig_bio->bi_bdev->bd_disk->queue;
+=======
+<<<<<<< HEAD
+		struct request_queue *q = orig_bio->bi_bdev->bd_disk->queue;
+=======
+		struct request_queue *q = orig_bio->bi_disk->queue;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u64 mask = (u64)blk_queue_zone_sectors(q) - 1;
 
 		orig_bio->bi_iter.bi_sector += written_sector & mask;
@@ -1480,7 +1545,16 @@ static int __send_empty_flush(struct clone_info *ci)
 	 */
 	bio_init(&flush_bio, NULL, 0);
 	flush_bio.bi_opf = REQ_OP_WRITE | REQ_PREFLUSH | REQ_SYNC;
+<<<<<<< HEAD
 	bio_set_dev(&flush_bio, ci->io->md->disk->part0);
+=======
+<<<<<<< HEAD
+	bio_set_dev(&flush_bio, ci->io->md->disk->part0);
+=======
+	flush_bio.bi_disk = ci->io->md->disk;
+	bio_associate_blkg(&flush_bio);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ci->bio = &flush_bio;
 	ci->sector_count = 0;
@@ -1683,7 +1757,15 @@ static blk_qc_t __split_and_process_bio(struct mapped_device *md,
 
 static blk_qc_t dm_submit_bio(struct bio *bio)
 {
+<<<<<<< HEAD
 	struct mapped_device *md = bio->bi_bdev->bd_disk->private_data;
+=======
+<<<<<<< HEAD
+	struct mapped_device *md = bio->bi_bdev->bd_disk->private_data;
+=======
+	struct mapped_device *md = bio->bi_disk->private_data;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	blk_qc_t ret = BLK_QC_T_NONE;
 	int srcu_idx;
 	struct dm_table *map;
@@ -1775,6 +1857,10 @@ static const struct dax_operations dm_dax_ops;
 
 static void dm_wq_work(struct work_struct *work);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_BLK_INLINE_ENCRYPTION
 static void dm_queue_destroy_keyslot_manager(struct request_queue *q)
 {
@@ -1788,6 +1874,11 @@ static inline void dm_queue_destroy_keyslot_manager(struct request_queue *q)
 }
 #endif /* !CONFIG_BLK_INLINE_ENCRYPTION */
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void cleanup_mapped_device(struct mapped_device *md)
 {
 	if (md->wq)
@@ -1809,10 +1900,21 @@ static void cleanup_mapped_device(struct mapped_device *md)
 		put_disk(md->disk);
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (md->queue) {
 		dm_queue_destroy_keyslot_manager(md->queue);
 		blk_cleanup_queue(md->queue);
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (md->queue)
+		blk_cleanup_queue(md->queue);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cleanup_srcu_struct(&md->io_barrier);
 
@@ -2929,8 +3031,18 @@ struct dm_md_mempools *dm_alloc_md_mempools(struct mapped_device *md, enum dm_qu
 	case DM_TYPE_BIO_BASED:
 	case DM_TYPE_DAX_BIO_BASED:
 		pool_size = max(dm_get_reserved_bio_based_ios(), min_pool_size);
+<<<<<<< HEAD
 		front_pad = roundup(per_io_data_size, __alignof__(struct dm_target_io)) + DM_TARGET_IO_BIO_OFFSET;
 		io_front_pad = roundup(per_io_data_size,  __alignof__(struct dm_io)) + DM_IO_BIO_OFFSET;
+=======
+<<<<<<< HEAD
+		front_pad = roundup(per_io_data_size, __alignof__(struct dm_target_io)) + DM_TARGET_IO_BIO_OFFSET;
+		io_front_pad = roundup(per_io_data_size,  __alignof__(struct dm_io)) + DM_IO_BIO_OFFSET;
+=======
+		front_pad = roundup(per_io_data_size, __alignof__(struct dm_target_io)) + offsetof(struct dm_target_io, clone);
+		io_front_pad = roundup(front_pad,  __alignof__(struct dm_io)) + offsetof(struct dm_io, tio);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = bioset_init(&pools->io_bs, pool_size, io_front_pad, 0);
 		if (ret)
 			goto out;

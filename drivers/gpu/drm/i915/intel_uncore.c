@@ -2070,7 +2070,11 @@ int i915_reg_read_ioctl(struct drm_device *dev,
  * This routine waits until the target register @reg contains the expected
  * @value after applying the @mask, i.e. it waits until ::
  *
+<<<<<<< HEAD
  *     (intel_uncore_read_fw(uncore, reg) & mask) == value
+=======
+ *     (I915_READ_FW(reg) & mask) == value
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Otherwise, the wait will timeout after @slow_timeout_ms milliseconds.
  * For atomic context @slow_timeout_ms must be zero and @fast_timeout_us
@@ -2126,7 +2130,11 @@ int __intel_wait_for_register_fw(struct intel_uncore *uncore,
  * This routine waits until the target register @reg contains the expected
  * @value after applying the @mask, i.e. it waits until ::
  *
+<<<<<<< HEAD
  *     (intel_uncore_read(uncore, reg) & mask) == value
+=======
+ *     (I915_READ(reg) & mask) == value
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Otherwise, the wait will timeout after @timeout_ms milliseconds.
  *

@@ -687,6 +687,11 @@ struct i2c_adapter_quirks {
 #define I2C_AQ_NO_ZERO_LEN_READ		BIT(5)
 #define I2C_AQ_NO_ZERO_LEN_WRITE	BIT(6)
 #define I2C_AQ_NO_ZERO_LEN		(I2C_AQ_NO_ZERO_LEN_READ | I2C_AQ_NO_ZERO_LEN_WRITE)
+<<<<<<< HEAD
+/* adapter cannot do repeated START */
+#define I2C_AQ_NO_REP_START		BIT(7)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * i2c_adapter is the structure used to identify a physical i2c bus along

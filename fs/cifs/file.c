@@ -581,7 +581,15 @@ int cifs_open(struct inode *inode, struct file *file)
 		} else if ((rc == -EINVAL) || (rc == -EOPNOTSUPP)) {
 			if (tcon->ses->serverNOS)
 				cifs_dbg(VFS, "server %s of type %s returned unexpected error on SMB posix open, disabling posix open support. Check if server update available.\n",
+<<<<<<< HEAD
 					 tcon->ses->ip_addr,
+=======
+<<<<<<< HEAD
+					 tcon->ses->ip_addr,
+=======
+					 tcon->ses->serverName,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					 tcon->ses->serverNOS);
 			tcon->broken_posix_open = true;
 		} else if ((rc != -EIO) && (rc != -EREMOTE) &&

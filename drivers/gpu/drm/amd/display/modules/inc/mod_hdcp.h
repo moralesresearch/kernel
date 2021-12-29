@@ -101,8 +101,13 @@ enum mod_hdcp_status {
 
 struct mod_hdcp_displayport {
 	uint8_t rev;
+<<<<<<< HEAD
 	uint8_t assr_enabled;
 	uint8_t mst_enabled;
+=======
+	uint8_t assr_supported;
+	uint8_t mst_supported;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct mod_hdcp_hdmi {

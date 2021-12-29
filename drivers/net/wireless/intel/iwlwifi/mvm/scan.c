@@ -1253,6 +1253,7 @@ int iwl_mvm_config_scan(struct iwl_mvm *mvm)
 	memset(&cfg, 0, sizeof(cfg));
 
 	if (iwl_fw_lookup_cmd_ver(mvm->fw, LONG_GROUP,
+<<<<<<< HEAD
 				  ADD_STA, 0) < 12) {
 		cfg.bcast_sta_id = mvm->aux_sta.sta_id;
 	} else if (iwl_fw_lookup_cmd_ver(mvm->fw, LONG_GROUP,
@@ -1263,6 +1264,16 @@ int iwl_mvm_config_scan(struct iwl_mvm *mvm)
 		 */
 		cfg.bcast_sta_id = 0xff;
 	}
+=======
+				  ADD_STA, 0) < 12)
+		cfg.bcast_sta_id = mvm->aux_sta.sta_id;
+	/*
+	 * Fw doesn't use this sta anymore, pending deprecation via HOST API
+	 * change.
+	 */
+	else
+		cfg.bcast_sta_id = 0xff;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cfg.tx_chains = cpu_to_le32(iwl_mvm_get_valid_tx_ant(mvm));
 	cfg.rx_chains = cpu_to_le32(iwl_mvm_scan_rx_ant(mvm));
@@ -2856,12 +2867,16 @@ void iwl_mvm_report_scan_aborted(struct iwl_mvm *mvm)
 				.aborted = true,
 			};
 
+<<<<<<< HEAD
 			cancel_delayed_work(&mvm->scan_timeout_dwork);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ieee80211_scan_completed(mvm->hw, &info);
 			mvm->scan_uid_status[uid] = 0;
 		}
 		uid = iwl_mvm_scan_uid_by_status(mvm, IWL_MVM_SCAN_SCHED);
+<<<<<<< HEAD
 		if (uid >= 0) {
 			/* Sched scan will be restarted by mac80211 in
 			 * restart_hw, so do not report if FW is about to be
@@ -2869,6 +2884,10 @@ void iwl_mvm_report_scan_aborted(struct iwl_mvm *mvm)
 			 */
 			if (!mvm->fw_restart)
 				ieee80211_sched_scan_stopped(mvm->hw);
+=======
+		if (uid >= 0 && !mvm->fw_restart) {
+			ieee80211_sched_scan_stopped(mvm->hw);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mvm->sched_scan_pass_all = SCHED_SCAN_PASS_ALL_DISABLED;
 			mvm->scan_uid_status[uid] = 0;
 		}
@@ -2898,7 +2917,10 @@ void iwl_mvm_report_scan_aborted(struct iwl_mvm *mvm)
 				.aborted = true,
 			};
 
+<<<<<<< HEAD
 			cancel_delayed_work(&mvm->scan_timeout_dwork);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ieee80211_scan_completed(mvm->hw, &info);
 		}
 

@@ -74,6 +74,7 @@ void nfs_pageio_init_read(struct nfs_pageio_descriptor *pgio,
 }
 EXPORT_SYMBOL_GPL(nfs_pageio_init_read);
 
+<<<<<<< HEAD
 static void nfs_pageio_complete_read(struct nfs_pageio_descriptor *pgio,
 				     struct inode *inode)
 {
@@ -92,6 +93,8 @@ static void nfs_pageio_complete_read(struct nfs_pageio_descriptor *pgio,
 }
 
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void nfs_pageio_reset_read_mds(struct nfs_pageio_descriptor *pgio)
 {
 	struct nfs_pgio_mirror *mirror;
@@ -132,10 +135,48 @@ static void nfs_readpage_release(struct nfs_page *req, int error)
 	nfs_release_request(req);
 }
 
+<<<<<<< HEAD
 struct nfs_readdesc {
 	struct nfs_pageio_descriptor pgio;
 	struct nfs_open_context *ctx;
 };
+=======
+int nfs_readpage_async(struct nfs_open_context *ctx, struct inode *inode,
+		       struct page *page)
+{
+	struct nfs_page	*new;
+	unsigned int len;
+	struct nfs_pageio_descriptor pgio;
+	struct nfs_pgio_mirror *pgm;
+
+	len = nfs_page_length(page);
+	if (len == 0)
+		return nfs_return_empty_page(page);
+	new = nfs_create_request(ctx, page, 0, len);
+	if (IS_ERR(new)) {
+		unlock_page(page);
+		return PTR_ERR(new);
+	}
+	if (len < PAGE_SIZE)
+		zero_user_segment(page, len, PAGE_SIZE);
+
+	nfs_pageio_init_read(&pgio, inode, false,
+			     &nfs_async_read_completion_ops);
+	if (!nfs_pageio_add_request(&pgio, new)) {
+		nfs_list_remove_request(new);
+		nfs_readpage_release(new, pgio.pg_error);
+	}
+	nfs_pageio_complete(&pgio);
+
+	/* It doesn't make sense to do mirrored reads! */
+	WARN_ON_ONCE(pgio.pg_mirror_count != 1);
+
+	pgm = &pgio.pg_mirrors[0];
+	NFS_I(inode)->read_io += pgm->pg_bytes_written;
+
+	return pgio.pg_error < 0 ? pgio.pg_error : 0;
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void nfs_page_group_set_uptodate(struct nfs_page *req)
 {
@@ -158,7 +199,12 @@ static void nfs_read_completion(struct nfs_pgio_header *hdr)
 
 		if (test_bit(NFS_IOHDR_EOF, &hdr->flags)) {
 			/* note: regions of the page not covered by a
+<<<<<<< HEAD
 			 * request are zeroed in readpage_async_filler */
+=======
+			 * request are zeroed in nfs_readpage_async /
+			 * readpage_async_filler */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (bytes > hdr->good_bytes) {
 				/* nothing in this request was good, so zero
 				 * the full extent of the request */
@@ -290,6 +336,7 @@ static void nfs_readpage_result(struct rpc_task *task,
 		nfs_readpage_retry(task, hdr);
 }
 
+<<<<<<< HEAD
 static int
 readpage_async_filler(void *data, struct page *page)
 {
@@ -322,6 +369,8 @@ out:
 	return error;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Read a page over NFS.
  * We read the page synchronously in the following case:
@@ -330,13 +379,23 @@ out:
  */
 int nfs_readpage(struct file *file, struct page *page)
 {
+<<<<<<< HEAD
 	struct nfs_readdesc desc;
 	struct inode *inode = page_file_mapping(page)->host;
 	int ret;
+=======
+	struct nfs_open_context *ctx;
+	struct inode *inode = page_file_mapping(page)->host;
+	int		error;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dprintk("NFS: nfs_readpage (%p %ld@%lu)\n",
 		page, PAGE_SIZE, page_index(page));
 	nfs_inc_stats(inode, NFSIOS_VFSREADPAGE);
+<<<<<<< HEAD
+=======
+	nfs_add_stats(inode, NFSIOS_READPAGES, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Try to flush any pending writes to the file..
@@ -345,17 +404,27 @@ int nfs_readpage(struct file *file, struct page *page)
 	 * be any new pending writes generated at this point
 	 * for this page (other pages can be written to).
 	 */
+<<<<<<< HEAD
 	ret = nfs_wb_page(inode, page);
 	if (ret)
+=======
+	error = nfs_wb_page(inode, page);
+	if (error)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out_unlock;
 	if (PageUptodate(page))
 		goto out_unlock;
 
+<<<<<<< HEAD
 	ret = -ESTALE;
+=======
+	error = -ESTALE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (NFS_STALE(inode))
 		goto out_unlock;
 
 	if (file == NULL) {
+<<<<<<< HEAD
 		ret = -EBADF;
 		desc.ctx = nfs_find_open_context(inode, NULL, FMODE_READ);
 		if (desc.ctx == NULL)
@@ -398,6 +467,84 @@ int nfs_readpages(struct file *file, struct address_space *mapping,
 	struct nfs_readdesc desc;
 	struct inode *inode = mapping->host;
 	int ret;
+=======
+		error = -EBADF;
+		ctx = nfs_find_open_context(inode, NULL, FMODE_READ);
+		if (ctx == NULL)
+			goto out_unlock;
+	} else
+		ctx = get_nfs_open_context(nfs_file_open_context(file));
+
+	if (!IS_SYNC(inode)) {
+		error = nfs_readpage_from_fscache(ctx, inode, page);
+		if (error == 0)
+			goto out;
+	}
+
+	xchg(&ctx->error, 0);
+	error = nfs_readpage_async(ctx, inode, page);
+	if (!error) {
+		error = wait_on_page_locked_killable(page);
+		if (!PageUptodate(page) && !error)
+			error = xchg(&ctx->error, 0);
+	}
+out:
+	put_nfs_open_context(ctx);
+	return error;
+out_unlock:
+	unlock_page(page);
+	return error;
+}
+
+struct nfs_readdesc {
+	struct nfs_pageio_descriptor *pgio;
+	struct nfs_open_context *ctx;
+};
+
+static int
+readpage_async_filler(void *data, struct page *page)
+{
+	struct nfs_readdesc *desc = (struct nfs_readdesc *)data;
+	struct nfs_page *new;
+	unsigned int len;
+	int error;
+
+	len = nfs_page_length(page);
+	if (len == 0)
+		return nfs_return_empty_page(page);
+
+	new = nfs_create_request(desc->ctx, page, 0, len);
+	if (IS_ERR(new))
+		goto out_error;
+
+	if (len < PAGE_SIZE)
+		zero_user_segment(page, len, PAGE_SIZE);
+	if (!nfs_pageio_add_request(desc->pgio, new)) {
+		nfs_list_remove_request(new);
+		error = desc->pgio->pg_error;
+		nfs_readpage_release(new, error);
+		goto out;
+	}
+	return 0;
+out_error:
+	error = PTR_ERR(new);
+	unlock_page(page);
+out:
+	return error;
+}
+
+int nfs_readpages(struct file *filp, struct address_space *mapping,
+		struct list_head *pages, unsigned nr_pages)
+{
+	struct nfs_pageio_descriptor pgio;
+	struct nfs_pgio_mirror *pgm;
+	struct nfs_readdesc desc = {
+		.pgio = &pgio,
+	};
+	struct inode *inode = mapping->host;
+	unsigned long npages;
+	int ret = -ESTALE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dprintk("NFS: nfs_readpages (%s/%Lu %d)\n",
 			inode->i_sb->s_id,
@@ -405,6 +552,7 @@ int nfs_readpages(struct file *file, struct address_space *mapping,
 			nr_pages);
 	nfs_inc_stats(inode, NFSIOS_VFSREADPAGES);
 
+<<<<<<< HEAD
 	ret = -ESTALE;
 	if (NFS_STALE(inode))
 		goto out;
@@ -416,6 +564,17 @@ int nfs_readpages(struct file *file, struct address_space *mapping,
 			goto out;
 	} else
 		desc.ctx = get_nfs_open_context(nfs_file_open_context(file));
+=======
+	if (NFS_STALE(inode))
+		goto out;
+
+	if (filp == NULL) {
+		desc.ctx = nfs_find_open_context(inode, NULL, FMODE_READ);
+		if (desc.ctx == NULL)
+			return -EBADF;
+	} else
+		desc.ctx = get_nfs_open_context(nfs_file_open_context(filp));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* attempt to read as many of the pages as possible from the cache
 	 * - this returns -ENOBUFS immediately if the cookie is negative
@@ -425,6 +584,7 @@ int nfs_readpages(struct file *file, struct address_space *mapping,
 	if (ret == 0)
 		goto read_complete; /* all pages were read */
 
+<<<<<<< HEAD
 	nfs_pageio_init_read(&desc.pgio, inode, false,
 			     &nfs_async_read_completion_ops);
 
@@ -432,6 +592,22 @@ int nfs_readpages(struct file *file, struct address_space *mapping,
 
 	nfs_pageio_complete_read(&desc.pgio, inode);
 
+=======
+	nfs_pageio_init_read(&pgio, inode, false,
+			     &nfs_async_read_completion_ops);
+
+	ret = read_cache_pages(mapping, pages, readpage_async_filler, &desc);
+	nfs_pageio_complete(&pgio);
+
+	/* It doesn't make sense to do mirrored reads! */
+	WARN_ON_ONCE(pgio.pg_mirror_count != 1);
+
+	pgm = &pgio.pg_mirrors[0];
+	NFS_I(inode)->read_io += pgm->pg_bytes_written;
+	npages = (pgm->pg_bytes_written + PAGE_SIZE - 1) >>
+		 PAGE_SHIFT;
+	nfs_add_stats(inode, NFSIOS_READPAGES, npages);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 read_complete:
 	put_nfs_open_context(desc.ctx);
 out:

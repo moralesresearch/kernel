@@ -16,6 +16,17 @@
 #include <linux/version.h>
 #include <linux/proc_ns.h>
 
+<<<<<<< HEAD
+=======
+#ifndef CONFIG_KALLSYMS
+#define version(a) Version_ ## a
+#define version_string(a) version(a)
+
+extern int version_string(LINUX_VERSION_CODE);
+int version_string(LINUX_VERSION_CODE);
+#endif
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct uts_namespace init_uts_ns = {
 	.ns.count = REFCOUNT_INIT(2),
 	.name = {

@@ -291,7 +291,10 @@ struct device_dma_parameters {
 	 * sg limitations.
 	 */
 	unsigned int max_segment_size;
+<<<<<<< HEAD
 	unsigned int min_align_mask;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long segment_boundary_mask;
 };
 
@@ -324,7 +327,10 @@ enum device_link_state {
  * AUTOPROBE_CONSUMER: Probe consumer driver automatically after supplier binds.
  * MANAGED: The core tracks presence of supplier/consumer drivers (internal).
  * SYNC_STATE_ONLY: Link only affects sync_state() behavior.
+<<<<<<< HEAD
  * INFERRED: Inferred from data (eg: firmware) and not from driver actions.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 #define DL_FLAG_STATELESS		BIT(0)
 #define DL_FLAG_AUTOREMOVE_CONSUMER	BIT(1)
@@ -334,7 +340,10 @@ enum device_link_state {
 #define DL_FLAG_AUTOPROBE_CONSUMER	BIT(5)
 #define DL_FLAG_MANAGED			BIT(6)
 #define DL_FLAG_SYNC_STATE_ONLY		BIT(7)
+<<<<<<< HEAD
 #define DL_FLAG_INFERRED		BIT(8)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * enum dl_dev_state - Device driver presence tracking information.
@@ -566,7 +575,11 @@ struct device {
  * @flags: Link flags.
  * @rpm_active: Whether or not the consumer device is runtime-PM-active.
  * @kref: Count repeated addition of the same link.
+<<<<<<< HEAD
+ * @rm_work: Work structure used for removing the link.
+=======
  * @rcu_head: An RCU head to use for deferred execution of SRCU callbacks.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @supplier_preactivated: Supplier has been made active before consumer probe.
  */
 struct device_link {
@@ -579,9 +592,13 @@ struct device_link {
 	u32 flags;
 	refcount_t rpm_active;
 	struct kref kref;
+<<<<<<< HEAD
+	struct work_struct rm_work;
+=======
 #ifdef CONFIG_SRCU
 	struct rcu_head rcu_head;
 #endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool supplier_preactivated; /* Owned by consumer probe. */
 };
 

@@ -170,6 +170,11 @@ int cxllib_get_PE_attributes(struct task_struct *task,
 			     unsigned long translation_mode,
 			     struct cxllib_pe_attributes *attr)
 {
+<<<<<<< HEAD
+=======
+	struct mm_struct *mm = NULL;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (translation_mode != CXL_TRANSLATED_MODE &&
 		translation_mode != CXL_REAL_MODE)
 		return -EINVAL;
@@ -180,7 +185,11 @@ int cxllib_get_PE_attributes(struct task_struct *task,
 				true);
 	attr->lpid = mfspr(SPRN_LPID);
 	if (task) {
+<<<<<<< HEAD
 		struct mm_struct *mm = get_task_mm(task);
+=======
+		mm = get_task_mm(task);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (mm == NULL)
 			return -EINVAL;
 		/*

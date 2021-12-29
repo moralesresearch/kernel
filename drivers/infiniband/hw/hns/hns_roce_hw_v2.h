@@ -367,6 +367,10 @@ struct hns_roce_v2_cq_context {
 #define CQC_STASH CQC_FIELD_LOC(63, 63)
 
 struct hns_roce_srq_context {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__le32 byte_4_srqn_srqst;
 	__le32 byte_8_limit_wl;
 	__le32 byte_12_xrcd;
@@ -422,6 +426,29 @@ struct hns_roce_srq_context {
 #define SRQC_DB_RECORD_ADDR_L SRQC_FIELD_LOC(479, 449)
 #define SRQC_DB_RECORD_ADDR_H SRQC_FIELD_LOC(511, 480)
 
+<<<<<<< HEAD
+=======
+=======
+	__le32	byte_4_srqn_srqst;
+	__le32	byte_8_limit_wl;
+	__le32	byte_12_xrcd;
+	__le32	byte_16_pi_ci;
+	__le32	wqe_bt_ba;
+	__le32	byte_24_wqe_bt_ba;
+	__le32	byte_28_rqws_pd;
+	__le32	idx_bt_ba;
+	__le32	rsv_idx_bt_ba;
+	__le32	idx_cur_blk_addr;
+	__le32	byte_44_idxbufpgsz_addr;
+	__le32	idx_nxt_blk_addr;
+	__le32	rsv_idxnxtblkaddr;
+	__le32	byte_56_xrc_cqn;
+	__le32	db_record_addr_record_en;
+	__le32	db_record_addr;
+};
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SRQC_BYTE_4_SRQ_ST_S 0
 #define SRQC_BYTE_4_SRQ_ST_M GENMASK(1, 0)
 
@@ -1031,6 +1058,10 @@ struct hns_roce_v2_mpt_entry {
 	__le32	byte_64_buf_pa1;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MPT_FIELD_LOC(h, l) FIELD_LOC(struct hns_roce_v2_mpt_entry, h, l)
 
 #define MPT_ST MPT_FIELD_LOC(1, 0)
@@ -1070,6 +1101,11 @@ struct hns_roce_v2_mpt_entry {
 #define MPT_RSV2 MPT_FIELD_LOC(507, 507)
 #define MPT_PBL_BUF_PG_SZ MPT_FIELD_LOC(511, 508)
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define V2_MPT_BYTE_4_MPT_ST_S 0
 #define V2_MPT_BYTE_4_MPT_ST_M GENMASK(1, 0)
 
@@ -1136,8 +1172,16 @@ struct hns_roce_v2_mpt_entry {
 #define	V2_DB_BYTE_4_CMD_S 24
 #define V2_DB_BYTE_4_CMD_M GENMASK(27, 24)
 
+<<<<<<< HEAD
 #define V2_DB_FLAG_S 31
 
+=======
+<<<<<<< HEAD
+#define V2_DB_FLAG_S 31
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define V2_DB_PARAMETER_IDX_S 0
 #define V2_DB_PARAMETER_IDX_M GENMASK(15, 0)
 
@@ -1234,6 +1278,10 @@ struct hns_roce_v2_rc_send_wqe {
 #define	V2_RC_SEND_WQE_BYTE_4_OPCODE_S 0
 #define V2_RC_SEND_WQE_BYTE_4_OPCODE_M GENMASK(4, 0)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define V2_RC_SEND_WQE_BYTE_4_DB_SL_L_S 5
 #define V2_RC_SEND_WQE_BYTE_4_DB_SL_L_M GENMASK(6, 5)
 
@@ -1243,6 +1291,11 @@ struct hns_roce_v2_rc_send_wqe {
 #define V2_RC_SEND_WQE_BYTE_4_WQE_INDEX_S 15
 #define V2_RC_SEND_WQE_BYTE_4_WQE_INDEX_M GENMASK(30, 15)
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define V2_RC_SEND_WQE_BYTE_4_OWNER_S 7
 
 #define V2_RC_SEND_WQE_BYTE_4_CQE_S 8
@@ -1255,6 +1308,10 @@ struct hns_roce_v2_rc_send_wqe {
 
 #define V2_RC_SEND_WQE_BYTE_4_INLINE_S 12
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define V2_RC_FRMR_WQE_BYTE_40_BIND_EN_S 10
 
 #define V2_RC_FRMR_WQE_BYTE_40_ATOMIC_S 11
@@ -1266,6 +1323,20 @@ struct hns_roce_v2_rc_send_wqe {
 #define V2_RC_FRMR_WQE_BYTE_40_LW_S 14
 
 #define V2_RC_SEND_WQE_BYTE_4_FLAG_S 31
+<<<<<<< HEAD
+=======
+=======
+#define V2_RC_FRMR_WQE_BYTE_4_BIND_EN_S 19
+
+#define V2_RC_FRMR_WQE_BYTE_4_ATOMIC_S 20
+
+#define V2_RC_FRMR_WQE_BYTE_4_RR_S 21
+
+#define V2_RC_FRMR_WQE_BYTE_4_RW_S 22
+
+#define V2_RC_FRMR_WQE_BYTE_4_LW_S 23
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define	V2_RC_SEND_WQE_BYTE_16_XRC_SRQN_S 0
 #define V2_RC_SEND_WQE_BYTE_16_XRC_SRQN_M GENMASK(23, 0)
@@ -1280,7 +1351,15 @@ struct hns_roce_v2_rc_send_wqe {
 
 struct hns_roce_wqe_frmr_seg {
 	__le32	pbl_size;
+<<<<<<< HEAD
 	__le32	byte_40;
+=======
+<<<<<<< HEAD
+	__le32	byte_40;
+=======
+	__le32	mode_buf_pg_sz;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define V2_RC_FRMR_WQE_BYTE_40_PBL_BUF_PG_SZ_S	4
@@ -1876,8 +1955,22 @@ struct hns_roce_v2_cmq_ring {
 	dma_addr_t desc_dma_addr;
 	struct hns_roce_cmq_desc *desc;
 	u32 head;
+<<<<<<< HEAD
 	u16 buf_size;
 	u16 desc_num;
+=======
+<<<<<<< HEAD
+	u16 buf_size;
+	u16 desc_num;
+=======
+	u32 tail;
+
+	u16 buf_size;
+	u16 desc_num;
+	int next_to_use;
+	int next_to_clean;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 flag;
 	spinlock_t lock; /* command queue lock */
 };
@@ -1886,6 +1979,13 @@ struct hns_roce_v2_cmq {
 	struct hns_roce_v2_cmq_ring csq;
 	struct hns_roce_v2_cmq_ring crq;
 	u16 tx_timeout;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	u16 last_status;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum hns_roce_link_table_type {

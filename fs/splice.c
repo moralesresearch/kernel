@@ -662,6 +662,7 @@ iter_file_splice_write(struct pipe_inode_info *pipe, struct file *out,
 
 		/* build the vector */
 		left = sd.total_len;
+<<<<<<< HEAD
 		for (n = 0; !pipe_empty(head, tail) && left && n < nbufs; tail++) {
 			struct pipe_buffer *buf = &pipe->bufs[tail & mask];
 			size_t this_len = buf->len;
@@ -670,6 +671,14 @@ iter_file_splice_write(struct pipe_inode_info *pipe, struct file *out,
 			if (!this_len)
 				continue;
 			this_len = min(this_len, left);
+=======
+		for (n = 0; !pipe_empty(head, tail) && left && n < nbufs; tail++, n++) {
+			struct pipe_buffer *buf = &pipe->bufs[tail & mask];
+			size_t this_len = buf->len;
+
+			if (this_len > left)
+				this_len = left;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			ret = pipe_buf_confirm(pipe, buf);
 			if (unlikely(ret)) {
@@ -682,7 +691,10 @@ iter_file_splice_write(struct pipe_inode_info *pipe, struct file *out,
 			array[n].bv_len = this_len;
 			array[n].bv_offset = buf->offset;
 			left -= this_len;
+<<<<<<< HEAD
 			n++;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		iov_iter_bvec(&from, WRITE, array, n, sd.total_len - left);
@@ -774,16 +786,22 @@ static long do_splice_to(struct file *in, loff_t *ppos,
 			 struct pipe_inode_info *pipe, size_t len,
 			 unsigned int flags)
 {
+<<<<<<< HEAD
 	unsigned int p_space;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (unlikely(!(in->f_mode & FMODE_READ)))
 		return -EBADF;
 
+<<<<<<< HEAD
 	/* Don't try to read more the pipe has space for. */
 	p_space = pipe->max_usage - pipe_occupancy(pipe->head, pipe->tail);
 	len = min_t(size_t, len, p_space << PAGE_SHIFT);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = rw_verify_area(READ, in, ppos, len);
 	if (unlikely(ret < 0))
 		return ret;
@@ -864,10 +882,22 @@ ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
 	WARN_ON_ONCE(!pipe_empty(pipe->head, pipe->tail));
 
 	while (len) {
+<<<<<<< HEAD
 		size_t read_len;
 		loff_t pos = sd->pos, prev_pos = pos;
 
 		ret = do_splice_to(in, &pos, pipe, len, flags);
+=======
+		unsigned int p_space;
+		size_t read_len;
+		loff_t pos = sd->pos, prev_pos = pos;
+
+		/* Don't try to read more the pipe has space for. */
+		p_space = pipe->max_usage -
+			pipe_occupancy(pipe->head, pipe->tail);
+		read_len = min_t(size_t, len, p_space << PAGE_SHIFT);
+		ret = do_splice_to(in, &pos, pipe, read_len, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (unlikely(ret <= 0))
 			goto out_release;
 
@@ -1005,6 +1035,7 @@ static int splice_pipe_to_pipe(struct pipe_inode_info *ipipe,
 			       struct pipe_inode_info *opipe,
 			       size_t len, unsigned int flags);
 
+<<<<<<< HEAD
 long splice_file_to_pipe(struct file *in,
 			 struct pipe_inode_info *opipe,
 			 loff_t *offset,
@@ -1022,6 +1053,8 @@ long splice_file_to_pipe(struct file *in,
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Determine where to splice to/from.
  */
@@ -1101,7 +1134,24 @@ long do_splice(struct file *in, loff_t *off_in, struct file *out,
 		if (out->f_flags & O_NONBLOCK)
 			flags |= SPLICE_F_NONBLOCK;
 
+<<<<<<< HEAD
 		ret = splice_file_to_pipe(in, opipe, &offset, len, flags);
+=======
+		pipe_lock(opipe);
+		ret = wait_for_space(opipe, flags);
+		if (!ret) {
+			unsigned int p_space;
+
+			/* Don't try to read more the pipe has space for. */
+			p_space = opipe->max_usage - pipe_occupancy(opipe->head, opipe->tail);
+			len = min_t(size_t, len, p_space << PAGE_SHIFT);
+
+			ret = do_splice_to(in, &offset, opipe, len, flags);
+		}
+		pipe_unlock(opipe);
+		if (ret > 0)
+			wakeup_pipe_readers(opipe);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!off_in)
 			in->f_pos = offset;
 		else

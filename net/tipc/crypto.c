@@ -1492,6 +1492,11 @@ int tipc_crypto_start(struct tipc_crypto **crypto, struct net *net,
 	/* Allocate statistic structure */
 	c->stats = alloc_percpu_gfp(struct tipc_crypto_stats, GFP_ATOMIC);
 	if (!c->stats) {
+<<<<<<< HEAD
+		if (c->wq)
+			destroy_workqueue(c->wq);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		kfree_sensitive(c);
 		return -ENOMEM;
 	}
@@ -1941,13 +1946,20 @@ static void tipc_crypto_rcv_complete(struct net *net, struct tipc_aead *aead,
 			goto rcv;
 		if (tipc_aead_clone(&tmp, aead) < 0)
 			goto rcv;
+<<<<<<< HEAD
 		WARN_ON(!refcount_inc_not_zero(&tmp->refcnt));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (tipc_crypto_key_attach(rx, tmp, ehdr->tx_key, false) < 0) {
 			tipc_aead_free(&tmp->rcu);
 			goto rcv;
 		}
 		tipc_aead_put(aead);
+<<<<<<< HEAD
 		aead = tmp;
+=======
+		aead = tipc_aead_get(tmp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (unlikely(err)) {

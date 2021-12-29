@@ -315,6 +315,7 @@ they mean, and suggestions for how to fix them.
       function tracing inserts additional calls, which is not obvious from the
       sources).
 
+<<<<<<< HEAD
 10. file.o: warning: func()+0x5c: stack layout conflict in alternatives
 
     This means that in the use of the alternative() or ALTERNATIVE()
@@ -324,6 +325,15 @@ they mean, and suggestions for how to fix them.
     instruction boundaries regardless of which code has been patched.
     This limitation can be overcome by massaging the alternatives with
     NOPs to shift the stack changes around so they no longer conflict.
+=======
+10. file.o: warning: func()+0x5c: alternative modifies stack
+
+    This means that an alternative includes instructions that modify the
+    stack. The problem is that there is only one ORC unwind table, this means
+    that the ORC unwind entries must be valid for each of the alternatives.
+    The easiest way to enforce this is to ensure alternatives do not contain
+    any ORC entries, which in turn implies the above constraint.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 11. file.o: warning: unannotated intra-function call
 

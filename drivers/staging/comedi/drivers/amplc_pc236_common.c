@@ -126,9 +126,13 @@ static irqreturn_t pc236_interrupt(int irq, void *d)
 
 	handled = pc236_intr_check(dev);
 	if (dev->attached && handled) {
+<<<<<<< HEAD
 		unsigned short val = 0;
 
 		comedi_buf_write_samples(s, &val, 1);
+=======
+		comedi_buf_write_samples(s, &s->state, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		comedi_handle_events(dev, s);
 	}
 	return IRQ_RETVAL(handled);

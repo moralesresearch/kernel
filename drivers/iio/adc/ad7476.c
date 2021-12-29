@@ -67,7 +67,10 @@ enum ad7476_supported_device_ids {
 	ID_ADS7866,
 	ID_ADS7867,
 	ID_ADS7868,
+<<<<<<< HEAD
 	ID_LTC2314_14,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void ad7091_convst(struct ad7476_state *st)
@@ -251,10 +254,13 @@ static const struct ad7476_chip_info ad7476_chip_info_tbl[] = {
 		.channel[0] = ADS786X_CHAN(8),
 		.channel[1] = IIO_CHAN_SOFT_TIMESTAMP(1),
 	},
+<<<<<<< HEAD
 	[ID_LTC2314_14] = {
 		.channel[0] = AD7940_CHAN(14),
 		.channel[1] = IIO_CHAN_SOFT_TIMESTAMP(1),
 	},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct iio_info ad7476_info = {
@@ -321,14 +327,24 @@ static int ad7476_probe(struct spi_device *spi)
 	spi_message_init(&st->msg);
 	spi_message_add_tail(&st->xfer, &st->msg);
 
+<<<<<<< HEAD
+	ret = devm_iio_triggered_buffer_setup(&spi->dev, indio_dev, NULL,
+					      &ad7476_trigger_handler, NULL);
+	if (ret)
+		return ret;
+=======
 	ret = iio_triggered_buffer_setup(indio_dev, NULL,
 			&ad7476_trigger_handler, NULL);
 	if (ret)
 		goto error_disable_reg;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (st->chip_info->reset)
 		st->chip_info->reset(st);
 
+<<<<<<< HEAD
+	return devm_iio_device_register(&spi->dev, indio_dev);
+=======
 	ret = iio_device_register(indio_dev);
 	if (ret)
 		goto error_ring_unregister;
@@ -340,6 +356,7 @@ error_disable_reg:
 	regulator_disable(st->reg);
 
 	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct spi_device_id ad7476_id[] = {
@@ -370,7 +387,10 @@ static const struct spi_device_id ad7476_id[] = {
 	{"ads7866", ID_ADS7866},
 	{"ads7867", ID_ADS7867},
 	{"ads7868", ID_ADS7868},
+<<<<<<< HEAD
 	{"ltc2314-14", ID_LTC2314_14},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{}
 };
 MODULE_DEVICE_TABLE(spi, ad7476_id);

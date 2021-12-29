@@ -37,6 +37,7 @@ struct axi_dma_chan {
 	struct axi_dma_chip		*chip;
 	void __iomem			*chan_regs;
 	u8				id;
+<<<<<<< HEAD
 	u8				hw_handshake_num;
 	atomic_t			descs_allocated;
 
@@ -47,6 +48,12 @@ struct axi_dma_chan {
 	struct dma_slave_config		config;
 	enum dma_transfer_direction	direction;
 	bool				cyclic;
+=======
+	atomic_t			descs_allocated;
+
+	struct virt_dma_chan		vc;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* these other elements are all protected by vc.lock */
 	bool				is_paused;
 };
@@ -54,7 +61,11 @@ struct axi_dma_chan {
 struct dw_axi_dma {
 	struct dma_device	dma;
 	struct dw_axi_dma_hcfg	*hdata;
+<<<<<<< HEAD
 	struct device_dma_parameters	dma_parms;
+=======
+	struct dma_pool		*desc_pool;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* channels */
 	struct axi_dma_chan	*chan;
@@ -64,7 +75,10 @@ struct axi_dma_chip {
 	struct device		*dev;
 	int			irq;
 	void __iomem		*regs;
+<<<<<<< HEAD
 	void __iomem		*apb_regs;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct clk		*core_clk;
 	struct clk		*cfgr_clk;
 	struct dw_axi_dma	*dw;
@@ -87,6 +101,7 @@ struct __packed axi_dma_lli {
 	__le32		reserved_hi;
 };
 
+<<<<<<< HEAD
 struct axi_dma_hw_desc {
 	struct axi_dma_lli	*lli;
 	dma_addr_t		llp;
@@ -101,6 +116,14 @@ struct axi_dma_desc {
 	u32				completed_blocks;
 	u32				length;
 	u32				period_len;
+=======
+struct axi_dma_desc {
+	struct axi_dma_lli		lli;
+
+	struct virt_dma_desc		vd;
+	struct axi_dma_chan		*chan;
+	struct list_head		xfer_list;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct device *dchan2dev(struct dma_chan *dchan)
@@ -172,6 +195,7 @@ static inline struct axi_dma_chan *dchan_to_axi_dma_chan(struct dma_chan *dchan)
 #define CH_INTSIGNAL_ENA	0x090 /* R/W Chan Interrupt Signal Enable */
 #define CH_INTCLEAR		0x098 /* W Chan Interrupt Clear */
 
+<<<<<<< HEAD
 /* These Apb registers are used by Intel KeemBay SoC */
 #define DMAC_APB_CFG		0x000 /* DMAC Apb Configuration Register */
 #define DMAC_APB_STAT		0x004 /* DMAC Apb Status Register */
@@ -185,6 +209,8 @@ static inline struct axi_dma_chan *dchan_to_axi_dma_chan(struct dma_chan *dchan)
 
 #define UNUSED_CHANNEL		0x3F /* Set unused DMA channel to 0x3F */
 #define MAX_BLOCK_SIZE		0x1000 /* 1024 blocks * 4 bytes data width */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* DMAC_CFG */
 #define DMAC_EN_POS			0

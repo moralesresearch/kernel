@@ -885,8 +885,13 @@ static int lan743x_mac_set_mtu(struct lan743x_adapter *adapter, int new_mtu)
 	}
 
 	mac_rx &= ~(MAC_RX_MAX_SIZE_MASK_);
+<<<<<<< HEAD
 	mac_rx |= (((new_mtu + ETH_HLEN + ETH_FCS_LEN)
 		  << MAC_RX_MAX_SIZE_SHIFT_) & MAC_RX_MAX_SIZE_MASK_);
+=======
+	mac_rx |= (((new_mtu + ETH_HLEN + 4) << MAC_RX_MAX_SIZE_SHIFT_) &
+		  MAC_RX_MAX_SIZE_MASK_);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lan743x_csr_write(adapter, MAC_RX, mac_rx);
 
 	if (enabled) {
@@ -1253,7 +1258,11 @@ static void lan743x_tx_release_desc(struct lan743x_tx *tx,
 	if (!(buffer_info->flags & TX_BUFFER_INFO_FLAG_ACTIVE))
 		goto done;
 
+<<<<<<< HEAD
 	descriptor_type = le32_to_cpu(descriptor->data0) &
+=======
+	descriptor_type = (descriptor->data0) &
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  TX_DESC_DATA0_DTYPE_MASK_;
 	if (descriptor_type == TX_DESC_DATA0_DTYPE_DATA_)
 		goto clean_up_data_descriptor;
@@ -1313,7 +1322,11 @@ static int lan743x_tx_next_index(struct lan743x_tx *tx, int index)
 
 static void lan743x_tx_release_completed_descriptors(struct lan743x_tx *tx)
 {
+<<<<<<< HEAD
 	while (le32_to_cpu(*tx->head_cpu_ptr) != (tx->last_head)) {
+=======
+	while ((*tx->head_cpu_ptr) != (tx->last_head)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		lan743x_tx_release_desc(tx, tx->last_head, false);
 		tx->last_head = lan743x_tx_next_index(tx, tx->last_head);
 	}
@@ -1399,10 +1412,17 @@ static int lan743x_tx_frame_start(struct lan743x_tx *tx,
 	if (dma_mapping_error(dev, dma_ptr))
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	tx_descriptor->data1 = cpu_to_le32(DMA_ADDR_LOW32(dma_ptr));
 	tx_descriptor->data2 = cpu_to_le32(DMA_ADDR_HIGH32(dma_ptr));
 	tx_descriptor->data3 = cpu_to_le32((frame_length << 16) &
 		TX_DESC_DATA3_FRAME_LENGTH_MSS_MASK_);
+=======
+	tx_descriptor->data1 = DMA_ADDR_LOW32(dma_ptr);
+	tx_descriptor->data2 = DMA_ADDR_HIGH32(dma_ptr);
+	tx_descriptor->data3 = (frame_length << 16) &
+		TX_DESC_DATA3_FRAME_LENGTH_MSS_MASK_;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	buffer_info->skb = NULL;
 	buffer_info->dma_ptr = dma_ptr;
@@ -1443,7 +1463,11 @@ static void lan743x_tx_frame_add_lso(struct lan743x_tx *tx,
 		tx->frame_data0 |= TX_DESC_DATA0_IOC_;
 	}
 	tx_descriptor = &tx->ring_cpu_ptr[tx->frame_tail];
+<<<<<<< HEAD
 	tx_descriptor->data0 = cpu_to_le32(tx->frame_data0);
+=======
+	tx_descriptor->data0 = tx->frame_data0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* move to next descriptor */
 	tx->frame_tail = lan743x_tx_next_index(tx, tx->frame_tail);
@@ -1487,7 +1511,11 @@ static int lan743x_tx_frame_add_fragment(struct lan743x_tx *tx,
 
 	/* wrap up previous descriptor */
 	tx_descriptor = &tx->ring_cpu_ptr[tx->frame_tail];
+<<<<<<< HEAD
 	tx_descriptor->data0 = cpu_to_le32(tx->frame_data0);
+=======
+	tx_descriptor->data0 = tx->frame_data0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* move to next descriptor */
 	tx->frame_tail = lan743x_tx_next_index(tx, tx->frame_tail);
@@ -1513,10 +1541,17 @@ static int lan743x_tx_frame_add_fragment(struct lan743x_tx *tx,
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
 	tx_descriptor->data1 = cpu_to_le32(DMA_ADDR_LOW32(dma_ptr));
 	tx_descriptor->data2 = cpu_to_le32(DMA_ADDR_HIGH32(dma_ptr));
 	tx_descriptor->data3 = cpu_to_le32((frame_length << 16) &
 			       TX_DESC_DATA3_FRAME_LENGTH_MSS_MASK_);
+=======
+	tx_descriptor->data1 = DMA_ADDR_LOW32(dma_ptr);
+	tx_descriptor->data2 = DMA_ADDR_HIGH32(dma_ptr);
+	tx_descriptor->data3 = (frame_length << 16) &
+			       TX_DESC_DATA3_FRAME_LENGTH_MSS_MASK_;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	buffer_info->skb = NULL;
 	buffer_info->dma_ptr = dma_ptr;
@@ -1560,7 +1595,11 @@ static void lan743x_tx_frame_end(struct lan743x_tx *tx,
 	if (ignore_sync)
 		buffer_info->flags |= TX_BUFFER_INFO_FLAG_IGNORE_SYNC;
 
+<<<<<<< HEAD
 	tx_descriptor->data0 = cpu_to_le32(tx->frame_data0);
+=======
+	tx_descriptor->data0 = tx->frame_data0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tx->frame_tail = lan743x_tx_next_index(tx, tx->frame_tail);
 	tx->last_tail = tx->frame_tail;
 
@@ -1926,6 +1965,18 @@ static int lan743x_rx_next_index(struct lan743x_rx *rx, int index)
 	return ((++index) % rx->ring_size);
 }
 
+<<<<<<< HEAD
+=======
+static struct sk_buff *lan743x_rx_allocate_skb(struct lan743x_rx *rx)
+{
+	int length = 0;
+
+	length = (LAN743X_MAX_FRAME_SIZE + ETH_HLEN + 4 + RX_HEAD_PADDING);
+	return __netdev_alloc_skb(rx->adapter->netdev,
+				  length, GFP_ATOMIC | GFP_DMA);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void lan743x_rx_update_tail(struct lan743x_rx *rx, int index)
 {
 	/* update the tail once per 8 descriptors */
@@ -1934,6 +1985,7 @@ static void lan743x_rx_update_tail(struct lan743x_rx *rx, int index)
 				  index);
 }
 
+<<<<<<< HEAD
 static int lan743x_rx_init_ring_element(struct lan743x_rx *rx, int index)
 {
 	struct net_device *netdev = rx->adapter->netdev;
@@ -1985,6 +2037,38 @@ static int lan743x_rx_init_ring_element(struct lan743x_rx *rx, int index)
 	descriptor->data3 = 0;
 	descriptor->data0 = cpu_to_le32((RX_DESC_DATA0_OWN_ |
 			    (buffer_length & RX_DESC_DATA0_BUF_LENGTH_MASK_)));
+=======
+static int lan743x_rx_init_ring_element(struct lan743x_rx *rx, int index,
+					struct sk_buff *skb)
+{
+	struct lan743x_rx_buffer_info *buffer_info;
+	struct lan743x_rx_descriptor *descriptor;
+	int length = 0;
+
+	length = (LAN743X_MAX_FRAME_SIZE + ETH_HLEN + 4 + RX_HEAD_PADDING);
+	descriptor = &rx->ring_cpu_ptr[index];
+	buffer_info = &rx->buffer_info[index];
+	buffer_info->skb = skb;
+	if (!(buffer_info->skb))
+		return -ENOMEM;
+	buffer_info->dma_ptr = dma_map_single(&rx->adapter->pdev->dev,
+					      buffer_info->skb->data,
+					      length,
+					      DMA_FROM_DEVICE);
+	if (dma_mapping_error(&rx->adapter->pdev->dev,
+			      buffer_info->dma_ptr)) {
+		buffer_info->dma_ptr = 0;
+		return -ENOMEM;
+	}
+
+	buffer_info->buffer_length = length;
+	descriptor->data1 = DMA_ADDR_LOW32(buffer_info->dma_ptr);
+	descriptor->data2 = DMA_ADDR_HIGH32(buffer_info->dma_ptr);
+	descriptor->data3 = 0;
+	descriptor->data0 = (RX_DESC_DATA0_OWN_ |
+			    (length & RX_DESC_DATA0_BUF_LENGTH_MASK_));
+	skb_reserve(buffer_info->skb, RX_HEAD_PADDING);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lan743x_rx_update_tail(rx, index);
 
 	return 0;
@@ -1998,12 +2082,21 @@ static void lan743x_rx_reuse_ring_element(struct lan743x_rx *rx, int index)
 	descriptor = &rx->ring_cpu_ptr[index];
 	buffer_info = &rx->buffer_info[index];
 
+<<<<<<< HEAD
 	descriptor->data1 = cpu_to_le32(DMA_ADDR_LOW32(buffer_info->dma_ptr));
 	descriptor->data2 = cpu_to_le32(DMA_ADDR_HIGH32(buffer_info->dma_ptr));
 	descriptor->data3 = 0;
 	descriptor->data0 = cpu_to_le32((RX_DESC_DATA0_OWN_ |
 			    ((buffer_info->buffer_length) &
 			    RX_DESC_DATA0_BUF_LENGTH_MASK_)));
+=======
+	descriptor->data1 = DMA_ADDR_LOW32(buffer_info->dma_ptr);
+	descriptor->data2 = DMA_ADDR_HIGH32(buffer_info->dma_ptr);
+	descriptor->data3 = 0;
+	descriptor->data0 = (RX_DESC_DATA0_OWN_ |
+			    ((buffer_info->buffer_length) &
+			    RX_DESC_DATA0_BUF_LENGTH_MASK_));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lan743x_rx_update_tail(rx, index);
 }
 
@@ -2033,6 +2126,7 @@ static void lan743x_rx_release_ring_element(struct lan743x_rx *rx, int index)
 	memset(buffer_info, 0, sizeof(*buffer_info));
 }
 
+<<<<<<< HEAD
 static struct sk_buff *
 lan743x_rx_trim_skb(struct sk_buff *skb, int frame_length)
 {
@@ -2059,6 +2153,18 @@ static int lan743x_rx_process_buffer(struct lan743x_rx *rx)
 	int extension_index = -1;
 	bool is_last, is_first;
 	struct sk_buff *skb;
+=======
+static int lan743x_rx_process_packet(struct lan743x_rx *rx)
+{
+	struct skb_shared_hwtstamps *hwtstamps = NULL;
+	int result = RX_PROCESS_RESULT_NOTHING_TO_DO;
+	int current_head_index = *rx->head_cpu_ptr;
+	struct lan743x_rx_buffer_info *buffer_info;
+	struct lan743x_rx_descriptor *descriptor;
+	int extension_index = -1;
+	int first_index = -1;
+	int last_index = -1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (current_head_index < 0 || current_head_index >= rx->ring_size)
 		goto done;
@@ -2066,6 +2172,7 @@ static int lan743x_rx_process_buffer(struct lan743x_rx *rx)
 	if (rx->last_head < 0 || rx->last_head >= rx->ring_size)
 		goto done;
 
+<<<<<<< HEAD
 	if (rx->last_head == current_head_index)
 		goto done;
 
@@ -2180,6 +2287,165 @@ move_forward:
 	rx->last_tail = rx->last_head;
 	rx->last_head = lan743x_rx_next_index(rx, rx->last_head);
 	result = RX_PROCESS_RESULT_BUFFER_RECEIVED;
+=======
+	if (rx->last_head != current_head_index) {
+		descriptor = &rx->ring_cpu_ptr[rx->last_head];
+		if (descriptor->data0 & RX_DESC_DATA0_OWN_)
+			goto done;
+
+		if (!(descriptor->data0 & RX_DESC_DATA0_FS_))
+			goto done;
+
+		first_index = rx->last_head;
+		if (descriptor->data0 & RX_DESC_DATA0_LS_) {
+			last_index = rx->last_head;
+		} else {
+			int index;
+
+			index = lan743x_rx_next_index(rx, first_index);
+			while (index != current_head_index) {
+				descriptor = &rx->ring_cpu_ptr[index];
+				if (descriptor->data0 & RX_DESC_DATA0_OWN_)
+					goto done;
+
+				if (descriptor->data0 & RX_DESC_DATA0_LS_) {
+					last_index = index;
+					break;
+				}
+				index = lan743x_rx_next_index(rx, index);
+			}
+		}
+		if (last_index >= 0) {
+			descriptor = &rx->ring_cpu_ptr[last_index];
+			if (descriptor->data0 & RX_DESC_DATA0_EXT_) {
+				/* extension is expected to follow */
+				int index = lan743x_rx_next_index(rx,
+								  last_index);
+				if (index != current_head_index) {
+					descriptor = &rx->ring_cpu_ptr[index];
+					if (descriptor->data0 &
+					    RX_DESC_DATA0_OWN_) {
+						goto done;
+					}
+					if (descriptor->data0 &
+					    RX_DESC_DATA0_EXT_) {
+						extension_index = index;
+					} else {
+						goto done;
+					}
+				} else {
+					/* extension is not yet available */
+					/* prevent processing of this packet */
+					first_index = -1;
+					last_index = -1;
+				}
+			}
+		}
+	}
+	if (first_index >= 0 && last_index >= 0) {
+		int real_last_index = last_index;
+		struct sk_buff *skb = NULL;
+		u32 ts_sec = 0;
+		u32 ts_nsec = 0;
+
+		/* packet is available */
+		if (first_index == last_index) {
+			/* single buffer packet */
+			struct sk_buff *new_skb = NULL;
+			int packet_length;
+
+			new_skb = lan743x_rx_allocate_skb(rx);
+			if (!new_skb) {
+				/* failed to allocate next skb.
+				 * Memory is very low.
+				 * Drop this packet and reuse buffer.
+				 */
+				lan743x_rx_reuse_ring_element(rx, first_index);
+				goto process_extension;
+			}
+
+			buffer_info = &rx->buffer_info[first_index];
+			skb = buffer_info->skb;
+			descriptor = &rx->ring_cpu_ptr[first_index];
+
+			/* unmap from dma */
+			if (buffer_info->dma_ptr) {
+				dma_unmap_single(&rx->adapter->pdev->dev,
+						 buffer_info->dma_ptr,
+						 buffer_info->buffer_length,
+						 DMA_FROM_DEVICE);
+				buffer_info->dma_ptr = 0;
+				buffer_info->buffer_length = 0;
+			}
+			buffer_info->skb = NULL;
+			packet_length =	RX_DESC_DATA0_FRAME_LENGTH_GET_
+					(descriptor->data0);
+			skb_put(skb, packet_length - 4);
+			skb->protocol = eth_type_trans(skb,
+						       rx->adapter->netdev);
+			lan743x_rx_init_ring_element(rx, first_index, new_skb);
+		} else {
+			int index = first_index;
+
+			/* multi buffer packet not supported */
+			/* this should not happen since
+			 * buffers are allocated to be at least jumbo size
+			 */
+
+			/* clean up buffers */
+			if (first_index <= last_index) {
+				while ((index >= first_index) &&
+				       (index <= last_index)) {
+					lan743x_rx_reuse_ring_element(rx,
+								      index);
+					index = lan743x_rx_next_index(rx,
+								      index);
+				}
+			} else {
+				while ((index >= first_index) ||
+				       (index <= last_index)) {
+					lan743x_rx_reuse_ring_element(rx,
+								      index);
+					index = lan743x_rx_next_index(rx,
+								      index);
+				}
+			}
+		}
+
+process_extension:
+		if (extension_index >= 0) {
+			descriptor = &rx->ring_cpu_ptr[extension_index];
+			buffer_info = &rx->buffer_info[extension_index];
+
+			ts_sec = descriptor->data1;
+			ts_nsec = (descriptor->data2 &
+				  RX_DESC_DATA2_TS_NS_MASK_);
+			lan743x_rx_reuse_ring_element(rx, extension_index);
+			real_last_index = extension_index;
+		}
+
+		if (!skb) {
+			result = RX_PROCESS_RESULT_PACKET_DROPPED;
+			goto move_forward;
+		}
+
+		if (extension_index < 0)
+			goto pass_packet_to_os;
+		hwtstamps = skb_hwtstamps(skb);
+		if (hwtstamps)
+			hwtstamps->hwtstamp = ktime_set(ts_sec, ts_nsec);
+
+pass_packet_to_os:
+		/* pass packet to OS */
+		napi_gro_receive(&rx->napi, skb);
+		result = RX_PROCESS_RESULT_PACKET_RECEIVED;
+
+move_forward:
+		/* push tail and head forward */
+		rx->last_tail = real_last_index;
+		rx->last_head = lan743x_rx_next_index(rx, real_last_index);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 done:
 	return result;
 }
@@ -2198,12 +2464,20 @@ static int lan743x_rx_napi_poll(struct napi_struct *napi, int weight)
 				  DMAC_INT_BIT_RXFRM_(rx->channel_number));
 	}
 	for (count = 0; count < weight; count++) {
+<<<<<<< HEAD
 		result = lan743x_rx_process_buffer(rx);
+=======
+		result = lan743x_rx_process_packet(rx);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (result == RX_PROCESS_RESULT_NOTHING_TO_DO)
 			break;
 	}
 	rx->frame_count += count;
+<<<<<<< HEAD
 	if (count == weight || result == RX_PROCESS_RESULT_BUFFER_RECEIVED)
+=======
+	if (count == weight || result == RX_PROCESS_RESULT_PACKET_RECEIVED)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return weight;
 
 	if (!napi_complete_done(napi, count))
@@ -2315,7 +2589,13 @@ static int lan743x_rx_ring_init(struct lan743x_rx *rx)
 
 	rx->last_head = 0;
 	for (index = 0; index < rx->ring_size; index++) {
+<<<<<<< HEAD
 		ret = lan743x_rx_init_ring_element(rx, index);
+=======
+		struct sk_buff *new_skb = lan743x_rx_allocate_skb(rx);
+
+		ret = lan743x_rx_init_ring_element(rx, index, new_skb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret)
 			goto cleanup;
 	}

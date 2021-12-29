@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 What:		/sys/bus/vmbus/hibernation
 Date:		Jan 2021
 KernelVersion:	5.12
@@ -5,6 +6,8 @@ Contact:	Dexuan Cui <decui@microsoft.com>
 Description:	Whether the host supports hibernation for the VM.
 Users:		Daemon that sets up swap partition/file for hibernation.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 What:		/sys/bus/vmbus/devices/<UUID>/id
 Date:		Jul 2009
 KernelVersion:	2.6.31

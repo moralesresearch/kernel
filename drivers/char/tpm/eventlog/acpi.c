@@ -41,6 +41,30 @@ struct acpi_tcpa {
 	};
 };
 
+<<<<<<< HEAD
+/* Check that the given log is indeed a TPM2 log. */
+static bool tpm_is_tpm2_log(void *bios_event_log, u64 len)
+{
+	struct tcg_efi_specid_event_head *efispecid;
+	struct tcg_pcr_event *event_header;
+	int n;
+
+	if (len < sizeof(*event_header))
+		return false;
+	len -= sizeof(*event_header);
+	event_header = bios_event_log;
+
+	if (len < sizeof(*efispecid))
+		return false;
+	efispecid = (struct tcg_efi_specid_event_head *)event_header->event;
+
+	n = memcmp(efispecid->signature, TCG_SPECID_SIG,
+		   sizeof(TCG_SPECID_SIG));
+	return n == 0;
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* read binary bios log */
 int tpm_read_log_acpi(struct tpm_chip *chip)
 {
@@ -52,6 +76,10 @@ int tpm_read_log_acpi(struct tpm_chip *chip)
 	struct acpi_table_tpm2 *tbl;
 	struct acpi_tpm2_phy *tpm2_phy;
 	int format;
+<<<<<<< HEAD
+	int ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	log = &chip->log;
 
@@ -112,6 +140,10 @@ int tpm_read_log_acpi(struct tpm_chip *chip)
 
 	log->bios_event_log_end = log->bios_event_log + len;
 
+<<<<<<< HEAD
+	ret = -EIO;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	virt = acpi_os_map_iomem(start, len);
 	if (!virt)
 		goto err;
@@ -119,11 +151,26 @@ int tpm_read_log_acpi(struct tpm_chip *chip)
 	memcpy_fromio(log->bios_event_log, virt, len);
 
 	acpi_os_unmap_iomem(virt, len);
+<<<<<<< HEAD
+
+	if (chip->flags & TPM_CHIP_FLAG_TPM2 &&
+	    !tpm_is_tpm2_log(log->bios_event_log, len)) {
+		/* try EFI log next */
+		ret = -ENODEV;
+		goto err;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return format;
 
 err:
 	kfree(log->bios_event_log);
 	log->bios_event_log = NULL;
+<<<<<<< HEAD
+	return ret;
+=======
 	return -EIO;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 }

@@ -3,10 +3,20 @@
 
 ALL_TESTS="match_dst_mac_test match_src_mac_test match_dst_ip_test \
 	match_src_ip_test match_ip_flags_test match_pcp_test match_vlan_test \
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	match_ip_tos_test match_indev_test match_ip_ttl_test
 	match_mpls_label_test \
 	match_mpls_tc_test match_mpls_bos_test match_mpls_ttl_test \
 	match_mpls_lse_test"
+<<<<<<< HEAD
+=======
+=======
+	match_ip_tos_test match_indev_test match_ip_ttl_test"
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 NUM_NETIFS=2
 source tc_common.sh
 source lib.sh
@@ -373,6 +383,10 @@ match_indev_test()
 	log_test "indev match ($tcflags)"
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # Unfortunately, mausezahn can't build MPLS headers when used in L2
 # mode, so we have this function to build Label Stack Entries.
 mpls_lse()
@@ -676,6 +690,11 @@ match_mpls_lse_test()
 	log_test "mpls lse match ($tcflags)"
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 setup_prepare()
 {
 	h1=${NETIFS[p1]}

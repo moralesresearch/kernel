@@ -65,11 +65,25 @@
 #define I_FR_SFT	21
 #define MIPSInst_FR(x) ((MIPSInst(x) & 0x03e00000) >> I_FR_SFT)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define I_FMA_FUNC_SFT	3
 #define MIPSInst_FMA_FUNC(x) ((MIPSInst(x) & 0x00000038) >> I_FMA_FUNC_SFT)
 
 #define I_FMA_FFMT_SFT	0
 #define MIPSInst_FMA_FFMT(x) (MIPSInst(x) & 0x00000007)
+<<<<<<< HEAD
+=======
+=======
+#define I_FMA_FUNC_SFT	2
+#define MIPSInst_FMA_FUNC(x) ((MIPSInst(x) & 0x0000003c) >> I_FMA_FUNC_SFT)
+
+#define I_FMA_FFMT_SFT	0
+#define MIPSInst_FMA_FFMT(x) (MIPSInst(x) & 0x00000003)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 typedef unsigned int mips_instruction;
 

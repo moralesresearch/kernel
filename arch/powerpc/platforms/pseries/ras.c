@@ -122,7 +122,11 @@ static inline u8 rtas_mc_error_sub_type(const struct pseries_mc_errorlog *mlog)
  * devices or systems (e.g. hugepages) that have not been initialized at the
  * subsys stage.
  */
+<<<<<<< HEAD
 static int __init init_ras_hotplug_IRQ(void)
+=======
+int __init init_ras_hotplug_IRQ(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct device_node *np;
 
@@ -315,10 +319,19 @@ static irqreturn_t ras_hotplug_interrupt(int irq, void *dev_id)
 /* Handle environmental and power warning (EPOW) interrupts. */
 static irqreturn_t ras_epow_interrupt(int irq, void *dev_id)
 {
+<<<<<<< HEAD
 	int state;
 	int critical;
 
 	rtas_get_sensor_fast(EPOW_SENSOR_TOKEN, EPOW_SENSOR_INDEX, &state);
+=======
+	int status;
+	int state;
+	int critical;
+
+	status = rtas_get_sensor_fast(EPOW_SENSOR_TOKEN, EPOW_SENSOR_INDEX,
+				      &state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (state > 3)
 		critical = 1;		/* Time Critical */
@@ -327,9 +340,18 @@ static irqreturn_t ras_epow_interrupt(int irq, void *dev_id)
 
 	spin_lock(&ras_log_buf_lock);
 
+<<<<<<< HEAD
 	rtas_call(ras_check_exception_token, 6, 1, NULL, RTAS_VECTOR_EXTERNAL_INTERRUPT,
 		  virq_to_hw(irq), RTAS_EPOW_WARNING, critical, __pa(&ras_log_buf),
 		  rtas_get_error_log_max());
+=======
+	status = rtas_call(ras_check_exception_token, 6, 1, NULL,
+			   RTAS_VECTOR_EXTERNAL_INTERRUPT,
+			   virq_to_hw(irq),
+			   RTAS_EPOW_WARNING,
+			   critical, __pa(&ras_log_buf),
+				rtas_get_error_log_max());
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	log_error(ras_log_buf, ERR_TYPE_RTAS_LOG, 0);
 
@@ -717,7 +739,10 @@ static int mce_handle_error(struct pt_regs *regs, struct rtas_error_log *errp)
 	struct pseries_errorlog *pseries_log;
 	struct pseries_mc_errorlog *mce_log = NULL;
 	int disposition = rtas_error_disposition(errp);
+<<<<<<< HEAD
 	unsigned long msr;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 error_type;
 
 	if (!rtas_error_extended(errp))
@@ -743,6 +768,7 @@ static int mce_handle_error(struct pt_regs *regs, struct rtas_error_log *errp)
 	 *       SLB multihit is done by now.
 	 */
 out:
+<<<<<<< HEAD
 	msr = mfmsr();
 	mtmsr(msr | MSR_IR | MSR_DR);
 
@@ -758,6 +784,11 @@ out:
 
 	mtmsr(msr);
 
+=======
+	mtmsr(mfmsr() | MSR_IR | MSR_DR);
+	disposition = mce_handle_err_virtmode(regs, errp, mce_log,
+					      disposition);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return disposition;
 }
 
@@ -821,7 +852,11 @@ static int recover_mce(struct pt_regs *regs, struct machine_check_event *evt)
 			 */
 			recovered = 0;
 		} else {
+<<<<<<< HEAD
 			die_mce("Machine check", regs, SIGBUS);
+=======
+			die("Machine check", regs, SIGBUS);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			recovered = 1;
 		}
 	}
@@ -873,9 +908,17 @@ long pseries_machine_check_realmode(struct pt_regs *regs)
 		 * virtual mode.
 		 */
 		disposition = mce_handle_error(regs, errp);
+<<<<<<< HEAD
 
 		fwnmi_release_errinfo();
 
+=======
+		fwnmi_release_errinfo();
+
+		/* Queue irq work to log this rtas event later. */
+		irq_work_queue(&mce_errlog_process_work);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (disposition == RTAS_DISP_FULLY_RECOVERED)
 			return 1;
 	}

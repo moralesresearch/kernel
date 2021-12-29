@@ -133,7 +133,11 @@ static struct attribute *ddr_perf_identifier_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group ddr_perf_identifier_attr_group = {
+=======
+static struct attribute_group ddr_perf_identifier_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = ddr_perf_identifier_attrs,
 	.is_visible = ddr_perf_identifier_attr_visible,
 };
@@ -188,7 +192,11 @@ static struct attribute *ddr_perf_filter_cap_attr[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group ddr_perf_filter_cap_attr_group = {
+=======
+static struct attribute_group ddr_perf_filter_cap_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "caps",
 	.attrs = ddr_perf_filter_cap_attr,
 };
@@ -209,7 +217,11 @@ static struct attribute *ddr_perf_cpumask_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group ddr_perf_cpumask_attr_group = {
+=======
+static struct attribute_group ddr_perf_cpumask_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = ddr_perf_cpumask_attrs,
 };
 
@@ -265,7 +277,11 @@ static struct attribute *ddr_perf_events_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group ddr_perf_events_attr_group = {
+=======
+static struct attribute_group ddr_perf_events_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "events",
 	.attrs = ddr_perf_events_attrs,
 };
@@ -281,7 +297,11 @@ static struct attribute *ddr_perf_format_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group ddr_perf_format_attr_group = {
+=======
+static struct attribute_group ddr_perf_format_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "format",
 	.attrs = ddr_perf_format_attrs,
 };

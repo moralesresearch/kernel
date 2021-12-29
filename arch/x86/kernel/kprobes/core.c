@@ -133,12 +133,40 @@ void synthesize_relcall(void *dest, void *from, void *to)
 NOKPROBE_SYMBOL(synthesize_relcall);
 
 /*
+<<<<<<< HEAD
+=======
+ * Skip the prefixes of the instruction.
+ */
+static kprobe_opcode_t *skip_prefixes(kprobe_opcode_t *insn)
+{
+	insn_attr_t attr;
+
+	attr = inat_get_opcode_attribute((insn_byte_t)*insn);
+	while (inat_is_legacy_prefix(attr)) {
+		insn++;
+		attr = inat_get_opcode_attribute((insn_byte_t)*insn);
+	}
+#ifdef CONFIG_X86_64
+	if (inat_is_rex_prefix(attr))
+		insn++;
+#endif
+	return insn;
+}
+NOKPROBE_SYMBOL(skip_prefixes);
+
+/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Returns non-zero if INSN is boostable.
  * RIP relative instructions are adjusted at copying time in 64 bits mode
  */
 int can_boost(struct insn *insn, void *addr)
 {
 	kprobe_opcode_t opcode;
+<<<<<<< HEAD
+	insn_byte_t prefix;
+	int i;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (search_exception_tables((unsigned long)addr))
 		return 0;	/* Page fault may occur on this address. */
@@ -151,9 +179,20 @@ int can_boost(struct insn *insn, void *addr)
 	if (insn->opcode.nbytes != 1)
 		return 0;
 
+<<<<<<< HEAD
+	for_each_insn_prefix(insn, i, prefix) {
+		insn_attr_t attr;
+
+		attr = inat_get_opcode_attribute(prefix);
+		/* Can't boost Address-size override prefix and CS override prefix */
+		if (prefix == 0x2e || inat_is_address_size_prefix(attr))
+			return 0;
+	}
+=======
 	/* Can't boost Address-size override prefix */
 	if (unlikely(inat_is_address_size_prefix(insn->attr)))
 		return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	opcode = insn->opcode.bytes[0];
 
@@ -178,8 +217,13 @@ int can_boost(struct insn *insn, void *addr)
 		/* clear and set flags are boostable */
 		return (opcode == 0xf5 || (0xf7 < opcode && opcode < 0xfe));
 	default:
+<<<<<<< HEAD
+		/* call is not boostable */
+		return opcode != 0x9a;
+=======
 		/* CS override prefix and call are not boostable */
 		return (opcode != 0x2e && opcode != 0x9a);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -292,6 +336,28 @@ static int can_probe(unsigned long paddr)
 }
 
 /*
+<<<<<<< HEAD
+=======
+ * Returns non-zero if opcode modifies the interrupt flag.
+ */
+static int is_IF_modifier(kprobe_opcode_t *insn)
+{
+	/* Skip prefixes */
+	insn = skip_prefixes(insn);
+
+	switch (*insn) {
+	case 0xfa:		/* cli */
+	case 0xfb:		/* sti */
+	case 0xcf:		/* iret/iretd */
+	case 0x9d:		/* popf/popfd */
+		return 1;
+	}
+
+	return 0;
+}
+
+/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Copy an instruction with recovering modified instruction by kprobes
  * and adjust the displacement if the instruction uses the %rip-relative
  * addressing mode. Note that since @real will be the final place of copied
@@ -372,9 +438,15 @@ static int prepare_boost(kprobe_opcode_t *buf, struct kprobe *p,
 		synthesize_reljump(buf + len, p->ainsn.insn + len,
 				   p->addr + insn->length);
 		len += JMP32_INSN_SIZE;
+<<<<<<< HEAD
 		p->ainsn.boostable = 1;
 	} else {
 		p->ainsn.boostable = 0;
+=======
+		p->ainsn.boostable = true;
+	} else {
+		p->ainsn.boostable = false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return len;
@@ -411,6 +483,7 @@ void free_insn_page(void *page)
 	module_memfree(page);
 }
 
+<<<<<<< HEAD
 static void set_resume_flags(struct kprobe *p, struct insn *insn)
 {
 	insn_byte_t opcode = insn->opcode.bytes[0];
@@ -448,7 +521,11 @@ static void set_resume_flags(struct kprobe *p, struct insn *insn)
 		break;
 #endif
 	case 0xff:
-		opcode = insn->opcode.bytes[1];
+		/*
+		 * Since the 0xff is an extended group opcode, the instruction
+		 * is determined by the MOD/RM byte.
+		 */
+		opcode = insn->modrm.bytes[0];
 		if ((opcode & 0x30) == 0x10) {
 			/*
 			 * call absolute, indirect
@@ -472,6 +549,8 @@ static void set_resume_flags(struct kprobe *p, struct insn *insn)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int arch_copy_kprobe(struct kprobe *p)
 {
 	struct insn insn;
@@ -489,8 +568,13 @@ static int arch_copy_kprobe(struct kprobe *p)
 	 */
 	len = prepare_boost(buf, p, &insn);
 
+<<<<<<< HEAD
 	/* Analyze the opcode and set resume flags */
 	set_resume_flags(p, &insn);
+=======
+	/* Check whether the instruction modifies Interrupt Flag or not */
+	p->ainsn.if_modifier = is_IF_modifier(buf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Also, displacement change doesn't affect the first byte */
 	p->opcode = buf[0];
@@ -513,9 +597,12 @@ int arch_prepare_kprobe(struct kprobe *p)
 
 	if (!can_probe((unsigned long)p->addr))
 		return -EILSEQ;
+<<<<<<< HEAD
 
 	memset(&p->ainsn, 0, sizeof(p->ainsn));
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* insn: must be on special executable page on x86. */
 	p->ainsn.insn = get_insn_slot();
 	if (!p->ainsn.insn)
@@ -831,6 +918,14 @@ NOKPROBE_SYMBOL(trampoline_handler);
  * 2) If the single-stepped instruction was a call, the return address
  * that is atop the stack is the address following the copied instruction.
  * We need to make it the address following the original instruction.
+<<<<<<< HEAD
+=======
+ *
+ * If this is the first time we've single-stepped the instruction at
+ * this probepoint, and the instruction is boostable, boost it: add a
+ * jump instruction after the copied instruction, that jumps to the next
+ * instruction after the probepoint.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static void resume_execution(struct kprobe *p, struct pt_regs *regs,
 			     struct kprobe_ctlblk *kcb)
@@ -838,6 +933,7 @@ static void resume_execution(struct kprobe *p, struct pt_regs *regs,
 	unsigned long *tos = stack_addr(regs);
 	unsigned long copy_ip = (unsigned long)p->ainsn.insn;
 	unsigned long orig_ip = (unsigned long)p->addr;
+<<<<<<< HEAD
 
 	regs->flags &= ~X86_EFLAGS_TF;
 
@@ -852,6 +948,62 @@ static void resume_execution(struct kprobe *p, struct pt_regs *regs,
 	if (!p->ainsn.is_abs_ip)
 		regs->ip += orig_ip - copy_ip;
 
+=======
+	kprobe_opcode_t *insn = p->ainsn.insn;
+
+	/* Skip prefixes */
+	insn = skip_prefixes(insn);
+
+	regs->flags &= ~X86_EFLAGS_TF;
+	switch (*insn) {
+	case 0x9c:	/* pushfl */
+		*tos &= ~(X86_EFLAGS_TF | X86_EFLAGS_IF);
+		*tos |= kcb->kprobe_old_flags;
+		break;
+	case 0xc2:	/* iret/ret/lret */
+	case 0xc3:
+	case 0xca:
+	case 0xcb:
+	case 0xcf:
+	case 0xea:	/* jmp absolute -- ip is correct */
+		/* ip is already adjusted, no more changes required */
+		p->ainsn.boostable = true;
+		goto no_change;
+	case 0xe8:	/* call relative - Fix return addr */
+		*tos = orig_ip + (*tos - copy_ip);
+		break;
+#ifdef CONFIG_X86_32
+	case 0x9a:	/* call absolute -- same as call absolute, indirect */
+		*tos = orig_ip + (*tos - copy_ip);
+		goto no_change;
+#endif
+	case 0xff:
+		if ((insn[1] & 0x30) == 0x10) {
+			/*
+			 * call absolute, indirect
+			 * Fix return addr; ip is correct.
+			 * But this is not boostable
+			 */
+			*tos = orig_ip + (*tos - copy_ip);
+			goto no_change;
+		} else if (((insn[1] & 0x31) == 0x20) ||
+			   ((insn[1] & 0x31) == 0x21)) {
+			/*
+			 * jmp near and far, absolute indirect
+			 * ip is correct. And this is boostable
+			 */
+			p->ainsn.boostable = true;
+			goto no_change;
+		}
+		break;
+	default:
+		break;
+	}
+
+	regs->ip += orig_ip - copy_ip;
+
+no_change:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	restore_btf();
 }
 NOKPROBE_SYMBOL(resume_execution);

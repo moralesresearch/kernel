@@ -48,9 +48,14 @@ void rtw_os_indicate_connect(struct adapter *adapter)
 	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) ||
 		(check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
 		rtw_cfg80211_ibss_indicate_connect(adapter);
+<<<<<<< HEAD
 	} else {
 		rtw_cfg80211_indicate_connect(adapter);
 	}
+=======
+	} else
+		rtw_cfg80211_indicate_connect(adapter);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rtw_indicate_wx_assoc_event(adapter);
 	netif_carrier_on(adapter->pnetdev);
@@ -164,8 +169,14 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
 		len = sec_ie[1] + 2;
 		len = (len < IW_CUSTOM_MAX) ? len : IW_CUSTOM_MAX;
 
+<<<<<<< HEAD
 		for (i = 0; i < len; i++)
 			p += sprintf(p, "%02x", sec_ie[i]);
+=======
+		for (i = 0; i < len; i++) {
+			p += sprintf(p, "%02x", sec_ie[i]);
+		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		p += sprintf(p, ")");
 

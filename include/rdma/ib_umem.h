@@ -1,7 +1,10 @@
 /* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
 /*
  * Copyright (c) 2007 Cisco Systems.  All rights reserved.
+<<<<<<< HEAD
  * Copyright (c) 2020 Intel Corporation.  All rights reserved.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #ifndef IB_UMEM_H
@@ -14,7 +17,10 @@
 
 struct ib_ucontext;
 struct ib_umem_odp;
+<<<<<<< HEAD
 struct dma_buf_attach_ops;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct ib_umem {
 	struct ib_device       *ibdev;
@@ -24,13 +30,17 @@ struct ib_umem {
 	unsigned long		address;
 	u32 writable : 1;
 	u32 is_odp : 1;
+<<<<<<< HEAD
 	u32 is_dmabuf : 1;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct work_struct	work;
 	struct sg_table sg_head;
 	int             nmap;
 	unsigned int    sg_nents;
 };
 
+<<<<<<< HEAD
 struct ib_umem_dmabuf {
 	struct ib_umem umem;
 	struct dma_buf_attachment *attach;
@@ -47,6 +57,8 @@ static inline struct ib_umem_dmabuf *to_ib_umem_dmabuf(struct ib_umem *umem)
 	return container_of(umem, struct ib_umem_dmabuf, umem);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Returns the offset of the umem start relative to the first page. */
 static inline int ib_umem_offset(struct ib_umem *umem)
 {
@@ -105,7 +117,10 @@ int ib_umem_copy_from(void *dst, struct ib_umem *umem, size_t offset,
 unsigned long ib_umem_find_best_pgsz(struct ib_umem *umem,
 				     unsigned long pgsz_bitmap,
 				     unsigned long virt);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * ib_umem_find_best_pgoff - Find best HW page size
  *
@@ -136,6 +151,7 @@ static inline unsigned long ib_umem_find_best_pgoff(struct ib_umem *umem,
 				      dma_addr & pgoff_bitmask);
 }
 
+<<<<<<< HEAD
 struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
 					  unsigned long offset, size_t size,
 					  int fd, int access,
@@ -144,6 +160,8 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf);
 void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf);
 void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #else /* CONFIG_INFINIBAND_USER_MEM */
 
 #include <linux/err.h>
@@ -152,12 +170,20 @@ static inline struct ib_umem *ib_umem_get(struct ib_device *device,
 					  unsigned long addr, size_t size,
 					  int access)
 {
+<<<<<<< HEAD
 	return ERR_PTR(-EOPNOTSUPP);
+=======
+	return ERR_PTR(-EINVAL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 static inline void ib_umem_release(struct ib_umem *umem) { }
 static inline int ib_umem_copy_from(void *dst, struct ib_umem *umem, size_t offset,
 		      		    size_t length) {
+<<<<<<< HEAD
 	return -EOPNOTSUPP;
+=======
+	return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 static inline unsigned long ib_umem_find_best_pgsz(struct ib_umem *umem,
 						   unsigned long pgsz_bitmap,
@@ -171,6 +197,7 @@ static inline unsigned long ib_umem_find_best_pgoff(struct ib_umem *umem,
 {
 	return 0;
 }
+<<<<<<< HEAD
 static inline
 struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
 					  unsigned long offset,
@@ -188,4 +215,9 @@ static inline void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf
 static inline void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf) { }
 
 #endif /* CONFIG_INFINIBAND_USER_MEM */
+=======
+
+#endif /* CONFIG_INFINIBAND_USER_MEM */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* IB_UMEM_H */

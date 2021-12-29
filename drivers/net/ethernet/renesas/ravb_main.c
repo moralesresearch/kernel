@@ -911,6 +911,22 @@ static int ravb_poll(struct napi_struct *napi, int budget)
 	int q = napi - priv->napi;
 	int mask = BIT(q);
 	int quota = budget;
+<<<<<<< HEAD
+
+	/* Processing RX Descriptor Ring */
+	/* Clear RX interrupt */
+	ravb_write(ndev, ~(mask | RIS0_RESERVED), RIS0);
+	if (ravb_rx(ndev, &quota, q))
+		goto out;
+
+	/* Processing RX Descriptor Ring */
+	spin_lock_irqsave(&priv->lock, flags);
+	/* Clear TX interrupt */
+	ravb_write(ndev, ~(mask | TIS_RESERVED), TIS);
+	ravb_tx_free(ndev, q, true);
+	netif_wake_subqueue(ndev, q);
+	spin_unlock_irqrestore(&priv->lock, flags);
+=======
 	u32 ris0, tis;
 
 	for (;;) {
@@ -936,6 +952,7 @@ static int ravb_poll(struct napi_struct *napi, int budget)
 			spin_unlock_irqrestore(&priv->lock, flags);
 		}
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	napi_complete(napi);
 
@@ -2034,10 +2051,17 @@ static void ravb_set_delay_mode(struct net_device *ndev)
 	u32 set = 0;
 
 	if (priv->rxcidm)
+<<<<<<< HEAD
 		set |= APSR_RDM;
 	if (priv->txcidm)
 		set |= APSR_TDM;
 	ravb_modify(ndev, APSR, APSR_RDM | APSR_TDM, set);
+=======
+		set |= APSR_DM_RDM;
+	if (priv->txcidm)
+		set |= APSR_DM_TDM;
+	ravb_modify(ndev, APSR, APSR_DM, set);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ravb_probe(struct platform_device *pdev)

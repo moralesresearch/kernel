@@ -39,7 +39,11 @@ long ext2_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 		if (ret)
 			return ret;
 
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(&init_user_ns, inode)) {
+=======
+		if (!inode_owner_or_capable(inode)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = -EACCES;
 			goto setflags_out;
 		}
@@ -84,7 +88,11 @@ setflags_out:
 	case EXT2_IOC_SETVERSION: {
 		__u32 generation;
 
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(&init_user_ns, inode))
+=======
+		if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EPERM;
 		ret = mnt_want_write_file(filp);
 		if (ret)
@@ -117,7 +125,11 @@ setversion_out:
 		if (!test_opt(inode->i_sb, RESERVATION) ||!S_ISREG(inode->i_mode))
 			return -ENOTTY;
 
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(&init_user_ns, inode))
+=======
+		if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EACCES;
 
 		if (get_user(rsv_window_size, (int __user *)arg))

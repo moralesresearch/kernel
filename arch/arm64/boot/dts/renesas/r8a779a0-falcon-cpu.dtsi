@@ -5,13 +5,27 @@
  * Copyright (C) 2020 Renesas Electronics Corp.
  */
 
+<<<<<<< HEAD
 #include <dt-bindings/gpio/gpio.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "r8a779a0.dtsi"
 
 / {
 	model = "Renesas Falcon CPU board";
 	compatible = "renesas,falcon-cpu", "renesas,r8a779a0";
 
+<<<<<<< HEAD
+	aliases {
+		serial0 = &scif0;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+	};
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memory@48000000 {
 		device_type = "memory";
 		/* first 128MB is reserved for secure area. */
@@ -32,6 +46,7 @@
 		device_type = "memory";
 		reg = <0x7 0x00000000 0x0 0x80000000>;
 	};
+<<<<<<< HEAD
 
 	reg_1p8v: regulator-1p8v {
 		compatible = "regulator-fixed";
@@ -66,6 +81,8 @@
 		interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
 		reset-gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
 	};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &extal_clk {
@@ -76,6 +93,7 @@
 	clock-frequency = <32768>;
 };
 
+<<<<<<< HEAD
 &i2c0 {
 	pinctrl-0 = <&i2c0_pins>;
 	pinctrl-names = "default";
@@ -182,3 +200,8 @@
 &scif_clk {
 	clock-frequency = <24000000>;
 };
+=======
+&scif0 {
+	status = "okay";
+};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

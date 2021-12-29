@@ -342,9 +342,17 @@ static inline void task_seccomp(struct seq_file *m, struct task_struct *p)
 	seq_put_decimal_ull(m, "NoNewPrivs:\t", task_no_new_privs(p));
 #ifdef CONFIG_SECCOMP
 	seq_put_decimal_ull(m, "\nSeccomp:\t", p->seccomp.mode);
+<<<<<<< HEAD
+#ifdef CONFIG_SECCOMP_FILTER
 	seq_put_decimal_ull(m, "\nSeccomp_filters:\t",
 			    atomic_read(&p->seccomp.filter_count));
 #endif
+#endif
+=======
+	seq_put_decimal_ull(m, "\nSeccomp_filters:\t",
+			    atomic_read(&p->seccomp.filter_count));
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	seq_puts(m, "\nSpeculation_Store_Bypass:\t");
 	switch (arch_prctl_spec_ctrl_get(p, PR_SPEC_STORE_BYPASS)) {
 	case -EINVAL:

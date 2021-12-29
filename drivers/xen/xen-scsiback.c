@@ -799,7 +799,15 @@ static int scsiback_init_sring(struct vscsibk_info *info, grant_ref_t ring_ref,
 	sring = (struct vscsiif_sring *)area;
 	BACK_RING_INIT(&info->ring, sring, PAGE_SIZE);
 
+<<<<<<< HEAD
 	err = bind_interdomain_evtchn_to_irq_lateeoi(info->dev, evtchn);
+=======
+<<<<<<< HEAD
+	err = bind_interdomain_evtchn_to_irq_lateeoi(info->dev, evtchn);
+=======
+	err = bind_interdomain_evtchn_to_irq_lateeoi(info->domid, evtchn);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		goto unmap_page;
 

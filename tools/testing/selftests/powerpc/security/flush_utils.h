@@ -9,6 +9,13 @@
 
 #define CACHELINE_SIZE 128
 
+<<<<<<< HEAD
+#define PERF_L1D_READ_MISS_CONFIG	((PERF_COUNT_HW_CACHE_L1D) | 		\
+					(PERF_COUNT_HW_CACHE_OP_READ << 8) |	\
+					(PERF_COUNT_HW_CACHE_RESULT_MISS << 16))
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void syscall_loop(char *p, unsigned long iterations,
 		  unsigned long zero_size);
 

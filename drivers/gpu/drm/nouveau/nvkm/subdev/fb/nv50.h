@@ -17,6 +17,10 @@ struct nv50_fb_func {
 	u32 trap;
 };
 
+<<<<<<< HEAD
 int nv50_fb_new_(const struct nv50_fb_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
+=======
+int nv50_fb_new_(const struct nv50_fb_func *, struct nvkm_device *, int index,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 struct nvkm_fb **pfb);
 #endif

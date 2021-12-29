@@ -8,7 +8,10 @@
 
 #include <uapi/asm/ptrace.h>
 #include <asm/csr.h>
+<<<<<<< HEAD
 #include <linux/compiler.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifndef __ASSEMBLY__
 
@@ -61,7 +64,10 @@ struct pt_regs {
 
 #define user_mode(regs) (((regs)->status & SR_PP) == 0)
 
+<<<<<<< HEAD
 #define MAX_REG_OFFSET offsetof(struct pt_regs, orig_a0)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Helpers for working with the instruction pointer */
 static inline unsigned long instruction_pointer(struct pt_regs *regs)
@@ -87,12 +93,15 @@ static inline void user_stack_pointer_set(struct pt_regs *regs,
 	regs->sp =  val;
 }
 
+<<<<<<< HEAD
 /* Valid only for Kernel mode traps. */
 static inline unsigned long kernel_stack_pointer(struct pt_regs *regs)
 {
 	return regs->sp;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Helpers for working with the frame pointer */
 static inline unsigned long frame_pointer(struct pt_regs *regs)
 {
@@ -109,6 +118,7 @@ static inline unsigned long regs_return_value(struct pt_regs *regs)
 	return regs->a0;
 }
 
+<<<<<<< HEAD
 static inline void regs_set_return_value(struct pt_regs *regs,
 					 unsigned long val)
 {
@@ -141,6 +151,8 @@ static inline unsigned long regs_get_register(struct pt_regs *regs,
 
 	return *(unsigned long *)((unsigned long)regs + offset);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __ASSEMBLY__ */
 
 #endif /* _ASM_RISCV_PTRACE_H */

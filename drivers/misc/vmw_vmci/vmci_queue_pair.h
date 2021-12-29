@@ -104,7 +104,11 @@ struct vmci_qp_dtch_info {
 struct vmci_qp_page_store {
 	/* Reference to pages backing the queue pair. */
 	u64 pages;
+<<<<<<< HEAD
 	/* Length of pageList/virtual address range (in pages). */
+=======
+	/* Length of pageList/virtual addres range (in pages). */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 len;
 };
 

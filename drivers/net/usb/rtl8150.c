@@ -577,9 +577,15 @@ static void free_skb_pool(rtl8150_t *dev)
 		dev_kfree_skb(dev->rx_skb_pool[i]);
 }
 
+<<<<<<< HEAD
 static void rx_fixup(struct tasklet_struct *t)
 {
 	struct rtl8150 *dev = from_tasklet(dev, t, tl);
+=======
+static void rx_fixup(unsigned long data)
+{
+	struct rtl8150 *dev = (struct rtl8150 *)data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct sk_buff *skb;
 	int status;
 
@@ -878,7 +884,11 @@ static int rtl8150_probe(struct usb_interface *intf,
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
 	tasklet_setup(&dev->tl, rx_fixup);
+=======
+	tasklet_init(&dev->tl, rx_fixup, (unsigned long)dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_init(&dev->rx_pool_lock);
 
 	dev->udev = udev;

@@ -80,7 +80,10 @@ and its resource dependencies. It is described by the following properties:
 	Definition: must be one of:
 		    "qcom,wcn3620",
 		    "qcom,wcn3660",
+<<<<<<< HEAD
 		    "qcom,wcn3660b",
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    "qcom,wcn3680"
 
 - clocks:

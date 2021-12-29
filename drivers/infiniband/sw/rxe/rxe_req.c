@@ -375,6 +375,10 @@ static struct sk_buff *init_req_packet(struct rxe_qp *qp,
 	pkt->psn	= qp->req.psn;
 	pkt->mask	= rxe_opcode[opcode].mask;
 	pkt->paylen	= paylen;
+<<<<<<< HEAD
+=======
+	pkt->offset	= 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pkt->wqe	= wqe;
 
 	/* init skb */
@@ -464,7 +468,11 @@ static int fill_packet(struct rxe_qp *qp, struct rxe_send_wqe *wqe,
 		} else {
 			err = copy_data(qp->pd, 0, &wqe->dma,
 					payload_addr(pkt), paylen,
+<<<<<<< HEAD
+					from_mr_obj,
+=======
 					from_mem_obj,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					&crc);
 			if (err)
 				return err;
@@ -596,7 +604,11 @@ next_wqe:
 	if (wqe->mask & WR_REG_MASK) {
 		if (wqe->wr.opcode == IB_WR_LOCAL_INV) {
 			struct rxe_dev *rxe = to_rdev(qp->ibqp.device);
+<<<<<<< HEAD
+			struct rxe_mr *rmr;
+=======
 			struct rxe_mem *rmr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			rmr = rxe_pool_get_index(&rxe->mr_pool,
 						 wqe->wr.ex.invalidate_rkey >> 8);
@@ -607,14 +619,24 @@ next_wqe:
 				wqe->status = IB_WC_MW_BIND_ERR;
 				goto exit;
 			}
+<<<<<<< HEAD
+			rmr->state = RXE_MR_STATE_FREE;
+=======
 			rmr->state = RXE_MEM_STATE_FREE;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			rxe_drop_ref(rmr);
 			wqe->state = wqe_state_done;
 			wqe->status = IB_WC_SUCCESS;
 		} else if (wqe->wr.opcode == IB_WR_REG_MR) {
+<<<<<<< HEAD
+			struct rxe_mr *rmr = to_rmr(wqe->wr.wr.reg.mr);
+
+			rmr->state = RXE_MR_STATE_VALID;
+=======
 			struct rxe_mem *rmr = to_rmr(wqe->wr.wr.reg.mr);
 
 			rmr->state = RXE_MEM_STATE_VALID;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			rmr->access = wqe->wr.wr.reg.access;
 			rmr->ibmr.lkey = wqe->wr.wr.reg.key;
 			rmr->ibmr.rkey = wqe->wr.wr.reg.key;

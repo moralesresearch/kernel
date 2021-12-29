@@ -3,7 +3,11 @@
  *
  * Module Name: nswalk - Functions for walking the ACPI namespace
  *
+<<<<<<< HEAD
  * Copyright (C) 2000 - 2021, Intel Corp.
+=======
+ * Copyright (C) 2000 - 2020, Intel Corp.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *****************************************************************************/
 

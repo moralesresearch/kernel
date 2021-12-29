@@ -589,7 +589,11 @@ static int deinterlace_start_streaming(struct vb2_queue *vq, unsigned int count)
 	int ret;
 
 	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
+<<<<<<< HEAD
+		ret = pm_runtime_resume_and_get(dev);
+=======
 		ret = pm_runtime_get_sync(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret < 0) {
 			dev_err(dev, "Failed to enable module\n");
 

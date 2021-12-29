@@ -374,7 +374,11 @@ static umode_t power_supply_attr_is_visible(struct kobject *kobj,
 	return 0;
 }
 
+<<<<<<< HEAD
 static const struct attribute_group power_supply_attr_group = {
+=======
+static struct attribute_group power_supply_attr_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = __power_supply_attrs,
 	.is_visible = power_supply_attr_is_visible,
 };

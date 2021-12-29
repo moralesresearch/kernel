@@ -11,7 +11,11 @@ struct nv04_devinit {
 };
 
 int nv04_devinit_new_(const struct nvkm_devinit_func *, struct nvkm_device *,
+<<<<<<< HEAD
 		      enum nvkm_subdev_type, int, struct nvkm_devinit **);
+=======
+		      int, struct nvkm_devinit **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void *nv04_devinit_dtor(struct nvkm_devinit *);
 void nv04_devinit_preinit(struct nvkm_devinit *);
 void nv04_devinit_fini(struct nvkm_devinit *);

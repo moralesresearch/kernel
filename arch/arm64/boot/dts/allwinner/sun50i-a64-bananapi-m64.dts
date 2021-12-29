@@ -36,18 +36,30 @@
 	leds {
 		compatible = "gpio-leds";
 
+<<<<<<< HEAD
 		led-0 {
+=======
+		pwr-led {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "bananapi-m64:red:pwr";
 			gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* PD24 */
 			default-state = "on";
 		};
 
+<<<<<<< HEAD
 		led-1 {
+=======
+		green {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "bananapi-m64:green:user";
 			gpios = <&pio 4 14 GPIO_ACTIVE_HIGH>; /* PE14 */
 		};
 
+<<<<<<< HEAD
 		led-2 {
+=======
+		blue {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "bananapi-m64:blue:user";
 			gpios = <&pio 4 15 GPIO_ACTIVE_HIGH>; /* PE15 */
 		};

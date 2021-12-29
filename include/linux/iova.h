@@ -150,8 +150,15 @@ unsigned long alloc_iova_fast(struct iova_domain *iovad, unsigned long size,
 			      unsigned long limit_pfn, bool flush_rcache);
 struct iova *reserve_iova(struct iova_domain *iovad, unsigned long pfn_lo,
 	unsigned long pfn_hi);
+<<<<<<< HEAD
 void init_iova_domain(struct iova_domain *iovad, unsigned long granule,
 	unsigned long start_pfn);
+=======
+void copy_reserved_iova(struct iova_domain *from, struct iova_domain *to);
+void init_iova_domain(struct iova_domain *iovad, unsigned long granule,
+	unsigned long start_pfn);
+bool has_iova_flush_queue(struct iova_domain *iovad);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int init_iova_flush_queue(struct iova_domain *iovad,
 			  iova_flush_cb flush_cb, iova_entry_dtor entry_dtor);
 struct iova *find_iova(struct iova_domain *iovad, unsigned long pfn);
@@ -210,12 +217,28 @@ static inline struct iova *reserve_iova(struct iova_domain *iovad,
 	return NULL;
 }
 
+<<<<<<< HEAD
+=======
+static inline void copy_reserved_iova(struct iova_domain *from,
+				      struct iova_domain *to)
+{
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void init_iova_domain(struct iova_domain *iovad,
 				    unsigned long granule,
 				    unsigned long start_pfn)
 {
 }
 
+<<<<<<< HEAD
+=======
+static inline bool has_iova_flush_queue(struct iova_domain *iovad)
+{
+	return false;
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int init_iova_flush_queue(struct iova_domain *iovad,
 					iova_flush_cb flush_cb,
 					iova_entry_dtor entry_dtor)

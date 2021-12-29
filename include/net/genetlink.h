@@ -14,7 +14,10 @@
  */
 struct genl_multicast_group {
 	char			name[GENL_NAMSIZ];
+<<<<<<< HEAD
 	u8			flags;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct genl_ops;

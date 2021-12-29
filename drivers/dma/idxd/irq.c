@@ -45,7 +45,11 @@ static void idxd_device_reinit(struct work_struct *work)
 		goto out;
 
 	for (i = 0; i < idxd->max_wqs; i++) {
+<<<<<<< HEAD
+		struct idxd_wq *wq = idxd->wqs[i];
+=======
 		struct idxd_wq *wq = &idxd->wqs[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (wq->state == IDXD_WQ_ENABLED) {
 			rc = idxd_wq_enable(wq);
@@ -124,9 +128,19 @@ static int process_misc_interrupts(struct idxd_device *idxd, u32 cause)
 		for (i = 0; i < 4; i++)
 			idxd->sw_err.bits[i] = ioread64(idxd->reg_base +
 					IDXD_SWERR_OFFSET + i * sizeof(u64));
+<<<<<<< HEAD
 
 		iowrite64(idxd->sw_err.bits[0] & IDXD_SWERR_ACK,
 			  idxd->reg_base + IDXD_SWERR_OFFSET);
+
+		if (idxd->sw_err.valid && idxd->sw_err.wq_idx_valid) {
+			int id = idxd->sw_err.wq_idx;
+			struct idxd_wq *wq = idxd->wqs[id];
+
+			if (wq->type == IDXD_WQT_USER)
+				wake_up_interruptible(&wq->err_queue);
+=======
+		iowrite64(IDXD_SWERR_ACK, idxd->reg_base + IDXD_SWERR_OFFSET);
 
 		if (idxd->sw_err.valid && idxd->sw_err.wq_idx_valid) {
 			int id = idxd->sw_err.wq_idx;
@@ -134,14 +148,22 @@ static int process_misc_interrupts(struct idxd_device *idxd, u32 cause)
 
 			if (wq->type == IDXD_WQT_USER)
 				wake_up_interruptible(&wq->idxd_cdev.err_queue);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			int i;
 
 			for (i = 0; i < idxd->max_wqs; i++) {
+<<<<<<< HEAD
+				struct idxd_wq *wq = idxd->wqs[i];
+
+				if (wq->type == IDXD_WQT_USER)
+					wake_up_interruptible(&wq->err_queue);
+=======
 				struct idxd_wq *wq = &idxd->wqs[i];
 
 				if (wq->type == IDXD_WQT_USER)
 					wake_up_interruptible(&wq->idxd_cdev.err_queue);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 		}
 

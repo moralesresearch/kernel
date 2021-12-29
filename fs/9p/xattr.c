@@ -157,7 +157,10 @@ static int v9fs_xattr_handler_get(const struct xattr_handler *handler,
 }
 
 static int v9fs_xattr_handler_set(const struct xattr_handler *handler,
+<<<<<<< HEAD
 				  struct user_namespace *mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  struct dentry *dentry, struct inode *inode,
 				  const char *name, const void *value,
 				  size_t size, int flags)

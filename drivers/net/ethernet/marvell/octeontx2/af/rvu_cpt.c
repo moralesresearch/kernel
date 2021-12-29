@@ -65,6 +65,7 @@ int rvu_mbox_handler_cpt_lf_alloc(struct rvu *rvu,
 	int num_lfs, slot;
 	u64 val;
 
+<<<<<<< HEAD
 	blkaddr = req->blkaddr ? req->blkaddr : BLKADDR_CPT0;
 	if (blkaddr != BLKADDR_CPT0 && blkaddr != BLKADDR_CPT1)
 		return -ENODEV;
@@ -72,6 +73,15 @@ int rvu_mbox_handler_cpt_lf_alloc(struct rvu *rvu,
 	if (req->eng_grpmsk == 0x0)
 		return CPT_AF_ERR_GRP_INVALID;
 
+=======
+	if (req->eng_grpmsk == 0x0)
+		return CPT_AF_ERR_GRP_INVALID;
+
+	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_CPT, 0);
+	if (blkaddr < 0)
+		return blkaddr;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	block = &rvu->hw->block[blkaddr];
 	num_lfs = rvu_get_rsrc_mapcount(rvu_get_pfvf(rvu, pcifunc),
 					block->addr);
@@ -114,17 +124,35 @@ int rvu_mbox_handler_cpt_lf_alloc(struct rvu *rvu,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int cpt_lf_free(struct rvu *rvu, struct msg_req *req, int blkaddr)
 {
 	u16 pcifunc = req->hdr.pcifunc;
 	int num_lfs, cptlf, slot;
 	struct rvu_block *block;
+=======
+int rvu_mbox_handler_cpt_lf_free(struct rvu *rvu, struct msg_req *req,
+				 struct msg_rsp *rsp)
+{
+	u16 pcifunc = req->hdr.pcifunc;
+	struct rvu_block *block;
+	int cptlf, blkaddr;
+	int num_lfs, slot;
+
+	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_CPT, 0);
+	if (blkaddr < 0)
+		return blkaddr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	block = &rvu->hw->block[blkaddr];
 	num_lfs = rvu_get_rsrc_mapcount(rvu_get_pfvf(rvu, pcifunc),
 					block->addr);
 	if (!num_lfs)
+<<<<<<< HEAD
 		return 0;
+=======
+		return CPT_AF_ERR_LF_INVALID;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (slot = 0; slot < num_lfs; slot++) {
 		cptlf = rvu_get_lf(rvu, block, pcifunc, slot);
@@ -140,6 +168,7 @@ static int cpt_lf_free(struct rvu *rvu, struct msg_req *req, int blkaddr)
 	return 0;
 }
 
+<<<<<<< HEAD
 int rvu_mbox_handler_cpt_lf_free(struct rvu *rvu, struct msg_req *req,
 				 struct msg_rsp *rsp)
 {
@@ -155,6 +184,8 @@ int rvu_mbox_handler_cpt_lf_free(struct rvu *rvu, struct msg_req *req,
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool is_valid_offset(struct rvu *rvu, struct cpt_rd_wr_reg_msg *req)
 {
 	u64 offset = req->reg_offset;
@@ -217,9 +248,15 @@ int rvu_mbox_handler_cpt_rd_wr_register(struct rvu *rvu,
 {
 	int blkaddr;
 
+<<<<<<< HEAD
 	blkaddr = req->blkaddr ? req->blkaddr : BLKADDR_CPT0;
 	if (blkaddr != BLKADDR_CPT0 && blkaddr != BLKADDR_CPT1)
 		return -ENODEV;
+=======
+	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_CPT, 0);
+	if (blkaddr < 0)
+		return blkaddr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* This message is accepted only if sent from CPT PF/VF */
 	if (!is_cpt_pf(rvu, req->hdr.pcifunc) &&
@@ -240,6 +277,7 @@ int rvu_mbox_handler_cpt_rd_wr_register(struct rvu *rvu,
 
 	return 0;
 }
+<<<<<<< HEAD
 
 #define INPROG_INFLIGHT(reg)    ((reg) & 0x1FF)
 #define INPROG_GRB_PARTIAL(reg) ((reg) & BIT_ULL(31))
@@ -329,3 +367,5 @@ int rvu_cpt_lf_teardown(struct rvu *rvu, u16 pcifunc, int lf, int slot)
 
 	return 0;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

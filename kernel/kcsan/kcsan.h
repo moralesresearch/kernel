@@ -31,11 +31,14 @@ void kcsan_save_irqtrace(struct task_struct *task);
 void kcsan_restore_irqtrace(struct task_struct *task);
 
 /*
+<<<<<<< HEAD
+=======
  * Initialize debugfs file.
  */
 void kcsan_debugfs_init(void);
 
 /*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Statistics counters displayed via debugfs; should only be modified in
  * slow-paths.
  */

@@ -141,6 +141,7 @@ static inline s32 fixp_sin32_rad(u32 radians, u32 twopi)
 #define fixp_cos32_rad(rad, twopi)	\
 	fixp_sin32_rad(rad + twopi / 4, twopi)
 
+<<<<<<< HEAD
 /**
  * fixp_linear_interpolate() - interpolates a value from two known points
  *
@@ -160,4 +161,6 @@ static inline int fixp_linear_interpolate(int x0, int y0, int x1, int y1, int x)
 	return y0 + ((y1 - y0) * (x - x0) / (x1 - x0));
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

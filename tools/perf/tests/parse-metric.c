@@ -70,10 +70,13 @@ static struct pmu_event pme_test[] = {
 	.metric_name	= "M3",
 },
 {
+<<<<<<< HEAD
 	.metric_expr	= "64 * l1d.replacement / 1000000000 / duration_time",
 	.metric_name	= "L1D_Cache_Fill_BW",
 },
 {
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name	= NULL,
 }
 };
@@ -111,8 +114,11 @@ static void load_runtime_stat(struct runtime_stat *st, struct evlist *evlist,
 	evlist__for_each_entry(evlist, evsel) {
 		count = find_value(evsel->name, vals);
 		perf_stat__update_shadow_stats(evsel, count, 0, st);
+<<<<<<< HEAD
 		if (!strcmp(evsel->name, "duration_time"))
 			update_stats(&walltime_nsecs_stats, count);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -327,6 +333,7 @@ static int test_recursion_fail(void)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int test_memory_bandwidth(void)
 {
 	double ratio;
@@ -344,6 +351,8 @@ static int test_memory_bandwidth(void)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int test_metric_group(void)
 {
 	double ratio1, ratio2;
@@ -376,6 +385,9 @@ int test__parse_metric(struct test *test __maybe_unused, int subtest __maybe_unu
 	TEST_ASSERT_VAL("DCache_L2 failed", test_dcache_l2() == 0);
 	TEST_ASSERT_VAL("recursion fail failed", test_recursion_fail() == 0);
 	TEST_ASSERT_VAL("test metric group", test_metric_group() == 0);
+<<<<<<< HEAD
 	TEST_ASSERT_VAL("Memory bandwidth", test_memory_bandwidth() == 0);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }

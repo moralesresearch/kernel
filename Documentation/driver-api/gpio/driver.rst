@@ -640,8 +640,13 @@ compliance:
   level and edge IRQs
 
 * [1] http://www.spinics.net/lists/linux-omap/msg120425.html
+<<<<<<< HEAD
 * [2] https://lore.kernel.org/r/1443209283-20781-2-git-send-email-grygorii.strashko@ti.com
 * [3] https://lore.kernel.org/r/1443209283-20781-3-git-send-email-grygorii.strashko@ti.com
+=======
+* [2] https://lkml.org/lkml/2015/9/25/494
+* [3] https://lkml.org/lkml/2015/9/25/495
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 
 Requesting self-owned GPIO pins

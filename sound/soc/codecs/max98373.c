@@ -28,13 +28,27 @@ static int max98373_dac_event(struct snd_soc_dapm_widget *w,
 		regmap_update_bits(max98373->regmap,
 			MAX98373_R20FF_GLOBAL_SHDN,
 			MAX98373_GLOBAL_EN_MASK, 1);
+<<<<<<< HEAD
 		usleep_range(30000, 31000);
+=======
+<<<<<<< HEAD
+		usleep_range(30000, 31000);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SND_SOC_DAPM_POST_PMD:
 		regmap_update_bits(max98373->regmap,
 			MAX98373_R20FF_GLOBAL_SHDN,
 			MAX98373_GLOBAL_EN_MASK, 0);
+<<<<<<< HEAD
 		usleep_range(30000, 31000);
+=======
+<<<<<<< HEAD
+		usleep_range(30000, 31000);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		max98373->tdm_mode = false;
 		break;
 	default:

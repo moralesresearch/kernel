@@ -32,6 +32,10 @@
 
 #include "vcn/vcn_1_0_offset.h"
 #include "vcn/vcn_1_0_sh_mask.h"
+<<<<<<< HEAD
+=======
+#include "hdp/hdp_4_0_offset.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "mmhub/mmhub_9_1_offset.h"
 #include "mmhub/mmhub_9_1_sh_mask.h"
 
@@ -231,9 +235,19 @@ static int vcn_v1_0_hw_fini(void *handle)
 {
 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
 
+<<<<<<< HEAD
+	cancel_delayed_work_sync(&adev->vcn.idle_work);
+
+	if ((adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) ||
+		(adev->vcn.cur_state != AMD_PG_STATE_GATE &&
+		 RREG32_SOC15(VCN, 0, mmUVD_STATUS))) {
+		vcn_v1_0_set_powergating_state(adev, AMD_PG_STATE_GATE);
+	}
+=======
 	if ((adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) ||
 		RREG32_SOC15(VCN, 0, mmUVD_STATUS))
 		vcn_v1_0_set_powergating_state(adev, AMD_PG_STATE_GATE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

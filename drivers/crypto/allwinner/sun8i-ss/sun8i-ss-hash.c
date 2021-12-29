@@ -348,8 +348,15 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
 	bf = (__le32 *)pad;
 
 	result = kzalloc(digestsize, GFP_KERNEL | GFP_DMA);
+<<<<<<< HEAD
+	if (!result) {
+		kfree(pad);
+		return -ENOMEM;
+	}
+=======
 	if (!result)
 		return -ENOMEM;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < MAX_SG; i++) {
 		rctx->t_dst[i].addr = 0;
@@ -435,11 +442,18 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
 	dma_unmap_sg(ss->dev, areq->src, nr_sgs, DMA_TO_DEVICE);
 	dma_unmap_single(ss->dev, addr_res, digestsize, DMA_FROM_DEVICE);
 
+<<<<<<< HEAD
+	memcpy(areq->result, result, algt->alg.hash.halg.digestsize);
+theend:
+	kfree(pad);
+	kfree(result);
+=======
 	kfree(pad);
 
 	memcpy(areq->result, result, algt->alg.hash.halg.digestsize);
 	kfree(result);
 theend:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	crypto_finalize_hash_request(engine, breq, err);
 	return 0;
 }

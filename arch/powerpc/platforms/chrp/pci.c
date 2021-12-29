@@ -314,6 +314,7 @@ chrp_find_bridges(void)
 		}
 	}
 	of_node_put(root);
+<<<<<<< HEAD
 
 	/*
 	 *  "Temporary" fixes for PCI devices.
@@ -322,6 +323,8 @@ chrp_find_bridges(void)
 	hydra_init();		/* Mac I/O */
 
 	pci_create_OF_bus_map();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* SL82C105 IDE Control/Status Register */

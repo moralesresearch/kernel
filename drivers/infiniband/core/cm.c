@@ -2138,7 +2138,12 @@ static int cm_req_handler(struct cm_work *work)
 		goto destroy;
 	}
 
+<<<<<<< HEAD
+	if (cm_id_priv->av.ah_attr.type != RDMA_AH_ATTR_TYPE_ROCE)
+		cm_process_routed_req(req_msg, work->mad_recv_wc->wc);
+=======
 	cm_process_routed_req(req_msg, work->mad_recv_wc->wc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memset(&work->path[0], 0, sizeof(work->path[0]));
 	if (cm_req_has_alt_path(req_msg))

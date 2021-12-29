@@ -692,7 +692,11 @@ static struct snd_soc_dai_driver cs35l35_dai[] = {
 			.formats = CS35L35_FORMATS,
 		},
 		.ops = &cs35l35_ops,
+<<<<<<< HEAD
 		.symmetric_rate = 1,
+=======
+		.symmetric_rates = 1,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	},
 	{
 		.name = "cs35l35-pdm",

@@ -60,6 +60,7 @@ struct tpiu_drvdata {
 	struct coresight_device	*csdev;
 };
 
+<<<<<<< HEAD
 static void tpiu_enable_hw(struct csdev_access *csa)
 {
 	CS_UNLOCK(csa->base);
@@ -67,16 +68,32 @@ static void tpiu_enable_hw(struct csdev_access *csa)
 	/* TODO: fill this up */
 
 	CS_LOCK(csa->base);
+=======
+static void tpiu_enable_hw(struct tpiu_drvdata *drvdata)
+{
+	CS_UNLOCK(drvdata->base);
+
+	/* TODO: fill this up */
+
+	CS_LOCK(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int tpiu_enable(struct coresight_device *csdev, u32 mode, void *__unused)
 {
+<<<<<<< HEAD
 	tpiu_enable_hw(&csdev->access);
+=======
+	struct tpiu_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+
+	tpiu_enable_hw(drvdata);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_inc(csdev->refcnt);
 	dev_dbg(&csdev->dev, "TPIU enabled\n");
 	return 0;
 }
 
+<<<<<<< HEAD
 static void tpiu_disable_hw(struct csdev_access *csa)
 {
 	CS_UNLOCK(csa->base);
@@ -91,14 +108,39 @@ static void tpiu_disable_hw(struct csdev_access *csa)
 	coresight_timeout(csa, TPIU_FFSR, FFSR_FT_STOPPED_BIT, 1);
 
 	CS_LOCK(csa->base);
+=======
+static void tpiu_disable_hw(struct tpiu_drvdata *drvdata)
+{
+	CS_UNLOCK(drvdata->base);
+
+	/* Clear formatter and stop on flush */
+	writel_relaxed(FFCR_STOP_FI, drvdata->base + TPIU_FFCR);
+	/* Generate manual flush */
+	writel_relaxed(FFCR_STOP_FI | FFCR_FON_MAN, drvdata->base + TPIU_FFCR);
+	/* Wait for flush to complete */
+	coresight_timeout(drvdata->base, TPIU_FFCR, FFCR_FON_MAN_BIT, 0);
+	/* Wait for formatter to stop */
+	coresight_timeout(drvdata->base, TPIU_FFSR, FFSR_FT_STOPPED_BIT, 1);
+
+	CS_LOCK(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int tpiu_disable(struct coresight_device *csdev)
 {
+<<<<<<< HEAD
 	if (atomic_dec_return(csdev->refcnt))
 		return -EBUSY;
 
 	tpiu_disable_hw(&csdev->access);
+=======
+	struct tpiu_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+
+	if (atomic_dec_return(csdev->refcnt))
+		return -EBUSY;
+
+	tpiu_disable_hw(drvdata);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_dbg(&csdev->dev, "TPIU disabled\n");
 	return 0;
@@ -145,10 +187,16 @@ static int tpiu_probe(struct amba_device *adev, const struct amba_id *id)
 		return PTR_ERR(base);
 
 	drvdata->base = base;
+<<<<<<< HEAD
 	desc.access = CSDEV_ACCESS_IOMEM(base);
 
 	/* Disable tpiu to support older devices */
 	tpiu_disable_hw(&desc.access);
+=======
+
+	/* Disable tpiu to support older devices */
+	tpiu_disable_hw(drvdata);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pdata = coresight_get_platform_data(dev);
 	if (IS_ERR(pdata))
@@ -170,11 +218,20 @@ static int tpiu_probe(struct amba_device *adev, const struct amba_id *id)
 	return PTR_ERR(drvdata->csdev);
 }
 
+<<<<<<< HEAD
 static void tpiu_remove(struct amba_device *adev)
+=======
+static int tpiu_remove(struct amba_device *adev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct tpiu_drvdata *drvdata = dev_get_drvdata(&adev->dev);
 
 	coresight_unregister(drvdata->csdev);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

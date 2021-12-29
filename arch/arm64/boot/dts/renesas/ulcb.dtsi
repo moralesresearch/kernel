@@ -23,6 +23,11 @@
 	aliases {
 		serial0 = &scif2;
 		ethernet0 = &avb;
+<<<<<<< HEAD
+		mmc0 = &sdhi2;
+		mmc1 = &sdhi0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 
 	chosen {
@@ -468,8 +473,11 @@
 	bus-width = <8>;
 	mmc-hs200-1_8v;
 	mmc-hs400-1_8v;
+<<<<<<< HEAD
 	no-sd;
 	no-sdio;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	non-removable;
 	full-pwr-cycle-in-suspend;
 	status = "okay";

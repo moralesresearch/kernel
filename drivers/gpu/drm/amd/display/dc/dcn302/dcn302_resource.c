@@ -53,8 +53,11 @@
 #include "dce/dce_i2c_hw.h"
 #include "dce/dce_panel_cntl.h"
 #include "dce/dmub_abm.h"
+<<<<<<< HEAD
 #include "dce/dmub_psr.h"
 #include "clk_mgr.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "hw_sequencer_private.h"
 #include "reg_helper.h"
@@ -164,8 +167,13 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_02_soc = {
 
 		.min_dcfclk = 500.0, /* TODO: set this to actual min DCFCLK */
 		.num_states = 1,
-		.sr_exit_time_us = 12,
+<<<<<<< HEAD
+		.sr_exit_time_us = 15.5,
 		.sr_enter_plus_exit_time_us = 20,
+=======
+		.sr_exit_time_us = 5.20,
+		.sr_enter_plus_exit_time_us = 9.60,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.urgent_latency_us = 4.0,
 		.urgent_latency_pixel_data_only_us = 4.0,
 		.urgent_latency_pixel_mixed_with_vm_data_us = 4.0,
@@ -192,7 +200,11 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_02_soc = {
 		.num_banks = 8,
 		.gpuvm_min_page_size_bytes = 4096,
 		.hostvm_min_page_size_bytes = 4096,
+<<<<<<< HEAD
 		.dram_clock_change_latency_us = 404,
+=======
+		.dram_clock_change_latency_us = 350,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.dummy_pstate_latency_us = 5,
 		.writeback_dram_clock_change_latency_us = 23.0,
 		.return_bus_width_bytes = 64,
@@ -240,7 +252,10 @@ static const struct dc_debug_options debug_defaults_diags = {
 		.dwb_fi_phase = -1, // -1 = disable
 		.dmub_command_table = true,
 		.enable_tri_buf = true,
+<<<<<<< HEAD
 		.disable_psr = true,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 enum dcn302_clk_src_array_id {
@@ -282,10 +297,18 @@ static const struct dc_plane_cap plane_cap = {
 				.nv12 = 16000,
 				.fp16 = 16000
 		},
+<<<<<<< HEAD
+		/* 6:1 downscaling ratio: 1000/6 = 166.666 */
+		.max_downscale_factor = {
+				.argb8888 = 167,
+				.nv12 = 167,
+				.fp16 = 167
+=======
 		.max_downscale_factor = {
 				.argb8888 = 600,
 				.nv12 = 600,
 				.fp16 = 600
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		},
 		16,
 		16
@@ -1216,9 +1239,12 @@ static void dcn302_resource_destruct(struct resource_pool *pool)
 			dce_abm_destroy(&pool->multiple_abms[i]);
 	}
 
+<<<<<<< HEAD
 	if (pool->psr != NULL)
 		dmub_psr_destroy(&pool->psr);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pool->dccg != NULL)
 		dcn_dccg_destroy(&pool->dccg);
 }
@@ -1230,6 +1256,7 @@ static void dcn302_destroy_resource_pool(struct resource_pool **pool)
 	*pool = NULL;
 }
 
+<<<<<<< HEAD
 static void dcn302_get_optimal_dcfclk_fclk_for_uclk(unsigned int uclk_mts,
 		unsigned int *optimal_dcfclk,
 		unsigned int *optimal_fclk)
@@ -1389,6 +1416,8 @@ void dcn302_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_param
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct resource_funcs dcn302_res_pool_funcs = {
 		.destroy = dcn302_destroy_resource_pool,
 		.link_enc_create = dcn302_link_encoder_create,
@@ -1405,7 +1434,11 @@ static struct resource_funcs dcn302_res_pool_funcs = {
 		.find_first_free_match_stream_enc_for_link = dcn10_find_first_free_match_stream_enc_for_link,
 		.acquire_post_bldn_3dlut = dcn30_acquire_post_bldn_3dlut,
 		.release_post_bldn_3dlut = dcn30_release_post_bldn_3dlut,
+<<<<<<< HEAD
 		.update_bw_bounding_box = dcn302_update_bw_bounding_box,
+=======
+		.update_bw_bounding_box = dcn30_update_bw_bounding_box,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.patch_unknown_plane_state = dcn20_patch_unknown_plane_state,
 };
 
@@ -1476,10 +1509,14 @@ static bool dcn302_resource_construct(
 	dc->caps.max_cursor_size = 256;
 	dc->caps.min_horizontal_blanking_period = 80;
 	dc->caps.dmdata_alloc_size = 2048;
+<<<<<<< HEAD
 	dc->caps.mall_size_per_mem_channel = 4;
 	/* total size = mall per channel * num channels * 1024 * 1024 */
 	dc->caps.mall_size_total = dc->caps.mall_size_per_mem_channel * dc->ctx->dc_bios->vram_info.num_chans * 1048576;
 	dc->caps.cursor_cache_size = dc->caps.max_cursor_size * dc->caps.max_cursor_size * 8;
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dc->caps.max_slave_planes = 1;
 	dc->caps.post_blend_color_processing = true;
 	dc->caps.force_dp_tps4_for_cp2520 = true;
@@ -1522,6 +1559,11 @@ static bool dcn302_resource_construct(
 
 	if (dc->ctx->dce_environment == DCE_ENV_PRODUCTION_DRV)
 		dc->debug = debug_defaults_drv;
+<<<<<<< HEAD
+=======
+	else if (dc->ctx->dce_environment == DCE_ENV_FPGA_MAXIMUS)
+		dc->debug = debug_defaults_diags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		dc->debug = debug_defaults_diags;
 
@@ -1635,6 +1677,7 @@ static bool dcn302_resource_construct(
 	}
 	pool->timing_generator_count = i;
 
+<<<<<<< HEAD
 	/* PSR */
 	pool->psr = dmub_psr_create(ctx);
 	if (pool->psr == NULL) {
@@ -1643,6 +1686,8 @@ static bool dcn302_resource_construct(
 		goto create_fail;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* ABMs */
 	for (i = 0; i < pool->res_cap->num_timing_generator; i++) {
 		pool->multiple_abms[i] = dmub_abm_create(ctx, &abm_regs[i], &abm_shift, &abm_mask);

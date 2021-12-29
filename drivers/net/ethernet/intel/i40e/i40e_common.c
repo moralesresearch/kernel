@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
+<<<<<<< HEAD
 /* Copyright(c) 2013 - 2021 Intel Corporation. */
+=======
+/* Copyright(c) 2013 - 2018 Intel Corporation. */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "i40e.h"
 #include "i40e_type.h"
@@ -1154,8 +1158,13 @@ static enum i40e_media_type i40e_get_media_type(struct i40e_hw *hw)
 		break;
 	case I40E_PHY_TYPE_100BASE_TX:
 	case I40E_PHY_TYPE_1000BASE_T:
+<<<<<<< HEAD
+	case I40E_PHY_TYPE_2_5GBASE_T_LINK_STATUS:
+	case I40E_PHY_TYPE_5GBASE_T_LINK_STATUS:
+=======
 	case I40E_PHY_TYPE_2_5GBASE_T:
 	case I40E_PHY_TYPE_5GBASE_T:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case I40E_PHY_TYPE_10GBASE_T:
 		media = I40E_MEDIA_TYPE_BASET;
 		break;
@@ -3662,6 +3671,7 @@ i40e_status i40e_aq_get_lldp_mib(struct i40e_hw *hw, u8 bridge_type,
 }
 
 /**
+<<<<<<< HEAD
  * i40e_aq_set_lldp_mib - Set the LLDP MIB
  * @hw: pointer to the hw struct
  * @mib_type: Local, Remote or both Local and Remote MIBs
@@ -3702,6 +3712,8 @@ i40e_aq_set_lldp_mib(struct i40e_hw *hw,
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * i40e_aq_cfg_lldp_mib_change_event
  * @hw: pointer to the hw struct
  * @enable_update: Enable or Disable event posting
@@ -4520,6 +4532,7 @@ static i40e_status i40e_aq_alternate_read(struct i40e_hw *hw,
 }
 
 /**
+<<<<<<< HEAD
  * i40e_aq_suspend_port_tx
  * @hw: pointer to the hardware structure
  * @seid: port seid
@@ -4543,6 +4556,8 @@ i40e_status i40e_aq_suspend_port_tx(struct i40e_hw *hw, u16 seid,
 }
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * i40e_aq_resume_port_tx
  * @hw: pointer to the hardware structure
  * @cmd_details: pointer to command details structure or NULL

@@ -428,14 +428,21 @@ int fdt_open_into(const void *fdt, void *buf, int bufsize)
 
 	if (can_assume(LATEST) || fdt_version(fdt) >= 17) {
 		struct_size = fdt_size_dt_struct(fdt);
+<<<<<<< HEAD
 	} else if (fdt_version(fdt) == 16) {
+=======
+	} else {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct_size = 0;
 		while (fdt_next_tag(fdt, struct_size, &struct_size) != FDT_END)
 			;
 		if (struct_size < 0)
 			return struct_size;
+<<<<<<< HEAD
 	} else {
 		return -FDT_ERR_BADVERSION;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (can_assume(LIBFDT_ORDER) ||

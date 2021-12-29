@@ -19,6 +19,13 @@ unsigned long __maybe_unused _loongson_addrwincfg_base;
 static void __init mips_nmi_setup(void)
 {
 	void *base;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	extern char except_vec_nmi[];
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	base = (void *)(CAC_BASE + 0x380);
 	memcpy(base, except_vec_nmi, 0x80);
@@ -45,3 +52,13 @@ void __init prom_init(void)
 	prom_init_uart_base();
 	board_nmi_handler_setup = mips_nmi_setup;
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+void __init prom_free_prom_memory(void)
+{
+}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

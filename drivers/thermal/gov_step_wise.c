@@ -109,7 +109,11 @@ static void update_passive_instance(struct thermal_zone_device *tz,
 	 * If value is +1, activate a passive instance.
 	 * If value is -1, deactivate a passive instance.
 	 */
+<<<<<<< HEAD
 	if (type == THERMAL_TRIP_PASSIVE)
+=======
+	if (type == THERMAL_TRIP_PASSIVE || type == THERMAL_TRIPS_NONE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		tz->passive += value;
 }
 
@@ -122,8 +126,18 @@ static void thermal_zone_trip_update(struct thermal_zone_device *tz, int trip)
 	bool throttle = false;
 	int old_target;
 
+<<<<<<< HEAD
 	tz->ops->get_trip_temp(tz, trip, &trip_temp);
 	tz->ops->get_trip_type(tz, trip, &trip_type);
+=======
+	if (trip == THERMAL_TRIPS_NONE) {
+		trip_temp = tz->forced_passive;
+		trip_type = THERMAL_TRIPS_NONE;
+	} else {
+		tz->ops->get_trip_temp(tz, trip, &trip_temp);
+		tz->ops->get_trip_type(tz, trip, &trip_type);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	trend = get_tz_trend(tz, trip);
 
@@ -184,6 +198,12 @@ static int step_wise_throttle(struct thermal_zone_device *tz, int trip)
 
 	thermal_zone_trip_update(tz, trip);
 
+<<<<<<< HEAD
+=======
+	if (tz->forced_passive)
+		thermal_zone_trip_update(tz, THERMAL_TRIPS_NONE);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&tz->lock);
 
 	list_for_each_entry(instance, &tz->thermal_instances, tz_node)

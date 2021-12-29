@@ -194,12 +194,25 @@ static void fm10k_reuse_rx_page(struct fm10k_ring *rx_ring,
 					 DMA_FROM_DEVICE);
 }
 
+<<<<<<< HEAD
+=======
+static inline bool fm10k_page_is_reserved(struct page *page)
+{
+	return (page_to_nid(page) != numa_mem_id()) || page_is_pfmemalloc(page);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool fm10k_can_reuse_rx_page(struct fm10k_rx_buffer *rx_buffer,
 				    struct page *page,
 				    unsigned int __maybe_unused truesize)
 {
+<<<<<<< HEAD
 	/* avoid re-using remote and pfmemalloc pages */
 	if (!dev_page_is_reusable(page))
+=======
+	/* avoid re-using remote pages */
+	if (unlikely(fm10k_page_is_reserved(page)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 #if (PAGE_SIZE < 8192)
@@ -260,8 +273,13 @@ static bool fm10k_add_rx_frag(struct fm10k_rx_buffer *rx_buffer,
 	if (likely(size <= FM10K_RX_HDR_LEN)) {
 		memcpy(__skb_put(skb, size), va, ALIGN(size, sizeof(long)));
 
+<<<<<<< HEAD
 		/* page is reusable, we can reuse buffer as-is */
 		if (dev_page_is_reusable(page))
+=======
+		/* page is not reserved, we can reuse buffer as-is */
+		if (likely(!fm10k_page_is_reserved(page)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return true;
 
 		/* this page cannot be reused so discard it */

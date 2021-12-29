@@ -14,6 +14,7 @@ static const struct nla_policy mt76_tm_policy[NUM_MT76_TM_ATTRS] = {
 	[MT76_TM_ATTR_TX_RATE_STBC] = { .type = NLA_U8 },
 	[MT76_TM_ATTR_TX_LTF] = { .type = NLA_U8 },
 	[MT76_TM_ATTR_TX_ANTENNA] = { .type = NLA_U8 },
+<<<<<<< HEAD
 	[MT76_TM_ATTR_TX_SPE_IDX] = { .type = NLA_U8 },
 	[MT76_TM_ATTR_TX_POWER_CONTROL] = { .type = NLA_U8 },
 	[MT76_TM_ATTR_TX_POWER] = { .type = NLA_NESTED },
@@ -31,6 +32,20 @@ void mt76_testmode_tx_pending(struct mt76_phy *phy)
 	struct sk_buff *skb = td->tx_skb;
 	struct mt76_queue *q;
 	u16 tx_queued_limit;
+=======
+	[MT76_TM_ATTR_TX_POWER_CONTROL] = { .type = NLA_U8 },
+	[MT76_TM_ATTR_TX_POWER] = { .type = NLA_NESTED },
+	[MT76_TM_ATTR_FREQ_OFFSET] = { .type = NLA_U32 },
+};
+
+void mt76_testmode_tx_pending(struct mt76_dev *dev)
+{
+	struct mt76_testmode_data *td = &dev->test;
+	struct mt76_wcid *wcid = &dev->global_wcid;
+	struct mt76_phy *phy = &dev->phy;
+	struct sk_buff *skb = td->tx_skb;
+	struct mt76_queue *q;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int qid;
 
 	if (!skb || !td->tx_pending)
@@ -39,12 +54,18 @@ void mt76_testmode_tx_pending(struct mt76_phy *phy)
 	qid = skb_get_queue_mapping(skb);
 	q = phy->q_tx[qid];
 
+<<<<<<< HEAD
 	tx_queued_limit = td->tx_queued_limit ? td->tx_queued_limit : 1000;
 
 	spin_lock_bh(&q->lock);
 
 	while (td->tx_pending > 0 &&
 	       td->tx_queued - td->tx_done < tx_queued_limit &&
+=======
+	spin_lock_bh(&q->lock);
+
+	while (td->tx_pending > 0 && td->tx_queued - td->tx_done < 1000 &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	       q->queued < q->ndesc / 2) {
 		int ret;
 
@@ -64,9 +85,16 @@ void mt76_testmode_tx_pending(struct mt76_phy *phy)
 
 
 static int
+<<<<<<< HEAD
 mt76_testmode_tx_init(struct mt76_phy *phy)
 {
 	struct mt76_testmode_data *td = &phy->test;
+=======
+mt76_testmode_tx_init(struct mt76_dev *dev)
+{
+	struct mt76_testmode_data *td = &dev->test;
+	struct mt76_phy *phy = &dev->phy;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ieee80211_tx_info *info;
 	struct ieee80211_hdr *hdr;
 	struct sk_buff *skb;
@@ -74,7 +102,10 @@ mt76_testmode_tx_init(struct mt76_phy *phy)
 		 IEEE80211_FCTL_FROMDS;
 	struct ieee80211_tx_rate *rate;
 	u8 max_nss = hweight8(phy->antenna_mask);
+<<<<<<< HEAD
 	bool ext_phy = phy != &phy->dev->phy;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (td->tx_antenna_mask)
 		max_nss = min_t(u8, max_nss, hweight8(td->tx_antenna_mask));
@@ -96,9 +127,12 @@ mt76_testmode_tx_init(struct mt76_phy *phy)
 		      IEEE80211_TX_CTL_NO_ACK |
 		      IEEE80211_TX_CTL_NO_PS_BUFFER;
 
+<<<<<<< HEAD
 	if (ext_phy)
 		info->hw_queue |= MT_TX_HW_QUEUE_EXT_PHY;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (td->tx_rate_mode > MT76_TM_TX_MODE_VHT)
 		goto out;
 
@@ -177,10 +211,16 @@ out:
 }
 
 static void
+<<<<<<< HEAD
 mt76_testmode_tx_start(struct mt76_phy *phy)
 {
 	struct mt76_testmode_data *td = &phy->test;
 	struct mt76_dev *dev = phy->dev;
+=======
+mt76_testmode_tx_start(struct mt76_dev *dev)
+{
+	struct mt76_testmode_data *td = &dev->test;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	td->tx_queued = 0;
 	td->tx_done = 0;
@@ -189,10 +229,16 @@ mt76_testmode_tx_start(struct mt76_phy *phy)
 }
 
 static void
+<<<<<<< HEAD
 mt76_testmode_tx_stop(struct mt76_phy *phy)
 {
 	struct mt76_testmode_data *td = &phy->test;
 	struct mt76_dev *dev = phy->dev;
+=======
+mt76_testmode_tx_stop(struct mt76_dev *dev)
+{
+	struct mt76_testmode_data *td = &dev->test;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mt76_worker_disable(&dev->tx_worker);
 
@@ -200,8 +246,12 @@ mt76_testmode_tx_stop(struct mt76_phy *phy)
 
 	mt76_worker_enable(&dev->tx_worker);
 
+<<<<<<< HEAD
 	wait_event_timeout(dev->tx_wait, td->tx_done == td->tx_queued,
 			   MT76_TM_TIMEOUT * HZ);
+=======
+	wait_event_timeout(dev->tx_wait, td->tx_done == td->tx_queued, 10 * HZ);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_kfree_skb(td->tx_skb);
 	td->tx_skb = NULL;
@@ -220,9 +270,15 @@ mt76_testmode_param_present(struct mt76_testmode_data *td, u16 idx)
 }
 
 static void
+<<<<<<< HEAD
 mt76_testmode_init_defaults(struct mt76_phy *phy)
 {
 	struct mt76_testmode_data *td = &phy->test;
+=======
+mt76_testmode_init_defaults(struct mt76_dev *dev)
+{
+	struct mt76_testmode_data *td = &dev->test;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (td->tx_msdu_len > 0)
 		return;
@@ -234,6 +290,7 @@ mt76_testmode_init_defaults(struct mt76_phy *phy)
 }
 
 static int
+<<<<<<< HEAD
 __mt76_testmode_set_state(struct mt76_phy *phy, enum mt76_testmode_state state)
 {
 	enum mt76_testmode_state prev_state = phy->test.state;
@@ -245,39 +302,78 @@ __mt76_testmode_set_state(struct mt76_phy *phy, enum mt76_testmode_state state)
 
 	if (state == MT76_TM_STATE_TX_FRAMES) {
 		err = mt76_testmode_tx_init(phy);
+=======
+__mt76_testmode_set_state(struct mt76_dev *dev, enum mt76_testmode_state state)
+{
+	enum mt76_testmode_state prev_state = dev->test.state;
+	int err;
+
+	if (prev_state == MT76_TM_STATE_TX_FRAMES)
+		mt76_testmode_tx_stop(dev);
+
+	if (state == MT76_TM_STATE_TX_FRAMES) {
+		err = mt76_testmode_tx_init(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}
 
+<<<<<<< HEAD
 	err = dev->test_ops->set_state(phy, state);
 	if (err) {
 		if (state == MT76_TM_STATE_TX_FRAMES)
 			mt76_testmode_tx_stop(phy);
+=======
+	err = dev->test_ops->set_state(dev, state);
+	if (err) {
+		if (state == MT76_TM_STATE_TX_FRAMES)
+			mt76_testmode_tx_stop(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		return err;
 	}
 
 	if (state == MT76_TM_STATE_TX_FRAMES)
+<<<<<<< HEAD
 		mt76_testmode_tx_start(phy);
 	else if (state == MT76_TM_STATE_RX_FRAMES) {
 		memset(&phy->test.rx_stats, 0, sizeof(phy->test.rx_stats));
 	}
 
 	phy->test.state = state;
+=======
+		mt76_testmode_tx_start(dev);
+	else if (state == MT76_TM_STATE_RX_FRAMES) {
+		memset(&dev->test.rx_stats, 0, sizeof(dev->test.rx_stats));
+	}
+
+	dev->test.state = state;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
 
+<<<<<<< HEAD
 int mt76_testmode_set_state(struct mt76_phy *phy, enum mt76_testmode_state state)
 {
 	struct mt76_testmode_data *td = &phy->test;
 	struct ieee80211_hw *hw = phy->hw;
+=======
+int mt76_testmode_set_state(struct mt76_dev *dev, enum mt76_testmode_state state)
+{
+	struct mt76_testmode_data *td = &dev->test;
+	struct ieee80211_hw *hw = dev->phy.hw;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (state == td->state && state == MT76_TM_STATE_OFF)
 		return 0;
 
 	if (state > MT76_TM_STATE_OFF &&
+<<<<<<< HEAD
 	    (!test_bit(MT76_STATE_RUNNING, &phy->state) ||
+=======
+	    (!test_bit(MT76_STATE_RUNNING, &dev->phy.state) ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	     !(hw->conf.flags & IEEE80211_CONF_MONITOR)))
 		return -ENOTCONN;
 
@@ -285,12 +381,20 @@ int mt76_testmode_set_state(struct mt76_phy *phy, enum mt76_testmode_state state
 	    td->state != MT76_TM_STATE_IDLE) {
 		int ret;
 
+<<<<<<< HEAD
 		ret = __mt76_testmode_set_state(phy, MT76_TM_STATE_IDLE);
+=======
+		ret = __mt76_testmode_set_state(dev, MT76_TM_STATE_IDLE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ret)
 			return ret;
 	}
 
+<<<<<<< HEAD
 	return __mt76_testmode_set_state(phy, state);
+=======
+	return __mt76_testmode_set_state(dev, state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 }
 EXPORT_SYMBOL(mt76_testmode_set_state);
@@ -316,9 +420,14 @@ int mt76_testmode_cmd(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
 {
 	struct mt76_phy *phy = hw->priv;
 	struct mt76_dev *dev = phy->dev;
+<<<<<<< HEAD
 	struct mt76_testmode_data *td = &phy->test;
 	struct nlattr *tb[NUM_MT76_TM_ATTRS];
 	bool ext_phy = phy != &dev->phy;
+=======
+	struct mt76_testmode_data *td = &dev->test;
+	struct nlattr *tb[NUM_MT76_TM_ATTRS];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 state;
 	int err;
 	int i;
@@ -336,11 +445,19 @@ int mt76_testmode_cmd(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
 	mutex_lock(&dev->mutex);
 
 	if (tb[MT76_TM_ATTR_RESET]) {
+<<<<<<< HEAD
 		mt76_testmode_set_state(phy, MT76_TM_STATE_OFF);
 		memset(td, 0, sizeof(*td));
 	}
 
 	mt76_testmode_init_defaults(phy);
+=======
+		mt76_testmode_set_state(dev, MT76_TM_STATE_OFF);
+		memset(td, 0, sizeof(*td));
+	}
+
+	mt76_testmode_init_defaults(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (tb[MT76_TM_ATTR_TX_COUNT])
 		td->tx_count = nla_get_u32(tb[MT76_TM_ATTR_TX_COUNT]);
@@ -366,21 +483,29 @@ int mt76_testmode_cmd(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
 	    mt76_tm_get_u8(tb[MT76_TM_ATTR_TX_RATE_LDPC], &td->tx_rate_ldpc, 0, 1) ||
 	    mt76_tm_get_u8(tb[MT76_TM_ATTR_TX_RATE_STBC], &td->tx_rate_stbc, 0, 1) ||
 	    mt76_tm_get_u8(tb[MT76_TM_ATTR_TX_LTF], &td->tx_ltf, 0, 2) ||
+<<<<<<< HEAD
 	    mt76_tm_get_u8(tb[MT76_TM_ATTR_TX_ANTENNA], &td->tx_antenna_mask,
 			   1 << (ext_phy * 2), phy->antenna_mask << (ext_phy * 2)) ||
 	    mt76_tm_get_u8(tb[MT76_TM_ATTR_TX_SPE_IDX], &td->tx_spe_idx, 0, 27) ||
 	    mt76_tm_get_u8(tb[MT76_TM_ATTR_TX_DUTY_CYCLE],
 			   &td->tx_duty_cycle, 0, 99) ||
+=======
+	    mt76_tm_get_u8(tb[MT76_TM_ATTR_TX_ANTENNA], &td->tx_antenna_mask, 1,
+			   phy->antenna_mask) ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    mt76_tm_get_u8(tb[MT76_TM_ATTR_TX_POWER_CONTROL],
 			   &td->tx_power_control, 0, 1))
 		goto out;
 
+<<<<<<< HEAD
 	if (tb[MT76_TM_ATTR_TX_IPG])
 		td->tx_ipg = nla_get_u32(tb[MT76_TM_ATTR_TX_IPG]);
 
 	if (tb[MT76_TM_ATTR_TX_TIME])
 		td->tx_time = nla_get_u32(tb[MT76_TM_ATTR_TX_TIME]);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (tb[MT76_TM_ATTR_FREQ_OFFSET])
 		td->freq_offset = nla_get_u32(tb[MT76_TM_ATTR_FREQ_OFFSET]);
 
@@ -407,7 +532,11 @@ int mt76_testmode_cmd(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
 	}
 
 	if (dev->test_ops->set_params) {
+<<<<<<< HEAD
 		err = dev->test_ops->set_params(phy, tb, state);
+=======
+		err = dev->test_ops->set_params(dev, tb, state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto out;
 	}
@@ -418,7 +547,11 @@ int mt76_testmode_cmd(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
 
 	err = 0;
 	if (tb[MT76_TM_ATTR_STATE])
+<<<<<<< HEAD
 		err = mt76_testmode_set_state(phy, state);
+=======
+		err = mt76_testmode_set_state(dev, state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	mutex_unlock(&dev->mutex);
@@ -428,10 +561,16 @@ out:
 EXPORT_SYMBOL(mt76_testmode_cmd);
 
 static int
+<<<<<<< HEAD
 mt76_testmode_dump_stats(struct mt76_phy *phy, struct sk_buff *msg)
 {
 	struct mt76_testmode_data *td = &phy->test;
 	struct mt76_dev *dev = phy->dev;
+=======
+mt76_testmode_dump_stats(struct mt76_dev *dev, struct sk_buff *msg)
+{
+	struct mt76_testmode_data *td = &dev->test;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 rx_packets = 0;
 	u64 rx_fcs_error = 0;
 	int i;
@@ -451,7 +590,11 @@ mt76_testmode_dump_stats(struct mt76_phy *phy, struct sk_buff *msg)
 		return -EMSGSIZE;
 
 	if (dev->test_ops->dump_stats)
+<<<<<<< HEAD
 		return dev->test_ops->dump_stats(phy, msg);
+=======
+		return dev->test_ops->dump_stats(dev, msg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -461,7 +604,11 @@ int mt76_testmode_dump(struct ieee80211_hw *hw, struct sk_buff *msg,
 {
 	struct mt76_phy *phy = hw->priv;
 	struct mt76_dev *dev = phy->dev;
+<<<<<<< HEAD
 	struct mt76_testmode_data *td = &phy->test;
+=======
+	struct mt76_testmode_data *td = &dev->test;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nlattr *tb[NUM_MT76_TM_ATTRS] = {};
 	int err = 0;
 	void *a;
@@ -487,22 +634,36 @@ int mt76_testmode_dump(struct ieee80211_hw *hw, struct sk_buff *msg,
 
 		a = nla_nest_start(msg, MT76_TM_ATTR_STATS);
 		if (a) {
+<<<<<<< HEAD
 			err = mt76_testmode_dump_stats(phy, msg);
+=======
+			err = mt76_testmode_dump_stats(dev, msg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			nla_nest_end(msg, a);
 		}
 
 		goto out;
 	}
 
+<<<<<<< HEAD
 	mt76_testmode_init_defaults(phy);
+=======
+	mt76_testmode_init_defaults(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = -EMSGSIZE;
 	if (nla_put_u32(msg, MT76_TM_ATTR_STATE, td->state))
 		goto out;
 
+<<<<<<< HEAD
 	if (dev->test_mtd.name &&
 	    (nla_put_string(msg, MT76_TM_ATTR_MTD_PART, dev->test_mtd.name) ||
 	     nla_put_u32(msg, MT76_TM_ATTR_MTD_OFFSET, dev->test_mtd.offset)))
+=======
+	if (td->mtd_name &&
+	    (nla_put_string(msg, MT76_TM_ATTR_MTD_PART, td->mtd_name) ||
+	     nla_put_u32(msg, MT76_TM_ATTR_MTD_OFFSET, td->mtd_offset)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 
 	if (nla_put_u32(msg, MT76_TM_ATTR_TX_COUNT, td->tx_count) ||
@@ -517,6 +678,7 @@ int mt76_testmode_dump(struct ieee80211_hw *hw, struct sk_buff *msg,
 	     nla_put_u8(msg, MT76_TM_ATTR_TX_LTF, td->tx_ltf)) ||
 	    (mt76_testmode_param_present(td, MT76_TM_ATTR_TX_ANTENNA) &&
 	     nla_put_u8(msg, MT76_TM_ATTR_TX_ANTENNA, td->tx_antenna_mask)) ||
+<<<<<<< HEAD
 	    (mt76_testmode_param_present(td, MT76_TM_ATTR_TX_SPE_IDX) &&
 	     nla_put_u8(msg, MT76_TM_ATTR_TX_SPE_IDX, td->tx_spe_idx)) ||
 	    (mt76_testmode_param_present(td, MT76_TM_ATTR_TX_DUTY_CYCLE) &&
@@ -525,6 +687,8 @@ int mt76_testmode_dump(struct ieee80211_hw *hw, struct sk_buff *msg,
 	     nla_put_u32(msg, MT76_TM_ATTR_TX_IPG, td->tx_ipg)) ||
 	    (mt76_testmode_param_present(td, MT76_TM_ATTR_TX_TIME) &&
 	     nla_put_u32(msg, MT76_TM_ATTR_TX_TIME, td->tx_time)) ||
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    (mt76_testmode_param_present(td, MT76_TM_ATTR_TX_POWER_CONTROL) &&
 	     nla_put_u8(msg, MT76_TM_ATTR_TX_POWER_CONTROL, td->tx_power_control)) ||
 	    (mt76_testmode_param_present(td, MT76_TM_ATTR_FREQ_OFFSET) &&

@@ -5005,6 +5005,10 @@ static void hci_loglink_complete_evt(struct hci_dev *hdev, struct sk_buff *skb)
 		return;
 
 	hchan->handle = le16_to_cpu(ev->handle);
+<<<<<<< HEAD
+	hchan->amp = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	BT_DBG("hcon %p mgr %p hchan %p", hcon, hcon->amp_mgr, hchan);
 
@@ -5037,7 +5041,11 @@ static void hci_disconn_loglink_complete_evt(struct hci_dev *hdev,
 	hci_dev_lock(hdev);
 
 	hchan = hci_chan_lookup_handle(hdev, le16_to_cpu(ev->handle));
+<<<<<<< HEAD
+	if (!hchan || !hchan->amp)
+=======
 	if (!hchan)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto unlock;
 
 	amp_destroy_logical_link(hchan, ev->reason);
@@ -5911,7 +5919,11 @@ static void hci_le_phy_update_evt(struct hci_dev *hdev, struct sk_buff *skb)
 
 	BT_DBG("%s status 0x%2.2x", hdev->name, ev->status);
 
+<<<<<<< HEAD
+	if (ev->status)
+=======
 	if (!ev->status)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	hci_dev_lock(hdev);

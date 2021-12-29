@@ -549,6 +549,7 @@ static const struct em28xx_reg_seq hauppauge_dualhd_dvb[] = {
 	{-1,                             -1,   -1,     -1},
 };
 
+<<<<<<< HEAD
 /* Hauppauge USB QuadHD */
 static struct em28xx_reg_seq hauppauge_usb_quadhd_atsc_reg_seq[] = {
 	{EM2874_R80_GPIO_P0_CTRL,      0xff, 0xff,      0},
@@ -564,6 +565,8 @@ static struct em28xx_reg_seq hauppauge_usb_quadhd_atsc_reg_seq[] = {
 	{-1,                           -1,   -1,       -1},
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  *  Button definitions
  */
@@ -659,6 +662,7 @@ static struct em28xx_led hauppauge_dualhd_leds[] = {
 	{-1, 0, 0, 0},
 };
 
+<<<<<<< HEAD
 static struct em28xx_led hauppauge_usb_quadhd_leds[] = {
 	{
 		.role      = EM28XX_LED_DIGITAL_CAPTURING,
@@ -675,6 +679,8 @@ static struct em28xx_led hauppauge_usb_quadhd_leds[] = {
 	{-1, 0, 0, 0},
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  *  Board definitions
  */
@@ -2570,6 +2576,7 @@ const struct em28xx_board em28xx_boards[] = {
 			.amux     = EM28XX_AMUX_LINE_IN,
 		} },
 	},
+<<<<<<< HEAD
 	/* 2040:826d Hauppauge USB QuadHD
 	 * Empia 28274, Max Linear 692 ATSC combo demod/tuner
 	 */
@@ -2583,6 +2590,8 @@ const struct em28xx_board em28xx_boards[] = {
 		.tuner_gpio    = hauppauge_usb_quadhd_atsc_reg_seq,
 		.leds          = hauppauge_usb_quadhd_leds,
 	},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 EXPORT_SYMBOL_GPL(em28xx_boards);
 
@@ -2716,8 +2725,11 @@ struct usb_device_id em28xx_id_table[] = {
 			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 },
 	{ USB_DEVICE(0x2040, 0x826d),
 			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 },
+<<<<<<< HEAD
 	{ USB_DEVICE(0x2040, 0x846d),
 			.driver_info = EM2874_BOARD_HAUPPAUGE_USB_QUADHD },
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ USB_DEVICE(0x0438, 0xb002),
 			.driver_info = EM2880_BOARD_AMD_ATI_TV_WONDER_HD_600 },
 	{ USB_DEVICE(0x2001, 0xf112),

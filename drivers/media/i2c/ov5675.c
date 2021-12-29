@@ -624,7 +624,11 @@ static int ov5675_set_ctrl_hflip(struct ov5675 *ov5675, u32 ctrl_val)
 
 	return ov5675_write_reg(ov5675, OV5675_REG_FORMAT1,
 				OV5675_REG_VALUE_08BIT,
+<<<<<<< HEAD
 				ctrl_val ? val & ~BIT(3) : val | BIT(3));
+=======
+				ctrl_val ? val & ~BIT(3) : val);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ov5675_set_ctrl_vflip(struct ov5675 *ov5675, u8 ctrl_val)
@@ -639,7 +643,11 @@ static int ov5675_set_ctrl_vflip(struct ov5675 *ov5675, u8 ctrl_val)
 
 	ret = ov5675_write_reg(ov5675, OV5675_REG_FORMAT1,
 			       OV5675_REG_VALUE_08BIT,
+<<<<<<< HEAD
 			       ctrl_val ? val | BIT(4) | BIT(5)  : val & ~BIT(4) & ~BIT(5));
+=======
+			       ctrl_val ? val | BIT(4) | BIT(5)  : val);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (ret)
 		return ret;
@@ -652,7 +660,11 @@ static int ov5675_set_ctrl_vflip(struct ov5675 *ov5675, u8 ctrl_val)
 
 	return ov5675_write_reg(ov5675, OV5675_REG_FORMAT2,
 				OV5675_REG_VALUE_08BIT,
+<<<<<<< HEAD
 				ctrl_val ? val | BIT(1) : val & ~BIT(1));
+=======
+				ctrl_val ? val | BIT(1) : val);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)

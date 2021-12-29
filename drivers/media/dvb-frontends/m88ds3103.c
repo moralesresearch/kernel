@@ -1904,8 +1904,13 @@ static int m88ds3103_probe(struct i2c_client *client,
 
 		dev->dt_client = i2c_new_dummy_device(client->adapter,
 						      dev->dt_addr);
+<<<<<<< HEAD
+		if (IS_ERR(dev->dt_client)) {
+			ret = PTR_ERR(dev->dt_client);
+=======
 		if (!dev->dt_client) {
 			ret = -ENODEV;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto err_kfree;
 		}
 	}

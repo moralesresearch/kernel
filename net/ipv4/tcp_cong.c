@@ -230,6 +230,13 @@ int tcp_set_default_congestion_control(struct net *net, const char *name)
 		ret = -ENOENT;
 	} else if (!bpf_try_module_get(ca, ca->owner)) {
 		ret = -EBUSY;
+<<<<<<< HEAD
+	} else if (!net_eq(net, &init_net) &&
+			!(ca->flags & TCP_CONG_NON_RESTRICTED)) {
+		/* Only init netns can set default to a restricted algorithm */
+		ret = -EPERM;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		prev = xchg(&net->ipv4.tcp_congestion_control, ca);
 		if (prev)

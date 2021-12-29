@@ -14,7 +14,14 @@
 
 #include <asm/addrspace.h>
 #include <asm/unaligned.h>
+<<<<<<< HEAD
 #include <asm-generic/vmlinux.lds.h>
+=======
+<<<<<<< HEAD
+#include <asm-generic/vmlinux.lds.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * These two variables specify the free mem region
@@ -121,6 +128,10 @@ void decompress_kernel(unsigned long boot_heap_start)
 		/* last four bytes is always image size in little endian */
 		image_size = get_unaligned_le32((void *)&__image_end - 4);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* The device tree's address must be properly aligned  */
 		image_size = ALIGN(image_size, STRUCT_ALIGNMENT);
 
@@ -128,6 +139,11 @@ void decompress_kernel(unsigned long boot_heap_start)
 		puthex(VMLINUX_LOAD_ADDRESS_ULL + image_size);
 		puts("\n");
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* copy dtb to where the booted kernel will expect it */
 		memcpy((void *)VMLINUX_LOAD_ADDRESS_ULL + image_size,
 		       __appended_dtb, dtb_size);

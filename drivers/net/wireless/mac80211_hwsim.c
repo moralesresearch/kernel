@@ -311,12 +311,15 @@ static struct net_device *hwsim_mon; /* global monitor netdev */
 	.hw_value = (_freq), \
 }
 
+<<<<<<< HEAD
 #define CHAN6G(_freq) { \
 	.band = NL80211_BAND_6GHZ, \
 	.center_freq = (_freq), \
 	.hw_value = (_freq), \
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct ieee80211_channel hwsim_channels_2ghz[] = {
 	CHAN2G(2412), /* Channel 1 */
 	CHAN2G(2417), /* Channel 2 */
@@ -383,6 +386,7 @@ static const struct ieee80211_channel hwsim_channels_5ghz[] = {
 	CHAN5G(5925), /* Channel 185 */
 };
 
+<<<<<<< HEAD
 static const struct ieee80211_channel hwsim_channels_6ghz[] = {
 	CHAN6G(5955), /* Channel 1 */
 	CHAN6G(5975), /* Channel 5 */
@@ -445,6 +449,8 @@ static const struct ieee80211_channel hwsim_channels_6ghz[] = {
 	CHAN6G(7115), /* Channel 233 */
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define NUM_S1G_CHANS_US 51
 static struct ieee80211_channel hwsim_channels_s1g[NUM_S1G_CHANS_US];
 
@@ -616,7 +622,10 @@ struct mac80211_hwsim_data {
 	struct ieee80211_supported_band bands[NUM_NL80211_BANDS];
 	struct ieee80211_channel channels_2ghz[ARRAY_SIZE(hwsim_channels_2ghz)];
 	struct ieee80211_channel channels_5ghz[ARRAY_SIZE(hwsim_channels_5ghz)];
+<<<<<<< HEAD
 	struct ieee80211_channel channels_6ghz[ARRAY_SIZE(hwsim_channels_6ghz)];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ieee80211_channel channels_s1g[ARRAY_SIZE(hwsim_channels_s1g)];
 	struct ieee80211_rate rates[ARRAY_SIZE(hwsim_rates)];
 	struct ieee80211_iface_combination if_combination;
@@ -647,8 +656,12 @@ struct mac80211_hwsim_data {
 		struct ieee80211_channel *channel;
 		unsigned long next_start, start, end;
 	} survey_data[ARRAY_SIZE(hwsim_channels_2ghz) +
+<<<<<<< HEAD
 		      ARRAY_SIZE(hwsim_channels_5ghz) +
 		      ARRAY_SIZE(hwsim_channels_6ghz)];
+=======
+		      ARRAY_SIZE(hwsim_channels_5ghz)];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct ieee80211_channel *channel;
 	u64 beacon_int	/* beacon interval in us */;
@@ -3219,8 +3232,11 @@ static int mac80211_hwsim_new_radio(struct genl_info *info,
 		sizeof(hwsim_channels_2ghz));
 	memcpy(data->channels_5ghz, hwsim_channels_5ghz,
 		sizeof(hwsim_channels_5ghz));
+<<<<<<< HEAD
 	memcpy(data->channels_6ghz, hwsim_channels_6ghz,
 		sizeof(hwsim_channels_6ghz));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memcpy(data->channels_s1g, hwsim_channels_s1g,
 	       sizeof(hwsim_channels_s1g));
 	memcpy(data->rates, hwsim_rates, sizeof(hwsim_rates));

@@ -188,6 +188,7 @@ i915_gem_object_set_volatile(struct drm_i915_gem_object *obj)
 }
 
 static inline bool
+<<<<<<< HEAD
 i915_gem_object_has_tiling_quirk(struct drm_i915_gem_object *obj)
 {
 	return test_bit(I915_TILING_QUIRK_BIT, &obj->flags);
@@ -206,6 +207,8 @@ i915_gem_object_clear_tiling_quirk(struct drm_i915_gem_object *obj)
 }
 
 static inline bool
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 i915_gem_object_type_has(const struct drm_i915_gem_object *obj,
 			 unsigned long flags)
 {
@@ -219,12 +222,15 @@ i915_gem_object_has_struct_page(const struct drm_i915_gem_object *obj)
 }
 
 static inline bool
+<<<<<<< HEAD
 i915_gem_object_has_iomem(const struct drm_i915_gem_object *obj)
 {
 	return i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM);
 }
 
 static inline bool
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 i915_gem_object_is_shrinkable(const struct drm_i915_gem_object *obj)
 {
 	return i915_gem_object_type_has(obj, I915_GEM_OBJECT_IS_SHRINKABLE);
@@ -408,6 +414,17 @@ int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj);
 void i915_gem_object_truncate(struct drm_i915_gem_object *obj);
 void i915_gem_object_writeback(struct drm_i915_gem_object *obj);
 
+<<<<<<< HEAD
+=======
+enum i915_map_type {
+	I915_MAP_WB = 0,
+	I915_MAP_WC,
+#define I915_MAP_OVERRIDE BIT(31)
+	I915_MAP_FORCE_WB = I915_MAP_WB | I915_MAP_OVERRIDE,
+	I915_MAP_FORCE_WC = I915_MAP_WC | I915_MAP_OVERRIDE,
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * i915_gem_object_pin_map - return a contiguous mapping of the entire object
  * @obj: the object to map into kernel address space
@@ -451,6 +468,13 @@ static inline void i915_gem_object_unpin_map(struct drm_i915_gem_object *obj)
 
 void __i915_gem_object_release_map(struct drm_i915_gem_object *obj);
 
+<<<<<<< HEAD
+=======
+void
+i915_gem_object_flush_write_domain(struct drm_i915_gem_object *obj,
+				   unsigned int flush_domains);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int i915_gem_object_prepare_read(struct drm_i915_gem_object *obj,
 				 unsigned int *needs_clflush);
 int i915_gem_object_prepare_write(struct drm_i915_gem_object *obj,
@@ -523,9 +547,12 @@ static inline void __start_cpu_write(struct drm_i915_gem_object *obj)
 		obj->cache_dirty = true;
 }
 
+<<<<<<< HEAD
 void i915_gem_fence_wait_priority(struct dma_fence *fence,
 				  const struct i915_sched_attr *attr);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int i915_gem_object_wait(struct drm_i915_gem_object *obj,
 			 unsigned int flags,
 			 long timeout);
@@ -554,8 +581,11 @@ i915_gem_object_invalidate_frontbuffer(struct drm_i915_gem_object *obj,
 		__i915_gem_object_invalidate_frontbuffer(obj, origin);
 }
 
+<<<<<<< HEAD
 int i915_gem_object_read_from_page(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size);
 
 bool i915_gem_object_is_shmem(const struct drm_i915_gem_object *obj);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif

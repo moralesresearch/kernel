@@ -33,7 +33,10 @@
 #include "gem/i915_gem_context.h"
 #include "gt/intel_breadcrumbs.h"
 #include "gt/intel_context.h"
+<<<<<<< HEAD
 #include "gt/intel_gpu_commands.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "gt/intel_ring.h"
 #include "gt/intel_rps.h"
 
@@ -276,7 +279,11 @@ static void remove_from_engine(struct i915_request *rq)
 
 bool i915_request_retire(struct i915_request *rq)
 {
+<<<<<<< HEAD
 	if (!__i915_request_is_complete(rq))
+=======
+	if (!i915_request_completed(rq))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	RQ_TRACE(rq, "\n");
@@ -307,8 +314,15 @@ bool i915_request_retire(struct i915_request *rq)
 		spin_unlock_irq(&rq->lock);
 	}
 
+<<<<<<< HEAD
 	if (test_and_set_bit(I915_FENCE_FLAG_BOOST, &rq->fence.flags))
 		atomic_dec(&rq->engine->gt->rps.num_waiters);
+=======
+	if (i915_request_has_waitboost(rq)) {
+		GEM_BUG_ON(!atomic_read(&rq->engine->gt->rps.num_waiters));
+		atomic_dec(&rq->engine->gt->rps.num_waiters);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * We only loosely track inflight requests across preemption,
@@ -320,8 +334,12 @@ bool i915_request_retire(struct i915_request *rq)
 	 * after removing the breadcrumb and signaling it, so that we do not
 	 * inadvertently attach the breadcrumb to a completed request.
 	 */
+<<<<<<< HEAD
 	if (!list_empty(&rq->sched.link))
 		remove_from_engine(rq);
+=======
+	remove_from_engine(rq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	GEM_BUG_ON(!llist_empty(&rq->execute_cb));
 
 	__list_del_entry(&rq->link); /* poison neither prev/next (RCU walks) */
@@ -342,7 +360,12 @@ void i915_request_retire_upto(struct i915_request *rq)
 	struct i915_request *tmp;
 
 	RQ_TRACE(rq, "\n");
+<<<<<<< HEAD
 	GEM_BUG_ON(!__i915_request_is_complete(rq));
+=======
+
+	GEM_BUG_ON(!i915_request_completed(rq));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	do {
 		tmp = list_first_entry(&tl->requests, typeof(*tmp), link);
@@ -487,8 +510,11 @@ void __i915_request_skip(struct i915_request *rq)
 	if (rq->infix == rq->postfix)
 		return;
 
+<<<<<<< HEAD
 	RQ_TRACE(rq, "error: %d\n", rq->fence.error);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * As this request likely depends on state from the lost
 	 * context, clear out all the user operations leaving the
@@ -514,6 +540,7 @@ void i915_request_set_error_once(struct i915_request *rq, int error)
 	} while (!try_cmpxchg(&rq->fence.error, &old, error));
 }
 
+<<<<<<< HEAD
 void i915_request_mark_eio(struct i915_request *rq)
 {
 	if (__i915_request_is_complete(rq))
@@ -525,6 +552,8 @@ void i915_request_mark_eio(struct i915_request *rq)
 	i915_request_mark_complete(rq);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool __i915_request_submit(struct i915_request *request)
 {
 	struct intel_engine_cs *engine = request->engine;
@@ -551,10 +580,19 @@ bool __i915_request_submit(struct i915_request *request)
 	 * dropped upon retiring. (Otherwise if resubmit a *retired*
 	 * request, this would be a horrible use-after-free.)
 	 */
+<<<<<<< HEAD
 	if (__i915_request_is_complete(request)) {
 		list_del_init(&request->sched.link);
 		goto active;
 	}
+=======
+	if (i915_request_completed(request))
+		goto xfer;
+
+	if (unlikely(intel_context_is_closed(request->context) &&
+		     !intel_engine_has_heartbeat(engine)))
+		intel_context_set_banned(request->context);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(intel_context_is_banned(request->context)))
 		i915_request_set_error_once(request, -EIO);
@@ -589,11 +627,19 @@ bool __i915_request_submit(struct i915_request *request)
 	engine->serial++;
 	result = true;
 
+<<<<<<< HEAD
 	GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags));
 	list_move_tail(&request->sched.link, &engine->active.requests);
 active:
 	clear_bit(I915_FENCE_FLAG_PQUEUE, &request->fence.flags);
 	set_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags);
+=======
+xfer:
+	if (!test_and_set_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags)) {
+		list_move_tail(&request->sched.link, &engine->active.requests);
+		clear_bit(I915_FENCE_FLAG_PQUEUE, &request->fence.flags);
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * XXX Rollback bonded-execution on __i915_request_unsubmit()?
@@ -653,7 +699,11 @@ void __i915_request_unsubmit(struct i915_request *request)
 		i915_request_cancel_breadcrumb(request);
 
 	/* We've already spun, don't charge on resubmitting. */
+<<<<<<< HEAD
 	if (request->sched.semaphores && __i915_request_has_started(request))
+=======
+	if (request->sched.semaphores && i915_request_started(request))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		request->sched.semaphores = 0;
 
 	/*
@@ -865,7 +915,11 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
 	RCU_INIT_POINTER(rq->timeline, tl);
 	RCU_INIT_POINTER(rq->hwsp_cacheline, tl->hwsp_cacheline);
 	rq->hwsp_seqno = tl->hwsp_seqno;
+<<<<<<< HEAD
 	GEM_BUG_ON(__i915_request_is_complete(rq));
+=======
+	GEM_BUG_ON(i915_request_completed(rq));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rq->rcustate = get_state_synchronize_rcu(); /* acts as smp_mb() */
 
@@ -971,6 +1025,7 @@ i915_request_await_start(struct i915_request *rq, struct i915_request *signal)
 	if (i915_request_started(signal))
 		return 0;
 
+<<<<<<< HEAD
 	/*
 	 * The caller holds a reference on @signal, but we do not serialise
 	 * against it being retired and removed from the lists.
@@ -981,12 +1036,21 @@ i915_request_await_start(struct i915_request *rq, struct i915_request *signal)
 	 */
 	fence = NULL;
 	rcu_read_lock();
+=======
+	fence = NULL;
+	rcu_read_lock();
+	spin_lock_irq(&signal->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	do {
 		struct list_head *pos = READ_ONCE(signal->link.prev);
 		struct i915_request *prev;
 
 		/* Confirm signal has not been retired, the link is valid */
+<<<<<<< HEAD
 		if (unlikely(__i915_request_has_started(signal)))
+=======
+		if (unlikely(i915_request_started(signal)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 
 		/* Is signal the earliest request on its timeline? */
@@ -1011,6 +1075,10 @@ i915_request_await_start(struct i915_request *rq, struct i915_request *signal)
 
 		fence = &prev->fence;
 	} while (0);
+<<<<<<< HEAD
+=======
+	spin_unlock_irq(&signal->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rcu_read_unlock();
 	if (!fence)
 		return 0;
@@ -1527,7 +1595,11 @@ __i915_request_add_to_timeline(struct i915_request *rq)
 	 */
 	prev = to_request(__i915_active_fence_set(&timeline->last_request,
 						  &rq->fence));
+<<<<<<< HEAD
 	if (prev && !__i915_request_is_complete(prev)) {
+=======
+	if (prev && !i915_request_completed(prev)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * The requests are supposed to be kept in order. However,
 		 * we need to be wary in case the timeline->last_request
@@ -1598,12 +1670,15 @@ struct i915_request *__i915_request_commit(struct i915_request *rq)
 	return __i915_request_add_to_timeline(rq);
 }
 
+<<<<<<< HEAD
 void __i915_request_queue_bh(struct i915_request *rq)
 {
 	i915_sw_fence_commit(&rq->semaphore);
 	i915_sw_fence_commit(&rq->submit);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __i915_request_queue(struct i915_request *rq,
 			  const struct i915_sched_attr *attr)
 {
@@ -1620,10 +1695,15 @@ void __i915_request_queue(struct i915_request *rq,
 	 */
 	if (attr && rq->engine->schedule)
 		rq->engine->schedule(rq, attr);
+<<<<<<< HEAD
 
 	local_bh_disable();
 	__i915_request_queue_bh(rq);
 	local_bh_enable(); /* kick tasklets */
+=======
+	i915_sw_fence_commit(&rq->semaphore);
+	i915_sw_fence_commit(&rq->submit);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void i915_request_add(struct i915_request *rq)
@@ -1847,7 +1927,11 @@ long i915_request_wait(struct i915_request *rq,
 	 * for unhappy HW.
 	 */
 	if (i915_request_is_ready(rq))
+<<<<<<< HEAD
 		__intel_engine_flush_submission(rq->engine, false);
+=======
+		intel_engine_flush_submission(rq->engine);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (;;) {
 		set_current_state(state);
@@ -1879,6 +1963,7 @@ out:
 	return timeout;
 }
 
+<<<<<<< HEAD
 static int print_sched_attr(const struct i915_sched_attr *attr,
 			    char *buf, int x, int len)
 {
@@ -1979,6 +2064,8 @@ void i915_request_show(struct drm_printer *m,
 		   name);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
 #include "selftests/mock_request.c"
 #include "selftests/i915_request.c"

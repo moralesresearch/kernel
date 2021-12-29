@@ -35,7 +35,15 @@ static const char *const online_type_to_str[] = {
 	[MMOP_ONLINE_MOVABLE] = "online_movable",
 };
 
+<<<<<<< HEAD
 int mhp_online_type_from_str(const char *str)
+=======
+<<<<<<< HEAD
+int mhp_online_type_from_str(const char *str)
+=======
+int memhp_online_type_from_str(const char *str)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
@@ -253,7 +261,15 @@ static int memory_subsys_offline(struct device *dev)
 static ssize_t state_store(struct device *dev, struct device_attribute *attr,
 			   const char *buf, size_t count)
 {
+<<<<<<< HEAD
 	const int online_type = mhp_online_type_from_str(buf);
+=======
+<<<<<<< HEAD
+	const int online_type = mhp_online_type_from_str(buf);
+=======
+	const int online_type = memhp_online_type_from_str(buf);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct memory_block *mem = to_memory_block(dev);
 	int ret;
 
@@ -387,19 +403,43 @@ static ssize_t auto_online_blocks_show(struct device *dev,
 				       struct device_attribute *attr, char *buf)
 {
 	return sysfs_emit(buf, "%s\n",
+<<<<<<< HEAD
 			  online_type_to_str[mhp_default_online_type]);
+=======
+<<<<<<< HEAD
+			  online_type_to_str[mhp_default_online_type]);
+=======
+			  online_type_to_str[memhp_default_online_type]);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static ssize_t auto_online_blocks_store(struct device *dev,
 					struct device_attribute *attr,
 					const char *buf, size_t count)
 {
+<<<<<<< HEAD
 	const int online_type = mhp_online_type_from_str(buf);
+=======
+<<<<<<< HEAD
+	const int online_type = mhp_online_type_from_str(buf);
+=======
+	const int online_type = memhp_online_type_from_str(buf);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (online_type < 0)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	mhp_default_online_type = online_type;
+=======
+<<<<<<< HEAD
+	mhp_default_online_type = online_type;
+=======
+	memhp_default_online_type = online_type;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return count;
 }
 

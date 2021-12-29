@@ -883,7 +883,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		mmc@80126000 {
+=======
+		sdi0_per1@80126000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "arm,pl18x", "arm,primecell";
 			reg = <0x80126000 0x1000>;
 			interrupts = <GIC_SPI 60 IRQ_TYPE_LEVEL_HIGH>;
@@ -899,7 +903,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		mmc@80118000 {
+=======
+		sdi1_per2@80118000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "arm,pl18x", "arm,primecell";
 			reg = <0x80118000 0x1000>;
 			interrupts = <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
@@ -915,7 +923,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		mmc@80005000 {
+=======
+		sdi2_per3@80005000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "arm,pl18x", "arm,primecell";
 			reg = <0x80005000 0x1000>;
 			interrupts = <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>;
@@ -931,7 +943,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		mmc@80119000 {
+=======
+		sdi3_per2@80119000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "arm,pl18x", "arm,primecell";
 			reg = <0x80119000 0x1000>;
 			interrupts = <GIC_SPI 59 IRQ_TYPE_LEVEL_HIGH>;
@@ -947,7 +963,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		mmc@80114000 {
+=======
+		sdi4_per2@80114000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "arm,pl18x", "arm,primecell";
 			reg = <0x80114000 0x1000>;
 			interrupts = <GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>;
@@ -963,7 +983,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		mmc@80008000 {
+=======
+		sdi5_per3@80008000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "arm,pl18x", "arm,primecell";
 			reg = <0x80008000 0x1000>;
 			interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>;

@@ -321,7 +321,11 @@ static SENSOR_DEVICE_ATTR_RO(gpio2_alarm, alarm, MAX6650_ALRM_GPIO2);
 static umode_t max6650_attrs_visible(struct kobject *kobj, struct attribute *a,
 				     int n)
 {
+<<<<<<< HEAD
 	struct device *dev = kobj_to_dev(kobj);
+=======
+	struct device *dev = container_of(kobj, struct device, kobj);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct max6650_data *data = dev_get_drvdata(dev);
 	struct device_attribute *devattr;
 

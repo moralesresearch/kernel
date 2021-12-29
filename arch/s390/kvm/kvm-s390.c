@@ -45,7 +45,14 @@
 #include <asm/timex.h>
 #include <asm/ap.h>
 #include <asm/uv.h>
+<<<<<<< HEAD
 #include <asm/fpu/api.h>
+=======
+<<<<<<< HEAD
+#include <asm/fpu/api.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "kvm-s390.h"
 #include "gaccess.h"
 
@@ -165,6 +172,18 @@ struct kvm_stats_debugfs_item debugfs_entries[] = {
 	{ NULL }
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+struct kvm_s390_tod_clock_ext {
+	__u8 epoch_idx;
+	__u64 tod;
+	__u8 reserved[7];
+} __packed;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* allow nested virtualization in KVM (if enabled by user space) */
 static int nested;
 module_param(nested, int, S_IRUGO);
@@ -1160,6 +1179,10 @@ static int kvm_s390_set_tod(struct kvm *kvm, struct kvm_device_attr *attr)
 static void kvm_s390_get_tod_clock(struct kvm *kvm,
 				   struct kvm_s390_vm_tod_clock *gtod)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union tod_clock clk;
 
 	preempt_disable();
@@ -1171,6 +1194,22 @@ static void kvm_s390_get_tod_clock(struct kvm *kvm,
 	if (test_kvm_facility(kvm, 139)) {
 		gtod->epoch_idx = clk.ei + kvm->arch.epdx;
 		if (gtod->tod < clk.tod)
+<<<<<<< HEAD
+=======
+=======
+	struct kvm_s390_tod_clock_ext htod;
+
+	preempt_disable();
+
+	get_tod_clock_ext((char *)&htod);
+
+	gtod->tod = htod.tod + kvm->arch.epoch;
+	gtod->epoch_idx = 0;
+	if (test_kvm_facility(kvm, 139)) {
+		gtod->epoch_idx = htod.epoch_idx + kvm->arch.epdx;
+		if (gtod->tod < htod.tod)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			gtod->epoch_idx += 1;
 	}
 
@@ -3861,18 +3900,41 @@ void kvm_s390_set_tod_clock(struct kvm *kvm,
 			    const struct kvm_s390_vm_tod_clock *gtod)
 {
 	struct kvm_vcpu *vcpu;
+<<<<<<< HEAD
 	union tod_clock clk;
+=======
+<<<<<<< HEAD
+	union tod_clock clk;
+=======
+	struct kvm_s390_tod_clock_ext htod;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	mutex_lock(&kvm->lock);
 	preempt_disable();
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	store_tod_clock_ext(&clk);
 
 	kvm->arch.epoch = gtod->tod - clk.tod;
 	kvm->arch.epdx = 0;
 	if (test_kvm_facility(kvm, 139)) {
 		kvm->arch.epdx = gtod->epoch_idx - clk.ei;
+<<<<<<< HEAD
+=======
+=======
+	get_tod_clock_ext((char *)&htod);
+
+	kvm->arch.epoch = gtod->tod - htod.tod;
+	kvm->arch.epdx = 0;
+	if (test_kvm_facility(kvm, 139)) {
+		kvm->arch.epdx = gtod->epoch_idx - htod.epoch_idx;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (kvm->arch.epoch > gtod->tod)
 			kvm->arch.epdx -= 1;
 	}
@@ -4142,8 +4204,16 @@ static int __vcpu_run(struct kvm_vcpu *vcpu)
 			       vcpu->run->s.regs.gprs,
 			       sizeof(sie_page->pv_grregs));
 		}
+<<<<<<< HEAD
 		if (test_cpu_flag(CIF_FPU))
 			load_fpu_regs();
+=======
+<<<<<<< HEAD
+		if (test_cpu_flag(CIF_FPU))
+			load_fpu_regs();
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		exit_reason = sie64a(vcpu->arch.sie_block,
 				     vcpu->run->s.regs.gprs);
 		if (kvm_s390_pv_cpu_is_protected(vcpu)) {
@@ -4307,6 +4377,18 @@ static void store_regs_fmt2(struct kvm_vcpu *vcpu)
 	kvm_run->s.regs.bpbc = (vcpu->arch.sie_block->fpf & FPF_BPBC) == FPF_BPBC;
 	kvm_run->s.regs.diag318 = vcpu->arch.diag318_info.val;
 	if (MACHINE_HAS_GS) {
+<<<<<<< HEAD
+		preempt_disable();
+		__ctl_set_bit(2, 4);
+		if (vcpu->arch.gs_enabled)
+			save_gs_cb(current->thread.gs_cb);
+		current->thread.gs_cb = vcpu->arch.host_gscb;
+		restore_gs_cb(vcpu->arch.host_gscb);
+		if (!vcpu->arch.host_gscb)
+			__ctl_clear_bit(2, 4);
+		vcpu->arch.host_gscb = NULL;
+		preempt_enable();
+=======
 		__ctl_set_bit(2, 4);
 		if (vcpu->arch.gs_enabled)
 			save_gs_cb(current->thread.gs_cb);
@@ -4317,6 +4399,7 @@ static void store_regs_fmt2(struct kvm_vcpu *vcpu)
 		if (!vcpu->arch.host_gscb)
 			__ctl_clear_bit(2, 4);
 		vcpu->arch.host_gscb = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 	/* SIE will save etoken directly into SDNX and therefore kvm_run */
 }

@@ -174,8 +174,15 @@ static void page_pool_dma_sync_for_device(struct page_pool *pool,
 					  struct page *page,
 					  unsigned int dma_sync_size)
 {
+<<<<<<< HEAD
+	dma_addr_t dma_addr = page_pool_get_dma_addr(page);
+
+	dma_sync_size = min(dma_sync_size, pool->p.max_len);
+	dma_sync_single_range_for_device(pool->p.dev, dma_addr,
+=======
 	dma_sync_size = min(dma_sync_size, pool->p.max_len);
 	dma_sync_single_range_for_device(pool->p.dev, page->dma_addr,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					 pool->p.offset, dma_sync_size,
 					 pool->p.dma_dir);
 }
@@ -226,7 +233,11 @@ static struct page *__page_pool_alloc_pages_slow(struct page_pool *pool,
 		put_page(page);
 		return NULL;
 	}
+<<<<<<< HEAD
+	page_pool_set_dma_addr(page, dma);
+=======
 	page->dma_addr = dma;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
 		page_pool_dma_sync_for_device(pool, page, pool->p.max_len);
@@ -294,6 +305,15 @@ void page_pool_release_page(struct page_pool *pool, struct page *page)
 		 */
 		goto skip_dma_unmap;
 
+<<<<<<< HEAD
+	dma = page_pool_get_dma_addr(page);
+
+	/* When page is unmapped, it cannot be returned to our pool */
+	dma_unmap_page_attrs(pool->p.dev, dma,
+			     PAGE_SIZE << pool->p.order, pool->p.dma_dir,
+			     DMA_ATTR_SKIP_CPU_SYNC);
+	page_pool_set_dma_addr(page, 0);
+=======
 	dma = page->dma_addr;
 
 	/* When page is unmapped, it cannot be returned our pool */
@@ -301,6 +321,7 @@ void page_pool_release_page(struct page_pool *pool, struct page *page)
 			     PAGE_SIZE << pool->p.order, pool->p.dma_dir,
 			     DMA_ATTR_SKIP_CPU_SYNC);
 	page->dma_addr = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 skip_dma_unmap:
 	/* This may be the last page returned, releasing the pool, so
 	 * it is not safe to reference pool afterwards.
@@ -350,6 +371,17 @@ static bool page_pool_recycle_in_cache(struct page *page,
 	return true;
 }
 
+<<<<<<< HEAD
+=======
+/* page is NOT reusable when:
+ * 1) allocated when system is under some pressure. (page_is_pfmemalloc)
+ */
+static bool pool_page_reusable(struct page_pool *pool, struct page *page)
+{
+	return !page_is_pfmemalloc(page);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* If the page refcnt == 1, this will try to recycle the page.
  * if PP_FLAG_DMA_SYNC_DEV is set, we'll try to sync the DMA area for
  * the configured size min(dma_sync_size, pool->max_len).
@@ -365,11 +397,17 @@ __page_pool_put_page(struct page_pool *pool, struct page *page,
 	 * regular page allocator APIs.
 	 *
 	 * refcnt == 1 means page_pool owns page, and can recycle it.
+<<<<<<< HEAD
 	 *
 	 * page is NOT reusable when allocated when system is under
 	 * some pressure. (page_is_pfmemalloc)
 	 */
 	if (likely(page_ref_count(page) == 1 && !page_is_pfmemalloc(page))) {
+=======
+	 */
+	if (likely(page_ref_count(page) == 1 &&
+		   pool_page_reusable(pool, page))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Read barrier done in page_ref_count / READ_ONCE */
 
 		if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)

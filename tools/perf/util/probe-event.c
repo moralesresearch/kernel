@@ -894,6 +894,7 @@ static int try_to_find_probe_trace_events(struct perf_probe_event *pev,
 	struct debuginfo *dinfo;
 	int ntevs, ret = 0;
 
+<<<<<<< HEAD
 	/* Workaround for gcc #98776 issue.
 	 * Perf failed to add kretprobe event with debuginfo of vmlinux which is
 	 * compiled by gcc with -fpatchable-function-entry option enabled. The
@@ -904,6 +905,8 @@ static int try_to_find_probe_trace_events(struct perf_probe_event *pev,
 	if (pev->point.retprobe)
 		return 0;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dinfo = open_debuginfo(pev->target, pev->nsi, !need_dwarf);
 	if (!dinfo) {
 		if (need_dwarf)
@@ -1084,7 +1087,11 @@ static int __show_line_range(struct line_range *lr, const char *module,
 	}
 
 	intlist__for_each_entry(ln, lr->line_list) {
+<<<<<<< HEAD
 		for (; ln->i > (unsigned long)l; l++) {
+=======
+		for (; ln->i > l; l++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = show_one_line(fp, l - lr->offset);
 			if (ret < 0)
 				goto end;

@@ -125,8 +125,16 @@
 #include <linux/delay.h>
 #include <linux/backing-dev.h>
 
+<<<<<<< HEAD
 #include <trace/events/block.h>
 
+=======
+<<<<<<< HEAD
+#include <trace/events/block.h>
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "blk.h"
 #include "blk-mq.h"
 #include "blk-mq-tag.h"
@@ -160,9 +168,22 @@ BFQ_BFQQ_FNS(in_large_burst);
 BFQ_BFQQ_FNS(coop);
 BFQ_BFQQ_FNS(split_coop);
 BFQ_BFQQ_FNS(softrt_update);
+<<<<<<< HEAD
 #undef BFQ_BFQQ_FNS						\
 
 /* Expiration time of async (0) and sync (1) requests, in ns. */
+=======
+<<<<<<< HEAD
+#undef BFQ_BFQQ_FNS						\
+
+/* Expiration time of async (0) and sync (1) requests, in ns. */
+=======
+BFQ_BFQQ_FNS(has_waker);
+#undef BFQ_BFQQ_FNS						\
+
+/* Expiration time of sync (0) and async (1) requests, in ns. */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const u64 bfq_fifo_expire[2] = { NSEC_PER_SEC / 4, NSEC_PER_SEC / 8 };
 
 /* Maximum backwards seek (magic number lifted from CFQ), in KiB. */
@@ -1012,7 +1033,11 @@ static void
 bfq_bfqq_resume_state(struct bfq_queue *bfqq, struct bfq_data *bfqd,
 		      struct bfq_io_cq *bic, bool bfq_already_existing)
 {
+<<<<<<< HEAD
+	unsigned int old_wr_coeff = 1;
+=======
 	unsigned int old_wr_coeff = bfqq->wr_coeff;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool busy = bfq_already_existing && bfq_bfqq_busy(bfqq);
 
 	if (bic->saved_has_short_ttime)
@@ -1025,6 +1050,10 @@ bfq_bfqq_resume_state(struct bfq_queue *bfqq, struct bfq_data *bfqd,
 	else
 		bfq_clear_bfqq_IO_bound(bfqq);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bfqq->last_serv_time_ns = bic->saved_last_serv_time_ns;
 	bfqq->inject_limit = bic->saved_inject_limit;
 	bfqq->decrease_time_jif = bic->saved_decrease_time_jif;
@@ -1033,8 +1062,24 @@ bfq_bfqq_resume_state(struct bfq_queue *bfqq, struct bfq_data *bfqd,
 	bfqq->ttime = bic->saved_ttime;
 	bfqq->io_start_time = bic->saved_io_start_time;
 	bfqq->tot_idle_time = bic->saved_tot_idle_time;
+<<<<<<< HEAD
+	/*
+	 * Restore weight coefficient only if low_latency is on
+	 */
+	if (bfqd->low_latency) {
+		old_wr_coeff = bfqq->wr_coeff;
+		bfqq->wr_coeff = bic->saved_wr_coeff;
+	}
+	bfqq->service_from_wr = bic->saved_service_from_wr;
+=======
 	bfqq->wr_coeff = bic->saved_wr_coeff;
 	bfqq->service_from_wr = bic->saved_service_from_wr;
+=======
+	bfqq->entity.new_weight = bic->saved_weight;
+	bfqq->ttime = bic->saved_ttime;
+	bfqq->wr_coeff = bic->saved_wr_coeff;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bfqq->wr_start_at_switch_to_srt = bic->saved_wr_start_at_switch_to_srt;
 	bfqq->last_wr_start_finish = bic->saved_last_wr_start_finish;
 	bfqq->wr_cur_max_time = bic->saved_wr_cur_max_time;
@@ -1655,8 +1700,16 @@ static bool bfq_bfqq_higher_class_or_weight(struct bfq_queue *bfqq,
 	return bfqq_weight > in_serv_weight;
 }
 
+<<<<<<< HEAD
 static bool bfq_better_to_idle(struct bfq_queue *bfqq);
 
+=======
+<<<<<<< HEAD
+static bool bfq_better_to_idle(struct bfq_queue *bfqq);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void bfq_bfqq_handle_idle_busy_switch(struct bfq_data *bfqd,
 					     struct bfq_queue *bfqq,
 					     int old_wr_coeff,
@@ -1681,19 +1734,40 @@ static void bfq_bfqq_handle_idle_busy_switch(struct bfq_data *bfqd,
 	 * - it is sync,
 	 * - it does not belong to a large burst,
 	 * - it has been idle for enough time or is soft real-time,
+<<<<<<< HEAD
 	 * - is linked to a bfq_io_cq (it is not shared in any sense),
 	 * - has a default weight (otherwise we assume the user wanted
 	 *   to control its weight explicitly)
+=======
+<<<<<<< HEAD
+	 * - is linked to a bfq_io_cq (it is not shared in any sense),
+	 * - has a default weight (otherwise we assume the user wanted
+	 *   to control its weight explicitly)
+=======
+	 * - is linked to a bfq_io_cq (it is not shared in any sense).
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	in_burst = bfq_bfqq_in_large_burst(bfqq);
 	soft_rt = bfqd->bfq_wr_max_softrt_rate > 0 &&
 		!BFQQ_TOTALLY_SEEKY(bfqq) &&
 		!in_burst &&
 		time_is_before_jiffies(bfqq->soft_rt_next_start) &&
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bfqq->dispatched == 0 &&
 		bfqq->entity.new_weight == 40;
 	*interactive = !in_burst && idle_for_long_time &&
 		bfqq->entity.new_weight == 40;
+<<<<<<< HEAD
+=======
+=======
+		bfqq->dispatched == 0;
+	*interactive = !in_burst && idle_for_long_time;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	wr_or_deserves_wr = bfqd->low_latency &&
 		(bfqq->wr_coeff > 1 ||
 		 (bfq_bfqq_sync(bfqq) &&
@@ -1731,6 +1805,23 @@ static void bfq_bfqq_handle_idle_busy_switch(struct bfq_data *bfqd,
 
 	bfq_clear_bfqq_just_created(bfqq);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+	if (!bfq_bfqq_IO_bound(bfqq)) {
+		if (arrived_in_time) {
+			bfqq->requests_within_timer++;
+			if (bfqq->requests_within_timer >=
+			    bfqd->bfq_requests_within_timer)
+				bfq_mark_bfqq_IO_bound(bfqq);
+		} else
+			bfqq->requests_within_timer = 0;
+	}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (bfqd->low_latency) {
 		if (unlikely(time_is_after_jiffies(bfqq->split_time)))
 			/* wraparound */
@@ -1758,10 +1849,23 @@ static void bfq_bfqq_handle_idle_busy_switch(struct bfq_data *bfqd,
 	bfq_add_bfqq_busy(bfqd, bfqq);
 
 	/*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Expire in-service queue if preemption may be needed for
 	 * guarantees or throughput. As for guarantees, we care
 	 * explicitly about two cases. The first is that bfqq has to
 	 * recover a service hole, as explained in the comments on
+<<<<<<< HEAD
+=======
+=======
+	 * Expire in-service queue only if preemption may be needed
+	 * for guarantees. In particular, we care only about two
+	 * cases. The first is that bfqq has to recover a service
+	 * hole, as explained in the comments on
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * bfq_bfqq_update_budg_for_activation(), i.e., that
 	 * bfqq_wants_to_preempt is true. However, if bfqq does not
 	 * carry time-critical I/O, then bfqq's bandwidth is less
@@ -1788,6 +1892,10 @@ static void bfq_bfqq_handle_idle_busy_switch(struct bfq_data *bfqd,
 	 * timestamps of the in-service queue would need to be
 	 * updated, and this operation is quite costly (see the
 	 * comments on bfq_bfqq_update_budg_for_activation()).
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *
 	 * As for throughput, we ask bfq_better_to_idle() whether we
 	 * still need to plug I/O dispatching. If bfq_better_to_idle()
@@ -1799,12 +1907,26 @@ static void bfq_bfqq_handle_idle_busy_switch(struct bfq_data *bfqd,
 	 * was better to plug I/O dispatch, and to wait for a new
 	 * request to arrive for the currently in-service queue, but
 	 * (2) this switch of bfqq to busy changes the scenario.
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (bfqd->in_service_queue &&
 	    ((bfqq_wants_to_preempt &&
 	      bfqq->wr_coeff >= bfqd->in_service_queue->wr_coeff) ||
+<<<<<<< HEAD
 	     bfq_bfqq_higher_class_or_weight(bfqq, bfqd->in_service_queue) ||
 	     !bfq_better_to_idle(bfqd->in_service_queue)) &&
+=======
+<<<<<<< HEAD
+	     bfq_bfqq_higher_class_or_weight(bfqq, bfqd->in_service_queue) ||
+	     !bfq_better_to_idle(bfqd->in_service_queue)) &&
+=======
+	     bfq_bfqq_higher_class_or_weight(bfqq, bfqd->in_service_queue)) &&
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    next_queue_may_preempt(bfqd))
 		bfq_bfqq_expire(bfqd, bfqd->in_service_queue,
 				false, BFQQE_PREEMPTED);
@@ -1876,6 +1998,10 @@ static void bfq_reset_inject_limit(struct bfq_data *bfqd,
 	bfqq->decrease_time_jif = jiffies;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void bfq_update_io_intensity(struct bfq_queue *bfqq, u64 now_ns)
 {
 	u64 tot_io_time = now_ns - bfqq->io_start_time;
@@ -2008,6 +2134,11 @@ static void bfq_check_waker(struct bfq_data *bfqd, struct bfq_queue *bfqq,
 	}
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void bfq_add_request(struct request *rq)
 {
 	struct bfq_queue *bfqq = RQ_BFQQ(rq);
@@ -2015,14 +2146,133 @@ static void bfq_add_request(struct request *rq)
 	struct request *next_rq, *prev;
 	unsigned int old_wr_coeff = bfqq->wr_coeff;
 	bool interactive = false;
+<<<<<<< HEAD
 	u64 now_ns = ktime_get_ns();
+=======
+<<<<<<< HEAD
+	u64 now_ns = ktime_get_ns();
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bfq_log_bfqq(bfqd, bfqq, "add_request %d", rq_is_sync(rq));
 	bfqq->queued[rq_is_sync(rq)]++;
 	bfqd->queued++;
 
 	if (RB_EMPTY_ROOT(&bfqq->sort_list) && bfq_bfqq_sync(bfqq)) {
+<<<<<<< HEAD
 		bfq_check_waker(bfqd, bfqq, now_ns);
+=======
+<<<<<<< HEAD
+		bfq_check_waker(bfqd, bfqq, now_ns);
+=======
+		/*
+		 * Detect whether bfqq's I/O seems synchronized with
+		 * that of some other queue, i.e., whether bfqq, after
+		 * remaining empty, happens to receive new I/O only
+		 * right after some I/O request of the other queue has
+		 * been completed. We call waker queue the other
+		 * queue, and we assume, for simplicity, that bfqq may
+		 * have at most one waker queue.
+		 *
+		 * A remarkable throughput boost can be reached by
+		 * unconditionally injecting the I/O of the waker
+		 * queue, every time a new bfq_dispatch_request
+		 * happens to be invoked while I/O is being plugged
+		 * for bfqq.  In addition to boosting throughput, this
+		 * unblocks bfqq's I/O, thereby improving bandwidth
+		 * and latency for bfqq. Note that these same results
+		 * may be achieved with the general injection
+		 * mechanism, but less effectively. For details on
+		 * this aspect, see the comments on the choice of the
+		 * queue for injection in bfq_select_queue().
+		 *
+		 * Turning back to the detection of a waker queue, a
+		 * queue Q is deemed as a waker queue for bfqq if, for
+		 * two consecutive times, bfqq happens to become non
+		 * empty right after a request of Q has been
+		 * completed. In particular, on the first time, Q is
+		 * tentatively set as a candidate waker queue, while
+		 * on the second time, the flag
+		 * bfq_bfqq_has_waker(bfqq) is set to confirm that Q
+		 * is a waker queue for bfqq. These detection steps
+		 * are performed only if bfqq has a long think time,
+		 * so as to make it more likely that bfqq's I/O is
+		 * actually being blocked by a synchronization. This
+		 * last filter, plus the above two-times requirement,
+		 * make false positives less likely.
+		 *
+		 * NOTE
+		 *
+		 * The sooner a waker queue is detected, the sooner
+		 * throughput can be boosted by injecting I/O from the
+		 * waker queue. Fortunately, detection is likely to be
+		 * actually fast, for the following reasons. While
+		 * blocked by synchronization, bfqq has a long think
+		 * time. This implies that bfqq's inject limit is at
+		 * least equal to 1 (see the comments in
+		 * bfq_update_inject_limit()). So, thanks to
+		 * injection, the waker queue is likely to be served
+		 * during the very first I/O-plugging time interval
+		 * for bfqq. This triggers the first step of the
+		 * detection mechanism. Thanks again to injection, the
+		 * candidate waker queue is then likely to be
+		 * confirmed no later than during the next
+		 * I/O-plugging interval for bfqq.
+		 */
+		if (bfqd->last_completed_rq_bfqq &&
+		    !bfq_bfqq_has_short_ttime(bfqq) &&
+		    ktime_get_ns() - bfqd->last_completion <
+		    200 * NSEC_PER_USEC) {
+			if (bfqd->last_completed_rq_bfqq != bfqq &&
+			    bfqd->last_completed_rq_bfqq !=
+			    bfqq->waker_bfqq) {
+				/*
+				 * First synchronization detected with
+				 * a candidate waker queue, or with a
+				 * different candidate waker queue
+				 * from the current one.
+				 */
+				bfqq->waker_bfqq = bfqd->last_completed_rq_bfqq;
+
+				/*
+				 * If the waker queue disappears, then
+				 * bfqq->waker_bfqq must be reset. To
+				 * this goal, we maintain in each
+				 * waker queue a list, woken_list, of
+				 * all the queues that reference the
+				 * waker queue through their
+				 * waker_bfqq pointer. When the waker
+				 * queue exits, the waker_bfqq pointer
+				 * of all the queues in the woken_list
+				 * is reset.
+				 *
+				 * In addition, if bfqq is already in
+				 * the woken_list of a waker queue,
+				 * then, before being inserted into
+				 * the woken_list of a new waker
+				 * queue, bfqq must be removed from
+				 * the woken_list of the old waker
+				 * queue.
+				 */
+				if (!hlist_unhashed(&bfqq->woken_list_node))
+					hlist_del_init(&bfqq->woken_list_node);
+				hlist_add_head(&bfqq->woken_list_node,
+				    &bfqd->last_completed_rq_bfqq->woken_list);
+
+				bfq_clear_bfqq_has_waker(bfqq);
+			} else if (bfqd->last_completed_rq_bfqq ==
+				   bfqq->waker_bfqq &&
+				   !bfq_bfqq_has_waker(bfqq)) {
+				/*
+				 * synchronization with waker_bfqq
+				 * seen for the second time
+				 */
+				bfq_mark_bfqq_has_waker(bfqq);
+			}
+		}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/*
 		 * Periodically reset inject limit, to make sure that
@@ -2091,9 +2341,18 @@ static void bfq_add_request(struct request *rq)
 		}
 	}
 
+<<<<<<< HEAD
 	if (bfq_bfqq_sync(bfqq))
 		bfq_update_io_intensity(bfqq, now_ns);
 
+=======
+<<<<<<< HEAD
+	if (bfq_bfqq_sync(bfqq))
+		bfq_update_io_intensity(bfqq, now_ns);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	elv_rb_add(&bfqq->sort_list, rq);
 
 	/*
@@ -2257,10 +2516,16 @@ static void bfq_remove_request(struct request_queue *q,
 
 }
 
+<<<<<<< HEAD
+static bool bfq_bio_merge(struct request_queue *q, struct bio *bio,
+		unsigned int nr_segs)
+{
+=======
 static bool bfq_bio_merge(struct blk_mq_hw_ctx *hctx, struct bio *bio,
 		unsigned int nr_segs)
 {
 	struct request_queue *q = hctx->queue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bfq_data *bfqd = q->elevator->elevator_data;
 	struct request *free = NULL;
 	/*
@@ -2399,6 +2664,10 @@ static void bfq_requests_merged(struct request_queue *q, struct request *rq,
 /* Must be called with bfqq != NULL */
 static void bfq_bfqq_end_wr(struct bfq_queue *bfqq)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * If bfqq has been enjoying interactive weight-raising, then
 	 * reset soft_rt_next_start. We do it for the following
@@ -2417,6 +2686,11 @@ static void bfq_bfqq_end_wr(struct bfq_queue *bfqq)
 	    bfqq->bfqd->bfq_wr_rt_max_time)
 		bfqq->soft_rt_next_start = jiffies;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (bfq_bfqq_busy(bfqq))
 		bfqq->bfqd->wr_busy_queues--;
 	bfqq->wr_coeff = 1;
@@ -2751,16 +3025,33 @@ static void bfq_bfqq_save_state(struct bfq_queue *bfqq)
 	if (!bic)
 		return;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bic->saved_last_serv_time_ns = bfqq->last_serv_time_ns;
 	bic->saved_inject_limit = bfqq->inject_limit;
 	bic->saved_decrease_time_jif = bfqq->decrease_time_jif;
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bic->saved_weight = bfqq->entity.orig_weight;
 	bic->saved_ttime = bfqq->ttime;
 	bic->saved_has_short_ttime = bfq_bfqq_has_short_ttime(bfqq);
 	bic->saved_IO_bound = bfq_bfqq_IO_bound(bfqq);
+<<<<<<< HEAD
 	bic->saved_io_start_time = bfqq->io_start_time;
 	bic->saved_tot_idle_time = bfqq->tot_idle_time;
+=======
+<<<<<<< HEAD
+	bic->saved_io_start_time = bfqq->io_start_time;
+	bic->saved_tot_idle_time = bfqq->tot_idle_time;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bic->saved_in_large_burst = bfq_bfqq_in_large_burst(bfqq);
 	bic->was_in_burst_list = !hlist_unhashed(&bfqq->burst_list_node);
 	if (unlikely(bfq_bfqq_just_created(bfqq) &&
@@ -2783,7 +3074,14 @@ static void bfq_bfqq_save_state(struct bfq_queue *bfqq)
 		bic->saved_wr_coeff = bfqq->wr_coeff;
 		bic->saved_wr_start_at_switch_to_srt =
 			bfqq->wr_start_at_switch_to_srt;
+<<<<<<< HEAD
 		bic->saved_service_from_wr = bfqq->service_from_wr;
+=======
+<<<<<<< HEAD
+		bic->saved_service_from_wr = bfqq->service_from_wr;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bic->saved_last_wr_start_finish = bfqq->last_wr_start_finish;
 		bic->saved_wr_cur_max_time = bfqq->wr_cur_max_time;
 	}
@@ -3515,6 +3813,10 @@ static void bfq_dispatch_remove(struct request_queue *q, struct request *rq)
  * order until all the requests already queued in the device have been
  * served. The last sub-condition commented above somewhat mitigates
  * this problem for weight-raised queues.
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * However, as an additional mitigation for this problem, we preserve
  * plugging for a special symmetric case that may suddenly turn into
@@ -3530,23 +3832,49 @@ static void bfq_dispatch_remove(struct request_queue *q, struct request *rq)
  * dispatched requests of bfqq to be delayed, inside the drive. So, to
  * avoid this series of events, the scenario is preventively declared
  * as asymmetric also if bfqq is the only busy queues
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 static bool idling_needed_for_service_guarantees(struct bfq_data *bfqd,
 						 struct bfq_queue *bfqq)
 {
+<<<<<<< HEAD
 	int tot_busy_queues = bfq_tot_busy_queues(bfqd);
 
+=======
+<<<<<<< HEAD
+	int tot_busy_queues = bfq_tot_busy_queues(bfqd);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* No point in idling for bfqq if it won't get requests any longer */
 	if (unlikely(!bfqq_process_refs(bfqq)))
 		return false;
 
 	return (bfqq->wr_coeff > 1 &&
 		(bfqd->wr_busy_queues <
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 tot_busy_queues ||
 		 bfqd->rq_in_driver >=
 		 bfqq->dispatched + 4)) ||
 		bfq_asymmetric_scenario(bfqd, bfqq) ||
 		tot_busy_queues == 1;
+<<<<<<< HEAD
+=======
+=======
+		 bfq_tot_busy_queues(bfqd) ||
+		 bfqd->rq_in_driver >=
+		 bfqq->dispatched + 4)) ||
+		bfq_asymmetric_scenario(bfqd, bfqq);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool __bfq_bfqq_expire(struct bfq_data *bfqd, struct bfq_queue *bfqq,
@@ -4030,6 +4358,16 @@ void bfq_bfqq_expire(struct bfq_data *bfqd,
 	      bfq_bfqq_budget_left(bfqq) >=  entity->budget / 3)))
 		bfq_bfqq_charge_time(bfqd, bfqq, delta);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	if (reason == BFQQE_TOO_IDLE &&
+	    entity->service <= 2 * entity->budget / 10)
+		bfq_clear_bfqq_IO_bound(bfqq);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (bfqd->low_latency && bfqq->wr_coeff == 1)
 		bfqq->last_wr_start_finish = jiffies;
 
@@ -4039,15 +4377,48 @@ void bfq_bfqq_expire(struct bfq_data *bfqd,
 		 * If we get here, and there are no outstanding
 		 * requests, then the request pattern is isochronous
 		 * (see the comments on the function
+<<<<<<< HEAD
 		 * bfq_bfqq_softrt_next_start()). Therefore we can
 		 * compute soft_rt_next_start.
+=======
+<<<<<<< HEAD
+		 * bfq_bfqq_softrt_next_start()). Therefore we can
+		 * compute soft_rt_next_start.
+=======
+		 * bfq_bfqq_softrt_next_start()). Thus we can compute
+		 * soft_rt_next_start. And we do it, unless bfqq is in
+		 * interactive weight raising. We do not do it in the
+		 * latter subcase, for the following reason. bfqq may
+		 * be conveying the I/O needed to load a soft
+		 * real-time application. Such an application will
+		 * actually exhibit a soft real-time I/O pattern after
+		 * it finally starts doing its job. But, if
+		 * soft_rt_next_start is computed here for an
+		 * interactive bfqq, and bfqq had received a lot of
+		 * service before remaining with no outstanding
+		 * request (likely to happen on a fast device), then
+		 * soft_rt_next_start would be assigned such a high
+		 * value that, for a very long time, bfqq would be
+		 * prevented from being possibly considered as soft
+		 * real time.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 *
 		 * If, instead, the queue still has outstanding
 		 * requests, then we have to wait for the completion
 		 * of all the outstanding requests to discover whether
 		 * the request pattern is actually isochronous.
 		 */
+<<<<<<< HEAD
 		if (bfqq->dispatched == 0)
+=======
+<<<<<<< HEAD
+		if (bfqq->dispatched == 0)
+=======
+		if (bfqq->dispatched == 0 &&
+		    bfqq->wr_coeff != bfqd->bfq_wr_coeff)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			bfqq->soft_rt_next_start =
 				bfq_bfqq_softrt_next_start(bfqd, bfqq);
 		else if (bfqq->dispatched > 0) {
@@ -4569,9 +4940,21 @@ check_queue:
 		    bfq_serv_to_charge(async_bfqq->next_rq, async_bfqq) <=
 		    bfq_bfqq_budget_left(async_bfqq))
 			bfqq = bfqq->bic->bfqq[0];
+<<<<<<< HEAD
 		else if (bfqq->waker_bfqq &&
 			   bfq_bfqq_busy(bfqq->waker_bfqq) &&
 			   bfqq->waker_bfqq->next_rq &&
+=======
+<<<<<<< HEAD
+		else if (bfqq->waker_bfqq &&
+			   bfq_bfqq_busy(bfqq->waker_bfqq) &&
+			   bfqq->waker_bfqq->next_rq &&
+=======
+		else if (bfq_bfqq_has_waker(bfqq) &&
+			   bfq_bfqq_busy(bfqq->waker_bfqq) &&
+			   bfqq->next_rq &&
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   bfq_serv_to_charge(bfqq->waker_bfqq->next_rq,
 					      bfqq->waker_bfqq) <=
 			   bfq_bfqq_budget_left(bfqq->waker_bfqq)
@@ -4631,6 +5014,10 @@ static void bfq_update_wr_data(struct bfq_data *bfqd, struct bfq_queue *bfqq)
 						bfqq->wr_cur_max_time)) {
 			if (bfqq->wr_cur_max_time != bfqd->bfq_wr_rt_max_time ||
 			time_is_before_jiffies(bfqq->wr_start_at_switch_to_srt +
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					       bfq_wr_duration(bfqd))) {
 				/*
 				 * Either in interactive weight
@@ -4646,6 +5033,14 @@ static void bfq_update_wr_data(struct bfq_data *bfqd, struct bfq_queue *bfqq)
 				  * interactive period, switch back to
 				  * interactive weight raising
 				  */
+<<<<<<< HEAD
+=======
+=======
+					       bfq_wr_duration(bfqd)))
+				bfq_bfqq_end_wr(bfqq);
+			else {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				switch_back_to_interactive_wr(bfqq, bfqd);
 				bfqq->entity.prio_changed = 1;
 			}
@@ -4724,6 +5119,15 @@ static bool bfq_has_work(struct blk_mq_hw_ctx *hctx)
 {
 	struct bfq_data *bfqd = hctx->queue->elevator->elevator_data;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	if (!atomic_read(&hctx->elevator_queued))
+		return false;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Avoiding lock: a race on bfqd->busy_queues should cause at
 	 * most a call to dispatch for nothing
@@ -4973,6 +5377,13 @@ void bfq_put_queue(struct bfq_queue *bfqq)
 	hlist_for_each_entry_safe(item, n, &bfqq->woken_list,
 				  woken_list_node) {
 		item->waker_bfqq = NULL;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		bfq_clear_bfqq_has_waker(item);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hlist_del_init(&item->woken_list_node);
 	}
 
@@ -5092,8 +5503,16 @@ bfq_set_next_ioprio_data(struct bfq_queue *bfqq, struct bfq_io_cq *bic)
 	}
 
 	bfqq->entity.new_weight = bfq_ioprio_to_weight(bfqq->new_ioprio);
+<<<<<<< HEAD
 	bfq_log_bfqq(bfqd, bfqq, "new_ioprio %d new_weight %d",
 		     bfqq->new_ioprio, bfqq->entity.new_weight);
+=======
+<<<<<<< HEAD
+	bfq_log_bfqq(bfqd, bfqq, "new_ioprio %d new_weight %d",
+		     bfqq->new_ioprio, bfqq->entity.new_weight);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bfqq->entity.prio_changed = 1;
 }
 
@@ -5131,8 +5550,16 @@ static void bfq_check_ioprio_change(struct bfq_io_cq *bic, struct bio *bio)
 static void bfq_init_bfqq(struct bfq_data *bfqd, struct bfq_queue *bfqq,
 			  struct bfq_io_cq *bic, pid_t pid, int is_sync)
 {
+<<<<<<< HEAD
 	u64 now_ns = ktime_get_ns();
 
+=======
+<<<<<<< HEAD
+	u64 now_ns = ktime_get_ns();
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	RB_CLEAR_NODE(&bfqq->entity.rb_node);
 	INIT_LIST_HEAD(&bfqq->fifo);
 	INIT_HLIST_NODE(&bfqq->burst_list_node);
@@ -5160,9 +5587,19 @@ static void bfq_init_bfqq(struct bfq_data *bfqd, struct bfq_queue *bfqq,
 		bfq_clear_bfqq_sync(bfqq);
 
 	/* set end request to minus infinity from now */
+<<<<<<< HEAD
 	bfqq->ttime.last_end_request = now_ns + 1;
 
 	bfqq->io_start_time = now_ns;
+=======
+<<<<<<< HEAD
+	bfqq->ttime.last_end_request = now_ns + 1;
+
+	bfqq->io_start_time = now_ns;
+=======
+	bfqq->ttime.last_end_request = ktime_get_ns() + 1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bfq_mark_bfqq_IO_bound(bfqq);
 
@@ -5280,6 +5717,10 @@ static void bfq_update_io_thinktime(struct bfq_data *bfqd,
 				    struct bfq_queue *bfqq)
 {
 	struct bfq_ttime *ttime = &bfqq->ttime;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 elapsed;
 
 	/*
@@ -5293,6 +5734,16 @@ static void bfq_update_io_thinktime(struct bfq_data *bfqd,
 	elapsed = min_t(u64, elapsed, 2ULL * bfqd->bfq_slice_idle);
 
 	ttime->ttime_samples = (7*ttime->ttime_samples + 256) / 8;
+<<<<<<< HEAD
+=======
+=======
+	u64 elapsed = ktime_get_ns() - bfqq->ttime.last_end_request;
+
+	elapsed = min_t(u64, elapsed, 2ULL * bfqd->bfq_slice_idle);
+
+	ttime->ttime_samples = (7*bfqq->ttime.ttime_samples + 256) / 8;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ttime->ttime_total = div_u64(7*ttime->ttime_total + 256*elapsed,  8);
 	ttime->ttime_mean = div64_ul(ttime->ttime_total + 128,
 				     ttime->ttime_samples);
@@ -5307,6 +5758,10 @@ bfq_update_io_seektime(struct bfq_data *bfqd, struct bfq_queue *bfqq,
 
 	if (bfqq->wr_coeff > 1 &&
 	    bfqq->wr_cur_max_time == bfqd->bfq_wr_rt_max_time &&
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    BFQQ_TOTALLY_SEEKY(bfqq)) {
 		if (time_is_before_jiffies(bfqq->wr_start_at_switch_to_srt +
 					   bfq_wr_duration(bfqd))) {
@@ -5327,6 +5782,13 @@ bfq_update_io_seektime(struct bfq_data *bfqd, struct bfq_queue *bfqq,
 			bfqq->entity.prio_changed = 1;
 		}
 	}
+<<<<<<< HEAD
+=======
+=======
+	    BFQQ_TOTALLY_SEEKY(bfqq))
+		bfq_bfqq_end_wr(bfqq);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void bfq_update_has_short_ttime(struct bfq_data *bfqd,
@@ -5350,6 +5812,10 @@ static void bfq_update_has_short_ttime(struct bfq_data *bfqd,
 		return;
 
 	/* Think time is infinite if no process is linked to
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * bfqq. Otherwise check average think time to decide whether
 	 * to mark as has_short_ttime. To this goal, compare average
 	 * think time with half the I/O-plugging timeout.
@@ -5357,6 +5823,17 @@ static void bfq_update_has_short_ttime(struct bfq_data *bfqd,
 	if (atomic_read(&bic->icq.ioc->active_ref) == 0 ||
 	    (bfq_sample_valid(bfqq->ttime.ttime_samples) &&
 	     bfqq->ttime.ttime_mean > bfqd->bfq_slice_idle>>1))
+<<<<<<< HEAD
+=======
+=======
+	 * bfqq. Otherwise check average think time to
+	 * decide whether to mark as has_short_ttime
+	 */
+	if (atomic_read(&bic->icq.ioc->active_ref) == 0 ||
+	    (bfq_sample_valid(bfqq->ttime.ttime_samples) &&
+	     bfqq->ttime.ttime_mean > bfqd->bfq_slice_idle))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		has_short_ttime = false;
 
 	state_changed = has_short_ttime != bfq_bfqq_has_short_ttime(bfqq);
@@ -5623,7 +6100,15 @@ static void bfq_insert_request(struct blk_mq_hw_ctx *hctx, struct request *rq,
 
 	spin_unlock_irq(&bfqd->lock);
 
+<<<<<<< HEAD
 	trace_block_rq_insert(rq);
+=======
+<<<<<<< HEAD
+	trace_block_rq_insert(rq);
+=======
+	blk_mq_sched_request_inserted(rq);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock_irq(&bfqd->lock);
 	bfqq = bfq_init_rq(rq);
@@ -5670,6 +6155,13 @@ static void bfq_insert_requests(struct blk_mq_hw_ctx *hctx,
 		rq = list_first_entry(list, struct request, queuelist);
 		list_del_init(&rq->queuelist);
 		bfq_insert_request(hctx, rq, at_head);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		atomic_inc(&hctx->elevator_queued);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -6037,6 +6529,13 @@ static void bfq_finish_requeue_request(struct request *rq)
 
 		bfq_completed_request(bfqq, bfqd);
 		bfq_finish_requeue_request_body(bfqq);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		atomic_dec(&rq->mq_hctx->elevator_queued);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		spin_unlock_irqrestore(&bfqd->lock, flags);
 	} else {
@@ -6600,6 +7099,14 @@ static int bfq_init_queue(struct request_queue *q, struct elevator_type *e)
 	bfqd->bfq_slice_idle = bfq_slice_idle;
 	bfqd->bfq_timeout = bfq_timeout;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	bfqd->bfq_requests_within_timer = 120;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bfqd->bfq_large_burst_thresh = 8;
 	bfqd->bfq_burst_interval = msecs_to_jiffies(180);
 

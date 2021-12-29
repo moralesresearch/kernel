@@ -524,23 +524,45 @@ static int ad5770r_channel_config(struct ad5770r_state *st)
 	device_for_each_child_node(&st->spi->dev, child) {
 		ret = fwnode_property_read_u32(child, "num", &num);
 		if (ret)
+<<<<<<< HEAD
+			goto err_child_out;
+		if (num >= AD5770R_MAX_CHANNELS) {
+			ret = -EINVAL;
+			goto err_child_out;
+		}
+=======
 			return ret;
 		if (num >= AD5770R_MAX_CHANNELS)
 			return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		ret = fwnode_property_read_u32_array(child,
 						     "adi,range-microamp",
 						     tmp, 2);
 		if (ret)
+<<<<<<< HEAD
+			goto err_child_out;
+=======
 			return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		min = tmp[0] / 1000;
 		max = tmp[1] / 1000;
 		ret = ad5770r_store_output_range(st, min, max, num);
 		if (ret)
+<<<<<<< HEAD
+			goto err_child_out;
+	}
+
+	return 0;
+
+err_child_out:
+	fwnode_handle_put(child);
+=======
 			return ret;
 	}
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 

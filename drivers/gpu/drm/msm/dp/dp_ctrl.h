@@ -19,7 +19,11 @@ struct dp_ctrl {
 	u32 pixel_rate;
 };
 
+<<<<<<< HEAD
 int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset);
+=======
+int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl);
 int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
 int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl);

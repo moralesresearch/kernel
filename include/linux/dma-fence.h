@@ -372,9 +372,12 @@ static inline void __dma_fence_might_wait(void) {}
 
 int dma_fence_signal(struct dma_fence *fence);
 int dma_fence_signal_locked(struct dma_fence *fence);
+<<<<<<< HEAD
 int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
 int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
 				      ktime_t timestamp);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 signed long dma_fence_default_wait(struct dma_fence *fence,
 				   bool intr, signed long timeout);
 int dma_fence_add_callback(struct dma_fence *fence,

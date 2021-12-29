@@ -804,7 +804,11 @@ int snd_usb_caiaq_audio_init(struct snd_usb_caiaqdev *cdev)
 	}
 
 	cdev->pcm->private_data = cdev;
+<<<<<<< HEAD
 	strscpy(cdev->pcm->name, cdev->product_name, sizeof(cdev->pcm->name));
+=======
+	strlcpy(cdev->pcm->name, cdev->product_name, sizeof(cdev->pcm->name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	memset(cdev->sub_playback, 0, sizeof(cdev->sub_playback));
 	memset(cdev->sub_capture, 0, sizeof(cdev->sub_capture));

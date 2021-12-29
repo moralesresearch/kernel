@@ -44,6 +44,7 @@ static bool event_interrupt_isr_v9(struct kfd_dev *dev,
 	client_id = SOC15_CLIENT_ID_FROM_IH_ENTRY(ih_ring_entry);
 	pasid = SOC15_PASID_FROM_IH_ENTRY(ih_ring_entry);
 
+<<<<<<< HEAD
 	/* Only handle clients we care about */
 	if (client_id != SOC15_IH_CLIENTID_GRBM_CP &&
 	    client_id != SOC15_IH_CLIENTID_SDMA0 &&
@@ -63,6 +64,8 @@ static bool event_interrupt_isr_v9(struct kfd_dev *dev,
 	    client_id != SOC15_IH_CLIENTID_SE3SH)
 		return false;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* This is a known issue for gfx9. Under non HWS, pasid is not set
 	 * in the interrupt payload, so we need to find out the pasid on our
 	 * own.
@@ -115,6 +118,7 @@ static void event_interrupt_wq_v9(struct kfd_dev *dev,
 	vmid = SOC15_VMID_FROM_IH_ENTRY(ih_ring_entry);
 	context_id = SOC15_CONTEXT_ID0_FROM_IH_ENTRY(ih_ring_entry);
 
+<<<<<<< HEAD
 	if (client_id == SOC15_IH_CLIENTID_GRBM_CP ||
 	    client_id == SOC15_IH_CLIENTID_SE0SH ||
 	    client_id == SOC15_IH_CLIENTID_SE1SH ||
@@ -139,6 +143,19 @@ static void event_interrupt_wq_v9(struct kfd_dev *dev,
 	} else if (client_id == SOC15_IH_CLIENTID_VMC ||
 		   client_id == SOC15_IH_CLIENTID_VMC1 ||
 		   client_id == SOC15_IH_CLIENTID_UTCL2) {
+=======
+	if (source_id == SOC15_INTSRC_CP_END_OF_PIPE)
+		kfd_signal_event_interrupt(pasid, context_id, 32);
+	else if (source_id == SOC15_INTSRC_SDMA_TRAP)
+		kfd_signal_event_interrupt(pasid, context_id & 0xfffffff, 28);
+	else if (source_id == SOC15_INTSRC_SQ_INTERRUPT_MSG)
+		kfd_signal_event_interrupt(pasid, context_id & 0xffffff, 24);
+	else if (source_id == SOC15_INTSRC_CP_BAD_OPCODE)
+		kfd_signal_hw_exception_event(pasid);
+	else if (client_id == SOC15_IH_CLIENTID_VMC ||
+		client_id == SOC15_IH_CLIENTID_VMC1 ||
+		 client_id == SOC15_IH_CLIENTID_UTCL2) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct kfd_vm_fault_info info = {0};
 		uint16_t ring_id = SOC15_RING_ID_FROM_IH_ENTRY(ih_ring_entry);
 

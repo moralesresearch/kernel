@@ -2,7 +2,11 @@
 /*
  * Copyright (c) 2015-2020, Oracle and/or its affiliates.
  *
+<<<<<<< HEAD
  * Support for reverse-direction RPCs on RPC/RDMA.
+=======
+ * Support for backward direction RPCs on RPC/RDMA.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include <linux/sunrpc/xprt.h>
@@ -208,7 +212,11 @@ create_req:
 }
 
 /**
+<<<<<<< HEAD
  * rpcrdma_bc_receive_call - Handle a reverse-direction Call
+=======
+ * rpcrdma_bc_receive_call - Handle a backward direction call
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @r_xprt: transport receiving the call
  * @rep: receive buffer containing the call
  *

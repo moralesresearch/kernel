@@ -37,6 +37,11 @@ extern int distribute_irqs;
 
 struct pt_regs;
 
+<<<<<<< HEAD
+=======
+#define __ARCH_HAS_DO_SOFTIRQ
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if defined(CONFIG_BOOKE) || defined(CONFIG_40x)
 /*
  * Per-cpu stacks for handling critical, debug and machine check

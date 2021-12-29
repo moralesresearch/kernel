@@ -293,9 +293,17 @@ static void fmr2_remove(struct fmr2 *fmr2)
 	kfree(fmr2);
 }
 
+<<<<<<< HEAD
 static void fmr2_isa_remove(struct device *pdev, unsigned int ndev)
 {
 	fmr2_remove(dev_get_drvdata(pdev));
+=======
+static int fmr2_isa_remove(struct device *pdev, unsigned int ndev)
+{
+	fmr2_remove(dev_get_drvdata(pdev));
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void fmr2_pnp_remove(struct pnp_dev *pdev)

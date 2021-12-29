@@ -28,19 +28,49 @@ static inline u32 yield_count_of(int cpu)
 	return be32_to_cpu(yield_count);
 }
 
+<<<<<<< HEAD
+/*
+ * Spinlock code confers and prods, so don't trace the hcalls because the
+ * tracing code takes spinlocks which can cause recursion deadlocks.
+ *
+ * These calls are made while the lock is not held: the lock slowpath yields if
+ * it can not acquire the lock, and unlock slow path might prod if a waiter has
+ * yielded). So this may not be a problem for simple spin locks because the
+ * tracing does not technically recurse on the lock, but we avoid it anyway.
+ *
+ * However the queued spin lock contended path is more strictly ordered: the
+ * H_CONFER hcall is made after the task has queued itself on the lock, so then
+ * recursing on that lock will cause the task to then queue up again behind the
+ * first instance (or worse: queued spinlocks use tricks that assume a context
+ * never waits on more than one spinlock, so such recursion may cause random
+ * corruption in the lock code).
+ */
+static inline void yield_to_preempted(int cpu, u32 yield_count)
+{
+	plpar_hcall_norets_notrace(H_CONFER, get_hard_smp_processor_id(cpu), yield_count);
+=======
 static inline void yield_to_preempted(int cpu, u32 yield_count)
 {
 	plpar_hcall_norets(H_CONFER, get_hard_smp_processor_id(cpu), yield_count);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void prod_cpu(int cpu)
 {
+<<<<<<< HEAD
+	plpar_hcall_norets_notrace(H_PROD, get_hard_smp_processor_id(cpu));
+=======
 	plpar_hcall_norets(H_PROD, get_hard_smp_processor_id(cpu));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void yield_to_any(void)
 {
+<<<<<<< HEAD
+	plpar_hcall_norets_notrace(H_CONFER, -1, 0);
+=======
 	plpar_hcall_norets(H_CONFER, -1, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #else
 static inline bool is_shared_processor(void)

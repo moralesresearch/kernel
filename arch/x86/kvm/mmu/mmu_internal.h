@@ -12,7 +12,15 @@
 extern bool dbg;
 
 #define pgprintk(x...) do { if (dbg) printk(x); } while (0)
+<<<<<<< HEAD
 #define rmap_printk(fmt, args...) do { if (dbg) printk("%s: " fmt, __func__, ## args); } while (0)
+=======
+<<<<<<< HEAD
+#define rmap_printk(fmt, args...) do { if (dbg) printk("%s: " fmt, __func__, ## args); } while (0)
+=======
+#define rmap_printk(x...) do { if (dbg) printk(x); } while (0)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MMU_WARN_ON(x) WARN_ON(x)
 #else
 #define pgprintk(x...) do { } while (0)
@@ -56,12 +64,22 @@ struct kvm_mmu_page {
 	/* Number of writes since the last time traversal visited this page.  */
 	atomic_t write_flooding_count;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_X86_64
 	bool tdp_mmu_page;
 
 	/* Used for freeing the page asyncronously if it is a TDP MMU page. */
 	struct rcu_head rcu_head;
 #endif
+<<<<<<< HEAD
+=======
+=======
+	bool tdp_mmu_page;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 extern struct kmem_cache *mmu_page_header_cache;
@@ -78,11 +96,20 @@ static inline struct kvm_mmu_page *sptep_to_sp(u64 *sptep)
 	return to_shadow_page(__pa(sptep));
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int kvm_mmu_page_as_id(struct kvm_mmu_page *sp)
 {
 	return sp->role.smm ? 1 : 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool kvm_vcpu_ad_need_write_protect(struct kvm_vcpu *vcpu)
 {
 	/*
@@ -146,8 +173,16 @@ enum {
 #define SET_SPTE_NEED_REMOTE_TLB_FLUSH	BIT(1)
 #define SET_SPTE_SPURIOUS		BIT(2)
 
+<<<<<<< HEAD
 int kvm_mmu_max_mapping_level(struct kvm *kvm, struct kvm_memory_slot *slot,
 			      gfn_t gfn, kvm_pfn_t pfn, int max_level);
+=======
+<<<<<<< HEAD
+int kvm_mmu_max_mapping_level(struct kvm *kvm, struct kvm_memory_slot *slot,
+			      gfn_t gfn, kvm_pfn_t pfn, int max_level);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, gfn_t gfn,
 			    int max_level, kvm_pfn_t *pfnp,
 			    bool huge_page_disallowed, int *req_level);

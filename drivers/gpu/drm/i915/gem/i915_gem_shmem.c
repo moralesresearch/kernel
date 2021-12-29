@@ -464,6 +464,7 @@ static int __create_shmem(struct drm_i915_private *i915,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int shmem_object_init(struct intel_memory_region *mem,
 			     struct drm_i915_gem_object *obj,
 			     resource_size_t size,
@@ -471,14 +472,34 @@ static int shmem_object_init(struct intel_memory_region *mem,
 {
 	static struct lock_class_key lock_class;
 	struct drm_i915_private *i915 = mem->i915;
+=======
+static struct drm_i915_gem_object *
+create_shmem(struct intel_memory_region *mem,
+	     resource_size_t size,
+	     unsigned int flags)
+{
+	static struct lock_class_key lock_class;
+	struct drm_i915_private *i915 = mem->i915;
+	struct drm_i915_gem_object *obj;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct address_space *mapping;
 	unsigned int cache_level;
 	gfp_t mask;
 	int ret;
 
+<<<<<<< HEAD
 	ret = __create_shmem(i915, &obj->base, size);
 	if (ret)
 		return ret;
+=======
+	obj = i915_gem_object_alloc();
+	if (!obj)
+		return ERR_PTR(-ENOMEM);
+
+	ret = __create_shmem(i915, &obj->base, size);
+	if (ret)
+		goto fail;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mask = GFP_HIGHUSER | __GFP_RECLAIMABLE;
 	if (IS_I965GM(i915) || IS_I965G(i915)) {
@@ -517,7 +538,15 @@ static int shmem_object_init(struct intel_memory_region *mem,
 
 	i915_gem_object_init_memory_region(obj, mem, 0);
 
+<<<<<<< HEAD
 	return 0;
+=======
+	return obj;
+
+fail:
+	i915_gem_object_free(obj);
+	return ERR_PTR(ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct drm_i915_gem_object *
@@ -602,7 +631,11 @@ static void release_shmem(struct intel_memory_region *mem)
 static const struct intel_memory_region_ops shmem_region_ops = {
 	.init = init_shmem,
 	.release = release_shmem,
+<<<<<<< HEAD
 	.init_object = shmem_object_init,
+=======
+	.create_object = create_shmem,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct intel_memory_region *i915_gem_shmem_setup(struct drm_i915_private *i915)
@@ -612,8 +645,11 @@ struct intel_memory_region *i915_gem_shmem_setup(struct drm_i915_private *i915)
 					  PAGE_SIZE, 0,
 					  &shmem_region_ops);
 }
+<<<<<<< HEAD
 
 bool i915_gem_object_is_shmem(const struct drm_i915_gem_object *obj)
 {
 	return obj->ops == &i915_gem_shmem_ops;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

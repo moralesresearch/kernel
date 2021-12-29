@@ -547,6 +547,10 @@ static void __init sparse_init_nid(int nid, unsigned long pnum_begin,
 			pr_err("%s: node[%d] memory map backing failed. Some memory will not be available.",
 			       __func__, nid);
 			pnum_begin = pnum;
+<<<<<<< HEAD
+			sparse_buffer_fini();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			goto failed;
 		}
 		check_usemap_section_nr(nid, usage);

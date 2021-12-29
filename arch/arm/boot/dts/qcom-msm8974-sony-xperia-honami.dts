@@ -261,7 +261,11 @@
 
 &soc {
 	usb@f9a55000 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		phys = <&usb_hs1_phy>;
 		phy-select = <&tcsr 0xb000 0>;
@@ -274,7 +278,11 @@
 
 		ulpi {
 			phy@a {
+<<<<<<< HEAD
 				status = "okay";
+=======
+				status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				v1p8-supply = <&pm8941_l6>;
 				v3p3-supply = <&pm8941_l24>;
@@ -286,7 +294,11 @@
 	};
 
 	sdhci@f9824900 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		vmmc-supply = <&pm8941_l20>;
 		vqmmc-supply = <&pm8941_s3>;
@@ -299,7 +311,11 @@
 	};
 
 	sdhci@f98a4900 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		bus-width = <4>;
 
@@ -313,14 +329,22 @@
 	};
 
 	serial@f991e000 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		pinctrl-names = "default";
 		pinctrl-0 = <&blsp1_uart2_pin_a>;
 	};
 
 	i2c@f9924000 {
+<<<<<<< HEAD
 		status = "okay";
+=======
+		status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		clock-frequency = <355000>;
 		qcom,src-freq = <50000000>;
@@ -464,7 +488,11 @@
 		};
 
 		coincell@2800 {
+<<<<<<< HEAD
 			status = "okay";
+=======
+			status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			qcom,rset-ohms = <2100>;
 			qcom,vset-millivolts = <3000>;
 		};
@@ -472,7 +500,11 @@
 
 	pm8941@1 {
 		wled@d800 {
+<<<<<<< HEAD
 			status = "okay";
+=======
+			status = "ok";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			qcom,cs-out;
 			qcom,current-limit = <20>;

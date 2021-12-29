@@ -44,10 +44,16 @@ int notrace unwind_frame(struct task_struct *tsk, struct stackframe *frame)
 	unsigned long fp = frame->fp;
 	struct stack_info info;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
 	/* Terminal record; nothing to unwind */
 	if (!fp)
 		return -ENOENT;
 
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fp & 0xf)
 		return -EINVAL;
 
@@ -108,6 +114,27 @@ int notrace unwind_frame(struct task_struct *tsk, struct stackframe *frame)
 
 	frame->pc = ptrauth_strip_insn_pac(frame->pc);
 
+<<<<<<< HEAD
+	/*
+	 * This is a terminal record, so we have finished unwinding.
+	 */
+	if (!frame->fp && !frame->pc)
+		return -ENOENT;
+
+=======
+<<<<<<< HEAD
+=======
+	/*
+	 * Frames created upon entry from EL0 have NULL FP and PC values, so
+	 * don't bother reporting these. Frames created by __noreturn functions
+	 * might have a valid FP even if PC is bogus, so only terminate where
+	 * both are NULL.
+	 */
+	if (!frame->fp && !frame->pc)
+		return -EINVAL;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 NOKPROBE_SYMBOL(unwind_frame);

@@ -876,7 +876,11 @@ static int lqasc_probe(struct platform_device *pdev)
 	port->flags	= UPF_BOOT_AUTOCONF | UPF_IOREMAP;
 	port->ops	= &lqasc_pops;
 	port->fifosize	= 16;
+<<<<<<< HEAD
 	port->type	= PORT_LTQ_ASC;
+=======
+	port->type	= PORT_LTQ_ASC,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	port->line	= line;
 	port->dev	= &pdev->dev;
 	/* unused, just to be backward-compatible */

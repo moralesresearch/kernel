@@ -237,7 +237,14 @@ static int intel_mgbe_common_data(struct pci_dev *pdev,
 	int ret;
 	int i;
 
+<<<<<<< HEAD
 	plat->pdev = pdev;
+=======
+<<<<<<< HEAD
+	plat->pdev = pdev;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	plat->phy_addr = -1;
 	plat->clk_csr = 5;
 	plat->has_gmac = 0;
@@ -449,8 +456,18 @@ static int tgl_common_data(struct pci_dev *pdev,
 	return intel_mgbe_common_data(pdev, plat);
 }
 
+<<<<<<< HEAD
 static int tgl_sgmii_phy0_data(struct pci_dev *pdev,
 			       struct plat_stmmacenet_data *plat)
+=======
+<<<<<<< HEAD
+static int tgl_sgmii_phy0_data(struct pci_dev *pdev,
+			       struct plat_stmmacenet_data *plat)
+=======
+static int tgl_sgmii_data(struct pci_dev *pdev,
+			  struct plat_stmmacenet_data *plat)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	plat->bus_id = 1;
 	plat->phy_interface = PHY_INTERFACE_MODE_SGMII;
@@ -459,6 +476,10 @@ static int tgl_sgmii_phy0_data(struct pci_dev *pdev,
 	return tgl_common_data(pdev, plat);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct stmmac_pci_info tgl_sgmii1g_phy0_info = {
 	.setup = tgl_sgmii_phy0_data,
 };
@@ -506,6 +527,15 @@ static int adls_sgmii_phy1_data(struct pci_dev *pdev,
 static struct stmmac_pci_info adls_sgmii1g_phy1_info = {
 	.setup = adls_sgmii_phy1_data,
 };
+<<<<<<< HEAD
+=======
+=======
+static struct stmmac_pci_info tgl_sgmii1g_info = {
+	.setup = tgl_sgmii_data,
+};
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct stmmac_pci_func_data galileo_stmmac_func_data[] = {
 	{
 		.func = 6,
@@ -773,8 +803,16 @@ static SIMPLE_DEV_PM_OPS(intel_eth_pm_ops, intel_eth_pci_suspend,
 #define PCI_DEVICE_ID_INTEL_TGLH_SGMII1G_0_ID		0x43ac
 #define PCI_DEVICE_ID_INTEL_TGLH_SGMII1G_1_ID		0x43a2
 #define PCI_DEVICE_ID_INTEL_TGL_SGMII1G_ID		0xa0ac
+<<<<<<< HEAD
 #define PCI_DEVICE_ID_INTEL_ADLS_SGMII1G_0_ID		0x7aac
 #define PCI_DEVICE_ID_INTEL_ADLS_SGMII1G_1_ID		0x7aad
+=======
+<<<<<<< HEAD
+#define PCI_DEVICE_ID_INTEL_ADLS_SGMII1G_0_ID		0x7aac
+#define PCI_DEVICE_ID_INTEL_ADLS_SGMII1G_1_ID		0x7aad
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct pci_device_id intel_eth_pci_id_table[] = {
 	{ PCI_DEVICE_DATA(INTEL, QUARK_ID, &quark_info) },
@@ -787,11 +825,23 @@ static const struct pci_device_id intel_eth_pci_id_table[] = {
 	{ PCI_DEVICE_DATA(INTEL, EHL_PSE1_RGMII1G_ID, &ehl_pse1_rgmii1g_info) },
 	{ PCI_DEVICE_DATA(INTEL, EHL_PSE1_SGMII1G_ID, &ehl_pse1_sgmii1g_info) },
 	{ PCI_DEVICE_DATA(INTEL, EHL_PSE1_SGMII2G5_ID, &ehl_pse1_sgmii1g_info) },
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ PCI_DEVICE_DATA(INTEL, TGL_SGMII1G_ID, &tgl_sgmii1g_phy0_info) },
 	{ PCI_DEVICE_DATA(INTEL, TGLH_SGMII1G_0_ID, &tgl_sgmii1g_phy0_info) },
 	{ PCI_DEVICE_DATA(INTEL, TGLH_SGMII1G_1_ID, &tgl_sgmii1g_phy1_info) },
 	{ PCI_DEVICE_DATA(INTEL, ADLS_SGMII1G_0_ID, &adls_sgmii1g_phy0_info) },
 	{ PCI_DEVICE_DATA(INTEL, ADLS_SGMII1G_1_ID, &adls_sgmii1g_phy1_info) },
+<<<<<<< HEAD
+=======
+=======
+	{ PCI_DEVICE_DATA(INTEL, TGL_SGMII1G_ID, &tgl_sgmii1g_info) },
+	{ PCI_DEVICE_DATA(INTEL, TGLH_SGMII1G_0_ID, &tgl_sgmii1g_info) },
+	{ PCI_DEVICE_DATA(INTEL, TGLH_SGMII1G_1_ID, &tgl_sgmii1g_info) },
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{}
 };
 MODULE_DEVICE_TABLE(pci, intel_eth_pci_id_table);

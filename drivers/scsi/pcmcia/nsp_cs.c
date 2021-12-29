@@ -55,6 +55,10 @@
 
 MODULE_AUTHOR("YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>");
 MODULE_DESCRIPTION("WorkBit NinjaSCSI-3 / NinjaSCSI-32Bi(16bit) PCMCIA SCSI host adapter module");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("sd,sr,sg,st");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 
 #include "nsp_io.h"
@@ -1131,7 +1135,11 @@ static irqreturn_t nspintr(int irq, void *dev_id)
 		//*sync_neg       = SYNC_NOT_YET;
 
 		/* all command complete and return status */
+<<<<<<< HEAD
 		if (tmpSC->SCp.Message == COMMAND_COMPLETE) {
+=======
+		if (tmpSC->SCp.Message == MSG_COMMAND_COMPLETE) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			tmpSC->result = (DID_OK		             << 16) |
 					((tmpSC->SCp.Message & 0xff) <<  8) |
 					((tmpSC->SCp.Status  & 0xff) <<  0);
@@ -1225,9 +1233,15 @@ static irqreturn_t nspintr(int irq, void *dev_id)
 			data->Sync[target].SyncOffset = 0;
 
 			/**/
+<<<<<<< HEAD
 			data->MsgBuffer[i] = EXTENDED_MESSAGE; i++;
 			data->MsgBuffer[i] = 3;            i++;
 			data->MsgBuffer[i] = EXTENDED_SDTR; i++;
+=======
+			data->MsgBuffer[i] = MSG_EXTENDED; i++;
+			data->MsgBuffer[i] = 3;            i++;
+			data->MsgBuffer[i] = MSG_EXT_SDTR; i++;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			data->MsgBuffer[i] = 0x0c;         i++;
 			data->MsgBuffer[i] = 15;           i++;
 			/**/
@@ -1254,9 +1268,15 @@ static irqreturn_t nspintr(int irq, void *dev_id)
 			//nsp_dbg(NSP_DEBUG_INTR, "sync target=%d,lun=%d",target,lun);
 
 			if (data->MsgLen       >= 5            &&
+<<<<<<< HEAD
 			    data->MsgBuffer[0] == EXTENDED_MESSAGE &&
 			    data->MsgBuffer[1] == 3            &&
 			    data->MsgBuffer[2] == EXTENDED_SDTR ) {
+=======
+			    data->MsgBuffer[0] == MSG_EXTENDED &&
+			    data->MsgBuffer[1] == 3            &&
+			    data->MsgBuffer[2] == MSG_EXT_SDTR ) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				data->Sync[target].SyncPeriod = data->MsgBuffer[3];
 				data->Sync[target].SyncOffset = data->MsgBuffer[4];
 				//nsp_dbg(NSP_DEBUG_INTR, "sync ok, %d %d", data->MsgBuffer[3], data->MsgBuffer[4]);
@@ -1274,7 +1294,11 @@ static irqreturn_t nspintr(int irq, void *dev_id)
 		tmp = -1;
 		for (i = 0; i < data->MsgLen; i++) {
 			tmp = data->MsgBuffer[i];
+<<<<<<< HEAD
 			if (data->MsgBuffer[i] == EXTENDED_MESSAGE) {
+=======
+			if (data->MsgBuffer[i] == MSG_EXTENDED) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				i += (1 + data->MsgBuffer[i+1]);
 			}
 		}

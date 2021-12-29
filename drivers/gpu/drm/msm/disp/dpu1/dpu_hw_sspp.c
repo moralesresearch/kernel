@@ -673,7 +673,10 @@ static void _setup_layer_ops(struct dpu_hw_pipe *c,
 		c->ops.setup_multirect = dpu_hw_sspp_setup_multirect;
 
 	if (test_bit(DPU_SSPP_SCALER_QSEED3, &features) ||
+<<<<<<< HEAD
 			test_bit(DPU_SSPP_SCALER_QSEED3LITE, &features) ||
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			test_bit(DPU_SSPP_SCALER_QSEED4, &features)) {
 		c->ops.setup_scaler = _dpu_hw_sspp_setup_scaler3;
 		c->ops.get_scaler_ver = _dpu_hw_sspp_get_scaler3_ver;

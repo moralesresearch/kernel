@@ -39,7 +39,14 @@
 #include <net/devlink.h>
 #include <net/ipv6.h>
 #include <net/xdp_sock.h>
+<<<<<<< HEAD
 #include <net/xdp_sock_drv.h>
+=======
+<<<<<<< HEAD
+#include <net/xdp_sock_drv.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <net/geneve.h>
 #include <net/gre.h>
 #include <net/udp_tunnel.h>
@@ -56,7 +63,14 @@
 #include "ice_fdir.h"
 #include "ice_xsk.h"
 #include "ice_arfs.h"
+<<<<<<< HEAD
 #include "ice_lag.h"
+=======
+<<<<<<< HEAD
+#include "ice_lag.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define ICE_BAR0		0
 #define ICE_REQ_DESC_MULTIPLE	32
@@ -168,7 +182,15 @@ struct ice_tc_cfg {
 struct ice_res_tracker {
 	u16 num_entries;
 	u16 end;
+<<<<<<< HEAD
 	u16 list[];
+=======
+<<<<<<< HEAD
+	u16 list[];
+=======
+	u16 list[1];
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct ice_qs_cfg {
@@ -196,6 +218,13 @@ enum ice_state {
 	__ICE_NEEDS_RESTART,
 	__ICE_PREPARED_FOR_RESET,	/* set by driver when prepared */
 	__ICE_RESET_OICR_RECV,		/* set by driver after rcv reset OICR */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	__ICE_DCBNL_DEVRESET,		/* set by dcbnl devreset */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__ICE_PFR_REQ,			/* set by driver and peers */
 	__ICE_CORER_REQ,		/* set by driver and peers */
 	__ICE_GLOBR_REQ,		/* set by driver and peers */
@@ -325,13 +354,28 @@ struct ice_vsi {
 	struct ice_tc_cfg tc_cfg;
 	struct bpf_prog *xdp_prog;
 	struct ice_ring **xdp_rings;	 /* XDP ring array */
+<<<<<<< HEAD
+	unsigned long *af_xdp_zc_qps;	 /* tracks AF_XDP ZC enabled qps */
 	u16 num_xdp_txq;		 /* Used XDP queues */
 	u8 xdp_mapping_mode;		 /* ICE_MAP_MODE_[CONTIG|SCATTER] */
+=======
+	u16 num_xdp_txq;		 /* Used XDP queues */
+	u8 xdp_mapping_mode;		 /* ICE_MAP_MODE_[CONTIG|SCATTER] */
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* setup back reference, to which aggregator node this VSI
 	 * corresponds to
 	 */
 	struct ice_agg_node *agg_node;
+<<<<<<< HEAD
+=======
+=======
+	struct xsk_buff_pool **xsk_pools;
+	u16 num_xsk_pools_used;
+	u16 num_xsk_pools;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 } ____cacheline_internodealigned_in_smp;
 
 /* struct that defines an interrupt vector */
@@ -380,6 +424,10 @@ enum ice_pf_flags {
 	ICE_PF_FLAGS_NBITS		/* must be last */
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ice_agg_node {
 	u32 agg_id;
 #define ICE_MAX_VSIS_IN_AGG_NODE	64
@@ -387,6 +435,11 @@ struct ice_agg_node {
 	u8 valid;
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ice_pf {
 	struct pci_dev *pdev;
 
@@ -463,6 +516,10 @@ struct ice_pf {
 	__le64 nvm_phy_type_lo; /* NVM PHY type low */
 	__le64 nvm_phy_type_hi; /* NVM PHY type high */
 	struct ice_link_default_override_tlv link_dflt_override;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct ice_lag *lag; /* Link Aggregation information */
 
 #define ICE_INVALID_AGG_NODE_ID		0
@@ -472,6 +529,11 @@ struct ice_pf {
 #define ICE_VF_AGG_NODE_ID_START	65
 #define ICE_MAX_VF_AGG_NODES		32
 	struct ice_agg_node vf_agg_node[ICE_MAX_VF_AGG_NODES];
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct ice_netdev_priv {
@@ -534,15 +596,40 @@ static inline void ice_set_ring_xdp(struct ice_ring *ring)
  */
 static inline struct xsk_buff_pool *ice_xsk_pool(struct ice_ring *ring)
 {
+<<<<<<< HEAD
+	struct ice_vsi *vsi = ring->vsi;
+	u16 qid = ring->q_index;
+
+	if (ice_ring_is_xdp(ring))
+		qid -= vsi->num_xdp_txq;
+
+	if (!ice_is_xdp_ena_vsi(vsi) || !test_bit(qid, vsi->af_xdp_zc_qps))
+		return NULL;
+
+	return xsk_get_pool_from_qid(vsi->netdev, qid);
+=======
+<<<<<<< HEAD
+=======
+	struct xsk_buff_pool **pools = ring->vsi->xsk_pools;
+>>>>>>> stable
 	u16 qid = ring->q_index;
 
 	if (ice_ring_is_xdp(ring))
 		qid -= ring->vsi->num_xdp_txq;
 
+<<<<<<< HEAD
 	if (!ice_is_xdp_ena_vsi(ring->vsi))
 		return NULL;
 
 	return xsk_get_pool_from_qid(ring->vsi->netdev, qid);
+=======
+	if (qid >= ring->vsi->num_xsk_pools || !pools || !pools[qid] ||
+	    !ice_is_xdp_ena_vsi(ring->vsi))
+		return NULL;
+
+	return pools[qid];
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -572,6 +659,10 @@ static inline struct ice_vsi *ice_get_ctrl_vsi(struct ice_pf *pf)
 	return pf->vsi[pf->ctrl_vsi_idx];
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * ice_set_sriov_cap - enable SRIOV in PF flags
  * @pf: PF struct
@@ -591,12 +682,24 @@ static inline void ice_clear_sriov_cap(struct ice_pf *pf)
 	clear_bit(ICE_FLAG_SRIOV_CAPABLE, pf->flags);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ICE_FD_STAT_CTR_BLOCK_COUNT	256
 #define ICE_FD_STAT_PF_IDX(base_idx) \
 			((base_idx) * ICE_FD_STAT_CTR_BLOCK_COUNT)
 #define ICE_FD_SB_STAT_IDX(base_idx) ICE_FD_STAT_PF_IDX(base_idx)
 
+<<<<<<< HEAD
 bool netif_is_ice(struct net_device *dev);
+=======
+<<<<<<< HEAD
+bool netif_is_ice(struct net_device *dev);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ice_vsi_setup_tx_rings(struct ice_vsi *vsi);
 int ice_vsi_setup_rx_rings(struct ice_vsi *vsi);
 int ice_vsi_open_ctrl(struct ice_vsi *vsi);
@@ -623,7 +726,15 @@ int ice_schedule_reset(struct ice_pf *pf, enum ice_reset_req reset);
 void ice_print_link_msg(struct ice_vsi *vsi, bool isup);
 const char *ice_stat_str(enum ice_status stat_err);
 const char *ice_aq_str(enum ice_aq_err aq_err);
+<<<<<<< HEAD
 bool ice_is_wol_supported(struct ice_hw *hw);
+=======
+<<<<<<< HEAD
+bool ice_is_wol_supported(struct ice_hw *hw);
+=======
+bool ice_is_wol_supported(struct ice_pf *pf);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int
 ice_fdir_write_fltr(struct ice_pf *pf, struct ice_fdir_fltr *input, bool add,
 		    bool is_tun);
@@ -641,7 +752,14 @@ int ice_fdir_create_dflt_rules(struct ice_pf *pf);
 int ice_aq_wait_for_event(struct ice_pf *pf, u16 opcode, unsigned long timeout,
 			  struct ice_rq_event_info *event);
 int ice_open(struct net_device *netdev);
+<<<<<<< HEAD
 int ice_open_internal(struct net_device *netdev);
+=======
+<<<<<<< HEAD
+int ice_open_internal(struct net_device *netdev);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ice_stop(struct net_device *netdev);
 void ice_service_task_schedule(struct ice_pf *pf);
 

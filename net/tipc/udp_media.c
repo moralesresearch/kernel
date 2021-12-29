@@ -812,6 +812,10 @@ static void cleanup_bearer(struct work_struct *work)
 		kfree_rcu(rcast, rcu);
 	}
 
+<<<<<<< HEAD
+	atomic_dec(&tipc_net(sock_net(ub->ubsock->sk))->wq_count);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dst_cache_destroy(&ub->rcast.dst_cache);
 	udp_tunnel_sock_release(ub->ubsock);
 	synchronize_net();
@@ -832,6 +836,10 @@ static void tipc_udp_disable(struct tipc_bearer *b)
 	RCU_INIT_POINTER(ub->bearer, NULL);
 
 	/* sock_release need to be done outside of rtnl lock */
+<<<<<<< HEAD
+	atomic_inc(&tipc_net(sock_net(ub->ubsock->sk))->wq_count);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	INIT_WORK(&ub->work, cleanup_bearer);
 	schedule_work(&ub->work);
 }

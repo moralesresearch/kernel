@@ -46,6 +46,10 @@ KBUILD_CFLAGS += -D__DISABLE_EXPORTS
 # Disable relocation relaxation in case the link is not PIE.
 KBUILD_CFLAGS += $(call as-option,-Wa$(comma)-mrelax-relocations=no)
 KBUILD_CFLAGS += -include $(srctree)/include/linux/hidden.h
+<<<<<<< HEAD
+KBUILD_CFLAGS += $(CLANG_FLAGS)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # sev-es.c indirectly inludes inat-table.h which is generated during
 # compilation and stored in $(objtree). Add the directory to the includes so

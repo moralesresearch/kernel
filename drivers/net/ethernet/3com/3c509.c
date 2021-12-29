@@ -335,11 +335,19 @@ static int el3_isa_match(struct device *pdev, unsigned int ndev)
 	return 1;
 }
 
+<<<<<<< HEAD
 static void el3_isa_remove(struct device *pdev,
+=======
+static int el3_isa_remove(struct device *pdev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    unsigned int ndev)
 {
 	el3_device_remove(pdev);
 	dev_set_drvdata(pdev, NULL);
+<<<<<<< HEAD
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

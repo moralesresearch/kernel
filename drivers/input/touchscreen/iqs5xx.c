@@ -2,7 +2,12 @@
 /*
  * Azoteq IQS550/572/525 Trackpad/Touchscreen Controller
  *
+<<<<<<< HEAD
  * Copyright (C) 2018 Jeff LaBundy <jeff@labundy.com>
+=======
+ * Copyright (C) 2018
+ * Author: Jeff LaBundy <jeff@labundy.com>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * These devices require firmware exported from a PC-based configuration tool
  * made available by the vendor. Firmware files may be pushed to the device's
@@ -11,7 +16,10 @@
  * Link to PC-based configuration tool and data sheet: http://www.azoteq.com/
  */
 
+<<<<<<< HEAD
 #include <linux/bits.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/delay.h>
 #include <linux/device.h>
 #include <linux/err.h>
@@ -30,9 +38,15 @@
 
 #define IQS5XX_FW_FILE_LEN	64
 #define IQS5XX_NUM_RETRIES	10
+<<<<<<< HEAD
 #define IQS5XX_NUM_CONTACTS	5
 #define IQS5XX_WR_BYTES_MAX	2
 #define IQS5XX_XY_RES_MAX	0xFFFE
+=======
+#define IQS5XX_NUM_POINTS	256
+#define IQS5XX_NUM_CONTACTS	5
+#define IQS5XX_WR_BYTES_MAX	2
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define IQS5XX_PROD_NUM_IQS550	40
 #define IQS5XX_PROD_NUM_IQS572	58
@@ -41,6 +55,7 @@
 #define IQS5XX_PROJ_NUM_B000	15
 #define IQS5XX_MAJOR_VER_MIN	2
 
+<<<<<<< HEAD
 #define IQS5XX_SHOW_RESET	BIT(7)
 #define IQS5XX_ACK_RESET	BIT(7)
 
@@ -58,10 +73,33 @@
 #define IQS5XX_PROD_NUM		0x0000
 #define IQS5XX_SYS_INFO0	0x000F
 #define IQS5XX_SYS_INFO1	0x0010
+=======
+#define IQS5XX_RESUME		0x00
+#define IQS5XX_SUSPEND		0x01
+
+#define IQS5XX_SW_INPUT_EVENT	0x10
+#define IQS5XX_SETUP_COMPLETE	0x40
+#define IQS5XX_EVENT_MODE	0x01
+#define IQS5XX_TP_EVENT		0x04
+
+#define IQS5XX_FLIP_X		0x01
+#define IQS5XX_FLIP_Y		0x02
+#define IQS5XX_SWITCH_XY_AXIS	0x04
+
+#define IQS5XX_PROD_NUM		0x0000
+#define IQS5XX_ABS_X		0x0016
+#define IQS5XX_ABS_Y		0x0018
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IQS5XX_SYS_CTRL0	0x0431
 #define IQS5XX_SYS_CTRL1	0x0432
 #define IQS5XX_SYS_CFG0		0x058E
 #define IQS5XX_SYS_CFG1		0x058F
+<<<<<<< HEAD
+=======
+#define IQS5XX_TOTAL_RX		0x063D
+#define IQS5XX_TOTAL_TX		0x063E
+#define IQS5XX_XY_CFG0		0x0669
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define IQS5XX_X_RES		0x066E
 #define IQS5XX_Y_RES		0x0670
 #define IQS5XX_CHKSM		0x83C0
@@ -98,7 +136,10 @@ struct iqs5xx_private {
 	struct i2c_client *client;
 	struct input_dev *input;
 	struct gpio_desc *reset_gpio;
+<<<<<<< HEAD
 	struct touchscreen_properties prop;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct mutex lock;
 	u8 bl_status;
 };
@@ -126,6 +167,7 @@ struct iqs5xx_touch_data {
 	u8 area;
 } __packed;
 
+<<<<<<< HEAD
 struct iqs5xx_status {
 	u8 sys_info[2];
 	u8 num_active;
@@ -134,6 +176,8 @@ struct iqs5xx_status {
 	struct iqs5xx_touch_data touch_data[IQS5XX_NUM_CONTACTS];
 } __packed;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int iqs5xx_read_burst(struct i2c_client *client,
 			     u16 reg, void *val, u16 len)
 {
@@ -190,6 +234,14 @@ static int iqs5xx_read_word(struct i2c_client *client, u16 reg, u16 *val)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int iqs5xx_read_byte(struct i2c_client *client, u16 reg, u8 *val)
+{
+	return iqs5xx_read_burst(client, reg, val, sizeof(*val));
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int iqs5xx_write_burst(struct i2c_client *client,
 			      u16 reg, const void *val, u16 len)
 {
@@ -340,6 +392,7 @@ static int iqs5xx_bl_open(struct i2c_client *client)
 	 */
 	for (i = 0; i < IQS5XX_BL_ATTEMPTS; i++) {
 		iqs5xx_reset(client);
+<<<<<<< HEAD
 		usleep_range(350, 400);
 
 		for (j = 0; j < IQS5XX_NUM_RETRIES; j++) {
@@ -350,6 +403,13 @@ static int iqs5xx_bl_open(struct i2c_client *client)
 				continue;
 
 			return error;
+=======
+
+		for (j = 0; j < IQS5XX_NUM_RETRIES; j++) {
+			error = iqs5xx_bl_cmd(client, IQS5XX_BL_CMD_VER, 0);
+			if (!error || error == -EINVAL)
+				return error;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 
@@ -489,10 +549,19 @@ static void iqs5xx_close(struct input_dev *input)
 static int iqs5xx_axis_init(struct i2c_client *client)
 {
 	struct iqs5xx_private *iqs5xx = i2c_get_clientdata(client);
+<<<<<<< HEAD
 	struct touchscreen_properties *prop = &iqs5xx->prop;
 	struct input_dev *input;
 	u16 max_x, max_y;
 	int error;
+=======
+	struct touchscreen_properties prop;
+	struct input_dev *input;
+	int error;
+	u16 max_x, max_x_hw;
+	u16 max_y, max_y_hw;
+	u8 val;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!iqs5xx->input) {
 		input = devm_input_allocate_device(&client->dev);
@@ -512,6 +581,7 @@ static int iqs5xx_axis_init(struct i2c_client *client)
 		iqs5xx->input = input;
 	}
 
+<<<<<<< HEAD
 	error = iqs5xx_read_word(client, IQS5XX_X_RES, &max_x);
 	if (error)
 		return error;
@@ -545,6 +615,91 @@ static int iqs5xx_axis_init(struct i2c_client *client)
 			return error;
 	}
 
+=======
+	touchscreen_parse_properties(iqs5xx->input, true, &prop);
+
+	error = iqs5xx_read_byte(client, IQS5XX_TOTAL_RX, &val);
+	if (error)
+		return error;
+	max_x_hw = (val - 1) * IQS5XX_NUM_POINTS;
+
+	error = iqs5xx_read_byte(client, IQS5XX_TOTAL_TX, &val);
+	if (error)
+		return error;
+	max_y_hw = (val - 1) * IQS5XX_NUM_POINTS;
+
+	error = iqs5xx_read_byte(client, IQS5XX_XY_CFG0, &val);
+	if (error)
+		return error;
+
+	if (val & IQS5XX_SWITCH_XY_AXIS)
+		swap(max_x_hw, max_y_hw);
+
+	if (prop.swap_x_y)
+		val ^= IQS5XX_SWITCH_XY_AXIS;
+
+	if (prop.invert_x)
+		val ^= prop.swap_x_y ? IQS5XX_FLIP_Y : IQS5XX_FLIP_X;
+
+	if (prop.invert_y)
+		val ^= prop.swap_x_y ? IQS5XX_FLIP_X : IQS5XX_FLIP_Y;
+
+	error = iqs5xx_write_byte(client, IQS5XX_XY_CFG0, val);
+	if (error)
+		return error;
+
+	if (prop.max_x > max_x_hw) {
+		dev_err(&client->dev, "Invalid maximum x-coordinate: %u > %u\n",
+			prop.max_x, max_x_hw);
+		return -EINVAL;
+	} else if (prop.max_x == 0) {
+		error = iqs5xx_read_word(client, IQS5XX_X_RES, &max_x);
+		if (error)
+			return error;
+
+		input_abs_set_max(iqs5xx->input,
+				  prop.swap_x_y ? ABS_MT_POSITION_Y :
+						  ABS_MT_POSITION_X,
+				  max_x);
+	} else {
+		max_x = (u16)prop.max_x;
+	}
+
+	if (prop.max_y > max_y_hw) {
+		dev_err(&client->dev, "Invalid maximum y-coordinate: %u > %u\n",
+			prop.max_y, max_y_hw);
+		return -EINVAL;
+	} else if (prop.max_y == 0) {
+		error = iqs5xx_read_word(client, IQS5XX_Y_RES, &max_y);
+		if (error)
+			return error;
+
+		input_abs_set_max(iqs5xx->input,
+				  prop.swap_x_y ? ABS_MT_POSITION_X :
+						  ABS_MT_POSITION_Y,
+				  max_y);
+	} else {
+		max_y = (u16)prop.max_y;
+	}
+
+	/*
+	 * Write horizontal and vertical resolution to the device in case its
+	 * original defaults were overridden or swapped as per the properties
+	 * specified in the device tree.
+	 */
+	error = iqs5xx_write_word(client,
+				  prop.swap_x_y ? IQS5XX_Y_RES : IQS5XX_X_RES,
+				  max_x);
+	if (error)
+		return error;
+
+	error = iqs5xx_write_word(client,
+				  prop.swap_x_y ? IQS5XX_X_RES : IQS5XX_Y_RES,
+				  max_y);
+	if (error)
+		return error;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	error = input_mt_init_slots(iqs5xx->input, IQS5XX_NUM_CONTACTS,
 				    INPUT_MT_DIRECT);
 	if (error)
@@ -559,6 +714,10 @@ static int iqs5xx_dev_init(struct i2c_client *client)
 	struct iqs5xx_private *iqs5xx = i2c_get_clientdata(client);
 	struct iqs5xx_dev_id_info *dev_id_info;
 	int error;
+<<<<<<< HEAD
+=======
+	u8 val;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 buf[sizeof(*dev_id_info) + 1];
 
 	error = iqs5xx_read_burst(client, IQS5XX_PROD_NUM,
@@ -621,6 +780,7 @@ static int iqs5xx_dev_init(struct i2c_client *client)
 	if (error)
 		return error;
 
+<<<<<<< HEAD
 	error = iqs5xx_write_byte(client, IQS5XX_SYS_CTRL0, IQS5XX_ACK_RESET);
 	if (error)
 		return error;
@@ -633,6 +793,20 @@ static int iqs5xx_dev_init(struct i2c_client *client)
 
 	error = iqs5xx_write_byte(client, IQS5XX_SYS_CFG1,
 				  IQS5XX_TP_EVENT | IQS5XX_EVENT_MODE);
+=======
+	error = iqs5xx_read_byte(client, IQS5XX_SYS_CFG0, &val);
+	if (error)
+		return error;
+
+	val |= IQS5XX_SETUP_COMPLETE;
+	val &= ~IQS5XX_SW_INPUT_EVENT;
+	error = iqs5xx_write_byte(client, IQS5XX_SYS_CFG0, val);
+	if (error)
+		return error;
+
+	val = IQS5XX_TP_EVENT | IQS5XX_EVENT_MODE;
+	error = iqs5xx_write_byte(client, IQS5XX_SYS_CFG1, val);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -643,12 +817,22 @@ static int iqs5xx_dev_init(struct i2c_client *client)
 	iqs5xx->bl_status = dev_id_info->bl_status;
 
 	/*
+<<<<<<< HEAD
 	 * The following delay allows ATI to complete before the open and close
 	 * callbacks are free to elicit I2C communication. Any attempts to read
 	 * from or write to the device during this time may face extended clock
 	 * stretching and prompt the I2C controller to report an error.
 	 */
 	msleep(250);
+=======
+	 * Closure of the first communication window that appears following the
+	 * release of reset appears to kick off an initialization period during
+	 * which further communication is met with clock stretching. The return
+	 * from this function is delayed so that further communication attempts
+	 * avoid this period.
+	 */
+	msleep(100);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }
@@ -656,7 +840,11 @@ static int iqs5xx_dev_init(struct i2c_client *client)
 static irqreturn_t iqs5xx_irq(int irq, void *data)
 {
 	struct iqs5xx_private *iqs5xx = data;
+<<<<<<< HEAD
 	struct iqs5xx_status status;
+=======
+	struct iqs5xx_touch_data touch_data[IQS5XX_NUM_CONTACTS];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct i2c_client *client = iqs5xx->client;
 	struct input_dev *input = iqs5xx->input;
 	int error, i;
@@ -669,6 +857,7 @@ static irqreturn_t iqs5xx_irq(int irq, void *data)
 	if (iqs5xx->bl_status == IQS5XX_BL_STATUS_RESET)
 		return IRQ_NONE;
 
+<<<<<<< HEAD
 	error = iqs5xx_read_burst(client, IQS5XX_SYS_INFO0,
 				  &status, sizeof(status));
 	if (error)
@@ -690,14 +879,30 @@ static irqreturn_t iqs5xx_irq(int irq, void *data)
 	for (i = 0; i < ARRAY_SIZE(status.touch_data); i++) {
 		struct iqs5xx_touch_data *touch_data = &status.touch_data[i];
 		u16 pressure = be16_to_cpu(touch_data->strength);
+=======
+	error = iqs5xx_read_burst(client, IQS5XX_ABS_X,
+				  touch_data, sizeof(touch_data));
+	if (error)
+		return IRQ_NONE;
+
+	for (i = 0; i < ARRAY_SIZE(touch_data); i++) {
+		u16 pressure = be16_to_cpu(touch_data[i].strength);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		input_mt_slot(input, i);
 		if (input_mt_report_slot_state(input, MT_TOOL_FINGER,
 					       pressure != 0)) {
+<<<<<<< HEAD
 			touchscreen_report_pos(iqs5xx->input, &iqs5xx->prop,
 					       be16_to_cpu(touch_data->abs_x),
 					       be16_to_cpu(touch_data->abs_y),
 					       true);
+=======
+			input_report_abs(input, ABS_MT_POSITION_X,
+					 be16_to_cpu(touch_data[i].abs_x));
+			input_report_abs(input, ABS_MT_POSITION_Y,
+					 be16_to_cpu(touch_data[i].abs_y));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			input_report_abs(input, ABS_MT_PRESSURE, pressure);
 		}
 	}
@@ -852,7 +1057,11 @@ static int iqs5xx_fw_file_parse(struct i2c_client *client,
 static int iqs5xx_fw_file_write(struct i2c_client *client, const char *fw_file)
 {
 	struct iqs5xx_private *iqs5xx = i2c_get_clientdata(client);
+<<<<<<< HEAD
 	int error, error_bl = 0;
+=======
+	int error;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 *pmap;
 
 	if (iqs5xx->bl_status == IQS5XX_BL_STATUS_NONE)
@@ -906,7 +1115,10 @@ err_reset:
 		usleep_range(10000, 10100);
 	}
 
+<<<<<<< HEAD
 	error_bl = error;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	error = iqs5xx_dev_init(client);
 	if (!error && iqs5xx->bl_status == IQS5XX_BL_STATUS_RESET)
 		error = -EINVAL;
@@ -918,6 +1130,7 @@ err_reset:
 err_kfree:
 	kfree(pmap);
 
+<<<<<<< HEAD
 	if (error_bl)
 		return error_bl;
 
@@ -927,6 +1140,13 @@ err_kfree:
 static ssize_t fw_file_store(struct device *dev,
 			     struct device_attribute *attr, const char *buf,
 			     size_t count)
+=======
+	return error;
+}
+
+static ssize_t fw_file_store(struct device *dev, struct device_attribute *attr,
+				const char *buf, size_t count)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct iqs5xx_private *iqs5xx = dev_get_drvdata(dev);
 	struct i2c_client *client = iqs5xx->client;
@@ -985,7 +1205,11 @@ static int __maybe_unused iqs5xx_suspend(struct device *dev)
 	struct input_dev *input = iqs5xx->input;
 	int error = 0;
 
+<<<<<<< HEAD
 	if (!input || device_may_wakeup(dev))
+=======
+	if (!input)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return error;
 
 	mutex_lock(&input->mutex);
@@ -1004,7 +1228,11 @@ static int __maybe_unused iqs5xx_resume(struct device *dev)
 	struct input_dev *input = iqs5xx->input;
 	int error = 0;
 
+<<<<<<< HEAD
 	if (!input || device_may_wakeup(dev))
+=======
+	if (!input)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return error;
 
 	mutex_lock(&input->mutex);

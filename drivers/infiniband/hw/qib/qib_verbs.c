@@ -1067,7 +1067,11 @@ bail:
 
 /**
  * qib_get_counters - get various chip counters
+<<<<<<< HEAD
  * @ppd: the qlogic_ib device
+=======
+ * @dd: the qlogic_ib device
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @cntrs: counters are placed here
  *
  * Return the counters needed by recv_pma_get_portcounters().
@@ -1675,7 +1679,11 @@ void qib_unregister_ib_device(struct qib_devdata *dd)
 
 /**
  * _qib_schedule_send - schedule progress
+<<<<<<< HEAD
  * @qp: the qp
+=======
+ * @qp - the qp
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This schedules progress w/o regard to the s_flags.
  *
@@ -1694,7 +1702,11 @@ bool _qib_schedule_send(struct rvt_qp *qp)
 
 /**
  * qib_schedule_send - schedule progress
+<<<<<<< HEAD
  * @qp: the qp
+=======
+ * @qp - the qp
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * This schedules qp progress.  The s_lock
  * should be held.

@@ -108,7 +108,11 @@ const int tipc_max_domain_size = sizeof(struct tipc_mon_domain);
  */
 static int dom_rec_len(struct tipc_mon_domain *dom, u16 mcnt)
 {
+<<<<<<< HEAD
 	return (offsetof(struct tipc_mon_domain, members)) + (mcnt * sizeof(u32));
+=======
+	return ((void *)&dom->members - (void *)dom) + (mcnt * sizeof(u32));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* dom_size() : calculate size of own domain based on number of peers

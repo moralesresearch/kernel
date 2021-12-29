@@ -246,6 +246,7 @@ int main(void)
 	DEVID(auxiliary_device_id);
 	DEVID_FIELD(auxiliary_device_id, name);
 
+<<<<<<< HEAD
 	DEVID(ssam_device_id);
 	DEVID_FIELD(ssam_device_id, match_flags);
 	DEVID_FIELD(ssam_device_id, domain);
@@ -258,5 +259,7 @@ int main(void)
 	DEVID_FIELD(dfl_device_id, type);
 	DEVID_FIELD(dfl_device_id, feature_id);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }

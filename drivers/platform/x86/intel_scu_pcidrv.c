@@ -17,6 +17,10 @@
 static int intel_scu_pci_probe(struct pci_dev *pdev,
 			       const struct pci_device_id *id)
 {
+<<<<<<< HEAD
+=======
+	void (*setup_fn)(void) = (void (*)(void))id->driver_data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct intel_scu_ipc_data scu_data = {};
 	struct intel_scu_ipc_dev *scu;
 	int ret;
@@ -29,6 +33,7 @@ static int intel_scu_pci_probe(struct pci_dev *pdev,
 	scu_data.irq = pdev->irq;
 
 	scu = intel_scu_ipc_register(&pdev->dev, &scu_data);
+<<<<<<< HEAD
 	return PTR_ERR_OR_ZERO(scu);
 }
 
@@ -37,6 +42,29 @@ static const struct pci_device_id pci_ids[] = {
 	{ PCI_VDEVICE(INTEL, 0x08ea) },
 	{ PCI_VDEVICE(INTEL, 0x0a94) },
 	{ PCI_VDEVICE(INTEL, 0x11a0) },
+=======
+	if (IS_ERR(scu))
+		return PTR_ERR(scu);
+
+	if (setup_fn)
+		setup_fn();
+	return 0;
+}
+
+static void intel_mid_scu_setup(void)
+{
+	intel_scu_devices_create();
+}
+
+static const struct pci_device_id pci_ids[] = {
+	{ PCI_VDEVICE(INTEL, 0x080e),
+	  .driver_data = (kernel_ulong_t)intel_mid_scu_setup },
+	{ PCI_VDEVICE(INTEL, 0x08ea),
+	  .driver_data = (kernel_ulong_t)intel_mid_scu_setup },
+	{ PCI_VDEVICE(INTEL, 0x0a94) },
+	{ PCI_VDEVICE(INTEL, 0x11a0),
+	  .driver_data = (kernel_ulong_t)intel_mid_scu_setup },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ PCI_VDEVICE(INTEL, 0x1a94) },
 	{ PCI_VDEVICE(INTEL, 0x5a94) },
 	{}

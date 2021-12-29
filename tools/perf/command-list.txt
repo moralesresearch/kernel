@@ -31,4 +31,7 @@ perf-timechart			mainporcelain common
 perf-top			mainporcelain common
 perf-trace			mainporcelain audit
 perf-version			mainporcelain common
+<<<<<<< HEAD
 perf-daemon			mainporcelain common
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

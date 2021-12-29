@@ -190,7 +190,11 @@
 			reg = <0x1800000 0x60000>;
 		};
 
+<<<<<<< HEAD
 		prng: rng@22000 {
+=======
+		rng@22000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "qcom,prng";
 			reg = <0x22000 0x140>;
 			clocks = <&gcc GCC_PRNG_AHB_CLK>;
@@ -209,6 +213,7 @@
 			interrupts = <GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>;
 		};
 
+<<<<<<< HEAD
 		vqmmc: regulator@1948000 {
 			compatible = "qcom,vqmmc-ipq4019-regulator";
 			reg = <0x01948000 0x4>;
@@ -219,6 +224,8 @@
 			status = "disabled";
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sdhci: sdhci@7824900 {
 			compatible = "qcom,sdhci-msm-v4";
 			reg = <0x7824900 0x11c>, <0x7824000 0x800>;
@@ -310,7 +317,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		crypto: crypto@8e3a000 {
+=======
+		crypto@8e3a000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "qcom,crypto-v5.1";
 			reg = <0x08e3a000 0x6000>;
 			clocks = <&gcc GCC_CRYPTO_AHB_CLK>,
@@ -396,7 +407,11 @@
 			dma-names = "rx", "tx";
 		};
 
+<<<<<<< HEAD
 		watchdog: watchdog@b017000 {
+=======
+		watchdog@b017000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "qcom,kpss-wdt", "qcom,kpss-wdt-ipq4019";
 			reg = <0xb017000 0x40>;
 			clocks = <&sleep_clk>;
@@ -615,6 +630,7 @@
 				reg = <4>;
 			};
 		};
+<<<<<<< HEAD
 
 		usb3_ss_phy: ssphy@9a000 {
 			compatible = "qcom,usb-ss-ipq4019-phy";
@@ -689,5 +705,7 @@
 				dr_mode = "host";
 			};
 		};
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };

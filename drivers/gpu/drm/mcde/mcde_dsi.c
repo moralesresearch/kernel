@@ -577,7 +577,11 @@ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
 	 * porches and sync.
 	 */
 	/* (ps/s) / (pixels/s) = ps/pixels */
+<<<<<<< HEAD
+	pclk = DIV_ROUND_UP_ULL(1000000000000, (mode->clock * 1000));
+=======
 	pclk = DIV_ROUND_UP_ULL(1000000000000, mode->clock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dev_dbg(d->dev, "picoseconds between two pixels: %llu\n",
 		pclk);
 
@@ -760,7 +764,11 @@ static void mcde_dsi_start(struct mcde_dsi *d)
 		DSI_MCTL_MAIN_DATA_CTL_BTA_EN |
 		DSI_MCTL_MAIN_DATA_CTL_READ_EN |
 		DSI_MCTL_MAIN_DATA_CTL_REG_TE_EN;
+<<<<<<< HEAD
+	if (!(d->mdsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET))
+=======
 	if (d->mdsi->mode_flags & MIPI_DSI_MODE_EOT_PACKET)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		val |= DSI_MCTL_MAIN_DATA_CTL_HOST_EOT_GEN;
 	writel(val, d->regs + DSI_MCTL_MAIN_DATA_CTL);
 

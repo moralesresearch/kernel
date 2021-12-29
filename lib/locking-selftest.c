@@ -24,7 +24,10 @@
 #include <linux/debug_locks.h>
 #include <linux/irqflags.h>
 #include <linux/rtmutex.h>
+<<<<<<< HEAD
 #include <linux/local_lock.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Change this to 1 if you want to see the failure printouts:
@@ -52,7 +55,10 @@ __setup("debug_locks_verbose=", setup_debug_locks_verbose);
 #define LOCKTYPE_RWSEM	0x8
 #define LOCKTYPE_WW	0x10
 #define LOCKTYPE_RTMUTEX 0x20
+<<<<<<< HEAD
 #define LOCKTYPE_LL	0x40
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct ww_acquire_ctx t, t2;
 static struct ww_mutex o, o2, o3;
@@ -66,9 +72,12 @@ static DEFINE_SPINLOCK(lock_B);
 static DEFINE_SPINLOCK(lock_C);
 static DEFINE_SPINLOCK(lock_D);
 
+<<<<<<< HEAD
 static DEFINE_RAW_SPINLOCK(raw_lock_A);
 static DEFINE_RAW_SPINLOCK(raw_lock_B);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static DEFINE_RWLOCK(rwlock_A);
 static DEFINE_RWLOCK(rwlock_B);
 static DEFINE_RWLOCK(rwlock_C);
@@ -138,8 +147,11 @@ static DEFINE_RT_MUTEX(rtmutex_Z2);
 
 #endif
 
+<<<<<<< HEAD
 static local_lock_t local_A = INIT_LOCAL_LOCK(local_A);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * non-inlined runtime initializers, to let separate locks share
  * the same lock-class:
@@ -1313,23 +1325,35 @@ GENERATE_PERMUTATIONS_3_EVENTS(irq_read_recursion3_soft_wlock)
 
 #ifdef CONFIG_DEBUG_LOCK_ALLOC
 # define I_SPINLOCK(x)	lockdep_reset_lock(&lock_##x.dep_map)
+<<<<<<< HEAD
 # define I_RAW_SPINLOCK(x)	lockdep_reset_lock(&raw_lock_##x.dep_map)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # define I_RWLOCK(x)	lockdep_reset_lock(&rwlock_##x.dep_map)
 # define I_MUTEX(x)	lockdep_reset_lock(&mutex_##x.dep_map)
 # define I_RWSEM(x)	lockdep_reset_lock(&rwsem_##x.dep_map)
 # define I_WW(x)	lockdep_reset_lock(&x.dep_map)
+<<<<<<< HEAD
 # define I_LOCAL_LOCK(x) lockdep_reset_lock(&local_##x.dep_map)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_RT_MUTEXES
 # define I_RTMUTEX(x)	lockdep_reset_lock(&rtmutex_##x.dep_map)
 #endif
 #else
 # define I_SPINLOCK(x)
+<<<<<<< HEAD
 # define I_RAW_SPINLOCK(x)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 # define I_RWLOCK(x)
 # define I_MUTEX(x)
 # define I_RWSEM(x)
 # define I_WW(x)
+<<<<<<< HEAD
 # define I_LOCAL_LOCK(x)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #ifndef I_RTMUTEX
@@ -1369,6 +1393,7 @@ static void reset_locks(void)
 	I1(A); I1(B); I1(C); I1(D);
 	I1(X1); I1(X2); I1(Y1); I1(Y2); I1(Z1); I1(Z2);
 	I_WW(t); I_WW(t2); I_WW(o.base); I_WW(o2.base); I_WW(o3.base);
+<<<<<<< HEAD
 	I_RAW_SPINLOCK(A); I_RAW_SPINLOCK(B);
 	I_LOCAL_LOCK(A);
 
@@ -1379,6 +1404,11 @@ static void reset_locks(void)
 	raw_spin_lock_init(&raw_lock_A);
 	raw_spin_lock_init(&raw_lock_B);
 	local_lock_init(&local_A);
+=======
+	lockdep_reset();
+	I2(A); I2(B); I2(C); I2(D);
+	init_shared_classes();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ww_mutex_init(&o, &ww_lockdep); ww_mutex_init(&o2, &ww_lockdep); ww_mutex_init(&o3, &ww_lockdep);
 	memset(&t, 0, sizeof(t)); memset(&t2, 0, sizeof(t2));
@@ -1400,8 +1430,11 @@ static void dotest(void (*testcase_fn)(void), int expected, int lockclass_mask)
 
 	WARN_ON(irqs_disabled());
 
+<<<<<<< HEAD
 	debug_locks_silent = !(debug_locks_verbose & lockclass_mask);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	testcase_fn();
 	/*
 	 * Filter out expected failures:
@@ -1422,7 +1455,11 @@ static void dotest(void (*testcase_fn)(void), int expected, int lockclass_mask)
 	}
 	testcase_total++;
 
+<<<<<<< HEAD
 	if (debug_locks_verbose & lockclass_mask)
+=======
+	if (debug_locks_verbose)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pr_cont(" lockclass mask: %x, debug_locks: %d, expected: %d\n",
 			lockclass_mask, debug_locks, expected);
 	/*
@@ -2439,6 +2476,7 @@ static void fs_reclaim_tests(void)
 	pr_cont("\n");
 }
 
+<<<<<<< HEAD
 #define __guard(cleanup) __maybe_unused __attribute__((__cleanup__(cleanup)))
 
 static void hardirq_exit(int *_)
@@ -2744,6 +2782,8 @@ static void local_lock_tests(void)
 	pr_cont("\n");
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void locking_selftest(void)
 {
 	/*
@@ -2771,6 +2811,10 @@ void locking_selftest(void)
 	printk("  --------------------------------------------------------------------------\n");
 
 	init_shared_classes();
+<<<<<<< HEAD
+=======
+	debug_locks_silent = !debug_locks_verbose;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	lockdep_set_selftest_task(current);
 
 	DO_TESTCASE_6R("A-A deadlock", AA);
@@ -2866,12 +2910,15 @@ void locking_selftest(void)
 
 	fs_reclaim_tests();
 
+<<<<<<< HEAD
 	/* Wait context test cases that are specific for RAW_LOCK_NESTING */
 	if (IS_ENABLED(CONFIG_PROVE_RAW_LOCK_NESTING))
 		wait_context_tests();
 
 	local_lock_tests();
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unexpected_testcase_failures) {
 		printk("-----------------------------------------------------------------\n");
 		debug_locks = 0;

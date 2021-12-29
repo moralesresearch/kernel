@@ -313,6 +313,10 @@ struct xen_blkif {
 
 	struct work_struct	free_work;
 	unsigned int 		nr_ring_pages;
+<<<<<<< HEAD
+	bool			multi_ref;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* All rings for this device. */
 	struct xen_blkif_ring	*rings;
 	unsigned int		nr_rings;

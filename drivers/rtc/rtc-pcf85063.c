@@ -311,6 +311,17 @@ static const struct rtc_class_ops pcf85063_rtc_ops = {
 	.set_time	= pcf85063_rtc_set_time,
 	.read_offset	= pcf85063_read_offset,
 	.set_offset	= pcf85063_set_offset,
+<<<<<<< HEAD
+=======
+	.ioctl		= pcf85063_ioctl,
+};
+
+static const struct rtc_class_ops pcf85063_rtc_ops_alarm = {
+	.read_time	= pcf85063_rtc_read_time,
+	.set_time	= pcf85063_rtc_set_time,
+	.read_offset	= pcf85063_read_offset,
+	.set_offset	= pcf85063_set_offset,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.read_alarm	= pcf85063_rtc_read_alarm,
 	.set_alarm	= pcf85063_rtc_set_alarm,
 	.alarm_irq_enable = pcf85063_rtc_alarm_irq_enable,
@@ -478,6 +489,10 @@ static struct clk *pcf85063_clkout_register_clk(struct pcf85063 *pcf85063)
 {
 	struct clk *clk;
 	struct clk_init_data init;
+<<<<<<< HEAD
+	struct device_node *node = pcf85063->rtc->dev.parent->of_node;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	init.name = "pcf85063-clkout";
 	init.ops = &pcf85063_clkout_ops;
@@ -487,20 +502,40 @@ static struct clk *pcf85063_clkout_register_clk(struct pcf85063 *pcf85063)
 	pcf85063->clkout_hw.init = &init;
 
 	/* optional override of the clockname */
+<<<<<<< HEAD
+	of_property_read_string(node, "clock-output-names", &init.name);
+=======
 	of_property_read_string(pcf85063->rtc->dev.of_node,
 				"clock-output-names", &init.name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* register the clock */
 	clk = devm_clk_register(&pcf85063->rtc->dev, &pcf85063->clkout_hw);
 
 	if (!IS_ERR(clk))
+<<<<<<< HEAD
+		of_clk_add_provider(node, of_clk_src_simple_get, clk);
+=======
 		of_clk_add_provider(pcf85063->rtc->dev.of_node,
 				    of_clk_src_simple_get, clk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return clk;
 }
 #endif
 
+<<<<<<< HEAD
+=======
+static const struct pcf85063_config pcf85063a_config = {
+	.regmap = {
+		.reg_bits = 8,
+		.val_bits = 8,
+		.max_register = 0x11,
+	},
+	.has_alarms = 1,
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct pcf85063_config pcf85063tp_config = {
 	.regmap = {
 		.reg_bits = 8,
@@ -509,6 +544,19 @@ static const struct pcf85063_config pcf85063tp_config = {
 	},
 };
 
+<<<<<<< HEAD
+=======
+static const struct pcf85063_config rv8263_config = {
+	.regmap = {
+		.reg_bits = 8,
+		.val_bits = 8,
+		.max_register = 0x11,
+	},
+	.has_alarms = 1,
+	.force_cap_7000 = 1,
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int pcf85063_probe(struct i2c_client *client)
 {
 	struct pcf85063 *pcf85063;
@@ -560,7 +608,10 @@ static int pcf85063_probe(struct i2c_client *client)
 	pcf85063->rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
 	pcf85063->rtc->range_max = RTC_TIMESTAMP_END_2099;
 	pcf85063->rtc->uie_unsupported = 1;
+<<<<<<< HEAD
 	clear_bit(RTC_FEATURE_ALARM, pcf85063->rtc->features);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (config->has_alarms && client->irq > 0) {
 		err = devm_request_threaded_irq(&client->dev, client->irq,
@@ -571,7 +622,11 @@ static int pcf85063_probe(struct i2c_client *client)
 			dev_warn(&pcf85063->rtc->dev,
 				 "unable to request IRQ, alarms disabled\n");
 		} else {
+<<<<<<< HEAD
 			set_bit(RTC_FEATURE_ALARM, pcf85063->rtc->features);
+=======
+			pcf85063->rtc->ops = &pcf85063_rtc_ops_alarm;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			device_init_wakeup(&client->dev, true);
 			err = dev_pm_set_wake_irq(&client->dev, client->irq);
 			if (err)
@@ -592,6 +647,7 @@ static int pcf85063_probe(struct i2c_client *client)
 }
 
 #ifdef CONFIG_OF
+<<<<<<< HEAD
 static const struct pcf85063_config pcf85063a_config = {
 	.regmap = {
 		.reg_bits = 8,
@@ -611,6 +667,8 @@ static const struct pcf85063_config rv8263_config = {
 	.force_cap_7000 = 1,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct of_device_id pcf85063_of_match[] = {
 	{ .compatible = "nxp,pcf85063", .data = &pcf85063tp_config },
 	{ .compatible = "nxp,pcf85063tp", .data = &pcf85063tp_config },

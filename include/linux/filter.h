@@ -22,7 +22,14 @@
 #include <linux/vmalloc.h>
 #include <linux/sockptr.h>
 #include <crypto/sha1.h>
+<<<<<<< HEAD
 #include <linux/u64_stats_sync.h>
+=======
+<<<<<<< HEAD
+#include <linux/u64_stats_sync.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <net/sch_generic.h>
 
@@ -260,6 +267,10 @@ static inline bool insn_is_zext(const struct bpf_insn *insn)
 		.off   = OFF,					\
 		.imm   = 0 })
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Atomic operations:
@@ -286,6 +297,20 @@ static inline bool insn_is_zext(const struct bpf_insn *insn)
 
 /* Legacy alias */
 #define BPF_STX_XADD(SIZE, DST, SRC, OFF) BPF_ATOMIC_OP(SIZE, BPF_ADD, DST, SRC, OFF)
+<<<<<<< HEAD
+=======
+=======
+/* Atomic memory add, *(uint *)(dst_reg + off16) += src_reg */
+
+#define BPF_STX_XADD(SIZE, DST, SRC, OFF)			\
+	((struct bpf_insn) {					\
+		.code  = BPF_STX | BPF_SIZE(SIZE) | BPF_XADD,	\
+		.dst_reg = DST,					\
+		.src_reg = SRC,					\
+		.off   = OFF,					\
+		.imm   = 0 })
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Memory store, *(uint *) (dst_reg + off16) = imm32 */
 
@@ -540,6 +565,10 @@ struct bpf_binary_header {
 	u8 image[] __aligned(BPF_IMAGE_ALIGNMENT);
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct bpf_prog_stats {
 	u64 cnt;
 	u64 nsecs;
@@ -547,6 +576,11 @@ struct bpf_prog_stats {
 	struct u64_stats_sync syncp;
 } __aligned(2 * sizeof(u64));
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct bpf_prog {
 	u16			pages;		/* Number of allocated pages */
 	u16			jited:1,	/* Is our filter JIT'ed? */
@@ -565,12 +599,25 @@ struct bpf_prog {
 	u32			len;		/* Number of filter blocks */
 	u32			jited_len;	/* Size of jited insns in bytes */
 	u8			tag[BPF_TAG_SIZE];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct bpf_prog_stats __percpu *stats;
 	int __percpu		*active;
 	unsigned int		(*bpf_func)(const void *ctx,
 					    const struct bpf_insn *insn);
 	struct bpf_prog_aux	*aux;		/* Auxiliary fields */
 	struct sock_fprog_kern	*orig_prog;	/* Original BPF program */
+<<<<<<< HEAD
+=======
+=======
+	struct bpf_prog_aux	*aux;		/* Auxiliary fields */
+	struct sock_fprog_kern	*orig_prog;	/* Original BPF program */
+	unsigned int		(*bpf_func)(const void *ctx,
+					    const struct bpf_insn *insn);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Instructions for interpreter */
 	struct sock_filter	insns[0];
 	struct bpf_insn		insnsi[];
@@ -591,7 +638,15 @@ DECLARE_STATIC_KEY_FALSE(bpf_stats_enabled_key);
 		struct bpf_prog_stats *__stats;				\
 		u64 __start = sched_clock();				\
 		__ret = dfunc(ctx, (prog)->insnsi, (prog)->bpf_func);	\
+<<<<<<< HEAD
 		__stats = this_cpu_ptr(prog->stats);			\
+=======
+<<<<<<< HEAD
+		__stats = this_cpu_ptr(prog->stats);			\
+=======
+		__stats = this_cpu_ptr(prog->aux->stats);		\
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		u64_stats_update_begin(&__stats->syncp);		\
 		__stats->cnt++;						\
 		__stats->nsecs += sched_clock() - __start;		\
@@ -1308,11 +1363,20 @@ struct bpf_sysctl_kern {
 	u64 tmp_reg;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define BPF_SOCKOPT_KERN_BUF_SIZE	32
 struct bpf_sockopt_buf {
 	u8		data[BPF_SOCKOPT_KERN_BUF_SIZE];
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct bpf_sockopt_kern {
 	struct sock	*sk;
 	u8		*optval;

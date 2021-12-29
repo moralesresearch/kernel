@@ -192,10 +192,17 @@ int rpcif_sw_init(struct rpcif *rpc, struct device *dev)
 	}
 
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dirmap");
+<<<<<<< HEAD
+	rpc->dirmap = devm_ioremap_resource(&pdev->dev, res);
+	if (IS_ERR(rpc->dirmap))
+		rpc->dirmap = NULL;
+	rpc->size = resource_size(res);
+=======
 	rpc->size = resource_size(res);
 	rpc->dirmap = devm_ioremap_resource(&pdev->dev, res);
 	if (IS_ERR(rpc->dirmap))
 		rpc->dirmap = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rpc->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
 

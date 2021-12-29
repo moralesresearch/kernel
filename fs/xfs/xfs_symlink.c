@@ -134,7 +134,10 @@ xfs_readlink(
 
 int
 xfs_symlink(
+<<<<<<< HEAD
 	struct user_namespace	*mnt_userns,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct xfs_inode	*dp,
 	struct xfs_name		*link_name,
 	const char		*target_path,
@@ -182,8 +185,12 @@ xfs_symlink(
 	/*
 	 * Make sure that we have allocated dquot(s) on disk.
 	 */
+<<<<<<< HEAD
 	error = xfs_qm_vop_dqalloc(dp, fsuid_into_mnt(mnt_userns),
 			fsgid_into_mnt(mnt_userns), prid,
+=======
+	error = xfs_qm_vop_dqalloc(dp, current_fsuid(), current_fsgid(), prid,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			XFS_QMOPT_QUOTALL | XFS_QMOPT_INHERIT,
 			&udqp, &gdqp, &pdqp);
 	if (error)
@@ -199,10 +206,16 @@ xfs_symlink(
 		fs_blocks = xfs_symlink_blocks(mp, pathlen);
 	resblks = XFS_SYMLINK_SPACE_RES(mp, link_name->len, fs_blocks);
 
+<<<<<<< HEAD
 	error = xfs_trans_alloc_icreate(mp, &M_RES(mp)->tr_symlink, udqp, gdqp,
 			pdqp, resblks, &tp);
 	if (error)
 		goto out_release_dquots;
+=======
+	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_symlink, resblks, 0, 0, &tp);
+	if (error)
+		goto out_release_inode;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	xfs_ilock(dp, XFS_ILOCK_EXCL | XFS_ILOCK_PARENT);
 	unlock_dp_on_error = true;
@@ -215,16 +228,29 @@ xfs_symlink(
 		goto out_trans_cancel;
 	}
 
+<<<<<<< HEAD
 	error = xfs_iext_count_may_overflow(dp, XFS_DATA_FORK,
 			XFS_IEXT_DIR_MANIP_CNT(mp));
+=======
+	/*
+	 * Reserve disk quota : blocks and inode.
+	 */
+	error = xfs_trans_reserve_quota(tp, mp, udqp, gdqp,
+						pdqp, resblks, 1, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto out_trans_cancel;
 
 	/*
 	 * Allocate an inode for the symlink.
 	 */
+<<<<<<< HEAD
 	error = xfs_dir_ialloc(mnt_userns, &tp, dp, S_IFLNK | (mode & ~S_IFMT),
 			       1, 0, prid, &ip);
+=======
+	error = xfs_dir_ialloc(&tp, dp, S_IFLNK | (mode & ~S_IFMT), 1, 0,
+			       prid, &ip);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto out_trans_cancel;
 
@@ -300,7 +326,10 @@ xfs_symlink(
 		}
 		ASSERT(pathlen == 0);
 	}
+<<<<<<< HEAD
 	i_size_write(VFS_I(ip), ip->i_d.di_size);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Create the directory entry for the symlink.
@@ -343,7 +372,11 @@ out_release_inode:
 		xfs_finish_inode_setup(ip);
 		xfs_irele(ip);
 	}
+<<<<<<< HEAD
 out_release_dquots:
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	xfs_qm_dqrele(udqp);
 	xfs_qm_dqrele(gdqp);
 	xfs_qm_dqrele(pdqp);

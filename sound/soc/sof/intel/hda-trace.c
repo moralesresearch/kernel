@@ -32,7 +32,11 @@ static int hda_dsp_trace_prepare(struct snd_sof_dev *sdev)
 
 	ret = hda_dsp_stream_hw_params(sdev, stream, dmab, NULL);
 	if (ret < 0)
+<<<<<<< HEAD
 		dev_err(sdev->dev, "error: hdac prepare failed: %d\n", ret);
+=======
+		dev_err(sdev->dev, "error: hdac prepare failed: %x\n", ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -42,8 +46,13 @@ int hda_dsp_trace_init(struct snd_sof_dev *sdev, u32 *stream_tag)
 	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
 	int ret;
 
+<<<<<<< HEAD
 	hda->dtrace_stream = hda_dsp_stream_get(sdev, SNDRV_PCM_STREAM_CAPTURE,
 						SOF_HDA_STREAM_DMI_L1_COMPATIBLE);
+=======
+	hda->dtrace_stream = hda_dsp_stream_get(sdev,
+						SNDRV_PCM_STREAM_CAPTURE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!hda->dtrace_stream) {
 		dev_err(sdev->dev,
@@ -59,7 +68,11 @@ int hda_dsp_trace_init(struct snd_sof_dev *sdev, u32 *stream_tag)
 	 */
 	ret = hda_dsp_trace_prepare(sdev);
 	if (ret < 0) {
+<<<<<<< HEAD
 		dev_err(sdev->dev, "error: hdac trace init failed: %d\n", ret);
+=======
+		dev_err(sdev->dev, "error: hdac trace init failed: %x\n", ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hda_dsp_stream_put(sdev, SNDRV_PCM_STREAM_CAPTURE, *stream_tag);
 		hda->dtrace_stream = NULL;
 		*stream_tag = 0;

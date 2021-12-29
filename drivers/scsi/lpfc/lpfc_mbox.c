@@ -2409,7 +2409,11 @@ error:
 
 
 /*
+<<<<<<< HEAD
  * lpfc_sli4_dump_page_a0 - Dump sli4 read SFP Diagnostic.
+=======
+ * lpfc_sli4_dump_sfp_pagea0 - Dump sli4 read SFP Diagnostic.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @phba: pointer to the hba structure containing.
  * @mbox: pointer to lpfc mbox command to initialize.
  *
@@ -2624,6 +2628,8 @@ lpfc_resume_rpi(struct lpfcMboxq *mbox, struct lpfc_nodelist *ndlp)
 	resume_rpi->event_tag = ndlp->phba->fc_eventTag;
 }
 
+<<<<<<< HEAD
+=======
 /**
  * lpfc_supported_pages - Initialize the PORT_CAPABILITIES supported pages
  *                        mailbox command.
@@ -2660,3 +2666,4 @@ lpfc_pc_sli4_params(struct lpfcMboxq *mbox)
 	bf_set(lpfc_mqe_command, &mbox->u.mqe, MBX_PORT_CAPABILITIES);
 	bf_set(cpn, sli4_params, LPFC_SLI4_PARAMETERS);
 }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

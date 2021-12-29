@@ -205,7 +205,10 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
 	.max_desync_factor	= MAX_DESYNC_FACTOR,
 	.max_addresses		= IPV6_MAX_ADDRESSES,
 	.accept_ra_defrtr	= 1,
+<<<<<<< HEAD
 	.ra_defrtr_metric	= IP6_RT_PRIO_USER,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.accept_ra_from_local	= 0,
 	.accept_ra_min_hop_limit= 1,
 	.accept_ra_pinfo	= 1,
@@ -261,7 +264,10 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
 	.max_desync_factor	= MAX_DESYNC_FACTOR,
 	.max_addresses		= IPV6_MAX_ADDRESSES,
 	.accept_ra_defrtr	= 1,
+<<<<<<< HEAD
 	.ra_defrtr_metric	= IP6_RT_PRIO_USER,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.accept_ra_from_local	= 0,
 	.accept_ra_min_hop_limit= 1,
 	.accept_ra_pinfo	= 1,
@@ -5478,7 +5484,10 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
 	array[DEVCONF_MAX_DESYNC_FACTOR] = cnf->max_desync_factor;
 	array[DEVCONF_MAX_ADDRESSES] = cnf->max_addresses;
 	array[DEVCONF_ACCEPT_RA_DEFRTR] = cnf->accept_ra_defrtr;
+<<<<<<< HEAD
 	array[DEVCONF_RA_DEFRTR_METRIC] = cnf->ra_defrtr_metric;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	array[DEVCONF_ACCEPT_RA_MIN_HOP_LIMIT] = cnf->accept_ra_min_hop_limit;
 	array[DEVCONF_ACCEPT_RA_PINFO] = cnf->accept_ra_pinfo;
 #ifdef CONFIG_IPV6_ROUTER_PREF
@@ -5669,8 +5678,12 @@ static int inet6_fill_link_af(struct sk_buff *skb, const struct net_device *dev,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int inet6_set_iftoken(struct inet6_dev *idev, struct in6_addr *token,
 			     struct netlink_ext_ack *extack)
+=======
+static int inet6_set_iftoken(struct inet6_dev *idev, struct in6_addr *token)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inet6_ifaddr *ifp;
 	struct net_device *dev = idev->dev;
@@ -5681,6 +5694,7 @@ static int inet6_set_iftoken(struct inet6_dev *idev, struct in6_addr *token,
 
 	if (!token)
 		return -EINVAL;
+<<<<<<< HEAD
 
 	if (dev->flags & IFF_LOOPBACK) {
 		NL_SET_ERR_MSG_MOD(extack, "Device is loopback");
@@ -5704,6 +5718,14 @@ static int inet6_set_iftoken(struct inet6_dev *idev, struct in6_addr *token,
 			       "Router solicitation is disabled on device");
 		return -EINVAL;
 	}
+=======
+	if (dev->flags & (IFF_LOOPBACK | IFF_NOARP))
+		return -EINVAL;
+	if (!ipv6_accept_ra(idev))
+		return -EINVAL;
+	if (idev->cnf.rtr_solicits == 0)
+		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	write_lock_bh(&idev->lock);
 
@@ -5811,8 +5833,12 @@ static int inet6_validate_link_af(const struct net_device *dev,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int inet6_set_link_af(struct net_device *dev, const struct nlattr *nla,
 			     struct netlink_ext_ack *extack)
+=======
+static int inet6_set_link_af(struct net_device *dev, const struct nlattr *nla)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inet6_dev *idev = __in6_dev_get(dev);
 	struct nlattr *tb[IFLA_INET6_MAX + 1];
@@ -5825,8 +5851,12 @@ static int inet6_set_link_af(struct net_device *dev, const struct nlattr *nla,
 		BUG();
 
 	if (tb[IFLA_INET6_TOKEN]) {
+<<<<<<< HEAD
 		err = inet6_set_iftoken(idev, nla_data(tb[IFLA_INET6_TOKEN]),
 					extack);
+=======
+		err = inet6_set_iftoken(idev, nla_data(tb[IFLA_INET6_TOKEN]));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			return err;
 	}
@@ -6692,6 +6722,7 @@ static const struct ctl_table addrconf_sysctl[] = {
 		.proc_handler	= proc_dointvec,
 	},
 	{
+<<<<<<< HEAD
 		.procname	= "ra_defrtr_metric",
 		.data		= &ipv6_devconf.ra_defrtr_metric,
 		.maxlen		= sizeof(u32),
@@ -6700,6 +6731,8 @@ static const struct ctl_table addrconf_sysctl[] = {
 		.extra1		= (void *)SYSCTL_ONE,
 	},
 	{
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.procname	= "accept_ra_min_hop_limit",
 		.data		= &ipv6_devconf.accept_ra_min_hop_limit,
 		.maxlen		= sizeof(int),

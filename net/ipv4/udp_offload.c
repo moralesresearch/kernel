@@ -68,8 +68,18 @@ static struct sk_buff *__skb_udp_tunnel_segment(struct sk_buff *skb,
 				      (NETIF_F_HW_CSUM | NETIF_F_IP_CSUM))));
 
 	features &= skb->dev->hw_enc_features;
+<<<<<<< HEAD
 	if (need_csum)
 		features &= ~NETIF_F_SCTP_CRC;
+=======
+<<<<<<< HEAD
+	if (need_csum)
+		features &= ~NETIF_F_SCTP_CRC;
+=======
+	/* CRC checksum can't be handled by HW when it's a UDP tunneling packet. */
+	features &= ~NETIF_F_SCTP_CRC;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* The only checksum offload we care about from here on out is the
 	 * outer one so strip the existing checksum feature flags and
@@ -515,12 +525,36 @@ struct sk_buff *udp_gro_receive(struct list_head *head, struct sk_buff *skb,
 	unsigned int off = skb_gro_offset(skb);
 	int flush = 1;
 
+<<<<<<< HEAD
+	/* we can do L4 aggregation only if the packet can't land in a tunnel
+	 * otherwise we could corrupt the inner stream
+	 */
+	NAPI_GRO_CB(skb)->is_flist = 0;
+	if (!sk || !udp_sk(sk)->gro_receive) {
+		if (skb->dev->features & NETIF_F_GRO_FRAGLIST)
+			NAPI_GRO_CB(skb)->is_flist = sk ? !udp_sk(sk)->gro_enabled : 1;
+
+		if ((!sk && (skb->dev->features & NETIF_F_GRO_UDP_FWD)) ||
+		    (sk && udp_sk(sk)->gro_enabled) || NAPI_GRO_CB(skb)->is_flist)
+			pp = call_gro_receive(udp_gro_receive_segment, head, skb);
+		return pp;
+	}
+
+	if (NAPI_GRO_CB(skb)->encap_mark ||
+	    (uh->check && skb->ip_summed != CHECKSUM_PARTIAL &&
+	     NAPI_GRO_CB(skb)->csum_cnt == 0 &&
+	     !NAPI_GRO_CB(skb)->csum_valid))
+=======
 	NAPI_GRO_CB(skb)->is_flist = 0;
 	if (skb->dev->features & NETIF_F_GRO_FRAGLIST)
 		NAPI_GRO_CB(skb)->is_flist = sk ? !udp_sk(sk)->gro_enabled: 1;
 
+<<<<<<< HEAD
 	if ((!sk && (skb->dev->features & NETIF_F_GRO_UDP_FWD)) ||
 	    (sk && udp_sk(sk)->gro_enabled) || NAPI_GRO_CB(skb)->is_flist) {
+=======
+	if ((sk && udp_sk(sk)->gro_enabled) || NAPI_GRO_CB(skb)->is_flist) {
+>>>>>>> stable
 		pp = call_gro_receive(udp_gro_receive_segment, head, skb);
 		return pp;
 	}
@@ -530,6 +564,7 @@ struct sk_buff *udp_gro_receive(struct list_head *head, struct sk_buff *skb,
 	     NAPI_GRO_CB(skb)->csum_cnt == 0 &&
 	     !NAPI_GRO_CB(skb)->csum_valid) ||
 	    !udp_sk(sk)->gro_receive)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 
 	/* mark that this skb passed once through the tunnel gro layer */

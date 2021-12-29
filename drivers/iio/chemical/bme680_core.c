@@ -479,7 +479,11 @@ static u8 bme680_calc_heater_res(struct bme680_data *data, u16 temp)
 	var4 = (var3 / (calib->res_heat_range + 4));
 	var5 = 131 * calib->res_heat_val + 65536;
 	heatr_res_x100 = ((var4 / var5) - 250) * 34;
+<<<<<<< HEAD
 	heatr_res = DIV_ROUND_CLOSEST(heatr_res_x100, 100);
+=======
+	heatr_res = (heatr_res_x100 + 50) / 100;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return heatr_res;
 }

@@ -22,10 +22,13 @@ int32_t fdt_ro_probe_(const void *fdt)
 	if (can_assume(VALID_DTB))
 		return totalsize;
 
+<<<<<<< HEAD
 	/* The device tree must be at an 8-byte aligned address */
 	if ((uintptr_t)fdt & 7)
 		return -FDT_ERR_ALIGNMENT;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (fdt_magic(fdt) == FDT_MAGIC) {
 		/* Complete tree */
 		if (!can_assume(LATEST)) {

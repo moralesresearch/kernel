@@ -485,6 +485,10 @@ struct dyn_ftrace {
 	struct dyn_arch_ftrace	arch;
 };
 
+<<<<<<< HEAD
+=======
+int ftrace_force_update(void);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ftrace_set_filter_ip(struct ftrace_ops *ops, unsigned long ip,
 			 int remove, int reset);
 int ftrace_set_filter(struct ftrace_ops *ops, unsigned char *buf,
@@ -739,6 +743,10 @@ extern void ftrace_disable_daemon(void);
 extern void ftrace_enable_daemon(void);
 #else /* CONFIG_DYNAMIC_FTRACE */
 static inline int skip_trace(unsigned long ip) { return 0; }
+<<<<<<< HEAD
+=======
+static inline int ftrace_force_update(void) { return 0; }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void ftrace_disable_daemon(void) { }
 static inline void ftrace_enable_daemon(void) { }
 static inline void ftrace_module_init(struct module *mod) { }

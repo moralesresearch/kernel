@@ -25,6 +25,7 @@ description:
 properties:
   compatible:
     items:
+<<<<<<< HEAD
       - enum:
           - sifive,fu540-c000-pwm
           - sifive,fu740-c000-pwm
@@ -34,6 +35,14 @@ properties:
       compatible strings are "sifive,fu540-c000-pwm" and
       "sifive,fu740-c000-pwm" for the SiFive PWM v0 as integrated onto the
       SiFive FU540 and FU740 chip respectively, and "sifive,pwm0" for the
+=======
+      - const: sifive,fu540-c000-pwm
+      - const: sifive,pwm0
+    description:
+      Should be "sifive,<chip>-pwm" and "sifive,pwm<version>". Supported
+      compatible strings are "sifive,fu540-c000-pwm" for the SiFive PWM v0
+      as integrated onto the SiFive FU540 chip, and "sifive,pwm0" for the
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       SiFive PWM v0 IP block with no chip integration tweaks.
       Please refer to sifive-blocks-ip-versioning.txt for details.
 

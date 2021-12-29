@@ -2928,8 +2928,12 @@ efx_ef10_handle_tx_event(struct efx_channel *channel, efx_qword_t *event)
 
 	/* Get the transmit queue */
 	tx_ev_q_label = EFX_QWORD_FIELD(*event, ESF_DZ_TX_QLABEL);
+<<<<<<< HEAD
+	tx_queue = channel->tx_queue + (tx_ev_q_label % EFX_MAX_TXQ_PER_CHANNEL);
+=======
 	tx_queue = efx_channel_get_tx_queue(channel,
 					    tx_ev_q_label % EFX_MAX_TXQ_PER_CHANNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!tx_queue->timestamping) {
 		/* Transmit completion */

@@ -25,6 +25,16 @@ static void handle___kvm_vcpu_run(struct kvm_cpu_context *host_ctxt)
 	cpu_reg(host_ctxt, 1) =  __kvm_vcpu_run(kern_hyp_va(vcpu));
 }
 
+<<<<<<< HEAD
+static void handle___kvm_adjust_pc(struct kvm_cpu_context *host_ctxt)
+{
+	DECLARE_REG(struct kvm_vcpu *, vcpu, host_ctxt, 1);
+
+	__kvm_adjust_pc(kern_hyp_va(vcpu));
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void handle___kvm_flush_vm_context(struct kvm_cpu_context *host_ctxt)
 {
 	__kvm_flush_vm_context();
@@ -67,9 +77,21 @@ static void handle___kvm_enable_ssbs(struct kvm_cpu_context *host_ctxt)
 	write_sysreg_el2(tmp, SYS_SCTLR);
 }
 
+<<<<<<< HEAD
 static void handle___vgic_v3_get_gic_config(struct kvm_cpu_context *host_ctxt)
 {
 	cpu_reg(host_ctxt, 1) = __vgic_v3_get_gic_config();
+=======
+<<<<<<< HEAD
+static void handle___vgic_v3_get_gic_config(struct kvm_cpu_context *host_ctxt)
+{
+	cpu_reg(host_ctxt, 1) = __vgic_v3_get_gic_config();
+=======
+static void handle___vgic_v3_get_ich_vtr_el2(struct kvm_cpu_context *host_ctxt)
+{
+	cpu_reg(host_ctxt, 1) = __vgic_v3_get_ich_vtr_el2();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void handle___vgic_v3_read_vmcr(struct kvm_cpu_context *host_ctxt)
@@ -108,17 +130,39 @@ static void handle___vgic_v3_restore_aprs(struct kvm_cpu_context *host_ctxt)
 
 typedef void (*hcall_t)(struct kvm_cpu_context *);
 
+<<<<<<< HEAD
 #define HANDLE_FUNC(x)	[__KVM_HOST_SMCCC_FUNC_##x] = (hcall_t)handle_##x
 
 static const hcall_t host_hcall[] = {
 	HANDLE_FUNC(__kvm_vcpu_run),
+	HANDLE_FUNC(__kvm_adjust_pc),
+=======
+<<<<<<< HEAD
+#define HANDLE_FUNC(x)	[__KVM_HOST_SMCCC_FUNC_##x] = (hcall_t)handle_##x
+
+static const hcall_t host_hcall[] = {
+=======
+#define HANDLE_FUNC(x)	[__KVM_HOST_SMCCC_FUNC_##x] = kimg_fn_ptr(handle_##x)
+
+static const hcall_t *host_hcall[] = {
+>>>>>>> stable
+	HANDLE_FUNC(__kvm_vcpu_run),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	HANDLE_FUNC(__kvm_flush_vm_context),
 	HANDLE_FUNC(__kvm_tlb_flush_vmid_ipa),
 	HANDLE_FUNC(__kvm_tlb_flush_vmid),
 	HANDLE_FUNC(__kvm_flush_cpu_context),
 	HANDLE_FUNC(__kvm_timer_set_cntvoff),
 	HANDLE_FUNC(__kvm_enable_ssbs),
+<<<<<<< HEAD
 	HANDLE_FUNC(__vgic_v3_get_gic_config),
+=======
+<<<<<<< HEAD
+	HANDLE_FUNC(__vgic_v3_get_gic_config),
+=======
+	HANDLE_FUNC(__vgic_v3_get_ich_vtr_el2),
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	HANDLE_FUNC(__vgic_v3_read_vmcr),
 	HANDLE_FUNC(__vgic_v3_write_vmcr),
 	HANDLE_FUNC(__vgic_v3_init_lrs),
@@ -130,6 +174,13 @@ static const hcall_t host_hcall[] = {
 static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
 {
 	DECLARE_REG(unsigned long, id, host_ctxt, 0);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	const hcall_t *kfn;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hcall_t hfn;
 
 	id -= KVM_HOST_SMCCC_ID(0);
@@ -137,11 +188,27 @@ static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
 	if (unlikely(id >= ARRAY_SIZE(host_hcall)))
 		goto inval;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hfn = host_hcall[id];
 	if (unlikely(!hfn))
 		goto inval;
 
 	cpu_reg(host_ctxt, 0) = SMCCC_RET_SUCCESS;
+<<<<<<< HEAD
+=======
+=======
+	kfn = host_hcall[id];
+	if (unlikely(!kfn))
+		goto inval;
+
+	cpu_reg(host_ctxt, 0) = SMCCC_RET_SUCCESS;
+
+	hfn = kimg_fn_hyp_va(kfn);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hfn(host_ctxt);
 
 	return;

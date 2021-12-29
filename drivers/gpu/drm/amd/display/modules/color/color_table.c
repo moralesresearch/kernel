@@ -1,4 +1,5 @@
 /*
+<<<<<<< HEAD
  * Copyright 2019 Advanced Micro Devices, Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -21,6 +22,14 @@
  *
  * Authors: AMD
  *
+=======
+ * Copyright (c) 2019 Advanced Micro Devices, Inc. (unpublished)
+ *
+ * All rights reserved.  This notice is intended as a precaution against
+ * inadvertent publication and does not imply publication or any waiver
+ * of confidentiality.  The year included in the foregoing notice is the
+ * year of creation of the work.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 #include "color_table.h"

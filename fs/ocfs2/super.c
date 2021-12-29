@@ -973,6 +973,11 @@ static void ocfs2_disable_quotas(struct ocfs2_super *osb)
 		 * quota files */
 		dquot_disable(sb, type, DQUOT_USAGE_ENABLED |
 					DQUOT_LIMITS_ENABLED);
+<<<<<<< HEAD
+=======
+		if (!inode)
+			continue;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		iput(inode);
 	}
 }

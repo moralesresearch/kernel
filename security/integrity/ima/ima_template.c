@@ -494,8 +494,13 @@ int ima_restore_measurement_list(loff_t size, void *buf)
 			}
 		}
 
+<<<<<<< HEAD
+		entry->pcr = !ima_canonical_fmt ? *(u32 *)(hdr[HDR_PCR].data) :
+			     le32_to_cpu(*(u32 *)(hdr[HDR_PCR].data));
+=======
 		entry->pcr = !ima_canonical_fmt ? *(hdr[HDR_PCR].data) :
 			     le32_to_cpu(*(hdr[HDR_PCR].data));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = ima_restore_measurement_entry(entry);
 		if (ret < 0)
 			break;

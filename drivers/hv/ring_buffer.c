@@ -313,7 +313,10 @@ int hv_ringbuffer_write(struct vmbus_channel *channel,
 		rqst_id = vmbus_next_request_id(&channel->requestor, requestid);
 		if (rqst_id == VMBUS_RQST_ERROR) {
 			spin_unlock_irqrestore(&outring_info->ring_lock, flags);
+<<<<<<< HEAD
+=======
 			pr_err("No request id available\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EAGAIN;
 		}
 	}

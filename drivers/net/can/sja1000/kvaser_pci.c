@@ -33,6 +33,10 @@
 
 MODULE_AUTHOR("Per Dalen <per.dalen@cnw.se>");
 MODULE_DESCRIPTION("Socket-CAN driver for KVASER PCAN PCI cards");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("KVASER PCAN PCI CAN card");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL v2");
 
 #define MAX_NO_OF_CHANNELS        4 /* max no of channels on a single card */

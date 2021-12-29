@@ -303,7 +303,11 @@ int __init mbi_init(struct fwnode_handle *fwnode, struct irq_domain *parent)
 	reg = of_get_property(np, "mbi-alias", NULL);
 	if (reg) {
 		mbi_phys_base = of_translate_address(np, reg);
+<<<<<<< HEAD
+		if (mbi_phys_base == (phys_addr_t)OF_BAD_ADDR) {
+=======
 		if (mbi_phys_base == OF_BAD_ADDR) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = -ENXIO;
 			goto err_free_mbi;
 		}

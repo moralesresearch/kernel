@@ -1301,10 +1301,15 @@ static const struct of_device_id host1x_drm_subdevs[] = {
 	{ .compatible = "nvidia,tegra30-hdmi", },
 	{ .compatible = "nvidia,tegra30-gr2d", },
 	{ .compatible = "nvidia,tegra30-gr3d", },
+<<<<<<< HEAD
 	{ .compatible = "nvidia,tegra114-dc", },
 	{ .compatible = "nvidia,tegra114-dsi", },
 	{ .compatible = "nvidia,tegra114-hdmi", },
 	{ .compatible = "nvidia,tegra114-gr2d", },
+=======
+	{ .compatible = "nvidia,tegra114-dsi", },
+	{ .compatible = "nvidia,tegra114-hdmi", },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ .compatible = "nvidia,tegra114-gr3d", },
 	{ .compatible = "nvidia,tegra124-dc", },
 	{ .compatible = "nvidia,tegra124-sor", },

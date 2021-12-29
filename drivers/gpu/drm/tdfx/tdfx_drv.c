@@ -56,7 +56,11 @@ static const struct file_operations tdfx_driver_fops = {
 	.llseek = noop_llseek,
 };
 
+<<<<<<< HEAD
 static const struct drm_driver driver = {
+=======
+static struct drm_driver driver = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.driver_features = DRIVER_LEGACY,
 	.fops = &tdfx_driver_fops,
 	.name = DRIVER_NAME,

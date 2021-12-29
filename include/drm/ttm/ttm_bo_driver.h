@@ -39,6 +39,10 @@
 
 #include "ttm_bo_api.h"
 #include "ttm_memory.h"
+<<<<<<< HEAD
+=======
+#include "ttm_module.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "ttm_placement.h"
 #include "ttm_tt.h"
 #include "ttm_pool.h"
@@ -491,11 +495,18 @@ static inline int ttm_bo_reserve_slowpath(struct ttm_buffer_object *bo,
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline void
 ttm_bo_move_to_lru_tail_unlocked(struct ttm_buffer_object *bo)
 {
 	spin_lock(&ttm_bo_glob.lru_lock);
 	ttm_bo_move_to_lru_tail(bo, &bo->mem, NULL);
+=======
+static inline void ttm_bo_move_to_lru_tail_unlocked(struct ttm_buffer_object *bo)
+{
+	spin_lock(&ttm_bo_glob.lru_lock);
+	ttm_bo_move_to_lru_tail(bo, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock(&ttm_bo_glob.lru_lock);
 }
 

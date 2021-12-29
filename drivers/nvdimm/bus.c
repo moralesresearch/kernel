@@ -113,6 +113,7 @@ static int nvdimm_bus_remove(struct device *dev)
 	struct nd_device_driver *nd_drv = to_nd_device_driver(dev->driver);
 	struct module *provider = to_bus_provider(dev);
 	struct nvdimm_bus *nvdimm_bus = walk_to_nvdimm_bus(dev);
+<<<<<<< HEAD
 
 	if (nd_drv->remove) {
 		debug_nvdimm_lock(dev);
@@ -124,6 +125,20 @@ static int nvdimm_bus_remove(struct device *dev)
 			dev_name(dev));
 	module_put(provider);
 	return 0;
+=======
+	int rc = 0;
+
+	if (nd_drv->remove) {
+		debug_nvdimm_lock(dev);
+		rc = nd_drv->remove(dev);
+		debug_nvdimm_unlock(dev);
+	}
+
+	dev_dbg(&nvdimm_bus->dev, "%s.remove(%s) = %d\n", dev->driver->name,
+			dev_name(dev), rc);
+	module_put(provider);
+	return rc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void nvdimm_bus_shutdown(struct device *dev)
@@ -426,7 +441,11 @@ static void free_badrange_list(struct list_head *badrange_list)
 	list_del_init(badrange_list);
 }
 
+<<<<<<< HEAD
 static void nd_bus_remove(struct device *dev)
+=======
+static int nd_bus_remove(struct device *dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nvdimm_bus *nvdimm_bus = to_nvdimm_bus(dev);
 
@@ -445,6 +464,11 @@ static void nd_bus_remove(struct device *dev)
 	spin_unlock(&nvdimm_bus->badrange.lock);
 
 	nvdimm_bus_destroy_ndctl(nvdimm_bus);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int nd_bus_probe(struct device *dev)
@@ -631,6 +655,7 @@ void nvdimm_check_and_set_ro(struct gendisk *disk)
 	struct nd_region *nd_region = to_nd_region(dev->parent);
 	int disk_ro = get_disk_ro(disk);
 
+<<<<<<< HEAD
 	/* catch the disk up with the region ro state */
 	if (disk_ro == nd_region->ro)
 		return;
@@ -639,6 +664,18 @@ void nvdimm_check_and_set_ro(struct gendisk *disk)
 		 dev_name(&nd_region->dev), nd_region->ro ? "only" : "write",
 		 disk->disk_name, nd_region->ro ? "only" : "write");
 	set_disk_ro(disk, nd_region->ro);
+=======
+	/*
+	 * Upgrade to read-only if the region is read-only preserve as
+	 * read-only if the disk is already read-only.
+	 */
+	if (disk_ro || nd_region->ro == disk_ro)
+		return;
+
+	dev_info(dev, "%s read-only, marking %s read-only\n",
+			dev_name(&nd_region->dev), disk->disk_name);
+	set_disk_ro(disk, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(nvdimm_check_and_set_ro);
 

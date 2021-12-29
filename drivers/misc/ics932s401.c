@@ -134,7 +134,11 @@ static struct ics932s401_data *ics932s401_update_device(struct device *dev)
 	for (i = 0; i < NUM_MIRRORED_REGS; i++) {
 		temp = i2c_smbus_read_word_data(client, regs_to_copy[i]);
 		if (temp < 0)
+<<<<<<< HEAD
+			temp = 0;
+=======
 			data->regs[regs_to_copy[i]] = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		data->regs[regs_to_copy[i]] = temp >> 8;
 	}
 

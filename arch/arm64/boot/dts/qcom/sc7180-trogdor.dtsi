@@ -22,9 +22,17 @@
 			thermal-sensors = <&pm6150_adc_tm 1>;
 
 			trips {
+<<<<<<< HEAD
+				charger-crit {
+					temperature = <125000>;
+					hysteresis = <1000>;
+					type = "critical";
+				};
+=======
 				temperature = <125000>;
 				hysteresis = <1000>;
 				type = "critical";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 		};
 	};
@@ -298,6 +306,43 @@
 			regulator-max-microvolt = <1128000>;
 		};
 
+<<<<<<< HEAD
+=======
+		/*
+		 * pp2040_s5a (smps5) and pp1056_s4a (smps4) are just
+		 * inputs to other rails on AOP-managed PMICs on trogdor.
+		 * The system is already configured to manage these rails
+		 * automatically (enable when needed, adjust voltage for
+		 * headroom) so we won't specify anything here.
+		 *
+		 * NOTE: though the rails have a voltage implied by their
+		 * name, the automatic headroom calculation might not result
+		 * in them being that voltage.  ...and that's OK.
+		 * Specifically the only point of these rails is to provide
+		 * an input source for other rails and if we can satisify the
+		 * needs of those other rails with a lower source voltage then
+		 * we save power.
+		 */
+
+		pp1200_l1a: ldo1 {
+			regulator-min-microvolt = <1200000>;
+			regulator-max-microvolt = <1200000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+		pp1000_l2a: ldo2 {
+			regulator-min-microvolt = <944000>;
+			regulator-max-microvolt = <1056000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+		pp1000_l3a: ldo3 {
+			regulator-min-microvolt = <968000>;
+			regulator-max-microvolt = <1064000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		vdd_qlink_lv:
 		vdd_qlink_lv_ck:
 		vdd_qusb_hs0_core:
@@ -316,6 +361,27 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
+<<<<<<< HEAD
+=======
+		pp2700_l5a: ldo5 {
+			regulator-min-microvolt = <2704000>;
+			regulator-max-microvolt = <2704000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+		ebi0_cal:
+		ebi1_cal:
+		vddio_ck_ebi0:
+		vddio_ck_ebi1:
+		vddio_ebi0:
+		vddq:
+		pp600_l6a: ldo6 {
+			regulator-min-microvolt = <568000>;
+			regulator-max-microvolt = <648000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		vdd_cx_wlan:
 		pp800_l9a: ldo9 {
 			regulator-min-microvolt = <488000>;
@@ -352,11 +418,14 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
+<<<<<<< HEAD
 		/*
 		 * On trogdor this needs to match l10a since we use it to
 		 * give power to things like SPI flash which communicate back
 		 * on lines powered by l10a.  Thus we force to 1.8V.
 		 */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pp1800_l13a: ldo13 {
 			regulator-min-microvolt = <1800000>;
 			regulator-max-microvolt = <1800000>;
@@ -377,6 +446,15 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
+<<<<<<< HEAD
+=======
+		pp2700_l16a: ldo16 {
+			regulator-min-microvolt = <2496000>;
+			regulator-max-microvolt = <3304000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		vdda_qusb_hs0_3p1:
 		vdd_pdphy:
 		pp3100_l17a: ldo17 {
@@ -410,8 +488,13 @@
 		};
 
 		pp1800_l1c: ldo1 {
+<<<<<<< HEAD
 			regulator-min-microvolt = <1616000>;
 			regulator-max-microvolt = <1984000>;
+=======
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
@@ -438,10 +521,32 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
+<<<<<<< HEAD
 		vddpx_2:
 		ppvar_l6c: ldo6 {
 			regulator-min-microvolt = <1800000>;
 			regulator-max-microvolt = <2952000>;
+=======
+		ld_pp1800_esim_l4c:
+		vddpx_5:
+		pp1800_l4c: ldo4 {
+			regulator-min-microvolt = <1648000>;
+			regulator-max-microvolt = <3304000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+		vddpx_6:
+		pp1800_l5c: ldo5 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+		vddpx_2:
+		ppvar_l6c: ldo6 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <3304000>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
@@ -768,17 +873,29 @@ hp_i2c: &i2c9 {
 };
 
 &spi0 {
+<<<<<<< HEAD
+	pinctrl-0 = <&qup_spi0_cs_gpio_init_high>, <&qup_spi0_cs_gpio>;
+=======
 	pinctrl-0 = <&qup_spi0_cs_gpio>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cs-gpios = <&tlmm 37 GPIO_ACTIVE_LOW>;
 };
 
 &spi6 {
+<<<<<<< HEAD
+	pinctrl-0 = <&qup_spi6_cs_gpio_init_high>, <&qup_spi6_cs_gpio>;
+=======
 	pinctrl-0 = <&qup_spi6_cs_gpio>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cs-gpios = <&tlmm 62 GPIO_ACTIVE_LOW>;
 };
 
 ap_spi_fp: &spi10 {
+<<<<<<< HEAD
+	pinctrl-0 = <&qup_spi10_cs_gpio_init_high>, <&qup_spi10_cs_gpio>;
+=======
 	pinctrl-0 = <&qup_spi10_cs_gpio>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cs-gpios = <&tlmm 89 GPIO_ACTIVE_LOW>;
 
 	cros_ec_fp: ec@0 {
@@ -868,6 +985,7 @@ ap_spi_fp: &spi10 {
 
 /* PINCTRL - additions to nodes defined in sc7180.dtsi */
 
+<<<<<<< HEAD
 &dp_hot_plug_det {
 	pinconf {
 		pins = "gpio117";
@@ -875,6 +993,8 @@ ap_spi_fp: &spi10 {
 	};
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &qspi_cs0 {
 	pinconf {
 		pins = "gpio68";
@@ -1339,6 +1459,30 @@ ap_spi_fp: &spi10 {
 		};
 	};
 
+<<<<<<< HEAD
+	qup_spi0_cs_gpio_init_high: qup-spi0-cs-gpio-init-high {
+		pinconf {
+			pins = "gpio37";
+			output-high;
+		};
+	};
+
+	qup_spi6_cs_gpio_init_high: qup-spi6-cs-gpio-init-high {
+		pinconf {
+			pins = "gpio62";
+			output-high;
+		};
+	};
+
+	qup_spi10_cs_gpio_init_high: qup-spi10-cs-gpio-init-high {
+		pinconf {
+			pins = "gpio89";
+			output-high;
+		};
+	};
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	qup_uart3_sleep: qup-uart3-sleep {
 		pinmux {
 			pins = "gpio38", "gpio39",

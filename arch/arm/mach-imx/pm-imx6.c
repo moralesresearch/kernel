@@ -4,7 +4,10 @@
  * Copyright 2011 Linaro Ltd.
  */
 
+<<<<<<< HEAD
 #include <linux/clk/imx.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/delay.h>
 #include <linux/init.h>
 #include <linux/io.h>

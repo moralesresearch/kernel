@@ -13,7 +13,10 @@
 #include <linux/pci.h>
 #include <linux/seq_file.h>
 #include <linux/topology.h>
+<<<<<<< HEAD
 #include <linux/uacce.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include "sec.h"
 
@@ -75,6 +78,7 @@
 
 #define SEC_USER0_SMMU_NORMAL		(BIT(23) | BIT(15))
 #define SEC_USER1_SMMU_NORMAL		(BIT(31) | BIT(23) | BIT(15) | BIT(7))
+<<<<<<< HEAD
 #define SEC_USER1_ENABLE_CONTEXT_SSV	BIT(24)
 #define SEC_USER1_ENABLE_DATA_SSV	BIT(16)
 #define SEC_USER1_WB_CONTEXT_SSV	BIT(8)
@@ -85,6 +89,8 @@
 					SEC_USER1_WB_DATA_SSV)
 #define SEC_USER1_SMMU_SVA		(SEC_USER1_SMMU_NORMAL | SEC_USER1_SVA_SET)
 #define SEC_USER1_SMMU_MASK		(~SEC_USER1_SVA_SET)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SEC_CORE_INT_STATUS_M_ECC	BIT(2)
 
 #define SEC_DELAY_10_US			10
@@ -244,6 +250,7 @@ struct hisi_qp **sec_create_qps(void)
 	return NULL;
 }
 
+<<<<<<< HEAD
 static const struct kernel_param_ops sec_uacce_mode_ops = {
 	.set = uacce_mode_set,
 	.get = param_get_int,
@@ -256,6 +263,8 @@ static const struct kernel_param_ops sec_uacce_mode_ops = {
 static u32 uacce_mode = UACCE_MODE_NOUACCE;
 module_param_cb(uacce_mode, &sec_uacce_mode_ops, &uacce_mode, 0444);
 MODULE_PARM_DESC(uacce_mode, UACCE_MODE_DESC);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const struct pci_device_id sec_dev_ids[] = {
 	{ PCI_DEVICE(PCI_VENDOR_ID_HUAWEI, SEC_PF_PCI_DEVICE_ID) },
@@ -322,11 +331,15 @@ static int sec_engine_init(struct hisi_qm *qm)
 	writel_relaxed(reg, SEC_ADDR(qm, SEC_INTERFACE_USER_CTRL0_REG));
 
 	reg = readl_relaxed(SEC_ADDR(qm, SEC_INTERFACE_USER_CTRL1_REG));
+<<<<<<< HEAD
 	reg &= SEC_USER1_SMMU_MASK;
 	if (qm->use_sva && qm->ver == QM_HW_V2)
 		reg |= SEC_USER1_SMMU_SVA;
 	else
 		reg |= SEC_USER1_SMMU_NORMAL;
+=======
+	reg |= SEC_USER1_SMMU_NORMAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	writel_relaxed(reg, SEC_ADDR(qm, SEC_INTERFACE_USER_CTRL1_REG));
 
 	writel(SEC_SINGLE_PORT_MAX_TRANS,
@@ -752,7 +765,10 @@ static const struct hisi_qm_err_ini sec_err_ini = {
 				  QM_ACC_WB_NOT_READY_TIMEOUT,
 		.fe		= 0,
 		.ecc_2bits_mask	= SEC_CORE_INT_STATUS_M_ECC,
+<<<<<<< HEAD
 		.dev_ce_mask	= SEC_RAS_CE_ENB_MSK,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		.msi_wr_port	= BIT(0),
 		.acpi_rst	= "SRST",
 	}
@@ -786,8 +802,11 @@ static int sec_qm_init(struct hisi_qm *qm, struct pci_dev *pdev)
 
 	qm->pdev = pdev;
 	qm->ver = pdev->revision;
+<<<<<<< HEAD
 	qm->algs = "cipher\ndigest\naead\n";
 	qm->mode = uacce_mode;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	qm->sqe_size = SEC_SQE_SIZE;
 	qm->dev_name = sec_name;
 
@@ -915,6 +934,7 @@ static int sec_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 		goto err_qm_stop;
 	}
 
+<<<<<<< HEAD
 	if (qm->uacce) {
 		ret = uacce_register(qm->uacce);
 		if (ret) {
@@ -923,6 +943,8 @@ static int sec_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 		}
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (qm->fun_type == QM_HW_PF && vfs_num) {
 		ret = hisi_qm_sriov_enable(pdev, vfs_num);
 		if (ret < 0)
@@ -950,7 +972,11 @@ static void sec_remove(struct pci_dev *pdev)
 	hisi_qm_wait_task_finish(qm, &sec_devices);
 	hisi_qm_alg_unregister(qm, &sec_devices);
 	if (qm->fun_type == QM_HW_PF && qm->vfs_num)
+<<<<<<< HEAD
 		hisi_qm_sriov_disable(pdev, true);
+=======
+		hisi_qm_sriov_disable(pdev, qm->is_frozen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	sec_debugfs_exit(qm);
 

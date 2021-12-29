@@ -77,14 +77,21 @@ static void unpoison_page(struct page *page)
 	void *addr;
 
 	addr = kmap_atomic(page);
+<<<<<<< HEAD
 	kasan_disable_current();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Page poisoning when enabled poisons each and every page
 	 * that is freed to buddy. Thus no extra check is done to
 	 * see if a page was poisoned.
 	 */
+<<<<<<< HEAD
 	check_poison_mem(kasan_reset_tag(addr), PAGE_SIZE);
 	kasan_enable_current();
+=======
+	check_poison_mem(addr, PAGE_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kunmap_atomic(addr);
 }
 

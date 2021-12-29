@@ -23,9 +23,18 @@ Advanced: Tricky tasks that need fairly good understanding of the DRM subsystem
 and graphics topics. Generally need the relevant hardware for development and
 testing.
 
+<<<<<<< HEAD
 Expert: Only attempt these if you've successfully completed some tricky
 refactorings already and are an expert in the specific area
 
+=======
+<<<<<<< HEAD
+Expert: Only attempt these if you've successfully completed some tricky
+refactorings already and are an expert in the specific area
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Subsystem-wide refactorings
 ===========================
 
@@ -171,6 +180,10 @@ Contact: Daniel Vetter, respective driver maintainers
 
 Level: Advanced
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Move Buffer Object Locking to dma_resv_lock()
 ---------------------------------------------
 
@@ -187,6 +200,11 @@ buffer sharing.
 
 Level: Expert
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Convert logging to drm_* functions with drm_device paramater
 ------------------------------------------------------------
 
@@ -709,7 +727,15 @@ for fbdev.
   https://patchwork.freedesktop.org/patch/306579/
 
 - [RFC PATCH v2 00/13] Kernel based bootsplash
+<<<<<<< HEAD
   https://lore.kernel.org/r/20171213194755.3409-1-mstaudt@suse.de
+=======
+<<<<<<< HEAD
+  https://lore.kernel.org/r/20171213194755.3409-1-mstaudt@suse.de
+=======
+  https://lkml.org/lkml/2017/12/13/764
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Contact: Sam Ravnborg
 

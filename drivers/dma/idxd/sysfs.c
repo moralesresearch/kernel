@@ -16,6 +16,8 @@ static char *idxd_wq_type_names[] = {
 	[IDXD_WQT_USER]		= "user",
 };
 
+<<<<<<< HEAD
+=======
 static void idxd_conf_device_release(struct device *dev)
 {
 	dev_dbg(dev, "%s for %s\n", __func__, dev_name(dev));
@@ -79,6 +81,7 @@ static inline bool is_idxd_wq_cdev(struct idxd_wq *wq)
 	return wq->type == IDXD_WQT_USER;
 }
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int idxd_config_bus_match(struct device *dev,
 				 struct device_driver *drv)
 {
@@ -275,6 +278,10 @@ static void disable_wq(struct idxd_wq *wq)
 {
 	struct idxd_device *idxd = wq->idxd;
 	struct device *dev = &idxd->pdev->dev;
+<<<<<<< HEAD
+=======
+	int rc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&wq->wq_lock);
 	dev_dbg(dev, "%s removing WQ %s\n", __func__, dev_name(&wq->conf_dev));
@@ -295,13 +302,25 @@ static void disable_wq(struct idxd_wq *wq)
 	idxd_wq_unmap_portal(wq);
 
 	idxd_wq_drain(wq);
+<<<<<<< HEAD
 	idxd_wq_reset(wq);
+=======
+	rc = idxd_wq_disable(wq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	idxd_wq_free_resources(wq);
 	wq->client_count = 0;
 	mutex_unlock(&wq->wq_lock);
 
+<<<<<<< HEAD
 	dev_info(dev, "wq %s disabled\n", dev_name(&wq->conf_dev));
+=======
+	if (rc < 0)
+		dev_warn(dev, "Failed to disable %s: %d\n",
+			 dev_name(&wq->conf_dev), rc);
+	else
+		dev_info(dev, "wq %s disabled\n", dev_name(&wq->conf_dev));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int idxd_config_bus_remove(struct device *dev)
@@ -322,7 +341,11 @@ static int idxd_config_bus_remove(struct device *dev)
 		dev_dbg(dev, "%s removing dev %s\n", __func__,
 			dev_name(&idxd->conf_dev));
 		for (i = 0; i < idxd->max_wqs; i++) {
+<<<<<<< HEAD
+			struct idxd_wq *wq = idxd->wqs[i];
+=======
 			struct idxd_wq *wq = &idxd->wqs[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (wq->state == IDXD_WQ_DISABLED)
 				continue;
@@ -334,7 +357,11 @@ static int idxd_config_bus_remove(struct device *dev)
 		idxd_unregister_dma_device(idxd);
 		rc = idxd_device_disable(idxd);
 		for (i = 0; i < idxd->max_wqs; i++) {
+<<<<<<< HEAD
+			struct idxd_wq *wq = idxd->wqs[i];
+=======
 			struct idxd_wq *wq = &idxd->wqs[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			mutex_lock(&wq->wq_lock);
 			idxd_wq_disable_cleanup(wq);
@@ -405,7 +432,11 @@ struct bus_type *idxd_get_bus_type(struct idxd_device *idxd)
 	return idxd_bus_types[idxd->type];
 }
 
+<<<<<<< HEAD
+struct device_type *idxd_get_device_type(struct idxd_device *idxd)
+=======
 static struct device_type *idxd_get_device_type(struct idxd_device *idxd)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (idxd->type == IDXD_TYPE_DSA)
 		return &dsa_device_type;
@@ -488,7 +519,11 @@ static ssize_t engine_group_id_store(struct device *dev,
 
 	if (prevg)
 		prevg->num_engines--;
+<<<<<<< HEAD
+	engine->group = idxd->groups[id];
+=======
 	engine->group = &idxd->groups[id];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	engine->group->num_engines++;
 
 	return count;
@@ -512,6 +547,22 @@ static const struct attribute_group *idxd_engine_attribute_groups[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
+static void idxd_conf_engine_release(struct device *dev)
+{
+	struct idxd_engine *engine = container_of(dev, struct idxd_engine, conf_dev);
+
+	kfree(engine);
+}
+
+struct device_type idxd_engine_device_type = {
+	.name = "engine",
+	.release = idxd_conf_engine_release,
+	.groups = idxd_engine_attribute_groups,
+};
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Group attributes */
 
 static void idxd_set_free_tokens(struct idxd_device *idxd)
@@ -519,7 +570,11 @@ static void idxd_set_free_tokens(struct idxd_device *idxd)
 	int i, tokens;
 
 	for (i = 0, tokens = 0; i < idxd->max_groups; i++) {
+<<<<<<< HEAD
+		struct idxd_group *g = idxd->groups[i];
+=======
 		struct idxd_group *g = &idxd->groups[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		tokens += g->tokens_reserved;
 	}
@@ -674,7 +729,11 @@ static ssize_t group_engines_show(struct device *dev,
 	struct idxd_device *idxd = group->idxd;
 
 	for (i = 0; i < idxd->max_engines; i++) {
+<<<<<<< HEAD
+		struct idxd_engine *engine = idxd->engines[i];
+=======
 		struct idxd_engine *engine = &idxd->engines[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!engine->group)
 			continue;
@@ -703,7 +762,11 @@ static ssize_t group_work_queues_show(struct device *dev,
 	struct idxd_device *idxd = group->idxd;
 
 	for (i = 0; i < idxd->max_wqs; i++) {
+<<<<<<< HEAD
+		struct idxd_wq *wq = idxd->wqs[i];
+=======
 		struct idxd_wq *wq = &idxd->wqs[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (!wq->group)
 			continue;
@@ -824,6 +887,22 @@ static const struct attribute_group *idxd_group_attribute_groups[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
+static void idxd_conf_group_release(struct device *dev)
+{
+	struct idxd_group *group = container_of(dev, struct idxd_group, conf_dev);
+
+	kfree(group);
+}
+
+struct device_type idxd_group_device_type = {
+	.name = "group",
+	.release = idxd_conf_group_release,
+	.groups = idxd_group_attribute_groups,
+};
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* IDXD work queue attribs */
 static ssize_t wq_clients_show(struct device *dev,
 			       struct device_attribute *attr, char *buf)
@@ -896,7 +975,11 @@ static ssize_t wq_group_id_store(struct device *dev,
 		return count;
 	}
 
+<<<<<<< HEAD
+	group = idxd->groups[id];
+=======
 	group = &idxd->groups[id];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	prevg = wq->group;
 
 	if (prevg)
@@ -960,7 +1043,11 @@ static int total_claimed_wq_size(struct idxd_device *idxd)
 	int wq_size = 0;
 
 	for (i = 0; i < idxd->max_wqs; i++) {
+<<<<<<< HEAD
+		struct idxd_wq *wq = idxd->wqs[i];
+=======
 		struct idxd_wq *wq = &idxd->wqs[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		wq_size += wq->size;
 	}
@@ -984,7 +1071,11 @@ static ssize_t wq_size_store(struct device *dev,
 	if (!test_bit(IDXD_FLAG_CONFIGURABLE, &idxd->flags))
 		return -EPERM;
 
+<<<<<<< HEAD
 	if (idxd->state == IDXD_DEV_ENABLED)
+=======
+	if (wq->state != IDXD_WQ_DISABLED)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EPERM;
 
 	if (size + total_claimed_wq_size(idxd) - wq->size > idxd->max_wq_size)
@@ -1206,8 +1297,21 @@ static ssize_t wq_cdev_minor_show(struct device *dev,
 				  struct device_attribute *attr, char *buf)
 {
 	struct idxd_wq *wq = container_of(dev, struct idxd_wq, conf_dev);
+<<<<<<< HEAD
+	int minor = -1;
+
+	mutex_lock(&wq->wq_lock);
+	if (wq->idxd_cdev)
+		minor = wq->idxd_cdev->minor;
+	mutex_unlock(&wq->wq_lock);
+
+	if (minor == -1)
+		return -ENXIO;
+	return sysfs_emit(buf, "%d\n", minor);
+=======
 
 	return sprintf(buf, "%d\n", wq->idxd_cdev.minor);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct device_attribute dev_attr_wq_cdev_minor =
@@ -1356,6 +1460,23 @@ static const struct attribute_group *idxd_wq_attribute_groups[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
+static void idxd_conf_wq_release(struct device *dev)
+{
+	struct idxd_wq *wq = container_of(dev, struct idxd_wq, conf_dev);
+
+	kfree(wq->wqcfg);
+	kfree(wq);
+}
+
+struct device_type idxd_wq_device_type = {
+	.name = "wq",
+	.release = idxd_conf_wq_release,
+	.groups = idxd_wq_attribute_groups,
+};
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* IDXD device attribs */
 static ssize_t version_show(struct device *dev, struct device_attribute *attr,
 			    char *buf)
@@ -1444,6 +1565,7 @@ static ssize_t op_cap_show(struct device *dev,
 {
 	struct idxd_device *idxd =
 		container_of(dev, struct idxd_device, conf_dev);
+<<<<<<< HEAD
 	int i, rc = 0;
 
 	for (i = 0; i < 4; i++)
@@ -1452,6 +1574,10 @@ static ssize_t op_cap_show(struct device *dev,
 	rc--;
 	rc += sysfs_emit_at(buf, rc, "\n");
 	return rc;
+=======
+
+	return sprintf(buf, "%#llx\n", idxd->hw.opcap.bits[0]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 static DEVICE_ATTR_RO(op_cap);
 
@@ -1486,7 +1612,11 @@ static ssize_t clients_show(struct device *dev,
 
 	spin_lock_irqsave(&idxd->dev_lock, flags);
 	for (i = 0; i < idxd->max_wqs; i++) {
+<<<<<<< HEAD
+		struct idxd_wq *wq = idxd->wqs[i];
+=======
 		struct idxd_wq *wq = &idxd->wqs[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		count += wq->client_count;
 	}
@@ -1644,6 +1774,42 @@ static const struct attribute_group *idxd_attribute_groups[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
+static void idxd_conf_device_release(struct device *dev)
+{
+	struct idxd_device *idxd = container_of(dev, struct idxd_device, conf_dev);
+
+	kfree(idxd->groups);
+	kfree(idxd->wqs);
+	kfree(idxd->engines);
+	kfree(idxd->irq_entries);
+	ida_free(idxd_ida(idxd), idxd->id);
+	kfree(idxd);
+}
+
+struct device_type dsa_device_type = {
+	.name = "dsa",
+	.release = idxd_conf_device_release,
+	.groups = idxd_attribute_groups,
+};
+
+struct device_type iax_device_type = {
+	.name = "iax",
+	.release = idxd_conf_device_release,
+	.groups = idxd_attribute_groups,
+};
+
+static int idxd_register_engine_devices(struct idxd_device *idxd)
+{
+	int i, j, rc;
+
+	for (i = 0; i < idxd->max_engines; i++) {
+		struct idxd_engine *engine = idxd->engines[i];
+
+		rc = device_add(&engine->conf_dev);
+		if (rc < 0)
+			goto cleanup;
+=======
 static int idxd_setup_engine_sysfs(struct idxd_device *idxd)
 {
 	struct device *dev = &idxd->pdev->dev;
@@ -1665,11 +1831,33 @@ static int idxd_setup_engine_sysfs(struct idxd_device *idxd)
 			put_device(&engine->conf_dev);
 			goto cleanup;
 		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
 
 cleanup:
+<<<<<<< HEAD
+	j = i - 1;
+	for (; i < idxd->max_engines; i++)
+		put_device(&idxd->engines[i]->conf_dev);
+
+	while (j--)
+		device_unregister(&idxd->engines[j]->conf_dev);
+	return rc;
+}
+
+static int idxd_register_group_devices(struct idxd_device *idxd)
+{
+	int i, j, rc;
+
+	for (i = 0; i < idxd->max_groups; i++) {
+		struct idxd_group *group = idxd->groups[i];
+
+		rc = device_add(&group->conf_dev);
+		if (rc < 0)
+			goto cleanup;
+=======
 	while (i--) {
 		struct idxd_engine *engine = &idxd->engines[i];
 
@@ -1699,11 +1887,33 @@ static int idxd_setup_group_sysfs(struct idxd_device *idxd)
 			put_device(&group->conf_dev);
 			goto cleanup;
 		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
 
 cleanup:
+<<<<<<< HEAD
+	j = i - 1;
+	for (; i < idxd->max_groups; i++)
+		put_device(&idxd->groups[i]->conf_dev);
+
+	while (j--)
+		device_unregister(&idxd->groups[j]->conf_dev);
+	return rc;
+}
+
+static int idxd_register_wq_devices(struct idxd_device *idxd)
+{
+	int i, rc, j;
+
+	for (i = 0; i < idxd->max_wqs; i++) {
+		struct idxd_wq *wq = idxd->wqs[i];
+
+		rc = device_add(&wq->conf_dev);
+		if (rc < 0)
+			goto cleanup;
+=======
 	while (i--) {
 		struct idxd_group *group = &idxd->groups[i];
 
@@ -1732,11 +1942,64 @@ static int idxd_setup_wq_sysfs(struct idxd_device *idxd)
 			put_device(&wq->conf_dev);
 			goto cleanup;
 		}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
 
 cleanup:
+<<<<<<< HEAD
+	j = i - 1;
+	for (; i < idxd->max_wqs; i++)
+		put_device(&idxd->wqs[i]->conf_dev);
+
+	while (j--)
+		device_unregister(&idxd->wqs[j]->conf_dev);
+	return rc;
+}
+
+int idxd_register_devices(struct idxd_device *idxd)
+{
+	struct device *dev = &idxd->pdev->dev;
+	int rc, i;
+
+	rc = device_add(&idxd->conf_dev);
+	if (rc < 0)
+		return rc;
+
+	rc = idxd_register_wq_devices(idxd);
+	if (rc < 0) {
+		dev_dbg(dev, "WQ devices registering failed: %d\n", rc);
+		goto err_wq;
+	}
+
+	rc = idxd_register_engine_devices(idxd);
+	if (rc < 0) {
+		dev_dbg(dev, "Engine devices registering failed: %d\n", rc);
+		goto err_engine;
+	}
+
+	rc = idxd_register_group_devices(idxd);
+	if (rc < 0) {
+		dev_dbg(dev, "Group device registering failed: %d\n", rc);
+		goto err_group;
+	}
+
+	return 0;
+
+ err_group:
+	for (i = 0; i < idxd->max_engines; i++)
+		device_unregister(&idxd->engines[i]->conf_dev);
+ err_engine:
+	for (i = 0; i < idxd->max_wqs; i++)
+		device_unregister(&idxd->wqs[i]->conf_dev);
+ err_wq:
+	device_del(&idxd->conf_dev);
+	return rc;
+}
+
+void idxd_unregister_devices(struct idxd_device *idxd)
+=======
 	while (i--) {
 		struct idxd_wq *wq = &idxd->wqs[i];
 
@@ -1804,23 +2067,36 @@ int idxd_setup_sysfs(struct idxd_device *idxd)
 }
 
 void idxd_cleanup_sysfs(struct idxd_device *idxd)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
 	for (i = 0; i < idxd->max_wqs; i++) {
+<<<<<<< HEAD
+		struct idxd_wq *wq = idxd->wqs[i];
+=======
 		struct idxd_wq *wq = &idxd->wqs[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		device_unregister(&wq->conf_dev);
 	}
 
 	for (i = 0; i < idxd->max_engines; i++) {
+<<<<<<< HEAD
+		struct idxd_engine *engine = idxd->engines[i];
+=======
 		struct idxd_engine *engine = &idxd->engines[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		device_unregister(&engine->conf_dev);
 	}
 
 	for (i = 0; i < idxd->max_groups; i++) {
+<<<<<<< HEAD
+		struct idxd_group *group = idxd->groups[i];
+=======
 		struct idxd_group *group = &idxd->groups[i];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		device_unregister(&group->conf_dev);
 	}

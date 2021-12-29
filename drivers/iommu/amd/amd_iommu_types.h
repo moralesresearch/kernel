@@ -15,7 +15,10 @@
 #include <linux/spinlock.h>
 #include <linux/pci.h>
 #include <linux/irqreturn.h>
+<<<<<<< HEAD
 #include <linux/io-pgtable.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Maximum number of IOMMUs supported
@@ -253,6 +256,7 @@
 
 #define GA_GUEST_NR		0x1
 
+<<<<<<< HEAD
 #define IOMMU_IN_ADDR_BIT_SIZE  52
 #define IOMMU_OUT_ADDR_BIT_SIZE 52
 
@@ -266,6 +270,8 @@
  */
 #define AMD_IOMMU_PGSIZES	((~0xFFFUL) & ~(2ULL << 38))
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Bit value definition for dte irq remapping fields*/
 #define DTE_IRQ_PHYS_ADDR_MASK	(((1ULL << 45)-1) << 6)
 #define DTE_IRQ_REMAP_INTCTL_MASK	(0x3ULL << 60)
@@ -484,6 +490,7 @@ struct amd_irte_ops;
 
 #define AMD_IOMMU_FLAG_TRANS_PRE_ENABLED      (1 << 0)
 
+<<<<<<< HEAD
 #define io_pgtable_to_data(x) \
 	container_of((x), struct amd_io_pgtable, iop)
 
@@ -505,6 +512,8 @@ struct amd_io_pgtable {
 	atomic64_t		pt_root;    /* pgtable root and pgtable mode */
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This structure contains generic data for  IOMMU protection domains
  * independent of their use.
@@ -513,9 +522,15 @@ struct protection_domain {
 	struct list_head dev_list; /* List of all devices in this domain */
 	struct iommu_domain domain; /* generic domain handle used by
 				       iommu core code */
+<<<<<<< HEAD
 	struct amd_io_pgtable iop;
 	spinlock_t lock;	/* mostly used to lock the page table*/
 	u16 id;			/* the domain id written to the device table */
+=======
+	spinlock_t lock;	/* mostly used to lock the page table*/
+	u16 id;			/* the domain id written to the device table */
+	atomic64_t pt_root;	/* pgtable root and pgtable mode */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int glx;		/* Number of levels for GCR3 table */
 	u64 *gcr3_tbl;		/* Guest CR3 table */
 	unsigned long flags;	/* flags to find out type of domain */
@@ -523,6 +538,15 @@ struct protection_domain {
 	unsigned dev_iommu[MAX_IOMMUS]; /* per-IOMMU reference count */
 };
 
+<<<<<<< HEAD
+=======
+/* For decocded pt_root */
+struct domain_pgtable {
+	int mode;
+	u64 *root;
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Structure where we save information about one hardware AMD IOMMU in the
  * system.

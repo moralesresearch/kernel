@@ -3891,7 +3891,14 @@ nfsd4_reclaim_complete(struct svc_rqst *rqstp,
 		struct nfsd4_compound_state *cstate, union nfsd4_op_u *u)
 {
 	struct nfsd4_reclaim_complete *rc = &u->reclaim_complete;
+<<<<<<< HEAD
 	struct nfs4_client *clp = cstate->clp;
+=======
+<<<<<<< HEAD
+	struct nfs4_client *clp = cstate->clp;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__be32 status = 0;
 
 	if (rc->rca_one_fs) {
@@ -3905,11 +3912,26 @@ nfsd4_reclaim_complete(struct svc_rqst *rqstp,
 	}
 
 	status = nfserr_complete_already;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (test_and_set_bit(NFSD4_CLIENT_RECLAIM_COMPLETE, &clp->cl_flags))
 		goto out;
 
 	status = nfserr_stale_clientid;
 	if (is_client_expired(clp))
+<<<<<<< HEAD
+=======
+=======
+	if (test_and_set_bit(NFSD4_CLIENT_RECLAIM_COMPLETE,
+			     &cstate->session->se_client->cl_flags))
+		goto out;
+
+	status = nfserr_stale_clientid;
+	if (is_client_expired(cstate->session->se_client))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * The following error isn't really legal.
 		 * But we only get here if the client just explicitly
@@ -3920,8 +3942,18 @@ nfsd4_reclaim_complete(struct svc_rqst *rqstp,
 		goto out;
 
 	status = nfs_ok;
+<<<<<<< HEAD
 	nfsd4_client_record_create(clp);
 	inc_reclaim_complete(clp);
+=======
+<<<<<<< HEAD
+	nfsd4_client_record_create(clp);
+	inc_reclaim_complete(clp);
+=======
+	nfsd4_client_record_create(cstate->session->se_client);
+	inc_reclaim_complete(cstate->session->se_client);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	return status;
 }
@@ -4633,6 +4665,10 @@ static __be32 nfsd4_check_seqid(struct nfsd4_compound_state *cstate, struct nfs4
 	return nfserr_bad_seqid;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct nfs4_client *lookup_clientid(clientid_t *clid, bool sessions,
 						struct nfsd_net *nn)
 {
@@ -4664,6 +4700,45 @@ static __be32 set_client(clientid_t *clid,
 	cstate->clp = lookup_clientid(clid, false, nn);
 	if (!cstate->clp)
 		return nfserr_expired;
+<<<<<<< HEAD
+=======
+=======
+static __be32 lookup_clientid(clientid_t *clid,
+		struct nfsd4_compound_state *cstate,
+		struct nfsd_net *nn,
+		bool sessions)
+{
+	struct nfs4_client *found;
+
+	if (cstate->clp) {
+		found = cstate->clp;
+		if (!same_clid(&found->cl_clientid, clid))
+			return nfserr_stale_clientid;
+		return nfs_ok;
+	}
+
+	if (STALE_CLIENTID(clid, nn))
+		return nfserr_stale_clientid;
+
+	/*
+	 * For v4.1+ we get the client in the SEQUENCE op. If we don't have one
+	 * cached already then we know this is for is for v4.0 and "sessions"
+	 * will be false.
+	 */
+	WARN_ON_ONCE(cstate->session);
+	spin_lock(&nn->client_lock);
+	found = find_confirmed_client(clid, sessions, nn);
+	if (!found) {
+		spin_unlock(&nn->client_lock);
+		return nfserr_expired;
+	}
+	atomic_inc(&found->cl_rpc_users);
+	spin_unlock(&nn->client_lock);
+
+	/* Cache the nfs4_client in cstate! */
+	cstate->clp = found;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return nfs_ok;
 }
 
@@ -4677,6 +4752,14 @@ nfsd4_process_open1(struct nfsd4_compound_state *cstate,
 	struct nfs4_openowner *oo = NULL;
 	__be32 status;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	if (STALE_CLIENTID(&open->op_clientid, nn))
+		return nfserr_stale_clientid;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * In case we need it later, after we've already created the
 	 * file and don't want to risk a further failure:
@@ -4685,7 +4768,15 @@ nfsd4_process_open1(struct nfsd4_compound_state *cstate,
 	if (open->op_file == NULL)
 		return nfserr_jukebox;
 
+<<<<<<< HEAD
 	status = set_client(clientid, cstate, nn);
+=======
+<<<<<<< HEAD
+	status = set_client(clientid, cstate, nn);
+=======
+	status = lookup_clientid(clientid, cstate, nn, false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		return status;
 	clp = cstate->clp;
@@ -4869,6 +4960,14 @@ static __be32 nfs4_get_vfs_file(struct svc_rqst *rqstp, struct nfs4_file *fp,
 	if (nf)
 		nfsd_file_put(nf);
 
+<<<<<<< HEAD
+	status = nfserrno(nfsd_open_break_lease(cur_fh->fh_dentry->d_inode,
+								access));
+	if (status)
+		goto out_put_access;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = nfsd4_truncate(rqstp, cur_fh, open);
 	if (status)
 		goto out_put_access;
@@ -5270,6 +5369,10 @@ nfsd4_renew(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
 	struct nfsd_net *nn = net_generic(SVC_NET(rqstp), nfsd_net_id);
 
 	trace_nfsd_clid_renew(clid);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	status = set_client(clid, cstate, nn);
 	if (status)
 		return status;
@@ -5278,6 +5381,22 @@ nfsd4_renew(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
 			&& clp->cl_cb_state != NFSD4_CB_UP)
 		return nfserr_cb_path_down;
 	return nfs_ok;
+<<<<<<< HEAD
+=======
+=======
+	status = lookup_clientid(clid, cstate, nn, false);
+	if (status)
+		goto out;
+	clp = cstate->clp;
+	status = nfserr_cb_path_down;
+	if (!list_empty(&clp->cl_delegations)
+			&& clp->cl_cb_state != NFSD4_CB_UP)
+		goto out;
+	status = nfs_ok;
+out:
+	return status;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void
@@ -5653,7 +5772,16 @@ nfsd4_lookup_stateid(struct nfsd4_compound_state *cstate,
 	if (ZERO_STATEID(stateid) || ONE_STATEID(stateid) ||
 		CLOSE_STATEID(stateid))
 		return nfserr_bad_stateid;
+<<<<<<< HEAD
 	status = set_client(&stateid->si_opaque.so_clid, cstate, nn);
+=======
+<<<<<<< HEAD
+	status = set_client(&stateid->si_opaque.so_clid, cstate, nn);
+=======
+	status = lookup_clientid(&stateid->si_opaque.so_clid, cstate, nn,
+				 false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status == nfserr_stale_clientid) {
 		if (cstate->session)
 			return nfserr_bad_stateid;
@@ -5784,13 +5912,25 @@ static __be32 find_cpntf_state(struct nfsd_net *nn, stateid_t *st,
 {
 	__be32 status;
 	struct nfs4_cpntf_state *cps = NULL;
+<<<<<<< HEAD
 	struct nfs4_client *found;
+=======
+<<<<<<< HEAD
+	struct nfs4_client *found;
+=======
+	struct nfsd4_compound_state cstate;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	status = manage_cpntf_state(nn, st, NULL, &cps);
 	if (status)
 		return status;
 
 	cps->cpntf_time = ktime_get_boottime_seconds();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	status = nfserr_expired;
 	found = lookup_clientid(&cps->cp_p_clid, true, nn);
@@ -5805,6 +5945,19 @@ static __be32 find_cpntf_state(struct nfsd_net *nn, stateid_t *st,
 		status = nfserr_bad_stateid;
 
 	put_client_renew(found);
+<<<<<<< HEAD
+=======
+=======
+	memset(&cstate, 0, sizeof(cstate));
+	status = lookup_clientid(&cps->cp_p_clid, &cstate, nn, true);
+	if (status)
+		goto out;
+	status = nfsd4_lookup_stateid(&cstate, &cps->cp_p_stateid,
+				NFS4_DELEG_STID|NFS4_OPEN_STID|NFS4_LOCK_STID,
+				stid, nn);
+	put_client_renew(cstate.clp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	nfs4_put_cpntf_state(nn, cps);
 	return status;
@@ -5893,7 +6046,15 @@ nfsd4_test_stateid(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
 {
 	struct nfsd4_test_stateid *test_stateid = &u->test_stateid;
 	struct nfsd4_test_stateid_id *stateid;
+<<<<<<< HEAD
 	struct nfs4_client *cl = cstate->clp;
+=======
+<<<<<<< HEAD
+	struct nfs4_client *cl = cstate->clp;
+=======
+	struct nfs4_client *cl = cstate->session->se_client;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_for_each_entry(stateid, &test_stateid->ts_stateid_list, ts_id_list)
 		stateid->ts_id_status =
@@ -5939,7 +6100,15 @@ nfsd4_free_stateid(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
 	stateid_t *stateid = &free_stateid->fr_stateid;
 	struct nfs4_stid *s;
 	struct nfs4_delegation *dp;
+<<<<<<< HEAD
 	struct nfs4_client *cl = cstate->clp;
+=======
+<<<<<<< HEAD
+	struct nfs4_client *cl = cstate->clp;
+=======
+	struct nfs4_client *cl = cstate->session->se_client;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__be32 ret = nfserr_bad_stateid;
 
 	spin_lock(&cl->cl_lock);
@@ -6668,9 +6837,25 @@ nfsd4_lock(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
 		if (nfsd4_has_session(cstate))
 			/* See rfc 5661 18.10.3: given clientid is ignored: */
 			memcpy(&lock->lk_new_clientid,
+<<<<<<< HEAD
 				&cstate->clp->cl_clientid,
 				sizeof(clientid_t));
 
+=======
+<<<<<<< HEAD
+				&cstate->clp->cl_clientid,
+				sizeof(clientid_t));
+
+=======
+				&cstate->session->se_client->cl_clientid,
+				sizeof(clientid_t));
+
+		status = nfserr_stale_clientid;
+		if (STALE_CLIENTID(&lock->lk_new_clientid, nn))
+			goto out;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* validate and update open stateid and open seqid */
 		status = nfs4_preprocess_confirmed_seqid_op(cstate,
 				        lock->lk_new_open_seqid,
@@ -6849,11 +7034,28 @@ out:
 static __be32 nfsd_test_lock(struct svc_rqst *rqstp, struct svc_fh *fhp, struct file_lock *lock)
 {
 	struct nfsd_file *nf;
+<<<<<<< HEAD
+	__be32 err;
+
+	err = nfsd_file_acquire(rqstp, fhp, NFSD_MAY_READ, &nf);
+	if (err)
+		return err;
+	fh_lock(fhp); /* to block new leases till after test_lock: */
+	err = nfserrno(nfsd_open_break_lease(fhp->fh_dentry->d_inode,
+							NFSD_MAY_READ));
+	if (err)
+		goto out;
+	err = nfserrno(vfs_test_lock(nf->nf_file, lock));
+out:
+	fh_unlock(fhp);
+	nfsd_file_put(nf);
+=======
 	__be32 err = nfsd_file_acquire(rqstp, fhp, NFSD_MAY_READ, &nf);
 	if (!err) {
 		err = nfserrno(vfs_test_lock(nf->nf_file, lock));
 		nfsd_file_put(nf);
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return err;
 }
 
@@ -6877,7 +7079,16 @@ nfsd4_lockt(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
 		 return nfserr_inval;
 
 	if (!nfsd4_has_session(cstate)) {
+<<<<<<< HEAD
 		status = set_client(&lockt->lt_clientid, cstate, nn);
+=======
+<<<<<<< HEAD
+		status = set_client(&lockt->lt_clientid, cstate, nn);
+=======
+		status = lookup_clientid(&lockt->lt_clientid, cstate, nn,
+					 false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (status)
 			goto out;
 	}
@@ -7061,7 +7272,15 @@ nfsd4_release_lockowner(struct svc_rqst *rqstp,
 	dprintk("nfsd4_release_lockowner clientid: (%08x/%08x):\n",
 		clid->cl_boot, clid->cl_id);
 
+<<<<<<< HEAD
 	status = set_client(clid, cstate, nn);
+=======
+<<<<<<< HEAD
+	status = set_client(clid, cstate, nn);
+=======
+	status = lookup_clientid(clid, cstate, nn, false);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status)
 		return status;
 
@@ -7197,6 +7416,10 @@ nfsd4_find_reclaim_client(struct xdr_netobj name, struct nfsd_net *nn)
 	return NULL;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 __be32
 nfs4_check_open_reclaim(struct nfs4_client *clp)
 {
@@ -7204,6 +7427,30 @@ nfs4_check_open_reclaim(struct nfs4_client *clp)
 		return nfserr_no_grace;
 
 	if (nfsd4_client_record_check(clp))
+<<<<<<< HEAD
+=======
+=======
+/*
+* Called from OPEN. Look for clientid in reclaim list.
+*/
+__be32
+nfs4_check_open_reclaim(clientid_t *clid,
+		struct nfsd4_compound_state *cstate,
+		struct nfsd_net *nn)
+{
+	__be32 status;
+
+	/* find clientid in conf_id_hashtbl */
+	status = lookup_clientid(clid, cstate, nn, false);
+	if (status)
+		return nfserr_reclaim_bad;
+
+	if (test_bit(NFSD4_CLIENT_RECLAIM_COMPLETE, &cstate->clp->cl_flags))
+		return nfserr_no_grace;
+
+	if (nfsd4_client_record_check(cstate->clp))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return nfserr_reclaim_bad;
 
 	return nfs_ok;

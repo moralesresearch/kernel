@@ -488,10 +488,19 @@ void radeon_probe_screens(struct radeonfb_info *rinfo,
 #if defined(DEBUG) && defined(CONFIG_FB_RADEON_I2C)
 		{
 			u8 *EDIDs[4] = { NULL, NULL, NULL, NULL };
+<<<<<<< HEAD
 			int i;
 
 			for (i = 0; i < 4; i++)
 				radeon_probe_i2c_connector(rinfo, i + 1, &EDIDs[i]);
+=======
+			int mon_types[4] = {MT_NONE, MT_NONE, MT_NONE, MT_NONE};
+			int i;
+
+			for (i = 0; i < 4; i++)
+				mon_types[i] = radeon_probe_i2c_connector(rinfo,
+									  i+1, &EDIDs[i]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 #endif /* DEBUG */
 		/*

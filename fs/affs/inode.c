@@ -216,15 +216,23 @@ affs_write_inode(struct inode *inode, struct writeback_control *wbc)
 }
 
 int
+<<<<<<< HEAD
 affs_notify_change(struct user_namespace *mnt_userns, struct dentry *dentry,
 		   struct iattr *attr)
+=======
+affs_notify_change(struct dentry *dentry, struct iattr *attr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	int error;
 
 	pr_debug("notify_change(%lu,0x%x)\n", inode->i_ino, attr->ia_valid);
 
+<<<<<<< HEAD
 	error = setattr_prepare(&init_user_ns, dentry, attr);
+=======
+	error = setattr_prepare(dentry, attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		goto out;
 
@@ -250,7 +258,11 @@ affs_notify_change(struct user_namespace *mnt_userns, struct dentry *dentry,
 		affs_truncate(inode);
 	}
 
+<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, attr);
+=======
+	setattr_copy(inode, attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 
 	if (attr->ia_valid & ATTR_MODE)

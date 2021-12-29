@@ -1,7 +1,11 @@
 Atmel system registers
 
 Chipid required properties:
+<<<<<<< HEAD
 - compatible: Should be "atmel,sama5d2-chipid" or "microchip,sama7g5-chipid"
+=======
+- compatible: Should be "atmel,sama5d2-chipid"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 - reg : Should contain registers location and length
 
 PIT Timer required properties:
@@ -91,8 +95,12 @@ SHDWC SAMA5D2-Compatible Shutdown Controller
 1) shdwc node
 
 required properties:
+<<<<<<< HEAD
 - compatible: should be "atmel,sama5d2-shdwc", "microchip,sam9x60-shdwc" or
   "microchip,sama7g5-shdwc"
+=======
+- compatible: should be "atmel,sama5d2-shdwc" or "microchip,sam9x60-shdwc".
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 - reg: should contain registers location and length
 - clocks: phandle to input clock.
 - #address-cells: should be one. The cell is the wake-up input index.
@@ -104,7 +112,11 @@ optional properties:
   microseconds. It's usually a board-related property.
 - atmel,wakeup-rtc-timer: boolean to enable Real-Time Clock wake-up.
 
+<<<<<<< HEAD
 optional microchip,sam9x60-shdwc or microchip,sama7g5-shdwc properties:
+=======
+optional microchip,sam9x60-shdwc properties:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 - atmel,wakeup-rtt-timer: boolean to enable Real-time Timer Wake-up.
 
 The node contains child nodes for each wake-up input that the platform uses.

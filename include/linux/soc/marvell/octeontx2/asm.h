@@ -22,6 +22,7 @@
 			 : [rs]"r" (ioaddr));           \
 	(result);                                       \
 })
+<<<<<<< HEAD
 #define cn10k_lmt_flush(val, addr)			\
 ({							\
 	__asm__ volatile(".cpu  generic+lse\n"		\
@@ -32,6 +33,10 @@
 #else
 #define otx2_lmt_flush(ioaddr)          ({ 0; })
 #define cn10k_lmt_flush(val, addr)	({ addr = val; })
+=======
+#else
+#define otx2_lmt_flush(ioaddr)          ({ 0; })
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 #endif /* __SOC_OTX2_ASM_H */

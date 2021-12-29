@@ -25,19 +25,30 @@ properties:
       - qcom,msm8998-qmp-pcie-phy
       - qcom,msm8998-qmp-ufs-phy
       - qcom,msm8998-qmp-usb3-phy
+<<<<<<< HEAD
+      - qcom,sc7180-qmp-usb3-phy
       - qcom,sc8180x-qmp-ufs-phy
       - qcom,sc8180x-qmp-usb3-phy
       - qcom,sdm845-qhp-pcie-phy
       - qcom,sdm845-qmp-pcie-phy
       - qcom,sdm845-qmp-ufs-phy
+      - qcom,sdm845-qmp-usb3-phy
       - qcom,sdm845-qmp-usb3-uni-phy
       - qcom,sm8150-qmp-ufs-phy
       - qcom,sm8150-qmp-usb3-phy
       - qcom,sm8150-qmp-usb3-uni-phy
+=======
+      - qcom,sdm845-qhp-pcie-phy
+      - qcom,sdm845-qmp-pcie-phy
+      - qcom,sdm845-qmp-ufs-phy
+      - qcom,sdm845-qmp-usb3-uni-phy
+      - qcom,sm8150-qmp-ufs-phy
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - qcom,sm8250-qmp-ufs-phy
       - qcom,sm8250-qmp-gen3x1-pcie-phy
       - qcom,sm8250-qmp-gen3x2-pcie-phy
       - qcom,sm8250-qmp-modem-pcie-phy
+<<<<<<< HEAD
       - qcom,sm8250-qmp-usb3-phy
       - qcom,sm8250-qmp-usb3-uni-phy
       - qcom,sm8350-qmp-ufs-phy
@@ -51,6 +62,12 @@ properties:
     items:
       - description: Address and length of PHY's common serdes block.
       - description: Address and length of PHY's DP_COM control block.
+=======
+
+  reg:
+    items:
+      - description: Address and length of PHY's common serdes block.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   "#clock-cells":
     enum: [ 1, 2 ]
@@ -149,6 +166,7 @@ allOf:
         compatible:
           contains:
             enum:
+<<<<<<< HEAD
               - qcom,sdx55-qmp-usb3-uni-phy
     then:
       properties:
@@ -175,6 +193,8 @@ allOf:
         compatible:
           contains:
             enum:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
               - qcom,msm8996-qmp-pcie-phy
     then:
       properties:
@@ -324,6 +344,7 @@ allOf:
         reset-names:
           items:
             - const: phy
+<<<<<<< HEAD
   - if:
       properties:
         compatible:
@@ -382,6 +403,8 @@ allOf:
           items:
             - const: phy
             - const: common
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 examples:
   - |

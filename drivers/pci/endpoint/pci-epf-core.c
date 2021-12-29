@@ -21,6 +21,7 @@ static struct bus_type pci_epf_bus_type;
 static const struct device_type pci_epf_type;
 
 /**
+<<<<<<< HEAD
  * pci_epf_type_add_cfs() - Help function drivers to expose function specific
  *                          attributes in configfs
  * @epf: the EPF device that has to be configured using configfs
@@ -53,6 +54,8 @@ struct config_group *pci_epf_type_add_cfs(struct pci_epf *epf,
 EXPORT_SYMBOL_GPL(pci_epf_type_add_cfs);
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * pci_epf_unbind() - Notify the function driver that the binding between the
  *		      EPF device and EPC device has been lost
  * @epf: the EPF device which has lost the binding with the EPC device
@@ -106,6 +109,7 @@ EXPORT_SYMBOL_GPL(pci_epf_bind);
  * @epf: the EPF device from whom to free the memory
  * @addr: the virtual address of the PCI EPF register space
  * @bar: the BAR number corresponding to the register space
+<<<<<<< HEAD
  * @type: Identifies if the allocated space is for primary EPC or secondary EPC
  *
  * Invoke to free the allocated PCI EPF register space.
@@ -116,10 +120,19 @@ void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
 	struct device *dev = epf->epc->dev.parent;
 	struct pci_epf_bar *epf_bar;
 	struct pci_epc *epc;
+=======
+ *
+ * Invoke to free the allocated PCI EPF register space.
+ */
+void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar)
+{
+	struct device *dev = epf->epc->dev.parent;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!addr)
 		return;
 
+<<<<<<< HEAD
 	if (type == PRIMARY_INTERFACE) {
 		epc = epf->epc;
 		epf_bar = epf->bar;
@@ -137,6 +150,16 @@ void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
 	epf_bar[bar].size = 0;
 	epf_bar[bar].barno = 0;
 	epf_bar[bar].flags = 0;
+=======
+	dma_free_coherent(dev, epf->bar[bar].size, addr,
+			  epf->bar[bar].phys_addr);
+
+	epf->bar[bar].phys_addr = 0;
+	epf->bar[bar].addr = NULL;
+	epf->bar[bar].size = 0;
+	epf->bar[bar].barno = 0;
+	epf->bar[bar].flags = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(pci_epf_free_space);
 
@@ -146,11 +169,15 @@ EXPORT_SYMBOL_GPL(pci_epf_free_space);
  * @size: the size of the memory that has to be allocated
  * @bar: the BAR number corresponding to the allocated register space
  * @align: alignment size for the allocation region
+<<<<<<< HEAD
  * @type: Identifies if the allocation is for primary EPC or secondary EPC
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Invoke to allocate memory for the PCI EPF register space.
  */
 void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
+<<<<<<< HEAD
 			  size_t align, enum pci_epc_interface_type type)
 {
 	struct pci_epf_bar *epf_bar;
@@ -158,6 +185,13 @@ void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
 	struct pci_epc *epc;
 	struct device *dev;
 	void *space;
+=======
+			  size_t align)
+{
+	void *space;
+	struct device *dev = epf->epc->dev.parent;
+	dma_addr_t phys_addr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (size < 128)
 		size = 128;
@@ -167,6 +201,7 @@ void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
 	else
 		size = roundup_pow_of_two(size);
 
+<<<<<<< HEAD
 	if (type == PRIMARY_INTERFACE) {
 		epc = epf->epc;
 		epf_bar = epf->bar;
@@ -176,17 +211,27 @@ void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
 	}
 
 	dev = epc->dev.parent;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	space = dma_alloc_coherent(dev, size, &phys_addr, GFP_KERNEL);
 	if (!space) {
 		dev_err(dev, "failed to allocate mem space\n");
 		return NULL;
 	}
 
+<<<<<<< HEAD
 	epf_bar[bar].phys_addr = phys_addr;
 	epf_bar[bar].addr = space;
 	epf_bar[bar].size = size;
 	epf_bar[bar].barno = bar;
 	epf_bar[bar].flags |= upper_32_bits(size) ?
+=======
+	epf->bar[bar].phys_addr = phys_addr;
+	epf->bar[bar].addr = space;
+	epf->bar[bar].size = size;
+	epf->bar[bar].barno = bar;
+	epf->bar[bar].flags |= upper_32_bits(size) ?
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				PCI_BASE_ADDRESS_MEM_TYPE_64 :
 				PCI_BASE_ADDRESS_MEM_TYPE_32;
 
@@ -339,6 +384,25 @@ struct pci_epf *pci_epf_create(const char *name)
 }
 EXPORT_SYMBOL_GPL(pci_epf_create);
 
+<<<<<<< HEAD
+=======
+const struct pci_epf_device_id *
+pci_epf_match_device(const struct pci_epf_device_id *id, struct pci_epf *epf)
+{
+	if (!id || !epf)
+		return NULL;
+
+	while (*id->name) {
+		if (strcmp(epf->name, id->name) == 0)
+			return id;
+		id++;
+	}
+
+	return NULL;
+}
+EXPORT_SYMBOL_GPL(pci_epf_match_device);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void pci_epf_dev_release(struct device *dev)
 {
 	struct pci_epf *epf = to_pci_epf(dev);

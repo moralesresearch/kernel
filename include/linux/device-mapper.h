@@ -93,6 +93,10 @@ typedef int (*dm_message_fn) (struct dm_target *ti, unsigned argc, char **argv,
 
 typedef int (*dm_prepare_ioctl_fn) (struct dm_target *ti, struct block_device **bdev);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_BLK_DEV_ZONED
 typedef int (*dm_report_zones_fn) (struct dm_target *ti,
 				   struct dm_report_zones_args *args,
@@ -105,6 +109,14 @@ typedef int (*dm_report_zones_fn) (struct dm_target *ti,
  */
 typedef int (*dm_report_zones_fn) (struct dm_target *dummy);
 #endif
+<<<<<<< HEAD
+=======
+=======
+typedef int (*dm_report_zones_fn) (struct dm_target *ti,
+				   struct dm_report_zones_args *args,
+				   unsigned int nr_zones);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * These iteration functions are typically used to check (and combine)
@@ -196,7 +208,17 @@ struct target_type {
 	dm_status_fn status;
 	dm_message_fn message;
 	dm_prepare_ioctl_fn prepare_ioctl;
+<<<<<<< HEAD
 	dm_report_zones_fn report_zones;
+=======
+<<<<<<< HEAD
+	dm_report_zones_fn report_zones;
+=======
+#ifdef CONFIG_BLK_DEV_ZONED
+	dm_report_zones_fn report_zones;
+#endif
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dm_busy_fn busy;
 	dm_iterate_devices_fn iterate_devices;
 	dm_io_hints_fn io_hints;
@@ -259,6 +281,10 @@ struct target_type {
  * - DM_TARGET_MIXED_ZONED_MODEL: the target supports combining multiple
  *   devices with different zoned models.
  */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_BLK_DEV_ZONED
 #define DM_TARGET_ZONED_HM		0x00000040
 #define dm_target_supports_zoned_hm(type) ((type)->features & DM_TARGET_ZONED_HM)
@@ -266,6 +292,13 @@ struct target_type {
 #define DM_TARGET_ZONED_HM		0x00000000
 #define dm_target_supports_zoned_hm(type) (false)
 #endif
+<<<<<<< HEAD
+=======
+=======
+#define DM_TARGET_ZONED_HM		0x00000040
+#define dm_target_supports_zoned_hm(type) ((type)->features & DM_TARGET_ZONED_HM)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * A target handles REQ_NOWAIT
@@ -273,12 +306,21 @@ struct target_type {
 #define DM_TARGET_NOWAIT		0x00000080
 #define dm_target_supports_nowait(type) ((type)->features & DM_TARGET_NOWAIT)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * A target supports passing through inline crypto support.
  */
 #define DM_TARGET_PASSES_CRYPTO		0x00000100
 #define dm_target_passes_crypto(type) ((type)->features & DM_TARGET_PASSES_CRYPTO)
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_BLK_DEV_ZONED
 #define DM_TARGET_MIXED_ZONED_MODEL	0x00000200
 #define dm_target_supports_mixed_zoned_model(type) \
@@ -570,11 +612,20 @@ struct dm_table *dm_swap_table(struct mapped_device *md,
 			       struct dm_table *t);
 
 /*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Table keyslot manager functions
  */
 void dm_destroy_keyslot_manager(struct blk_keyslot_manager *ksm);
 
 /*
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * A wrapper around vmalloc.
  */
 void *dm_vcalloc(unsigned long nmemb, unsigned long elem_size);

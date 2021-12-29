@@ -34,6 +34,10 @@ int dp_display_get_modes(struct msm_dp *dp_display,
 int dp_display_request_irq(struct msm_dp *dp_display);
 bool dp_display_check_video_test(struct msm_dp *dp_display);
 int dp_display_get_test_bpp(struct msm_dp *dp_display);
+<<<<<<< HEAD
+void dp_display_signal_audio_start(struct msm_dp *dp_display);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dp_display_signal_audio_complete(struct msm_dp *dp_display);
 
 #endif /* _DP_DISPLAY_H_ */

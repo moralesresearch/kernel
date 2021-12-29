@@ -117,6 +117,7 @@ static bool default_suspend_ok(struct device *dev)
 	return td->cached_suspend_ok;
 }
 
+<<<<<<< HEAD
 static void update_domain_next_wakeup(struct generic_pm_domain *genpd, ktime_t now)
 {
 	ktime_t domain_wakeup = KTIME_MAX;
@@ -166,6 +167,8 @@ static bool next_wakeup_allows_state(struct generic_pm_domain *genpd,
 	return idle_time_ns >= min_sleep_ns;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool __default_power_down_ok(struct dev_pm_domain *pd,
 				     unsigned int state)
 {
@@ -250,11 +253,16 @@ static bool __default_power_down_ok(struct dev_pm_domain *pd,
 }
 
 /**
+<<<<<<< HEAD
  * _default_power_down_ok - Default generic PM domain power off governor routine.
+=======
+ * default_power_down_ok - Default generic PM domain power off governor routine.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @pd: PM domain to check.
  *
  * This routine must be executed under the PM domain's lock.
  */
+<<<<<<< HEAD
 static bool _default_power_down_ok(struct dev_pm_domain *pd, ktime_t now)
 {
 	struct generic_pm_domain *genpd = pd_to_genpd(pd);
@@ -285,6 +293,13 @@ static bool _default_power_down_ok(struct dev_pm_domain *pd, ktime_t now)
 		}
 	}
 
+=======
+static bool default_power_down_ok(struct dev_pm_domain *pd)
+{
+	struct generic_pm_domain *genpd = pd_to_genpd(pd);
+	struct gpd_link *link;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!genpd->max_off_time_changed) {
 		genpd->state_idx = genpd->cached_power_down_state_idx;
 		return genpd->cached_power_down_ok;
@@ -302,6 +317,7 @@ static bool _default_power_down_ok(struct dev_pm_domain *pd, ktime_t now)
 	genpd->max_off_time_ns = -1;
 	genpd->max_off_time_changed = false;
 	genpd->cached_power_down_ok = true;
+<<<<<<< HEAD
 
 	/*
 	 * Find a state to power down to, starting from the state
@@ -317,15 +333,31 @@ static bool _default_power_down_ok(struct dev_pm_domain *pd, ktime_t now)
 
 done:
 	genpd->state_idx = state_idx;
+=======
+	genpd->state_idx = genpd->state_count - 1;
+
+	/* Find a state to power down to, starting from the deepest. */
+	while (!__default_power_down_ok(pd, genpd->state_idx)) {
+		if (genpd->state_idx == 0) {
+			genpd->cached_power_down_ok = false;
+			break;
+		}
+		genpd->state_idx--;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	genpd->cached_power_down_state_idx = genpd->state_idx;
 	return genpd->cached_power_down_ok;
 }
 
+<<<<<<< HEAD
 static bool default_power_down_ok(struct dev_pm_domain *pd)
 {
 	return _default_power_down_ok(pd, ktime_get());
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool always_on_power_down_ok(struct dev_pm_domain *domain)
 {
 	return false;
@@ -337,12 +369,19 @@ static bool cpu_power_down_ok(struct dev_pm_domain *pd)
 	struct generic_pm_domain *genpd = pd_to_genpd(pd);
 	struct cpuidle_device *dev;
 	ktime_t domain_wakeup, next_hrtimer;
+<<<<<<< HEAD
 	ktime_t now = ktime_get();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	s64 idle_duration_ns;
 	int cpu, i;
 
 	/* Validate dev PM QoS constraints. */
+<<<<<<< HEAD
 	if (!_default_power_down_ok(pd, now))
+=======
+	if (!default_power_down_ok(pd))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	if (!(genpd->flags & GENPD_FLAG_CPU_DOMAIN))
@@ -364,7 +403,11 @@ static bool cpu_power_down_ok(struct dev_pm_domain *pd)
 	}
 
 	/* The minimum idle duration is from now - until the next wakeup. */
+<<<<<<< HEAD
 	idle_duration_ns = ktime_to_ns(ktime_sub(domain_wakeup, now));
+=======
+	idle_duration_ns = ktime_to_ns(ktime_sub(domain_wakeup, ktime_get()));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (idle_duration_ns <= 0)
 		return false;
 

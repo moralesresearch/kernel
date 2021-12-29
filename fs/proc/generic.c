@@ -115,18 +115,30 @@ static bool pde_subdir_insert(struct proc_dir_entry *dir,
 	return true;
 }
 
+<<<<<<< HEAD
 static int proc_notify_change(struct user_namespace *mnt_userns,
 			      struct dentry *dentry, struct iattr *iattr)
+=======
+static int proc_notify_change(struct dentry *dentry, struct iattr *iattr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	struct proc_dir_entry *de = PDE(inode);
 	int error;
 
+<<<<<<< HEAD
 	error = setattr_prepare(&init_user_ns, dentry, iattr);
 	if (error)
 		return error;
 
 	setattr_copy(&init_user_ns, inode, iattr);
+=======
+	error = setattr_prepare(dentry, iattr);
+	if (error)
+		return error;
+
+	setattr_copy(inode, iattr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 
 	proc_set_user(de, inode->i_uid, inode->i_gid);
@@ -134,8 +146,12 @@ static int proc_notify_change(struct user_namespace *mnt_userns,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int proc_getattr(struct user_namespace *mnt_userns,
 			const struct path *path, struct kstat *stat,
+=======
+static int proc_getattr(const struct path *path, struct kstat *stat,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			u32 request_mask, unsigned int query_flags)
 {
 	struct inode *inode = d_inode(path->dentry);
@@ -147,7 +163,11 @@ static int proc_getattr(struct user_namespace *mnt_userns,
 		}
 	}
 
+<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
+=======
+	generic_fillattr(inode, stat);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -756,7 +776,11 @@ int remove_proc_subtree(const char *name, struct proc_dir_entry *parent)
 	while (1) {
 		next = pde_subdir_first(de);
 		if (next) {
+<<<<<<< HEAD
+			if (unlikely(pde_is_permanent(next))) {
+=======
 			if (unlikely(pde_is_permanent(root))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				write_unlock(&proc_subdir_lock);
 				WARN(1, "removing permanent /proc entry '%s/%s'",
 					next->parent->name, next->name);

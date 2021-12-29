@@ -10,8 +10,13 @@ struct gf100_fb {
 	dma_addr_t r100c10;
 };
 
+<<<<<<< HEAD
 int gf100_fb_new_(const struct nvkm_fb_func *, struct nvkm_device *, enum nvkm_subdev_type, int,
 		  struct nvkm_fb **);
+=======
+int gf100_fb_new_(const struct nvkm_fb_func *, struct nvkm_device *,
+		  int index, struct nvkm_fb **);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void *gf100_fb_dtor(struct nvkm_fb *);
 void gf100_fb_init(struct nvkm_fb *);
 void gf100_fb_intr(struct nvkm_fb *);

@@ -25,7 +25,11 @@ warnings:
 
 -	A CPU looping with bottom halves disabled.
 
+<<<<<<< HEAD
 -	For !CONFIG_PREEMPTION kernels, a CPU looping anywhere in the kernel
+=======
+-	For !CONFIG_PREEMPT kernels, a CPU looping anywhere in the kernel
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	without invoking schedule().  If the looping in the kernel is
 	really expected and desirable behavior, you might need to add
 	some calls to cond_resched().
@@ -44,7 +48,11 @@ warnings:
 	result in the ``rcu_.*kthread starved for`` console-log message,
 	which will include additional debugging information.
 
+<<<<<<< HEAD
 -	A CPU-bound real-time task in a CONFIG_PREEMPTION kernel, which might
+=======
+-	A CPU-bound real-time task in a CONFIG_PREEMPT kernel, which might
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	happen to preempt a low-priority task in the middle of an RCU
 	read-side critical section.   This is especially damaging if
 	that low-priority task is not permitted to run on any other CPU,
@@ -92,9 +100,13 @@ warnings:
 	buggy timer hardware through bugs in the interrupt or exception
 	path (whether hardware, firmware, or software) through bugs
 	in Linux's timer subsystem through bugs in the scheduler, and,
+<<<<<<< HEAD
 	yes, even including bugs in RCU itself.  It can also result in
 	the ``rcu_.*timer wakeup didn't happen for`` console-log message,
 	which will include additional debugging information.
+=======
+	yes, even including bugs in RCU itself.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 -	A bug in the RCU implementation.
 
@@ -294,6 +306,7 @@ kthread is waiting for a short timeout, the "state" precedes value of the
 task_struct ->state field, and the "cpu" indicates that the grace-period
 kthread last ran on CPU 5.
 
+<<<<<<< HEAD
 If the relevant grace-period kthread does not wake from FQS wait in a
 reasonable time, then the following additional line is printed::
 
@@ -313,6 +326,8 @@ is the current ``TIMER_SOFTIRQ`` count on cpu 4.  If this value does not
 change on successive RCU CPU stall warnings, there is further reason to
 suspect a timer problem.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 Multiple Warnings From One Stall
 ================================

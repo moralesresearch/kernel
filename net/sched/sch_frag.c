@@ -90,6 +90,18 @@ static int sch_fragment(struct net *net, struct sk_buff *skb,
 	}
 
 	if (skb_protocol(skb, true) == htons(ETH_P_IP)) {
+<<<<<<< HEAD
+		struct rtable sch_frag_rt = { 0 };
+		unsigned long orig_dst;
+
+		sch_frag_prepare_frag(skb, xmit);
+		dst_init(&sch_frag_rt.dst, &sch_frag_dst_ops, NULL, 1,
+			 DST_OBSOLETE_NONE, DST_NOCOUNT);
+		sch_frag_rt.dst.dev = skb->dev;
+
+		orig_dst = skb->_skb_refdst;
+		skb_dst_set_noref(skb, &sch_frag_rt.dst);
+=======
 		struct dst_entry sch_frag_dst;
 		unsigned long orig_dst;
 
@@ -100,6 +112,7 @@ static int sch_fragment(struct net *net, struct sk_buff *skb,
 
 		orig_dst = skb->_skb_refdst;
 		skb_dst_set_noref(skb, &sch_frag_dst);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		IPCB(skb)->frag_max_size = mru;
 
 		ret = ip_do_fragment(net, skb->sk, skb, sch_frag_xmit);

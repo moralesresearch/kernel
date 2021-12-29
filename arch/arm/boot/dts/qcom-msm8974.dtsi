@@ -1399,6 +1399,7 @@
 			         <&rpmcc RPM_SMD_CNOC_A_CLK>;
 		};
 
+<<<<<<< HEAD
 		gpu: adreno@fdb00000 {
 			status = "disabled";
 
@@ -1442,6 +1443,8 @@
 			};
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mdss: mdss@fd900000 {
 			status = "disabled";
 

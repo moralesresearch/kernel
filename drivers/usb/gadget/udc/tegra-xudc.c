@@ -3883,7 +3883,11 @@ static int tegra_xudc_remove(struct platform_device *pdev)
 
 	pm_runtime_get_sync(xudc->dev);
 
+<<<<<<< HEAD
+	cancel_delayed_work_sync(&xudc->plc_reset_work);
+=======
 	cancel_delayed_work(&xudc->plc_reset_work);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cancel_work_sync(&xudc->usb_role_sw_work);
 
 	usb_del_gadget_udc(&xudc->gadget);

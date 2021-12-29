@@ -213,6 +213,18 @@ void ksz_port_fast_age(struct dsa_switch *ds, int port)
 }
 EXPORT_SYMBOL_GPL(ksz_port_fast_age);
 
+<<<<<<< HEAD
+=======
+int ksz_port_vlan_prepare(struct dsa_switch *ds, int port,
+			  const struct switchdev_obj_port_vlan *vlan)
+{
+	/* nothing needed */
+
+	return 0;
+}
+EXPORT_SYMBOL_GPL(ksz_port_vlan_prepare);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int ksz_port_fdb_dump(struct dsa_switch *ds, int port, dsa_fdb_dump_cb_t *cb,
 		      void *data)
 {
@@ -244,8 +256,21 @@ int ksz_port_fdb_dump(struct dsa_switch *ds, int port, dsa_fdb_dump_cb_t *cb,
 }
 EXPORT_SYMBOL_GPL(ksz_port_fdb_dump);
 
+<<<<<<< HEAD
 int ksz_port_mdb_add(struct dsa_switch *ds, int port,
 		     const struct switchdev_obj_port_mdb *mdb)
+=======
+int ksz_port_mdb_prepare(struct dsa_switch *ds, int port,
+			 const struct switchdev_obj_port_mdb *mdb)
+{
+	/* nothing to do */
+	return 0;
+}
+EXPORT_SYMBOL_GPL(ksz_port_mdb_prepare);
+
+void ksz_port_mdb_add(struct dsa_switch *ds, int port,
+		      const struct switchdev_obj_port_mdb *mdb)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ksz_device *dev = ds->priv;
 	struct alu_struct alu;
@@ -267,7 +292,11 @@ int ksz_port_mdb_add(struct dsa_switch *ds, int port,
 
 	/* no available entry */
 	if (index == dev->num_statics && !empty)
+<<<<<<< HEAD
 		return -ENOSPC;
+=======
+		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* add entry */
 	if (index == dev->num_statics) {
@@ -284,8 +313,11 @@ int ksz_port_mdb_add(struct dsa_switch *ds, int port,
 		alu.fid = mdb->vid;
 	}
 	dev->dev_ops->w_sta_mac_table(dev, index, &alu);
+<<<<<<< HEAD
 
 	return 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(ksz_port_mdb_add);
 

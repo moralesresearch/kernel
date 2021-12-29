@@ -160,11 +160,19 @@ static irqreturn_t dc_i2c_irq(int irq, void *dev_id)
 {
 	struct dc_i2c *i2c = dev_id;
 	int cmd_status = dc_i2c_cmd_status(i2c);
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8 addr_cmd;
 
 	writeb_relaxed(1, i2c->regs + II_INTFLAG_CLEAR);
 
+<<<<<<< HEAD
 	spin_lock(&i2c->lock);
+=======
+	spin_lock_irqsave(&i2c->lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (cmd_status == II_CMD_STATUS_ACK_BAD
 	    || cmd_status == II_CMD_STATUS_ABORT) {
@@ -206,7 +214,11 @@ static irqreturn_t dc_i2c_irq(int irq, void *dev_id)
 	}
 
 out:
+<<<<<<< HEAD
 	spin_unlock(&i2c->lock);
+=======
+	spin_unlock_irqrestore(&i2c->lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return IRQ_HANDLED;
 }
 

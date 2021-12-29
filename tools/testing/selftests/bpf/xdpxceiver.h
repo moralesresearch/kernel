@@ -92,6 +92,11 @@ struct flow_vector {
 	enum fvector {
 		tx,
 		rx,
+<<<<<<< HEAD
+=======
+		bidi,
+		undef,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} vector;
 };
 

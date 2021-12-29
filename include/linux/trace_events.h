@@ -55,8 +55,11 @@ struct trace_event;
 
 int trace_raw_output_prep(struct trace_iterator *iter,
 			  struct trace_event *event);
+<<<<<<< HEAD
 extern __printf(2, 3)
 void trace_event_printf(struct trace_iterator *iter, const char *fmt, ...);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * The trace entry - the most basic unit of tracing. This is what
@@ -89,8 +92,11 @@ struct trace_iterator {
 	unsigned long		iter_flags;
 	void			*temp;	/* temp holder */
 	unsigned int		temp_size;
+<<<<<<< HEAD
 	char			*fmt;	/* modified format holder */
 	unsigned int		fmt_size;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* trace_seq for __print_flags() and __print_symbolic() etc. */
 	struct trace_seq	tmp_seq;
@@ -152,6 +158,7 @@ enum print_line_t {
 
 enum print_line_t trace_handle_return(struct trace_seq *s);
 
+<<<<<<< HEAD
 static inline void tracing_generic_entry_update(struct trace_entry *entry,
 						unsigned short type,
 						unsigned int trace_ctx)
@@ -214,13 +221,23 @@ static inline unsigned int tracing_gen_ctx_dec(void)
 	return trace_ctx;
 }
 
+=======
+void tracing_generic_entry_update(struct trace_entry *entry,
+				  unsigned short type,
+				  unsigned long flags,
+				  int pc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct trace_event_file;
 
 struct ring_buffer_event *
 trace_event_buffer_lock_reserve(struct trace_buffer **current_buffer,
 				struct trace_event_file *trace_file,
 				int type, unsigned long len,
+<<<<<<< HEAD
 				unsigned int trace_ctx);
+=======
+				unsigned long flags, int pc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define TRACE_RECORD_CMDLINE	BIT(0)
 #define TRACE_RECORD_TGID	BIT(1)
@@ -294,7 +311,12 @@ struct trace_event_buffer {
 	struct ring_buffer_event	*event;
 	struct trace_event_file		*trace_file;
 	void				*entry;
+<<<<<<< HEAD
 	unsigned int			trace_ctx;
+=======
+	unsigned long			flags;
+	int				pc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct pt_regs			*regs;
 };
 
@@ -349,8 +371,20 @@ struct trace_event_call {
 	struct event_filter	*filter;
 	void			*mod;
 	void			*data;
+<<<<<<< HEAD
 
 	/* See the TRACE_EVENT_FL_* flags above */
+=======
+	/*
+	 *   bit 0:		filter_active
+	 *   bit 1:		allow trace by non root (cap any)
+	 *   bit 2:		failed to apply filter
+	 *   bit 3:		trace internal event (do not enable)
+	 *   bit 4:		Event was enabled by module
+	 *   bit 5:		use call filter rather than file filter
+	 *   bit 6:		Event is a tracepoint
+	 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int			flags; /* static flags of different events */
 
 #ifdef CONFIG_PERF_EVENTS

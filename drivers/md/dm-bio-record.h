@@ -18,7 +18,12 @@
  */
 
 struct dm_bio_details {
+<<<<<<< HEAD
 	struct block_device *bi_bdev;
+=======
+	struct gendisk *bi_disk;
+	u8 bi_partno;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int __bi_remaining;
 	unsigned long bi_flags;
 	struct bvec_iter bi_iter;
@@ -30,7 +35,12 @@ struct dm_bio_details {
 
 static inline void dm_bio_record(struct dm_bio_details *bd, struct bio *bio)
 {
+<<<<<<< HEAD
 	bd->bi_bdev = bio->bi_bdev;
+=======
+	bd->bi_disk = bio->bi_disk;
+	bd->bi_partno = bio->bi_partno;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bd->bi_flags = bio->bi_flags;
 	bd->bi_iter = bio->bi_iter;
 	bd->__bi_remaining = atomic_read(&bio->__bi_remaining);
@@ -42,7 +52,12 @@ static inline void dm_bio_record(struct dm_bio_details *bd, struct bio *bio)
 
 static inline void dm_bio_restore(struct dm_bio_details *bd, struct bio *bio)
 {
+<<<<<<< HEAD
 	bio->bi_bdev = bd->bi_bdev;
+=======
+	bio->bi_disk = bd->bi_disk;
+	bio->bi_partno = bd->bi_partno;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bio->bi_flags = bd->bi_flags;
 	bio->bi_iter = bd->bi_iter;
 	atomic_set(&bio->__bi_remaining, bd->__bi_remaining);

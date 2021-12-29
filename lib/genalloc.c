@@ -81,8 +81,12 @@ static int clear_bits_ll(unsigned long *addr, unsigned long mask_to_clear)
  * users set the same bit, one user will return remain bits, otherwise
  * return 0.
  */
+<<<<<<< HEAD
 static unsigned long
 bitmap_set_ll(unsigned long *map, unsigned long start, unsigned long nr)
+=======
+static int bitmap_set_ll(unsigned long *map, unsigned long start, unsigned long nr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long *p = map + BIT_WORD(start);
 	const unsigned long size = start + nr;

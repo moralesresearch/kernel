@@ -360,7 +360,11 @@ static int vmw_resource_buf_alloc(struct vmw_resource *res,
 	int ret;
 
 	if (likely(res->backup)) {
+<<<<<<< HEAD
 		BUG_ON(res->backup->base.base.size < size);
+=======
+		BUG_ON(res->backup->base.num_pages * PAGE_SIZE < size);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 
@@ -827,7 +831,11 @@ int vmw_query_readback_all(struct vmw_buffer_object *dx_query_mob)
 	dx_query_ctx = dx_query_mob->dx_query_ctx;
 	dev_priv     = dx_query_ctx->dev_priv;
 
+<<<<<<< HEAD
 	cmd = VMW_CMD_CTX_RESERVE(dev_priv, sizeof(*cmd), dx_query_ctx->id);
+=======
+	cmd = VMW_FIFO_RESERVE_DX(dev_priv, sizeof(*cmd), dx_query_ctx->id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(cmd == NULL))
 		return -ENOMEM;
 
@@ -835,7 +843,11 @@ int vmw_query_readback_all(struct vmw_buffer_object *dx_query_mob)
 	cmd->header.size = sizeof(cmd->body);
 	cmd->body.cid    = dx_query_ctx->id;
 
+<<<<<<< HEAD
 	vmw_cmd_commit(dev_priv, sizeof(*cmd));
+=======
+	vmw_fifo_commit(dev_priv, sizeof(*cmd));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Triggers a rebind the next time affected context is bound */
 	dx_query_mob->dx_query_ctx = NULL;

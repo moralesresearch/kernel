@@ -15,7 +15,11 @@
 
 	sound {
 		compatible = "amlogic,gx-sound-card";
+<<<<<<< HEAD
 		model = "WETEK-HUB";
+=======
+		model = "GXBB-WETEK-HUB";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		assigned-clocks = <&clkc CLKID_MPLL0>,
 				  <&clkc CLKID_MPLL1>,
 				  <&clkc CLKID_MPLL2>;

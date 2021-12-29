@@ -20,8 +20,11 @@ Properties:
 	Definition: Should contain "qcom,<soc>-pdc" and "qcom,pdc"
 		    - "qcom,sc7180-pdc": For SC7180
 		    - "qcom,sdm845-pdc": For SDM845
+<<<<<<< HEAD
 		    - "qcom,sdm8250-pdc": For SM8250
 		    - "qcom,sdm8350-pdc": For SM8350
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 - reg:
 	Usage: required

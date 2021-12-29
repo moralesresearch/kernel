@@ -945,6 +945,10 @@ static void
 fec_restart(struct net_device *ndev)
 {
 	struct fec_enet_private *fep = netdev_priv(ndev);
+<<<<<<< HEAD
+=======
+	u32 val;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 temp_mac[2];
 	u32 rcntl = OPT_FRAME_SIZE | 0x04;
 	u32 ecntl = 0x2; /* ETHEREN */
@@ -996,8 +1000,12 @@ fec_restart(struct net_device *ndev)
 
 #if !defined(CONFIG_M5272)
 	if (fep->quirks & FEC_QUIRK_HAS_RACC) {
+<<<<<<< HEAD
 		u32 val = readl(fep->hwp + FEC_RACC);
 
+=======
+		val = readl(fep->hwp + FEC_RACC);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* align IP header */
 		val |= FEC_RACC_SHIFT16;
 		if (fep->csum_flags & FLAG_RX_CSUM_ENABLED)
@@ -1664,6 +1672,10 @@ static int fec_enet_rx_napi(struct napi_struct *napi, int budget)
 static void fec_get_mac(struct net_device *ndev)
 {
 	struct fec_enet_private *fep = netdev_priv(ndev);
+<<<<<<< HEAD
+=======
+	struct fec_platform_data *pdata = dev_get_platdata(&fep->pdev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned char *iap, tmpaddr[ETH_ALEN];
 
 	/*
@@ -1694,8 +1706,11 @@ static void fec_get_mac(struct net_device *ndev)
 		if (FEC_FLASHMAC)
 			iap = (unsigned char *)FEC_FLASHMAC;
 #else
+<<<<<<< HEAD
 		struct fec_platform_data *pdata = dev_get_platdata(&fep->pdev->dev);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (pdata)
 			iap = (unsigned char *)&pdata->mac;
 #endif
@@ -2048,6 +2063,11 @@ static int fec_enet_mii_probe(struct net_device *ndev)
 	fep->link = 0;
 	fep->full_duplex = 0;
 
+<<<<<<< HEAD
+	phy_dev->mac_managed_pm = 1;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	phy_attached_info(phy_dev);
 
 	return 0;
@@ -3280,7 +3300,13 @@ static int fec_enet_init(struct net_device *ndev)
 		return ret;
 	}
 
+<<<<<<< HEAD
+	ret = fec_enet_alloc_queue(ndev);
+	if (ret)
+		return ret;
+=======
 	fec_enet_alloc_queue(ndev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	bd_size = (fep->total_tx_ring_size + fep->total_rx_ring_size) * dsize;
 
@@ -3288,7 +3314,12 @@ static int fec_enet_init(struct net_device *ndev)
 	cbd_base = dmam_alloc_coherent(&fep->pdev->dev, bd_size, &bd_dma,
 				       GFP_KERNEL);
 	if (!cbd_base) {
+<<<<<<< HEAD
+		ret = -ENOMEM;
+		goto free_queue_mem;
+=======
 		return -ENOMEM;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* Get the Ethernet address */
@@ -3366,6 +3397,13 @@ static int fec_enet_init(struct net_device *ndev)
 		fec_enet_update_ethtool_stats(ndev);
 
 	return 0;
+<<<<<<< HEAD
+
+free_queue_mem:
+	fec_enet_free_queue(ndev);
+	return ret;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_OF
@@ -3864,6 +3902,10 @@ static int __maybe_unused fec_resume(struct device *dev)
 		netif_device_attach(ndev);
 		netif_tx_unlock_bh(ndev);
 		napi_enable(&fep->napi);
+<<<<<<< HEAD
+		phy_init_hw(ndev->phydev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		phy_start(ndev->phydev);
 	}
 	rtnl_unlock();

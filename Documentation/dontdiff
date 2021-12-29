@@ -178,6 +178,10 @@ mktables
 mktree
 mkutf8data
 modpost
+<<<<<<< HEAD
+modules-only.symvers
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 modules.builtin
 modules.builtin.modinfo
 modules.nsdeps

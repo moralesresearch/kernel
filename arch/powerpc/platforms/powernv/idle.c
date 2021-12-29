@@ -14,7 +14,10 @@
 
 #include <asm/asm-prototypes.h>
 #include <asm/firmware.h>
+<<<<<<< HEAD
 #include <asm/interrupt.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/machdep.h>
 #include <asm/opal.h>
 #include <asm/cputhreads.h>

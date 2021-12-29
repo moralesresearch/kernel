@@ -6,7 +6,15 @@
 		BPF_ALU64_REG(BPF_SUB, BPF_REG_0, BPF_REG_1),
 		BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+<<<<<<< HEAD
+	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+	.errstr_unpriv = "R0 tried to sub from different maps, paths, or prohibited types",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.errstr = "R0 tried to subtract pointer from scalar",
 	.result = REJECT,
 },
@@ -21,7 +29,15 @@
 		BPF_ALU64_REG(BPF_SUB, BPF_REG_1, BPF_REG_0),
 		BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+<<<<<<< HEAD
+	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+	.errstr_unpriv = "R1 tried to sub from different maps, paths, or prohibited types",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result_unpriv = REJECT,
 	.result = ACCEPT,
 	.retval = 1,
@@ -34,23 +50,51 @@
 		BPF_ALU64_REG(BPF_SUB, BPF_REG_0, BPF_REG_1),
 		BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+<<<<<<< HEAD
+	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+	.errstr_unpriv = "R0 tried to sub from different maps, paths, or prohibited types",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.errstr = "R0 tried to subtract pointer from scalar",
 	.result = REJECT,
 },
 {
 	"check deducing bounds from const, 4",
 	.insns = {
+<<<<<<< HEAD
 		BPF_MOV64_REG(BPF_REG_6, BPF_REG_1),
+=======
+<<<<<<< HEAD
+		BPF_MOV64_REG(BPF_REG_6, BPF_REG_1),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		BPF_MOV64_IMM(BPF_REG_0, 0),
 		BPF_JMP_IMM(BPF_JSLE, BPF_REG_0, 0, 1),
 		BPF_EXIT_INSN(),
 		BPF_JMP_IMM(BPF_JSGE, BPF_REG_0, 0, 1),
 		BPF_EXIT_INSN(),
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		BPF_ALU64_REG(BPF_SUB, BPF_REG_6, BPF_REG_0),
 		BPF_EXIT_INSN(),
 	},
 	.errstr_unpriv = "R6 has pointer with unsupported alu operation",
+<<<<<<< HEAD
+=======
+=======
+		BPF_ALU64_REG(BPF_SUB, BPF_REG_1, BPF_REG_0),
+		BPF_EXIT_INSN(),
+	},
+	.errstr_unpriv = "R1 tried to sub from different maps, paths, or prohibited types",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.result_unpriv = REJECT,
 	.result = ACCEPT,
 },
@@ -62,7 +106,15 @@
 		BPF_ALU64_REG(BPF_SUB, BPF_REG_0, BPF_REG_1),
 		BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+<<<<<<< HEAD
+	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+	.errstr_unpriv = "R0 tried to sub from different maps, paths, or prohibited types",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.errstr = "R0 tried to subtract pointer from scalar",
 	.result = REJECT,
 },
@@ -75,7 +127,15 @@
 		BPF_ALU64_REG(BPF_SUB, BPF_REG_0, BPF_REG_1),
 		BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+<<<<<<< HEAD
+	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+	.errstr_unpriv = "R0 tried to sub from different maps, paths, or prohibited types",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.errstr = "R0 tried to subtract pointer from scalar",
 	.result = REJECT,
 },
@@ -89,7 +149,15 @@
 			    offsetof(struct __sk_buff, mark)),
 		BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+<<<<<<< HEAD
+	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+	.errstr_unpriv = "R1 tried to sub from different maps, paths, or prohibited types",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.errstr = "dereference of modified ctx ptr",
 	.result = REJECT,
 	.flags = F_NEEDS_EFFICIENT_UNALIGNED_ACCESS,
@@ -104,7 +172,15 @@
 			    offsetof(struct __sk_buff, mark)),
 		BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+<<<<<<< HEAD
+	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+	.errstr_unpriv = "R1 tried to add from different maps, paths, or prohibited types",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.errstr = "dereference of modified ctx ptr",
 	.result = REJECT,
 	.flags = F_NEEDS_EFFICIENT_UNALIGNED_ACCESS,
@@ -117,7 +193,15 @@
 		BPF_ALU64_REG(BPF_SUB, BPF_REG_0, BPF_REG_1),
 		BPF_EXIT_INSN(),
 	},
+<<<<<<< HEAD
 	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+<<<<<<< HEAD
+	.errstr_unpriv = "R1 has pointer with unsupported alu operation",
+=======
+	.errstr_unpriv = "R0 tried to sub from different maps, paths, or prohibited types",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.errstr = "R0 tried to subtract pointer from scalar",
 	.result = REJECT,
 },

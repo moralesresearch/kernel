@@ -37,7 +37,10 @@ int cmd_inject(int argc, const char **argv);
 int cmd_mem(int argc, const char **argv);
 int cmd_data(int argc, const char **argv);
 int cmd_ftrace(int argc, const char **argv);
+<<<<<<< HEAD
 int cmd_daemon(int argc, const char **argv);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int find_scripts(char **scripts_array, char **scripts_path_array, int num,
 		 int pathlen);

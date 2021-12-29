@@ -1263,7 +1263,11 @@ static int spi_qup_remove(struct platform_device *pdev)
 	struct spi_qup *controller = spi_master_get_devdata(master);
 	int ret;
 
+<<<<<<< HEAD
+	ret = pm_runtime_resume_and_get(&pdev->dev);
+=======
 	ret = pm_runtime_get_sync(&pdev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 

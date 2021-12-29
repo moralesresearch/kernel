@@ -434,7 +434,10 @@ int ip_output(struct net *net, struct sock *sk, struct sk_buff *skb)
 			    ip_finish_output,
 			    !(IPCB(skb)->flags & IPSKB_REROUTED));
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(ip_output);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * copy saddr and daddr, possibly using 64bit load/stores
@@ -1019,7 +1022,11 @@ static int __ip_append_data(struct sock *sk,
 		csummode = CHECKSUM_PARTIAL;
 
 	if (flags & MSG_ZEROCOPY && length && sock_flag(sk, SOCK_ZEROCOPY)) {
+<<<<<<< HEAD
 		uarg = msg_zerocopy_realloc(sk, length, skb_zcopy(skb));
+=======
+		uarg = sock_zerocopy_realloc(sk, length, skb_zcopy(skb));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!uarg)
 			return -ENOBUFS;
 		extra_uref = !skb_zcopy(skb);	/* only ref on new uarg */
@@ -1231,7 +1238,12 @@ alloc_new_skb:
 error_efault:
 	err = -EFAULT;
 error:
+<<<<<<< HEAD
 	net_zcopy_put_abort(uarg, extra_uref);
+=======
+	if (uarg)
+		sock_zerocopy_put_abort(uarg, extra_uref);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cork->length -= length;
 	IP_INC_STATS(sock_net(sk), IPSTATS_MIB_OUTDISCARDS);
 	refcount_add(wmem_alloc_delta, &sk->sk_wmem_alloc);

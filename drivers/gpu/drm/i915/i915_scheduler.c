@@ -458,10 +458,20 @@ int i915_sched_node_add_dependency(struct i915_sched_node *node,
 	if (!dep)
 		return -ENOMEM;
 
+<<<<<<< HEAD
+=======
+	local_bh_disable();
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!__i915_sched_node_add_dependency(node, signal, dep,
 					      flags | I915_DEPENDENCY_ALLOC))
 		i915_dependency_free(dep);
 
+<<<<<<< HEAD
+=======
+	local_bh_enable(); /* kick submission tasklet */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -500,6 +510,7 @@ void i915_sched_node_fini(struct i915_sched_node *node)
 	spin_unlock_irq(&schedule_lock);
 }
 
+<<<<<<< HEAD
 void i915_request_show_with_schedule(struct drm_printer *m,
 				     const struct i915_request *rq,
 				     const char *prefix,
@@ -528,6 +539,8 @@ void i915_request_show_with_schedule(struct drm_printer *m,
 	rcu_read_unlock();
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void i915_global_scheduler_shrink(void)
 {
 	kmem_cache_shrink(global.slab_dependencies);

@@ -601,7 +601,11 @@ int lola_create_pcm(struct lola *chip)
 			  &pcm);
 	if (err < 0)
 		return err;
+<<<<<<< HEAD
 	strscpy(pcm->name, "Digigram Lola", sizeof(pcm->name));
+=======
+	strlcpy(pcm->name, "Digigram Lola", sizeof(pcm->name));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pcm->private_data = chip;
 	for (i = 0; i < 2; i++) {
 		if (chip->pcm[i].num_streams)

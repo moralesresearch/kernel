@@ -798,7 +798,12 @@ static int __init ks_pcie_host_init(struct pcie_port *pp)
 	int ret;
 
 	pp->bridge->ops = &ks_pcie_ops;
+<<<<<<< HEAD
+	if (!ks_pcie->is_am6)
+		pp->bridge->child_ops = &ks_child_pcie_ops;
+=======
 	pp->bridge->child_ops = &ks_child_pcie_ops;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = ks_pcie_config_legacy_irq(ks_pcie);
 	if (ret)

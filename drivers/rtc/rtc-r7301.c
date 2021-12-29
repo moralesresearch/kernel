@@ -320,10 +320,18 @@ static irqreturn_t rtc7301_irq_handler(int irq, void *dev_id)
 {
 	struct rtc_device *rtc = dev_id;
 	struct rtc7301_priv *priv = dev_get_drvdata(rtc->dev.parent);
+<<<<<<< HEAD
 	irqreturn_t ret = IRQ_NONE;
 	u8 alrm_ctrl;
 
 	spin_lock(&priv->lock);
+=======
+	unsigned long flags;
+	irqreturn_t ret = IRQ_NONE;
+	u8 alrm_ctrl;
+
+	spin_lock_irqsave(&priv->lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rtc7301_select_bank(priv, 1);
 
@@ -334,7 +342,11 @@ static irqreturn_t rtc7301_irq_handler(int irq, void *dev_id)
 		rtc_update_irq(rtc, 1, RTC_IRQF | RTC_AF);
 	}
 
+<<<<<<< HEAD
 	spin_unlock(&priv->lock);
+=======
+	spin_unlock_irqrestore(&priv->lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }

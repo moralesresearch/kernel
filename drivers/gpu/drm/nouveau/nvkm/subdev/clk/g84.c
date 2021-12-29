@@ -41,8 +41,15 @@ g84_clk = {
 };
 
 int
+<<<<<<< HEAD
 g84_clk_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	    struct nvkm_clk **pclk)
 {
 	return nv50_clk_new_(&g84_clk, device, type, inst, (device->chipset >= 0x94), pclk);
+=======
+g84_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
+{
+	return nv50_clk_new_(&g84_clk, device, index,
+			     (device->chipset >= 0x94), pclk);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

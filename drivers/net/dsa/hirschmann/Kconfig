@@ -5,7 +5,10 @@ config NET_DSA_HIRSCHMANN_HELLCREEK
 	depends on NET_DSA
 	depends on PTP_1588_CLOCK
 	depends on LEDS_CLASS
+<<<<<<< HEAD
 	depends on NET_SCH_TAPRIO
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select NET_DSA_TAG_HELLCREEK
 	help
 	  This driver adds support for Hirschmann Hellcreek TSN switches.

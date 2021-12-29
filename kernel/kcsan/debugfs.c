@@ -261,7 +261,17 @@ static const struct file_operations debugfs_ops =
 	.release = single_release
 };
 
+<<<<<<< HEAD
+static int __init kcsan_debugfs_init(void)
+{
+	debugfs_create_file("kcsan", 0644, NULL, NULL, &debugfs_ops);
+	return 0;
+}
+
+late_initcall(kcsan_debugfs_init);
+=======
 void __init kcsan_debugfs_init(void)
 {
 	debugfs_create_file("kcsan", 0644, NULL, NULL, &debugfs_ops);
 }
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -30,7 +30,10 @@
 #include <drm/drm_file.h>
 #include <drm/drm_crtc.h>
 #include <drm/drm_fourcc.h>
+<<<<<<< HEAD
 #include <drm/drm_managed.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/drm_vblank.h>
 
 #include "drm_crtc_internal.h"
@@ -41,7 +44,11 @@
  * A plane represents an image source that can be blended with or overlayed on
  * top of a CRTC during the scanout process. Planes take their input data from a
  * &drm_framebuffer object. The plane itself specifies the cropping and scaling
+<<<<<<< HEAD
  * of that image, and where it is placed on the visible area of a display
+=======
+ * of that image, and where it is placed on the visible are of a display
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * pipeline, represented by &drm_crtc. A plane can also have additional
  * properties that specify how the pixels are positioned and blended, like
  * rotation or Z-position. All these properties are stored in &drm_plane_state.
@@ -50,6 +57,7 @@
  * &struct drm_plane (possibly as part of a larger structure) and registers it
  * with a call to drm_universal_plane_init().
  *
+<<<<<<< HEAD
  * The type of a plane is exposed in the immutable "type" enumeration property,
  * which has one of the following values: "Overlay", "Primary", "Cursor" (see
  * enum drm_plane_type). A plane can be compatible with multiple CRTCs, see
@@ -78,6 +86,16 @@
  *     pairs supported by this plane. The blob is a struct
  *     drm_format_modifier_blob. Without this property the plane doesn't
  *     support buffers with modifiers. Userspace cannot change this property.
+=======
+ * Cursor and overlay planes are optional. All drivers should provide one
+ * primary plane per CRTC to avoid surprising userspace too much. See enum
+ * drm_plane_type for a more in-depth discussion of these special uapi-relevant
+ * plane types. Special planes are associated with their CRTC by calling
+ * drm_crtc_init_with_planes().
+ *
+ * The type of a plane is exposed in the immutable "type" enumeration property,
+ * which has one of the following values: "Overlay", "Primary", "Cursor".
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 
 static unsigned int drm_num_planes(struct drm_device *dev)
@@ -173,6 +191,7 @@ done:
 	return 0;
 }
 
+<<<<<<< HEAD
 __printf(9, 0)
 static int __drm_universal_plane_init(struct drm_device *dev,
 				      struct drm_plane *plane,
@@ -183,6 +202,33 @@ static int __drm_universal_plane_init(struct drm_device *dev,
 				      const uint64_t *format_modifiers,
 				      enum drm_plane_type type,
 				      const char *name, va_list ap)
+=======
+/**
+ * drm_universal_plane_init - Initialize a new universal plane object
+ * @dev: DRM device
+ * @plane: plane object to init
+ * @possible_crtcs: bitmask of possible CRTCs
+ * @funcs: callbacks for the new plane
+ * @formats: array of supported formats (DRM_FORMAT\_\*)
+ * @format_count: number of elements in @formats
+ * @format_modifiers: array of struct drm_format modifiers terminated by
+ *                    DRM_FORMAT_MOD_INVALID
+ * @type: type of plane (overlay, primary, cursor)
+ * @name: printf style format string for the plane name, or NULL for default name
+ *
+ * Initializes a plane object of type @type.
+ *
+ * Returns:
+ * Zero on success, error code on failure.
+ */
+int drm_universal_plane_init(struct drm_device *dev, struct drm_plane *plane,
+			     uint32_t possible_crtcs,
+			     const struct drm_plane_funcs *funcs,
+			     const uint32_t *formats, unsigned int format_count,
+			     const uint64_t *format_modifiers,
+			     enum drm_plane_type type,
+			     const char *name, ...)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct drm_mode_config *config = &dev->mode_config;
 	unsigned int format_modifier_count = 0;
@@ -243,7 +289,15 @@ static int __drm_universal_plane_init(struct drm_device *dev,
 	}
 
 	if (name) {
+<<<<<<< HEAD
 		plane->name = kvasprintf(GFP_KERNEL, name, ap);
+=======
+		va_list ap;
+
+		va_start(ap, name);
+		plane->name = kvasprintf(GFP_KERNEL, name, ap);
+		va_end(ap);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		plane->name = kasprintf(GFP_KERNEL, "plane-%d",
 					drm_num_planes(dev));
@@ -288,6 +342,7 @@ static int __drm_universal_plane_init(struct drm_device *dev,
 
 	return 0;
 }
+<<<<<<< HEAD
 
 /**
  * drm_universal_plane_init - Initialize a new universal plane object
@@ -384,6 +439,10 @@ void *__drmm_universal_plane_alloc(struct drm_device *dev, size_t size,
 }
 EXPORT_SYMBOL(__drmm_universal_plane_alloc);
 
+=======
+EXPORT_SYMBOL(drm_universal_plane_init);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int drm_plane_register_all(struct drm_device *dev)
 {
 	unsigned int num_planes = 0;

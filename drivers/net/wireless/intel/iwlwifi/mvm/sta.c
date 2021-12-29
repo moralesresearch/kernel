@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 /*
+<<<<<<< HEAD
  * Copyright (C) 2012-2015, 2018-2021 Intel Corporation
+=======
+ * Copyright (C) 2012-2015, 2018-2020 Intel Corporation
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Copyright (C) 2013-2015 Intel Mobile Communications GmbH
  * Copyright (C) 2016-2017 Intel Deutschland GmbH
  */
@@ -3111,11 +3115,19 @@ int iwl_mvm_sta_tx_agg_flush(struct iwl_mvm *mvm, struct ieee80211_vif *vif,
 
 		if (iwl_mvm_has_new_tx_api(mvm)) {
 			if (iwl_mvm_flush_sta_tids(mvm, mvmsta->sta_id,
+<<<<<<< HEAD
 						   BIT(tid)))
 				IWL_ERR(mvm, "Couldn't flush the AGG queue\n");
 			iwl_trans_wait_txq_empty(mvm->trans, txq_id);
 		} else {
 			if (iwl_mvm_flush_tx_path(mvm, BIT(txq_id)))
+=======
+						   BIT(tid), 0))
+				IWL_ERR(mvm, "Couldn't flush the AGG queue\n");
+			iwl_trans_wait_txq_empty(mvm->trans, txq_id);
+		} else {
+			if (iwl_mvm_flush_tx_path(mvm, BIT(txq_id), 0))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				IWL_ERR(mvm, "Couldn't flush the AGG queue\n");
 			iwl_trans_wait_tx_queues_empty(mvm->trans, BIT(txq_id));
 		}
@@ -3310,8 +3322,12 @@ static int iwl_mvm_send_sta_igtk(struct iwl_mvm *mvm,
 
 	/* verify the key details match the required command's expectations */
 	if (WARN_ON((keyconf->flags & IEEE80211_KEY_FLAG_PAIRWISE) ||
+<<<<<<< HEAD
 		    (keyconf->keyidx != 4 && keyconf->keyidx != 5 &&
 		     keyconf->keyidx != 6 && keyconf->keyidx != 7) ||
+=======
+		    (keyconf->keyidx != 4 && keyconf->keyidx != 5) ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    (keyconf->cipher != WLAN_CIPHER_SUITE_AES_CMAC &&
 		     keyconf->cipher != WLAN_CIPHER_SUITE_BIP_GMAC_128 &&
 		     keyconf->cipher != WLAN_CIPHER_SUITE_BIP_GMAC_256)))
@@ -3360,10 +3376,16 @@ static int iwl_mvm_send_sta_igtk(struct iwl_mvm *mvm,
 						       ((u64) pn[0] << 40));
 	}
 
+<<<<<<< HEAD
 	IWL_DEBUG_INFO(mvm, "%s %sIGTK (%d) for sta %u\n",
 		       remove_key ? "removing" : "installing",
 		       keyconf->keyidx >= 6 ? "B" : "",
 		       keyconf->keyidx, igtk_cmd.sta_id);
+=======
+	IWL_DEBUG_INFO(mvm, "%s igtk for sta %u\n",
+		       remove_key ? "removing" : "installing",
+		       igtk_cmd.sta_id);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!iwl_mvm_has_new_rx_api(mvm)) {
 		struct iwl_mvm_mgmt_mcast_key_cmd_v1 igtk_cmd_v1 = {
@@ -3817,7 +3839,11 @@ static void iwl_mvm_int_sta_modify_disable_tx(struct iwl_mvm *mvm,
 	};
 	int ret;
 
+<<<<<<< HEAD
 	ret = iwl_mvm_send_cmd_pdu(mvm, ADD_STA, CMD_ASYNC,
+=======
+	ret = iwl_mvm_send_cmd_pdu(mvm, ADD_STA, 0,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				   iwl_mvm_add_sta_cmd_size(mvm), &cmd);
 	if (ret)
 		IWL_ERR(mvm, "Failed to send ADD_STA command (%d)\n", ret);
@@ -3831,11 +3857,20 @@ void iwl_mvm_modify_all_sta_disable_tx(struct iwl_mvm *mvm,
 	struct iwl_mvm_sta *mvm_sta;
 	int i;
 
+<<<<<<< HEAD
 	rcu_read_lock();
 
 	/* Block/unblock all the stations of the given mvmvif */
 	for (i = 0; i < mvm->fw->ucode_capa.num_stations; i++) {
 		sta = rcu_dereference(mvm->fw_id_to_mac_id[i]);
+=======
+	lockdep_assert_held(&mvm->mutex);
+
+	/* Block/unblock all the stations of the given mvmvif */
+	for (i = 0; i < mvm->fw->ucode_capa.num_stations; i++) {
+		sta = rcu_dereference_protected(mvm->fw_id_to_mac_id[i],
+						lockdep_is_held(&mvm->mutex));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (IS_ERR_OR_NULL(sta))
 			continue;
 
@@ -3847,8 +3882,11 @@ void iwl_mvm_modify_all_sta_disable_tx(struct iwl_mvm *mvm,
 		iwl_mvm_sta_modify_disable_tx_ap(mvm, sta, disable);
 	}
 
+<<<<<<< HEAD
 	rcu_read_unlock();
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!fw_has_api(&mvm->fw->ucode_capa, IWL_UCODE_TLV_API_STA_TYPE))
 		return;
 

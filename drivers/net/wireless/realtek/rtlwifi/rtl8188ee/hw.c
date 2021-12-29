@@ -1269,12 +1269,20 @@ void rtl88ee_set_check_bssid(struct ieee80211_hw *hw, bool check_bssid)
 	if (rtlpriv->psc.rfpwr_state != ERFON)
 		return;
 
+<<<<<<< HEAD
 	if (check_bssid) {
+=======
+	if (check_bssid == true) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		reg_rcr |= (RCR_CBSSID_DATA | RCR_CBSSID_BCN);
 		rtlpriv->cfg->ops->set_hw_reg(hw, HW_VAR_RCR,
 					      (u8 *)(&reg_rcr));
 		_rtl88ee_set_bcn_ctrl_reg(hw, 0, BIT(4));
+<<<<<<< HEAD
 	} else if (!check_bssid) {
+=======
+	} else if (check_bssid == false) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		reg_rcr &= (~(RCR_CBSSID_DATA | RCR_CBSSID_BCN));
 		_rtl88ee_set_bcn_ctrl_reg(hw, BIT(4), 0);
 		rtlpriv->cfg->ops->set_hw_reg(hw,

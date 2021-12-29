@@ -36,6 +36,10 @@ struct qdisc_rate_table {
 enum qdisc_state_t {
 	__QDISC_STATE_SCHED,
 	__QDISC_STATE_DEACTIVATED,
+<<<<<<< HEAD
+	__QDISC_STATE_MISSED,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct qdisc_size_table {
@@ -159,8 +163,38 @@ static inline bool qdisc_is_empty(const struct Qdisc *qdisc)
 static inline bool qdisc_run_begin(struct Qdisc *qdisc)
 {
 	if (qdisc->flags & TCQ_F_NOLOCK) {
+<<<<<<< HEAD
+		if (spin_trylock(&qdisc->seqlock))
+			goto nolock_empty;
+
+		/* If the MISSED flag is set, it means other thread has
+		 * set the MISSED flag before second spin_trylock(), so
+		 * we can return false here to avoid multi cpus doing
+		 * the set_bit() and second spin_trylock() concurrently.
+		 */
+		if (test_bit(__QDISC_STATE_MISSED, &qdisc->state))
+			return false;
+
+		/* Set the MISSED flag before the second spin_trylock(),
+		 * if the second spin_trylock() return false, it means
+		 * other cpu holding the lock will do dequeuing for us
+		 * or it will see the MISSED flag set after releasing
+		 * lock and reschedule the net_tx_action() to do the
+		 * dequeuing.
+		 */
+		set_bit(__QDISC_STATE_MISSED, &qdisc->state);
+
+		/* Retry again in case other CPU may not see the new flag
+		 * after it releases the lock at the end of qdisc_run_end().
+		 */
 		if (!spin_trylock(&qdisc->seqlock))
 			return false;
+
+nolock_empty:
+=======
+		if (!spin_trylock(&qdisc->seqlock))
+			return false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		WRITE_ONCE(qdisc->empty, false);
 	} else if (qdisc_is_running(qdisc)) {
 		return false;
@@ -176,8 +210,20 @@ static inline bool qdisc_run_begin(struct Qdisc *qdisc)
 static inline void qdisc_run_end(struct Qdisc *qdisc)
 {
 	write_seqcount_end(&qdisc->running);
+<<<<<<< HEAD
+	if (qdisc->flags & TCQ_F_NOLOCK) {
+		spin_unlock(&qdisc->seqlock);
+
+		if (unlikely(test_bit(__QDISC_STATE_MISSED,
+				      &qdisc->state))) {
+			clear_bit(__QDISC_STATE_MISSED, &qdisc->state);
+			__netif_schedule(qdisc);
+		}
+	}
+=======
 	if (qdisc->flags & TCQ_F_NOLOCK)
 		spin_unlock(&qdisc->seqlock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline bool qdisc_may_bulk(const struct Qdisc *qdisc)
@@ -210,8 +256,12 @@ struct Qdisc_class_ops {
 	int			(*change)(struct Qdisc *, u32, u32,
 					struct nlattr **, unsigned long *,
 					struct netlink_ext_ack *);
+<<<<<<< HEAD
 	int			(*delete)(struct Qdisc *, unsigned long,
 					  struct netlink_ext_ack *);
+=======
+	int			(*delete)(struct Qdisc *, unsigned long);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void			(*walk)(struct Qdisc *, struct qdisc_walker * arg);
 
 	/* Filter manipulation */
@@ -389,7 +439,10 @@ struct qdisc_skb_cb {
 #define QDISC_CB_PRIV_LEN 20
 	unsigned char		data[QDISC_CB_PRIV_LEN];
 	u16			mru;
+<<<<<<< HEAD
 	bool			post_ct;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 typedef void tcf_chain_head_change_t(struct tcf_proto *tp_head, void *priv);
@@ -553,6 +606,7 @@ static inline struct net_device *qdisc_dev(const struct Qdisc *qdisc)
 	return qdisc->dev_queue->dev;
 }
 
+<<<<<<< HEAD
 static inline void sch_tree_lock(struct Qdisc *q)
 {
 	if (q->flags & TCQ_F_MQROOT)
@@ -567,6 +621,16 @@ static inline void sch_tree_unlock(struct Qdisc *q)
 		spin_unlock_bh(qdisc_lock(q));
 	else
 		spin_unlock_bh(qdisc_root_sleeping_lock(q));
+=======
+static inline void sch_tree_lock(const struct Qdisc *q)
+{
+	spin_lock_bh(qdisc_root_sleeping_lock(q));
+}
+
+static inline void sch_tree_unlock(const struct Qdisc *q)
+{
+	spin_unlock_bh(qdisc_root_sleeping_lock(q));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 extern struct Qdisc noop_qdisc;

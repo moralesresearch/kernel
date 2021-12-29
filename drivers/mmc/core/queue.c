@@ -7,6 +7,10 @@
 #include <linux/module.h>
 #include <linux/blkdev.h>
 #include <linux/freezer.h>
+<<<<<<< HEAD
+=======
+#include <linux/kthread.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/scatterlist.h>
 #include <linux/dma-mapping.h>
 #include <linux/backing-dev.h>
@@ -18,7 +22,10 @@
 #include "block.h"
 #include "core.h"
 #include "card.h"
+<<<<<<< HEAD
 #include "crypto.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "host.h"
 
 #define MMC_DMA_MAP_MERGE_SEGMENTS	512
@@ -33,6 +40,11 @@ void mmc_cqe_check_busy(struct mmc_queue *mq)
 {
 	if ((mq->cqe_busy & MMC_CQE_DCMD_BUSY) && !mmc_cqe_dcmd_busy(mq))
 		mq->cqe_busy &= ~MMC_CQE_DCMD_BUSY;
+<<<<<<< HEAD
+=======
+
+	mq->cqe_busy &= ~MMC_CQE_QUEUE_FULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline bool mmc_cqe_can_dcmd(struct mmc_host *host)
@@ -405,8 +417,11 @@ static void mmc_setup_queue(struct mmc_queue *mq, struct mmc_card *card)
 	mutex_init(&mq->complete_lock);
 
 	init_waitqueue_head(&mq->wait);
+<<<<<<< HEAD
 
 	mmc_crypto_setup_queue(mq->queue, host);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline bool mmc_merge_capable(struct mmc_host *host)

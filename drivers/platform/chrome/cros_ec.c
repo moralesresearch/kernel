@@ -32,6 +32,7 @@ static struct cros_ec_platform pd_p = {
 	.cmd_offset = EC_CMD_PASSTHRU_OFFSET(CROS_EC_DEV_PD_INDEX),
 };
 
+<<<<<<< HEAD
 /**
  * cros_ec_irq_handler() - top half part of the interrupt handler
  * @irq: IRQ id
@@ -40,6 +41,9 @@ static struct cros_ec_platform pd_p = {
  * Return: Wakeup the bottom half
  */
 static irqreturn_t cros_ec_irq_handler(int irq, void *data)
+=======
+static irqreturn_t ec_irq_handler(int irq, void *data)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cros_ec_device *ec_dev = data;
 
@@ -58,7 +62,11 @@ static irqreturn_t cros_ec_irq_handler(int irq, void *data)
  * Return: true if more events are still pending and this function should be
  * called again.
  */
+<<<<<<< HEAD
 static bool cros_ec_handle_event(struct cros_ec_device *ec_dev)
+=======
+bool cros_ec_handle_event(struct cros_ec_device *ec_dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	bool wake_event;
 	bool ec_has_more_events;
@@ -80,6 +88,7 @@ static bool cros_ec_handle_event(struct cros_ec_device *ec_dev)
 
 	return ec_has_more_events;
 }
+<<<<<<< HEAD
 
 /**
  * cros_ec_irq_thread() - bottom half part of the interrupt handler
@@ -89,6 +98,11 @@ static bool cros_ec_handle_event(struct cros_ec_device *ec_dev)
  * Return: Interrupt handled.
  */
 irqreturn_t cros_ec_irq_thread(int irq, void *data)
+=======
+EXPORT_SYMBOL(cros_ec_handle_event);
+
+static irqreturn_t ec_irq_thread(int irq, void *data)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct cros_ec_device *ec_dev = data;
 	bool ec_has_more_events;
@@ -99,7 +113,10 @@ irqreturn_t cros_ec_irq_thread(int irq, void *data)
 
 	return IRQ_HANDLED;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(cros_ec_irq_thread);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int cros_ec_sleep_event(struct cros_ec_device *ec_dev, u8 sleep_event)
 {
@@ -208,8 +225,13 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
 
 	if (ec_dev->irq > 0) {
 		err = devm_request_threaded_irq(dev, ec_dev->irq,
+<<<<<<< HEAD
 						cros_ec_irq_handler,
 						cros_ec_irq_thread,
+=======
+						ec_irq_handler,
+						ec_irq_thread,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						IRQF_TRIGGER_LOW | IRQF_ONESHOT,
 						"chromeos-ec", ec_dev);
 		if (err) {
@@ -283,6 +305,7 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
 
 	dev_info(dev, "Chrome EC device registered\n");
 
+<<<<<<< HEAD
 	/*
 	 * Unlock EC that may be waiting for AP to process MKBP events.
 	 * If the AP takes to long to answer, the EC would stop sending events.
@@ -290,6 +313,8 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
 	if (ec_dev->mkbp_event_supported)
 		cros_ec_irq_thread(0, ec_dev);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 EXPORT_SYMBOL(cros_ec_register);

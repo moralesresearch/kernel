@@ -167,6 +167,10 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
 
 	dwc3_np = of_get_child_by_name(node, "dwc3");
 	if (!dwc3_np) {
+<<<<<<< HEAD
+		err = -ENODEV;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev_err(dev, "failed to find dwc3 core child\n");
 		goto disable_rpm;
 	}

@@ -87,7 +87,11 @@ extern spinlock_t pcpu_lock;
 
 extern struct list_head *pcpu_chunk_lists;
 extern int pcpu_nr_slots;
+<<<<<<< HEAD
 extern int pcpu_nr_empty_pop_pages[];
+=======
+extern int pcpu_nr_empty_pop_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern struct pcpu_chunk *pcpu_first_chunk;
 extern struct pcpu_chunk *pcpu_reserved_chunk;

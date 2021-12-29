@@ -203,6 +203,7 @@ static void hci_acl_create_connection(struct hci_conn *conn)
 
 	BT_DBG("hcon %p", conn);
 
+<<<<<<< HEAD
 	/* Many controllers disallow HCI Create Connection while it is doing
 	 * HCI Inquiry. So we cancel the Inquiry first before issuing HCI Create
 	 * Connection. This may cause the MGMT discovering state to become false
@@ -220,6 +221,8 @@ static void hci_acl_create_connection(struct hci_conn *conn)
 		return;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	conn->state = BT_CONNECT;
 	conn->out = true;
 	conn->role = HCI_ROLE_MASTER;
@@ -293,6 +296,7 @@ static void hci_add_sco(struct hci_conn *conn, __u16 handle)
 	hci_send_cmd(hdev, HCI_OP_ADD_SCO, sizeof(cp), &cp);
 }
 
+<<<<<<< HEAD
 static bool find_next_esco_param(struct hci_conn *conn,
 				 const struct sco_param *esco_param, int size)
 {
@@ -307,6 +311,8 @@ static bool find_next_esco_param(struct hci_conn *conn,
 	return conn->attempt <= size;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool hci_setup_sync(struct hci_conn *conn, __u16 handle)
 {
 	struct hci_dev *hdev = conn->hdev;
@@ -328,15 +334,23 @@ bool hci_setup_sync(struct hci_conn *conn, __u16 handle)
 
 	switch (conn->setting & SCO_AIRMODE_MASK) {
 	case SCO_AIRMODE_TRANSP:
+<<<<<<< HEAD
 		if (!find_next_esco_param(conn, esco_param_msbc,
 					  ARRAY_SIZE(esco_param_msbc)))
+=======
+		if (conn->attempt > ARRAY_SIZE(esco_param_msbc))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return false;
 		param = &esco_param_msbc[conn->attempt - 1];
 		break;
 	case SCO_AIRMODE_CVSD:
 		if (lmp_esco_capable(conn->link)) {
+<<<<<<< HEAD
 			if (!find_next_esco_param(conn, esco_param_cvsd,
 						  ARRAY_SIZE(esco_param_cvsd)))
+=======
+			if (conn->attempt > ARRAY_SIZE(esco_param_cvsd))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return false;
 			param = &esco_param_cvsd[conn->attempt - 1];
 		} else {
@@ -1830,8 +1844,11 @@ u32 hci_conn_get_phy(struct hci_conn *conn)
 {
 	u32 phys = 0;
 
+<<<<<<< HEAD
+=======
 	hci_dev_lock(conn->hdev);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* BLUETOOTH CORE SPECIFICATION Version 5.2 | Vol 2, Part B page 471:
 	 * Table 6.2: Packets defined for synchronous, asynchronous, and
 	 * CSB logical transport types.
@@ -1928,7 +1945,10 @@ u32 hci_conn_get_phy(struct hci_conn *conn)
 		break;
 	}
 
+<<<<<<< HEAD
+=======
 	hci_dev_unlock(conn->hdev);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return phys;
 }

@@ -40,8 +40,20 @@
 #define KVM_MAX_VCPUS 288
 #define KVM_SOFT_MAX_VCPUS 240
 #define KVM_MAX_VCPU_ID 1023
+<<<<<<< HEAD
 /* memory slots that are not exposed to userspace */
 #define KVM_PRIVATE_MEM_SLOTS 3
+=======
+<<<<<<< HEAD
+/* memory slots that are not exposed to userspace */
+#define KVM_PRIVATE_MEM_SLOTS 3
+=======
+#define KVM_USER_MEM_SLOTS 509
+/* memory slots that are not exposed to userspace */
+#define KVM_PRIVATE_MEM_SLOTS 3
+#define KVM_MEM_SLOTS_NUM (KVM_USER_MEM_SLOTS + KVM_PRIVATE_MEM_SLOTS)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define KVM_HALT_POLL_NS_DEFAULT 200000
 
@@ -50,9 +62,18 @@
 #define KVM_DIRTY_LOG_MANUAL_CAPS   (KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE | \
 					KVM_DIRTY_LOG_INITIALLY_SET)
 
+<<<<<<< HEAD
 #define KVM_BUS_LOCK_DETECTION_VALID_MODE	(KVM_BUS_LOCK_DETECTION_OFF | \
 						 KVM_BUS_LOCK_DETECTION_EXIT)
 
+=======
+<<<<<<< HEAD
+#define KVM_BUS_LOCK_DETECTION_VALID_MODE	(KVM_BUS_LOCK_DETECTION_OFF | \
+						 KVM_BUS_LOCK_DETECTION_EXIT)
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* x86-specific vcpu->requests bit members */
 #define KVM_REQ_MIGRATE_TIMER		KVM_ARCH_REQ(0)
 #define KVM_REQ_REPORT_TPR_ACCESS	KVM_ARCH_REQ(1)
@@ -89,8 +110,16 @@
 	KVM_ARCH_REQ_FLAGS(27, KVM_REQUEST_NO_WAKEUP)
 #define KVM_REQ_APF_READY		KVM_ARCH_REQ(28)
 #define KVM_REQ_MSR_FILTER_CHANGED	KVM_ARCH_REQ(29)
+<<<<<<< HEAD
 #define KVM_REQ_UPDATE_CPU_DIRTY_LOGGING \
 	KVM_ARCH_REQ_FLAGS(30, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+=======
+<<<<<<< HEAD
+#define KVM_REQ_UPDATE_CPU_DIRTY_LOGGING \
+	KVM_ARCH_REQ_FLAGS(30, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define CR0_RESERVED_BITS                                               \
 	(~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM | X86_CR0_TS \
@@ -203,6 +232,10 @@ enum x86_intercept_stage;
 #define DR6_BS		(1 << 14)
 #define DR6_BT		(1 << 15)
 #define DR6_RTM		(1 << 16)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * DR6_ACTIVE_LOW combines fixed-1 and active-low bits.
  * We can regard all the bits in DR6_FIXED_1 as active_low bits;
@@ -214,6 +247,14 @@ enum x86_intercept_stage;
 #define DR6_ACTIVE_LOW	0xffff0ff0
 #define DR6_VOLATILE	0x0001e00f
 #define DR6_FIXED_1	(DR6_ACTIVE_LOW & ~DR6_VOLATILE)
+<<<<<<< HEAD
+=======
+=======
+#define DR6_FIXED_1	0xfffe0ff0
+#define DR6_INIT	0xffff0ff0
+#define DR6_VOLATILE	0x0001e00f
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DR7_BP_EN_MASK	0x000000ff
 #define DR7_GE		(1 << 9)
@@ -348,8 +389,16 @@ struct kvm_mmu_root_info {
 
 #define KVM_MMU_NUM_PREV_ROOTS 3
 
+<<<<<<< HEAD
 #define KVM_HAVE_MMU_RWLOCK
 
+=======
+<<<<<<< HEAD
+#define KVM_HAVE_MMU_RWLOCK
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct kvm_mmu_page;
 
 /*
@@ -371,6 +420,14 @@ struct kvm_mmu {
 	int (*sync_page)(struct kvm_vcpu *vcpu,
 			 struct kvm_mmu_page *sp);
 	void (*invlpg)(struct kvm_vcpu *vcpu, gva_t gva, hpa_t root_hpa);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	void (*update_pte)(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp,
+			   u64 *spte, const void *pte);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hpa_t root_hpa;
 	gpa_t root_pgd;
 	union kvm_mmu_role mmu_role;
@@ -521,7 +578,14 @@ struct kvm_vcpu_hv_synic {
 
 /* Hyper-V per vcpu emulation context */
 struct kvm_vcpu_hv {
+<<<<<<< HEAD
 	struct kvm_vcpu *vcpu;
+=======
+<<<<<<< HEAD
+	struct kvm_vcpu *vcpu;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32 vp_index;
 	u64 hv_vapic;
 	s64 runtime_offset;
@@ -532,6 +596,10 @@ struct kvm_vcpu_hv {
 	cpumask_t tlb_flush;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Xen HVM per vcpu emulation context */
 struct kvm_vcpu_xen {
 	u64 hypercall_rip;
@@ -547,6 +615,11 @@ struct kvm_vcpu_xen {
 	u64 runstate_times[4];
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct kvm_vcpu_arch {
 	/*
 	 * rip and regs accesses must go through
@@ -667,7 +740,15 @@ struct kvm_vcpu_arch {
 	int cpuid_nent;
 	struct kvm_cpuid_entry2 *cpuid_entries;
 
+<<<<<<< HEAD
 	u64 reserved_gpa_bits;
+=======
+<<<<<<< HEAD
+	u64 reserved_gpa_bits;
+=======
+	unsigned long cr3_lm_rsvd_bits;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int maxphyaddr;
 	int max_tdp_level;
 
@@ -744,9 +825,19 @@ struct kvm_vcpu_arch {
 	/* used for guest single stepping over the given code position */
 	unsigned long singlestep_rip;
 
+<<<<<<< HEAD
 	bool hyperv_enabled;
 	struct kvm_vcpu_hv *hyperv;
 	struct kvm_vcpu_xen xen;
+=======
+<<<<<<< HEAD
+	bool hyperv_enabled;
+	struct kvm_vcpu_hv *hyperv;
+	struct kvm_vcpu_xen xen;
+=======
+	struct kvm_vcpu_hv hyperv;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	cpumask_var_t wbinvd_dirty_mask;
 
@@ -884,6 +975,10 @@ struct kvm_hv_syndbg {
 	u64 options;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Current state of Hyper-V TSC page clocksource */
 enum hv_tsc_page_status {
 	/* TSC page was not set up or disabled */
@@ -900,13 +995,25 @@ enum hv_tsc_page_status {
 	HV_TSC_PAGE_BROKEN,
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Hyper-V emulation context */
 struct kvm_hv {
 	struct mutex hv_lock;
 	u64 hv_guest_os_id;
 	u64 hv_hypercall;
 	u64 hv_tsc_page;
+<<<<<<< HEAD
 	enum hv_tsc_page_status hv_tsc_page_status;
+=======
+<<<<<<< HEAD
+	enum hv_tsc_page_status hv_tsc_page_status;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Hyper-v based guest crash (NT kernel bugcheck) parameters */
 	u64 hv_crash_param[HV_X64_MSR_CRASH_PARAMS];
@@ -934,6 +1041,10 @@ struct msr_bitmap_range {
 	unsigned long *bitmap;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Xen emulation context */
 struct kvm_xen {
 	bool long_mode;
@@ -942,6 +1053,11 @@ struct kvm_xen {
 	struct gfn_to_hva_cache shinfo_cache;
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum kvm_irqchip_mode {
 	KVM_IRQCHIP_NONE,
 	KVM_IRQCHIP_KERNEL,       /* created with KVM_CREATE_IRQCHIP */
@@ -968,6 +1084,15 @@ struct kvm_arch {
 	unsigned int indirect_shadow_pages;
 	u8 mmu_valid_gen;
 	struct hlist_head mmu_page_hash[KVM_NUM_MMU_PAGES];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	/*
+	 * Hash table of struct kvm_mmu_page.
+	 */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct list_head active_mmu_pages;
 	struct list_head zapped_obsolete_pages;
 	struct list_head lpage_disallowed_mmu_pages;
@@ -986,7 +1111,15 @@ struct kvm_arch {
 	struct kvm_pit *vpit;
 	atomic_t vapics_in_nmi_mode;
 	struct mutex apic_map_lock;
+<<<<<<< HEAD
 	struct kvm_apic_map __rcu *apic_map;
+=======
+<<<<<<< HEAD
+	struct kvm_apic_map __rcu *apic_map;
+=======
+	struct kvm_apic_map *apic_map;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_t apic_map_dirty;
 
 	bool apic_access_page_done;
@@ -1024,7 +1157,14 @@ struct kvm_arch {
 	struct hlist_head mask_notifier_list;
 
 	struct kvm_hv hyperv;
+<<<<<<< HEAD
 	struct kvm_xen xen;
+=======
+<<<<<<< HEAD
+	struct kvm_xen xen;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	#ifdef CONFIG_KVM_MMU_AUDIT
 	int audit_point;
@@ -1035,7 +1175,14 @@ struct kvm_arch {
 	u32 bsp_vcpu_id;
 
 	u64 disabled_quirks;
+<<<<<<< HEAD
 	int cpu_dirty_logging_count;
+=======
+<<<<<<< HEAD
+	int cpu_dirty_logging_count;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	enum kvm_irqchip_mode irqchip_mode;
 	u8 nr_reserved_ioapic_pins;
@@ -1052,12 +1199,27 @@ struct kvm_arch {
 
 	/* Deflect RDMSR and WRMSR to user space when they trigger a #GP */
 	u32 user_space_msr_mask;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct kvm_x86_msr_filter __rcu *msr_filter;
 
 	struct kvm_pmu_event_filter __rcu *pmu_event_filter;
 	struct task_struct *nx_lpage_recovery_thread;
 
 #ifdef CONFIG_X86_64
+<<<<<<< HEAD
+=======
+=======
+
+	struct kvm_x86_msr_filter __rcu *msr_filter;
+
+	struct kvm_pmu_event_filter *pmu_event_filter;
+	struct task_struct *nx_lpage_recovery_thread;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Whether the TDP MMU is enabled for this VM. This contains a
 	 * snapshot of the TDP MMU module parameter from when the VM was
@@ -1083,6 +1245,10 @@ struct kvm_arch {
 	 * tdp_mmu_page set and a root_count of 0.
 	 */
 	struct list_head tdp_mmu_pages;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Protects accesses to the following fields when the MMU lock
@@ -1097,11 +1263,23 @@ struct kvm_arch {
 	 */
 	spinlock_t tdp_mmu_pages_lock;
 #endif /* CONFIG_X86_64 */
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct kvm_vm_stat {
 	ulong mmu_shadow_zapped;
 	ulong mmu_pte_write;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	ulong mmu_pte_updated;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ulong mmu_pde_zapped;
 	ulong mmu_flooded;
 	ulong mmu_recycled;
@@ -1295,11 +1473,44 @@ struct kvm_x86_ops {
 	void (*sched_in)(struct kvm_vcpu *kvm, int cpu);
 
 	/*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Size of the CPU's dirty log buffer, i.e. VMX's PML buffer.  A zero
 	 * value indicates CPU dirty logging is unsupported or disabled.
 	 */
 	int cpu_dirty_log_size;
 	void (*update_cpu_dirty_logging)(struct kvm_vcpu *vcpu);
+<<<<<<< HEAD
+=======
+=======
+	 * Arch-specific dirty logging hooks. These hooks are only supposed to
+	 * be valid if the specific arch has hardware-accelerated dirty logging
+	 * mechanism. Currently only for PML on VMX.
+	 *
+	 *  - slot_enable_log_dirty:
+	 *	called when enabling log dirty mode for the slot.
+	 *  - slot_disable_log_dirty:
+	 *	called when disabling log dirty mode for the slot.
+	 *	also called when slot is created with log dirty disabled.
+	 *  - flush_log_dirty:
+	 *	called before reporting dirty_bitmap to userspace.
+	 *  - enable_log_dirty_pt_masked:
+	 *	called when reenabling log dirty for the GFNs in the mask after
+	 *	corresponding bits are cleared in slot->dirty_bitmap.
+	 */
+	void (*slot_enable_log_dirty)(struct kvm *kvm,
+				      struct kvm_memory_slot *slot);
+	void (*slot_disable_log_dirty)(struct kvm *kvm,
+				       struct kvm_memory_slot *slot);
+	void (*flush_log_dirty)(struct kvm *kvm);
+	void (*enable_log_dirty_pt_masked)(struct kvm *kvm,
+					   struct kvm_memory_slot *slot,
+					   gfn_t offset, unsigned long mask);
+	int (*cpu_dirty_log_size)(void);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* pmu operations of sub-arch */
 	const struct kvm_pmu_ops *pmu_ops;
@@ -1391,6 +1602,10 @@ extern u64 __read_mostly host_efer;
 extern bool __read_mostly allow_smaller_maxphyaddr;
 extern struct kvm_x86_ops kvm_x86_ops;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define KVM_X86_OP(func) \
 	DECLARE_STATIC_CALL(kvm_x86_##func, *(((struct kvm_x86_ops *)0)->func));
 #define KVM_X86_OP_NULL KVM_X86_OP
@@ -1404,6 +1619,11 @@ static inline void kvm_ops_static_call_update(void)
 #include <asm/kvm-x86-ops.h>
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define __KVM_HAVE_ARCH_VM_ALLOC
 static inline struct kvm *kvm_arch_alloc_vm(void)
 {
@@ -1415,7 +1635,15 @@ void kvm_arch_free_vm(struct kvm *kvm);
 static inline int kvm_arch_flush_remote_tlb(struct kvm *kvm)
 {
 	if (kvm_x86_ops.tlb_remote_flush &&
+<<<<<<< HEAD
 	    !static_call(kvm_x86_tlb_remote_flush)(kvm))
+=======
+<<<<<<< HEAD
+	    !static_call(kvm_x86_tlb_remote_flush)(kvm))
+=======
+	    !kvm_x86_ops.tlb_remote_flush(kvm))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	else
 		return -ENOTSUPP;
@@ -1442,6 +1670,17 @@ void kvm_mmu_slot_leaf_clear_dirty(struct kvm *kvm,
 				   struct kvm_memory_slot *memslot);
 void kvm_mmu_slot_largepage_remove_write_access(struct kvm *kvm,
 					struct kvm_memory_slot *memslot);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+void kvm_mmu_slot_set_dirty(struct kvm *kvm,
+			    struct kvm_memory_slot *memslot);
+void kvm_mmu_clear_dirty_pt_masked(struct kvm *kvm,
+				   struct kvm_memory_slot *slot,
+				   gfn_t gfn_offset, unsigned long mask);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void kvm_mmu_zap_all(struct kvm *kvm);
 void kvm_mmu_invalidate_mmio_sptes(struct kvm *kvm, u64 gen);
 unsigned long kvm_mmu_calculate_default_mmu_pages(struct kvm *kvm);
@@ -1480,8 +1719,16 @@ extern u8   kvm_tsc_scaling_ratio_frac_bits;
 extern u64  kvm_max_tsc_scaling_ratio;
 /* 1ull << kvm_tsc_scaling_ratio_frac_bits */
 extern u64  kvm_default_tsc_scaling_ratio;
+<<<<<<< HEAD
 /* bus lock detection supported? */
 extern bool kvm_has_bus_lock_exit;
+=======
+<<<<<<< HEAD
+/* bus lock detection supported? */
+extern bool kvm_has_bus_lock_exit;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 extern u64 kvm_mce_cap_supported;
 
@@ -1562,7 +1809,15 @@ int kvm_set_cr3(struct kvm_vcpu *vcpu, unsigned long cr3);
 int kvm_set_cr4(struct kvm_vcpu *vcpu, unsigned long cr4);
 int kvm_set_cr8(struct kvm_vcpu *vcpu, unsigned long cr8);
 int kvm_set_dr(struct kvm_vcpu *vcpu, int dr, unsigned long val);
+<<<<<<< HEAD
 void kvm_get_dr(struct kvm_vcpu *vcpu, int dr, unsigned long *val);
+=======
+<<<<<<< HEAD
+void kvm_get_dr(struct kvm_vcpu *vcpu, int dr, unsigned long *val);
+=======
+int kvm_get_dr(struct kvm_vcpu *vcpu, int dr, unsigned long *val);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 unsigned long kvm_get_cr8(struct kvm_vcpu *vcpu);
 void kvm_lmsw(struct kvm_vcpu *vcpu, unsigned long msw);
 void kvm_get_cs_db_l_bits(struct kvm_vcpu *vcpu, int *db, int *l);
@@ -1613,6 +1868,13 @@ void kvm_inject_nmi(struct kvm_vcpu *vcpu);
 void kvm_update_dr7(struct kvm_vcpu *vcpu);
 
 int kvm_mmu_unprotect_page(struct kvm *kvm, gfn_t gfn);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+int kvm_mmu_unprotect_page_virt(struct kvm_vcpu *vcpu, gva_t gva);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __kvm_mmu_free_some_pages(struct kvm_vcpu *vcpu);
 int kvm_mmu_load(struct kvm_vcpu *vcpu);
 void kvm_mmu_unload(struct kvm_vcpu *vcpu);
@@ -1753,6 +2015,10 @@ int kvm_pv_send_ipi(struct kvm *kvm, unsigned long ipi_bitmap_low,
 		    unsigned long icr, int op_64_bit);
 
 void kvm_define_user_return_msr(unsigned index, u32 msr);
+<<<<<<< HEAD
+int kvm_probe_user_return_msr(u32 msr);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int kvm_set_user_return_msr(unsigned index, u64 val, u64 mask);
 
 u64 kvm_scale_tsc(struct kvm_vcpu *vcpu, u64 tsc);
@@ -1802,12 +2068,30 @@ static inline bool kvm_irq_is_postable(struct kvm_lapic_irq *irq)
 
 static inline void kvm_arch_vcpu_blocking(struct kvm_vcpu *vcpu)
 {
+<<<<<<< HEAD
 	static_call_cond(kvm_x86_vcpu_blocking)(vcpu);
+=======
+<<<<<<< HEAD
+	static_call_cond(kvm_x86_vcpu_blocking)(vcpu);
+=======
+	if (kvm_x86_ops.vcpu_blocking)
+		kvm_x86_ops.vcpu_blocking(vcpu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void kvm_arch_vcpu_unblocking(struct kvm_vcpu *vcpu)
 {
+<<<<<<< HEAD
 	static_call_cond(kvm_x86_vcpu_unblocking)(vcpu);
+=======
+<<<<<<< HEAD
+	static_call_cond(kvm_x86_vcpu_unblocking)(vcpu);
+=======
+	if (kvm_x86_ops.vcpu_unblocking)
+		kvm_x86_ops.vcpu_unblocking(vcpu);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline void kvm_arch_vcpu_block_finish(struct kvm_vcpu *vcpu) {}

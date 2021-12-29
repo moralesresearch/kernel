@@ -403,7 +403,11 @@ error:
 	return err;
 }
 
+<<<<<<< HEAD
 static void snd_cmi8328_remove(struct device *pdev, unsigned int dev)
+=======
+static int snd_cmi8328_remove(struct device *pdev, unsigned int dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct snd_card *card = dev_get_drvdata(pdev);
 	struct snd_cmi8328 *cmi = card->private_data;
@@ -420,6 +424,10 @@ static void snd_cmi8328_remove(struct device *pdev, unsigned int dev)
 	snd_cmi8328_cfg_write(cmi->port, CFG2, 0);
 	snd_cmi8328_cfg_write(cmi->port, CFG3, 0);
 	snd_card_free(card);
+<<<<<<< HEAD
+=======
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #ifdef CONFIG_PM

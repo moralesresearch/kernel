@@ -212,10 +212,18 @@ static int gve_tx_alloc_ring(struct gve_priv *priv, int idx)
 	tx->dev = &priv->pdev->dev;
 	if (!tx->raw_addressing) {
 		tx->tx_fifo.qpl = gve_assign_tx_qpl(priv);
+<<<<<<< HEAD
+		if (!tx->tx_fifo.qpl)
+			goto abort_with_desc;
+		/* map Tx FIFO */
+		if (gve_tx_fifo_init(priv, &tx->tx_fifo))
+			goto abort_with_qpl;
+=======
 
 		/* map Tx FIFO */
 		if (gve_tx_fifo_init(priv, &tx->tx_fifo))
 			goto abort_with_desc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	tx->q_resources =
@@ -236,6 +244,12 @@ static int gve_tx_alloc_ring(struct gve_priv *priv, int idx)
 abort_with_fifo:
 	if (!tx->raw_addressing)
 		gve_tx_fifo_release(priv, &tx->tx_fifo);
+<<<<<<< HEAD
+abort_with_qpl:
+	if (!tx->raw_addressing)
+		gve_unassign_qpl(priv, tx->tx_fifo.qpl->id);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 abort_with_desc:
 	dma_free_coherent(hdev, bytes, tx->desc, tx->bus);
 	tx->desc = NULL;
@@ -589,7 +603,11 @@ netdev_tx_t gve_tx(struct sk_buff *skb, struct net_device *dev)
 	struct gve_tx_ring *tx;
 	int nsegs;
 
+<<<<<<< HEAD
+	WARN(skb_get_queue_mapping(skb) >= priv->tx_cfg.num_queues,
+=======
 	WARN(skb_get_queue_mapping(skb) > priv->tx_cfg.num_queues,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	     "skb queue index out of range");
 	tx = &priv->tx[skb_get_queue_mapping(skb)];
 	if (unlikely(gve_maybe_stop_tx(tx, skb))) {

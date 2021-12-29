@@ -226,8 +226,12 @@ static int __jffs2_set_acl(struct inode *inode, int xprefix, struct posix_acl *a
 	return rc;
 }
 
+<<<<<<< HEAD
 int jffs2_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		  struct posix_acl *acl, int type)
+=======
+int jffs2_set_acl(struct inode *inode, struct posix_acl *acl, int type)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int rc, xprefix;
 
@@ -237,8 +241,12 @@ int jffs2_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
 		if (acl) {
 			umode_t mode;
 
+<<<<<<< HEAD
 			rc = posix_acl_update_mode(&init_user_ns, inode, &mode,
 						   &acl);
+=======
+			rc = posix_acl_update_mode(inode, &mode, &acl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (rc)
 				return rc;
 			if (inode->i_mode != mode) {

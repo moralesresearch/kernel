@@ -21,8 +21,11 @@
 #define KVM_UTIL_PGS_PER_HUGEPG 512
 #define KVM_UTIL_MIN_PFN	2
 
+<<<<<<< HEAD
 static int vcpu_mmap_sz(void);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Aligns x up to the next multiple of size. Size must be a power of 2. */
 static void *align(void *x, size_t size)
 {
@@ -511,7 +514,11 @@ static void vm_vcpu_rm(struct kvm_vm *vm, struct vcpu *vcpu)
 		vcpu->dirty_gfns = NULL;
 	}
 
+<<<<<<< HEAD
 	ret = munmap(vcpu->state, vcpu_mmap_sz());
+=======
+	ret = munmap(vcpu->state, sizeof(*vcpu->state));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	TEST_ASSERT(ret == 0, "munmap of VCPU fd failed, rc: %i "
 		"errno: %i", ret, errno);
 	close(vcpu->fd);
@@ -980,7 +987,11 @@ void vm_vcpu_add(struct kvm_vm *vm, uint32_t vcpuid)
 	TEST_ASSERT(vcpu_mmap_sz() >= sizeof(*vcpu->state), "vcpu mmap size "
 		"smaller than expected, vcpu_mmap_sz: %i expected_min: %zi",
 		vcpu_mmap_sz(), sizeof(*vcpu->state));
+<<<<<<< HEAD
 	vcpu->state = (struct kvm_run *) mmap(NULL, vcpu_mmap_sz(),
+=======
+	vcpu->state = (struct kvm_run *) mmap(NULL, sizeof(*vcpu->state),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		PROT_READ | PROT_WRITE, MAP_SHARED, vcpu->fd, 0);
 	TEST_ASSERT(vcpu->state != MAP_FAILED, "mmap vcpu_state failed, "
 		"vcpu id: %u errno: %i", vcpuid, errno);
@@ -1697,16 +1708,23 @@ void vm_ioctl(struct kvm_vm *vm, unsigned long cmd, void *arg)
 {
 	int ret;
 
+<<<<<<< HEAD
 	ret = _vm_ioctl(vm, cmd, arg);
+=======
+	ret = ioctl(vm->fd, cmd, arg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	TEST_ASSERT(ret == 0, "vm ioctl %lu failed, rc: %i errno: %i (%s)",
 		cmd, ret, errno, strerror(errno));
 }
 
+<<<<<<< HEAD
 int _vm_ioctl(struct kvm_vm *vm, unsigned long cmd, void *arg)
 {
 	return ioctl(vm->fd, cmd, arg);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * KVM system ioctl
  *
@@ -1808,7 +1826,10 @@ static struct exit_reason {
 	{KVM_EXIT_DIRTY_RING_FULL, "DIRTY_RING_FULL"},
 	{KVM_EXIT_X86_RDMSR, "RDMSR"},
 	{KVM_EXIT_X86_WRMSR, "WRMSR"},
+<<<<<<< HEAD
 	{KVM_EXIT_XEN, "XEN"},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef KVM_EXIT_MEMORY_NOT_PRESENT
 	{KVM_EXIT_MEMORY_NOT_PRESENT, "MEMORY_NOT_PRESENT"},
 #endif
@@ -1969,7 +1990,11 @@ unsigned int vm_get_page_shift(struct kvm_vm *vm)
 	return vm->page_shift;
 }
 
+<<<<<<< HEAD
+uint64_t vm_get_max_gfn(struct kvm_vm *vm)
+=======
 unsigned int vm_get_max_gfn(struct kvm_vm *vm)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return vm->max_gfn;
 }

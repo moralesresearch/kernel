@@ -756,9 +756,18 @@ int geni_icc_get(struct geni_se *se, const char *icc_ddr)
 	int i, err;
 	const char *icc_names[] = {"qup-core", "qup-config", icc_ddr};
 
+<<<<<<< HEAD
 	if (has_acpi_companion(se->dev))
 		return 0;
 
+=======
+<<<<<<< HEAD
+	if (has_acpi_companion(se->dev))
+		return 0;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < ARRAY_SIZE(se->icc_paths); i++) {
 		if (!icc_names[i])
 			continue;

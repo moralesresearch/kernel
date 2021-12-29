@@ -1,14 +1,21 @@
 /* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
 /*
+<<<<<<< HEAD
  * Copyright (C) 2018-2020 Intel Corporation
+=======
+ * Copyright (C) 2018-2019 Intel Corporation
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 #ifndef __iwl_dbg_tlv_h__
 #define __iwl_dbg_tlv_h__
 
 #include <linux/device.h>
 #include <linux/types.h>
+<<<<<<< HEAD
 #include <fw/file.h>
 #include <fw/api/dbg-tlv.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * struct iwl_dbg_tlv_node - debug TLV node
@@ -45,7 +52,11 @@ struct iwl_fw_runtime;
 
 void iwl_dbg_tlv_load_bin(struct device *dev, struct iwl_trans *trans);
 void iwl_dbg_tlv_free(struct iwl_trans *trans);
+<<<<<<< HEAD
 void iwl_dbg_tlv_alloc(struct iwl_trans *trans, const struct iwl_ucode_tlv *tlv,
+=======
+void iwl_dbg_tlv_alloc(struct iwl_trans *trans, struct iwl_ucode_tlv *tlv,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		       bool ext);
 void iwl_dbg_tlv_init(struct iwl_trans *trans);
 void iwl_dbg_tlv_time_point(struct iwl_fw_runtime *fwrt,

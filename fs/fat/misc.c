@@ -329,11 +329,17 @@ EXPORT_SYMBOL_GPL(fat_truncate_time);
 
 int fat_update_time(struct inode *inode, struct timespec64 *now, int flags)
 {
+<<<<<<< HEAD
 	int dirty_flags = 0;
+=======
+	int iflags = I_DIRTY_TIME;
+	bool dirty = false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (inode->i_ino == MSDOS_ROOT_INO)
 		return 0;
 
+<<<<<<< HEAD
 	if (flags & (S_ATIME | S_CTIME | S_MTIME)) {
 		fat_truncate_time(inode, now, flags);
 		if (inode->i_sb->s_flags & SB_LAZYTIME)
@@ -346,6 +352,18 @@ int fat_update_time(struct inode *inode, struct timespec64 *now, int flags)
 		dirty_flags |= I_DIRTY_SYNC;
 
 	__mark_inode_dirty(inode, dirty_flags);
+=======
+	fat_truncate_time(inode, now, flags);
+	if (flags & S_VERSION)
+		dirty = inode_maybe_inc_iversion(inode, false);
+	if ((flags & (S_ATIME | S_CTIME | S_MTIME)) &&
+	    !(inode->i_sb->s_flags & SB_LAZYTIME))
+		dirty = true;
+
+	if (dirty)
+		iflags |= I_DIRTY_SYNC;
+	__mark_inode_dirty(inode, iflags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 EXPORT_SYMBOL_GPL(fat_update_time);

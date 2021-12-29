@@ -13,8 +13,13 @@
 #include <linux/kdebug.h>
 #include <linux/cpu.h>
 #include <linux/pgtable.h>
+<<<<<<< HEAD
+#include <linux/types.h>
+#include <linux/crc32.h>
+=======
 
 #include <crypto/hash.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <asm/e820/api.h>
 #include <asm/init.h>
@@ -54,14 +59,41 @@ int pfn_is_nosave(unsigned long pfn)
 	return pfn >= nosave_begin_pfn && pfn < nosave_end_pfn;
 }
 
+<<<<<<< HEAD
+=======
 
 #define MD5_DIGEST_SIZE 16
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct restore_data_record {
 	unsigned long jump_address;
 	unsigned long jump_address_phys;
 	unsigned long cr3;
 	unsigned long magic;
+<<<<<<< HEAD
+	unsigned long e820_checksum;
+};
+
+/**
+ * compute_e820_crc32 - calculate crc32 of a given e820 table
+ *
+ * @table: the e820 table to be calculated
+ *
+ * Return: the resulting checksum
+ */
+static inline u32 compute_e820_crc32(struct e820_table *table)
+{
+	int size = offsetof(struct e820_table, entries) +
+		sizeof(struct e820_entry) * table->nr_entries;
+
+	return ~crc32_le(~0, (unsigned char const *)table, size);
+}
+
+#ifdef CONFIG_X86_64
+#define RESTORE_MAGIC	0x23456789ABCDEF02UL
+#else
+#define RESTORE_MAGIC	0x12345679UL
+=======
 	u8 e820_digest[MD5_DIGEST_SIZE];
 };
 
@@ -143,6 +175,7 @@ static bool hibernation_e820_mismatch(void *buf)
 #define RESTORE_MAGIC	0x23456789ABCDEF01UL
 #else
 #define RESTORE_MAGIC	0x12345678UL
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 /**
@@ -179,7 +212,12 @@ int arch_hibernation_header_save(void *addr, unsigned int max_size)
 	 */
 	rdr->cr3 = restore_cr3 & ~CR3_PCID_MASK;
 
+<<<<<<< HEAD
+	rdr->e820_checksum = compute_e820_crc32(e820_table_firmware);
+	return 0;
+=======
 	return hibernation_e820_save(rdr->e820_digest);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -200,7 +238,11 @@ int arch_hibernation_header_restore(void *addr)
 	jump_address_phys = rdr->jump_address_phys;
 	restore_cr3 = rdr->cr3;
 
+<<<<<<< HEAD
+	if (rdr->e820_checksum != compute_e820_crc32(e820_table_firmware)) {
+=======
 	if (hibernation_e820_mismatch(rdr->e820_digest)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pr_crit("Hibernate inconsistent memory map detected!\n");
 		return -ENODEV;
 	}

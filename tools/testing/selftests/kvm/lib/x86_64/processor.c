@@ -670,6 +670,7 @@ struct kvm_cpuid2 *kvm_get_supported_cpuid(void)
 }
 
 /*
+<<<<<<< HEAD
  * KVM Get MSR
  *
  * Input Args:
@@ -747,6 +748,8 @@ struct kvm_cpuid2 *vcpu_get_cpuid(struct kvm_vm *vm, uint32_t vcpuid)
 
 
 /*
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Locate a cpuid entry.
  *
  * Input Args:
@@ -1301,6 +1304,7 @@ uint64_t kvm_hypercall(uint64_t nr, uint64_t a0, uint64_t a1, uint64_t a2,
 		     : "b"(a0), "c"(a1), "d"(a2), "S"(a3));
 	return r;
 }
+<<<<<<< HEAD
 
 struct kvm_cpuid2 *kvm_get_supported_hv_cpuid(void)
 {
@@ -1369,3 +1373,5 @@ struct kvm_cpuid2 *vcpu_get_supported_hv_cpuid(struct kvm_vm *vm, uint32_t vcpui
 
 	return cpuid;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

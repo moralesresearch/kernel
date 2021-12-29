@@ -47,7 +47,15 @@
 /* Number of bytes allowed on the internal guest Rx queue. */
 #define XENVIF_RX_QUEUE_BYTES (XEN_NETIF_RX_RING_SIZE/2 * PAGE_SIZE)
 
+<<<<<<< HEAD
 /* This function is used to set SKBFL_ZEROCOPY_ENABLE as well as
+=======
+<<<<<<< HEAD
+/* This function is used to set SKBFL_ZEROCOPY_ENABLE as well as
+=======
+/* This function is used to set SKBTX_DEV_ZEROCOPY as well as
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * increasing the inflight counter. We need to increase the inflight
  * counter because core driver calls into xenvif_zerocopy_callback
  * which calls xenvif_skb_zerocopy_complete.
@@ -55,7 +63,15 @@
 void xenvif_skb_zerocopy_prepare(struct xenvif_queue *queue,
 				 struct sk_buff *skb)
 {
+<<<<<<< HEAD
 	skb_shinfo(skb)->flags |= SKBFL_ZEROCOPY_ENABLE;
+=======
+<<<<<<< HEAD
+	skb_shinfo(skb)->flags |= SKBFL_ZEROCOPY_ENABLE;
+=======
+	skb_shinfo(skb)->tx_flags |= SKBTX_DEV_ZEROCOPY;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	atomic_inc(&queue->inflight_packets);
 }
 
@@ -630,13 +646,29 @@ int xenvif_connect_ctrl(struct xenvif *vif, grant_ref_t ring_ref,
 			unsigned int evtchn)
 {
 	struct net_device *dev = vif->dev;
+<<<<<<< HEAD
 	struct xenbus_device *xendev = xenvif_to_xenbus_device(vif);
+=======
+<<<<<<< HEAD
+	struct xenbus_device *xendev = xenvif_to_xenbus_device(vif);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *addr;
 	struct xen_netif_ctrl_sring *shared;
 	RING_IDX rsp_prod, req_prod;
 	int err;
 
+<<<<<<< HEAD
 	err = xenbus_map_ring_valloc(xendev, &ring_ref, 1, &addr);
+=======
+<<<<<<< HEAD
+	err = xenbus_map_ring_valloc(xendev, &ring_ref, 1, &addr);
+=======
+	err = xenbus_map_ring_valloc(xenvif_to_xenbus_device(vif),
+				     &ring_ref, 1, &addr);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err)
 		goto err;
 
@@ -650,7 +682,15 @@ int xenvif_connect_ctrl(struct xenvif *vif, grant_ref_t ring_ref,
 	if (req_prod - rsp_prod > RING_SIZE(&vif->ctrl))
 		goto err_unmap;
 
+<<<<<<< HEAD
 	err = bind_interdomain_evtchn_to_irq_lateeoi(xendev, evtchn);
+=======
+<<<<<<< HEAD
+	err = bind_interdomain_evtchn_to_irq_lateeoi(xendev, evtchn);
+=======
+	err = bind_interdomain_evtchn_to_irq_lateeoi(vif->domid, evtchn);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		goto err_unmap;
 
@@ -673,7 +713,16 @@ err_deinit:
 	vif->ctrl_irq = 0;
 
 err_unmap:
+<<<<<<< HEAD
 	xenbus_unmap_ring_vfree(xendev, vif->ctrl.sring);
+=======
+<<<<<<< HEAD
+	xenbus_unmap_ring_vfree(xendev, vif->ctrl.sring);
+=======
+	xenbus_unmap_ring_vfree(xenvif_to_xenbus_device(vif),
+				vif->ctrl.sring);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	vif->ctrl.sring = NULL;
 
 err:
@@ -684,6 +733,10 @@ static void xenvif_disconnect_queue(struct xenvif_queue *queue)
 {
 	if (queue->task) {
 		kthread_stop(queue->task);
+<<<<<<< HEAD
+		put_task_struct(queue->task);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		queue->task = NULL;
 	}
 
@@ -718,7 +771,14 @@ int xenvif_connect_data(struct xenvif_queue *queue,
 			unsigned int tx_evtchn,
 			unsigned int rx_evtchn)
 {
+<<<<<<< HEAD
 	struct xenbus_device *dev = xenvif_to_xenbus_device(queue->vif);
+=======
+<<<<<<< HEAD
+	struct xenbus_device *dev = xenvif_to_xenbus_device(queue->vif);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct task_struct *task;
 	int err;
 
@@ -745,6 +805,14 @@ int xenvif_connect_data(struct xenvif_queue *queue,
 	if (IS_ERR(task))
 		goto kthread_err;
 	queue->task = task;
+<<<<<<< HEAD
+	/*
+	 * Take a reference to the task in order to prevent it from being freed
+	 * if the thread function returns before kthread_stop is called.
+	 */
+	get_task_struct(task);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	task = kthread_run(xenvif_dealloc_kthread, queue,
 			   "%s-dealloc", queue->name);
@@ -755,7 +823,15 @@ int xenvif_connect_data(struct xenvif_queue *queue,
 	if (tx_evtchn == rx_evtchn) {
 		/* feature-split-event-channels == 0 */
 		err = bind_interdomain_evtchn_to_irqhandler_lateeoi(
+<<<<<<< HEAD
 			dev, tx_evtchn, xenvif_interrupt, 0,
+=======
+<<<<<<< HEAD
+			dev, tx_evtchn, xenvif_interrupt, 0,
+=======
+			queue->vif->domid, tx_evtchn, xenvif_interrupt, 0,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			queue->name, queue);
 		if (err < 0)
 			goto err;
@@ -766,7 +842,15 @@ int xenvif_connect_data(struct xenvif_queue *queue,
 		snprintf(queue->tx_irq_name, sizeof(queue->tx_irq_name),
 			 "%s-tx", queue->name);
 		err = bind_interdomain_evtchn_to_irqhandler_lateeoi(
+<<<<<<< HEAD
 			dev, tx_evtchn, xenvif_tx_interrupt, 0,
+=======
+<<<<<<< HEAD
+			dev, tx_evtchn, xenvif_tx_interrupt, 0,
+=======
+			queue->vif->domid, tx_evtchn, xenvif_tx_interrupt, 0,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			queue->tx_irq_name, queue);
 		if (err < 0)
 			goto err;
@@ -776,7 +860,15 @@ int xenvif_connect_data(struct xenvif_queue *queue,
 		snprintf(queue->rx_irq_name, sizeof(queue->rx_irq_name),
 			 "%s-rx", queue->name);
 		err = bind_interdomain_evtchn_to_irqhandler_lateeoi(
+<<<<<<< HEAD
 			dev, rx_evtchn, xenvif_rx_interrupt, 0,
+=======
+<<<<<<< HEAD
+			dev, rx_evtchn, xenvif_rx_interrupt, 0,
+=======
+			queue->vif->domid, rx_evtchn, xenvif_rx_interrupt, 0,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			queue->rx_irq_name, queue);
 		if (err < 0)
 			goto err;

@@ -162,10 +162,22 @@ static const struct drm_plane_helper_funcs arc_pgu_plane_helper_funcs = {
 	.atomic_update = arc_pgu_plane_atomic_update,
 };
 
+<<<<<<< HEAD
 static const struct drm_plane_funcs arc_pgu_plane_funcs = {
 	.update_plane		= drm_atomic_helper_update_plane,
 	.disable_plane		= drm_atomic_helper_disable_plane,
 	.destroy		= drm_plane_cleanup,
+=======
+static void arc_pgu_plane_destroy(struct drm_plane *plane)
+{
+	drm_plane_cleanup(plane);
+}
+
+static const struct drm_plane_funcs arc_pgu_plane_funcs = {
+	.update_plane		= drm_atomic_helper_update_plane,
+	.disable_plane		= drm_atomic_helper_disable_plane,
+	.destroy		= arc_pgu_plane_destroy,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.reset			= drm_atomic_helper_plane_reset,
 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
@@ -208,7 +220,11 @@ int arc_pgu_setup_crtc(struct drm_device *drm)
 	ret = drm_crtc_init_with_planes(drm, &arcpgu->crtc, primary, NULL,
 					&arc_pgu_crtc_funcs, NULL);
 	if (ret) {
+<<<<<<< HEAD
 		drm_plane_cleanup(primary);
+=======
+		arc_pgu_plane_destroy(primary);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ret;
 	}
 

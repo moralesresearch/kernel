@@ -450,6 +450,10 @@ static int afs_store_data(struct address_space *mapping,
 	afs_op_set_vnode(op, 0, vnode);
 	op->file[0].dv_delta = 1;
 	op->store.mapping = mapping;
+<<<<<<< HEAD
+	op->file[0].modification = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	op->store.first = first;
 	op->store.last = last;
 	op->store.first_offset = offset;
@@ -851,7 +855,12 @@ vm_fault_t afs_page_mkwrite(struct vm_fault *vmf)
 	fscache_wait_on_page_write(vnode->cache, vmf->page);
 #endif
 
+<<<<<<< HEAD
 	if (wait_on_page_writeback_killable(vmf->page))
+=======
+	if (PageWriteback(vmf->page) &&
+	    wait_on_page_bit_killable(vmf->page, PG_writeback) < 0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return VM_FAULT_RETRY;
 
 	if (lock_page_killable(vmf->page) < 0)

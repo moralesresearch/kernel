@@ -15,7 +15,10 @@
 
 #include "gt/intel_gt_requests.h"
 
+<<<<<<< HEAD
 #include "dma_resv_utils.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "i915_trace.h"
 
 static bool swap_available(void)
@@ -210,8 +213,11 @@ i915_gem_shrink(struct drm_i915_private *i915,
 				mutex_unlock(&obj->mm.lock);
 			}
 
+<<<<<<< HEAD
 			dma_resv_prune(obj->base.resv);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			scanned += obj->base.size >> PAGE_SHIFT;
 			i915_gem_object_put(obj);
 

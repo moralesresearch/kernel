@@ -470,7 +470,10 @@ static inline void fsnotify_update_flags(struct dentry *dentry)
 
 /* create a new group */
 extern struct fsnotify_group *fsnotify_alloc_group(const struct fsnotify_ops *ops);
+<<<<<<< HEAD
 extern struct fsnotify_group *fsnotify_alloc_user_group(const struct fsnotify_ops *ops);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* get reference to a group */
 extern void fsnotify_get_group(struct fsnotify_group *group);
 /* drop reference on a group from fsnotify_alloc_group */

@@ -58,7 +58,14 @@
 
 #include "coalesced_mmio.h"
 #include "async_pf.h"
+<<<<<<< HEAD
 #include "mmu_lock.h"
+=======
+<<<<<<< HEAD
+#include "mmu_lock.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "vfio.h"
 
 #define CREATE_TRACE_POINTS
@@ -460,15 +467,33 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
 	int idx;
 
 	idx = srcu_read_lock(&kvm->srcu);
+<<<<<<< HEAD
 
 	KVM_MMU_LOCK(kvm);
 
+=======
+<<<<<<< HEAD
+
+	KVM_MMU_LOCK(kvm);
+
+=======
+	spin_lock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kvm->mmu_notifier_seq++;
 
 	if (kvm_set_spte_hva(kvm, address, pte))
 		kvm_flush_remote_tlbs(kvm);
 
+<<<<<<< HEAD
 	KVM_MMU_UNLOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_UNLOCK(kvm);
+=======
+	spin_unlock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	srcu_read_unlock(&kvm->srcu, idx);
 }
 
@@ -479,13 +504,25 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
 	int need_tlb_flush = 0, idx;
 
 	idx = srcu_read_lock(&kvm->srcu);
+<<<<<<< HEAD
 	KVM_MMU_LOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_LOCK(kvm);
+=======
+	spin_lock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * The count increase must become visible at unlock time as no
 	 * spte can be established without taking the mmu_lock and
 	 * count is also read inside the mmu_lock critical section.
 	 */
 	kvm->mmu_notifier_count++;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (likely(kvm->mmu_notifier_count == 1)) {
 		kvm->mmu_notifier_range_start = range->start;
 		kvm->mmu_notifier_range_end = range->end;
@@ -504,13 +541,26 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
 		kvm->mmu_notifier_range_end =
 			max(kvm->mmu_notifier_range_end, range->end);
 	}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	need_tlb_flush = kvm_unmap_hva_range(kvm, range->start, range->end,
 					     range->flags);
 	/* we've to flush the tlb before the pages can be freed */
 	if (need_tlb_flush || kvm->tlbs_dirty)
 		kvm_flush_remote_tlbs(kvm);
 
+<<<<<<< HEAD
 	KVM_MMU_UNLOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_UNLOCK(kvm);
+=======
+	spin_unlock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	srcu_read_unlock(&kvm->srcu, idx);
 
 	return 0;
@@ -521,7 +571,15 @@ static void kvm_mmu_notifier_invalidate_range_end(struct mmu_notifier *mn,
 {
 	struct kvm *kvm = mmu_notifier_to_kvm(mn);
 
+<<<<<<< HEAD
 	KVM_MMU_LOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_LOCK(kvm);
+=======
+	spin_lock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * This sequence increase will notify the kvm page fault that
 	 * the page that is going to be mapped in the spte could have
@@ -535,7 +593,15 @@ static void kvm_mmu_notifier_invalidate_range_end(struct mmu_notifier *mn,
 	 * in conjunction with the smp_rmb in mmu_notifier_retry().
 	 */
 	kvm->mmu_notifier_count--;
+<<<<<<< HEAD
 	KVM_MMU_UNLOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_UNLOCK(kvm);
+=======
+	spin_unlock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	BUG_ON(kvm->mmu_notifier_count < 0);
 }
@@ -549,13 +615,29 @@ static int kvm_mmu_notifier_clear_flush_young(struct mmu_notifier *mn,
 	int young, idx;
 
 	idx = srcu_read_lock(&kvm->srcu);
+<<<<<<< HEAD
 	KVM_MMU_LOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_LOCK(kvm);
+=======
+	spin_lock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	young = kvm_age_hva(kvm, start, end);
 	if (young)
 		kvm_flush_remote_tlbs(kvm);
 
+<<<<<<< HEAD
 	KVM_MMU_UNLOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_UNLOCK(kvm);
+=======
+	spin_unlock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	srcu_read_unlock(&kvm->srcu, idx);
 
 	return young;
@@ -570,7 +652,15 @@ static int kvm_mmu_notifier_clear_young(struct mmu_notifier *mn,
 	int young, idx;
 
 	idx = srcu_read_lock(&kvm->srcu);
+<<<<<<< HEAD
 	KVM_MMU_LOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_LOCK(kvm);
+=======
+	spin_lock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Even though we do not flush TLB, this will still adversely
 	 * affect performance on pre-Haswell Intel EPT, where there is
@@ -585,7 +675,15 @@ static int kvm_mmu_notifier_clear_young(struct mmu_notifier *mn,
 	 * more sophisticated heuristic later.
 	 */
 	young = kvm_age_hva(kvm, start, end);
+<<<<<<< HEAD
 	KVM_MMU_UNLOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_UNLOCK(kvm);
+=======
+	spin_unlock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	srcu_read_unlock(&kvm->srcu, idx);
 
 	return young;
@@ -599,9 +697,21 @@ static int kvm_mmu_notifier_test_young(struct mmu_notifier *mn,
 	int young, idx;
 
 	idx = srcu_read_lock(&kvm->srcu);
+<<<<<<< HEAD
 	KVM_MMU_LOCK(kvm);
 	young = kvm_test_age_hva(kvm, address);
 	KVM_MMU_UNLOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_LOCK(kvm);
+	young = kvm_test_age_hva(kvm, address);
+	KVM_MMU_UNLOCK(kvm);
+=======
+	spin_lock(&kvm->mmu_lock);
+	young = kvm_test_age_hva(kvm, address);
+	spin_unlock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	srcu_read_unlock(&kvm->srcu, idx);
 
 	return young;
@@ -766,7 +876,15 @@ static struct kvm *kvm_create_vm(unsigned long type)
 	if (!kvm)
 		return ERR_PTR(-ENOMEM);
 
+<<<<<<< HEAD
 	KVM_MMU_LOCK_INIT(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_LOCK_INIT(kvm);
+=======
+	spin_lock_init(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mmgrab(current->mm);
 	kvm->mm = current->mm;
 	kvm_eventfd_init(kvm);
@@ -1546,7 +1664,15 @@ static int kvm_get_dirty_log_protect(struct kvm *kvm, struct kvm_dirty_log *log)
 		dirty_bitmap_buffer = kvm_second_dirty_bitmap(memslot);
 		memset(dirty_bitmap_buffer, 0, n);
 
+<<<<<<< HEAD
 		KVM_MMU_LOCK(kvm);
+=======
+<<<<<<< HEAD
+		KVM_MMU_LOCK(kvm);
+=======
+		spin_lock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		for (i = 0; i < n / sizeof(long); i++) {
 			unsigned long mask;
 			gfn_t offset;
@@ -1562,7 +1688,15 @@ static int kvm_get_dirty_log_protect(struct kvm *kvm, struct kvm_dirty_log *log)
 			kvm_arch_mmu_enable_log_dirty_pt_masked(kvm, memslot,
 								offset, mask);
 		}
+<<<<<<< HEAD
 		KVM_MMU_UNLOCK(kvm);
+=======
+<<<<<<< HEAD
+		KVM_MMU_UNLOCK(kvm);
+=======
+		spin_unlock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (flush)
@@ -1657,7 +1791,15 @@ static int kvm_clear_dirty_log_protect(struct kvm *kvm,
 	if (copy_from_user(dirty_bitmap_buffer, log->dirty_bitmap, n))
 		return -EFAULT;
 
+<<<<<<< HEAD
 	KVM_MMU_LOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_LOCK(kvm);
+=======
+	spin_lock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (offset = log->first_page, i = offset / BITS_PER_LONG,
 		 n = DIV_ROUND_UP(log->num_pages, BITS_PER_LONG); n--;
 	     i++, offset += BITS_PER_LONG) {
@@ -1680,7 +1822,15 @@ static int kvm_clear_dirty_log_protect(struct kvm *kvm,
 								offset, mask);
 		}
 	}
+<<<<<<< HEAD
 	KVM_MMU_UNLOCK(kvm);
+=======
+<<<<<<< HEAD
+	KVM_MMU_UNLOCK(kvm);
+=======
+	spin_unlock(&kvm->mmu_lock);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (flush)
 		kvm_arch_flush_remote_tlbs_memslot(kvm, memslot);
@@ -2041,6 +2191,10 @@ exit:
 
 kvm_pfn_t __gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn,
 			       bool atomic, bool *async, bool write_fault,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			       bool *writable, hva_t *hva)
 {
 	unsigned long addr = __gfn_to_hva_many(slot, gfn, NULL, write_fault);
@@ -2048,6 +2202,15 @@ kvm_pfn_t __gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn,
 	if (hva)
 		*hva = addr;
 
+<<<<<<< HEAD
+=======
+=======
+			       bool *writable)
+{
+	unsigned long addr = __gfn_to_hva_many(slot, gfn, NULL, write_fault);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (addr == KVM_HVA_ERR_RO_BAD) {
 		if (writable)
 			*writable = false;
@@ -2075,19 +2238,43 @@ kvm_pfn_t gfn_to_pfn_prot(struct kvm *kvm, gfn_t gfn, bool write_fault,
 		      bool *writable)
 {
 	return __gfn_to_pfn_memslot(gfn_to_memslot(kvm, gfn), gfn, false, NULL,
+<<<<<<< HEAD
 				    write_fault, writable, NULL);
+=======
+<<<<<<< HEAD
+				    write_fault, writable, NULL);
+=======
+				    write_fault, writable);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(gfn_to_pfn_prot);
 
 kvm_pfn_t gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn)
 {
+<<<<<<< HEAD
 	return __gfn_to_pfn_memslot(slot, gfn, false, NULL, true, NULL, NULL);
+=======
+<<<<<<< HEAD
+	return __gfn_to_pfn_memslot(slot, gfn, false, NULL, true, NULL, NULL);
+=======
+	return __gfn_to_pfn_memslot(slot, gfn, false, NULL, true, NULL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(gfn_to_pfn_memslot);
 
 kvm_pfn_t gfn_to_pfn_memslot_atomic(struct kvm_memory_slot *slot, gfn_t gfn)
 {
+<<<<<<< HEAD
 	return __gfn_to_pfn_memslot(slot, gfn, true, NULL, true, NULL, NULL);
+=======
+<<<<<<< HEAD
+	return __gfn_to_pfn_memslot(slot, gfn, true, NULL, true, NULL, NULL);
+=======
+	return __gfn_to_pfn_memslot(slot, gfn, true, NULL, true, NULL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(gfn_to_pfn_memslot_atomic);
 
@@ -2758,8 +2945,13 @@ static void grow_halt_poll_ns(struct kvm_vcpu *vcpu)
 	if (val < grow_start)
 		val = grow_start;
 
+<<<<<<< HEAD
+	if (val > vcpu->kvm->max_halt_poll_ns)
+		val = vcpu->kvm->max_halt_poll_ns;
+=======
 	if (val > halt_poll_ns)
 		val = halt_poll_ns;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vcpu->halt_poll_ns = val;
 out:
@@ -2838,7 +3030,12 @@ void kvm_vcpu_block(struct kvm_vcpu *vcpu)
 				goto out;
 			}
 			poll_end = cur = ktime_get();
+<<<<<<< HEAD
+		} while (single_task_running() && !need_resched() &&
+			 ktime_before(cur, stop));
+=======
 		} while (single_task_running() && ktime_before(cur, stop));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	prepare_to_rcuwait(&vcpu->wait);
@@ -4486,15 +4683,24 @@ int kvm_io_bus_register_dev(struct kvm *kvm, enum kvm_bus bus_idx, gpa_t addr,
 }
 
 /* Caller must hold slots_lock. */
+<<<<<<< HEAD
+int kvm_io_bus_unregister_dev(struct kvm *kvm, enum kvm_bus bus_idx,
+			      struct kvm_io_device *dev)
+=======
 void kvm_io_bus_unregister_dev(struct kvm *kvm, enum kvm_bus bus_idx,
 			       struct kvm_io_device *dev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i, j;
 	struct kvm_io_bus *new_bus, *bus;
 
 	bus = kvm_get_bus(kvm, bus_idx);
 	if (!bus)
+<<<<<<< HEAD
+		return 0;
+=======
 		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	for (i = 0; i < bus->dev_count; i++)
 		if (bus->range[i].dev == dev) {
@@ -4502,7 +4708,11 @@ void kvm_io_bus_unregister_dev(struct kvm *kvm, enum kvm_bus bus_idx,
 		}
 
 	if (i == bus->dev_count)
+<<<<<<< HEAD
+		return 0;
+=======
 		return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	new_bus = kmalloc(struct_size(bus, range, bus->dev_count - 1),
 			  GFP_KERNEL_ACCOUNT);
@@ -4511,7 +4721,17 @@ void kvm_io_bus_unregister_dev(struct kvm *kvm, enum kvm_bus bus_idx,
 		new_bus->dev_count--;
 		memcpy(new_bus->range + i, bus->range + i + 1,
 				flex_array_size(new_bus, range, new_bus->dev_count - i));
+<<<<<<< HEAD
+	}
+
+	rcu_assign_pointer(kvm->buses[bus_idx], new_bus);
+	synchronize_srcu_expedited(&kvm->srcu);
+
+	/* Destroy the old bus _after_ installing the (null) bus. */
+	if (!new_bus) {
+=======
 	} else {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pr_err("kvm: failed to shrink bus, removing it completely\n");
 		for (j = 0; j < bus->dev_count; j++) {
 			if (j == i)
@@ -4520,10 +4740,15 @@ void kvm_io_bus_unregister_dev(struct kvm *kvm, enum kvm_bus bus_idx,
 		}
 	}
 
+<<<<<<< HEAD
+	kfree(bus);
+	return new_bus ? 0 : -ENOMEM;
+=======
 	rcu_assign_pointer(kvm->buses[bus_idx], new_bus);
 	synchronize_srcu_expedited(&kvm->srcu);
 	kfree(bus);
 	return;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct kvm_io_device *kvm_io_bus_get_dev(struct kvm *kvm, enum kvm_bus bus_idx,

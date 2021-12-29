@@ -362,6 +362,13 @@ static inline unsigned long eeh_token_to_phys(unsigned long token)
 	pa = pte_pfn(*ptep);
 
 	/* On radix we can do hugepage mappings for io, so handle that */
+<<<<<<< HEAD
+	if (!hugepage_shift)
+		hugepage_shift = PAGE_SHIFT;
+
+	pa <<= PAGE_SHIFT;
+	pa |= token & ((1ul << hugepage_shift) - 1);
+=======
 	if (hugepage_shift) {
 		pa <<= hugepage_shift;
 		pa |= token & ((1ul << hugepage_shift) - 1);
@@ -370,6 +377,7 @@ static inline unsigned long eeh_token_to_phys(unsigned long token)
 		pa |= token & (PAGE_SIZE - 1);
 	}
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return pa;
 }
 
@@ -1596,6 +1604,7 @@ static int proc_eeh_show(struct seq_file *m, void *v)
 }
 
 #ifdef CONFIG_DEBUG_FS
+<<<<<<< HEAD
 
 
 static struct pci_dev *eeh_debug_lookup_pdev(struct file *filp,
@@ -1625,6 +1634,8 @@ static struct pci_dev *eeh_debug_lookup_pdev(struct file *filp,
 	return pdev;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int eeh_enable_dbgfs_set(void *data, u64 val)
 {
 	if (val)
@@ -1717,6 +1728,7 @@ static ssize_t eeh_dev_check_write(struct file *filp,
 				const char __user *user_buf,
 				size_t count, loff_t *ppos)
 {
+<<<<<<< HEAD
 	struct pci_dev *pdev;
 	struct eeh_dev *edev;
 	int ret;
@@ -1724,6 +1736,28 @@ static ssize_t eeh_dev_check_write(struct file *filp,
 	pdev = eeh_debug_lookup_pdev(filp, user_buf, count, ppos);
 	if (IS_ERR(pdev))
 		return PTR_ERR(pdev);
+=======
+	uint32_t domain, bus, dev, fn;
+	struct pci_dev *pdev;
+	struct eeh_dev *edev;
+	char buf[20];
+	int ret;
+
+	memset(buf, 0, sizeof(buf));
+	ret = simple_write_to_buffer(buf, sizeof(buf)-1, ppos, user_buf, count);
+	if (!ret)
+		return -EFAULT;
+
+	ret = sscanf(buf, "%x:%x:%x.%x", &domain, &bus, &dev, &fn);
+	if (ret != 4) {
+		pr_err("%s: expected 4 args, got %d\n", __func__, ret);
+		return -EINVAL;
+	}
+
+	pdev = pci_get_domain_bus_and_slot(domain, bus, (dev << 3) | fn);
+	if (!pdev)
+		return -ENODEV;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	edev = pci_dev_to_eeh_dev(pdev);
 	if (!edev) {
@@ -1733,8 +1767,13 @@ static ssize_t eeh_dev_check_write(struct file *filp,
 	}
 
 	ret = eeh_dev_check_failure(edev);
+<<<<<<< HEAD
 	pci_info(pdev, "eeh_dev_check_failure(%s) = %d\n",
 			pci_name(pdev), ret);
+=======
+	pci_info(pdev, "eeh_dev_check_failure(%04x:%02x:%02x.%01x) = %d\n",
+			domain, bus, dev, fn, ret);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pci_dev_put(pdev);
 
@@ -1845,12 +1884,34 @@ static ssize_t eeh_dev_break_write(struct file *filp,
 				const char __user *user_buf,
 				size_t count, loff_t *ppos)
 {
+<<<<<<< HEAD
 	struct pci_dev *pdev;
 	int ret;
 
 	pdev = eeh_debug_lookup_pdev(filp, user_buf, count, ppos);
 	if (IS_ERR(pdev))
 		return PTR_ERR(pdev);
+=======
+	uint32_t domain, bus, dev, fn;
+	struct pci_dev *pdev;
+	char buf[20];
+	int ret;
+
+	memset(buf, 0, sizeof(buf));
+	ret = simple_write_to_buffer(buf, sizeof(buf)-1, ppos, user_buf, count);
+	if (!ret)
+		return -EFAULT;
+
+	ret = sscanf(buf, "%x:%x:%x.%x", &domain, &bus, &dev, &fn);
+	if (ret != 4) {
+		pr_err("%s: expected 4 args, got %d\n", __func__, ret);
+		return -EINVAL;
+	}
+
+	pdev = pci_get_domain_bus_and_slot(domain, bus, (dev << 3) | fn);
+	if (!pdev)
+		return -ENODEV;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = eeh_debugfs_break_device(pdev);
 	pci_dev_put(pdev);
@@ -1868,6 +1929,7 @@ static const struct file_operations eeh_dev_break_fops = {
 	.read   = eeh_debugfs_dev_usage,
 };
 
+<<<<<<< HEAD
 static ssize_t eeh_dev_can_recover(struct file *filp,
 				   const char __user *user_buf,
 				   size_t count, loff_t *ppos)
@@ -1915,6 +1977,8 @@ static const struct file_operations eeh_dev_can_recover_fops = {
 	.read   = eeh_debugfs_dev_usage,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 static int __init eeh_init_proc(void)
@@ -1939,9 +2003,12 @@ static int __init eeh_init_proc(void)
 		debugfs_create_file_unsafe("eeh_force_recover", 0600,
 				powerpc_debugfs_root, NULL,
 				&eeh_force_recover_fops);
+<<<<<<< HEAD
 		debugfs_create_file_unsafe("eeh_dev_can_recover", 0600,
 				powerpc_debugfs_root, NULL,
 				&eeh_dev_can_recover_fops);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		eeh_cache_debugfs_init();
 #endif
 	}

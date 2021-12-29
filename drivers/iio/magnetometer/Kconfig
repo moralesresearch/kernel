@@ -95,7 +95,10 @@ config MAG3110
 config HID_SENSOR_MAGNETOMETER_3D
 	depends on HID_SENSOR_HUB
 	select IIO_BUFFER
+<<<<<<< HEAD
+=======
 	select IIO_TRIGGERED_BUFFER
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select HID_SENSOR_IIO_COMMON
 	select HID_SENSOR_IIO_TRIGGER
 	tristate "HID Magenetometer 3D"
@@ -205,6 +208,7 @@ config SENSORS_RM3100_SPI
 	  To compile this driver as a module, choose M here: the module
 	  will be called rm3100-spi.
 
+<<<<<<< HEAD
 config YAMAHA_YAS530
 	tristate "Yamaha YAS530 family of 3-Axis Magnetometers (I2C)"
 	depends on I2C
@@ -220,4 +224,6 @@ config YAMAHA_YAS530
 	  To compile this driver as a module, choose M here: the module
 	  will be called yamaha-yas.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endmenu

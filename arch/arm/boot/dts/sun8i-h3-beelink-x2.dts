@@ -75,13 +75,21 @@
 	leds {
 		compatible = "gpio-leds";
 
+<<<<<<< HEAD
 		led-0 {
+=======
+		blue {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "beelink-x2:blue:pwr";
 			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>; /* PL10 */
 			default-state = "on";
 		};
 
+<<<<<<< HEAD
 		led-1 {
+=======
+		red {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "beelink-x2:red:standby";
 			gpios = <&pio 0 15 GPIO_ACTIVE_HIGH>; /* PA15 */
 		};

@@ -5580,7 +5580,19 @@ int dwc2_host_exit_hibernation(struct dwc2_hsotg *hsotg, int rem_wakeup,
 		return ret;
 	}
 
+<<<<<<< HEAD
+	if (rem_wakeup) {
+		dwc2_hcd_rem_wakeup(hsotg);
+		/*
+		 * Change "port_connect_status_change" flag to re-enumerate,
+		 * because after exit from hibernation port connection status
+		 * is not detected.
+		 */
+		hsotg->flags.b.port_connect_status_change = 1;
+	}
+=======
 	dwc2_hcd_rem_wakeup(hsotg);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	hsotg->hibernated = 0;
 	hsotg->bus_suspended = 0;

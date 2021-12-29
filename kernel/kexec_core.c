@@ -1076,7 +1076,11 @@ void crash_save_cpu(struct pt_regs *regs, int cpu)
 	if (!buf)
 		return;
 	memset(&prstatus, 0, sizeof(prstatus));
+<<<<<<< HEAD
 	prstatus.common.pr_pid = current->pid;
+=======
+	prstatus.pr_pid = current->pid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	elf_core_copy_kernel_regs(&prstatus.pr_reg, regs);
 	buf = append_elf_note(buf, KEXEC_CORE_NOTE_NAME, NT_PRSTATUS,
 			      &prstatus, sizeof(prstatus));

@@ -148,6 +148,13 @@ int null_init_zoned_dev(struct nullb_device *dev, struct request_queue *q)
 		sector += dev->zone_size_sects;
 	}
 
+<<<<<<< HEAD
+=======
+	q->limits.zoned = BLK_ZONED_HM;
+	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
+	blk_queue_required_elevator_features(q, ELEVATOR_F_ZBD_SEQ_WRITE);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -156,10 +163,13 @@ int null_register_zoned_dev(struct nullb *nullb)
 	struct nullb_device *dev = nullb->dev;
 	struct request_queue *q = nullb->q;
 
+<<<<<<< HEAD
 	blk_queue_set_zoned(nullb->disk, BLK_ZONED_HM);
 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
 	blk_queue_required_elevator_features(q, ELEVATOR_F_ZBD_SEQ_WRITE);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (queue_is_mq(q)) {
 		int ret = blk_revalidate_disk_zones(nullb->disk, NULL);
 
@@ -180,6 +190,10 @@ int null_register_zoned_dev(struct nullb *nullb)
 void null_free_zoned_dev(struct nullb_device *dev)
 {
 	kvfree(dev->zones);
+<<<<<<< HEAD
+	dev->zones = NULL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int null_report_zones(struct gendisk *disk, sector_t sector,

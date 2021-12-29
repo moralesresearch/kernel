@@ -134,6 +134,11 @@ struct sk_buff *validate_xmit_xfrm(struct sk_buff *skb, netdev_features_t featur
 		return skb;
 	}
 
+<<<<<<< HEAD
+=======
+	xo->flags |= XFRM_XMIT;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (skb_is_gso(skb) && unlikely(x->xso.dev != dev)) {
 		struct sk_buff *segs;
 

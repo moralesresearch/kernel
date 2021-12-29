@@ -40,7 +40,10 @@
 #define BITMAP_BLOCK_SIZE		4096	/* don't change it */
 #define BITMAP_FLUSH_INTERVAL		(10 * HZ)
 #define DISCARD_FILLER			0xf6
+<<<<<<< HEAD
 #define SALT_SIZE			16
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * Warning - DEBUG_PRINT prints security-sensitive data to the log,
@@ -58,7 +61,10 @@
 #define SB_VERSION_2			2
 #define SB_VERSION_3			3
 #define SB_VERSION_4			4
+<<<<<<< HEAD
 #define SB_VERSION_5			5
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SB_SECTORS			8
 #define MAX_SECTORS_PER_BLOCK		8
 
@@ -74,15 +80,21 @@ struct superblock {
 	__u8 log2_blocks_per_bitmap_bit;
 	__u8 pad[2];
 	__u64 recalc_sector;
+<<<<<<< HEAD
 	__u8 pad2[8];
 	__u8 salt[SALT_SIZE];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define SB_FLAG_HAVE_JOURNAL_MAC	0x1
 #define SB_FLAG_RECALCULATING		0x2
 #define SB_FLAG_DIRTY_BITMAP		0x4
 #define SB_FLAG_FIXED_PADDING		0x8
+<<<<<<< HEAD
 #define SB_FLAG_FIXED_HMAC		0x10
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define	JOURNAL_ENTRY_ROUNDUP		8
 
@@ -264,7 +276,10 @@ struct dm_integrity_c {
 	bool recalculate_flag;
 	bool discard;
 	bool fix_padding;
+<<<<<<< HEAD
 	bool fix_hmac;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool legacy_recalculate;
 
 	struct alg_spec internal_hash_alg;
@@ -395,11 +410,16 @@ static int dm_integrity_failed(struct dm_integrity_c *ic)
 
 static bool dm_integrity_disable_recalculate(struct dm_integrity_c *ic)
 {
+<<<<<<< HEAD
 	if (ic->legacy_recalculate)
 		return false;
 	if (!(ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_HMAC)) ?
 	    ic->internal_hash_alg.key || ic->journal_mac_alg.key :
 	    ic->internal_hash_alg.key && !ic->journal_mac_alg.key)
+=======
+	if ((ic->internal_hash_alg.key || ic->journal_mac_alg.key) &&
+	    !ic->legacy_recalculate)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return true;
 	return false;
 }
@@ -486,9 +506,13 @@ static void wraparound_section(struct dm_integrity_c *ic, unsigned *sec_ptr)
 
 static void sb_set_version(struct dm_integrity_c *ic)
 {
+<<<<<<< HEAD
 	if (ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_HMAC))
 		ic->sb->version = SB_VERSION_5;
 	else if (ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_PADDING))
+=======
+	if (ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_PADDING))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ic->sb->version = SB_VERSION_4;
 	else if (ic->mode == 'B' || ic->sb->flags & cpu_to_le32(SB_FLAG_DIRTY_BITMAP))
 		ic->sb->version = SB_VERSION_3;
@@ -498,6 +522,7 @@ static void sb_set_version(struct dm_integrity_c *ic)
 		ic->sb->version = SB_VERSION_1;
 }
 
+<<<<<<< HEAD
 static int sb_mac(struct dm_integrity_c *ic, bool wr)
 {
 	SHASH_DESC_ON_STACK(desc, ic->journal_mac);
@@ -545,11 +570,16 @@ static int sb_mac(struct dm_integrity_c *ic, bool wr)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int sync_rw_sb(struct dm_integrity_c *ic, int op, int op_flags)
 {
 	struct dm_io_request io_req;
 	struct dm_io_region io_loc;
+<<<<<<< HEAD
 	int r;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	io_req.bi_op = op;
 	io_req.bi_op_flags = op_flags;
@@ -561,6 +591,7 @@ static int sync_rw_sb(struct dm_integrity_c *ic, int op, int op_flags)
 	io_loc.sector = ic->start;
 	io_loc.count = SB_SECTORS;
 
+<<<<<<< HEAD
 	if (op == REQ_OP_WRITE) {
 		sb_set_version(ic);
 		if (ic->journal_mac && ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_HMAC)) {
@@ -583,6 +614,12 @@ static int sync_rw_sb(struct dm_integrity_c *ic, int op, int op_flags)
 	}
 
 	return 0;
+=======
+	if (op == REQ_OP_WRITE)
+		sb_set_version(ic);
+
+	return dm_io(&io_req, 1, &io_loc, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #define BITMAP_OP_TEST_ALL_SET		0
@@ -799,11 +836,16 @@ static void section_mac(struct dm_integrity_c *ic, unsigned section, __u8 result
 	desc->tfm = ic->journal_mac;
 
 	r = crypto_shash_init(desc);
+<<<<<<< HEAD
 	if (unlikely(r < 0)) {
+=======
+	if (unlikely(r)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dm_integrity_io_error(ic, "crypto_shash_init", r);
 		goto err;
 	}
 
+<<<<<<< HEAD
 	if (ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_HMAC)) {
 		uint64_t section_le;
 
@@ -825,6 +867,12 @@ static void section_mac(struct dm_integrity_c *ic, unsigned section, __u8 result
 		struct journal_entry *je = access_journal_entry(ic, section, j);
 		r = crypto_shash_update(desc, (__u8 *)&je->u.sector, sizeof je->u.sector);
 		if (unlikely(r < 0)) {
+=======
+	for (j = 0; j < ic->journal_section_entries; j++) {
+		struct journal_entry *je = access_journal_entry(ic, section, j);
+		r = crypto_shash_update(desc, (__u8 *)&je->u.sector, sizeof je->u.sector);
+		if (unlikely(r)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dm_integrity_io_error(ic, "crypto_shash_update", r);
 			goto err;
 		}
@@ -834,7 +882,11 @@ static void section_mac(struct dm_integrity_c *ic, unsigned section, __u8 result
 
 	if (likely(size <= JOURNAL_MAC_SIZE)) {
 		r = crypto_shash_final(desc, result);
+<<<<<<< HEAD
 		if (unlikely(r < 0)) {
+=======
+		if (unlikely(r)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dm_integrity_io_error(ic, "crypto_shash_final", r);
 			goto err;
 		}
@@ -847,7 +899,11 @@ static void section_mac(struct dm_integrity_c *ic, unsigned section, __u8 result
 			goto err;
 		}
 		r = crypto_shash_final(desc, digest);
+<<<<<<< HEAD
 		if (unlikely(r < 0)) {
+=======
+		if (unlikely(r)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dm_integrity_io_error(ic, "crypto_shash_final", r);
 			goto err;
 		}
@@ -1493,7 +1549,11 @@ static void flush_notify(unsigned long error, void *fr_)
 {
 	struct flush_request *fr = fr_;
 	if (unlikely(error != 0))
+<<<<<<< HEAD
 		dm_integrity_io_error(fr->ic, "flushing disk cache", -EIO);
+=======
+		dm_integrity_io_error(fr->ic, "flusing disk cache", -EIO);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	complete(&fr->comp);
 }
 
@@ -1650,6 +1710,7 @@ static void integrity_sector_checksum(struct dm_integrity_c *ic, sector_t sector
 		goto failed;
 	}
 
+<<<<<<< HEAD
 	if (ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_HMAC)) {
 		r = crypto_shash_update(req, (__u8 *)&ic->sb->salt, SALT_SIZE);
 		if (unlikely(r < 0)) {
@@ -1658,6 +1719,8 @@ static void integrity_sector_checksum(struct dm_integrity_c *ic, sector_t sector
 		}
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	r = crypto_shash_update(req, (const __u8 *)&sector_le, sizeof sector_le);
 	if (unlikely(r < 0)) {
 		dm_integrity_io_error(ic, "crypto_shash_update", r);
@@ -3251,7 +3314,10 @@ static void dm_integrity_status(struct dm_target *ti, status_type_t type,
 		arg_count += !!ic->journal_crypt_alg.alg_string;
 		arg_count += !!ic->journal_mac_alg.alg_string;
 		arg_count += (ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_PADDING)) != 0;
+<<<<<<< HEAD
 		arg_count += (ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_HMAC)) != 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		arg_count += ic->legacy_recalculate;
 		DMEMIT("%s %llu %u %c %u", ic->dev->name, ic->start,
 		       ic->tag_size, ic->mode, arg_count);
@@ -3276,8 +3342,11 @@ static void dm_integrity_status(struct dm_target *ti, status_type_t type,
 		}
 		if ((ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_PADDING)) != 0)
 			DMEMIT(" fix_padding");
+<<<<<<< HEAD
 		if ((ic->sb->flags & cpu_to_le32(SB_FLAG_FIXED_HMAC)) != 0)
 			DMEMIT(" fix_hmac");
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (ic->legacy_recalculate)
 			DMEMIT(" legacy_recalculate");
 
@@ -3415,11 +3484,14 @@ static int initialize_superblock(struct dm_integrity_c *ic, unsigned journal_sec
 	if (!journal_sections)
 		journal_sections = 1;
 
+<<<<<<< HEAD
 	if (ic->fix_hmac && (ic->internal_hash_alg.alg_string || ic->journal_mac_alg.alg_string)) {
 		ic->sb->flags |= cpu_to_le32(SB_FLAG_FIXED_HMAC);
 		get_random_bytes(ic->sb->salt, SALT_SIZE);
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ic->meta_dev) {
 		if (ic->fix_padding)
 			ic->sb->flags |= cpu_to_le32(SB_FLAG_FIXED_PADDING);
@@ -3914,7 +3986,11 @@ static int dm_integrity_ctr(struct dm_target *ti, unsigned argc, char **argv)
 	unsigned extra_args;
 	struct dm_arg_set as;
 	static const struct dm_arg _args[] = {
+<<<<<<< HEAD
 		{0, 17, "Invalid number of feature args"},
+=======
+		{0, 16, "Invalid number of feature args"},
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 	unsigned journal_sectors, interleave_sectors, buffer_sectors, journal_watermark, sync_msec;
 	bool should_write_sb;
@@ -4039,6 +4115,10 @@ static int dm_integrity_ctr(struct dm_target *ti, unsigned argc, char **argv)
 			if (val >= (uint64_t)UINT_MAX * 1000 / HZ) {
 				r = -EINVAL;
 				ti->error = "Invalid bitmap_flush_interval argument";
+<<<<<<< HEAD
+				goto bad;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 			ic->bitmap_flush_interval = msecs_to_jiffies(val);
 		} else if (!strncmp(opt_string, "internal_hash:", strlen("internal_hash:"))) {
@@ -4052,7 +4132,11 @@ static int dm_integrity_ctr(struct dm_target *ti, unsigned argc, char **argv)
 			if (r)
 				goto bad;
 		} else if (!strncmp(opt_string, "journal_mac:", strlen("journal_mac:"))) {
+<<<<<<< HEAD
 			r = get_alg_and_key(opt_string, &ic->journal_mac_alg, &ti->error,
+=======
+			r = get_alg_and_key(opt_string, &ic->journal_mac_alg,  &ti->error,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					    "Invalid journal_mac argument");
 			if (r)
 				goto bad;
@@ -4062,8 +4146,11 @@ static int dm_integrity_ctr(struct dm_target *ti, unsigned argc, char **argv)
 			ic->discard = true;
 		} else if (!strcmp(opt_string, "fix_padding")) {
 			ic->fix_padding = true;
+<<<<<<< HEAD
 		} else if (!strcmp(opt_string, "fix_hmac")) {
 			ic->fix_hmac = true;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else if (!strcmp(opt_string, "legacy_recalculate")) {
 			ic->legacy_recalculate = true;
 		} else {
@@ -4222,7 +4309,11 @@ static int dm_integrity_ctr(struct dm_target *ti, unsigned argc, char **argv)
 			should_write_sb = true;
 	}
 
+<<<<<<< HEAD
 	if (!ic->sb->version || ic->sb->version > SB_VERSION_5) {
+=======
+	if (!ic->sb->version || ic->sb->version > SB_VERSION_4) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		r = -EINVAL;
 		ti->error = "Unknown version";
 		goto bad;
@@ -4554,7 +4645,11 @@ static void dm_integrity_dtr(struct dm_target *ti)
 
 static struct target_type integrity_target = {
 	.name			= "integrity",
+<<<<<<< HEAD
 	.version		= {1, 7, 0},
+=======
+	.version		= {1, 6, 0},
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.module			= THIS_MODULE,
 	.features		= DM_TARGET_SINGLETON | DM_TARGET_INTEGRITY,
 	.ctr			= dm_integrity_ctr,

@@ -15,7 +15,10 @@ CFLAGS_REMOVE_mutex-debug.o = $(CC_FLAGS_FTRACE)
 CFLAGS_REMOVE_rtmutex-debug.o = $(CC_FLAGS_FTRACE)
 endif
 
+<<<<<<< HEAD
 obj-$(CONFIG_DEBUG_IRQFLAGS) += irqflag-debug.o
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_DEBUG_MUTEXES) += mutex-debug.o
 obj-$(CONFIG_LOCKDEP) += lockdep.o
 ifeq ($(CONFIG_PROC_FS),y)

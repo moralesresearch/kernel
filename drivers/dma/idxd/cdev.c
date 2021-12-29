@@ -39,6 +39,17 @@ struct idxd_user_context {
 	struct iommu_sva *sva;
 };
 
+<<<<<<< HEAD
+static void idxd_cdev_dev_release(struct device *dev)
+{
+	struct idxd_cdev *idxd_cdev = container_of(dev, struct idxd_cdev, dev);
+	struct idxd_cdev_context *cdev_ctx;
+	struct idxd_wq *wq = idxd_cdev->wq;
+
+	cdev_ctx = &ictx[wq->idxd->type];
+	ida_simple_remove(&cdev_ctx->minor_ida, idxd_cdev->minor);
+	kfree(idxd_cdev);
+=======
 enum idxd_cdev_cleanup {
 	CDEV_NORMAL = 0,
 	CDEV_FAILED,
@@ -48,6 +59,7 @@ static void idxd_cdev_dev_release(struct device *dev)
 {
 	dev_dbg(dev, "releasing cdev device\n");
 	kfree(dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct device_type idxd_cdev_device_type = {
@@ -62,6 +74,13 @@ static inline struct idxd_cdev *inode_idxd_cdev(struct inode *inode)
 	return container_of(cdev, struct idxd_cdev, cdev);
 }
 
+<<<<<<< HEAD
+static inline struct idxd_wq *inode_wq(struct inode *inode)
+{
+	struct idxd_cdev *idxd_cdev = inode_idxd_cdev(inode);
+
+	return idxd_cdev->wq;
+=======
 static inline struct idxd_wq *idxd_cdev_wq(struct idxd_cdev *idxd_cdev)
 {
 	return container_of(idxd_cdev, struct idxd_wq, idxd_cdev);
@@ -70,6 +89,7 @@ static inline struct idxd_wq *idxd_cdev_wq(struct idxd_cdev *idxd_cdev)
 static inline struct idxd_wq *inode_wq(struct inode *inode)
 {
 	return idxd_cdev_wq(inode_idxd_cdev(inode));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int idxd_cdev_open(struct inode *inode, struct file *filp)
@@ -220,11 +240,18 @@ static __poll_t idxd_cdev_poll(struct file *filp,
 	struct idxd_user_context *ctx = filp->private_data;
 	struct idxd_wq *wq = ctx->wq;
 	struct idxd_device *idxd = wq->idxd;
+<<<<<<< HEAD
+	unsigned long flags;
+	__poll_t out = 0;
+
+	poll_wait(filp, &wq->err_queue, wait);
+=======
 	struct idxd_cdev *idxd_cdev = &wq->idxd_cdev;
 	unsigned long flags;
 	__poll_t out = 0;
 
 	poll_wait(filp, &idxd_cdev->err_queue, wait);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_irqsave(&idxd->dev_lock, flags);
 	if (idxd->sw_err.valid)
 		out = EPOLLIN | EPOLLRDNORM;
@@ -246,6 +273,57 @@ int idxd_cdev_get_major(struct idxd_device *idxd)
 	return MAJOR(ictx[idxd->type].devt);
 }
 
+<<<<<<< HEAD
+int idxd_wq_add_cdev(struct idxd_wq *wq)
+{
+	struct idxd_device *idxd = wq->idxd;
+	struct idxd_cdev *idxd_cdev;
+	struct cdev *cdev;
+	struct device *dev;
+	struct idxd_cdev_context *cdev_ctx;
+	int rc, minor;
+
+	idxd_cdev = kzalloc(sizeof(*idxd_cdev), GFP_KERNEL);
+	if (!idxd_cdev)
+		return -ENOMEM;
+
+	idxd_cdev->wq = wq;
+	cdev = &idxd_cdev->cdev;
+	dev = &idxd_cdev->dev;
+	cdev_ctx = &ictx[wq->idxd->type];
+	minor = ida_simple_get(&cdev_ctx->minor_ida, 0, MINORMASK, GFP_KERNEL);
+	if (minor < 0) {
+		kfree(idxd_cdev);
+		return minor;
+	}
+	idxd_cdev->minor = minor;
+
+	device_initialize(dev);
+	dev->parent = &wq->conf_dev;
+	dev->bus = idxd_get_bus_type(idxd);
+	dev->type = &idxd_cdev_device_type;
+	dev->devt = MKDEV(MAJOR(cdev_ctx->devt), minor);
+
+	rc = dev_set_name(dev, "%s/wq%u.%u", idxd_get_dev_name(idxd),
+			  idxd->id, wq->id);
+	if (rc < 0)
+		goto err;
+
+	wq->idxd_cdev = idxd_cdev;
+	cdev_init(cdev, &idxd_cdev_fops);
+	rc = cdev_device_add(cdev, dev);
+	if (rc) {
+		dev_dbg(&wq->idxd->pdev->dev, "cdev_add failed: %d\n", rc);
+		goto err;
+	}
+
+	return 0;
+
+ err:
+	put_device(dev);
+	wq->idxd_cdev = NULL;
+	return rc;
+=======
 static int idxd_wq_cdev_dev_setup(struct idxd_wq *wq)
 {
 	struct idxd_device *idxd = wq->idxd;
@@ -333,11 +411,23 @@ int idxd_wq_add_cdev(struct idxd_wq *wq)
 
 	init_waitqueue_head(&idxd_cdev->err_queue);
 	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 void idxd_wq_del_cdev(struct idxd_wq *wq)
 {
+<<<<<<< HEAD
+	struct idxd_cdev *idxd_cdev;
+	struct idxd_cdev_context *cdev_ctx;
+
+	cdev_ctx = &ictx[wq->idxd->type];
+	idxd_cdev = wq->idxd_cdev;
+	wq->idxd_cdev = NULL;
+	cdev_device_del(&idxd_cdev->cdev, &idxd_cdev->dev);
+	put_device(&idxd_cdev->dev);
+=======
 	idxd_wq_cdev_cleanup(wq, CDEV_NORMAL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int idxd_cdev_register(void)

@@ -331,6 +331,7 @@ static void nfsd4_fslocs_free(struct nfsd4_fs_locations *fsloc)
 	fsloc->locations = NULL;
 }
 
+<<<<<<< HEAD
 static int export_stats_init(struct export_stats *stats)
 {
 	stats->start_time = ktime_get_seconds();
@@ -347,13 +348,18 @@ static void export_stats_destroy(struct export_stats *stats)
 	nfsd_percpu_counters_destroy(stats->counter, EXP_STATS_COUNTERS_NUM);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void svc_export_put(struct kref *ref)
 {
 	struct svc_export *exp = container_of(ref, struct svc_export, h.ref);
 	path_put(&exp->ex_path);
 	auth_domain_put(exp->ex_client);
 	nfsd4_fslocs_free(&exp->ex_fslocs);
+<<<<<<< HEAD
 	export_stats_destroy(&exp->ex_stats);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(exp->ex_uuid);
 	kfree_rcu(exp, ex_rcu);
 }
@@ -386,9 +392,14 @@ static struct svc_export *svc_export_update(struct svc_export *new,
 					    struct svc_export *old);
 static struct svc_export *svc_export_lookup(struct svc_export *);
 
+<<<<<<< HEAD
 static int check_export(struct path *path, int *flags, unsigned char *uuid)
 {
 	struct inode *inode = d_inode(path->dentry);
+=======
+static int check_export(struct inode *inode, int *flags, unsigned char *uuid)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * We currently export only dirs, regular files, and (for v4
@@ -412,7 +423,10 @@ static int check_export(struct path *path, int *flags, unsigned char *uuid)
 	 *       or an FSID number (so NFSEXP_FSID or ->uuid is needed).
 	 * 2:  We must be able to find an inode from a filehandle.
 	 *       This means that s_export_op must be set.
+<<<<<<< HEAD
 	 * 3: We must not currently be on an idmapped mount.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (!(inode->i_sb->s_type->fs_flags & FS_REQUIRES_DEV) &&
 	    !(*flags & NFSEXP_FSID) &&
@@ -427,11 +441,14 @@ static int check_export(struct path *path, int *flags, unsigned char *uuid)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if (mnt_user_ns(path->mnt) != &init_user_ns) {
 		dprintk("exp_export: export of idmapped mounts not yet supported.\n");
 		return -EINVAL;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (inode->i_sb->s_export_op->flags & EXPORT_OP_NOSUBTREECHK &&
 	    !(*flags & NFSEXP_NOSUBTREECHECK)) {
 		dprintk("%s: %s does not support subtree checking!\n",
@@ -660,7 +677,12 @@ static int svc_export_parse(struct cache_detail *cd, char *mesg, int mlen)
 				goto out4;
 		}
 
+<<<<<<< HEAD
 		err = check_export(&exp.ex_path, &exp.ex_flags, exp.ex_uuid);
+=======
+		err = check_export(d_inode(exp.ex_path.dentry), &exp.ex_flags,
+				   exp.ex_uuid);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto out4;
 		/*
@@ -715,6 +737,7 @@ static void exp_flags(struct seq_file *m, int flag, int fsid,
 		kuid_t anonu, kgid_t anong, struct nfsd4_fs_locations *fslocs);
 static void show_secinfo(struct seq_file *m, struct svc_export *exp);
 
+<<<<<<< HEAD
 static int is_export_stats_file(struct seq_file *m)
 {
 	/*
@@ -725,10 +748,13 @@ static int is_export_stats_file(struct seq_file *m)
 	return !strcmp(m->file->f_path.dentry->d_name.name, "export_stats");
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int svc_export_show(struct seq_file *m,
 			   struct cache_detail *cd,
 			   struct cache_head *h)
 {
+<<<<<<< HEAD
 	struct svc_export *exp;
 	bool export_stats = is_export_stats_file(m);
 
@@ -737,12 +763,19 @@ static int svc_export_show(struct seq_file *m,
 			seq_puts(m, "#path domain start-time\n#\tstats\n");
 		else
 			seq_puts(m, "#path domain(flags)\n");
+=======
+	struct svc_export *exp ;
+
+	if (h ==NULL) {
+		seq_puts(m, "#path domain(flags)\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 	exp = container_of(h, struct svc_export, h);
 	seq_path(m, &exp->ex_path, " \t\n\\");
 	seq_putc(m, '\t');
 	seq_escape(m, exp->ex_client->name, " \t\n\\");
+<<<<<<< HEAD
 	if (export_stats) {
 		seq_printf(m, "\t%lld\n", exp->ex_stats.start_time);
 		seq_printf(m, "\tfh_stale: %lld\n",
@@ -756,6 +789,10 @@ static int svc_export_show(struct seq_file *m,
 	}
 	seq_putc(m, '(');
 	if (test_bit(CACHE_VALID, &h->flags) &&
+=======
+	seq_putc(m, '(');
+	if (test_bit(CACHE_VALID, &h->flags) && 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    !test_bit(CACHE_NEGATIVE, &h->flags)) {
 		exp_flags(m, exp->ex_flags, exp->ex_fsid,
 			  exp->ex_anon_uid, exp->ex_anon_gid, &exp->ex_fslocs);
@@ -796,7 +833,10 @@ static void svc_export_init(struct cache_head *cnew, struct cache_head *citem)
 	new->ex_layout_types = 0;
 	new->ex_uuid = NULL;
 	new->cd = item->cd;
+<<<<<<< HEAD
 	export_stats_reset(&new->ex_stats);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void export_update(struct cache_head *cnew, struct cache_head *citem)
@@ -829,6 +869,7 @@ static void export_update(struct cache_head *cnew, struct cache_head *citem)
 static struct cache_head *svc_export_alloc(void)
 {
 	struct svc_export *i = kmalloc(sizeof(*i), GFP_KERNEL);
+<<<<<<< HEAD
 	if (!i)
 		return NULL;
 
@@ -838,6 +879,12 @@ static struct cache_head *svc_export_alloc(void)
 	}
 
 	return &i->h;
+=======
+	if (i)
+		return &i->h;
+	else
+		return NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct cache_detail svc_export_cache_template = {
@@ -1299,6 +1346,7 @@ static int e_show(struct seq_file *m, void *p)
 	struct cache_head *cp = p;
 	struct svc_export *exp = container_of(cp, struct svc_export, h);
 	struct cache_detail *cd = m->private;
+<<<<<<< HEAD
 	bool export_stats = is_export_stats_file(m);
 
 	if (p == SEQ_START_TOKEN) {
@@ -1307,6 +1355,12 @@ static int e_show(struct seq_file *m, void *p)
 			seq_puts(m, "# Path Client Start-time\n#\tStats\n");
 		else
 			seq_puts(m, "# Path Client(Flags) # IPs\n");
+=======
+
+	if (p == SEQ_START_TOKEN) {
+		seq_puts(m, "# Version 1.1\n");
+		seq_puts(m, "# Path Client(Flags) # IPs\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 	}
 

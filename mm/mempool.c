@@ -104,7 +104,11 @@ static inline void poison_element(mempool_t *pool, void *element)
 static __always_inline void kasan_poison_element(mempool_t *pool, void *element)
 {
 	if (pool->alloc == mempool_alloc_slab || pool->alloc == mempool_kmalloc)
+<<<<<<< HEAD
 		kasan_slab_free_mempool(element);
+=======
+		kasan_slab_free_mempool(element, _RET_IP_);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else if (pool->alloc == mempool_alloc_pages)
 		kasan_free_pages(element, (unsigned long)pool->pool_data);
 }

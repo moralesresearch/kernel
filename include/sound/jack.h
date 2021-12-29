@@ -67,7 +67,10 @@ struct snd_jack {
 	char name[100];
 	unsigned int key[6];   /* Keep in sync with definitions above */
 #endif /* CONFIG_SND_JACK_INPUT_DEV */
+<<<<<<< HEAD
 	int hw_status_cache;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *private_data;
 	void (*private_free)(struct snd_jack *);
 };

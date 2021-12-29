@@ -217,7 +217,11 @@ static netdev_tx_t hsr_dev_xmit(struct sk_buff *skb, struct net_device *dev)
 	master = hsr_port_get_hsr(hsr, HSR_PT_MASTER);
 	if (master) {
 		skb->dev = master->dev;
+<<<<<<< HEAD
 		skb_reset_mac_header(skb);
+		skb_reset_mac_len(skb);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hsr_forward_skb(skb, master);
 	} else {
 		atomic_long_inc(&dev->tx_dropped);
@@ -231,7 +235,11 @@ static const struct header_ops hsr_header_ops = {
 	.parse	 = eth_header_parse,
 };
 
+<<<<<<< HEAD
 static struct sk_buff *hsr_init_skb(struct hsr_port *master)
+=======
+static struct sk_buff *hsr_init_skb(struct hsr_port *master, u16 proto)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct hsr_priv *hsr = master->hsr;
 	struct sk_buff *skb;
@@ -243,7 +251,12 @@ static struct sk_buff *hsr_init_skb(struct hsr_port *master)
 	 * being, for PRP it is a trailer and for HSR it is a
 	 * header
 	 */
+<<<<<<< HEAD
 	skb = dev_alloc_skb(sizeof(struct hsr_sup_tag) +
+=======
+	skb = dev_alloc_skb(sizeof(struct hsr_tag) +
+			    sizeof(struct hsr_sup_tag) +
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    sizeof(struct hsr_sup_payload) + hlen + tlen);
 
 	if (!skb)
@@ -251,14 +264,25 @@ static struct sk_buff *hsr_init_skb(struct hsr_port *master)
 
 	skb_reserve(skb, hlen);
 	skb->dev = master->dev;
+<<<<<<< HEAD
 	skb->priority = TC_PRIO_CONTROL;
 
 	if (dev_hard_header(skb, skb->dev, ETH_P_PRP,
+=======
+	skb->protocol = htons(proto);
+	skb->priority = TC_PRIO_CONTROL;
+
+	if (dev_hard_header(skb, skb->dev, proto,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    hsr->sup_multicast_addr,
 			    skb->dev->dev_addr, skb->len) <= 0)
 		goto out;
 
 	skb_reset_mac_header(skb);
+<<<<<<< HEAD
+	skb_reset_mac_len(skb);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb_reset_network_header(skb);
 	skb_reset_transport_header(skb);
 
@@ -274,10 +298,18 @@ static void send_hsr_supervision_frame(struct hsr_port *master,
 {
 	struct hsr_priv *hsr = master->hsr;
 	__u8 type = HSR_TLV_LIFE_CHECK;
+<<<<<<< HEAD
+=======
+	struct hsr_tag *hsr_tag = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct hsr_sup_payload *hsr_sp;
 	struct hsr_sup_tag *hsr_stag;
 	unsigned long irqflags;
 	struct sk_buff *skb;
+<<<<<<< HEAD
+=======
+	u16 proto;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	*interval = msecs_to_jiffies(HSR_LIFE_CHECK_INTERVAL);
 	if (hsr->announce_count < 3 && hsr->prot_version == 0) {
@@ -286,12 +318,30 @@ static void send_hsr_supervision_frame(struct hsr_port *master,
 		hsr->announce_count++;
 	}
 
+<<<<<<< HEAD
 	skb = hsr_init_skb(master);
+=======
+	if (!hsr->prot_version)
+		proto = ETH_P_PRP;
+	else
+		proto = ETH_P_HSR;
+
+	skb = hsr_init_skb(master, proto);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!skb) {
 		WARN_ONCE(1, "HSR: Could not send supervision frame\n");
 		return;
 	}
 
+<<<<<<< HEAD
+=======
+	if (hsr->prot_version > 0) {
+		hsr_tag = skb_put(skb, sizeof(struct hsr_tag));
+		hsr_tag->encap_proto = htons(ETH_P_PRP);
+		set_hsr_tag_LSDU_size(hsr_tag, HSR_V1_SUP_LSDUSIZE);
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hsr_stag = skb_put(skb, sizeof(struct hsr_sup_tag));
 	set_hsr_stag_path(hsr_stag, (hsr->prot_version ? 0x0 : 0xf));
 	set_hsr_stag_HSR_ver(hsr_stag, hsr->prot_version);
@@ -301,6 +351,11 @@ static void send_hsr_supervision_frame(struct hsr_port *master,
 	if (hsr->prot_version > 0) {
 		hsr_stag->sequence_nr = htons(hsr->sup_sequence_nr);
 		hsr->sup_sequence_nr++;
+<<<<<<< HEAD
+=======
+		hsr_tag->sequence_nr = htons(hsr->sequence_nr);
+		hsr->sequence_nr++;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		hsr_stag->sequence_nr = htons(hsr->sequence_nr);
 		hsr->sequence_nr++;
@@ -316,7 +371,11 @@ static void send_hsr_supervision_frame(struct hsr_port *master,
 	hsr_sp = skb_put(skb, sizeof(struct hsr_sup_payload));
 	ether_addr_copy(hsr_sp->macaddress_A, master->dev->dev_addr);
 
+<<<<<<< HEAD
 	if (skb_put_padto(skb, ETH_ZLEN))
+=======
+	if (skb_put_padto(skb, ETH_ZLEN + HSR_HLEN))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	hsr_forward_skb(skb, master);
@@ -332,8 +391,15 @@ static void send_prp_supervision_frame(struct hsr_port *master,
 	struct hsr_sup_tag *hsr_stag;
 	unsigned long irqflags;
 	struct sk_buff *skb;
+<<<<<<< HEAD
 
 	skb = hsr_init_skb(master);
+=======
+	struct prp_rct *rct;
+	u8 *tail;
+
+	skb = hsr_init_skb(master, ETH_P_PRP);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!skb) {
 		WARN_ONCE(1, "PRP: Could not send supervision frame\n");
 		return;
@@ -355,11 +421,24 @@ static void send_prp_supervision_frame(struct hsr_port *master,
 	hsr_sp = skb_put(skb, sizeof(struct hsr_sup_payload));
 	ether_addr_copy(hsr_sp->macaddress_A, master->dev->dev_addr);
 
+<<<<<<< HEAD
 	if (skb_put_padto(skb, ETH_ZLEN)) {
+=======
+	if (skb_put_padto(skb, ETH_ZLEN + HSR_HLEN)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		spin_unlock_irqrestore(&master->hsr->seqnr_lock, irqflags);
 		return;
 	}
 
+<<<<<<< HEAD
+=======
+	tail = skb_tail_pointer(skb) - HSR_HLEN;
+	rct = (struct prp_rct *)tail;
+	rct->PRP_suffix = htons(ETH_P_PRP);
+	set_prp_LSDU_size(rct, HSR_V1_SUP_LSDUSIZE);
+	rct->sequence_nr = htons(hsr->sequence_nr);
+	hsr->sequence_nr++;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_irqrestore(&master->hsr->seqnr_lock, irqflags);
 
 	hsr_forward_skb(skb, master);
@@ -418,7 +497,10 @@ static struct hsr_proto_ops hsr_ops = {
 	.send_sv_frame = send_hsr_supervision_frame,
 	.create_tagged_frame = hsr_create_tagged_frame,
 	.get_untagged_frame = hsr_get_untagged_frame,
+<<<<<<< HEAD
 	.drop_frame = hsr_drop_frame,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.fill_frame_info = hsr_fill_frame_info,
 	.invalid_dan_ingress_frame = hsr_invalid_dan_ingress_frame,
 };
@@ -466,11 +548,18 @@ void hsr_dev_setup(struct net_device *dev)
 
 /* Return true if dev is a HSR master; return false otherwise.
  */
+<<<<<<< HEAD
 bool is_hsr_master(struct net_device *dev)
 {
 	return (dev->netdev_ops->ndo_start_xmit == hsr_dev_xmit);
 }
 EXPORT_SYMBOL(is_hsr_master);
+=======
+inline bool is_hsr_master(struct net_device *dev)
+{
+	return (dev->netdev_ops->ndo_start_xmit == hsr_dev_xmit);
+}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Default multicast address for HSR Supervision frames */
 static const unsigned char def_multicast_addr[ETH_ALEN] __aligned(2) = {
@@ -523,6 +612,19 @@ int hsr_dev_finalize(struct net_device *hsr_dev, struct net_device *slave[2],
 
 	hsr->prot_version = protocol_version;
 
+<<<<<<< HEAD
+=======
+	/* FIXME: should I modify the value of these?
+	 *
+	 * - hsr_dev->flags - i.e.
+	 *			IFF_MASTER/SLAVE?
+	 * - hsr_dev->priv_flags - i.e.
+	 *			IFF_EBRIDGE?
+	 *			IFF_TX_SKB_SHARING?
+	 *			IFF_HSR_MASTER/SLAVE?
+	 */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Make sure the 1st call to netif_carrier_on() gets through */
 	netif_carrier_off(hsr_dev);
 

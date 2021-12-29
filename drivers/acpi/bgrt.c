@@ -15,40 +15,72 @@
 static void *bgrt_image;
 static struct kobject *bgrt_kobj;
 
+<<<<<<< HEAD
 static ssize_t version_show(struct device *dev,
+=======
+static ssize_t show_version(struct device *dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    struct device_attribute *attr, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%d\n", bgrt_tab.version);
 }
+<<<<<<< HEAD
 static DEVICE_ATTR_RO(version);
 
 static ssize_t status_show(struct device *dev,
+=======
+static DEVICE_ATTR(version, S_IRUGO, show_version, NULL);
+
+static ssize_t show_status(struct device *dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   struct device_attribute *attr, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%d\n", bgrt_tab.status);
 }
+<<<<<<< HEAD
 static DEVICE_ATTR_RO(status);
 
 static ssize_t type_show(struct device *dev,
+=======
+static DEVICE_ATTR(status, S_IRUGO, show_status, NULL);
+
+static ssize_t show_type(struct device *dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 struct device_attribute *attr, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%d\n", bgrt_tab.image_type);
 }
+<<<<<<< HEAD
 static DEVICE_ATTR_RO(type);
 
 static ssize_t xoffset_show(struct device *dev,
+=======
+static DEVICE_ATTR(type, S_IRUGO, show_type, NULL);
+
+static ssize_t show_xoffset(struct device *dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    struct device_attribute *attr, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%d\n", bgrt_tab.image_offset_x);
 }
+<<<<<<< HEAD
 static DEVICE_ATTR_RO(xoffset);
 
 static ssize_t yoffset_show(struct device *dev,
+=======
+static DEVICE_ATTR(xoffset, S_IRUGO, show_xoffset, NULL);
+
+static ssize_t show_yoffset(struct device *dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    struct device_attribute *attr, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%d\n", bgrt_tab.image_offset_y);
 }
+<<<<<<< HEAD
 static DEVICE_ATTR_RO(yoffset);
+=======
+static DEVICE_ATTR(yoffset, S_IRUGO, show_yoffset, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static ssize_t image_read(struct file *file, struct kobject *kobj,
 	       struct bin_attribute *attr, char *buf, loff_t off, size_t count)

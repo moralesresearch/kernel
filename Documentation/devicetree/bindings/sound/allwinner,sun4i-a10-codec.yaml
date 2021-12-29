@@ -88,7 +88,10 @@ properties:
     description: Phandle to the codec analog controls in the PRCM
 
   allwinner,pa-gpios:
+<<<<<<< HEAD
     maxItems: 1
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     description: GPIO to enable the external amplifier
 
 required:

@@ -169,7 +169,11 @@
 
 /* Bits determining whether its a direct command or register R/W,
  * whether to use a continuous SPI transaction or not, and the actual
+<<<<<<< HEAD
  * direct cmd opcode or register address.
+=======
+ * direct cmd opcode or regster address.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 #define TRF7970A_CMD_BIT_CTRL			BIT(7)
 #define TRF7970A_CMD_BIT_RW			BIT(6)

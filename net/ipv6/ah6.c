@@ -316,7 +316,11 @@ static void ah6_output_done(struct crypto_async_request *base, int err)
 	}
 
 	kfree(AH_SKB_CB(skb)->tmp);
+<<<<<<< HEAD
 	xfrm_output_resume(skb->sk, skb, err);
+=======
+	xfrm_output_resume(skb, err);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ah6_output(struct xfrm_state *x, struct sk_buff *skb)

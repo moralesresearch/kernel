@@ -1232,6 +1232,7 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
 static struct ebt_table *__ebt_find_table(struct net *net, const char *name)
 {
 	struct ebt_table *t;
@@ -1260,6 +1261,12 @@ EXPORT_SYMBOL(ebt_unregister_table_pre_exit);
 
 void ebt_unregister_table(struct net *net, struct ebt_table *table)
 {
+=======
+void ebt_unregister_table(struct net *net, struct ebt_table *table,
+			  const struct nf_hook_ops *ops)
+{
+	nf_unregister_net_hooks(net, ops, hweight32(table->valid_hooks));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__ebt_unregister_table(net, table);
 }
 

@@ -1080,6 +1080,7 @@ static int arcturus_read_sensor(struct smu_context *smu,
 	return ret;
 }
 
+<<<<<<< HEAD
 static int arcturus_get_fan_speed_percent(struct smu_context *smu,
 					  uint32_t *speed)
 {
@@ -1101,6 +1102,17 @@ static int arcturus_get_fan_speed_percent(struct smu_context *smu,
 		*speed = smu->user_dpm_profile.fan_speed_percent;
 		return 0;
 	}
+=======
+static int arcturus_get_fan_speed_rpm(struct smu_context *smu,
+				      uint32_t *speed)
+{
+	if (!speed)
+		return -EINVAL;
+
+	return arcturus_get_smu_metrics_data(smu,
+					     METRICS_CURR_FANSPEED,
+					     speed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int arcturus_get_fan_parameters(struct smu_context *smu)
@@ -1322,7 +1334,11 @@ static int arcturus_set_power_profile_mode(struct smu_context *smu,
 						       CMN2ASIC_MAPPING_WORKLOAD,
 						       profile_mode);
 	if (workload_type < 0) {
+<<<<<<< HEAD
 		dev_dbg(smu->adev->dev, "Unsupported power profile mode %d on arcturus\n", profile_mode);
+=======
+		dev_err(smu->adev->dev, "Unsupported power profile mode %d on arcturus\n", profile_mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 	}
 
@@ -2239,7 +2255,11 @@ static ssize_t arcturus_get_gpu_metrics(struct smu_context *smu,
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	smu_cmn_init_soft_gpu_metrics(gpu_metrics, 1, 0);
+=======
+	smu_v11_0_init_gpu_metrics_v1_0(gpu_metrics);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	gpu_metrics->temperature_edge = metrics.TemperatureEdge;
 	gpu_metrics->temperature_hotspot = metrics.TemperatureHotspot;
@@ -2276,8 +2296,11 @@ static ssize_t arcturus_get_gpu_metrics(struct smu_context *smu,
 	gpu_metrics->pcie_link_speed =
 			arcturus_get_current_pcie_link_speed(smu);
 
+<<<<<<< HEAD
 	gpu_metrics->system_clock_counter = ktime_get_boottime_ns();
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*table = (void *)gpu_metrics;
 
 	return sizeof(struct gpu_metrics_v1_0);
@@ -2295,7 +2318,11 @@ static const struct pptable_funcs arcturus_ppt_funcs = {
 	.print_clk_levels = arcturus_print_clk_levels,
 	.force_clk_levels = arcturus_force_clk_levels,
 	.read_sensor = arcturus_read_sensor,
+<<<<<<< HEAD
 	.get_fan_speed_percent = arcturus_get_fan_speed_percent,
+=======
+	.get_fan_speed_rpm = arcturus_get_fan_speed_rpm,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_power_profile_mode = arcturus_get_power_profile_mode,
 	.set_power_profile_mode = arcturus_set_power_profile_mode,
 	.set_performance_level = arcturus_set_performance_level,
@@ -2341,6 +2368,10 @@ static const struct pptable_funcs arcturus_ppt_funcs = {
 	.get_fan_control_mode = smu_v11_0_get_fan_control_mode,
 	.set_fan_control_mode = smu_v11_0_set_fan_control_mode,
 	.set_fan_speed_percent = smu_v11_0_set_fan_speed_percent,
+<<<<<<< HEAD
+=======
+	.set_fan_speed_rpm = smu_v11_0_set_fan_speed_rpm,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.set_xgmi_pstate = smu_v11_0_set_xgmi_pstate,
 	.gfx_off_control = smu_v11_0_gfx_off_control,
 	.register_irq_handler = smu_v11_0_register_irq_handler,

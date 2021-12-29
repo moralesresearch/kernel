@@ -30,6 +30,10 @@
 MODULE_AUTHOR("Adrian McMenamin <adrian@mcmen.demon.co.uk>");
 MODULE_DESCRIPTION("Maple bus driver for Dreamcast");
 MODULE_LICENSE("GPL v2");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{SEGA, Dreamcast/Maple}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static void maple_dma_handler(struct work_struct *work);
 static void maple_vblank_handler(struct work_struct *work);

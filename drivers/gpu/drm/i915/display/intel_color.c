@@ -1485,7 +1485,10 @@ static u32 ivb_csc_mode(const struct intel_crtc_state *crtc_state)
 
 static int ivb_color_check(struct intel_crtc_state *crtc_state)
 {
+<<<<<<< HEAD
 	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool limited_color_range = ilk_csc_limited_range(crtc_state);
 	int ret;
 
@@ -1493,6 +1496,7 @@ static int ivb_color_check(struct intel_crtc_state *crtc_state)
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	if (crtc_state->output_format != INTEL_OUTPUT_FORMAT_RGB &&
 	    crtc_state->hw.ctm) {
 		drm_dbg_kms(&dev_priv->drm,
@@ -1500,6 +1504,8 @@ static int ivb_color_check(struct intel_crtc_state *crtc_state)
 		return -EINVAL;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	crtc_state->gamma_enable =
 		(crtc_state->hw.gamma_lut ||
 		 crtc_state->hw.degamma_lut) &&
@@ -1533,13 +1539,17 @@ static u32 glk_gamma_mode(const struct intel_crtc_state *crtc_state)
 
 static int glk_color_check(struct intel_crtc_state *crtc_state)
 {
+<<<<<<< HEAD
 	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	ret = check_luts(crtc_state);
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	if (crtc_state->output_format != INTEL_OUTPUT_FORMAT_RGB &&
 	    crtc_state->hw.ctm) {
 		drm_dbg_kms(&dev_priv->drm,
@@ -1547,6 +1557,8 @@ static int glk_color_check(struct intel_crtc_state *crtc_state)
 		return -EINVAL;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	crtc_state->gamma_enable =
 		crtc_state->hw.gamma_lut &&
 		!crtc_state->c8_planes;

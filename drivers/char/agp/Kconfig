@@ -125,7 +125,11 @@ config AGP_HP_ZX1
 
 config AGP_PARISC
 	tristate "HP Quicksilver AGP support"
+<<<<<<< HEAD
 	depends on AGP && PARISC && 64BIT && IOMMU_SBA
+=======
+	depends on AGP && PARISC && 64BIT
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  This option gives you AGP GART support for the HP Quicksilver
 	  AGP bus adapter on HP PA-RISC machines (Ok, just on the C8000

@@ -191,14 +191,30 @@ static u32 flow_offload_hash(const void *data, u32 len, u32 seed)
 {
 	const struct flow_offload_tuple *tuple = data;
 
+<<<<<<< HEAD
 	return jhash(tuple, offsetof(struct flow_offload_tuple, __hash), seed);
+=======
+<<<<<<< HEAD
+	return jhash(tuple, offsetof(struct flow_offload_tuple, __hash), seed);
+=======
+	return jhash(tuple, offsetof(struct flow_offload_tuple, dir), seed);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static u32 flow_offload_hash_obj(const void *data, u32 len, u32 seed)
 {
 	const struct flow_offload_tuple_rhash *tuplehash = data;
 
+<<<<<<< HEAD
 	return jhash(&tuplehash->tuple, offsetof(struct flow_offload_tuple, __hash), seed);
+=======
+<<<<<<< HEAD
+	return jhash(&tuplehash->tuple, offsetof(struct flow_offload_tuple, __hash), seed);
+=======
+	return jhash(&tuplehash->tuple, offsetof(struct flow_offload_tuple, dir), seed);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int flow_offload_hash_cmp(struct rhashtable_compare_arg *arg,
@@ -207,7 +223,15 @@ static int flow_offload_hash_cmp(struct rhashtable_compare_arg *arg,
 	const struct flow_offload_tuple *tuple = arg->key;
 	const struct flow_offload_tuple_rhash *x = ptr;
 
+<<<<<<< HEAD
 	if (memcmp(&x->tuple, tuple, offsetof(struct flow_offload_tuple, __hash)))
+=======
+<<<<<<< HEAD
+	if (memcmp(&x->tuple, tuple, offsetof(struct flow_offload_tuple, __hash)))
+=======
+	if (memcmp(&x->tuple, tuple, offsetof(struct flow_offload_tuple, dir)))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 
 	return 0;
@@ -259,8 +283,12 @@ void flow_offload_refresh(struct nf_flowtable *flow_table,
 {
 	flow->timeout = nf_flowtable_time_stamp + NF_FLOW_TIMEOUT;
 
+<<<<<<< HEAD
+	if (likely(!nf_flowtable_hw_offload(flow_table)))
+=======
 	if (likely(!nf_flowtable_hw_offload(flow_table) ||
 		   !test_and_clear_bit(NF_FLOW_HW_REFRESH, &flow->flags)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	nf_flow_offload_add(flow_table, flow);

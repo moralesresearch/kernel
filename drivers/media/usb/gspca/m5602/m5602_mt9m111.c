@@ -195,7 +195,11 @@ static const struct v4l2_ctrl_config mt9m111_greenbal_cfg = {
 int mt9m111_probe(struct sd *sd)
 {
 	u8 data[2] = {0x00, 0x00};
+<<<<<<< HEAD
+	int i, err;
+=======
 	int i, rc = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct gspca_dev *gspca_dev = (struct gspca_dev *)sd;
 
 	if (force_sensor) {
@@ -213,6 +217,20 @@ int mt9m111_probe(struct sd *sd)
 	/* Do the preinit */
 	for (i = 0; i < ARRAY_SIZE(preinit_mt9m111); i++) {
 		if (preinit_mt9m111[i][0] == BRIDGE) {
+<<<<<<< HEAD
+			err = m5602_write_bridge(sd,
+					preinit_mt9m111[i][1],
+					preinit_mt9m111[i][2]);
+		} else {
+			data[0] = preinit_mt9m111[i][2];
+			data[1] = preinit_mt9m111[i][3];
+			err = m5602_write_sensor(sd,
+					preinit_mt9m111[i][1], data, 2);
+		}
+		if (err < 0)
+			return err;
+	}
+=======
 			rc |= m5602_write_bridge(sd,
 				preinit_mt9m111[i][1],
 				preinit_mt9m111[i][2]);
@@ -225,6 +243,7 @@ int mt9m111_probe(struct sd *sd)
 	}
 	if (rc < 0)
 		return rc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (m5602_read_sensor(sd, MT9M111_SC_CHIPVER, data, 2))
 		return -ENODEV;

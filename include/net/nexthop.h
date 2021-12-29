@@ -66,12 +66,22 @@ struct nh_info {
 struct nh_grp_entry {
 	struct nexthop	*nh;
 	u8		weight;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	union {
 		struct {
 			atomic_t	upper_bound;
 		} mpath;
 	};
+<<<<<<< HEAD
+=======
+=======
+	atomic_t	upper_bound;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct list_head nh_list;
 	struct nexthop	*nh_parent;  /* nexthop of group with this entry */
@@ -114,11 +124,20 @@ enum nexthop_event_type {
 	NEXTHOP_EVENT_REPLACE,
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum nh_notifier_info_type {
 	NH_NOTIFIER_INFO_TYPE_SINGLE,
 	NH_NOTIFIER_INFO_TYPE_GRP,
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct nh_notifier_single_info {
 	struct net_device *dev;
 	u8 gw_family;
@@ -147,7 +166,15 @@ struct nh_notifier_info {
 	struct net *net;
 	struct netlink_ext_ack *extack;
 	u32 id;
+<<<<<<< HEAD
 	enum nh_notifier_info_type type;
+=======
+<<<<<<< HEAD
+	enum nh_notifier_info_type type;
+=======
+	bool is_grp;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	union {
 		struct nh_notifier_single_info *nh;
 		struct nh_notifier_grp_info *nh_grp;

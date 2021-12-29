@@ -297,8 +297,21 @@ int snd_seq_timer_open(struct snd_seq_queue *q)
 		return err;
 	}
 	spin_lock_irq(&tmr->lock);
+<<<<<<< HEAD
+	if (tmr->timeri)
+		err = -EBUSY;
+	else
+		tmr->timeri = t;
+	spin_unlock_irq(&tmr->lock);
+	if (err < 0) {
+		snd_timer_close(t);
+		snd_timer_instance_free(t);
+		return err;
+	}
+=======
 	tmr->timeri = t;
 	spin_unlock_irq(&tmr->lock);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 

@@ -124,6 +124,10 @@ struct lpfc_sli_intf {
 /* Define SLI4 Alignment requirements. */
 #define LPFC_ALIGN_16_BYTE	16
 #define LPFC_ALIGN_64_BYTE	64
+<<<<<<< HEAD
+#define SLI4_PAGE_SIZE		4096
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Define SLI4 specific definitions. */
 #define LPFC_MQ_CQE_BYTE_OFFSET	256
@@ -2976,6 +2980,8 @@ struct lpfc_mbx_request_features {
 #define lpfc_mbx_rq_ftr_rsp_mrqp_WORD		word3
 };
 
+<<<<<<< HEAD
+=======
 struct lpfc_mbx_supp_pages {
 	uint32_t word1;
 #define qs_SHIFT 				0
@@ -3032,6 +3038,7 @@ struct lpfc_mbx_supp_pages {
 #define LPFC_SLI4_PARAMETERS		2
 };
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct lpfc_mbx_memory_dump_type3 {
 	uint32_t word1;
 #define lpfc_mbx_memory_dump_type3_type_SHIFT    0
@@ -3248,6 +3255,8 @@ struct user_eeprom {
 	uint8_t reserved191[57];
 };
 
+<<<<<<< HEAD
+=======
 struct lpfc_mbx_pc_sli4_params {
 	uint32_t word1;
 #define qs_SHIFT				0
@@ -3363,6 +3372,7 @@ struct lpfc_mbx_pc_sli4_params {
 #define sgl_pp_align_WORD			word12
 	uint32_t rsvd_13_63[51];
 };
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SLI4_PAGE_ALIGN(addr) (((addr)+((SLI4_PAGE_SIZE)-1)) \
 			       &(~((SLI4_PAGE_SIZE)-1)))
 
@@ -3994,8 +4004,11 @@ struct lpfc_mqe {
 		struct lpfc_mbx_post_hdr_tmpl hdr_tmpl;
 		struct lpfc_mbx_query_fw_config query_fw_cfg;
 		struct lpfc_mbx_set_beacon_config beacon_config;
+<<<<<<< HEAD
+=======
 		struct lpfc_mbx_supp_pages supp_pages;
 		struct lpfc_mbx_pc_sli4_params sli4_params;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct lpfc_mbx_get_sli4_parameters get_sli4_parameters;
 		struct lpfc_mbx_set_link_diag_state link_diag_state;
 		struct lpfc_mbx_set_link_diag_loopback link_diag_loopback;

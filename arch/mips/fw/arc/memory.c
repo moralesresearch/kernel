@@ -173,7 +173,15 @@ void __weak __init prom_cleanup(void)
 {
 }
 
+<<<<<<< HEAD
 void __init prom_free_prom_memory(void)
+=======
+<<<<<<< HEAD
+void __init prom_free_prom_memory(void)
+=======
+void __weak __init prom_free_prom_memory(void)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 

@@ -2367,8 +2367,11 @@ static inline uint32_t A5XX_VSC_RESOLVE_CNTL_Y(uint32_t val)
 
 #define REG_A5XX_UCHE_ADDR_MODE_CNTL				0x00000e80
 
+<<<<<<< HEAD
 #define REG_A5XX_UCHE_MODE_CNTL					0x00000e81
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define REG_A5XX_UCHE_SVM_CNTL					0x00000e82
 
 #define REG_A5XX_UCHE_WRITE_THRU_BASE_LO			0x00000e87

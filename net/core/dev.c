@@ -91,7 +91,14 @@
 #include <linux/etherdevice.h>
 #include <linux/ethtool.h>
 #include <linux/skbuff.h>
+<<<<<<< HEAD
 #include <linux/kthread.h>
+=======
+<<<<<<< HEAD
+#include <linux/kthread.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/bpf.h>
 #include <linux/bpf_trace.h>
 #include <net/net_namespace.h>
@@ -102,7 +109,14 @@
 #include <net/dsa.h>
 #include <net/dst.h>
 #include <net/dst_metadata.h>
+<<<<<<< HEAD
 #include <net/gro.h>
+=======
+<<<<<<< HEAD
+#include <net/gro.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <net/pkt_sched.h>
 #include <net/pkt_cls.h>
 #include <net/checksum.h>
@@ -1507,6 +1521,10 @@ void netdev_notify_peers(struct net_device *dev)
 }
 EXPORT_SYMBOL(netdev_notify_peers);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int napi_threaded_poll(void *data);
 
 static int napi_kthread_create(struct napi_struct *n)
@@ -1528,6 +1546,11 @@ static int napi_kthread_create(struct napi_struct *n)
 	return err;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int __dev_open(struct net_device *dev, struct netlink_ext_ack *extack)
 {
 	const struct net_device_ops *ops = dev->netdev_ops;
@@ -2229,6 +2252,10 @@ static inline void net_timestamp_set(struct sk_buff *skb)
 
 bool is_skb_forwardable(const struct net_device *dev, const struct sk_buff *skb)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return __is_skb_forwardable(dev, skb, true);
 }
 EXPORT_SYMBOL_GPL(is_skb_forwardable);
@@ -2237,6 +2264,33 @@ static int __dev_forward_skb2(struct net_device *dev, struct sk_buff *skb,
 			      bool check_mtu)
 {
 	int ret = ____dev_forward_skb(dev, skb, check_mtu);
+<<<<<<< HEAD
+=======
+=======
+	unsigned int len;
+
+	if (!(dev->flags & IFF_UP))
+		return false;
+
+	len = dev->mtu + dev->hard_header_len + VLAN_HLEN;
+	if (skb->len <= len)
+		return true;
+
+	/* if TSO is enabled, we don't care about the length as the packet
+	 * could be forwarded without being segmented before
+	 */
+	if (skb_is_gso(skb))
+		return true;
+
+	return false;
+}
+EXPORT_SYMBOL_GPL(is_skb_forwardable);
+
+int __dev_forward_skb(struct net_device *dev, struct sk_buff *skb)
+{
+	int ret = ____dev_forward_skb(dev, skb);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (likely(!ret)) {
 		skb->protocol = eth_type_trans(skb, dev);
@@ -2245,11 +2299,20 @@ static int __dev_forward_skb2(struct net_device *dev, struct sk_buff *skb,
 
 	return ret;
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int __dev_forward_skb(struct net_device *dev, struct sk_buff *skb)
 {
 	return __dev_forward_skb2(dev, skb, true);
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 EXPORT_SYMBOL_GPL(__dev_forward_skb);
 
 /**
@@ -2276,11 +2339,20 @@ int dev_forward_skb(struct net_device *dev, struct sk_buff *skb)
 }
 EXPORT_SYMBOL_GPL(dev_forward_skb);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dev_forward_skb_nomtu(struct net_device *dev, struct sk_buff *skb)
 {
 	return __dev_forward_skb2(dev, skb, false) ?: netif_rx_internal(skb);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int deliver_skb(struct sk_buff *skb,
 			      struct packet_type *pt_prev,
 			      struct net_device *orig_dev)
@@ -3648,6 +3720,10 @@ static struct sk_buff *validate_xmit_vlan(struct sk_buff *skb,
 int skb_csum_hwoffload_help(struct sk_buff *skb,
 			    const netdev_features_t features)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(skb_csum_is_sctp(skb)))
 		return !!(features & NETIF_F_SCTP_CRC) ? 0 :
 			skb_crc32c_csum_help(skb);
@@ -3664,6 +3740,16 @@ int skb_csum_hwoffload_help(struct sk_buff *skb,
 	}
 
 	return skb_checksum_help(skb);
+<<<<<<< HEAD
+=======
+=======
+	if (unlikely(skb->csum_not_inet))
+		return !!(features & NETIF_F_SCTP_CRC) ? 0 :
+			skb_crc32c_csum_help(skb);
+
+	return !!(features & NETIF_F_CSUM_MASK) ? 0 : skb_checksum_help(skb);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(skb_csum_hwoffload_help);
 
@@ -3804,7 +3890,12 @@ static inline int __dev_xmit_skb(struct sk_buff *skb, struct Qdisc *q,
 
 	if (q->flags & TCQ_F_NOLOCK) {
 		rc = q->enqueue(skb, q, &to_free) & NET_XMIT_MASK;
+<<<<<<< HEAD
+		if (likely(!netif_xmit_frozen_or_stopped(txq)))
+			qdisc_run(q);
+=======
 		qdisc_run(q);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (unlikely(to_free))
 			kfree_skb_list(to_free);
@@ -3920,7 +4011,14 @@ sch_handle_egress(struct sk_buff *skb, int *ret, struct net_device *dev)
 
 	/* qdisc_skb_cb(skb)->pkt_len was already set by the caller. */
 	qdisc_skb_cb(skb)->mru = 0;
+<<<<<<< HEAD
 	qdisc_skb_cb(skb)->post_ct = false;
+=======
+<<<<<<< HEAD
+	qdisc_skb_cb(skb)->post_ct = false;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mini_qdisc_bstats_cpu_update(miniq, skb);
 
 	switch (tcf_classify(skb, miniq->filter_list, &cl_res, false)) {
@@ -4126,7 +4224,15 @@ static int __dev_queue_xmit(struct sk_buff *skb, struct net_device *sb_dev)
 	skb_reset_mac_header(skb);
 
 	if (unlikely(skb_shinfo(skb)->tx_flags & SKBTX_SCHED_TSTAMP))
+<<<<<<< HEAD
 		__skb_tstamp_tx(skb, NULL, NULL, skb->sk, SCM_TSTAMP_SCHED);
+=======
+<<<<<<< HEAD
+		__skb_tstamp_tx(skb, NULL, NULL, skb->sk, SCM_TSTAMP_SCHED);
+=======
+		__skb_tstamp_tx(skb, NULL, skb->sk, SCM_TSTAMP_SCHED);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Disable soft irqs for various locks below. Also
 	 * stops preemption for RCU.
@@ -4295,6 +4401,10 @@ int gro_normal_batch __read_mostly = 8;
 static inline void ____napi_schedule(struct softnet_data *sd,
 				     struct napi_struct *napi)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct task_struct *thread;
 
 	if (test_bit(NAPI_STATE_THREADED, &napi->state)) {
@@ -4318,6 +4428,11 @@ static inline void ____napi_schedule(struct softnet_data *sd,
 		}
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_add_tail(&napi->poll_list, &sd->poll_list);
 	__raise_softirq_irqoff(NET_RX_SOFTIRQ);
 }
@@ -4669,6 +4784,17 @@ static u32 netif_receive_generic_xdp(struct sk_buff *skb,
 				     struct xdp_buff *xdp,
 				     struct bpf_prog *xdp_prog)
 {
+<<<<<<< HEAD
+	void *orig_data, *orig_data_end, *hard_start;
+	struct netdev_rx_queue *rxqueue;
+	u32 metalen, act = XDP_DROP;
+	bool orig_bcast, orig_host;
+	u32 mac_len, frame_sz;
+	__be16 orig_eth_type;
+	struct ethhdr *eth;
+	int off;
+=======
+<<<<<<< HEAD
 	void *orig_data, *orig_data_end, *hard_start;
 	struct netdev_rx_queue *rxqueue;
 	u32 metalen, act = XDP_DROP;
@@ -4677,6 +4803,17 @@ static u32 netif_receive_generic_xdp(struct sk_buff *skb,
 	struct ethhdr *eth;
 	bool orig_bcast;
 	int off;
+=======
+	struct netdev_rx_queue *rxqueue;
+	void *orig_data, *orig_data_end;
+	u32 metalen, act = XDP_DROP;
+	__be16 orig_eth_type;
+	struct ethhdr *eth;
+	bool orig_bcast;
+	int hlen, off;
+	u32 mac_len;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Reinjected packets coming from act_mirred or similar should
 	 * not get XDP generic processing.
@@ -4708,6 +4845,10 @@ static u32 netif_receive_generic_xdp(struct sk_buff *skb,
 	 * header.
 	 */
 	mac_len = skb->data - skb_mac_header(skb);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hard_start = skb->data - skb_headroom(skb);
 
 	/* SKB "head" area always have tailroom for skb_shared_info */
@@ -4718,13 +4859,40 @@ static u32 netif_receive_generic_xdp(struct sk_buff *skb,
 	xdp_init_buff(xdp, frame_sz, &rxqueue->xdp_rxq);
 	xdp_prepare_buff(xdp, hard_start, skb_headroom(skb) - mac_len,
 			 skb_headlen(skb) + mac_len, true);
+<<<<<<< HEAD
+=======
+=======
+	hlen = skb_headlen(skb) + mac_len;
+	xdp->data = skb->data - mac_len;
+	xdp->data_meta = xdp->data;
+	xdp->data_end = xdp->data + hlen;
+	xdp->data_hard_start = skb->data - skb_headroom(skb);
+
+	/* SKB "head" area always have tailroom for skb_shared_info */
+	xdp->frame_sz  = (void *)skb_end_pointer(skb) - xdp->data_hard_start;
+	xdp->frame_sz += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	orig_data_end = xdp->data_end;
 	orig_data = xdp->data;
 	eth = (struct ethhdr *)xdp->data;
+<<<<<<< HEAD
+	orig_host = ether_addr_equal_64bits(eth->h_dest, skb->dev->dev_addr);
 	orig_bcast = is_multicast_ether_addr_64bits(eth->h_dest);
 	orig_eth_type = eth->h_proto;
 
+=======
+	orig_bcast = is_multicast_ether_addr_64bits(eth->h_dest);
+	orig_eth_type = eth->h_proto;
+
+<<<<<<< HEAD
+=======
+	rxqueue = netif_get_rxqueue(skb);
+	xdp->rxq = &rxqueue->xdp_rxq;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	act = bpf_prog_run_xdp(xdp_prog, xdp);
 
 	/* check if bpf_xdp_adjust_head was used */
@@ -4749,8 +4917,16 @@ static u32 netif_receive_generic_xdp(struct sk_buff *skb,
 	/* check if XDP changed eth hdr such SKB needs update */
 	eth = (struct ethhdr *)xdp->data;
 	if ((orig_eth_type != eth->h_proto) ||
+<<<<<<< HEAD
+	    (orig_host != ether_addr_equal_64bits(eth->h_dest,
+						  skb->dev->dev_addr)) ||
 	    (orig_bcast != is_multicast_ether_addr_64bits(eth->h_dest))) {
 		__skb_push(skb, ETH_HLEN);
+		skb->pkt_type = PACKET_HOST;
+=======
+	    (orig_bcast != is_multicast_ether_addr_64bits(eth->h_dest))) {
+		__skb_push(skb, ETH_HLEN);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		skb->protocol = eth_type_trans(skb, skb->dev);
 	}
 
@@ -4959,6 +5135,14 @@ static __latent_entropy void net_tx_action(struct softirq_action *h)
 			else
 				__kfree_skb_defer(skb);
 		}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+		__kfree_skb_flush();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (sd->output_queue) {
@@ -4970,12 +5154,41 @@ static __latent_entropy void net_tx_action(struct softirq_action *h)
 		sd->output_queue_tailp = &sd->output_queue;
 		local_irq_enable();
 
+<<<<<<< HEAD
+		rcu_read_lock();
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		while (head) {
 			struct Qdisc *q = head;
 			spinlock_t *root_lock = NULL;
 
 			head = head->next_sched;
 
+<<<<<<< HEAD
+			/* We need to make sure head->next_sched is read
+			 * before clearing __QDISC_STATE_SCHED
+			 */
+			smp_mb__before_atomic();
+
+			if (!(q->flags & TCQ_F_NOLOCK)) {
+				root_lock = qdisc_lock(q);
+				spin_lock(root_lock);
+			} else if (unlikely(test_bit(__QDISC_STATE_DEACTIVATED,
+						     &q->state))) {
+				/* There is a synchronize_net() between
+				 * STATE_DEACTIVATED flag being set and
+				 * qdisc_reset()/some_qdisc_is_busy() in
+				 * dev_deactivate(), so we can safely bail out
+				 * early here to avoid data race between
+				 * qdisc_deactivate() and some_qdisc_is_busy()
+				 * for lockless qdisc.
+				 */
+				clear_bit(__QDISC_STATE_SCHED, &q->state);
+				continue;
+			}
+
+=======
 			if (!(q->flags & TCQ_F_NOLOCK)) {
 				root_lock = qdisc_lock(q);
 				spin_lock(root_lock);
@@ -4984,11 +5197,17 @@ static __latent_entropy void net_tx_action(struct softirq_action *h)
 			 * before clearing __QDISC_STATE_SCHED
 			 */
 			smp_mb__before_atomic();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			clear_bit(__QDISC_STATE_SCHED, &q->state);
 			qdisc_run(q);
 			if (root_lock)
 				spin_unlock(root_lock);
 		}
+<<<<<<< HEAD
+
+		rcu_read_unlock();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	xfrm_dev_backlog(sd);
@@ -5024,7 +5243,14 @@ sch_handle_ingress(struct sk_buff *skb, struct packet_type **pt_prev, int *ret,
 
 	qdisc_skb_cb(skb)->pkt_len = skb->len;
 	qdisc_skb_cb(skb)->mru = 0;
+<<<<<<< HEAD
 	qdisc_skb_cb(skb)->post_ct = false;
+=======
+<<<<<<< HEAD
+	qdisc_skb_cb(skb)->post_ct = false;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	skb->tc_at_ingress = 1;
 	mini_qdisc_bstats_cpu_update(miniq, skb);
 
@@ -5214,7 +5440,16 @@ another_round:
 		skb_reset_mac_len(skb);
 	}
 
+<<<<<<< HEAD
 	if (eth_type_vlan(skb->protocol)) {
+=======
+<<<<<<< HEAD
+	if (eth_type_vlan(skb->protocol)) {
+=======
+	if (skb->protocol == cpu_to_be16(ETH_P_8021Q) ||
+	    skb->protocol == cpu_to_be16(ETH_P_8021AD)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		skb = skb_vlan_untag(skb);
 		if (unlikely(!skb))
 			goto out;
@@ -5298,7 +5533,16 @@ check_vlan_id:
 			 * find vlan device.
 			 */
 			skb->pkt_type = PACKET_OTHERHOST;
+<<<<<<< HEAD
 		} else if (eth_type_vlan(skb->protocol)) {
+=======
+<<<<<<< HEAD
+		} else if (eth_type_vlan(skb->protocol)) {
+=======
+		} else if (skb->protocol == cpu_to_be16(ETH_P_8021Q) ||
+			   skb->protocol == cpu_to_be16(ETH_P_8021AD)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Outer header is 802.1P with vlan 0, inner header is
 			 * 802.1Q or 802.1AD and vlan_do_receive() above could
 			 * not find vlan dev for vlan id 0.
@@ -5774,7 +6018,15 @@ static void flush_all_backlogs(void)
 	}
 
 	/* we can have in flight packet[s] on the cpus we are not flushing,
+<<<<<<< HEAD
 	 * synchronize_net() in unregister_netdevice_many() will take care of
+=======
+<<<<<<< HEAD
+	 * synchronize_net() in unregister_netdevice_many() will take care of
+=======
+	 * synchronize_net() in rollback_registered_many() will take care of
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * them
 	 */
 	for_each_cpu(cpu, &flush_cpus)
@@ -5804,6 +6056,14 @@ static void gro_normal_one(struct napi_struct *napi, struct sk_buff *skb, int se
 		gro_normal_list(napi);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+INDIRECT_CALLABLE_DECLARE(int inet_gro_complete(struct sk_buff *, int));
+INDIRECT_CALLABLE_DECLARE(int ipv6_gro_complete(struct sk_buff *, int));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int napi_gro_complete(struct napi_struct *napi, struct sk_buff *skb)
 {
 	struct packet_offload *ptype;
@@ -5914,7 +6174,11 @@ static struct list_head *gro_list_prepare(struct napi_struct *napi,
 	return head;
 }
 
+<<<<<<< HEAD
+static inline void skb_gro_reset_offset(struct sk_buff *skb, u32 nhoff)
+=======
 static void skb_gro_reset_offset(struct sk_buff *skb)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct skb_shared_info *pinfo = skb_shinfo(skb);
 	const skb_frag_t *frag0 = &pinfo->frags[0];
@@ -5924,8 +6188,17 @@ static void skb_gro_reset_offset(struct sk_buff *skb)
 	NAPI_GRO_CB(skb)->frag0_len = 0;
 
 	if (!skb_headlen(skb) && pinfo->nr_frags &&
+<<<<<<< HEAD
+	    !PageHighMem(skb_frag_page(frag0)) &&
+	    (!NET_IP_ALIGN || !((skb_frag_off(frag0) + nhoff) & 3))) {
+=======
+<<<<<<< HEAD
 	    !PageHighMem(skb_frag_page(frag0)) &&
 	    (!NET_IP_ALIGN || !(skb_frag_off(frag0) & 3))) {
+=======
+	    !PageHighMem(skb_frag_page(frag0))) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		NAPI_GRO_CB(skb)->frag0 = skb_frag_address(frag0);
 		NAPI_GRO_CB(skb)->frag0_len = min_t(unsigned int,
 						    skb_frag_size(frag0),
@@ -5973,6 +6246,16 @@ static void gro_flush_oldest(struct napi_struct *napi, struct list_head *head)
 	napi_gro_complete(napi, oldest);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+INDIRECT_CALLABLE_DECLARE(struct sk_buff *inet_gro_receive(struct list_head *,
+							   struct sk_buff *));
+INDIRECT_CALLABLE_DECLARE(struct sk_buff *ipv6_gro_receive(struct list_head *,
+							   struct sk_buff *));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static enum gro_result dev_gro_receive(struct napi_struct *napi, struct sk_buff *skb)
 {
 	u32 hash = skb_get_hash_raw(skb) & (GRO_HASH_BUCKETS - 1);
@@ -6111,6 +6394,19 @@ struct packet_offload *gro_find_complete_by_type(__be16 type)
 }
 EXPORT_SYMBOL(gro_find_complete_by_type);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static void napi_skb_free_stolen_head(struct sk_buff *skb)
+{
+	skb_dst_drop(skb);
+	skb_ext_put(skb);
+	kmem_cache_free(skbuff_head_cache, skb);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static gro_result_t napi_skb_finish(struct napi_struct *napi,
 				    struct sk_buff *skb,
 				    gro_result_t ret)
@@ -6120,11 +6416,29 @@ static gro_result_t napi_skb_finish(struct napi_struct *napi,
 		gro_normal_one(napi, skb, 1);
 		break;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	case GRO_DROP:
+		kfree_skb(skb);
+		break;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case GRO_MERGED_FREE:
 		if (NAPI_GRO_CB(skb)->free == NAPI_GRO_FREE_STOLEN_HEAD)
 			napi_skb_free_stolen_head(skb);
 		else
+<<<<<<< HEAD
 			__kfree_skb_defer(skb);
+=======
+<<<<<<< HEAD
+			__kfree_skb_defer(skb);
+=======
+			__kfree_skb(skb);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 
 	case GRO_HELD:
@@ -6143,7 +6457,11 @@ gro_result_t napi_gro_receive(struct napi_struct *napi, struct sk_buff *skb)
 	skb_mark_napi_id(skb, napi);
 	trace_napi_gro_receive_entry(skb);
 
+<<<<<<< HEAD
+	skb_gro_reset_offset(skb, 0);
+=======
 	skb_gro_reset_offset(skb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = napi_skb_finish(napi, skb, dev_gro_receive(napi, skb));
 	trace_napi_gro_receive_exit(ret);
@@ -6204,6 +6522,16 @@ static gro_result_t napi_frags_finish(struct napi_struct *napi,
 			gro_normal_one(napi, skb, 1);
 		break;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	case GRO_DROP:
+		napi_reuse_skb(napi, skb);
+		break;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case GRO_MERGED_FREE:
 		if (NAPI_GRO_CB(skb)->free == NAPI_GRO_FREE_STOLEN_HEAD)
 			napi_skb_free_stolen_head(skb);
@@ -6232,7 +6560,11 @@ static struct sk_buff *napi_frags_skb(struct napi_struct *napi)
 	napi->skb = NULL;
 
 	skb_reset_mac_header(skb);
+<<<<<<< HEAD
+	skb_gro_reset_offset(skb, hlen);
+=======
 	skb_gro_reset_offset(skb);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(skb_gro_header_hard(skb, hlen))) {
 		eth = skb_gro_header_slow(skb, hlen, 0);
@@ -6265,6 +6597,15 @@ gro_result_t napi_gro_frags(struct napi_struct *napi)
 	gro_result_t ret;
 	struct sk_buff *skb = napi_frags_skb(napi);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	if (!skb)
+		return GRO_DROP;
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	trace_napi_gro_frags_entry(skb);
 
 	ret = napi_frags_finish(napi, skb, dev_gro_receive(napi, skb));
@@ -6506,7 +6847,14 @@ bool napi_complete_done(struct napi_struct *n, int work_done)
 		WARN_ON_ONCE(!(val & NAPIF_STATE_SCHED));
 
 		new = val & ~(NAPIF_STATE_MISSED | NAPIF_STATE_SCHED |
+<<<<<<< HEAD
 			      NAPIF_STATE_SCHED_THREADED |
+=======
+<<<<<<< HEAD
+			      NAPIF_STATE_SCHED_THREADED |
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			      NAPIF_STATE_PREFER_BUSY_POLL);
 
 		/* If STATE_MISSED was set, leave STATE_SCHED set,
@@ -6748,6 +7096,10 @@ static void init_gro_hash(struct napi_struct *napi)
 	napi->gro_bitmask = 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int dev_set_threaded(struct net_device *dev, bool threaded)
 {
 	struct napi_struct *napi;
@@ -6791,6 +7143,11 @@ int dev_set_threaded(struct net_device *dev, bool threaded)
 	return err;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void netif_napi_add(struct net_device *dev, struct napi_struct *napi,
 		    int (*poll)(struct napi_struct *, int), int weight)
 {
@@ -6818,12 +7175,21 @@ void netif_napi_add(struct net_device *dev, struct napi_struct *napi,
 	set_bit(NAPI_STATE_NPSVC, &napi->state);
 	list_add_rcu(&napi->dev_list, &dev->napi_list);
 	napi_hash_add(napi);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Create kthread for this napi if dev->threaded is set.
 	 * Clear dev->threaded if kthread creation failed so that
 	 * threaded mode will not be enabled in napi_enable().
 	 */
 	if (dev->threaded && napi_kthread_create(napi))
 		dev->threaded = 0;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(netif_napi_add);
 
@@ -6841,6 +7207,10 @@ void napi_disable(struct napi_struct *n)
 
 	clear_bit(NAPI_STATE_PREFER_BUSY_POLL, &n->state);
 	clear_bit(NAPI_STATE_DISABLE, &n->state);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	clear_bit(NAPI_STATE_THREADED, &n->state);
 }
 EXPORT_SYMBOL(napi_disable);
@@ -6863,6 +7233,14 @@ void napi_enable(struct napi_struct *n)
 }
 EXPORT_SYMBOL(napi_enable);
 
+<<<<<<< HEAD
+=======
+=======
+}
+EXPORT_SYMBOL(napi_disable);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void flush_gro_hash(struct napi_struct *napi)
 {
 	int i;
@@ -6888,6 +7266,10 @@ void __netif_napi_del(struct napi_struct *napi)
 
 	flush_gro_hash(napi);
 	napi->gro_bitmask = 0;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (napi->thread) {
 		kthread_stop(napi->thread);
@@ -6900,6 +7282,23 @@ static int __napi_poll(struct napi_struct *n, bool *repoll)
 {
 	int work, weight;
 
+<<<<<<< HEAD
+=======
+=======
+}
+EXPORT_SYMBOL(__netif_napi_del);
+
+static int napi_poll(struct napi_struct *n, struct list_head *repoll)
+{
+	void *have;
+	int work, weight;
+
+	list_del_init(&n->poll_list);
+
+	have = netpoll_poll_lock(n);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	weight = n->weight;
 
 	/* This NAPI_STATE_SCHED test is for avoiding a race
@@ -6919,7 +7318,15 @@ static int __napi_poll(struct napi_struct *n, bool *repoll)
 			    n->poll, work, weight);
 
 	if (likely(work < weight))
+<<<<<<< HEAD
 		return work;
+=======
+<<<<<<< HEAD
+		return work;
+=======
+		goto out_unlock;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Drivers must not modify the NAPI state if they
 	 * consume the entire weight.  In such cases this code
@@ -6928,7 +7335,15 @@ static int __napi_poll(struct napi_struct *n, bool *repoll)
 	 */
 	if (unlikely(napi_disable_pending(n))) {
 		napi_complete(n);
+<<<<<<< HEAD
 		return work;
+=======
+<<<<<<< HEAD
+		return work;
+=======
+		goto out_unlock;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	/* The NAPI context has more processing work, but busy-polling
@@ -6941,7 +7356,15 @@ static int __napi_poll(struct napi_struct *n, bool *repoll)
 			 */
 			napi_schedule(n);
 		}
+<<<<<<< HEAD
 		return work;
+=======
+<<<<<<< HEAD
+		return work;
+=======
+		goto out_unlock;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (n->gro_bitmask) {
@@ -6959,6 +7382,10 @@ static int __napi_poll(struct napi_struct *n, bool *repoll)
 	if (unlikely(!list_empty(&n->poll_list))) {
 		pr_warn_once("%s: Budget exhausted after napi rescheduled\n",
 			     n->dev ? n->dev->name : "backlog");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return work;
 	}
 
@@ -6982,11 +7409,26 @@ static int napi_poll(struct napi_struct *n, struct list_head *repoll)
 	if (do_repoll)
 		list_add_tail(&n->poll_list, repoll);
 
+<<<<<<< HEAD
+=======
+=======
+		goto out_unlock;
+	}
+
+	list_add_tail(&n->poll_list, repoll);
+
+out_unlock:
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	netpoll_poll_unlock(have);
 
 	return work;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int napi_thread_wait(struct napi_struct *napi)
 {
 	bool woken = false;
@@ -7041,6 +7483,11 @@ static int napi_threaded_poll(void *data)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __latent_entropy void net_rx_action(struct softirq_action *h)
 {
 	struct softnet_data *sd = this_cpu_ptr(&softnet_data);
@@ -7059,7 +7506,15 @@ static __latent_entropy void net_rx_action(struct softirq_action *h)
 
 		if (list_empty(&list)) {
 			if (!sd_has_rps_ipi_waiting(sd) && list_empty(&repoll))
+<<<<<<< HEAD
 				return;
+=======
+<<<<<<< HEAD
+				return;
+=======
+				goto out;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		}
 
@@ -7086,6 +7541,14 @@ static __latent_entropy void net_rx_action(struct softirq_action *h)
 		__raise_softirq_irqoff(NET_RX_SOFTIRQ);
 
 	net_rps_action_and_irq_enable(sd);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+out:
+	__kfree_skb_flush();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 struct netdev_adjacent {
@@ -8297,6 +8760,10 @@ struct net_device *netdev_get_xmit_slave(struct net_device *dev,
 }
 EXPORT_SYMBOL(netdev_get_xmit_slave);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct net_device *netdev_sk_get_lower_dev(struct net_device *dev,
 						  struct sock *sk)
 {
@@ -8330,6 +8797,11 @@ struct net_device *netdev_sk_get_lowest_dev(struct net_device *dev,
 }
 EXPORT_SYMBOL(netdev_sk_get_lowest_dev);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void netdev_adjacent_add_links(struct net_device *dev)
 {
 	struct netdev_adjacent *iter;
@@ -9693,6 +10165,112 @@ static void net_set_todo(struct net_device *dev)
 	dev_net(dev)->dev_unreg_count++;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static void rollback_registered_many(struct list_head *head)
+{
+	struct net_device *dev, *tmp;
+	LIST_HEAD(close_head);
+
+	BUG_ON(dev_boot_phase);
+	ASSERT_RTNL();
+
+	list_for_each_entry_safe(dev, tmp, head, unreg_list) {
+		/* Some devices call without registering
+		 * for initialization unwind. Remove those
+		 * devices and proceed with the remaining.
+		 */
+		if (dev->reg_state == NETREG_UNINITIALIZED) {
+			pr_debug("unregister_netdevice: device %s/%p never was registered\n",
+				 dev->name, dev);
+
+			WARN_ON(1);
+			list_del(&dev->unreg_list);
+			continue;
+		}
+		dev->dismantle = true;
+		BUG_ON(dev->reg_state != NETREG_REGISTERED);
+	}
+
+	/* If device is running, close it first. */
+	list_for_each_entry(dev, head, unreg_list)
+		list_add_tail(&dev->close_list, &close_head);
+	dev_close_many(&close_head, true);
+
+	list_for_each_entry(dev, head, unreg_list) {
+		/* And unlink it from device chain. */
+		unlist_netdevice(dev);
+
+		dev->reg_state = NETREG_UNREGISTERING;
+	}
+	flush_all_backlogs();
+
+	synchronize_net();
+
+	list_for_each_entry(dev, head, unreg_list) {
+		struct sk_buff *skb = NULL;
+
+		/* Shutdown queueing discipline. */
+		dev_shutdown(dev);
+
+		dev_xdp_uninstall(dev);
+
+		/* Notify protocols, that we are about to destroy
+		 * this device. They should clean all the things.
+		 */
+		call_netdevice_notifiers(NETDEV_UNREGISTER, dev);
+
+		if (!dev->rtnl_link_ops ||
+		    dev->rtnl_link_state == RTNL_LINK_INITIALIZED)
+			skb = rtmsg_ifinfo_build_skb(RTM_DELLINK, dev, ~0U, 0,
+						     GFP_KERNEL, NULL, 0);
+
+		/*
+		 *	Flush the unicast and multicast chains
+		 */
+		dev_uc_flush(dev);
+		dev_mc_flush(dev);
+
+		netdev_name_node_alt_flush(dev);
+		netdev_name_node_free(dev->name_node);
+
+		if (dev->netdev_ops->ndo_uninit)
+			dev->netdev_ops->ndo_uninit(dev);
+
+		if (skb)
+			rtmsg_ifinfo_send(skb, dev, GFP_KERNEL);
+
+		/* Notifier chain MUST detach us all upper devices. */
+		WARN_ON(netdev_has_any_upper_dev(dev));
+		WARN_ON(netdev_has_any_lower_dev(dev));
+
+		/* Remove entries from kobject tree */
+		netdev_unregister_kobject(dev);
+#ifdef CONFIG_XPS
+		/* Remove XPS queueing entries */
+		netif_reset_xps_queues_gt(dev, 0);
+#endif
+	}
+
+	synchronize_net();
+
+	list_for_each_entry(dev, head, unreg_list)
+		dev_put(dev);
+}
+
+static void rollback_registered(struct net_device *dev)
+{
+	LIST_HEAD(single);
+
+	list_add(&dev->unreg_list, &single);
+	rollback_registered_many(&single);
+	list_del(&single);
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static netdev_features_t netdev_sync_upper_features(struct net_device *lower,
 	struct net_device *upper, netdev_features_t features)
 {
@@ -10165,7 +10743,15 @@ int register_netdevice(struct net_device *dev)
 	dev->hw_features |= (NETIF_F_SOFT_FEATURES | NETIF_F_SOFT_FEATURES_OFF);
 	dev->features |= NETIF_F_SOFT_FEATURES;
 
+<<<<<<< HEAD
 	if (dev->udp_tunnel_nic_info) {
+=======
+<<<<<<< HEAD
+	if (dev->udp_tunnel_nic_info) {
+=======
+	if (dev->netdev_ops->ndo_udp_tunnel_add) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dev->features |= NETIF_F_RX_UDP_TUNNEL_PORT;
 		dev->hw_features |= NETIF_F_RX_UDP_TUNNEL_PORT;
 	}
@@ -10242,7 +10828,16 @@ int register_netdevice(struct net_device *dev)
 	if (ret) {
 		/* Expect explicit free_netdev() on failure */
 		dev->needs_free_netdev = false;
+<<<<<<< HEAD
 		unregister_netdevice_queue(dev, NULL);
+=======
+<<<<<<< HEAD
+		unregister_netdevice_queue(dev, NULL);
+=======
+		rollback_registered(dev);
+		net_set_todo(dev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 	/*
@@ -10864,10 +11459,22 @@ void unregister_netdevice_queue(struct net_device *dev, struct list_head *head)
 	if (head) {
 		list_move_tail(&dev->unreg_list, head);
 	} else {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		LIST_HEAD(single);
 
 		list_add(&dev->unreg_list, &single);
 		unregister_netdevice_many(&single);
+<<<<<<< HEAD
+=======
+=======
+		rollback_registered(dev);
+		/* Finish processing unregister after unlock */
+		net_set_todo(dev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 EXPORT_SYMBOL(unregister_netdevice_queue);
@@ -10881,6 +11488,10 @@ EXPORT_SYMBOL(unregister_netdevice_queue);
  */
 void unregister_netdevice_many(struct list_head *head)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct net_device *dev, *tmp;
 	LIST_HEAD(close_head);
 
@@ -10975,6 +11586,19 @@ void unregister_netdevice_many(struct list_head *head)
 	}
 
 	list_del(head);
+<<<<<<< HEAD
+=======
+=======
+	struct net_device *dev;
+
+	if (!list_empty(head)) {
+		rollback_registered_many(head);
+		list_for_each_entry(dev, head, unreg_list)
+			net_set_todo(dev);
+		list_del(head);
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(unregister_netdevice_many);
 

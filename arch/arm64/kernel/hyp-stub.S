@@ -8,9 +8,15 @@
 
 #include <linux/init.h>
 #include <linux/linkage.h>
+<<<<<<< HEAD
 
 #include <asm/assembler.h>
 #include <asm/el2_setup.h>
+=======
+#include <linux/irqchip/arm-gic-v3.h>
+
+#include <asm/assembler.h>
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/kvm_arm.h>
 #include <asm/kvm_asm.h>
 #include <asm/ptrace.h>
@@ -47,6 +53,7 @@ SYM_CODE_END(__hyp_stub_vectors)
 
 SYM_CODE_START_LOCAL(el1_sync)
 	cmp	x0, #HVC_SET_VECTORS
+<<<<<<< HEAD
 	b.ne	1f
 	msr	vbar_el2, x1
 	b	9f
@@ -54,6 +61,12 @@ SYM_CODE_START_LOCAL(el1_sync)
 1:	cmp	x0, #HVC_VHE_RESTART
 	b.eq	mutate_to_vhe
 
+=======
+	b.ne	2f
+	msr	vbar_el2, x1
+	b	9f
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 2:	cmp	x0, #HVC_SOFT_RESTART
 	b.ne	3f
 	mov	x0, x2
@@ -73,6 +86,7 @@ SYM_CODE_START_LOCAL(el1_sync)
 	eret
 SYM_CODE_END(el1_sync)
 
+<<<<<<< HEAD
 // nVHE? No way! Give me the real thing!
 SYM_CODE_START_LOCAL(mutate_to_vhe)
 	// Sanity check: MMU *must* be off
@@ -169,6 +183,8 @@ SYM_CODE_END(enter_vhe)
 
 	.popsection
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 .macro invalid_vector	label
 SYM_CODE_START_LOCAL(\label)
 	b \label
@@ -184,8 +200,11 @@ SYM_CODE_END(\label)
 	invalid_vector	el1_fiq_invalid
 	invalid_vector	el1_error_invalid
 
+<<<<<<< HEAD
 	.popsection
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * __hyp_set_vectors: Call this after boot to set the initial hypervisor
  * vectors as part of hypervisor installation.  On an SMP system, this should
@@ -219,6 +238,7 @@ SYM_FUNC_START(__hyp_reset_vectors)
 	hvc	#0
 	ret
 SYM_FUNC_END(__hyp_reset_vectors)
+<<<<<<< HEAD
 
 /*
  * Entry point to switch to VHE if deemed capable
@@ -243,3 +263,5 @@ SYM_FUNC_START(switch_to_vhe)
 #endif
 	ret
 SYM_FUNC_END(switch_to_vhe)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

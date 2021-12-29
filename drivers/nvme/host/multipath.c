@@ -296,7 +296,15 @@ static bool nvme_available_path(struct nvme_ns_head *head)
 
 blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
 {
+<<<<<<< HEAD
 	struct nvme_ns_head *head = bio->bi_bdev->bd_disk->private_data;
+=======
+<<<<<<< HEAD
+	struct nvme_ns_head *head = bio->bi_bdev->bd_disk->private_data;
+=======
+	struct nvme_ns_head *head = bio->bi_disk->private_data;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *dev = disk_to_dev(head->disk);
 	struct nvme_ns *ns;
 	blk_qc_t ret = BLK_QC_T_NONE;
@@ -312,7 +320,15 @@ blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
 	srcu_idx = srcu_read_lock(&head->srcu);
 	ns = nvme_find_path(head);
 	if (likely(ns)) {
+<<<<<<< HEAD
 		bio_set_dev(bio, ns->disk->part0);
+=======
+<<<<<<< HEAD
+		bio_set_dev(bio, ns->disk->part0);
+=======
+		bio->bi_disk = ns->disk;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bio->bi_opf |= REQ_NVME_MPATH;
 		trace_block_bio_remap(bio, disk_devt(ns->head->disk),
 				      bio->bi_iter.bi_sector);
@@ -352,7 +368,15 @@ static void nvme_requeue_work(struct work_struct *work)
 		 * Reset disk to the mpath node and resubmit to select a new
 		 * path.
 		 */
+<<<<<<< HEAD
 		bio_set_dev(bio, head->disk->part0);
+=======
+<<<<<<< HEAD
+		bio_set_dev(bio, head->disk->part0);
+=======
+		bio->bi_disk = head->disk;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		submit_bio_noacct(bio);
 	}
 }
@@ -668,6 +692,13 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
 		if (desc.state) {
 			/* found the group desc: update */
 			nvme_update_ns_ana_state(&desc, ns);
+<<<<<<< HEAD
+		} else {
+			/* group desc not found: trigger a re-read */
+			set_bit(NVME_NS_ANA_PENDING, &ns->flags);
+			queue_work(nvme_wq, &ns->ctrl->ana_work);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else {
 		ns->ana_state = NVME_ANA_OPTIMIZED; 
@@ -705,9 +736,24 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
 	put_disk(head->disk);
 }
 
+<<<<<<< HEAD
+void nvme_mpath_init_ctrl(struct nvme_ctrl *ctrl)
+{
+	mutex_init(&ctrl->ana_lock);
+	timer_setup(&ctrl->anatt_timer, nvme_anatt_timeout, 0);
+	INIT_WORK(&ctrl->ana_work, nvme_ana_work);
+}
+
+int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+{
+	size_t max_transfer_size = ctrl->max_hw_sectors << SECTOR_SHIFT;
+	size_t ana_log_size;
+	int error = 0;
+=======
 int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
 {
 	int error;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* check if multipath is enabled and we have the capability */
 	if (!multipath || !ctrl->subsys ||
@@ -719,6 +765,33 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
 	ctrl->nanagrpid = le32_to_cpu(id->nanagrpid);
 	ctrl->anagrpmax = le32_to_cpu(id->anagrpmax);
 
+<<<<<<< HEAD
+	ana_log_size = sizeof(struct nvme_ana_rsp_hdr) +
+		ctrl->nanagrpid * sizeof(struct nvme_ana_group_desc) +
+		ctrl->max_namespaces * sizeof(__le32);
+	if (ana_log_size > max_transfer_size) {
+		dev_err(ctrl->device,
+			"ANA log page size (%zd) larger than MDTS (%zd).\n",
+			ana_log_size, max_transfer_size);
+		dev_err(ctrl->device, "disabling ANA support.\n");
+		goto out_uninit;
+	}
+	if (ana_log_size > ctrl->ana_log_size) {
+		nvme_mpath_stop(ctrl);
+		kfree(ctrl->ana_log_buf);
+		ctrl->ana_log_buf = kmalloc(ana_log_size, GFP_KERNEL);
+		if (!ctrl->ana_log_buf)
+			return -ENOMEM;
+	}
+	ctrl->ana_log_size = ana_log_size;
+	error = nvme_read_ana_log(ctrl);
+	if (error)
+		goto out_uninit;
+	return 0;
+
+out_uninit:
+	nvme_mpath_uninit(ctrl);
+=======
 	mutex_init(&ctrl->ana_lock);
 	timer_setup(&ctrl->anatt_timer, nvme_anatt_timeout, 0);
 	ctrl->ana_log_size = sizeof(struct nvme_ana_rsp_hdr) +
@@ -750,6 +823,7 @@ out_free_ana_log_buf:
 	kfree(ctrl->ana_log_buf);
 	ctrl->ana_log_buf = NULL;
 out:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return error;
 }
 

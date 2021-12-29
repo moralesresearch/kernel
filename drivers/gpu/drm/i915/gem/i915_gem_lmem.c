@@ -31,6 +31,7 @@ i915_gem_object_create_lmem(struct drm_i915_private *i915,
 					     size, flags);
 }
 
+<<<<<<< HEAD
 int __i915_gem_lmem_object_init(struct intel_memory_region *mem,
 				struct drm_i915_gem_object *obj,
 				resource_size_t size,
@@ -38,6 +39,20 @@ int __i915_gem_lmem_object_init(struct intel_memory_region *mem,
 {
 	static struct lock_class_key lock_class;
 	struct drm_i915_private *i915 = mem->i915;
+=======
+struct drm_i915_gem_object *
+__i915_gem_lmem_object_create(struct intel_memory_region *mem,
+			      resource_size_t size,
+			      unsigned int flags)
+{
+	static struct lock_class_key lock_class;
+	struct drm_i915_private *i915 = mem->i915;
+	struct drm_i915_gem_object *obj;
+
+	obj = i915_gem_object_alloc();
+	if (!obj)
+		return ERR_PTR(-ENOMEM);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
 	i915_gem_object_init(obj, &i915_gem_lmem_obj_ops, &lock_class);
@@ -48,5 +63,9 @@ int __i915_gem_lmem_object_init(struct intel_memory_region *mem,
 
 	i915_gem_object_init_memory_region(obj, mem, flags);
 
+<<<<<<< HEAD
 	return 0;
+=======
+	return obj;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

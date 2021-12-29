@@ -145,14 +145,22 @@ enum perf_event_sample_format {
 	PERF_SAMPLE_CGROUP			= 1U << 21,
 	PERF_SAMPLE_DATA_PAGE_SIZE		= 1U << 22,
 	PERF_SAMPLE_CODE_PAGE_SIZE		= 1U << 23,
+<<<<<<< HEAD
 	PERF_SAMPLE_WEIGHT_STRUCT		= 1U << 24,
 
 	PERF_SAMPLE_MAX = 1U << 25,		/* non-ABI */
+=======
+
+	PERF_SAMPLE_MAX = 1U << 24,		/* non-ABI */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	__PERF_SAMPLE_CALLCHAIN_EARLY		= 1ULL << 63, /* non-ABI; internal use */
 };
 
+<<<<<<< HEAD
 #define PERF_SAMPLE_WEIGHT_TYPE	(PERF_SAMPLE_WEIGHT | PERF_SAMPLE_WEIGHT_STRUCT)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * values to program into branch_sample_type when PERF_SAMPLE_BRANCH is set
  *
@@ -388,8 +396,12 @@ struct perf_event_attr {
 				aux_output     :  1, /* generate AUX records instead of events */
 				cgroup         :  1, /* include cgroup events */
 				text_poke      :  1, /* include text poke events */
+<<<<<<< HEAD
 				build_id       :  1, /* use build id in mmap2 events */
 				__reserved_1   : 29;
+=======
+				__reserved_1   : 30;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	union {
 		__u32		wakeup_events;	  /* wakeup every n events */
@@ -662,6 +674,7 @@ struct perf_event_mmap_page {
 	__u64	aux_size;
 };
 
+<<<<<<< HEAD
 /*
  * The current state of perf_event_header::misc bits usage:
  * ('|' used bit, '-' unused bit)
@@ -678,6 +691,8 @@ struct perf_event_mmap_page {
  *    F       (reserved)
  */
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PERF_RECORD_MISC_CPUMODE_MASK		(7 << 0)
 #define PERF_RECORD_MISC_CPUMODE_UNKNOWN	(0 << 0)
 #define PERF_RECORD_MISC_KERNEL			(1 << 0)
@@ -709,7 +724,10 @@ struct perf_event_mmap_page {
  *
  *   PERF_RECORD_MISC_EXACT_IP           - PERF_RECORD_SAMPLE of precise events
  *   PERF_RECORD_MISC_SWITCH_OUT_PREEMPT - PERF_RECORD_SWITCH* events
+<<<<<<< HEAD
  *   PERF_RECORD_MISC_MMAP_BUILD_ID      - PERF_RECORD_MMAP2 event
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  *
  * PERF_RECORD_MISC_EXACT_IP:
@@ -719,6 +737,7 @@ struct perf_event_mmap_page {
  *
  * PERF_RECORD_MISC_SWITCH_OUT_PREEMPT:
  *   Indicates that thread was preempted in TASK_RUNNING state.
+<<<<<<< HEAD
  *
  * PERF_RECORD_MISC_MMAP_BUILD_ID:
  *   Indicates that mmap2 event carries build id data.
@@ -726,6 +745,11 @@ struct perf_event_mmap_page {
 #define PERF_RECORD_MISC_EXACT_IP		(1 << 14)
 #define PERF_RECORD_MISC_SWITCH_OUT_PREEMPT	(1 << 14)
 #define PERF_RECORD_MISC_MMAP_BUILD_ID		(1 << 14)
+=======
+ */
+#define PERF_RECORD_MISC_EXACT_IP		(1 << 14)
+#define PERF_RECORD_MISC_SWITCH_OUT_PREEMPT	(1 << 14)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Reserve the last bit to indicate some extended misc field
  */
@@ -914,6 +938,7 @@ enum perf_event_type {
 	 * 	  char			data[size];
 	 * 	  u64			dyn_size; } && PERF_SAMPLE_STACK_USER
 	 *
+<<<<<<< HEAD
 	 *	{ union perf_sample_weight
 	 *	 {
 	 *		u64		full; && PERF_SAMPLE_WEIGHT
@@ -932,6 +957,9 @@ enum perf_event_type {
 	 *	#endif
 	 *	 }
 	 *	}
+=======
+	 *	{ u64			weight;   } && PERF_SAMPLE_WEIGHT
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *	{ u64			data_src; } && PERF_SAMPLE_DATA_SRC
 	 *	{ u64			transaction; } && PERF_SAMPLE_TRANSACTION
 	 *	{ u64			abi; # enum perf_sample_regs_abi
@@ -956,6 +984,7 @@ enum perf_event_type {
 	 *	u64				addr;
 	 *	u64				len;
 	 *	u64				pgoff;
+<<<<<<< HEAD
 	 *	union {
 	 *		struct {
 	 *			u32		maj;
@@ -970,6 +999,12 @@ enum perf_event_type {
 	 *			u8		build_id[20];
 	 *		};
 	 *	};
+=======
+	 *	u32				maj;
+	 *	u32				min;
+	 *	u64				ino;
+	 *	u64				ino_generation;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *	u32				prot, flags;
 	 *	char				filename[];
 	 * 	struct sample_id		sample_id;
@@ -1178,16 +1213,24 @@ union perf_mem_data_src {
 			mem_lvl_num:4,	/* memory hierarchy level number */
 			mem_remote:1,   /* remote */
 			mem_snoopx:2,	/* snoop mode, ext */
+<<<<<<< HEAD
 			mem_blk:3,	/* access blocked */
 			mem_rsvd:21;
+=======
+			mem_rsvd:24;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 };
 #elif defined(__BIG_ENDIAN_BITFIELD)
 union perf_mem_data_src {
 	__u64 val;
 	struct {
+<<<<<<< HEAD
 		__u64	mem_rsvd:21,
 			mem_blk:3,	/* access blocked */
+=======
+		__u64	mem_rsvd:24,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mem_snoopx:2,	/* snoop mode, ext */
 			mem_remote:1,   /* remote */
 			mem_lvl_num:4,	/* memory hierarchy level number */
@@ -1270,12 +1313,15 @@ union perf_mem_data_src {
 #define PERF_MEM_TLB_OS		0x40 /* OS fault handler */
 #define PERF_MEM_TLB_SHIFT	26
 
+<<<<<<< HEAD
 /* Access blocked */
 #define PERF_MEM_BLK_NA		0x01 /* not available */
 #define PERF_MEM_BLK_DATA	0x02 /* data could not be forwarded */
 #define PERF_MEM_BLK_ADDR	0x04 /* address conflict */
 #define PERF_MEM_BLK_SHIFT	40
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define PERF_MEM_S(a, s) \
 	(((__u64)PERF_MEM_##a##_##s) << PERF_MEM_##a##_SHIFT)
 
@@ -1307,6 +1353,7 @@ struct perf_branch_entry {
 		reserved:40;
 };
 
+<<<<<<< HEAD
 union perf_sample_weight {
 	__u64		full;
 #if defined(__LITTLE_ENDIAN_BITFIELD)
@@ -1326,4 +1373,6 @@ union perf_sample_weight {
 #endif
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _UAPI_LINUX_PERF_EVENT_H */

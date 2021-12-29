@@ -25,7 +25,11 @@
 /* Increment API VERSION when changing tmc.h with new flags or ioctls
  * or when changing a significant behavior of the driver.
  */
+<<<<<<< HEAD
 #define USBTMC_API_VERSION (3)
+=======
+#define USBTMC_API_VERSION (2)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define USBTMC_HEADER_SIZE	12
 #define USBTMC_MINOR_BASE	176
@@ -475,17 +479,45 @@ static int usbtmc_ioctl_abort_bulk_out(struct usbtmc_device_data *data)
 	return usbtmc_ioctl_abort_bulk_out_tag(data, data->bTag_last_write);
 }
 
+<<<<<<< HEAD
 static int usbtmc_get_stb(struct usbtmc_file_data *file_data, __u8 *stb)
 {
 	struct usbtmc_device_data *data = file_data->data;
 	struct device *dev = &data->intf->dev;
 	u8 *buffer;
 	u8 tag;
+=======
+static int usbtmc488_ioctl_read_stb(struct usbtmc_file_data *file_data,
+				void __user *arg)
+{
+	struct usbtmc_device_data *data = file_data->data;
+	struct device *dev = &data->intf->dev;
+	int srq_asserted = 0;
+	u8 *buffer;
+	u8 tag;
+	__u8 stb;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int rv;
 
 	dev_dbg(dev, "Enter ioctl_read_stb iin_ep_present: %d\n",
 		data->iin_ep_present);
 
+<<<<<<< HEAD
+=======
+	spin_lock_irq(&data->dev_lock);
+	srq_asserted = atomic_xchg(&file_data->srq_asserted, srq_asserted);
+	if (srq_asserted) {
+		/* a STB with SRQ is already received */
+		stb = file_data->srq_byte;
+		spin_unlock_irq(&data->dev_lock);
+		rv = put_user(stb, (__u8 __user *)arg);
+		dev_dbg(dev, "stb:0x%02x with srq received %d\n",
+			(unsigned int)stb, rv);
+		return rv;
+	}
+	spin_unlock_irq(&data->dev_lock);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	buffer = kmalloc(8, GFP_KERNEL);
 	if (!buffer)
 		return -ENOMEM;
@@ -532,12 +564,22 @@ static int usbtmc_get_stb(struct usbtmc_file_data *file_data, __u8 *stb)
 				data->iin_bTag, tag);
 		}
 
+<<<<<<< HEAD
 		*stb = data->bNotify2;
 	} else {
 		*stb = buffer[2];
 	}
 
 	dev_dbg(dev, "stb:0x%02x received %d\n", (unsigned int)*stb, rv);
+=======
+		stb = data->bNotify2;
+	} else {
+		stb = buffer[2];
+	}
+
+	rv = put_user(stb, (__u8 __user *)arg);
+	dev_dbg(dev, "stb:0x%02x received %d\n", (unsigned int)stb, rv);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
  exit:
 	/* bump interrupt bTag */
@@ -550,6 +592,7 @@ static int usbtmc_get_stb(struct usbtmc_file_data *file_data, __u8 *stb)
 	return rv;
 }
 
+<<<<<<< HEAD
 static int usbtmc488_ioctl_read_stb(struct usbtmc_file_data *file_data,
 				void __user *arg)
 {
@@ -597,6 +640,8 @@ static int usbtmc_ioctl_get_srq_stb(struct usbtmc_file_data *file_data,
 	return rv;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int usbtmc488_ioctl_wait_srq(struct usbtmc_file_data *file_data,
 				    __u32 __user *arg)
 {
@@ -2175,6 +2220,7 @@ static long usbtmc_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 			file_data->auto_abort = !!tmp_byte;
 		break;
 
+<<<<<<< HEAD
 	case USBTMC_IOCTL_GET_STB:
 		retval = usbtmc_get_stb(file_data, &tmp_byte);
 		if (retval > 0)
@@ -2186,6 +2232,8 @@ static long usbtmc_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 						  (void __user *)arg);
 		break;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case USBTMC_IOCTL_CANCEL_IO:
 		retval = usbtmc_ioctl_cancel_io(file_data);
 		break;

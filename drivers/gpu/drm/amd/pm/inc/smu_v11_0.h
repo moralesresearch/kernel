@@ -31,7 +31,11 @@
 #define SMU11_DRIVER_IF_VERSION_NV12 0x36
 #define SMU11_DRIVER_IF_VERSION_NV14 0x36
 #define SMU11_DRIVER_IF_VERSION_Sienna_Cichlid 0x3D
+<<<<<<< HEAD
 #define SMU11_DRIVER_IF_VERSION_Navy_Flounder 0xE
+=======
+#define SMU11_DRIVER_IF_VERSION_Navy_Flounder 0xC
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SMU11_DRIVER_IF_VERSION_VANGOGH 0x02
 #define SMU11_DRIVER_IF_VERSION_Dimgrey_Cavefish 0xF
 
@@ -129,6 +133,7 @@ struct smu_11_0_power_context {
 	enum smu_11_0_power_state power_state;
 };
 
+<<<<<<< HEAD
 struct smu_11_5_power_context {
 	uint32_t	power_source;
 	uint8_t		in_power_limit_boost_mode;
@@ -138,6 +143,8 @@ struct smu_11_5_power_context {
 	uint32_t	max_fast_ppt_limit;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 enum smu_v11_0_baco_seq {
 	BACO_SEQ_BACO = 0,
 	BACO_SEQ_MSR,
@@ -212,8 +219,19 @@ int
 smu_v11_0_set_fan_control_mode(struct smu_context *smu,
 			       uint32_t mode);
 
+<<<<<<< HEAD
 int smu_v11_0_set_fan_speed_percent(struct smu_context *smu,
 				    uint32_t speed);
+=======
+int
+smu_v11_0_set_fan_speed_percent(struct smu_context *smu, uint32_t speed);
+
+int smu_v11_0_set_fan_speed_rpm(struct smu_context *smu,
+				       uint32_t speed);
+
+int smu_v11_0_get_fan_speed_rpm(struct smu_context *smu,
+				uint32_t *speed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int smu_v11_0_set_xgmi_pstate(struct smu_context *smu,
 				     uint32_t pstate);
@@ -281,6 +299,13 @@ int smu_v11_0_get_current_pcie_link_speed_level(struct smu_context *smu);
 
 int smu_v11_0_get_current_pcie_link_speed(struct smu_context *smu);
 
+<<<<<<< HEAD
+=======
+void smu_v11_0_init_gpu_metrics_v1_0(struct gpu_metrics_v1_0 *gpu_metrics);
+
+void smu_v11_0_init_gpu_metrics_v2_0(struct gpu_metrics_v2_0 *gpu_metrics);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int smu_v11_0_gfx_ulv_control(struct smu_context *smu,
 			      bool enablement);
 

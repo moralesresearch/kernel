@@ -187,7 +187,10 @@ enum tcm_sense_reason_table {
 	TCM_UNSUPPORTED_SEGMENT_DESC_TYPE_CODE	= R(0x1c),
 	TCM_INSUFFICIENT_REGISTRATION_RESOURCES	= R(0x1d),
 	TCM_LUN_BUSY				= R(0x1e),
+<<<<<<< HEAD
 	TCM_INVALID_FIELD_IN_COMMAND_IU         = R(0x1f),
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #undef R
 };
 

@@ -155,7 +155,11 @@ long ubifs_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		if (IS_RDONLY(inode))
 			return -EROFS;
 
+<<<<<<< HEAD
 		if (!inode_owner_or_capable(&init_user_ns, inode))
+=======
+		if (!inode_owner_or_capable(inode))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EACCES;
 
 		if (get_user(flags, (int __user *) arg))

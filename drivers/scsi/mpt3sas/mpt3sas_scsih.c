@@ -54,7 +54,14 @@
 #include <linux/interrupt.h>
 #include <linux/aer.h>
 #include <linux/raid_class.h>
+<<<<<<< HEAD
 #include <linux/blk-mq-pci.h>
+=======
+<<<<<<< HEAD
+#include <linux/blk-mq-pci.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/unaligned.h>
 
 #include "mpt3sas_base.h"
@@ -169,11 +176,20 @@ MODULE_PARM_DESC(multipath_on_hba,
 	"\t SAS 2.0 & SAS 3.0 HBA - This will be disabled,\n\t\t"
 	"\t SAS 3.5 HBA - This will be enabled)");
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int host_tagset_enable = 1;
 module_param(host_tagset_enable, int, 0444);
 MODULE_PARM_DESC(host_tagset_enable,
 	"Shared host tagset enable/disable Default: enable(1)");
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* raid transport support */
 static struct raid_template *mpt3sas_raid_template;
 static struct raid_template *mpt2sas_raid_template;
@@ -1749,12 +1765,25 @@ mpt3sas_scsih_scsi_lookup_get(struct MPT3SAS_ADAPTER *ioc, u16 smid)
 	struct scsi_cmnd *scmd = NULL;
 	struct scsiio_tracker *st;
 	Mpi25SCSIIORequest_t *mpi_request;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u16 tag = smid - 1;
 
 	if (smid > 0  &&
 	    smid <= ioc->scsiio_depth - INTERNAL_SCSIIO_CMDS_COUNT) {
 		u32 unique_tag =
 		    ioc->io_queue_num[tag] << BLK_MQ_UNIQUE_TAG_BITS | tag;
+<<<<<<< HEAD
+=======
+=======
+
+	if (smid > 0  &&
+	    smid <= ioc->scsiio_depth - INTERNAL_SCSIIO_CMDS_COUNT) {
+		u32 unique_tag = smid - 1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		mpi_request = mpt3sas_base_get_msg_frame(ioc, smid);
 
@@ -6483,6 +6512,12 @@ _scsih_alloc_vphy(struct MPT3SAS_ADAPTER *ioc, u8 port_id, u8 phy_num)
 		if (!vphy)
 			return NULL;
 
+<<<<<<< HEAD
+		if (!port->vphys_mask)
+			INIT_LIST_HEAD(&port->vphys_list);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/*
 		 * Enable bit corresponding to HBA phy number on its
 		 * parent hba_port object's vphys_mask field.
@@ -6490,7 +6525,10 @@ _scsih_alloc_vphy(struct MPT3SAS_ADAPTER *ioc, u8 port_id, u8 phy_num)
 		port->vphys_mask |= (1 << phy_num);
 		vphy->phy_mask |= (1 << phy_num);
 
+<<<<<<< HEAD
+=======
 		INIT_LIST_HEAD(&port->vphys_list);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		list_add_tail(&vphy->list, &port->vphys_list);
 
 		ioc_info(ioc,
@@ -11607,6 +11645,10 @@ scsih_scan_finished(struct Scsi_Host *shost, unsigned long time)
 	return 1;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * scsih_map_queues - map reply queues with request queues
  * @shost: SCSI host pointer
@@ -11623,6 +11665,11 @@ static int scsih_map_queues(struct Scsi_Host *shost)
 	    ioc->pdev, ioc->high_iops_queues);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* shost template for SAS 2.0 HBA devices */
 static struct scsi_host_template mpt2sas_driver_template = {
 	.module				= THIS_MODULE,
@@ -11690,7 +11737,14 @@ static struct scsi_host_template mpt3sas_driver_template = {
 	.sdev_attrs			= mpt3sas_dev_attrs,
 	.track_queue_depth		= 1,
 	.cmd_size			= sizeof(struct scsiio_tracker),
+<<<<<<< HEAD
 	.map_queues			= scsih_map_queues,
+=======
+<<<<<<< HEAD
+	.map_queues			= scsih_map_queues,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 /* raid transport support for SAS 3.0 HBA devices */
@@ -11947,8 +12001,16 @@ _scsih_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	 * Enable MEMORY MOVE support flag.
 	 */
 	ioc->drv_support_bitmap |= MPT_DRV_SUPPORT_BITMAP_MEMMOVE;
+<<<<<<< HEAD
 	/* Enable ADDITIONAL QUERY support flag. */
 	ioc->drv_support_bitmap |= MPT_DRV_SUPPORT_BITMAP_ADDNLQUERY;
+=======
+<<<<<<< HEAD
+	/* Enable ADDITIONAL QUERY support flag. */
+	ioc->drv_support_bitmap |= MPT_DRV_SUPPORT_BITMAP_ADDNLQUERY;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ioc->enable_sdev_max_qd = enable_sdev_max_qd;
 
@@ -12055,6 +12117,10 @@ _scsih_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	} else
 		ioc->hide_drives = 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	shost->host_tagset = 0;
 	shost->nr_hw_queues = 1;
 
@@ -12070,6 +12136,11 @@ _scsih_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 		    shost->can_queue, shost->nr_hw_queues);
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rv = scsi_add_host(shost, &pdev->dev);
 	if (rv) {
 		ioc_err(ioc, "failure at %s:%d/%s()!\n",

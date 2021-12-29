@@ -2804,7 +2804,11 @@ static int tda1997x_remove(struct i2c_client *client)
 	media_entity_cleanup(&sd->entity);
 	v4l2_ctrl_handler_free(&state->hdl);
 	regulator_bulk_disable(TDA1997X_NUM_SUPPLIES, state->supplies);
+<<<<<<< HEAD
+	cancel_delayed_work_sync(&state->delayed_work_enable_hpd);
+=======
 	cancel_delayed_work(&state->delayed_work_enable_hpd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_destroy(&state->page_lock);
 	mutex_destroy(&state->lock);
 

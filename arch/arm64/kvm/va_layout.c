@@ -81,6 +81,7 @@ __init void kvm_compute_layout(void)
 	init_hyp_physvirt_offset();
 }
 
+<<<<<<< HEAD
 /*
  * The .hyp.reloc ELF section contains a list of kimg positions that
  * contains kimg VAs but will be accessed only in hyp execution context.
@@ -109,6 +110,8 @@ __init void kvm_apply_hyp_relocations(void)
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static u32 compute_instruction(int n, u32 rd, u32 rn)
 {
 	u32 insn = AARCH64_BREAK_FAULT;
@@ -283,6 +286,15 @@ static void generate_mov_q(u64 val, __le32 *origptr, __le32 *updptr, int nr_inst
 	*updptr++ = cpu_to_le32(insn);
 }
 
+<<<<<<< HEAD
+=======
+void kvm_update_kimg_phys_offset(struct alt_instr *alt,
+				 __le32 *origptr, __le32 *updptr, int nr_inst)
+{
+	generate_mov_q(kimage_voffset + PHYS_OFFSET, origptr, updptr, nr_inst);
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void kvm_get_kimage_voffset(struct alt_instr *alt,
 			    __le32 *origptr, __le32 *updptr, int nr_inst)
 {

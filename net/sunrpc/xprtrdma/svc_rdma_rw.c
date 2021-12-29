@@ -364,7 +364,10 @@ static int svc_rdma_post_chunk_ctxt(struct svc_rdma_chunk_ctxt *cc)
 			return 0;
 		}
 
+<<<<<<< HEAD
 		percpu_counter_inc(&svcrdma_stat_sq_starve);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		trace_svcrdma_sq_full(rdma);
 		atomic_add(cc->cc_sqecount, &rdma->sc_sq_avail);
 		wait_event(rdma->sc_send_wait,
@@ -469,7 +472,10 @@ svc_rdma_build_writes(struct svc_rdma_write_info *info,
 					   DMA_TO_DEVICE);
 		if (ret < 0)
 			return -EIO;
+<<<<<<< HEAD
 		percpu_counter_inc(&svcrdma_stat_write);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		list_add(&ctxt->rw_list, &cc->cc_rwctxts);
 		cc->cc_sqecount += ret;
@@ -720,7 +726,10 @@ static int svc_rdma_build_read_segment(struct svc_rdma_read_info *info,
 				   segment->rs_handle, DMA_FROM_DEVICE);
 	if (ret < 0)
 		return -EIO;
+<<<<<<< HEAD
 	percpu_counter_inc(&svcrdma_stat_read);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	list_add(&ctxt->rw_list, &cc->cc_rwctxts);
 	cc->cc_sqecount += ret;

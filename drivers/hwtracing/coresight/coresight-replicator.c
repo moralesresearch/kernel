@@ -45,6 +45,7 @@ struct replicator_drvdata {
 
 static void dynamic_replicator_reset(struct replicator_drvdata *drvdata)
 {
+<<<<<<< HEAD
 	struct coresight_device *csdev = drvdata->csdev;
 
 	CS_UNLOCK(drvdata->base);
@@ -53,6 +54,14 @@ static void dynamic_replicator_reset(struct replicator_drvdata *drvdata)
 		writel_relaxed(0xff, drvdata->base + REPLICATOR_IDFILTER0);
 		writel_relaxed(0xff, drvdata->base + REPLICATOR_IDFILTER1);
 		coresight_disclaim_device_unlocked(csdev);
+=======
+	CS_UNLOCK(drvdata->base);
+
+	if (!coresight_claim_device_unlocked(drvdata->base)) {
+		writel_relaxed(0xff, drvdata->base + REPLICATOR_IDFILTER0);
+		writel_relaxed(0xff, drvdata->base + REPLICATOR_IDFILTER1);
+		coresight_disclaim_device_unlocked(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	CS_LOCK(drvdata->base);
@@ -72,7 +81,10 @@ static int dynamic_replicator_enable(struct replicator_drvdata *drvdata,
 {
 	int rc = 0;
 	u32 id0val, id1val;
+<<<<<<< HEAD
 	struct coresight_device *csdev = drvdata->csdev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	CS_UNLOCK(drvdata->base);
 
@@ -87,7 +99,11 @@ static int dynamic_replicator_enable(struct replicator_drvdata *drvdata,
 		id0val = id1val = 0xff;
 
 	if (id0val == 0xff && id1val == 0xff)
+<<<<<<< HEAD
 		rc = coresight_claim_device_unlocked(csdev);
+=======
+		rc = coresight_claim_device_unlocked(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!rc) {
 		switch (outport) {
@@ -143,7 +159,10 @@ static void dynamic_replicator_disable(struct replicator_drvdata *drvdata,
 				       int inport, int outport)
 {
 	u32 reg;
+<<<<<<< HEAD
 	struct coresight_device *csdev = drvdata->csdev;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (outport) {
 	case 0:
@@ -164,7 +183,11 @@ static void dynamic_replicator_disable(struct replicator_drvdata *drvdata,
 
 	if ((readl_relaxed(drvdata->base + REPLICATOR_IDFILTER0) == 0xff) &&
 	    (readl_relaxed(drvdata->base + REPLICATOR_IDFILTER1) == 0xff))
+<<<<<<< HEAD
 		coresight_disclaim_device_unlocked(csdev);
+=======
+		coresight_disclaim_device_unlocked(drvdata->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	CS_LOCK(drvdata->base);
 }
 
@@ -258,7 +281,10 @@ static int replicator_probe(struct device *dev, struct resource *res)
 		}
 		drvdata->base = base;
 		desc.groups = replicator_groups;
+<<<<<<< HEAD
 		desc.access = CSDEV_ACCESS_IOMEM(base);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (fwnode_property_present(dev_fwnode(dev),
@@ -393,9 +419,15 @@ static int dynamic_replicator_probe(struct amba_device *adev,
 	return replicator_probe(&adev->dev, &adev->res);
 }
 
+<<<<<<< HEAD
 static void dynamic_replicator_remove(struct amba_device *adev)
 {
 	replicator_remove(&adev->dev);
+=======
+static int dynamic_replicator_remove(struct amba_device *adev)
+{
+	return replicator_remove(&adev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct amba_id dynamic_replicator_ids[] = {

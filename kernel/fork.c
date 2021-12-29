@@ -1948,6 +1948,10 @@ static __latent_entropy struct task_struct *copy_process(
 	p = dup_task_struct(current, node);
 	if (!p)
 		goto fork_out;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (args->io_thread) {
 		/*
 		 * Mark us an IO worker, and block any signal that isn't
@@ -1956,6 +1960,11 @@ static __latent_entropy struct task_struct *copy_process(
 		p->flags |= PF_IO_WORKER;
 		siginitsetinv(&p->blocked, sigmask(SIGKILL)|sigmask(SIGSTOP));
 	}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * This _must_ happen before we call free_task(), i.e. before we jump
@@ -2427,6 +2436,10 @@ struct mm_struct *copy_init_mm(void)
 }
 
 /*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * This is like kernel_clone(), but shaved down and tailored to just
  * creating io_uring workers. It returns a created task, or an error pointer.
  * The returned task is inactive, and the caller must fire it up through
@@ -2449,6 +2462,11 @@ struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node)
 }
 
 /*
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *  Ok, this is the main fork-routine.
  *
  * It copies the process, and if successful kick-starts

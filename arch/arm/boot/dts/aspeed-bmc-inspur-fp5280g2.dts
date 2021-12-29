@@ -204,6 +204,7 @@
 
 };
 
+<<<<<<< HEAD
 &gpio {
 	gpio-line-names =
 	/*A0-A7*/	"","","","","","","","",
@@ -237,6 +238,8 @@
 	/*AC0-AC7*/	"","","","","","","","";
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &fmc {
 	status = "okay";
 
@@ -789,12 +792,20 @@
 	status = "okay";
 
 	power-supply@58 {
+<<<<<<< HEAD
 		compatible = "inspur,ipsps1";
+=======
+		compatible = "pmbus";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		reg = <0x58>;
 	};
 
 	power-supply@59 {
+<<<<<<< HEAD
 		compatible = "inspur,ipsps1";
+=======
+		compatible = "pmbus";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		reg = <0x59>;
 	};
 };

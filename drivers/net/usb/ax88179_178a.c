@@ -296,12 +296,20 @@ static int ax88179_read_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
 	int ret;
 
 	if (2 == size) {
+<<<<<<< HEAD
+		u16 buf = 0;
+=======
 		u16 buf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = __ax88179_read_cmd(dev, cmd, value, index, size, &buf, 0);
 		le16_to_cpus(&buf);
 		*((u16 *)data) = buf;
 	} else if (4 == size) {
+<<<<<<< HEAD
+		u32 buf = 0;
+=======
 		u32 buf;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = __ax88179_read_cmd(dev, cmd, value, index, size, &buf, 0);
 		le32_to_cpus(&buf);
 		*((u32 *)data) = buf;
@@ -1296,6 +1304,11 @@ static void ax88179_get_mac_addr(struct usbnet *dev)
 {
 	u8 mac[ETH_ALEN];
 
+<<<<<<< HEAD
+	memset(mac, 0, sizeof(mac));
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Maybe the boot loader passed the MAC address via device tree */
 	if (!eth_platform_get_mac_address(&dev->udev->dev, mac)) {
 		netif_dbg(dev, ifup, dev->net,

@@ -57,9 +57,12 @@
 #define MCP_SYNC_PHY_LOCK 0x90
 #define MCP_SYNC_PHY_UNLOCK 0x91
 #define MCP_BL_SET_PWM_FRAC 0x6A  /* Enable or disable Fractional PWM */
+<<<<<<< HEAD
 #define MCP_SEND_EDID_CEA 0xA0
 #define EDID_CEA_CMD_ACK 1
 #define EDID_CEA_CMD_NACK 2
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MASTER_COMM_CNTL_REG__MASTER_COMM_INTERRUPT_MASK   0x00000001L
 
 // PSP FW version
@@ -68,17 +71,24 @@
 //Register access policy version
 #define mmMP0_SMN_C2PMSG_91				0x1609B
 
+<<<<<<< HEAD
 #if defined(CONFIG_DRM_AMD_DC_DCN)
 static const uint32_t abm_gain_stepsize = 0x0060;
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool dce_dmcu_init(struct dmcu *dmcu)
 {
 	// Do nothing
 	return true;
 }
 
+<<<<<<< HEAD
 static bool dce_dmcu_load_iram(struct dmcu *dmcu,
+=======
+bool dce_dmcu_load_iram(struct dmcu *dmcu,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned int start_offset,
 		const char *src,
 		unsigned int bytes)
@@ -814,6 +824,7 @@ static bool dcn20_unlock_phy(struct dmcu *dmcu)
 	return true;
 }
 
+<<<<<<< HEAD
 static bool dcn10_send_edid_cea(struct dmcu *dmcu,
 		int offset,
 		int total_length,
@@ -928,6 +939,8 @@ static bool dcn10_recv_edid_cea_ack(struct dmcu *dmcu, int *offset)
 	return false;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif //(CONFIG_DRM_AMD_DC_DCN)
 
 static const struct dmcu_funcs dce_funcs = {
@@ -950,9 +963,12 @@ static const struct dmcu_funcs dcn10_funcs = {
 	.get_psr_state = dcn10_get_dmcu_psr_state,
 	.set_psr_wait_loop = dcn10_psr_wait_loop,
 	.get_psr_wait_loop = dcn10_get_psr_wait_loop,
+<<<<<<< HEAD
 	.send_edid_cea = dcn10_send_edid_cea,
 	.recv_amd_vsdb = dcn10_recv_amd_vsdb,
 	.recv_edid_cea_ack = dcn10_recv_edid_cea_ack,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.is_dmcu_initialized = dcn10_is_dmcu_initialized
 };
 
@@ -1049,7 +1065,11 @@ struct dmcu *dcn10_dmcu_create(
 	const struct dce_dmcu_shift *dmcu_shift,
 	const struct dce_dmcu_mask *dmcu_mask)
 {
+<<<<<<< HEAD
+	struct dce_dmcu *dmcu_dce = kzalloc(sizeof(*dmcu_dce), GFP_ATOMIC);
+=======
 	struct dce_dmcu *dmcu_dce = kzalloc(sizeof(*dmcu_dce), GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dmcu_dce == NULL) {
 		BREAK_TO_DEBUGGER();
@@ -1070,7 +1090,11 @@ struct dmcu *dcn20_dmcu_create(
 	const struct dce_dmcu_shift *dmcu_shift,
 	const struct dce_dmcu_mask *dmcu_mask)
 {
+<<<<<<< HEAD
+	struct dce_dmcu *dmcu_dce = kzalloc(sizeof(*dmcu_dce), GFP_ATOMIC);
+=======
 	struct dce_dmcu *dmcu_dce = kzalloc(sizeof(*dmcu_dce), GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dmcu_dce == NULL) {
 		BREAK_TO_DEBUGGER();
@@ -1091,7 +1115,11 @@ struct dmcu *dcn21_dmcu_create(
 	const struct dce_dmcu_shift *dmcu_shift,
 	const struct dce_dmcu_mask *dmcu_mask)
 {
+<<<<<<< HEAD
+	struct dce_dmcu *dmcu_dce = kzalloc(sizeof(*dmcu_dce), GFP_ATOMIC);
+=======
 	struct dce_dmcu *dmcu_dce = kzalloc(sizeof(*dmcu_dce), GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (dmcu_dce == NULL) {
 		BREAK_TO_DEBUGGER();

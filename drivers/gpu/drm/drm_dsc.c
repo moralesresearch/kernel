@@ -50,6 +50,7 @@ void drm_dsc_dp_pps_header_init(struct dp_sdp_header *pps_header)
 EXPORT_SYMBOL(drm_dsc_dp_pps_header_init);
 
 /**
+<<<<<<< HEAD
  * drm_dsc_dp_rc_buffer_size - get rc buffer size in bytes
  * @rc_buffer_block_size: block size code, according to DPCD offset 62h
  * @rc_buffer_size: number of blocks - 1, according to DPCD offset 63h
@@ -77,6 +78,8 @@ int drm_dsc_dp_rc_buffer_size(u8 rc_buffer_block_size, u8 rc_buffer_size)
 EXPORT_SYMBOL(drm_dsc_dp_rc_buffer_size);
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * drm_dsc_pps_payload_pack() - Populates the DSC PPS
  *
  * @pps_payload:
@@ -213,7 +216,12 @@ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_payload,
 	pps_payload->flatness_max_qp = dsc_cfg->flatness_max_qp;
 
 	/* PPS 38, 39 */
+<<<<<<< HEAD
 	pps_payload->rc_model_size = cpu_to_be16(dsc_cfg->rc_model_size);
+=======
+	pps_payload->rc_model_size =
+		cpu_to_be16(DSC_RC_MODEL_SIZE_CONST);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* PPS 40 */
 	pps_payload->rc_edge_factor = DSC_RC_EDGE_FACTOR_CONST;

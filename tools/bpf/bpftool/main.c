@@ -276,7 +276,11 @@ static int do_batch(int argc, char **argv)
 	int n_argc;
 	FILE *fp;
 	char *cp;
+<<<<<<< HEAD
+	int err = 0;
+=======
 	int err;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i;
 
 	if (argc < 2) {
@@ -370,7 +374,10 @@ static int do_batch(int argc, char **argv)
 	} else {
 		if (!json_output)
 			printf("processed %d commands\n", lines);
+<<<<<<< HEAD
+=======
 		err = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 err_close:
 	if (fp != stdin)

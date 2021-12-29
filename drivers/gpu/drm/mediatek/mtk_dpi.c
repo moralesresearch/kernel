@@ -20,12 +20,18 @@
 
 #include <drm/drm_atomic_helper.h>
 #include <drm/drm_bridge.h>
+<<<<<<< HEAD
 #include <drm/drm_bridge_connector.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/drm_crtc.h>
 #include <drm/drm_of.h>
 #include <drm/drm_simple_kms_helper.h>
 
+<<<<<<< HEAD
 #include "mtk_disp_drv.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "mtk_dpi_regs.h"
 #include "mtk_drm_ddp_comp.h"
 
@@ -64,10 +70,17 @@ enum mtk_dpi_out_color_format {
 };
 
 struct mtk_dpi {
+<<<<<<< HEAD
 	struct drm_encoder encoder;
 	struct drm_bridge bridge;
 	struct drm_bridge *next_bridge;
 	struct drm_connector *connector;
+=======
+	struct mtk_ddp_comp ddp_comp;
+	struct drm_encoder encoder;
+	struct drm_bridge bridge;
+	struct drm_bridge *next_bridge;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void __iomem *regs;
 	struct device *dev;
 	struct clk *engine_clk;
@@ -564,30 +577,61 @@ static const struct drm_bridge_funcs mtk_dpi_bridge_funcs = {
 	.enable = mtk_dpi_bridge_enable,
 };
 
+<<<<<<< HEAD
 void mtk_dpi_start(struct device *dev)
 {
 	struct mtk_dpi *dpi = dev_get_drvdata(dev);
+=======
+static void mtk_dpi_start(struct mtk_ddp_comp *comp)
+{
+	struct mtk_dpi *dpi = container_of(comp, struct mtk_dpi, ddp_comp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mtk_dpi_power_on(dpi);
 }
 
+<<<<<<< HEAD
 void mtk_dpi_stop(struct device *dev)
 {
 	struct mtk_dpi *dpi = dev_get_drvdata(dev);
+=======
+static void mtk_dpi_stop(struct mtk_ddp_comp *comp)
+{
+	struct mtk_dpi *dpi = container_of(comp, struct mtk_dpi, ddp_comp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mtk_dpi_power_off(dpi);
 }
 
+<<<<<<< HEAD
+=======
+static const struct mtk_ddp_comp_funcs mtk_dpi_funcs = {
+	.start = mtk_dpi_start,
+	.stop = mtk_dpi_stop,
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
 {
 	struct mtk_dpi *dpi = dev_get_drvdata(dev);
 	struct drm_device *drm_dev = data;
 	int ret;
 
+<<<<<<< HEAD
+=======
+	ret = mtk_ddp_comp_register(drm_dev, &dpi->ddp_comp);
+	if (ret < 0) {
+		dev_err(dev, "Failed to register component %pOF: %d\n",
+			dev->of_node, ret);
+		return ret;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret = drm_simple_encoder_init(drm_dev, &dpi->encoder,
 				      DRM_MODE_ENCODER_TMDS);
 	if (ret) {
 		dev_err(dev, "Failed to initialize decoder: %d\n", ret);
+<<<<<<< HEAD
 		return ret;
 	}
 
@@ -595,11 +639,20 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
 
 	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+=======
+		goto err_unregister;
+	}
+
+	dpi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->ddp_comp);
+
+	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		dev_err(dev, "Failed to attach bridge: %d\n", ret);
 		goto err_cleanup;
 	}
 
+<<<<<<< HEAD
 	dpi->connector = drm_bridge_connector_init(drm_dev, &dpi->encoder);
 	if (IS_ERR(dpi->connector)) {
 		dev_err(dev, "Unable to create bridge connector\n");
@@ -608,6 +661,8 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
 	}
 	drm_connector_attach_encoder(dpi->connector, &dpi->encoder);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dpi->bit_num = MTK_DPI_OUT_BIT_NUM_8BITS;
 	dpi->channel_swap = MTK_DPI_OUT_CHANNEL_SWAP_RGB;
 	dpi->yc_map = MTK_DPI_OUT_YC_MAP_RGB;
@@ -617,6 +672,11 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
 
 err_cleanup:
 	drm_encoder_cleanup(&dpi->encoder);
+<<<<<<< HEAD
+=======
+err_unregister:
+	mtk_ddp_comp_unregister(drm_dev, &dpi->ddp_comp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -624,8 +684,15 @@ static void mtk_dpi_unbind(struct device *dev, struct device *master,
 			   void *data)
 {
 	struct mtk_dpi *dpi = dev_get_drvdata(dev);
+<<<<<<< HEAD
 
 	drm_encoder_cleanup(&dpi->encoder);
+=======
+	struct drm_device *drm_dev = data;
+
+	drm_encoder_cleanup(&dpi->encoder);
+	mtk_ddp_comp_unregister(drm_dev, &dpi->ddp_comp);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static const struct component_ops mtk_dpi_component_ops = {
@@ -686,6 +753,10 @@ static int mtk_dpi_probe(struct platform_device *pdev)
 	struct device *dev = &pdev->dev;
 	struct mtk_dpi *dpi;
 	struct resource *mem;
+<<<<<<< HEAD
+=======
+	int comp_id;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	dpi = devm_kzalloc(dev, sizeof(*dpi), GFP_KERNEL);
@@ -763,6 +834,22 @@ static int mtk_dpi_probe(struct platform_device *pdev)
 
 	dev_info(dev, "Found bridge node: %pOF\n", dpi->next_bridge->of_node);
 
+<<<<<<< HEAD
+=======
+	comp_id = mtk_ddp_comp_get_id(dev->of_node, MTK_DPI);
+	if (comp_id < 0) {
+		dev_err(dev, "Failed to identify by alias: %d\n", comp_id);
+		return comp_id;
+	}
+
+	ret = mtk_ddp_comp_init(dev, dev->of_node, &dpi->ddp_comp, comp_id,
+				&mtk_dpi_funcs);
+	if (ret) {
+		dev_err(dev, "Failed to initialize component: %d\n", ret);
+		return ret;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	platform_set_drvdata(pdev, dpi);
 
 	dpi->bridge.funcs = &mtk_dpi_bridge_funcs;

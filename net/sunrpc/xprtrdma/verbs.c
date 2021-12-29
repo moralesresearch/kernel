@@ -535,7 +535,11 @@ int rpcrdma_xprt_connect(struct rpcrdma_xprt *r_xprt)
 	 * outstanding Receives.
 	 */
 	rpcrdma_ep_get(ep);
+<<<<<<< HEAD
+	rpcrdma_post_recvs(r_xprt, 1, true);
+=======
 	rpcrdma_post_recvs(r_xprt, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = rdma_connect(ep->re_id, &ep->re_remote_cma);
 	if (rc)
@@ -1185,6 +1189,23 @@ rpcrdma_mr_get(struct rpcrdma_xprt *r_xprt)
 }
 
 /**
+<<<<<<< HEAD
+ * rpcrdma_reply_put - Put reply buffers back into pool
+ * @buffers: buffer pool
+ * @req: object to return
+ *
+ */
+void rpcrdma_reply_put(struct rpcrdma_buffer *buffers, struct rpcrdma_req *req)
+{
+	if (req->rl_reply) {
+		rpcrdma_rep_put(buffers, req->rl_reply);
+		req->rl_reply = NULL;
+	}
+}
+
+/**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * rpcrdma_buffer_get - Get a request buffer
  * @buffers: Buffer pool from which to obtain a buffer
  *
@@ -1212,9 +1233,13 @@ rpcrdma_buffer_get(struct rpcrdma_buffer *buffers)
  */
 void rpcrdma_buffer_put(struct rpcrdma_buffer *buffers, struct rpcrdma_req *req)
 {
+<<<<<<< HEAD
+	rpcrdma_reply_put(buffers, req);
+=======
 	if (req->rl_reply)
 		rpcrdma_rep_put(buffers, req->rl_reply);
 	req->rl_reply = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	spin_lock(&buffers->rb_lock);
 	list_add(&req->rl_list, &buffers->rb_send_bufs);
@@ -1364,21 +1389,36 @@ int rpcrdma_post_sends(struct rpcrdma_xprt *r_xprt, struct rpcrdma_req *req)
 /**
  * rpcrdma_post_recvs - Refill the Receive Queue
  * @r_xprt: controlling transport instance
+<<<<<<< HEAD
+ * @needed: current credit grant
+ * @temp: mark Receive buffers to be deleted after one use
+ *
+ */
+void rpcrdma_post_recvs(struct rpcrdma_xprt *r_xprt, int needed, bool temp)
+=======
  * @temp: mark Receive buffers to be deleted after use
  *
  */
 void rpcrdma_post_recvs(struct rpcrdma_xprt *r_xprt, bool temp)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct rpcrdma_buffer *buf = &r_xprt->rx_buf;
 	struct rpcrdma_ep *ep = r_xprt->rx_ep;
 	struct ib_recv_wr *wr, *bad_wr;
 	struct rpcrdma_rep *rep;
+<<<<<<< HEAD
+	int count, rc;
+=======
 	int needed, count, rc;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	rc = 0;
 	count = 0;
 
+<<<<<<< HEAD
+=======
 	needed = buf->rb_credits + (buf->rb_bc_srv_max_requests << 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (likely(ep->re_receive_count > needed))
 		goto out;
 	needed -= ep->re_receive_count;

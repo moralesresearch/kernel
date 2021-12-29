@@ -145,6 +145,7 @@ extern int cap_capset(struct cred *new, const struct cred *old,
 		      const kernel_cap_t *inheritable,
 		      const kernel_cap_t *permitted);
 extern int cap_bprm_creds_from_file(struct linux_binprm *bprm, struct file *file);
+<<<<<<< HEAD
 int cap_inode_setxattr(struct dentry *dentry, const char *name,
 		       const void *value, size_t size, int flags);
 int cap_inode_removexattr(struct user_namespace *mnt_userns,
@@ -155,6 +156,15 @@ int cap_inode_killpriv(struct user_namespace *mnt_userns,
 int cap_inode_getsecurity(struct user_namespace *mnt_userns,
 			  struct inode *inode, const char *name, void **buffer,
 			  bool alloc);
+=======
+extern int cap_inode_setxattr(struct dentry *dentry, const char *name,
+			      const void *value, size_t size, int flags);
+extern int cap_inode_removexattr(struct dentry *dentry, const char *name);
+extern int cap_inode_need_killpriv(struct dentry *dentry);
+extern int cap_inode_killpriv(struct dentry *dentry);
+extern int cap_inode_getsecurity(struct inode *inode, const char *name,
+				 void **buffer, bool alloc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int cap_mmap_addr(unsigned long addr);
 extern int cap_mmap_file(struct file *file, unsigned long reqprot,
 			 unsigned long prot, unsigned long flags);
@@ -327,9 +337,12 @@ void security_inode_free(struct inode *inode);
 int security_inode_init_security(struct inode *inode, struct inode *dir,
 				 const struct qstr *qstr,
 				 initxattrs initxattrs, void *fs_data);
+<<<<<<< HEAD
 int security_inode_init_security_anon(struct inode *inode,
 				      const struct qstr *name,
 				      const struct inode *context_inode);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int security_old_inode_init_security(struct inode *inode, struct inode *dir,
 				     const struct qstr *qstr, const char **name,
 				     void **value, size_t *len);
@@ -351,13 +364,18 @@ int security_inode_follow_link(struct dentry *dentry, struct inode *inode,
 int security_inode_permission(struct inode *inode, int mask);
 int security_inode_setattr(struct dentry *dentry, struct iattr *attr);
 int security_inode_getattr(const struct path *path);
+<<<<<<< HEAD
 int security_inode_setxattr(struct user_namespace *mnt_userns,
 			    struct dentry *dentry, const char *name,
+=======
+int security_inode_setxattr(struct dentry *dentry, const char *name,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    const void *value, size_t size, int flags);
 void security_inode_post_setxattr(struct dentry *dentry, const char *name,
 				  const void *value, size_t size, int flags);
 int security_inode_getxattr(struct dentry *dentry, const char *name);
 int security_inode_listxattr(struct dentry *dentry);
+<<<<<<< HEAD
 int security_inode_removexattr(struct user_namespace *mnt_userns,
 			       struct dentry *dentry, const char *name);
 int security_inode_need_killpriv(struct dentry *dentry);
@@ -366,6 +384,12 @@ int security_inode_killpriv(struct user_namespace *mnt_userns,
 int security_inode_getsecurity(struct user_namespace *mnt_userns,
 			       struct inode *inode, const char *name,
 			       void **buffer, bool alloc);
+=======
+int security_inode_removexattr(struct dentry *dentry, const char *name);
+int security_inode_need_killpriv(struct dentry *dentry);
+int security_inode_killpriv(struct dentry *dentry);
+int security_inode_getsecurity(struct inode *inode, const char *name, void **buffer, bool alloc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int security_inode_setsecurity(struct inode *inode, const char *name, const void *value, size_t size, int flags);
 int security_inode_listsecurity(struct inode *inode, char *buffer, size_t buffer_size);
 void security_inode_getsecid(struct inode *inode, u32 *secid);
@@ -749,6 +773,7 @@ static inline int security_inode_init_security(struct inode *inode,
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline int security_inode_init_security_anon(struct inode *inode,
 						    const struct qstr *name,
 						    const struct inode *context_inode)
@@ -756,6 +781,8 @@ static inline int security_inode_init_security_anon(struct inode *inode,
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int security_old_inode_init_security(struct inode *inode,
 						   struct inode *dir,
 						   const struct qstr *qstr,
@@ -849,9 +876,14 @@ static inline int security_inode_getattr(const struct path *path)
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline int security_inode_setxattr(struct user_namespace *mnt_userns,
 		struct dentry *dentry, const char *name, const void *value,
 		size_t size, int flags)
+=======
+static inline int security_inode_setxattr(struct dentry *dentry,
+		const char *name, const void *value, size_t size, int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return cap_inode_setxattr(dentry, name, value, size, flags);
 }
@@ -871,11 +903,18 @@ static inline int security_inode_listxattr(struct dentry *dentry)
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline int security_inode_removexattr(struct user_namespace *mnt_userns,
 					     struct dentry *dentry,
 					     const char *name)
 {
 	return cap_inode_removexattr(mnt_userns, dentry, name);
+=======
+static inline int security_inode_removexattr(struct dentry *dentry,
+			const char *name)
+{
+	return cap_inode_removexattr(dentry, name);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int security_inode_need_killpriv(struct dentry *dentry)
@@ -883,6 +922,7 @@ static inline int security_inode_need_killpriv(struct dentry *dentry)
 	return cap_inode_need_killpriv(dentry);
 }
 
+<<<<<<< HEAD
 static inline int security_inode_killpriv(struct user_namespace *mnt_userns,
 					  struct dentry *dentry)
 {
@@ -895,6 +935,16 @@ static inline int security_inode_getsecurity(struct user_namespace *mnt_userns,
 					     bool alloc)
 {
 	return cap_inode_getsecurity(mnt_userns, inode, name, buffer, alloc);
+=======
+static inline int security_inode_killpriv(struct dentry *dentry)
+{
+	return cap_inode_killpriv(dentry);
+}
+
+static inline int security_inode_getsecurity(struct inode *inode, const char *name, void **buffer, bool alloc)
+{
+	return cap_inode_getsecurity(inode, name, buffer, alloc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int security_inode_setsecurity(struct inode *inode, const char *name, const void *value, size_t size, int flags)

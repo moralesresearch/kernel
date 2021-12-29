@@ -319,8 +319,11 @@ enum vbt_gmbus_ddi {
 	ICL_DDC_BUS_DDI_A = 0x1,
 	ICL_DDC_BUS_DDI_B,
 	TGL_DDC_BUS_DDI_C,
+<<<<<<< HEAD
 	RKL_DDC_BUS_DDI_D = 0x3,
 	RKL_DDC_BUS_DDI_E,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ICL_DDC_BUS_PORT_1 = 0x4,
 	ICL_DDC_BUS_PORT_2,
 	ICL_DDC_BUS_PORT_3,

@@ -15,10 +15,17 @@
 
 #include <subcmd/parse-options.h>
 #include <string.h>
+<<<<<<< HEAD
 #include <objtool/builtin.h>
 #include <objtool/objtool.h>
 
 bool no_fp, no_unreachable, retpoline, module, backtrace, uaccess, stats, validate_dup, vmlinux, mcount, noinstr;
+=======
+#include "builtin.h"
+#include "objtool.h"
+
+bool no_fp, no_unreachable, retpoline, module, backtrace, uaccess, stats, validate_dup, vmlinux;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static const char * const check_usage[] = {
 	"objtool check [<options>] file.o",
@@ -34,15 +41,23 @@ const struct option check_options[] = {
 	OPT_BOOLEAN('a', "uaccess", &uaccess, "enable uaccess checking"),
 	OPT_BOOLEAN('s', "stats", &stats, "print statistics"),
 	OPT_BOOLEAN('d', "duplicate", &validate_dup, "duplicate validation for vmlinux.o"),
+<<<<<<< HEAD
 	OPT_BOOLEAN('n', "noinstr", &noinstr, "noinstr validation for vmlinux.o"),
 	OPT_BOOLEAN('l', "vmlinux", &vmlinux, "vmlinux.o validation"),
 	OPT_BOOLEAN('M', "mcount", &mcount, "generate __mcount_loc"),
+=======
+	OPT_BOOLEAN('l', "vmlinux", &vmlinux, "vmlinux.o validation"),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	OPT_END(),
 };
 
 int cmd_check(int argc, const char **argv)
 {
+<<<<<<< HEAD
 	const char *objname;
+=======
+	const char *objname, *s;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct objtool_file *file;
 	int ret;
 
@@ -53,6 +68,13 @@ int cmd_check(int argc, const char **argv)
 
 	objname = argv[0];
 
+<<<<<<< HEAD
+=======
+	s = strstr(objname, "vmlinux.o");
+	if (s && !s[9])
+		vmlinux = true;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	file = objtool_open_read(objname);
 	if (!file)
 		return 1;

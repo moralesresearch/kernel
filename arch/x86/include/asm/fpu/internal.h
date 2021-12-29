@@ -578,6 +578,21 @@ static inline void switch_fpu_finish(struct fpu *new_fpu)
 	 * PKRU state is switched eagerly because it needs to be valid before we
 	 * return to userland e.g. for a copy_to_user() operation.
 	 */
+<<<<<<< HEAD
+	if (!(current->flags & PF_KTHREAD)) {
+		/*
+		 * If the PKRU bit in xsave.header.xfeatures is not set,
+		 * then the PKRU component was in init state, which means
+		 * XRSTOR will set PKRU to 0. If the bit is not set then
+		 * get_xsave_addr() will return NULL because the PKRU value
+		 * in memory is not valid. This means pkru_val has to be
+		 * set to 0 and not to init_pkru_value.
+		 */
+		pk = get_xsave_addr(&new_fpu->state.xsave, XFEATURE_PKRU);
+		pkru_val = pk ? pk->pkru : 0;
+	}
+	__write_pkru(pkru_val);
+=======
 	if (current->mm) {
 		pk = get_xsave_addr(&new_fpu->state.xsave, XFEATURE_PKRU);
 		if (pk)
@@ -591,6 +606,7 @@ static inline void switch_fpu_finish(struct fpu *new_fpu)
 	 * unless it's different from mm->pasid to reduce overhead.
 	 */
 	update_pasid();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 #endif /* _ASM_X86_FPU_INTERNAL_H */

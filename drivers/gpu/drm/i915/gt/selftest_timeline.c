@@ -9,7 +9,10 @@
 #include "intel_context.h"
 #include "intel_engine_heartbeat.h"
 #include "intel_engine_pm.h"
+<<<<<<< HEAD
 #include "intel_gpu_commands.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "intel_gt.h"
 #include "intel_gt_requests.h"
 #include "intel_ring.h"
@@ -1091,6 +1094,15 @@ static int live_hwsp_read(void *arg)
 			}
 			count++;
 
+<<<<<<< HEAD
+=======
+			if (8 * watcher[1].rq->ring->emit >
+			    3 * watcher[1].rq->ring->size) {
+				i915_request_put(rq);
+				break;
+			}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* Flush the timeline before manually wrapping again */
 			if (i915_request_wait(rq,
 					      I915_WAIT_INTERRUPTIBLE,
@@ -1099,6 +1111,7 @@ static int live_hwsp_read(void *arg)
 				i915_request_put(rq);
 				goto out;
 			}
+<<<<<<< HEAD
 			retire_requests(tl);
 			i915_request_put(rq);
 
@@ -1107,6 +1120,11 @@ static int live_hwsp_read(void *arg)
 			    3 * watcher[1].rq->ring->size)
 				break;
 
+=======
+
+			retire_requests(tl);
+			i915_request_put(rq);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} while (!__igt_timeout(end_time, NULL));
 		WRITE_ONCE(*(u32 *)tl->hwsp_seqno, 0xdeadbeef);
 

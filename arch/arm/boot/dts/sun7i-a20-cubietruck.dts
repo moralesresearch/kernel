@@ -75,22 +75,38 @@
 	leds {
 		compatible = "gpio-leds";
 
+<<<<<<< HEAD
 		led-0 {
+=======
+		blue {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "cubietruck:blue:usr";
 			gpios = <&pio 7 21 GPIO_ACTIVE_HIGH>;
 		};
 
+<<<<<<< HEAD
 		led-1 {
+=======
+		orange {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "cubietruck:orange:usr";
 			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>;
 		};
 
+<<<<<<< HEAD
 		led-2 {
+=======
+		white {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "cubietruck:white:usr";
 			gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>;
 		};
 
+<<<<<<< HEAD
 		led-3 {
+=======
+		green {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			label = "cubietruck:green:usr";
 			gpios = <&pio 7 7 GPIO_ACTIVE_HIGH>;
 		};

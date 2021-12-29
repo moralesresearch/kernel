@@ -39,7 +39,10 @@
 #include "dce_v11_0.h"
 #include "dce_virtual.h"
 #include "ivsrcid/ivsrcid_vislands30.h"
+<<<<<<< HEAD
 #include "amdgpu_display.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define DCE_VIRTUAL_VBLANK_PERIOD 16666666
 
@@ -295,7 +298,11 @@ static int dce_virtual_get_modes(struct drm_connector *connector)
 	static const struct mode_size {
 		int w;
 		int h;
+<<<<<<< HEAD
 	} common_modes[] = {
+=======
+	} common_modes[21] = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{ 640,  480},
 		{ 720,  480},
 		{ 800,  600},
@@ -313,14 +320,21 @@ static int dce_virtual_get_modes(struct drm_connector *connector)
 		{1600, 1200},
 		{1920, 1080},
 		{1920, 1200},
+<<<<<<< HEAD
 		{2560, 1440},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		{4096, 3112},
 		{3656, 2664},
 		{3840, 2160},
 		{4096, 2160},
 	};
 
+<<<<<<< HEAD
 	for (i = 0; i < ARRAY_SIZE(common_modes); i++) {
+=======
+	for (i = 0; i < 21; i++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mode = drm_cvt_mode(dev, common_modes[i].w, common_modes[i].h, 60, false, false, false);
 		drm_mode_probed_add(connector, mode);
 	}
@@ -492,17 +506,21 @@ static int dce_virtual_hw_fini(void *handle)
 
 static int dce_virtual_suspend(void *handle)
 {
+<<<<<<< HEAD
 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
 	int r;
 
 	r = amdgpu_display_suspend_helper(adev);
 	if (r)
 		return r;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return dce_virtual_hw_fini(handle);
 }
 
 static int dce_virtual_resume(void *handle)
 {
+<<<<<<< HEAD
 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
 	int r;
 
@@ -510,6 +528,9 @@ static int dce_virtual_resume(void *handle)
 	if (r)
 		return r;
 	return amdgpu_display_resume_helper(adev);
+=======
+	return dce_virtual_hw_init(handle);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static bool dce_virtual_is_idle(void *handle)

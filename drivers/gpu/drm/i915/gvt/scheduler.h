@@ -36,11 +36,14 @@
 #ifndef _GVT_SCHEDULER_H_
 #define _GVT_SCHEDULER_H_
 
+<<<<<<< HEAD
 #include "gt/intel_engine_types.h"
 
 #include "execlist.h"
 #include "interrupt.h"
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct intel_gvt_workload_scheduler {
 	struct intel_vgpu *current_vgpu;
 	struct intel_vgpu *next_vgpu;

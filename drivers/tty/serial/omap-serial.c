@@ -159,6 +159,11 @@ struct uart_omap_port {
 	u32			calc_latency;
 	struct work_struct	qos_work;
 	bool			is_suspending;
+<<<<<<< HEAD
+
+	unsigned int		rs485_tx_filter_count;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define to_uart_omap_port(p) ((container_of((p), struct uart_omap_port, port)))
@@ -302,7 +307,12 @@ static void serial_omap_stop_tx(struct uart_port *port)
 			serial_out(up, UART_OMAP_SCR, up->scr);
 			res = (port->rs485.flags & SER_RS485_RTS_AFTER_SEND) ?
 				1 : 0;
+<<<<<<< HEAD
+			if (up->rts_gpiod &&
+			    gpiod_get_value(up->rts_gpiod) != res) {
+=======
 			if (gpiod_get_value(up->rts_gpiod) != res) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				if (port->rs485.delay_rts_after_send > 0)
 					mdelay(
 					port->rs485.delay_rts_after_send);
@@ -328,6 +338,8 @@ static void serial_omap_stop_tx(struct uart_port *port)
 		serial_out(up, UART_IER, up->ier);
 	}
 
+<<<<<<< HEAD
+=======
 	if ((port->rs485.flags & SER_RS485_ENABLED) &&
 	    !(port->rs485.flags & SER_RS485_RX_DURING_TX)) {
 		/*
@@ -341,6 +353,7 @@ static void serial_omap_stop_tx(struct uart_port *port)
 		serial_out(up, UART_IER, up->ier);
 	}
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pm_runtime_mark_last_busy(up->dev);
 	pm_runtime_put_autosuspend(up->dev);
 }
@@ -366,6 +379,13 @@ static void transmit_chars(struct uart_omap_port *up, unsigned int lsr)
 		serial_out(up, UART_TX, up->port.x_char);
 		up->port.icount.tx++;
 		up->port.x_char = 0;
+<<<<<<< HEAD
+		if ((up->port.rs485.flags & SER_RS485_ENABLED) &&
+		    !(up->port.rs485.flags & SER_RS485_RX_DURING_TX))
+			up->rs485_tx_filter_count++;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 	}
 	if (uart_circ_empty(xmit) || uart_tx_stopped(&up->port)) {
@@ -377,6 +397,13 @@ static void transmit_chars(struct uart_omap_port *up, unsigned int lsr)
 		serial_out(up, UART_TX, xmit->buf[xmit->tail]);
 		xmit->tail = (xmit->tail + 1) & (UART_XMIT_SIZE - 1);
 		up->port.icount.tx++;
+<<<<<<< HEAD
+		if ((up->port.rs485.flags & SER_RS485_ENABLED) &&
+		    !(up->port.rs485.flags & SER_RS485_RX_DURING_TX))
+			up->rs485_tx_filter_count++;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (uart_circ_empty(xmit))
 			break;
 	} while (--count > 0);
@@ -411,7 +438,11 @@ static void serial_omap_start_tx(struct uart_port *port)
 
 		/* if rts not already enabled */
 		res = (port->rs485.flags & SER_RS485_RTS_ON_SEND) ? 1 : 0;
+<<<<<<< HEAD
+		if (up->rts_gpiod && gpiod_get_value(up->rts_gpiod) != res) {
+=======
 		if (gpiod_get_value(up->rts_gpiod) != res) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			gpiod_set_value(up->rts_gpiod, res);
 			if (port->rs485.delay_rts_before_send > 0)
 				mdelay(port->rs485.delay_rts_before_send);
@@ -420,7 +451,11 @@ static void serial_omap_start_tx(struct uart_port *port)
 
 	if ((port->rs485.flags & SER_RS485_ENABLED) &&
 	    !(port->rs485.flags & SER_RS485_RX_DURING_TX))
+<<<<<<< HEAD
+		up->rs485_tx_filter_count = 0;
+=======
 		serial_omap_stop_rx(port);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	serial_omap_enable_ier_thri(up);
 	pm_runtime_mark_last_busy(up->dev);
@@ -491,8 +526,18 @@ static void serial_omap_rlsi(struct uart_omap_port *up, unsigned int lsr)
 	 * Read one data character out to avoid stalling the receiver according
 	 * to the table 23-246 of the omap4 TRM.
 	 */
+<<<<<<< HEAD
+	if (likely(lsr & UART_LSR_DR)) {
+		serial_in(up, UART_RX);
+		if ((up->port.rs485.flags & SER_RS485_ENABLED) &&
+		    !(up->port.rs485.flags & SER_RS485_RX_DURING_TX) &&
+		    up->rs485_tx_filter_count)
+			up->rs485_tx_filter_count--;
+	}
+=======
 	if (likely(lsr & UART_LSR_DR))
 		serial_in(up, UART_RX);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	up->port.icount.rx++;
 	flag = TTY_NORMAL;
@@ -543,6 +588,16 @@ static void serial_omap_rdi(struct uart_omap_port *up, unsigned int lsr)
 		return;
 
 	ch = serial_in(up, UART_RX);
+<<<<<<< HEAD
+	if ((up->port.rs485.flags & SER_RS485_ENABLED) &&
+	    !(up->port.rs485.flags & SER_RS485_RX_DURING_TX) &&
+	    up->rs485_tx_filter_count) {
+		up->rs485_tx_filter_count--;
+		return;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	flag = TTY_NORMAL;
 	up->port.icount.rx++;
 
@@ -1407,18 +1462,25 @@ serial_omap_config_rs485(struct uart_port *port, struct serial_rs485 *rs485)
 	/* store new config */
 	port->rs485 = *rs485;
 
+<<<<<<< HEAD
+=======
 	/*
 	 * Just as a precaution, only allow rs485
 	 * to be enabled if the gpio pin is valid
 	 */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (up->rts_gpiod) {
 		/* enable / disable rts */
 		val = (port->rs485.flags & SER_RS485_ENABLED) ?
 			SER_RS485_RTS_AFTER_SEND : SER_RS485_RTS_ON_SEND;
 		val = (port->rs485.flags & val) ? 1 : 0;
 		gpiod_set_value(up->rts_gpiod, val);
+<<<<<<< HEAD
+	}
+=======
 	} else
 		port->rs485.flags &= ~SER_RS485_ENABLED;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Enable interrupts */
 	up->ier = mode;

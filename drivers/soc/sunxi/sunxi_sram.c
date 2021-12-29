@@ -283,7 +283,11 @@ int sunxi_sram_release(struct device *dev)
 EXPORT_SYMBOL(sunxi_sram_release);
 
 struct sunxi_sramc_variant {
+<<<<<<< HEAD
 	int num_emac_clocks;
+=======
+	bool has_emac_clock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static const struct sunxi_sramc_variant sun4i_a10_sramc_variant = {
@@ -291,6 +295,7 @@ static const struct sunxi_sramc_variant sun4i_a10_sramc_variant = {
 };
 
 static const struct sunxi_sramc_variant sun8i_h3_sramc_variant = {
+<<<<<<< HEAD
 	.num_emac_clocks = 1,
 };
 
@@ -300,12 +305,20 @@ static const struct sunxi_sramc_variant sun50i_a64_sramc_variant = {
 
 static const struct sunxi_sramc_variant sun50i_h616_sramc_variant = {
 	.num_emac_clocks = 2,
+=======
+	.has_emac_clock = true,
+};
+
+static const struct sunxi_sramc_variant sun50i_a64_sramc_variant = {
+	.has_emac_clock = true,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define SUNXI_SRAM_EMAC_CLOCK_REG	0x30
 static bool sunxi_sram_regmap_accessible_reg(struct device *dev,
 					     unsigned int reg)
 {
+<<<<<<< HEAD
 	const struct sunxi_sramc_variant *variant;
 
 	variant = of_device_get_match_data(dev);
@@ -316,6 +329,11 @@ static bool sunxi_sram_regmap_accessible_reg(struct device *dev,
 		return false;
 
 	return true;
+=======
+	if (reg == SUNXI_SRAM_EMAC_CLOCK_REG)
+		return true;
+	return false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct regmap_config sunxi_sram_emac_clock_regmap = {
@@ -323,7 +341,11 @@ static struct regmap_config sunxi_sram_emac_clock_regmap = {
 	.val_bits       = 32,
 	.reg_stride     = 4,
 	/* last defined register */
+<<<<<<< HEAD
 	.max_register   = SUNXI_SRAM_EMAC_CLOCK_REG + 4,
+=======
+	.max_register   = SUNXI_SRAM_EMAC_CLOCK_REG,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* other devices have no business accessing other registers */
 	.readable_reg	= sunxi_sram_regmap_accessible_reg,
 	.writeable_reg	= sunxi_sram_regmap_accessible_reg,
@@ -354,7 +376,11 @@ static int sunxi_sram_probe(struct platform_device *pdev)
 	if (!d)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	if (variant->num_emac_clocks > 0) {
+=======
+	if (variant->has_emac_clock) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		emac_clock = devm_regmap_init_mmio(&pdev->dev, base,
 						   &sunxi_sram_emac_clock_regmap);
 
@@ -398,10 +424,13 @@ static const struct of_device_id sunxi_sram_dt_match[] = {
 		.compatible = "allwinner,sun50i-h5-system-control",
 		.data = &sun50i_a64_sramc_variant,
 	},
+<<<<<<< HEAD
 	{
 		.compatible = "allwinner,sun50i-h616-system-control",
 		.data = &sun50i_h616_sramc_variant,
 	},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ },
 };
 MODULE_DEVICE_TABLE(of, sunxi_sram_dt_match);

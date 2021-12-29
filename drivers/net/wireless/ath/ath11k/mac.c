@@ -1871,6 +1871,10 @@ static int ath11k_mac_fils_discovery(struct ath11k_vif *arvif,
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int ath11k_mac_config_obss_pd(struct ath11k *ar,
 				     struct ieee80211_he_obss_pd *he_obss_pd)
 {
@@ -2023,6 +2027,11 @@ static int ath11k_mac_config_obss_pd(struct ath11k *ar,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void ath11k_mac_op_bss_info_changed(struct ieee80211_hw *hw,
 					   struct ieee80211_vif *vif,
 					   struct ieee80211_bss_conf *info,
@@ -2266,7 +2275,16 @@ static void ath11k_mac_op_bss_info_changed(struct ieee80211_hw *hw,
 	}
 
 	if (changed & BSS_CHANGED_HE_OBSS_PD)
+<<<<<<< HEAD
 		ath11k_mac_config_obss_pd(ar, &info->he_obss_pd);
+=======
+<<<<<<< HEAD
+		ath11k_mac_config_obss_pd(ar, &info->he_obss_pd);
+=======
+		ath11k_wmi_send_obss_spr_cmd(ar, arvif->vdev_id,
+					     &info->he_obss_pd);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (changed & BSS_CHANGED_HE_BSS_COLOR) {
 		if (vif->type == NL80211_IFTYPE_AP) {
@@ -2711,6 +2729,15 @@ static int ath11k_mac_op_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
 	 */
 	spin_lock_bh(&ab->base_lock);
 	peer = ath11k_peer_find(ab, arvif->vdev_id, peer_addr);
+<<<<<<< HEAD
+
+	/* flush the fragments cache during key (re)install to
+	 * ensure all frags in the new frag list belong to the same key.
+	 */
+	if (peer && cmd == SET_KEY)
+		ath11k_peer_frags_flush(ar, peer);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock_bh(&ab->base_lock);
 
 	if (!peer) {
@@ -5001,7 +5028,15 @@ static int ath11k_mac_op_add_chanctx(struct ieee80211_hw *hw,
 	struct ath11k_base *ab = ar->ab;
 
 	ath11k_dbg(ab, ATH11K_DBG_MAC,
+<<<<<<< HEAD
 		   "mac chanctx add freq %u width %d ptr %pK\n",
+=======
+<<<<<<< HEAD
+		   "mac chanctx add freq %u width %d ptr %pK\n",
+=======
+		   "mac chanctx add freq %hu width %d ptr %pK\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   ctx->def.chan->center_freq, ctx->def.width, ctx);
 
 	mutex_lock(&ar->conf_mutex);
@@ -5025,7 +5060,15 @@ static void ath11k_mac_op_remove_chanctx(struct ieee80211_hw *hw,
 	struct ath11k_base *ab = ar->ab;
 
 	ath11k_dbg(ab, ATH11K_DBG_MAC,
+<<<<<<< HEAD
 		   "mac chanctx remove freq %u width %d ptr %pK\n",
+=======
+<<<<<<< HEAD
+		   "mac chanctx remove freq %u width %d ptr %pK\n",
+=======
+		   "mac chanctx remove freq %hu width %d ptr %pK\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   ctx->def.chan->center_freq, ctx->def.width, ctx);
 
 	mutex_lock(&ar->conf_mutex);
@@ -5269,7 +5312,15 @@ ath11k_mac_update_vif_chan(struct ath11k *ar,
 		arvif = (void *)vifs[i].vif->drv_priv;
 
 		ath11k_dbg(ab, ATH11K_DBG_MAC,
+<<<<<<< HEAD
 			   "mac chanctx switch vdev_id %i freq %u->%u width %d->%d\n",
+=======
+<<<<<<< HEAD
+			   "mac chanctx switch vdev_id %i freq %u->%u width %d->%d\n",
+=======
+			   "mac chanctx switch vdev_id %i freq %hu->%hu width %d->%d\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   arvif->vdev_id,
 			   vifs[i].old_ctx->def.chan->center_freq,
 			   vifs[i].new_ctx->def.chan->center_freq,
@@ -5366,7 +5417,15 @@ static void ath11k_mac_op_change_chanctx(struct ieee80211_hw *hw,
 	mutex_lock(&ar->conf_mutex);
 
 	ath11k_dbg(ab, ATH11K_DBG_MAC,
+<<<<<<< HEAD
 		   "mac chanctx change freq %u width %d ptr %pK changed %x\n",
+=======
+<<<<<<< HEAD
+		   "mac chanctx change freq %u width %d ptr %pK changed %x\n",
+=======
+		   "mac chanctx change freq %hu width %d ptr %pK changed %x\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   ctx->def.chan->center_freq, ctx->def.width, ctx, changed);
 
 	/* This shouldn't really happen because channel switching should use
@@ -5735,7 +5794,15 @@ static int ath11k_mac_set_fixed_rate_params(struct ath11k_vif *arvif,
 
 	lockdep_assert_held(&ar->conf_mutex);
 
+<<<<<<< HEAD
 	ath11k_dbg(ar->ab, ATH11K_DBG_MAC, "mac set fixed rate params vdev %i rate 0x%02x nss %u sgi %u\n",
+=======
+<<<<<<< HEAD
+	ath11k_dbg(ar->ab, ATH11K_DBG_MAC, "mac set fixed rate params vdev %i rate 0x%02x nss %u sgi %u\n",
+=======
+	ath11k_dbg(ar->ab, ATH11K_DBG_MAC, "mac set fixed rate params vdev %i rate 0x%02hhx nss %hhu sgi %hhu\n",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		   arvif->vdev_id, rate, nss, sgi);
 
 	vdev_param = WMI_VDEV_PARAM_FIXED_RATE;

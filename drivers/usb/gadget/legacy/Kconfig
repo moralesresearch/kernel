@@ -515,6 +515,7 @@ config USB_G_WEBCAM
 config USB_RAW_GADGET
 	tristate "USB Raw Gadget"
 	help
+<<<<<<< HEAD
 	  USB Raw Gadget is a gadget driver that gives userspace low-level
 	  control over the gadget's communication process.
 
@@ -524,6 +525,12 @@ config USB_RAW_GADGET
 	  to do that.
 
 	  See Documentation/usb/raw-gadget.rst for details.
+=======
+	  USB Raw Gadget is a kernel module that provides a userspace interface
+	  for the USB Gadget subsystem. Essentially it allows to emulate USB
+	  devices from userspace. See Documentation/usb/raw-gadget.rst for
+	  details.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	  Say "y" to link the driver statically, or "m" to build a
 	  dynamically linked module called "raw_gadget".

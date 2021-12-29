@@ -400,7 +400,11 @@ static int rk3399_dmcfreq_probe(struct platform_device *pdev)
 	default:
 		ret = -EINVAL;
 		goto err_edev;
+<<<<<<< HEAD
 	}
+=======
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 no_pmu:
 	arm_smccc_smc(ROCKCHIP_SIP_DRAM_FREQ, 0, 0,

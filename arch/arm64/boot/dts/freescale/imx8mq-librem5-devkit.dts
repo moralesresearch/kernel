@@ -244,6 +244,14 @@
 	cpu-supply = <&buck2_reg>;
 };
 
+<<<<<<< HEAD
+=======
+&clk {
+	assigned-clocks = <&clk IMX8MQ_AUDIO_PLL1>, <&clk IMX8MQ_AUDIO_PLL2>;
+	assigned-clock-rates = <786432000>, <722534400>;
+};
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &dphy {
 	status = "okay";
 };
@@ -293,7 +301,10 @@
 				regulator-min-microvolt = <700000>;
 				regulator-max-microvolt = <1300000>;
 				regulator-boot-on;
+<<<<<<< HEAD
 				regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				regulator-ramp-delay = <1250>;
 				rohm,dvs-run-voltage = <900000>;
 				rohm,dvs-idle-voltage = <850000>;
@@ -315,7 +326,10 @@
 				regulator-min-microvolt = <700000>;
 				regulator-max-microvolt = <1300000>;
 				regulator-boot-on;
+<<<<<<< HEAD
 				regulator-enable-ramp-delay = <200>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				rohm,dvs-run-voltage = <900000>;
 			};
 
@@ -331,7 +345,10 @@
 				regulator-min-microvolt = <700000>;
 				regulator-max-microvolt = <1350000>;
 				regulator-boot-on;
+<<<<<<< HEAD
 				regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			buck6_reg: BUCK6 {
@@ -339,7 +356,10 @@
 				regulator-min-microvolt = <3000000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-boot-on;
+<<<<<<< HEAD
 				regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			buck7_reg: BUCK7 {
@@ -347,7 +367,10 @@
 				regulator-min-microvolt = <1605000>;
 				regulator-max-microvolt = <1995000>;
 				regulator-boot-on;
+<<<<<<< HEAD
 				regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			buck8_reg: BUCK8 {
@@ -355,7 +378,10 @@
 				regulator-min-microvolt = <800000>;
 				regulator-max-microvolt = <1400000>;
 				regulator-boot-on;
+<<<<<<< HEAD
 				regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			ldo1_reg: LDO1 {
@@ -381,7 +407,10 @@
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-boot-on;
+<<<<<<< HEAD
 				regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			ldo4_reg: LDO4 {
@@ -389,14 +418,20 @@
 				regulator-min-microvolt = <900000>;
 				regulator-max-microvolt = <1800000>;
 				regulator-boot-on;
+<<<<<<< HEAD
 				regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			ldo5_reg: LDO5 {
 				regulator-name = "ldo5";
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3300000>;
+<<<<<<< HEAD
 				regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			ldo6_reg: LDO6 {
@@ -404,7 +439,10 @@
 				regulator-min-microvolt = <900000>;
 				regulator-max-microvolt = <1800000>;
 				regulator-boot-on;
+<<<<<<< HEAD
 				regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 
 			ldo7_reg: LDO7 {
@@ -412,7 +450,10 @@
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-boot-on;
+<<<<<<< HEAD
 				regulator-always-on;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			};
 		};
 	};
@@ -892,10 +933,13 @@
 	status = "okay";
 };
 
+<<<<<<< HEAD
 &snvs_rtc {
 	status = "disabled";
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 &sai2 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_sai2>;

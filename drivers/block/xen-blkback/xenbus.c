@@ -245,7 +245,11 @@ static int xen_blkif_map(struct xen_blkif_ring *ring, grant_ref_t *gref,
 	if (req_prod - rsp_prod > size)
 		goto fail;
 
+<<<<<<< HEAD
 	err = bind_interdomain_evtchn_to_irqhandler_lateeoi(blkif->be->dev,
+=======
+	err = bind_interdomain_evtchn_to_irqhandler_lateeoi(blkif->domid,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			evtchn, xen_blkif_be_int, 0, "blkif-backend", ring);
 	if (err < 0)
 		goto fail;
@@ -998,14 +1002,27 @@ static int read_per_ring_refs(struct xen_blkif_ring *ring, const char *dir)
 	for (i = 0; i < nr_grefs; i++) {
 		char ring_ref_name[RINGREF_NAME_LEN];
 
+<<<<<<< HEAD
+		if (blkif->multi_ref)
+			snprintf(ring_ref_name, RINGREF_NAME_LEN, "ring-ref%u", i);
+		else {
+			WARN_ON(i != 0);
+			snprintf(ring_ref_name, RINGREF_NAME_LEN, "ring-ref");
+		}
+
+=======
 		snprintf(ring_ref_name, RINGREF_NAME_LEN, "ring-ref%u", i);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = xenbus_scanf(XBT_NIL, dir, ring_ref_name,
 				   "%u", &ring_ref[i]);
 
 		if (err != 1) {
+<<<<<<< HEAD
+=======
 			if (nr_grefs == 1)
 				break;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			err = -EINVAL;
 			xenbus_dev_fatal(dev, err, "reading %s/%s",
 					 dir, ring_ref_name);
@@ -1013,6 +1030,8 @@ static int read_per_ring_refs(struct xen_blkif_ring *ring, const char *dir)
 		}
 	}
 
+<<<<<<< HEAD
+=======
 	if (err != 1) {
 		WARN_ON(nr_grefs != 1);
 
@@ -1025,6 +1044,7 @@ static int read_per_ring_refs(struct xen_blkif_ring *ring, const char *dir)
 		}
 	}
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = -ENOMEM;
 	for (i = 0; i < nr_grefs * XEN_BLKIF_REQS_PER_PAGE; i++) {
 		req = kzalloc(sizeof(*req), GFP_KERNEL);
@@ -1129,10 +1149,22 @@ static int connect_ring(struct backend_info *be)
 		 blkif->nr_rings, blkif->blk_protocol, protocol,
 		 blkif->vbd.feature_gnt_persistent ? "persistent grants" : "");
 
+<<<<<<< HEAD
+	err = xenbus_scanf(XBT_NIL, dev->otherend, "ring-page-order", "%u",
+			   &ring_page_order);
+	if (err != 1) {
+		blkif->nr_ring_pages = 1;
+		blkif->multi_ref = false;
+	} else if (ring_page_order <= xen_blkif_max_ring_order) {
+		blkif->nr_ring_pages = 1 << ring_page_order;
+		blkif->multi_ref = true;
+	} else {
+=======
 	ring_page_order = xenbus_read_unsigned(dev->otherend,
 					       "ring-page-order", 0);
 
 	if (ring_page_order > xen_blkif_max_ring_order) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = -EINVAL;
 		xenbus_dev_fatal(dev, err,
 				 "requested ring page order %d exceed max:%d",
@@ -1141,8 +1173,11 @@ static int connect_ring(struct backend_info *be)
 		return err;
 	}
 
+<<<<<<< HEAD
+=======
 	blkif->nr_ring_pages = 1 << ring_page_order;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (blkif->nr_rings == 1)
 		return read_per_ring_refs(&blkif->rings[0], dev->otherend);
 	else {

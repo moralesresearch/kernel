@@ -312,7 +312,10 @@ int intel_plane_atomic_check_with_state(const struct intel_crtc_state *old_crtc_
 	int ret;
 
 	intel_plane_set_invisible(new_crtc_state, new_plane_state);
+<<<<<<< HEAD
 	new_crtc_state->enabled_planes &= ~BIT(plane->id);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!new_plane_state->hw.crtc && !old_plane_state->hw.crtc)
 		return 0;
@@ -321,9 +324,12 @@ int intel_plane_atomic_check_with_state(const struct intel_crtc_state *old_crtc_
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	if (fb)
 		new_crtc_state->enabled_planes |= BIT(plane->id);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* FIXME pre-g4x don't work like this */
 	if (new_plane_state->uapi.visible)
 		new_crtc_state->active_planes |= BIT(plane->id);
@@ -453,7 +459,11 @@ void intel_update_plane(struct intel_plane *plane,
 	trace_intel_update_plane(&plane->base, crtc);
 
 	if (crtc_state->uapi.async_flip && plane->async_flip)
+<<<<<<< HEAD
 		plane->async_flip(plane, crtc_state, plane_state, true);
+=======
+		plane->async_flip(plane, crtc_state, plane_state);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	else
 		plane->update_plane(plane, crtc_state, plane_state);
 }

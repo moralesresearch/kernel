@@ -18,8 +18,15 @@ Hardware Monitoring Kernel Drivers
 .. toctree::
    :maxdepth: 1
 
+<<<<<<< HEAD
    abituguru
    abituguru3
+=======
+   ab8500
+   abituguru
+   abituguru3
+   abx500
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    acpi_power_meter
    ad7314
    adc128d818
@@ -37,7 +44,10 @@ Hardware Monitoring Kernel Drivers
    adt7462
    adt7470
    adt7475
+<<<<<<< HEAD
    aht10
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    amc6821
    amd_energy
    asb100
@@ -177,7 +187,10 @@ Hardware Monitoring Kernel Drivers
    tmp401
    tmp421
    tmp513
+<<<<<<< HEAD
    tps23861
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
    tps40422
    tps53679
    twl4030-madc-hwmon

@@ -5,7 +5,10 @@
  * Copyright (C) 2014 Broadcom Corporation
  */
 
+<<<<<<< HEAD
 #include <linux/dsa/brcm.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/etherdevice.h>
 #include <linux/list.h>
 #include <linux/slab.h>

@@ -274,10 +274,26 @@ static const struct pci_device_id intel_th_pci_id_table[] = {
 		.driver_data = (kernel_ulong_t)&intel_th_2x,
 	},
 	{
+<<<<<<< HEAD
+		/* Alder Lake-M */
+		PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x54a6),
+		.driver_data = (kernel_ulong_t)&intel_th_2x,
+	},
+	{
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* Alder Lake CPU */
 		PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x466f),
 		.driver_data = (kernel_ulong_t)&intel_th_2x,
 	},
+<<<<<<< HEAD
+	{
+		/* Rocket Lake CPU */
+		PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x4c19),
+		.driver_data = (kernel_ulong_t)&intel_th_2x,
+	},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ 0 },
 };
 

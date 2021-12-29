@@ -124,6 +124,9 @@ int perf_evlist__id_add_fd(struct perf_evlist *evlist,
 			   struct perf_evsel *evsel,
 			   int cpu, int thread, int fd);
 
+<<<<<<< HEAD
 void perf_evlist__reset_id_hash(struct perf_evlist *evlist);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __LIBPERF_INTERNAL_EVLIST_H */

@@ -280,12 +280,21 @@
 #include <asm/ioctls.h>
 #include <net/busy_poll.h>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Track pending CMSGs. */
 enum {
 	TCP_CMSG_INQ = 1,
 	TCP_CMSG_TS = 2
 };
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct percpu_counter tcp_orphan_count;
 EXPORT_SYMBOL_GPL(tcp_orphan_count);
 
@@ -481,11 +490,33 @@ static void tcp_tx_timestamp(struct sock *sk, u16 tsflags)
 	}
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static bool tcp_stream_is_readable(struct sock *sk, int target)
 {
 	if (tcp_epollin_ready(sk, target))
 		return true;
 
+<<<<<<< HEAD
+=======
+=======
+static inline bool tcp_stream_is_readable(const struct tcp_sock *tp,
+					  int target, struct sock *sk)
+{
+	int avail = READ_ONCE(tp->rcv_nxt) - READ_ONCE(tp->copied_seq);
+
+	if (avail > 0) {
+		if (avail >= target)
+			return true;
+		if (tcp_rmem_pressure(sk))
+			return true;
+		if (tcp_receive_window(tp) <= inet_csk(sk)->icsk_ack.rcv_mss)
+			return true;
+	}
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (sk->sk_prot->stream_memory_read)
 		return sk->sk_prot->stream_memory_read(sk);
 	return false;
@@ -560,7 +591,15 @@ __poll_t tcp_poll(struct file *file, struct socket *sock, poll_table *wait)
 		    tp->urg_data)
 			target++;
 
+<<<<<<< HEAD
 		if (tcp_stream_is_readable(sk, target))
+=======
+<<<<<<< HEAD
+		if (tcp_stream_is_readable(sk, target))
+=======
+		if (tcp_stream_is_readable(tp, target, sk))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mask |= EPOLLIN | EPOLLRDNORM;
 
 		if (!(sk->sk_shutdown & SEND_SHUTDOWN)) {
@@ -1008,7 +1047,15 @@ new_segment:
 	}
 
 	if (!(flags & MSG_NO_SHARED_FRAGS))
+<<<<<<< HEAD
 		skb_shinfo(skb)->flags |= SKBFL_SHARED_FRAG;
+=======
+<<<<<<< HEAD
+		skb_shinfo(skb)->flags |= SKBFL_SHARED_FRAG;
+=======
+		skb_shinfo(skb)->tx_flags |= SKBTX_SHARED_FRAG;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	skb->len += copy;
 	skb->data_len += copy;
@@ -1215,7 +1262,15 @@ int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
 
 	if (flags & MSG_ZEROCOPY && size && sock_flag(sk, SOCK_ZEROCOPY)) {
 		skb = tcp_write_queue_tail(sk);
+<<<<<<< HEAD
 		uarg = msg_zerocopy_realloc(sk, size, skb_zcopy(skb));
+=======
+<<<<<<< HEAD
+		uarg = msg_zerocopy_realloc(sk, size, skb_zcopy(skb));
+=======
+		uarg = sock_zerocopy_realloc(sk, size, skb_zcopy(skb));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!uarg) {
 			err = -ENOBUFS;
 			goto out_err;
@@ -1427,7 +1482,15 @@ out:
 		tcp_push(sk, flags, mss_now, tp->nonagle, size_goal);
 	}
 out_nopush:
+<<<<<<< HEAD
 	net_zcopy_put(uarg);
+=======
+<<<<<<< HEAD
+	net_zcopy_put(uarg);
+=======
+	sock_zerocopy_put(uarg);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return copied + copied_syn;
 
 do_error:
@@ -1438,7 +1501,15 @@ do_fault:
 	if (copied + copied_syn)
 		goto out;
 out_err:
+<<<<<<< HEAD
 	net_zcopy_put_abort(uarg, true);
+=======
+<<<<<<< HEAD
+	net_zcopy_put_abort(uarg, true);
+=======
+	sock_zerocopy_put_abort(uarg, true);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = sk_stream_error(sk, flags, err);
 	/* make sure we wake any epoll edge trigger waiter */
 	if (unlikely(tcp_rtx_and_write_queues_empty(sk) && err == -EAGAIN)) {
@@ -1737,6 +1808,10 @@ int tcp_set_rcvlowat(struct sock *sk, int val)
 }
 EXPORT_SYMBOL(tcp_set_rcvlowat);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void tcp_update_recv_tstamps(struct sk_buff *skb,
 				    struct scm_timestamping_internal *tss)
 {
@@ -1751,6 +1826,11 @@ static void tcp_update_recv_tstamps(struct sk_buff *skb,
 		tss->ts[2] = (struct timespec64) {0};
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_MMU
 static const struct vm_operations_struct tcp_vm_ops = {
 };
@@ -1854,6 +1934,10 @@ static int tcp_recvmsg_locked(struct sock *sk, struct msghdr *msg, size_t len,
 			      struct scm_timestamping_internal *tss,
 			      int *cmsg_flags);
 static int receive_fallback_to_copy(struct sock *sk,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				    struct tcp_zerocopy_receive *zc, int inq,
 				    struct scm_timestamping_internal *tss)
 {
@@ -1861,6 +1945,18 @@ static int receive_fallback_to_copy(struct sock *sk,
 	struct msghdr msg = {};
 	struct iovec iov;
 	int err;
+<<<<<<< HEAD
+=======
+=======
+				    struct tcp_zerocopy_receive *zc, int inq)
+{
+	unsigned long copy_address = (unsigned long)zc->copybuf_address;
+	struct scm_timestamping_internal tss_unused;
+	int err, cmsg_flags_unused;
+	struct msghdr msg = {};
+	struct iovec iov;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	zc->length = 0;
 	zc->recv_skip_hint = 0;
@@ -1874,7 +1970,15 @@ static int receive_fallback_to_copy(struct sock *sk,
 		return err;
 
 	err = tcp_recvmsg_locked(sk, &msg, inq, /*nonblock=*/1, /*flags=*/0,
+<<<<<<< HEAD
 				 tss, &zc->msg_flags);
+=======
+<<<<<<< HEAD
+				 tss, &zc->msg_flags);
+=======
+				 &tss_unused, &cmsg_flags_unused);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 
@@ -1915,18 +2019,36 @@ static int tcp_copy_straggler_data(struct tcp_zerocopy_receive *zc,
 	return (__s32)copylen;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int tcp_zc_handle_leftover(struct tcp_zerocopy_receive *zc,
 				  struct sock *sk,
 				  struct sk_buff *skb,
 				  u32 *seq,
 				  s32 copybuf_len,
 				  struct scm_timestamping_internal *tss)
+<<<<<<< HEAD
+=======
+=======
+static int tcp_zerocopy_handle_leftover_data(struct tcp_zerocopy_receive *zc,
+					     struct sock *sk,
+					     struct sk_buff *skb,
+					     u32 *seq,
+					     s32 copybuf_len)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 offset, copylen = min_t(u32, copybuf_len, zc->recv_skip_hint);
 
 	if (!copylen)
 		return 0;
 	/* skb is null if inq < PAGE_SIZE. */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (skb) {
 		offset = *seq - TCP_SKB_CB(skb)->seq;
 	} else {
@@ -1936,6 +2058,15 @@ static int tcp_zc_handle_leftover(struct tcp_zerocopy_receive *zc,
 			zc->msg_flags |= TCP_CMSG_TS;
 		}
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (skb)
+		offset = *seq - TCP_SKB_CB(skb)->seq;
+	else
+		skb = tcp_recv_skb(sk, *seq, &offset);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	zc->copybuf_len = tcp_copy_straggler_data(zc, skb, copylen, &offset,
 						  seq);
@@ -2022,6 +2153,10 @@ static int tcp_zerocopy_vm_insert_batch(struct vm_area_struct *vma,
 		err);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define TCP_VALID_ZC_MSG_FLAGS   (TCP_CMSG_TS)
 static void tcp_recv_timestamp(struct msghdr *msg, const struct sock *sk,
 			       struct scm_timestamping_internal *tss);
@@ -2054,6 +2189,14 @@ static void tcp_zc_finalize_rx_tstamp(struct sock *sk,
 static int tcp_zerocopy_receive(struct sock *sk,
 				struct tcp_zerocopy_receive *zc,
 				struct scm_timestamping_internal *tss)
+<<<<<<< HEAD
+=======
+=======
+#define TCP_ZEROCOPY_PAGE_BATCH_SIZE 32
+static int tcp_zerocopy_receive(struct sock *sk,
+				struct tcp_zerocopy_receive *zc)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	u32 length = 0, offset, vma_len, avail_len, copylen = 0;
 	unsigned long address = (unsigned long)zc->address;
@@ -2070,7 +2213,14 @@ static int tcp_zerocopy_receive(struct sock *sk,
 	int ret;
 
 	zc->copybuf_len = 0;
+<<<<<<< HEAD
 	zc->msg_flags = 0;
+=======
+<<<<<<< HEAD
+	zc->msg_flags = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (address & (PAGE_SIZE - 1) || address != zc->address)
 		return -EINVAL;
@@ -2081,7 +2231,15 @@ static int tcp_zerocopy_receive(struct sock *sk,
 	sock_rps_record_flow(sk);
 
 	if (inq && inq <= copybuf_len)
+<<<<<<< HEAD
 		return receive_fallback_to_copy(sk, zc, inq, tss);
+=======
+<<<<<<< HEAD
+		return receive_fallback_to_copy(sk, zc, inq, tss);
+=======
+		return receive_fallback_to_copy(sk, zc, inq);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (inq < PAGE_SIZE) {
 		zc->length = 0;
@@ -2126,11 +2284,20 @@ static int tcp_zerocopy_receive(struct sock *sk,
 			} else {
 				skb = tcp_recv_skb(sk, seq, &offset);
 			}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			if (TCP_SKB_CB(skb)->has_rxtstamp) {
 				tcp_update_recv_tstamps(skb, tss);
 				zc->msg_flags |= TCP_CMSG_TS;
 			}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			zc->recv_skip_hint = skb->len - offset;
 			frags = skb_advance_to_frag(skb, offset, &offset_frag);
 			if (!frags || offset_frag)
@@ -2173,7 +2340,16 @@ out:
 	mmap_read_unlock(current->mm);
 	/* Try to copy straggler data. */
 	if (!ret)
+<<<<<<< HEAD
 		copylen = tcp_zc_handle_leftover(zc, sk, skb, &seq, copybuf_len, tss);
+=======
+<<<<<<< HEAD
+		copylen = tcp_zc_handle_leftover(zc, sk, skb, &seq, copybuf_len, tss);
+=======
+		copylen = tcp_zerocopy_handle_leftover_data(zc, sk, skb, &seq,
+							    copybuf_len);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (length + copylen) {
 		WRITE_ONCE(tp->copied_seq, seq);
@@ -2194,6 +2370,26 @@ out:
 }
 #endif
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+static void tcp_update_recv_tstamps(struct sk_buff *skb,
+				    struct scm_timestamping_internal *tss)
+{
+	if (skb->tstamp)
+		tss->ts[0] = ktime_to_timespec64(skb->tstamp);
+	else
+		tss->ts[0] = (struct timespec64) {0};
+
+	if (skb_hwtstamps(skb)->hwtstamp)
+		tss->ts[2] = ktime_to_timespec64(skb_hwtstamps(skb)->hwtstamp);
+	else
+		tss->ts[2] = (struct timespec64) {0};
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* Similar to __sock_recv_timestamp, but does not require an skb */
 static void tcp_recv_timestamp(struct msghdr *msg, const struct sock *sk,
 			       struct scm_timestamping_internal *tss)
@@ -2310,7 +2506,15 @@ static int tcp_recvmsg_locked(struct sock *sk, struct msghdr *msg, size_t len,
 		goto out;
 
 	if (tp->recvmsg_inq)
+<<<<<<< HEAD
 		*cmsg_flags = TCP_CMSG_INQ;
+=======
+<<<<<<< HEAD
+		*cmsg_flags = TCP_CMSG_INQ;
+=======
+		*cmsg_flags = 1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	timeo = sock_rcvtimeo(sk, nonblock);
 
 	/* Urgent data needs to be handled specially. */
@@ -2491,7 +2695,15 @@ skip_copy:
 
 		if (TCP_SKB_CB(skb)->has_rxtstamp) {
 			tcp_update_recv_tstamps(skb, tss);
+<<<<<<< HEAD
 			*cmsg_flags |= TCP_CMSG_TS;
+=======
+<<<<<<< HEAD
+			*cmsg_flags |= TCP_CMSG_TS;
+=======
+			*cmsg_flags |= 2;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		if (used + offset < skb->len)
@@ -2551,9 +2763,21 @@ int tcp_recvmsg(struct sock *sk, struct msghdr *msg, size_t len, int nonblock,
 	release_sock(sk);
 
 	if (cmsg_flags && ret >= 0) {
+<<<<<<< HEAD
 		if (cmsg_flags & TCP_CMSG_TS)
 			tcp_recv_timestamp(msg, sk, &tss);
 		if (cmsg_flags & TCP_CMSG_INQ) {
+=======
+<<<<<<< HEAD
+		if (cmsg_flags & TCP_CMSG_TS)
+			tcp_recv_timestamp(msg, sk, &tss);
+		if (cmsg_flags & TCP_CMSG_INQ) {
+=======
+		if (cmsg_flags & 2)
+			tcp_recv_timestamp(msg, sk, &tss);
+		if (cmsg_flags & 1) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			inq = tcp_inq_hint(sk);
 			put_cmsg(msg, SOL_TCP, TCP_CM_INQ, sizeof(inq), &inq);
 		}
@@ -3812,6 +4036,10 @@ static size_t tcp_opt_stats_get_size(void)
 		nla_total_size(sizeof(u16)) + /* TCP_NLA_TIMEOUT_REHASH */
 		nla_total_size(sizeof(u32)) + /* TCP_NLA_BYTES_NOTSENT */
 		nla_total_size_64bit(sizeof(u64)) + /* TCP_NLA_EDT */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		nla_total_size(sizeof(u8)) + /* TCP_NLA_TTL */
 		0;
 }
@@ -3830,6 +4058,16 @@ static u8 tcp_skb_ttl_or_hop_limit(const struct sk_buff *skb)
 struct sk_buff *tcp_get_timestamping_opt_stats(const struct sock *sk,
 					       const struct sk_buff *orig_skb,
 					       const struct sk_buff *ack_skb)
+<<<<<<< HEAD
+=======
+=======
+		0;
+}
+
+struct sk_buff *tcp_get_timestamping_opt_stats(const struct sock *sk,
+					       const struct sk_buff *orig_skb)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct tcp_sock *tp = tcp_sk(sk);
 	struct sk_buff *stats;
@@ -3885,9 +4123,18 @@ struct sk_buff *tcp_get_timestamping_opt_stats(const struct sock *sk,
 		    max_t(int, 0, tp->write_seq - tp->snd_nxt));
 	nla_put_u64_64bit(stats, TCP_NLA_EDT, orig_skb->skb_mstamp_ns,
 			  TCP_NLA_PAD);
+<<<<<<< HEAD
 	if (ack_skb)
 		nla_put_u8(stats, TCP_NLA_TTL,
 			   tcp_skb_ttl_or_hop_limit(ack_skb));
+=======
+<<<<<<< HEAD
+	if (ack_skb)
+		nla_put_u8(stats, TCP_NLA_TTL,
+			   tcp_skb_ttl_or_hop_limit(ack_skb));
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return stats;
 }
@@ -4144,7 +4391,14 @@ static int do_tcp_getsockopt(struct sock *sk, int level,
 	}
 #ifdef CONFIG_MMU
 	case TCP_ZEROCOPY_RECEIVE: {
+<<<<<<< HEAD
 		struct scm_timestamping_internal tss;
+=======
+<<<<<<< HEAD
+		struct scm_timestamping_internal tss;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct tcp_zerocopy_receive zc = {};
 		int err;
 
@@ -4153,17 +4407,31 @@ static int do_tcp_getsockopt(struct sock *sk, int level,
 		if (len < 0 ||
 		    len < offsetofend(struct tcp_zerocopy_receive, length))
 			return -EINVAL;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (unlikely(len > sizeof(zc))) {
 			err = check_zeroed_user(optval + sizeof(zc),
 						len - sizeof(zc));
 			if (err < 1)
 				return err == 0 ? -EINVAL : err;
+<<<<<<< HEAD
+=======
+=======
+		if (len > sizeof(zc)) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			len = sizeof(zc);
 			if (put_user(len, optlen))
 				return -EFAULT;
 		}
 		if (copy_from_user(&zc, optval, len))
 			return -EFAULT;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (zc.reserved)
 			return -EINVAL;
 		if (zc.msg_flags &  ~(TCP_VALID_ZC_MSG_FLAGS))
@@ -4183,6 +4451,17 @@ static int do_tcp_getsockopt(struct sock *sk, int level,
 		case offsetofend(struct tcp_zerocopy_receive, flags):
 		case offsetofend(struct tcp_zerocopy_receive, copybuf_len):
 		case offsetofend(struct tcp_zerocopy_receive, copybuf_address):
+<<<<<<< HEAD
+=======
+=======
+		lock_sock(sk);
+		err = tcp_zerocopy_receive(sk, &zc);
+		release_sock(sk);
+		if (len >= offsetofend(struct tcp_zerocopy_receive, err))
+			goto zerocopy_rcv_sk_err;
+		switch (len) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		case offsetofend(struct tcp_zerocopy_receive, err):
 			goto zerocopy_rcv_sk_err;
 		case offsetofend(struct tcp_zerocopy_receive, inq):
@@ -4191,11 +4470,20 @@ static int do_tcp_getsockopt(struct sock *sk, int level,
 		default:
 			goto zerocopy_rcv_out;
 		}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 zerocopy_rcv_cmsg:
 		if (zc.msg_flags & TCP_CMSG_TS)
 			tcp_zc_finalize_rx_tstamp(sk, &zc, &tss);
 		else
 			zc.msg_flags = 0;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 zerocopy_rcv_sk_err:
 		if (!err)
 			zc.err = sock_error(sk);
@@ -4218,6 +4506,10 @@ zerocopy_rcv_out:
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool tcp_bpf_bypass_getsockopt(int level, int optname)
 {
 	/* TCP do_tcp_getsockopt has optimized getsockopt implementation
@@ -4230,6 +4522,11 @@ bool tcp_bpf_bypass_getsockopt(int level, int optname)
 }
 EXPORT_SYMBOL(tcp_bpf_bypass_getsockopt);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int tcp_getsockopt(struct sock *sk, int level, int optname, char __user *optval,
 		   int __user *optlen)
 {

@@ -21,7 +21,10 @@ config TLS_DEVICE
 	bool "Transport Layer Security HW offload"
 	depends on TLS
 	select SOCK_VALIDATE_XMIT
+<<<<<<< HEAD
 	select SOCK_RX_QUEUE_MAPPING
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default n
 	help
 	Enable kernel support for HW offload of the TLS protocol.

@@ -44,6 +44,7 @@
 
 /*
  * We have 32 bits total; 12 bits resolved at level 1, 8 bits at level 2,
+<<<<<<< HEAD
  * and 12 bits in a page.
  * MediaTek extend 2 bits to reach 34bits, 14 bits at lvl1 and 8 bits at lvl2.
  */
@@ -55,14 +56,35 @@
 #define ARM_V7S_PTES_PER_LVL(lvl, cfg)	(1 << _ARM_V7S_LVL_BITS(lvl, cfg))
 #define ARM_V7S_TABLE_SIZE(lvl, cfg)						\
 	(ARM_V7S_PTES_PER_LVL(lvl, cfg) * sizeof(arm_v7s_iopte))
+=======
+ * and 12 bits in a page. With some carefully-chosen coefficients we can
+ * hide the ugly inconsistencies behind these macros and at least let the
+ * rest of the code pretend to be somewhat sane.
+ */
+#define ARM_V7S_ADDR_BITS		32
+#define _ARM_V7S_LVL_BITS(lvl)		(16 - (lvl) * 4)
+#define ARM_V7S_LVL_SHIFT(lvl)		(ARM_V7S_ADDR_BITS - (4 + 8 * (lvl)))
+#define ARM_V7S_TABLE_SHIFT		10
+
+#define ARM_V7S_PTES_PER_LVL(lvl)	(1 << _ARM_V7S_LVL_BITS(lvl))
+#define ARM_V7S_TABLE_SIZE(lvl)						\
+	(ARM_V7S_PTES_PER_LVL(lvl) * sizeof(arm_v7s_iopte))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define ARM_V7S_BLOCK_SIZE(lvl)		(1UL << ARM_V7S_LVL_SHIFT(lvl))
 #define ARM_V7S_LVL_MASK(lvl)		((u32)(~0U << ARM_V7S_LVL_SHIFT(lvl)))
 #define ARM_V7S_TABLE_MASK		((u32)(~0U << ARM_V7S_TABLE_SHIFT))
+<<<<<<< HEAD
 #define _ARM_V7S_IDX_MASK(lvl, cfg)	(ARM_V7S_PTES_PER_LVL(lvl, cfg) - 1)
 #define ARM_V7S_LVL_IDX(addr, lvl, cfg)	({				\
 	int _l = lvl;							\
 	((addr) >> ARM_V7S_LVL_SHIFT(_l)) & _ARM_V7S_IDX_MASK(_l, cfg); \
+=======
+#define _ARM_V7S_IDX_MASK(lvl)		(ARM_V7S_PTES_PER_LVL(lvl) - 1)
+#define ARM_V7S_LVL_IDX(addr, lvl)	({				\
+	int _l = lvl;							\
+	((u32)(addr) >> ARM_V7S_LVL_SHIFT(_l)) & _ARM_V7S_IDX_MASK(_l); \
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 })
 
 /*
@@ -111,10 +133,16 @@
 #define ARM_V7S_TEX_MASK		0x7
 #define ARM_V7S_ATTR_TEX(val)		(((val) & ARM_V7S_TEX_MASK) << ARM_V7S_TEX_SHIFT)
 
+<<<<<<< HEAD
 /* MediaTek extend the bits below for PA 32bit/33bit/34bit */
 #define ARM_V7S_ATTR_MTK_PA_BIT32	BIT(9)
 #define ARM_V7S_ATTR_MTK_PA_BIT33	BIT(4)
 #define ARM_V7S_ATTR_MTK_PA_BIT34	BIT(5)
+=======
+/* MediaTek extend the two bits for PA 32bit/33bit */
+#define ARM_V7S_ATTR_MTK_PA_BIT32	BIT(9)
+#define ARM_V7S_ATTR_MTK_PA_BIT33	BIT(4)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* *well, except for TEX on level 2 large pages, of course :( */
 #define ARM_V7S_CONT_PAGE_TEX_SHIFT	6
@@ -194,8 +222,11 @@ static arm_v7s_iopte paddr_to_iopte(phys_addr_t paddr, int lvl,
 		pte |= ARM_V7S_ATTR_MTK_PA_BIT32;
 	if (paddr & BIT_ULL(33))
 		pte |= ARM_V7S_ATTR_MTK_PA_BIT33;
+<<<<<<< HEAD
 	if (paddr & BIT_ULL(34))
 		pte |= ARM_V7S_ATTR_MTK_PA_BIT34;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return pte;
 }
 
@@ -220,8 +251,11 @@ static phys_addr_t iopte_to_paddr(arm_v7s_iopte pte, int lvl,
 		paddr |= BIT_ULL(32);
 	if (pte & ARM_V7S_ATTR_MTK_PA_BIT33)
 		paddr |= BIT_ULL(33);
+<<<<<<< HEAD
 	if (pte & ARM_V7S_ATTR_MTK_PA_BIT34)
 		paddr |= BIT_ULL(34);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return paddr;
 }
 
@@ -238,7 +272,11 @@ static void *__arm_v7s_alloc_table(int lvl, gfp_t gfp,
 	struct device *dev = cfg->iommu_dev;
 	phys_addr_t phys;
 	dma_addr_t dma;
+<<<<<<< HEAD
 	size_t size = ARM_V7S_TABLE_SIZE(lvl, cfg);
+=======
+	size_t size = ARM_V7S_TABLE_SIZE(lvl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void *table = NULL;
 
 	if (lvl == 1)
@@ -284,7 +322,11 @@ static void __arm_v7s_free_table(void *table, int lvl,
 {
 	struct io_pgtable_cfg *cfg = &data->iop.cfg;
 	struct device *dev = cfg->iommu_dev;
+<<<<<<< HEAD
 	size_t size = ARM_V7S_TABLE_SIZE(lvl, cfg);
+=======
+	size_t size = ARM_V7S_TABLE_SIZE(lvl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!cfg->coherent_walk)
 		dma_unmap_single(dev, __arm_v7s_dma_addr(table), size,
@@ -428,7 +470,11 @@ static int arm_v7s_init_pte(struct arm_v7s_io_pgtable *data,
 			arm_v7s_iopte *tblp;
 			size_t sz = ARM_V7S_BLOCK_SIZE(lvl);
 
+<<<<<<< HEAD
 			tblp = ptep - ARM_V7S_LVL_IDX(iova, lvl, cfg);
+=======
+			tblp = ptep - ARM_V7S_LVL_IDX(iova, lvl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (WARN_ON(__arm_v7s_unmap(data, NULL, iova + i * sz,
 						    sz, lvl, tblp) != sz))
 				return -EINVAL;
@@ -481,7 +527,11 @@ static int __arm_v7s_map(struct arm_v7s_io_pgtable *data, unsigned long iova,
 	int num_entries = size >> ARM_V7S_LVL_SHIFT(lvl);
 
 	/* Find our entry at the current level */
+<<<<<<< HEAD
 	ptep += ARM_V7S_LVL_IDX(iova, lvl, cfg);
+=======
+	ptep += ARM_V7S_LVL_IDX(iova, lvl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* If we can install a leaf entry at this level, then do so */
 	if (num_entries)
@@ -523,6 +573,10 @@ static int arm_v7s_map(struct io_pgtable_ops *ops, unsigned long iova,
 			phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
 {
 	struct arm_v7s_io_pgtable *data = io_pgtable_ops_to_data(ops);
+<<<<<<< HEAD
+=======
+	struct io_pgtable *iop = &data->iop;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret;
 
 	if (WARN_ON(iova >= (1ULL << data->iop.cfg.ias) ||
@@ -538,7 +592,16 @@ static int arm_v7s_map(struct io_pgtable_ops *ops, unsigned long iova,
 	 * Synchronise all PTE updates for the new mapping before there's
 	 * a chance for anything to kick off a table walk for the new iova.
 	 */
+<<<<<<< HEAD
 	wmb();
+=======
+	if (iop->cfg.quirks & IO_PGTABLE_QUIRK_TLBI_ON_MAP) {
+		io_pgtable_tlb_flush_walk(iop, iova, size,
+					  ARM_V7S_BLOCK_SIZE(2));
+	} else {
+		wmb();
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -548,7 +611,11 @@ static void arm_v7s_free_pgtable(struct io_pgtable *iop)
 	struct arm_v7s_io_pgtable *data = io_pgtable_to_data(iop);
 	int i;
 
+<<<<<<< HEAD
 	for (i = 0; i < ARM_V7S_PTES_PER_LVL(1, &data->iop.cfg); i++) {
+=======
+	for (i = 0; i < ARM_V7S_PTES_PER_LVL(1); i++) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		arm_v7s_iopte pte = data->pgd[i];
 
 		if (ARM_V7S_PTE_IS_TABLE(pte, 1))
@@ -600,9 +667,15 @@ static size_t arm_v7s_split_blk_unmap(struct arm_v7s_io_pgtable *data,
 	if (!tablep)
 		return 0; /* Bytes unmapped */
 
+<<<<<<< HEAD
 	num_ptes = ARM_V7S_PTES_PER_LVL(2, cfg);
 	num_entries = size >> ARM_V7S_LVL_SHIFT(2);
 	unmap_idx = ARM_V7S_LVL_IDX(iova, 2, cfg);
+=======
+	num_ptes = ARM_V7S_PTES_PER_LVL(2);
+	num_entries = size >> ARM_V7S_LVL_SHIFT(2);
+	unmap_idx = ARM_V7S_LVL_IDX(iova, 2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	pte = arm_v7s_prot_to_pte(arm_v7s_pte_to_prot(blk_pte, 1), 2, cfg);
 	if (num_entries > 1)
@@ -644,7 +717,11 @@ static size_t __arm_v7s_unmap(struct arm_v7s_io_pgtable *data,
 	if (WARN_ON(lvl > 2))
 		return 0;
 
+<<<<<<< HEAD
 	idx = ARM_V7S_LVL_IDX(iova, lvl, &iop->cfg);
+=======
+	idx = ARM_V7S_LVL_IDX(iova, lvl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ptep += idx;
 	do {
 		pte[i] = READ_ONCE(ptep[i]);
@@ -715,7 +792,11 @@ static size_t arm_v7s_unmap(struct io_pgtable_ops *ops, unsigned long iova,
 {
 	struct arm_v7s_io_pgtable *data = io_pgtable_ops_to_data(ops);
 
+<<<<<<< HEAD
 	if (WARN_ON(iova >= (1ULL << data->iop.cfg.ias)))
+=======
+	if (WARN_ON(upper_32_bits(iova)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 0;
 
 	return __arm_v7s_unmap(data, gather, iova, size, 1, data->pgd);
@@ -730,7 +811,11 @@ static phys_addr_t arm_v7s_iova_to_phys(struct io_pgtable_ops *ops,
 	u32 mask;
 
 	do {
+<<<<<<< HEAD
 		ptep += ARM_V7S_LVL_IDX(iova, ++lvl, &data->iop.cfg);
+=======
+		ptep += ARM_V7S_LVL_IDX(iova, ++lvl);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pte = READ_ONCE(*ptep);
 		ptep = iopte_deref(pte, lvl, data);
 	} while (ARM_V7S_PTE_IS_TABLE(pte, lvl));
@@ -749,14 +834,25 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
 {
 	struct arm_v7s_io_pgtable *data;
 
+<<<<<<< HEAD
 	if (cfg->ias > (arm_v7s_is_mtk_enabled(cfg) ? 34 : ARM_V7S_ADDR_BITS))
 		return NULL;
 
 	if (cfg->oas > (arm_v7s_is_mtk_enabled(cfg) ? 35 : ARM_V7S_ADDR_BITS))
+=======
+	if (cfg->ias > ARM_V7S_ADDR_BITS)
+		return NULL;
+
+	if (cfg->oas > (arm_v7s_is_mtk_enabled(cfg) ? 34 : ARM_V7S_ADDR_BITS))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return NULL;
 
 	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_NS |
 			    IO_PGTABLE_QUIRK_NO_PERMS |
+<<<<<<< HEAD
+=======
+			    IO_PGTABLE_QUIRK_TLBI_ON_MAP |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    IO_PGTABLE_QUIRK_ARM_MTK_EXT |
 			    IO_PGTABLE_QUIRK_NON_STRICT))
 		return NULL;
@@ -772,8 +868,13 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
 
 	spin_lock_init(&data->split_lock);
 	data->l2_tables = kmem_cache_create("io-pgtable_armv7s_l2",
+<<<<<<< HEAD
 					    ARM_V7S_TABLE_SIZE(2, cfg),
 					    ARM_V7S_TABLE_SIZE(2, cfg),
+=======
+					    ARM_V7S_TABLE_SIZE(2),
+					    ARM_V7S_TABLE_SIZE(2),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					    ARM_V7S_TABLE_SLAB_FLAGS, NULL);
 	if (!data->l2_tables)
 		goto out_free_data;

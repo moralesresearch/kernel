@@ -37,7 +37,11 @@
  */
 
 /* un-comment DEBUG to enable pr_debug() statements */
+<<<<<<< HEAD
 /* #define DEBUG */
+=======
+#define DEBUG
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 

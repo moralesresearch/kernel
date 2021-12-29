@@ -785,8 +785,17 @@ out:
 	return 0;
 }
 
+<<<<<<< HEAD
 static int proc_sys_permission(struct user_namespace *mnt_userns,
 			       struct inode *inode, int mask)
+=======
+<<<<<<< HEAD
+static int proc_sys_permission(struct user_namespace *mnt_userns,
+			       struct inode *inode, int mask)
+=======
+static int proc_sys_permission(struct inode *inode, int mask)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	/*
 	 * sysctl entries that are not writeable,
@@ -814,8 +823,17 @@ static int proc_sys_permission(struct user_namespace *mnt_userns,
 	return error;
 }
 
+<<<<<<< HEAD
 static int proc_sys_setattr(struct user_namespace *mnt_userns,
 			    struct dentry *dentry, struct iattr *attr)
+=======
+<<<<<<< HEAD
+static int proc_sys_setattr(struct user_namespace *mnt_userns,
+			    struct dentry *dentry, struct iattr *attr)
+=======
+static int proc_sys_setattr(struct dentry *dentry, struct iattr *attr)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	int error;
@@ -823,17 +841,40 @@ static int proc_sys_setattr(struct user_namespace *mnt_userns,
 	if (attr->ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID))
 		return -EPERM;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	error = setattr_prepare(&init_user_ns, dentry, attr);
 	if (error)
 		return error;
 
 	setattr_copy(&init_user_ns, inode, attr);
+<<<<<<< HEAD
+=======
+=======
+	error = setattr_prepare(dentry, attr);
+	if (error)
+		return error;
+
+	setattr_copy(inode, attr);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 	return 0;
 }
 
+<<<<<<< HEAD
 static int proc_sys_getattr(struct user_namespace *mnt_userns,
 			    const struct path *path, struct kstat *stat,
+=======
+<<<<<<< HEAD
+static int proc_sys_getattr(struct user_namespace *mnt_userns,
+			    const struct path *path, struct kstat *stat,
+=======
+static int proc_sys_getattr(const struct path *path, struct kstat *stat,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			    u32 request_mask, unsigned int query_flags)
 {
 	struct inode *inode = d_inode(path->dentry);
@@ -843,7 +884,15 @@ static int proc_sys_getattr(struct user_namespace *mnt_userns,
 	if (IS_ERR(head))
 		return PTR_ERR(head);
 
+<<<<<<< HEAD
 	generic_fillattr(&init_user_ns, inode, stat);
+=======
+<<<<<<< HEAD
+	generic_fillattr(&init_user_ns, inode, stat);
+=======
+	generic_fillattr(inode, stat);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (table)
 		stat->mode = (stat->mode & S_IFMT) | table->mode;
 

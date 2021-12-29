@@ -275,14 +275,23 @@ static struct attribute_group amd_uncore_attr_group = {
 };
 
 #define DEFINE_UNCORE_FORMAT_ATTR(_var, _name, _format)			\
+<<<<<<< HEAD
+static ssize_t __uncore_##_var##_show(struct device *dev,		\
+				struct device_attribute *attr,		\
+=======
 static ssize_t __uncore_##_var##_show(struct kobject *kobj,		\
 				struct kobj_attribute *attr,		\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				char *page)				\
 {									\
 	BUILD_BUG_ON(sizeof(_format) >= PAGE_SIZE);			\
 	return sprintf(page, _format "\n");				\
 }									\
+<<<<<<< HEAD
+static struct device_attribute format_attr_##_var =			\
+=======
 static struct kobj_attribute format_attr_##_var =			\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__ATTR(_name, 0444, __uncore_##_var##_show, NULL)
 
 DEFINE_UNCORE_FORMAT_ATTR(event12,	event,		"config:0-7,32-35");

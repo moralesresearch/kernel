@@ -1494,6 +1494,10 @@ static void configfs_composite_disconnect(struct usb_gadget *gadget)
 	spin_unlock_irqrestore(&gi->spinlock, flags);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void configfs_composite_reset(struct usb_gadget *gadget)
 {
 	struct usb_composite_dev *cdev;
@@ -1516,6 +1520,11 @@ static void configfs_composite_reset(struct usb_gadget *gadget)
 	spin_unlock_irqrestore(&gi->spinlock, flags);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void configfs_composite_suspend(struct usb_gadget *gadget)
 {
 	struct usb_composite_dev *cdev;
@@ -1565,7 +1574,15 @@ static const struct usb_gadget_driver configfs_driver_template = {
 	.unbind         = configfs_composite_unbind,
 
 	.setup          = configfs_composite_setup,
+<<<<<<< HEAD
 	.reset          = configfs_composite_reset,
+=======
+<<<<<<< HEAD
+	.reset          = configfs_composite_reset,
+=======
+	.reset          = configfs_composite_disconnect,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.disconnect     = configfs_composite_disconnect,
 
 	.suspend	= configfs_composite_suspend,

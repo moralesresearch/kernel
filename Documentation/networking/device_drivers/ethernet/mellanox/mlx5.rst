@@ -12,13 +12,20 @@ Contents
 - `Enabling the driver and kconfig options`_
 - `Devlink info`_
 - `Devlink parameters`_
+<<<<<<< HEAD
 - `mlx5 subfunction`_
 - `mlx5 function attributes`_
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 - `Devlink health reporters`_
 - `mlx5 tracepoints`_
 
 Enabling the driver and kconfig options
+<<<<<<< HEAD
 =======================================
+=======
+================================================
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 | mlx5 core is modular and most of the major mlx5 core driver features can be selected (compiled in/out)
 | at build time via kernel Kconfig flags.
@@ -99,11 +106,14 @@ Enabling the driver and kconfig options
 
 |   Provides low-level InfiniBand/RDMA and `RoCE <https://community.mellanox.com/s/article/recommended-network-configuration-examples-for-roce-deployment>`_ support.
 
+<<<<<<< HEAD
 **CONFIG_MLX5_SF=(y/n)**
 
 |   Build support for subfunction.
 |   Subfunctons are more light weight than PCI SRIOV VFs. Choosing this option
 |   will enable support for creating subfunction devices.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 **External options** ( Choose if the corresponding mlx5 feature is required )
 
@@ -183,6 +193,7 @@ User command examples:
       values:
          cmode driverinit value true
 
+<<<<<<< HEAD
 mlx5 subfunction
 ================
 mlx5 supports subfunction management using devlink port (see :ref:`Documentation/networking/devlink/devlink-port.rst <devlink_port>`) interface.
@@ -391,6 +402,8 @@ safe to delete the SF port for graceful termination of the subfunction.
       function:
         hw_addr 00:00:00:00:88:88 state active opstate attached
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Devlink health reporters
 ========================
 

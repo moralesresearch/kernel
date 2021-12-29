@@ -52,6 +52,10 @@ MODULE_PARM_DESC(enable, "Enable Sun CS4231 soundcard.");
 MODULE_AUTHOR("Jaroslav Kysela, Derrick J. Brashear and David S. Miller");
 MODULE_DESCRIPTION("Sun CS4231");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{Sun,CS4231}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef SBUS_SUPPORT
 struct sbus_dma_info {

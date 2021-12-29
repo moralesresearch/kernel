@@ -182,7 +182,11 @@ static void qla4xxx_status_entry(struct scsi_qla_host *ha,
 
 		cmd->result = DID_OK << 16 | scsi_status;
 
+<<<<<<< HEAD
 		if (scsi_status != SAM_STAT_CHECK_CONDITION)
+=======
+		if (scsi_status != SCSI_CHECK_CONDITION)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 
 		/* Copy Sense Data into sense buffer. */

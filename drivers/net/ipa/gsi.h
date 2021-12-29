@@ -142,6 +142,13 @@ enum gsi_evt_ring_state {
 struct gsi_evt_ring {
 	struct gsi_channel *channel;
 	struct completion completion;	/* signals event ring state changes */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	enum gsi_evt_ring_state state;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct gsi_ring ring;
 };
 

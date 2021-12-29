@@ -53,7 +53,11 @@ static int send4(struct wg_device *wg, struct sk_buff *skb,
 		if (unlikely(!inet_confirm_addr(sock_net(sock), NULL, 0,
 						fl.saddr, RT_SCOPE_HOST))) {
 			endpoint->src4.s_addr = 0;
+<<<<<<< HEAD
 			endpoint->src_if4 = 0;
+=======
+			*(__force __be32 *)&endpoint->src_if4 = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			fl.saddr = 0;
 			if (cache)
 				dst_cache_reset(cache);
@@ -63,7 +67,11 @@ static int send4(struct wg_device *wg, struct sk_buff *skb,
 			     PTR_ERR(rt) == -EINVAL) || (!IS_ERR(rt) &&
 			     rt->dst.dev->ifindex != endpoint->src_if4)))) {
 			endpoint->src4.s_addr = 0;
+<<<<<<< HEAD
 			endpoint->src_if4 = 0;
+=======
+			*(__force __be32 *)&endpoint->src_if4 = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			fl.saddr = 0;
 			if (cache)
 				dst_cache_reset(cache);
@@ -71,7 +79,11 @@ static int send4(struct wg_device *wg, struct sk_buff *skb,
 				ip_rt_put(rt);
 			rt = ip_route_output_flow(sock_net(sock), &fl, sock);
 		}
+<<<<<<< HEAD
 		if (IS_ERR(rt)) {
+=======
+		if (unlikely(IS_ERR(rt))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = PTR_ERR(rt);
 			net_dbg_ratelimited("%s: No route to %pISpfsc, error %d\n",
 					    wg->dev->name, &endpoint->addr, ret);
@@ -138,7 +150,11 @@ static int send6(struct wg_device *wg, struct sk_buff *skb,
 		}
 		dst = ipv6_stub->ipv6_dst_lookup_flow(sock_net(sock), sock, &fl,
 						      NULL);
+<<<<<<< HEAD
 		if (IS_ERR(dst)) {
+=======
+		if (unlikely(IS_ERR(dst))) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = PTR_ERR(dst);
 			net_dbg_ratelimited("%s: No route to %pISpfsc, error %d\n",
 					    wg->dev->name, &endpoint->addr, ret);
@@ -430,7 +446,11 @@ void wg_socket_reinit(struct wg_device *wg, struct sock *new4,
 	if (new4)
 		wg->incoming_port = ntohs(inet_sk(new4)->inet_sport);
 	mutex_unlock(&wg->socket_update_lock);
+<<<<<<< HEAD
+	synchronize_net();
+=======
 	synchronize_rcu();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	sock_free(old4);
 	sock_free(old6);
 }

@@ -46,6 +46,10 @@ struct xive_ops {
 				  u32 *sw_irq);
 	int	(*setup_queue)(unsigned int cpu, struct xive_cpu *xc, u8 prio);
 	void	(*cleanup_queue)(unsigned int cpu, struct xive_cpu *xc, u8 prio);
+<<<<<<< HEAD
+	void	(*prepare_cpu)(unsigned int cpu, struct xive_cpu *xc);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	void	(*setup_cpu)(unsigned int cpu, struct xive_cpu *xc);
 	void	(*teardown_cpu)(unsigned int cpu, struct xive_cpu *xc);
 	bool	(*match)(struct device_node *np);

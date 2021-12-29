@@ -749,8 +749,16 @@ static void applespi_async_write_complete(void *context)
 					 applespi->tx_status,
 					 APPLESPI_STATUS_SIZE);
 
+<<<<<<< HEAD
 	udelay(SPI_RW_CHG_DELAY_US);
 
+=======
+<<<<<<< HEAD
+	udelay(SPI_RW_CHG_DELAY_US);
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!applespi_check_write_status(applespi, applespi->wr_m.status)) {
 		/*
 		 * If we got an error, we presumably won't get the expected

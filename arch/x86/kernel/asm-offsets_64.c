@@ -13,6 +13,12 @@ int main(void)
 {
 #ifdef CONFIG_PARAVIRT
 #ifdef CONFIG_PARAVIRT_XXL
+<<<<<<< HEAD
+=======
+	OFFSET(PV_CPU_usergs_sysret64, paravirt_patch_template,
+	       cpu.usergs_sysret64);
+	OFFSET(PV_CPU_swapgs, paravirt_patch_template, cpu.swapgs);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_DEBUG_ENTRY
 	OFFSET(PV_IRQ_save_fl, paravirt_patch_template, irq.save_fl);
 #endif

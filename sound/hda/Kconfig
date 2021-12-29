@@ -44,6 +44,7 @@ config SND_INTEL_NHLT
 config SND_INTEL_DSP_CONFIG
 	tristate
 	select SND_INTEL_NHLT if ACPI
+<<<<<<< HEAD
 	select SND_INTEL_SOUNDWIRE_ACPI if ACPI
 	# this config should be selected only for Intel DSP platforms.
 	# A fallback is provided so that the code compiles in all cases.
@@ -64,3 +65,7 @@ config SND_INTEL_BYT_PREFER_SOF
 
 	  Set this option to Y to make the kernel default to the new SOF
 	  driver instead.
+=======
+	# this config should be selected only for Intel DSP platforms.
+	# A fallback is provided so that the code compiles in all cases.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

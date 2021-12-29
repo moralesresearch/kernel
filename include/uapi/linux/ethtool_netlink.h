@@ -227,7 +227,10 @@ enum {
 	ETHTOOL_A_LINKMODES_DUPLEX,		/* u8 */
 	ETHTOOL_A_LINKMODES_MASTER_SLAVE_CFG,	/* u8 */
 	ETHTOOL_A_LINKMODES_MASTER_SLAVE_STATE,	/* u8 */
+<<<<<<< HEAD
 	ETHTOOL_A_LINKMODES_LANES,		/* u32 */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* add new constants above here */
 	__ETHTOOL_A_LINKMODES_CNT,

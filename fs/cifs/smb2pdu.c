@@ -814,9 +814,20 @@ SMB2_negotiate(const unsigned int xid, struct cifs_ses *ses)
 		   SMB3ANY_VERSION_STRING) == 0) {
 		req->Dialects[0] = cpu_to_le16(SMB30_PROT_ID);
 		req->Dialects[1] = cpu_to_le16(SMB302_PROT_ID);
+<<<<<<< HEAD
 		req->Dialects[2] = cpu_to_le16(SMB311_PROT_ID);
 		req->DialectCount = cpu_to_le16(3);
 		total_len += 6;
+=======
+<<<<<<< HEAD
+		req->Dialects[2] = cpu_to_le16(SMB311_PROT_ID);
+		req->DialectCount = cpu_to_le16(3);
+		total_len += 6;
+=======
+		req->DialectCount = cpu_to_le16(2);
+		total_len += 4;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (strcmp(server->vals->version_string,
 		   SMBDEFAULT_VERSION_STRING) == 0) {
 		req->Dialects[0] = cpu_to_le16(SMB21_PROT_ID);
@@ -841,6 +852,11 @@ SMB2_negotiate(const unsigned int xid, struct cifs_ses *ses)
 		req->SecurityMode = 0;
 
 	req->Capabilities = cpu_to_le32(server->vals->req_capabilities);
+<<<<<<< HEAD
+	if (ses->chan_max > 1)
+		req->Capabilities |= cpu_to_le32(SMB2_GLOBAL_CAP_MULTI_CHANNEL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* ClientGUID must be zero for SMB2.02 dialect */
 	if (server->vals->protocol_id == SMB20_PROT_ID)
@@ -850,8 +866,16 @@ SMB2_negotiate(const unsigned int xid, struct cifs_ses *ses)
 			SMB2_CLIENT_GUID_SIZE);
 		if ((server->vals->protocol_id == SMB311_PROT_ID) ||
 		    (strcmp(server->vals->version_string,
+<<<<<<< HEAD
 		     SMB3ANY_VERSION_STRING) == 0) ||
 		    (strcmp(server->vals->version_string,
+=======
+<<<<<<< HEAD
+		     SMB3ANY_VERSION_STRING) == 0) ||
+		    (strcmp(server->vals->version_string,
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     SMBDEFAULT_VERSION_STRING) == 0))
 			assemble_neg_contexts(req, server, &total_len);
 	}
@@ -886,10 +910,19 @@ SMB2_negotiate(const unsigned int xid, struct cifs_ses *ses)
 			cifs_server_dbg(VFS,
 				"SMB2.1 dialect returned but not requested\n");
 			return -EIO;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else if (rsp->DialectRevision == cpu_to_le16(SMB311_PROT_ID)) {
 			/* ops set to 3.0 by default for default so update */
 			server->ops = &smb311_operations;
 			server->vals = &smb311_values;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	} else if (strcmp(server->vals->version_string,
 		   SMBDEFAULT_VERSION_STRING) == 0) {
@@ -956,6 +989,16 @@ SMB2_negotiate(const unsigned int xid, struct cifs_ses *ses)
 	/* Internal types */
 	server->capabilities |= SMB2_NT_FIND | SMB2_LARGE_FILES;
 
+<<<<<<< HEAD
+	/*
+	 * SMB3.0 supports only 1 cipher and doesn't have a encryption neg context
+	 * Set the cipher type manually.
+	 */
+	if (server->dialect == SMB30_PROT_ID && (server->capabilities & SMB2_GLOBAL_CAP_ENCRYPTION))
+		server->cipher_type = SMB2_ENCRYPTION_AES128_CCM;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	security_blob = smb2_get_data_area_len(&blob_offset, &blob_length,
 					       (struct smb2_sync_hdr *)rsp);
 	/*
@@ -1032,6 +1075,12 @@ int smb3_validate_negotiate(const unsigned int xid, struct cifs_tcon *tcon)
 
 	pneg_inbuf->Capabilities =
 			cpu_to_le32(server->vals->req_capabilities);
+<<<<<<< HEAD
+	if (tcon->ses->chan_max > 1)
+		pneg_inbuf->Capabilities |= cpu_to_le32(SMB2_GLOBAL_CAP_MULTI_CHANNEL);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memcpy(pneg_inbuf->Guid, server->client_guid,
 					SMB2_CLIENT_GUID_SIZE);
 
@@ -1049,11 +1098,24 @@ int smb3_validate_negotiate(const unsigned int xid, struct cifs_tcon *tcon)
 		SMB3ANY_VERSION_STRING) == 0) {
 		pneg_inbuf->Dialects[0] = cpu_to_le16(SMB30_PROT_ID);
 		pneg_inbuf->Dialects[1] = cpu_to_le16(SMB302_PROT_ID);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pneg_inbuf->Dialects[2] = cpu_to_le16(SMB311_PROT_ID);
 		pneg_inbuf->DialectCount = cpu_to_le16(3);
 		/* SMB 2.1 not included so subtract one dialect from len */
 		inbuflen = sizeof(*pneg_inbuf) -
 				(sizeof(pneg_inbuf->Dialects[0]));
+<<<<<<< HEAD
+=======
+=======
+		pneg_inbuf->DialectCount = cpu_to_le16(2);
+		/* structure is big enough for 3 dialects, sending only 2 */
+		inbuflen = sizeof(*pneg_inbuf) -
+				(2 * sizeof(pneg_inbuf->Dialects[0]));
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else if (strcmp(server->vals->version_string,
 		SMBDEFAULT_VERSION_STRING) == 0) {
 		pneg_inbuf->Dialects[0] = cpu_to_le16(SMB21_PROT_ID);
@@ -1061,7 +1123,15 @@ int smb3_validate_negotiate(const unsigned int xid, struct cifs_tcon *tcon)
 		pneg_inbuf->Dialects[2] = cpu_to_le16(SMB302_PROT_ID);
 		pneg_inbuf->Dialects[3] = cpu_to_le16(SMB311_PROT_ID);
 		pneg_inbuf->DialectCount = cpu_to_le16(4);
+<<<<<<< HEAD
 		/* structure is big enough for 4 dialects */
+=======
+<<<<<<< HEAD
+		/* structure is big enough for 4 dialects */
+=======
+		/* structure is big enough for 3 dialects */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		inbuflen = sizeof(*pneg_inbuf);
 	} else {
 		/* otherwise specific dialect was requested */
@@ -1261,7 +1331,15 @@ SMB2_sess_sendreceive(struct SMB2_sess_data *sess_data)
 			    cifs_ses_server(sess_data->ses),
 			    &rqst,
 			    &sess_data->buf0_type,
+<<<<<<< HEAD
 			    CIFS_LOG_ERROR | CIFS_SESS_OP, &rsp_iov);
+=======
+<<<<<<< HEAD
+			    CIFS_LOG_ERROR | CIFS_SESS_OP, &rsp_iov);
+=======
+			    CIFS_LOG_ERROR | CIFS_NEG_OP, &rsp_iov);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cifs_small_buf_release(sess_data->iov[0].iov_base);
 	memcpy(&sess_data->iov[0], &rsp_iov, sizeof(struct kvec));
 
@@ -3895,10 +3973,17 @@ smb2_new_read_req(void **buf, unsigned int *total_len,
 			 * Related requests use info from previous read request
 			 * in chain.
 			 */
+<<<<<<< HEAD
+			shdr->SessionId = 0xFFFFFFFFFFFFFFFF;
+			shdr->TreeId = 0xFFFFFFFF;
+			req->PersistentFileId = 0xFFFFFFFFFFFFFFFF;
+			req->VolatileFileId = 0xFFFFFFFFFFFFFFFF;
+=======
 			shdr->SessionId = 0xFFFFFFFF;
 			shdr->TreeId = 0xFFFFFFFF;
 			req->PersistentFileId = 0xFFFFFFFF;
 			req->VolatileFileId = 0xFFFFFFFF;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	if (remaining_bytes > io_parms->length)

@@ -308,6 +308,7 @@
 			#reset-cells = <1>;
 		};
 
+<<<<<<< HEAD
 		aon_intr: interrupt-controller@7ef00100 {
 			compatible = "brcm,bcm2711-l2-intc", "brcm,l2-intc";
 			reg = <0x7ef00100 0x30>;
@@ -316,6 +317,8 @@
 			#interrupt-cells = <1>;
 		};
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hdmi0: hdmi@7ef00700 {
 			compatible = "brcm,bcm2711-hdmi0";
 			reg = <0x7ef00700 0x300>,
@@ -338,11 +341,14 @@
 				    "hd";
 			clock-names = "hdmi", "bvb", "audio", "cec";
 			resets = <&dvp 0>;
+<<<<<<< HEAD
 			interrupt-parent = <&aon_intr>;
 			interrupts = <0>, <1>, <2>,
 				     <3>, <4>, <5>;
 			interrupt-names = "cec-tx", "cec-rx", "cec-low",
 					  "wakeup", "hpd-connected", "hpd-removed";
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ddc = <&ddc0>;
 			dmas = <&dma 10>;
 			dma-names = "audio-rx";
@@ -380,11 +386,14 @@
 			ddc = <&ddc1>;
 			clock-names = "hdmi", "bvb", "audio", "cec";
 			resets = <&dvp 1>;
+<<<<<<< HEAD
 			interrupt-parent = <&aon_intr>;
 			interrupts = <8>, <7>, <6>,
 				     <9>, <10>, <11>;
 			interrupt-names = "cec-tx", "cec-rx", "cec-low",
 					  "wakeup", "hpd-connected", "hpd-removed";
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dmas = <&dma 17>;
 			dma-names = "audio-rx";
 			status = "disabled";
@@ -558,7 +567,10 @@
 
 &dsi1 {
 	interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+<<<<<<< HEAD
 	compatible = "brcm,bcm2711-dsi1";
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 &gpio {

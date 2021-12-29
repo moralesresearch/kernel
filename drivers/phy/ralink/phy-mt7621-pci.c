@@ -62,7 +62,11 @@
 
 #define RG_PE1_FRC_MSTCKDIV			BIT(5)
 
+<<<<<<< HEAD
+#define XTAL_MASK				GENMASK(8, 6)
+=======
 #define XTAL_MASK				GENMASK(7, 6)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define MAX_PHYS	2
 
@@ -319,9 +323,15 @@ static int mt7621_pci_phy_probe(struct platform_device *pdev)
 		return PTR_ERR(phy->regmap);
 
 	phy->phy = devm_phy_create(dev, dev->of_node, &mt7621_pci_phy_ops);
+<<<<<<< HEAD
+	if (IS_ERR(phy->phy)) {
+		dev_err(dev, "failed to create phy\n");
+		return PTR_ERR(phy->phy);
+=======
 	if (IS_ERR(phy)) {
 		dev_err(dev, "failed to create phy\n");
 		return PTR_ERR(phy);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	phy_set_drvdata(phy->phy, phy);

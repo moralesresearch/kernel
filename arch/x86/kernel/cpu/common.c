@@ -960,9 +960,12 @@ void get_cpu_cap(struct cpuinfo_x86 *c)
 	if (c->extended_cpuid_level >= 0x8000000a)
 		c->x86_capability[CPUID_8000_000A_EDX] = cpuid_edx(0x8000000a);
 
+<<<<<<< HEAD
 	if (c->extended_cpuid_level >= 0x8000001f)
 		c->x86_capability[CPUID_8000_001F_EAX] = cpuid_eax(0x8000001f);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	init_scattered_cpuid_features(c);
 	init_speculation_control(c);
 
@@ -1742,8 +1745,13 @@ DEFINE_PER_CPU(struct task_struct *, current_task) ____cacheline_aligned =
 	&init_task;
 EXPORT_PER_CPU_SYMBOL(current_task);
 
+<<<<<<< HEAD
 DEFINE_PER_CPU(void *, hardirq_stack_ptr);
 DEFINE_PER_CPU(bool, hardirq_stack_inuse);
+=======
+DEFINE_PER_CPU(struct irq_stack *, hardirq_stack_ptr);
+DEFINE_PER_CPU(unsigned int, irq_count) __visible = -1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 DEFINE_PER_CPU(int, __preempt_count) = INIT_PREEMPT_COUNT;
 EXPORT_PER_CPU_SYMBOL(__preempt_count);
@@ -1850,7 +1858,11 @@ static inline void setup_getcpu(int cpu)
 	unsigned long cpudata = vdso_encode_cpunode(cpu, early_cpu_to_node(cpu));
 	struct desc_struct d = { };
 
+<<<<<<< HEAD
+	if (boot_cpu_has(X86_FEATURE_RDTSCP) || boot_cpu_has(X86_FEATURE_RDPID))
+=======
 	if (boot_cpu_has(X86_FEATURE_RDTSCP))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		write_rdtscp_aux(cpudata);
 
 	/* Store CPU and node number in limit. */

@@ -31,6 +31,7 @@ enum {
 					 SH_PFC_PIN_CFG_PULL_DOWN)
 #define SH_PFC_PIN_CFG_IO_VOLTAGE	(1 << 4)
 #define SH_PFC_PIN_CFG_DRIVE_STRENGTH	(1 << 5)
+<<<<<<< HEAD
 
 #define SH_PFC_PIN_VOLTAGE_18_33	(0 << 6)
 #define SH_PFC_PIN_VOLTAGE_25_33	(1 << 6)
@@ -40,6 +41,8 @@ enum {
 #define SH_PFC_PIN_CFG_IO_VOLTAGE_25_33	(SH_PFC_PIN_CFG_IO_VOLTAGE | \
 					 SH_PFC_PIN_VOLTAGE_25_33)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SH_PFC_PIN_CFG_NO_GPIO		(1 << 31)
 
 struct sh_pfc_pin {
@@ -309,7 +312,11 @@ struct sh_pfc_soc_info {
 	const u16 *pinmux_data;
 	unsigned int pinmux_data_size;
 
+<<<<<<< HEAD
 	u32 unlock_reg;		/* can be literal address or mask */
+=======
+	u32 unlock_reg;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 extern const struct sh_pfc_soc_info emev2_pinmux_info;
@@ -340,7 +347,10 @@ extern const struct sh_pfc_soc_info r8a77970_pinmux_info;
 extern const struct sh_pfc_soc_info r8a77980_pinmux_info;
 extern const struct sh_pfc_soc_info r8a77990_pinmux_info;
 extern const struct sh_pfc_soc_info r8a77995_pinmux_info;
+<<<<<<< HEAD
 extern const struct sh_pfc_soc_info r8a779a0_pinmux_info;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern const struct sh_pfc_soc_info sh7203_pinmux_info;
 extern const struct sh_pfc_soc_info sh7264_pinmux_info;
 extern const struct sh_pfc_soc_info sh7269_pinmux_info;
@@ -461,6 +471,7 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
 	fn(bank, pin, GP_##bank##_##pin, sfx, cfg)
 #define PORT_GP_1(bank, pin, fn, sfx)	PORT_GP_CFG_1(bank, pin, fn, sfx, 0)
 
+<<<<<<< HEAD
 #define PORT_GP_CFG_2(bank, fn, sfx, cfg)				\
 	PORT_GP_CFG_1(bank, 0,  fn, sfx, cfg),				\
 	PORT_GP_CFG_1(bank, 1,  fn, sfx, cfg)
@@ -468,6 +479,11 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
 
 #define PORT_GP_CFG_4(bank, fn, sfx, cfg)				\
 	PORT_GP_CFG_2(bank, fn, sfx, cfg),				\
+=======
+#define PORT_GP_CFG_4(bank, fn, sfx, cfg)				\
+	PORT_GP_CFG_1(bank, 0,  fn, sfx, cfg),				\
+	PORT_GP_CFG_1(bank, 1,  fn, sfx, cfg),				\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PORT_GP_CFG_1(bank, 2,  fn, sfx, cfg),				\
 	PORT_GP_CFG_1(bank, 3,  fn, sfx, cfg)
 #define PORT_GP_4(bank, fn, sfx)	PORT_GP_CFG_4(bank, fn, sfx, 0)
@@ -586,6 +602,7 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
 	PORT_GP_CFG_1(bank, 29, fn, sfx, cfg)
 #define PORT_GP_30(bank, fn, sfx)	PORT_GP_CFG_30(bank, fn, sfx, 0)
 
+<<<<<<< HEAD
 #define PORT_GP_CFG_31(bank, fn, sfx, cfg)				\
 	PORT_GP_CFG_30(bank, fn, sfx, cfg),				\
 	PORT_GP_CFG_1(bank, 30, fn, sfx, cfg)
@@ -593,6 +610,11 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
 
 #define PORT_GP_CFG_32(bank, fn, sfx, cfg)				\
 	PORT_GP_CFG_31(bank, fn, sfx, cfg),				\
+=======
+#define PORT_GP_CFG_32(bank, fn, sfx, cfg)				\
+	PORT_GP_CFG_30(bank, fn, sfx, cfg),				\
+	PORT_GP_CFG_1(bank, 30, fn, sfx, cfg),				\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	PORT_GP_CFG_1(bank, 31, fn, sfx, cfg)
 #define PORT_GP_32(bank, fn, sfx)	PORT_GP_CFG_32(bank, fn, sfx, 0)
 

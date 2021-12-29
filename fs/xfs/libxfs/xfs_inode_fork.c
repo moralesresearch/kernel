@@ -23,8 +23,11 @@
 #include "xfs_da_btree.h"
 #include "xfs_dir2_priv.h"
 #include "xfs_attr_leaf.h"
+<<<<<<< HEAD
 #include "xfs_types.h"
 #include "xfs_errortag.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 kmem_zone_t *xfs_ifork_zone;
 
@@ -730,6 +733,7 @@ xfs_ifork_verify_local_attr(
 
 	return 0;
 }
+<<<<<<< HEAD
 
 int
 xfs_iext_count_may_overflow(
@@ -755,3 +759,5 @@ xfs_iext_count_may_overflow(
 
 	return 0;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

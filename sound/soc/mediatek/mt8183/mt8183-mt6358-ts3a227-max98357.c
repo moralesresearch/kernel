@@ -68,6 +68,15 @@ mt8183_mt6358_rt1015_i2s_hw_params(struct snd_pcm_substream *substream,
 	int ret, i;
 
 	for_each_rtd_codec_dais(rtd, i, codec_dai) {
+<<<<<<< HEAD
+=======
+		ret = snd_soc_dai_set_bclk_ratio(codec_dai, 64);
+		if (ret < 0) {
+			dev_err(card->dev, "failed to set bclk ratio\n");
+			return ret;
+		}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ret = snd_soc_dai_set_pll(codec_dai, 0, RT1015_PLL_S_BCLK,
 				rate * 64, rate * 256);
 		if (ret < 0) {
@@ -118,6 +127,7 @@ static int mt8183_rt1015_i2s_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 }
 
 static int
+<<<<<<< HEAD
 mt8183_mt6358_startup(struct snd_pcm_substream *substream)
 {
 	static const unsigned int rates[] = {
@@ -157,6 +167,8 @@ static const struct snd_soc_ops mt8183_mt6358_ops = {
 };
 
 static int
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 mt8183_mt6358_ts3a227_max98357_bt_sco_startup(
 	struct snd_pcm_substream *substream)
 {
@@ -395,7 +407,10 @@ static struct snd_soc_dai_link mt8183_mt6358_ts3a227_dai_links[] = {
 			    SND_SOC_DPCM_TRIGGER_PRE},
 		.dynamic = 1,
 		.dpcm_playback = 1,
+<<<<<<< HEAD
 		.ops = &mt8183_mt6358_ops,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		SND_SOC_DAILINK_REG(playback1),
 	},
 	{
@@ -443,7 +458,10 @@ static struct snd_soc_dai_link mt8183_mt6358_ts3a227_dai_links[] = {
 			    SND_SOC_DPCM_TRIGGER_PRE},
 		.dynamic = 1,
 		.dpcm_capture = 1,
+<<<<<<< HEAD
 		.ops = &mt8183_mt6358_ops,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		SND_SOC_DAILINK_REG(capture3),
 	},
 	{

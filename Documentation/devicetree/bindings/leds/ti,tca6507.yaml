@@ -69,7 +69,10 @@ patternProperties:
 if:
   patternProperties:
     "^gpio@[0-6]$":
+<<<<<<< HEAD
       type: object
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       properties:
         compatible:
           contains:

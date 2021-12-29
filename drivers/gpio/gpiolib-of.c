@@ -1039,6 +1039,7 @@ void of_gpiochip_remove(struct gpio_chip *chip)
 {
 	of_node_put(chip->of_node);
 }
+<<<<<<< HEAD
 
 void of_gpio_dev_init(struct gpio_chip *gc, struct gpio_device *gdev)
 {
@@ -1050,3 +1051,5 @@ void of_gpio_dev_init(struct gpio_chip *gc, struct gpio_device *gdev)
 	if (gdev->dev.of_node)
 		gdev->dev.fwnode = of_fwnode_handle(gdev->dev.of_node);
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

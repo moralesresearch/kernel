@@ -69,7 +69,10 @@
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
 #include <linux/bitmap.h>
+<<<<<<< HEAD
 #include <linux/cpumask.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/memblock.h>
 #include <linux/err.h>
 #include <linux/lcm.h>
@@ -173,10 +176,17 @@ struct list_head *pcpu_chunk_lists __ro_after_init; /* chunk list slots */
 static LIST_HEAD(pcpu_map_extend_chunks);
 
 /*
+<<<<<<< HEAD
  * The number of empty populated pages by chunk type, protected by pcpu_lock.
  * The reserved chunk doesn't contribute to the count.
  */
 int pcpu_nr_empty_pop_pages[PCPU_NR_CHUNK_TYPES];
+=======
+ * The number of empty populated pages, protected by pcpu_lock.  The
+ * reserved chunk doesn't contribute to the count.
+ */
+int pcpu_nr_empty_pop_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * The number of populated pages in use by the allocator, protected by
@@ -556,7 +566,11 @@ static inline void pcpu_update_empty_pages(struct pcpu_chunk *chunk, int nr)
 {
 	chunk->nr_empty_pop_pages += nr;
 	if (chunk != pcpu_reserved_chunk)
+<<<<<<< HEAD
 		pcpu_nr_empty_pop_pages[pcpu_chunk_type(chunk)] += nr;
+=======
+		pcpu_nr_empty_pop_pages += nr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /*
@@ -1832,7 +1846,11 @@ area_found:
 		mutex_unlock(&pcpu_alloc_mutex);
 	}
 
+<<<<<<< HEAD
 	if (pcpu_nr_empty_pop_pages[type] < PCPU_EMPTY_POP_PAGES_LOW)
+=======
+	if (pcpu_nr_empty_pop_pages < PCPU_EMPTY_POP_PAGES_LOW)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pcpu_schedule_balance_work();
 
 	/* clear the areas and return address relative to base address */
@@ -2000,7 +2018,11 @@ retry_pop:
 		pcpu_atomic_alloc_failed = false;
 	} else {
 		nr_to_pop = clamp(PCPU_EMPTY_POP_PAGES_HIGH -
+<<<<<<< HEAD
 				  pcpu_nr_empty_pop_pages[type],
+=======
+				  pcpu_nr_empty_pop_pages,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  0, PCPU_EMPTY_POP_PAGES_HIGH);
 	}
 
@@ -2580,7 +2602,11 @@ void __init pcpu_setup_first_chunk(const struct pcpu_alloc_info *ai,
 
 	/* link the first chunk in */
 	pcpu_first_chunk = chunk;
+<<<<<<< HEAD
 	pcpu_nr_empty_pop_pages[PCPU_CHUNK_ROOT] = pcpu_first_chunk->nr_empty_pop_pages;
+=======
+	pcpu_nr_empty_pop_pages = pcpu_first_chunk->nr_empty_pop_pages;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pcpu_chunk_relocate(pcpu_first_chunk, -1);
 
 	/* include all regions of the first chunk */
@@ -2663,14 +2689,21 @@ early_param("percpu_alloc", percpu_alloc_setup);
  * On success, pointer to the new allocation_info is returned.  On
  * failure, ERR_PTR value is returned.
  */
+<<<<<<< HEAD
 static struct pcpu_alloc_info * __init __flatten pcpu_build_alloc_info(
+=======
+static struct pcpu_alloc_info * __init pcpu_build_alloc_info(
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				size_t reserved_size, size_t dyn_size,
 				size_t atom_size,
 				pcpu_fc_cpu_distance_fn_t cpu_distance_fn)
 {
 	static int group_map[NR_CPUS] __initdata;
 	static int group_cnt[NR_CPUS] __initdata;
+<<<<<<< HEAD
 	static struct cpumask mask __initdata;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	const size_t static_size = __per_cpu_end - __per_cpu_start;
 	int nr_groups = 1, nr_units = 0;
 	size_t size_sum, min_unit_size, alloc_size;
@@ -2683,7 +2716,10 @@ static struct pcpu_alloc_info * __init __flatten pcpu_build_alloc_info(
 	/* this function may be called multiple times */
 	memset(group_map, 0, sizeof(group_map));
 	memset(group_cnt, 0, sizeof(group_cnt));
+<<<<<<< HEAD
 	cpumask_clear(&mask);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* calculate size_sum and ensure dyn_size is enough for early alloc */
 	size_sum = PFN_ALIGN(static_size + reserved_size +
@@ -2705,6 +2741,7 @@ static struct pcpu_alloc_info * __init __flatten pcpu_build_alloc_info(
 		upa--;
 	max_upa = upa;
 
+<<<<<<< HEAD
 	cpumask_copy(&mask, cpu_possible_mask);
 
 	/* group cpus according to their proximity */
@@ -2726,6 +2763,26 @@ static struct pcpu_alloc_info * __init __flatten pcpu_build_alloc_info(
 		}
 	}
 	nr_groups = group;
+=======
+	/* group cpus according to their proximity */
+	for_each_possible_cpu(cpu) {
+		group = 0;
+	next_group:
+		for_each_possible_cpu(tcpu) {
+			if (cpu == tcpu)
+				break;
+			if (group_map[tcpu] == group && cpu_distance_fn &&
+			    (cpu_distance_fn(cpu, tcpu) > LOCAL_DISTANCE ||
+			     cpu_distance_fn(tcpu, cpu) > LOCAL_DISTANCE)) {
+				group++;
+				nr_groups = max(nr_groups, group + 1);
+				goto next_group;
+			}
+		}
+		group_map[cpu] = group;
+		group_cnt[group]++;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Wasted space is caused by a ratio imbalance of upa to group_cnt.

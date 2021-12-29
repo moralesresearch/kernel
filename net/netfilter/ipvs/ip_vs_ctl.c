@@ -1367,7 +1367,11 @@ ip_vs_add_service(struct netns_ipvs *ipvs, struct ip_vs_service_user_kern *u,
 	ip_vs_addr_copy(svc->af, &svc->addr, &u->addr);
 	svc->port = u->port;
 	svc->fwmark = u->fwmark;
+<<<<<<< HEAD
+	svc->flags = u->flags & ~IP_VS_SVC_F_HASHED;
+=======
 	svc->flags = u->flags;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	svc->timeout = u->timeout * HZ;
 	svc->netmask = u->netmask;
 	svc->ipvs = ipvs;

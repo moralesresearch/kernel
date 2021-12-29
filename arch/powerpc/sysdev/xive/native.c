@@ -380,6 +380,14 @@ static void xive_native_update_pending(struct xive_cpu *xc)
 	}
 }
 
+<<<<<<< HEAD
+static void xive_native_prepare_cpu(unsigned int cpu, struct xive_cpu *xc)
+{
+	xc->chip_id = cpu_to_chip_id(cpu);
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void xive_native_setup_cpu(unsigned int cpu, struct xive_cpu *xc)
 {
 	s64 rc;
@@ -462,6 +470,10 @@ static const struct xive_ops xive_native_ops = {
 	.match			= xive_native_match,
 	.shutdown		= xive_native_shutdown,
 	.update_pending		= xive_native_update_pending,
+<<<<<<< HEAD
+	.prepare_cpu		= xive_native_prepare_cpu,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.setup_cpu		= xive_native_setup_cpu,
 	.teardown_cpu		= xive_native_teardown_cpu,
 	.sync_source		= xive_native_sync_source,

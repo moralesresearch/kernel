@@ -132,7 +132,15 @@ void native_play_dead(void);
 void play_dead_common(void);
 void wbinvd_on_cpu(int cpu);
 int wbinvd_on_all_cpus(void);
+<<<<<<< HEAD
 void cond_wakeup_cpu0(void);
+=======
+<<<<<<< HEAD
+void cond_wakeup_cpu0(void);
+=======
+bool wakeup_cpu0(void);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void native_smp_send_reschedule(int cpu);
 void native_send_call_func_ipi(const struct cpumask *mask);

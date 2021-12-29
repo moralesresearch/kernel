@@ -111,7 +111,10 @@ config FXAS21002C_SPI
 config HID_SENSOR_GYRO_3D
 	depends on HID_SENSOR_HUB
 	select IIO_BUFFER
+<<<<<<< HEAD
+=======
 	select IIO_TRIGGERED_BUFFER
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select HID_SENSOR_IIO_COMMON
 	select HID_SENSOR_IIO_TRIGGER
 	tristate "HID Gyroscope 3D"

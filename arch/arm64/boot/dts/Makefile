@@ -29,3 +29,7 @@ subdir-y += synaptics
 subdir-y += ti
 subdir-y += toshiba
 subdir-y += xilinx
+<<<<<<< HEAD
+=======
+subdir-y += zte
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

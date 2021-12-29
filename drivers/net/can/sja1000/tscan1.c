@@ -159,7 +159,11 @@ static int tscan1_probe(struct device *dev, unsigned id)
 	return -ENXIO;
 }
 
+<<<<<<< HEAD
 static void tscan1_remove(struct device *dev, unsigned id /*unused*/)
+=======
+static int tscan1_remove(struct device *dev, unsigned id /*unused*/)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct net_device *netdev;
 	struct sja1000_priv *priv;
@@ -179,6 +183,11 @@ static void tscan1_remove(struct device *dev, unsigned id /*unused*/)
 	release_region(pld_base, TSCAN1_PLD_SIZE);
 
 	free_sja1000dev(netdev);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct isa_driver tscan1_isa_driver = {

@@ -49,9 +49,16 @@ int dlm_process_incoming_buffer(int nodeid, unsigned char *buf, int len)
 		 * cannot deliver this message to upper layers
 		 */
 		msglen = get_unaligned_le16(&hd->h_length);
+<<<<<<< HEAD
+		if (msglen > DEFAULT_BUFFER_SIZE ||
+		    msglen < sizeof(struct dlm_header)) {
+			log_print("received invalid length header: %u from node %d, will abort message parsing",
+				  msglen, nodeid);
+=======
 		if (msglen > DEFAULT_BUFFER_SIZE) {
 			log_print("received invalid length header: %u, will abort message parsing",
 				  msglen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return -EBADMSG;
 		}
 

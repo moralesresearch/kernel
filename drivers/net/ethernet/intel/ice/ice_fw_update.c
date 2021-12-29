@@ -417,11 +417,14 @@ ice_write_nvm_module(struct ice_pf *pf, u16 module, const char *component,
 	return err;
 }
 
+<<<<<<< HEAD
 /* Length in seconds to wait before timing out when erasing a flash module.
  * Yes, erasing really can take minutes to complete.
  */
 #define ICE_FW_ERASE_TIMEOUT 300
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * ice_erase_nvm_module - Erase an NVM module and await firmware completion
  * @pf: the PF data structure
@@ -454,7 +457,11 @@ ice_erase_nvm_module(struct ice_pf *pf, u16 module, const char *component,
 
 	devlink = priv_to_devlink(pf);
 
+<<<<<<< HEAD
 	devlink_flash_update_timeout_notify(devlink, "Erasing", component, ICE_FW_ERASE_TIMEOUT);
+=======
+	devlink_flash_update_status_notify(devlink, "Erasing", component, 0, 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	status = ice_aq_erase_nvm(hw, module, NULL);
 	if (status) {
@@ -466,7 +473,12 @@ ice_erase_nvm_module(struct ice_pf *pf, u16 module, const char *component,
 		goto out_notify_devlink;
 	}
 
+<<<<<<< HEAD
 	err = ice_aq_wait_for_event(pf, ice_aqc_opc_nvm_erase, ICE_FW_ERASE_TIMEOUT * HZ, &event);
+=======
+	/* Yes, this really can take minutes to complete */
+	err = ice_aq_wait_for_event(pf, ice_aqc_opc_nvm_erase, 300 * HZ, &event);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		dev_err(dev, "Timed out waiting for firmware to respond with erase completion for %s (module 0x%02x), err %d\n",
 			component, module, err);

@@ -18,7 +18,11 @@
  */
 #define DRV_VER_MAJ	1
 #define DRV_VER_MIN	10
+<<<<<<< HEAD
 #define DRV_VER_UPD	2
+=======
+#define DRV_VER_UPD	1
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/ethtool.h>
 #include <linux/interrupt.h>
@@ -656,7 +660,10 @@ struct nqe_cn {
 #define BNXT_HWRM_MAX_REQ_LEN		(bp->hwrm_max_req_len)
 #define BNXT_HWRM_SHORT_REQ_LEN		sizeof(struct hwrm_short_input)
 #define DFLT_HWRM_CMD_TIMEOUT		500
+<<<<<<< HEAD
 #define HWRM_CMD_MAX_TIMEOUT		40000
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define SHORT_HWRM_CMD_TIMEOUT		20
 #define HWRM_CMD_TIMEOUT		(bp->hwrm_cmd_timeout)
 #define HWRM_RESET_TIMEOUT		((HWRM_CMD_TIMEOUT) * 4)
@@ -714,6 +721,7 @@ struct bnxt_sw_rx_agg_bd {
 	dma_addr_t		mapping;
 };
 
+<<<<<<< HEAD
 struct bnxt_mem_init {
 	u8	init_val;
 	u16	offset;
@@ -721,6 +729,8 @@ struct bnxt_mem_init {
 	u16	size;
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct bnxt_ring_mem_info {
 	int			nr_pages;
 	int			page_size;
@@ -730,7 +740,11 @@ struct bnxt_ring_mem_info {
 #define BNXT_RMEM_USE_FULL_PAGE_FLAG	4
 
 	u16			depth;
+<<<<<<< HEAD
 	struct bnxt_mem_init	*mem_init;
+=======
+	u8			init_val;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	void			**pg_arr;
 	dma_addr_t		*dma_arr;
@@ -1353,6 +1367,7 @@ struct bnxt_test_info {
 #define BNXT_CAG_REG_LEGACY_INT_STATUS		0x4014
 #define BNXT_CAG_REG_BASE			0x300000
 
+<<<<<<< HEAD
 #define BNXT_GRC_REG_STATUS_P5			0x520
 
 #define BNXT_GRCPF_REG_KONG_COMM		0xA00
@@ -1361,6 +1376,11 @@ struct bnxt_test_info {
 #define BNXT_GRC_REG_CHIP_NUM			0x48
 #define BNXT_GRC_REG_BASE			0x260000
 
+=======
+#define BNXT_GRCPF_REG_KONG_COMM		0xA00
+#define BNXT_GRCPF_REG_KONG_COMM_TRIGGER	0xB00
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define BNXT_GRC_BASE_MASK			0xfffff000
 #define BNXT_GRC_OFFSET_MASK			0x00000ffc
 
@@ -1454,8 +1474,21 @@ struct bnxt_ctx_pg_info {
 #define BNXT_MAX_TQM_RINGS		\
 	(BNXT_MAX_TQM_SP_RINGS + BNXT_MAX_TQM_FP_RINGS)
 
+<<<<<<< HEAD
 #define BNXT_BACKING_STORE_CFG_LEGACY_LEN	256
 
+#define BNXT_SET_CTX_PAGE_ATTR(attr)					\
+do {									\
+	if (BNXT_PAGE_SIZE == 0x2000)					\
+		attr = FUNC_BACKING_STORE_CFG_REQ_SRQ_PG_SIZE_PG_8K;	\
+	else if (BNXT_PAGE_SIZE == 0x10000)				\
+		attr = FUNC_BACKING_STORE_CFG_REQ_QPC_PG_SIZE_PG_64K;	\
+	else								\
+		attr = FUNC_BACKING_STORE_CFG_REQ_QPC_PG_SIZE_PG_4K;	\
+} while (0)
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct bnxt_ctx_mem_info {
 	u32	qp_max_entries;
 	u16	qp_min_qp1_entries;
@@ -1481,6 +1514,10 @@ struct bnxt_ctx_mem_info {
 	u32	tim_max_entries;
 	u16	mrav_num_entries_units;
 	u8	tqm_entries_multiple;
+<<<<<<< HEAD
+=======
+	u8	ctx_kind_initializer;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8	tqm_fp_rings_count;
 
 	u32	flags;
@@ -1494,6 +1531,7 @@ struct bnxt_ctx_mem_info {
 	struct bnxt_ctx_pg_info mrav_mem;
 	struct bnxt_ctx_pg_info tim_mem;
 	struct bnxt_ctx_pg_info *tqm_mem[BNXT_MAX_TQM_RINGS];
+<<<<<<< HEAD
 
 #define BNXT_CTX_MEM_INIT_QP	0
 #define BNXT_CTX_MEM_INIT_SRQ	1
@@ -1503,6 +1541,8 @@ struct bnxt_ctx_mem_info {
 #define BNXT_CTX_MEM_INIT_MRAV	5
 #define BNXT_CTX_MEM_INIT_MAX	6
 	struct bnxt_mem_init	mem_init[BNXT_CTX_MEM_INIT_MAX];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 struct bnxt_fw_health {
@@ -1531,8 +1571,11 @@ struct bnxt_fw_health {
 	u32 fw_reset_seq_regs[16];
 	u32 fw_reset_seq_vals[16];
 	u32 fw_reset_seq_delay_msec[16];
+<<<<<<< HEAD
 	u32 echo_req_data1;
 	u32 echo_req_data2;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct devlink_health_reporter	*fw_reporter;
 	struct devlink_health_reporter *fw_reset_reporter;
 	struct devlink_health_reporter *fw_fatal_reporter;
@@ -1557,6 +1600,7 @@ struct bnxt_fw_reporter_ctx {
 #define BNXT_FW_HEALTH_WIN_OFF(reg)	(BNXT_FW_HEALTH_WIN_BASE +	\
 					 ((reg) & BNXT_GRC_OFFSET_MASK))
 
+<<<<<<< HEAD
 #define BNXT_FW_STATUS_HEALTH_MSK	0xffff
 #define BNXT_FW_STATUS_HEALTHY		0x8000
 #define BNXT_FW_STATUS_SHUTDOWN		0x100000
@@ -1573,6 +1617,11 @@ struct bnxt_fw_reporter_ctx {
 #define BNXT_FW_RETRY			5
 #define BNXT_FW_IF_RETRY		10
 
+=======
+#define BNXT_FW_STATUS_HEALTHY		0x8000
+#define BNXT_FW_STATUS_SHUTDOWN		0x100000
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct bnxt {
 	void __iomem		*bar0;
 	void __iomem		*bar1;
@@ -1826,7 +1875,10 @@ struct bnxt {
 #define BNXT_STATE_FW_FATAL_COND	6
 #define BNXT_STATE_DRV_REGISTERED	7
 #define BNXT_STATE_PCI_CHANNEL_IO_FROZEN	8
+<<<<<<< HEAD
 #define BNXT_STATE_NAPI_DISABLED	9
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define BNXT_NO_FW_ACCESS(bp)					\
 	(test_bit(BNXT_STATE_FW_FATAL_COND, &(bp)->state) ||	\
@@ -1942,7 +1994,10 @@ struct bnxt {
 #define BNXT_FW_RESET_NOTIFY_SP_EVENT	18
 #define BNXT_FW_EXCEPTION_SP_EVENT	19
 #define BNXT_LINK_CFG_CHANGE_SP_EVENT	21
+<<<<<<< HEAD
 #define BNXT_FW_ECHO_REQUEST_SP_EVENT	23
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct delayed_work	fw_reset_task;
 	int			fw_reset_state;

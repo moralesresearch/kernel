@@ -115,7 +115,11 @@ static int fill_cache_read(unsigned char *start_ptr, unsigned char *end_ptr,
 
 	while (1) {
 		ret = fill_one_span_read(start_ptr, end_ptr);
+<<<<<<< HEAD
+		if (!strncmp(resctrl_val, CAT_STR, sizeof(CAT_STR)))
+=======
 		if (!strcmp(resctrl_val, "cat"))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 	}
 
@@ -134,7 +138,11 @@ static int fill_cache_write(unsigned char *start_ptr, unsigned char *end_ptr,
 {
 	while (1) {
 		fill_one_span_write(start_ptr, end_ptr);
+<<<<<<< HEAD
+		if (!strncmp(resctrl_val, CAT_STR, sizeof(CAT_STR)))
+=======
 		if (!strcmp(resctrl_val, "cat"))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 	}
 

@@ -49,7 +49,10 @@ static int ucsi_displayport_enter(struct typec_altmode *alt, u32 *vdo)
 {
 	struct ucsi_dp *dp = typec_altmode_get_drvdata(alt);
 	struct ucsi *ucsi = dp->con->ucsi;
+<<<<<<< HEAD
 	int svdm_version;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 command;
 	u8 cur = 0;
 	int ret;
@@ -84,6 +87,7 @@ static int ucsi_displayport_enter(struct typec_altmode *alt, u32 *vdo)
 	 * mode, and letting the alt mode driver continue.
 	 */
 
+<<<<<<< HEAD
 	svdm_version = typec_altmode_get_svdm_version(alt);
 	if (svdm_version < 0) {
 		ret = svdm_version;
@@ -91,6 +95,9 @@ static int ucsi_displayport_enter(struct typec_altmode *alt, u32 *vdo)
 	}
 
 	dp->header = VDO(USB_TYPEC_DP_SID, 1, svdm_version, CMD_ENTER_MODE);
+=======
+	dp->header = VDO(USB_TYPEC_DP_SID, 1, CMD_ENTER_MODE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dp->header |= VDO_OPOS(USB_TYPEC_DP_MODE);
 	dp->header |= VDO_CMDT(CMDT_RSP_ACK);
 
@@ -108,7 +115,10 @@ err_unlock:
 static int ucsi_displayport_exit(struct typec_altmode *alt)
 {
 	struct ucsi_dp *dp = typec_altmode_get_drvdata(alt);
+<<<<<<< HEAD
 	int svdm_version;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u64 command;
 	int ret = 0;
 
@@ -128,6 +138,7 @@ static int ucsi_displayport_exit(struct typec_altmode *alt)
 	if (ret < 0)
 		goto out_unlock;
 
+<<<<<<< HEAD
 	svdm_version = typec_altmode_get_svdm_version(alt);
 	if (svdm_version < 0) {
 		ret = svdm_version;
@@ -135,6 +146,9 @@ static int ucsi_displayport_exit(struct typec_altmode *alt)
 	}
 
 	dp->header = VDO(USB_TYPEC_DP_SID, 1, svdm_version, CMD_EXIT_MODE);
+=======
+	dp->header = VDO(USB_TYPEC_DP_SID, 1, CMD_EXIT_MODE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dp->header |= VDO_OPOS(USB_TYPEC_DP_MODE);
 	dp->header |= VDO_CMDT(CMDT_RSP_ACK);
 
@@ -200,7 +214,10 @@ static int ucsi_displayport_vdm(struct typec_altmode *alt,
 	struct ucsi_dp *dp = typec_altmode_get_drvdata(alt);
 	int cmd_type = PD_VDO_CMDT(header);
 	int cmd = PD_VDO_CMD(header);
+<<<<<<< HEAD
 	int svdm_version;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&dp->con->lock);
 
@@ -213,6 +230,7 @@ static int ucsi_displayport_vdm(struct typec_altmode *alt,
 		return -EOPNOTSUPP;
 	}
 
+<<<<<<< HEAD
 	svdm_version = typec_altmode_get_svdm_version(alt);
 	if (svdm_version < 0) {
 		mutex_unlock(&dp->con->lock);
@@ -227,6 +245,11 @@ static int ucsi_displayport_vdm(struct typec_altmode *alt,
 		}
 
 		dp->header = VDO(USB_TYPEC_DP_SID, 1, svdm_version, cmd);
+=======
+	switch (cmd_type) {
+	case CMDT_INIT:
+		dp->header = VDO(USB_TYPEC_DP_SID, 1, cmd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		dp->header |= VDO_OPOS(USB_TYPEC_DP_MODE);
 
 		switch (cmd) {

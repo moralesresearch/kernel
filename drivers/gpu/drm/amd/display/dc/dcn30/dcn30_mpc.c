@@ -143,6 +143,20 @@ static void mpc3_power_on_ogam_lut(
 {
 	struct dcn30_mpc *mpc30 = TO_DCN30_MPC(mpc);
 
+<<<<<<< HEAD
+	/*
+	 * Powering on: force memory active so the LUT can be updated.
+	 * Powering off: allow entering memory low power mode
+	 *
+	 * Memory low power mode is controlled during MPC OGAM LUT init.
+	 */
+	REG_UPDATE(MPCC_MEM_PWR_CTRL[mpcc_id],
+		   MPCC_OGAM_MEM_PWR_DIS, power_on != 0);
+
+	/* Wait for memory to be powered on - we won't be able to write to it otherwise. */
+	if (power_on)
+		REG_WAIT(MPCC_MEM_PWR_CTRL[mpcc_id], MPCC_OGAM_MEM_PWR_STATE, 0, 10, 10);
+=======
 	if (mpc->ctx->dc->debug.enable_mem_low_power.bits.mpc) {
 		// Force power on
 		REG_UPDATE(MPCC_MEM_PWR_CTRL[mpcc_id], MPCC_OGAM_MEM_PWR_DIS, power_on == true ? 1:0);
@@ -153,6 +167,7 @@ static void mpc3_power_on_ogam_lut(
 		REG_SET(MPCC_MEM_PWR_CTRL[mpcc_id], 0,
 				MPCC_OGAM_MEM_PWR_FORCE, power_on == true ? 0 : 1);
 	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void mpc3_configure_ogam_lut(
@@ -1427,7 +1442,11 @@ const struct mpc_funcs dcn30_mpc_funcs = {
 	.acquire_rmu = mpcc3_acquire_rmu,
 	.program_3dlut = mpc3_program_3dlut,
 	.release_rmu = mpcc3_release_rmu,
+<<<<<<< HEAD
+	.power_on_mpc_mem_pwr = mpc3_power_on_ogam_lut,
+=======
 	.power_on_mpc_mem_pwr = mpc20_power_on_ogam_lut,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_mpc_out_mux = mpc1_get_mpc_out_mux,
 
 };

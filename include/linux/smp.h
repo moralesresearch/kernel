@@ -73,7 +73,11 @@ void on_each_cpu_cond(smp_cond_func_t cond_func, smp_call_func_t func,
 void on_each_cpu_cond_mask(smp_cond_func_t cond_func, smp_call_func_t func,
 			   void *info, bool wait, const struct cpumask *mask);
 
+<<<<<<< HEAD
+int smp_call_function_single_async(int cpu, struct __call_single_data *csd);
+=======
 int smp_call_function_single_async(int cpu, call_single_data_t *csd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_SMP
 

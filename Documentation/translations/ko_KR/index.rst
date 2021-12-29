@@ -10,6 +10,7 @@
    :maxdepth: 1
 
    howto
+<<<<<<< HEAD
 
 
 리눅스 커널 메모리 배리어
@@ -25,3 +26,5 @@
 .. raw:: latex
 
     \normalsize
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

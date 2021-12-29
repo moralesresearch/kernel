@@ -87,6 +87,7 @@ EXPORT_SYMBOL_GPL(pci_epc_get);
  * pci_epc_get_first_free_bar() - helper to get first unreserved BAR
  * @epc_features: pci_epc_features structure that holds the reserved bar bitmap
  *
+<<<<<<< HEAD
  * Invoke to get the first unreserved BAR that can be used by the endpoint
  * function. For any incorrect value in reserved_bar return '0'.
  */
@@ -131,6 +132,26 @@ enum pci_barno pci_epc_get_next_free_bar(const struct pci_epc_features
 	return free_bar;
 }
 EXPORT_SYMBOL_GPL(pci_epc_get_next_free_bar);
+=======
+ * Invoke to get the first unreserved BAR that can be used for endpoint
+ * function. For any incorrect value in reserved_bar return '0'.
+ */
+unsigned int pci_epc_get_first_free_bar(const struct pci_epc_features
+					*epc_features)
+{
+	int free_bar;
+
+	if (!epc_features)
+		return 0;
+
+	free_bar = ffz(epc_features->reserved_bar);
+	if (free_bar > 5)
+		return 0;
+
+	return free_bar;
+}
+EXPORT_SYMBOL_GPL(pci_epc_get_first_free_bar);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /**
  * pci_epc_get_features() - get the features supported by EPC
@@ -231,6 +252,7 @@ int pci_epc_raise_irq(struct pci_epc *epc, u8 func_no,
 EXPORT_SYMBOL_GPL(pci_epc_raise_irq);
 
 /**
+<<<<<<< HEAD
  * pci_epc_map_msi_irq() - Map physical address to MSI address and return
  *                         MSI data
  * @epc: the EPC device which has the MSI capability
@@ -272,6 +294,8 @@ int pci_epc_map_msi_irq(struct pci_epc *epc, u8 func_no, phys_addr_t phys_addr,
 EXPORT_SYMBOL_GPL(pci_epc_map_msi_irq);
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * pci_epc_get_msi() - get the number of MSI interrupt numbers allocated
  * @epc: the EPC device to which MSI interrupts was requested
  * @func_no: the endpoint function number in the EPC device
@@ -534,13 +558,17 @@ EXPORT_SYMBOL_GPL(pci_epc_write_header);
  * pci_epc_add_epf() - bind PCI endpoint function to an endpoint controller
  * @epc: the EPC device to which the endpoint function should be added
  * @epf: the endpoint function to be added
+<<<<<<< HEAD
  * @type: Identifies if the EPC is connected to the primary or secondary
  *        interface of EPF
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * A PCI endpoint device can have one or more functions. In the case of PCIe,
  * the specification allows up to 8 PCIe endpoint functions. Invoke
  * pci_epc_add_epf() to add a PCI endpoint function to an endpoint controller.
  */
+<<<<<<< HEAD
 int pci_epc_add_epf(struct pci_epc *epc, struct pci_epf *epf,
 		    enum pci_epc_interface_type type)
 {
@@ -556,6 +584,18 @@ int pci_epc_add_epf(struct pci_epc *epc, struct pci_epf *epf,
 
 	if (type == SECONDARY_INTERFACE && epf->sec_epc)
 		return -EBUSY;
+=======
+int pci_epc_add_epf(struct pci_epc *epc, struct pci_epf *epf)
+{
+	u32 func_no;
+	int ret = 0;
+
+	if (epf->epc)
+		return -EBUSY;
+
+	if (IS_ERR(epc))
+		return -EINVAL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_lock(&epc->lock);
 	func_no = find_first_zero_bit(&epc->function_num_map,
@@ -572,6 +612,7 @@ int pci_epc_add_epf(struct pci_epc *epc, struct pci_epf *epf,
 	}
 
 	set_bit(func_no, &epc->function_num_map);
+<<<<<<< HEAD
 	if (type == PRIMARY_INTERFACE) {
 		epf->func_no = func_no;
 		epf->epc = epc;
@@ -583,6 +624,13 @@ int pci_epc_add_epf(struct pci_epc *epc, struct pci_epf *epf,
 	}
 
 	list_add_tail(list, &epc->pci_epf);
+=======
+	epf->func_no = func_no;
+	epf->epc = epc;
+
+	list_add_tail(&epf->list, &epc->pci_epf);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 ret:
 	mutex_unlock(&epc->lock);
 
@@ -597,6 +645,7 @@ EXPORT_SYMBOL_GPL(pci_epc_add_epf);
  *
  * Invoke to remove PCI endpoint function from the endpoint controller.
  */
+<<<<<<< HEAD
 void pci_epc_remove_epf(struct pci_epc *epc, struct pci_epf *epf,
 			enum pci_epc_interface_type type)
 {
@@ -617,6 +666,16 @@ void pci_epc_remove_epf(struct pci_epc *epc, struct pci_epf *epf,
 	mutex_lock(&epc->lock);
 	clear_bit(func_no, &epc->function_num_map);
 	list_del(list);
+=======
+void pci_epc_remove_epf(struct pci_epc *epc, struct pci_epf *epf)
+{
+	if (!epc || IS_ERR(epc) || !epf)
+		return;
+
+	mutex_lock(&epc->lock);
+	clear_bit(epf->func_no, &epc->function_num_map);
+	list_del(&epf->list);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	epf->epc = NULL;
 	mutex_unlock(&epc->lock);
 }

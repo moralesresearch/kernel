@@ -20,7 +20,11 @@
 #include "psb_intel_drv.h"
 #include "psb_intel_reg.h"
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Returns whether any output on the specified pipe is of the specified type
  */
 bool gma_pipe_has_type(struct drm_crtc *crtc, int type)
@@ -180,7 +184,11 @@ int gma_crtc_gamma_set(struct drm_crtc *crtc, u16 *red, u16 *green, u16 *blue,
 	return 0;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Sets the power management mode of the pipe and plane.
  *
  * This code should probably grow support for turning the cursor off and back
@@ -559,14 +567,24 @@ int gma_crtc_set_config(struct drm_mode_set *set,
 	if (!dev_priv->rpm_enabled)
 		return drm_crtc_helper_set_config(set, ctx);
 
+<<<<<<< HEAD
 	pm_runtime_forbid(dev->dev);
 	ret = drm_crtc_helper_set_config(set, ctx);
 	pm_runtime_allow(dev->dev);
+=======
+	pm_runtime_forbid(&dev->pdev->dev);
+	ret = drm_crtc_helper_set_config(set, ctx);
+	pm_runtime_allow(&dev->pdev->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Save HW states of given crtc
  */
 void gma_crtc_save(struct drm_crtc *crtc)
@@ -609,7 +627,11 @@ void gma_crtc_save(struct drm_crtc *crtc)
 		crtc_state->savePalette[i] = REG_READ(palette_reg + (i << 2));
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * Restore HW states of given crtc
  */
 void gma_crtc_restore(struct drm_crtc *crtc)

@@ -55,7 +55,11 @@ int qxl_gem_object_create(struct qxl_device *qdev, int size,
 	/* At least align on page size */
 	if (alignment < PAGE_SIZE)
 		alignment = PAGE_SIZE;
+<<<<<<< HEAD
+	r = qxl_bo_create(qdev, size, kernel, false, initial_domain, 0, surf, &qbo);
+=======
 	r = qxl_bo_create(qdev, size, kernel, false, initial_domain, surf, &qbo);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (r) {
 		if (r != -ERESTARTSYS)
 			DRM_ERROR(

@@ -556,7 +556,15 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
 		tsk->thread.trap_nr = X86_TRAP_GP;
 
 		if (fixup_vdso_exception(regs, X86_TRAP_GP, error_code, 0))
+<<<<<<< HEAD
 			goto exit;
+=======
+<<<<<<< HEAD
+			goto exit;
+=======
+			return;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		show_signal(tsk, SIGSEGV, "", desc, regs, error_code);
 		force_sig(SIGSEGV);
@@ -1057,7 +1065,15 @@ static void math_error(struct pt_regs *regs, int trapnr)
 		goto exit;
 
 	if (fixup_vdso_exception(regs, trapnr, 0, 0))
+<<<<<<< HEAD
 		goto exit;
+=======
+<<<<<<< HEAD
+		goto exit;
+=======
+		return;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	force_sig_fault(SIGFPE, si_code,
 			(void __user *)uprobe_get_trap_addr(regs));

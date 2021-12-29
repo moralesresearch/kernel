@@ -225,6 +225,7 @@ struct subchannel *css_alloc_subchannel(struct subchannel_id schid,
 
 	INIT_WORK(&sch->todo_work, css_sch_todo);
 	sch->dev.release = &css_subchannel_release;
+<<<<<<< HEAD
 	sch->dev.dma_mask = &sch->dma_mask;
 	device_initialize(&sch->dev);
 	/*
@@ -234,14 +235,27 @@ struct subchannel *css_alloc_subchannel(struct subchannel_id schid,
 	ret = dma_set_coherent_mask(&sch->dev, DMA_BIT_MASK(31));
 	if (ret)
 		goto err;
+=======
+	device_initialize(&sch->dev);
+	/*
+	 * The physical addresses of some the dma structures that can
+	 * belong to a subchannel need to fit 31 bit width (e.g. ccw).
+	 */
+	sch->dev.coherent_dma_mask = DMA_BIT_MASK(31);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * But we don't have such restrictions imposed on the stuff that
 	 * is handled by the streaming API.
 	 */
+<<<<<<< HEAD
 	ret = dma_set_mask(&sch->dev, DMA_BIT_MASK(64));
 	if (ret)
 		goto err;
 
+=======
+	sch->dma_mask = DMA_BIT_MASK(64);
+	sch->dev.dma_mask = &sch->dma_mask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return sch;
 
 err:
@@ -975,11 +989,16 @@ static int __init setup_css(int nr)
 	 * css->device as the device argument with the DMA API)
 	 * and are fine with 64 bit addresses.
 	 */
+<<<<<<< HEAD
 	ret = dma_coerce_mask_and_coherent(&css->device, DMA_BIT_MASK(64));
 	if (ret) {
 		kfree(css);
 		goto out_err;
 	}
+=======
+	css->device.coherent_dma_mask = DMA_BIT_MASK(64);
+	css->device.dma_mask = &css->device.coherent_dma_mask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_init(&css->mutex);
 	ret = chsc_get_cssid_iid(nr, &css->cssid, &css->iid);

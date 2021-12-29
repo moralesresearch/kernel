@@ -543,8 +543,11 @@ struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
 
 	supported_encodings = BIT(DRM_COLOR_YCBCR_BT601) |
 			      BIT(DRM_COLOR_YCBCR_BT709);
+<<<<<<< HEAD
 	if (mixer->cfg->is_de3)
 		supported_encodings |= BIT(DRM_COLOR_YCBCR_BT2020);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	supported_ranges = BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
 			   BIT(DRM_COLOR_YCBCR_FULL_RANGE);

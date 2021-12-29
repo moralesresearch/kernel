@@ -353,8 +353,15 @@ static int qcom_ebi2_probe(struct platform_device *pdev)
 
 		/* Figure out the chipselect */
 		ret = of_property_read_u32(child, "reg", &csindex);
+<<<<<<< HEAD
+		if (ret) {
+			of_node_put(child);
+			return ret;
+		}
+=======
 		if (ret)
 			return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (csindex > 5) {
 			dev_err(dev,

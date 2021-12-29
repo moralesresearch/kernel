@@ -160,6 +160,7 @@ static struct ctl_table ipv6_table_template[] = {
 		.mode		= 0644,
 		.proc_handler	= proc_dointvec
 	},
+<<<<<<< HEAD
 	{
 		.procname	= "fib_notify_on_flag_change",
 		.data		= &init_net.ipv6.sysctl.fib_notify_on_flag_change,
@@ -169,6 +170,8 @@ static struct ctl_table ipv6_table_template[] = {
 		.extra1         = SYSCTL_ZERO,
 		.extra2         = &two,
 	},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	{ }
 };
 

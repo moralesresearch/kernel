@@ -118,8 +118,11 @@ void mlx5e_build_rq_param(struct mlx5e_priv *priv,
 			  struct mlx5e_rq_param *param);
 void mlx5e_build_sq_param_common(struct mlx5e_priv *priv,
 				 struct mlx5e_sq_param *param);
+<<<<<<< HEAD
 void mlx5e_build_sq_param(struct mlx5e_priv *priv, struct mlx5e_params *params,
 			  struct mlx5e_sq_param *param);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void mlx5e_build_rx_cq_param(struct mlx5e_priv *priv,
 			     struct mlx5e_params *params,
 			     struct mlx5e_xsk_param *xsk,

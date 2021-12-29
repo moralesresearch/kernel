@@ -134,7 +134,11 @@
 		compatible = "maxim,max77686";
 		reg = <0x09>;
 		interrupt-parent = <&gpx3>;
+<<<<<<< HEAD
+		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+=======
 		interrupts = <2 IRQ_TYPE_NONE>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pinctrl-names = "default";
 		pinctrl-0 = <&max77686_irq>;
 		#clock-cells = <1>;

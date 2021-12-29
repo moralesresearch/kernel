@@ -278,7 +278,11 @@ static int exynos5_counters_disable_edev(struct exynos5_dmc *dmc)
 }
 
 /**
+<<<<<<< HEAD
  * find_target_freq_idx() - Finds requested frequency in local DMC configuration
+=======
+ * find_target_freq_id() - Finds requested frequency in local DMC configuration
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dmc:	device for which the information is checked
  * @target_rate:	requested frequency in KHz
  *
@@ -998,7 +1002,11 @@ static struct devfreq_dev_profile exynos5_dmc_df_profile = {
 };
 
 /**
+<<<<<<< HEAD
  * exynos5_dmc_align_init_freq() - Align initial frequency value
+=======
+ * exynos5_dmc_align_initial_frequency() - Align initial frequency value
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @dmc:	device for which the frequency is going to be set
  * @bootloader_init_freq:	initial frequency set by the bootloader in KHz
  *
@@ -1298,7 +1306,13 @@ static int exynos5_dmc_init_clks(struct exynos5_dmc *dmc)
 
 	dmc->curr_volt = target_volt;
 
+<<<<<<< HEAD
+	ret = clk_set_parent(dmc->mout_mx_mspll_ccore, dmc->mout_spll);
+	if (ret)
+		return ret;
+=======
 	clk_set_parent(dmc->mout_mx_mspll_ccore, dmc->mout_spll);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	clk_prepare_enable(dmc->fout_bpll);
 	clk_prepare_enable(dmc->mout_bpll);

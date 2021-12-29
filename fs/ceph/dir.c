@@ -823,8 +823,13 @@ int ceph_handle_notrace_create(struct inode *dir, struct dentry *dentry)
 	return PTR_ERR(result);
 }
 
+<<<<<<< HEAD
 static int ceph_mknod(struct user_namespace *mnt_userns, struct inode *dir,
 		      struct dentry *dentry, umode_t mode, dev_t rdev)
+=======
+static int ceph_mknod(struct inode *dir, struct dentry *dentry,
+		      umode_t mode, dev_t rdev)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ceph_mds_client *mdsc = ceph_sb_to_mdsc(dir->i_sb);
 	struct ceph_mds_request *req;
@@ -878,6 +883,7 @@ out:
 	return err;
 }
 
+<<<<<<< HEAD
 static int ceph_create(struct user_namespace *mnt_userns, struct inode *dir,
 		       struct dentry *dentry, umode_t mode, bool excl)
 {
@@ -886,6 +892,16 @@ static int ceph_create(struct user_namespace *mnt_userns, struct inode *dir,
 
 static int ceph_symlink(struct user_namespace *mnt_userns, struct inode *dir,
 			struct dentry *dentry, const char *dest)
+=======
+static int ceph_create(struct inode *dir, struct dentry *dentry, umode_t mode,
+		       bool excl)
+{
+	return ceph_mknod(dir, dentry, mode, 0);
+}
+
+static int ceph_symlink(struct inode *dir, struct dentry *dentry,
+			    const char *dest)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ceph_mds_client *mdsc = ceph_sb_to_mdsc(dir->i_sb);
 	struct ceph_mds_request *req;
@@ -937,8 +953,12 @@ out:
 	return err;
 }
 
+<<<<<<< HEAD
 static int ceph_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
 		      struct dentry *dentry, umode_t mode)
+=======
+static int ceph_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ceph_mds_client *mdsc = ceph_sb_to_mdsc(dir->i_sb);
 	struct ceph_mds_request *req;
@@ -1184,9 +1204,15 @@ out:
 	return err;
 }
 
+<<<<<<< HEAD
 static int ceph_rename(struct user_namespace *mnt_userns, struct inode *old_dir,
 		       struct dentry *old_dentry, struct inode *new_dir,
 		       struct dentry *new_dentry, unsigned int flags)
+=======
+static int ceph_rename(struct inode *old_dir, struct dentry *old_dentry,
+		       struct inode *new_dir, struct dentry *new_dentry,
+		       unsigned int flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct ceph_mds_client *mdsc = ceph_sb_to_mdsc(old_dir->i_sb);
 	struct ceph_mds_request *req;

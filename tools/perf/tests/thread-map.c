@@ -102,7 +102,10 @@ int test__thread_map_synthesize(struct test *test __maybe_unused, int subtest __
 	TEST_ASSERT_VAL("failed to synthesize map",
 		!perf_event__synthesize_thread_map2(NULL, threads, process_event, NULL));
 
+<<<<<<< HEAD
 	perf_thread_map__put(threads);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -110,12 +113,19 @@ int test__thread_map_remove(struct test *test __maybe_unused, int subtest __mayb
 {
 	struct perf_thread_map *threads;
 	char *str;
+<<<<<<< HEAD
+=======
+	int i;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	TEST_ASSERT_VAL("failed to allocate map string",
 			asprintf(&str, "%d,%d", getpid(), getppid()) >= 0);
 
 	threads = thread_map__new_str(str, NULL, 0, false);
+<<<<<<< HEAD
 	free(str);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	TEST_ASSERT_VAL("failed to allocate thread_map",
 			threads);
@@ -142,6 +152,13 @@ int test__thread_map_remove(struct test *test __maybe_unused, int subtest __mayb
 	TEST_ASSERT_VAL("failed to not remove thread",
 			thread_map__remove(threads, 0));
 
+<<<<<<< HEAD
 	perf_thread_map__put(threads);
+=======
+	for (i = 0; i < threads->nr; i++)
+		zfree(&threads->map[i].comm);
+
+	free(threads);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }

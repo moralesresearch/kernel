@@ -16,6 +16,10 @@ components running across different processing clusters on a chip or
 device to communicate with a power management controller (PMC) on a
 device to issue or respond to power management requests.
 
+<<<<<<< HEAD
+Any driver who wants to communicate with PMC using EEMI APIs use the
+functions provided for each function.
+=======
 EEMI ops is a structure containing all eemi APIs supported by Zynq MPSoC.
 The zynqmp-firmware driver maintain all EEMI APIs in zynqmp_eemi_ops
 structure. Any driver who want to communicate with PMC using EEMI APIs
@@ -45,6 +49,7 @@ Example of EEMI ops usage::
 		return PTR_ERR(eemi_ops);
 
 	ret = eemi_ops->query_data(qdata, ret_payload);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 IOCTL
 ------

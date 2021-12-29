@@ -130,8 +130,16 @@ static inline __wsum csum_tcpudp_nofold(__be32 saddr, __be32 daddr,
 					__u32 len, __u8 proto,
 					__wsum sum)
 {
+<<<<<<< HEAD
 	unsigned long tmp = (__force unsigned long)sum;
 
+=======
+<<<<<<< HEAD
+	unsigned long tmp = (__force unsigned long)sum;
+
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	__asm__(
 	"	.set	push		# csum_tcpudp_nofold\n"
 	"	.set	noat		\n"
@@ -159,7 +167,15 @@ static inline __wsum csum_tcpudp_nofold(__be32 saddr, __be32 daddr,
 	"	addu	%0, $1		\n"
 #endif
 	"	.set	pop"
+<<<<<<< HEAD
 	: "=r" (tmp)
+=======
+<<<<<<< HEAD
+	: "=r" (tmp)
+=======
+	: "=r" (sum)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	: "0" ((__force unsigned long)daddr),
 	  "r" ((__force unsigned long)saddr),
 #ifdef __MIPSEL__
@@ -169,7 +185,15 @@ static inline __wsum csum_tcpudp_nofold(__be32 saddr, __be32 daddr,
 #endif
 	  "r" ((__force unsigned long)sum));
 
+<<<<<<< HEAD
 	return (__force __wsum)tmp;
+=======
+<<<<<<< HEAD
+	return (__force __wsum)tmp;
+=======
+	return sum;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 #define csum_tcpudp_nofold csum_tcpudp_nofold
 

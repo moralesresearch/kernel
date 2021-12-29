@@ -291,7 +291,11 @@ static int sky81452_bl_probe(struct platform_device *pdev)
 	}
 
 	memset(&props, 0, sizeof(props));
+<<<<<<< HEAD
 	props.max_brightness = SKY81452_MAX_BRIGHTNESS;
+=======
+	props.max_brightness = SKY81452_MAX_BRIGHTNESS,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	name = pdata->name ? pdata->name : SKY81452_DEFAULT_NAME;
 	bd = devm_backlight_device_register(dev, name, dev, regmap,
 						&sky81452_bl_ops, &props);

@@ -3263,7 +3263,10 @@ static void CalculateFlipSchedule(
 
 static unsigned int TruncToValidBPP(
 		double DecimalBPP,
+<<<<<<< HEAD
 		double DesiredBPP,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		bool DSCEnabled,
 		enum output_encoder_class Output,
 		enum output_format_class Format,
@@ -3271,15 +3274,24 @@ static unsigned int TruncToValidBPP(
 {
 	if (Output == dm_hdmi) {
 		if (Format == dm_420) {
+<<<<<<< HEAD
 			if (DecimalBPP >= 18 && (DesiredBPP == 0 || DesiredBPP == 18))
 				return 18;
 			else if (DecimalBPP >= 15 && (DesiredBPP == 0 || DesiredBPP == 15))
 				return 15;
 			else if (DecimalBPP >= 12 && (DesiredBPP == 0 || DesiredBPP == 12))
+=======
+			if (DecimalBPP >= 18)
+				return 18;
+			else if (DecimalBPP >= 15)
+				return 15;
+			else if (DecimalBPP >= 12)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return 12;
 			else
 				return BPP_INVALID;
 		} else if (Format == dm_444) {
+<<<<<<< HEAD
 			if (DecimalBPP >= 36 && (DesiredBPP == 0 || DesiredBPP == 36))
 				return 36;
 			else if (DecimalBPP >= 30 && (DesiredBPP == 0 || DesiredBPP == 30))
@@ -3287,15 +3299,32 @@ static unsigned int TruncToValidBPP(
 			else if (DecimalBPP >= 24 && (DesiredBPP == 0 || DesiredBPP == 24))
 				return 24;
 			else if (DecimalBPP >= 18 && (DesiredBPP == 0 || DesiredBPP == 18))
+=======
+			if (DecimalBPP >= 36)
+				return 36;
+			else if (DecimalBPP >= 30)
+				return 30;
+			else if (DecimalBPP >= 24)
+				return 24;
+			else if (DecimalBPP >= 18)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return 18;
 			else
 				return BPP_INVALID;
 		} else {
+<<<<<<< HEAD
 			if (DecimalBPP / 1.5 >= 24 && (DesiredBPP == 0 || DesiredBPP == 24))
 				return 24;
 			else if (DecimalBPP / 1.5 >= 20 && (DesiredBPP == 0 || DesiredBPP == 20))
 				return 20;
 			else if (DecimalBPP / 1.5 >= 16 && (DesiredBPP == 0 || DesiredBPP == 16))
+=======
+			if (DecimalBPP / 1.5 >= 24)
+				return 24;
+			else if (DecimalBPP / 1.5 >= 20)
+				return 20;
+			else if (DecimalBPP / 1.5 >= 16)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return 16;
 			else
 				return BPP_INVALID;
@@ -3303,6 +3332,7 @@ static unsigned int TruncToValidBPP(
 	} else {
 		if (DSCEnabled) {
 			if (Format == dm_420) {
+<<<<<<< HEAD
 				if (DesiredBPP == 0) {
 					if (DecimalBPP < 6)
 						return BPP_INVALID;
@@ -3363,19 +3393,57 @@ static unsigned int TruncToValidBPP(
 			else if (DecimalBPP >= 15 && (DesiredBPP == 0 || DesiredBPP == 15))
 				return 15;
 			else if (DecimalBPP >= 12 && (DesiredBPP == 0 || DesiredBPP == 12))
+=======
+				if (DecimalBPP < 6)
+					return BPP_INVALID;
+				else if (DecimalBPP >= 1.5 * DSCInputBitPerComponent - 1 / 16)
+					return 1.5 * DSCInputBitPerComponent - 1 / 16;
+				else
+					return dml_floor(16 * DecimalBPP, 1) / 16;
+			} else if (Format == dm_n422) {
+				if (DecimalBPP < 7)
+					return BPP_INVALID;
+				else if (DecimalBPP >= 2 * DSCInputBitPerComponent - 1 / 16)
+					return 2 * DSCInputBitPerComponent - 1 / 16;
+				else
+					return dml_floor(16 * DecimalBPP, 1) / 16;
+			} else {
+				if (DecimalBPP < 8)
+					return BPP_INVALID;
+				else if (DecimalBPP >= 3 * DSCInputBitPerComponent - 1 / 16)
+					return 3 * DSCInputBitPerComponent - 1 / 16;
+				else
+					return dml_floor(16 * DecimalBPP, 1) / 16;
+			}
+		} else if (Format == dm_420) {
+			if (DecimalBPP >= 18)
+				return 18;
+			else if (DecimalBPP >= 15)
+				return 15;
+			else if (DecimalBPP >= 12)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return 12;
 			else
 				return BPP_INVALID;
 		} else if (Format == dm_s422 || Format == dm_n422) {
+<<<<<<< HEAD
 			if (DecimalBPP >= 24 && (DesiredBPP == 0 || DesiredBPP == 24))
 				return 24;
 			else if (DecimalBPP >= 20 && (DesiredBPP == 0 || DesiredBPP == 20))
 				return 20;
 			else if (DecimalBPP >= 16 && (DesiredBPP == 0 || DesiredBPP == 16))
+=======
+			if (DecimalBPP >= 24)
+				return 24;
+			else if (DecimalBPP >= 20)
+				return 20;
+			else if (DecimalBPP >= 16)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return 16;
 			else
 				return BPP_INVALID;
 		} else {
+<<<<<<< HEAD
 			if (DecimalBPP >= 36 && (DesiredBPP == 0 || DesiredBPP == 36))
 				return 36;
 			else if (DecimalBPP >= 30 && (DesiredBPP == 0 || DesiredBPP == 30))
@@ -3383,6 +3451,15 @@ static unsigned int TruncToValidBPP(
 			else if (DecimalBPP >= 24 && (DesiredBPP == 0 || DesiredBPP == 24))
 				return 24;
 			else if (DecimalBPP >= 18 && (DesiredBPP == 0 || DesiredBPP == 18))
+=======
+			if (DecimalBPP >= 36)
+				return 36;
+			else if (DecimalBPP >= 30)
+				return 30;
+			else if (DecimalBPP >= 24)
+				return 24;
+			else if (DecimalBPP >= 18)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				return 18;
 			else
 				return BPP_INVALID;
@@ -3544,6 +3621,10 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
 			mode_lib->vba.DCCEnabledInAnyPlane = true;
 		}
 	}
+<<<<<<< HEAD
+	mode_lib->vba.UrgentLatency = mode_lib->vba.UrgentLatencyPixelDataOnly;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i <= mode_lib->vba.soc.num_states; i++) {
 		locals->FabricAndDRAMBandwidthPerState[i] = dml_min(
 				mode_lib->vba.DRAMSpeedPerState[i] * mode_lib->vba.NumberOfChannels
@@ -4171,7 +4252,10 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
 					locals->RequiresFEC[i][k] = 0;
 					locals->OutputBppPerState[i][k] = TruncToValidBPP(
 							dml_min(600.0, mode_lib->vba.PHYCLKPerState[i]) / mode_lib->vba.PixelClockBackEnd[k] * 24,
+<<<<<<< HEAD
 							mode_lib->vba.ForcedOutputLinkBPP[k],
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 							false,
 							mode_lib->vba.Output[k],
 							mode_lib->vba.OutputFormat[k],
@@ -4188,7 +4272,10 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
 						mode_lib->vba.Outbpp = TruncToValidBPP(
 								(1.0 - mode_lib->vba.Downspreading / 100.0) * 270.0
 								* mode_lib->vba.OutputLinkDPLanes[k] / mode_lib->vba.PixelClockBackEnd[k] * 8.0,
+<<<<<<< HEAD
 								mode_lib->vba.ForcedOutputLinkBPP[k],
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 								false,
 								mode_lib->vba.Output[k],
 								mode_lib->vba.OutputFormat[k],
@@ -4196,7 +4283,10 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
 						mode_lib->vba.OutbppDSC = TruncToValidBPP(
 								(1.0 - mode_lib->vba.Downspreading / 100.0) * (1.0 - mode_lib->vba.EffectiveFECOverhead / 100.0) * 270.0
 								* mode_lib->vba.OutputLinkDPLanes[k] / mode_lib->vba.PixelClockBackEnd[k] * 8.0,
+<<<<<<< HEAD
 								mode_lib->vba.ForcedOutputLinkBPP[k],
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 								true,
 								mode_lib->vba.Output[k],
 								mode_lib->vba.OutputFormat[k],
@@ -4219,7 +4309,10 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
 						mode_lib->vba.Outbpp = TruncToValidBPP(
 								(1.0 - mode_lib->vba.Downspreading / 100.0) * 540.0
 								* mode_lib->vba.OutputLinkDPLanes[k] / mode_lib->vba.PixelClockBackEnd[k] * 8.0,
+<<<<<<< HEAD
 								mode_lib->vba.ForcedOutputLinkBPP[k],
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 									false,
 									mode_lib->vba.Output[k],
 									mode_lib->vba.OutputFormat[k],
@@ -4227,7 +4320,10 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
 						mode_lib->vba.OutbppDSC = TruncToValidBPP(
 								(1.0 - mode_lib->vba.Downspreading / 100.0) * (1.0 - mode_lib->vba.EffectiveFECOverhead / 100.0) * 540.0
 								* mode_lib->vba.OutputLinkDPLanes[k] / mode_lib->vba.PixelClockBackEnd[k] * 8.0,
+<<<<<<< HEAD
 								mode_lib->vba.ForcedOutputLinkBPP[k],
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 								true,
 								mode_lib->vba.Output[k],
 								mode_lib->vba.OutputFormat[k],
@@ -4252,7 +4348,10 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
 						mode_lib->vba.Outbpp = TruncToValidBPP(
 								(1.0 - mode_lib->vba.Downspreading / 100.0) * 810.0
 								* mode_lib->vba.OutputLinkDPLanes[k] / mode_lib->vba.PixelClockBackEnd[k] * 8.0,
+<<<<<<< HEAD
 								mode_lib->vba.ForcedOutputLinkBPP[k],
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 								false,
 								mode_lib->vba.Output[k],
 								mode_lib->vba.OutputFormat[k],
@@ -4260,7 +4359,10 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
 						mode_lib->vba.OutbppDSC = TruncToValidBPP(
 								(1.0 - mode_lib->vba.Downspreading / 100.0) * (1.0 - mode_lib->vba.EffectiveFECOverhead / 100.0) * 810.0
 								* mode_lib->vba.OutputLinkDPLanes[k] / mode_lib->vba.PixelClockBackEnd[k] * 8.0,
+<<<<<<< HEAD
 								mode_lib->vba.ForcedOutputLinkBPP[k],
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 								true,
 								mode_lib->vba.Output[k],
 								mode_lib->vba.OutputFormat[k],
@@ -4289,11 +4391,18 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
 	for (i = 0; i <= mode_lib->vba.soc.num_states; i++) {
 		locals->DIOSupport[i] = true;
 		for (k = 0; k <= mode_lib->vba.NumberOfActivePlanes - 1; k++) {
+<<<<<<< HEAD
 			if (!mode_lib->vba.skip_dio_check[k]
 					&& (locals->OutputBppPerState[i][k] == BPP_INVALID
 						|| (mode_lib->vba.OutputFormat[k] == dm_420
 							&& mode_lib->vba.Interlace[k] == true
 							&& mode_lib->vba.ProgressiveToInterlaceUnitInOPP == true))) {
+=======
+			if (locals->OutputBppPerState[i][k] == BPP_INVALID
+					|| (mode_lib->vba.OutputFormat[k] == dm_420
+							&& mode_lib->vba.Interlace[k] == true
+							&& mode_lib->vba.ProgressiveToInterlaceUnitInOPP == true)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				locals->DIOSupport[i] = false;
 			}
 		}

@@ -651,7 +651,12 @@ int ipvlan_queue_xmit(struct sk_buff *skb, struct net_device *dev)
 	}
 
 	/* Should not reach here */
+<<<<<<< HEAD
 	WARN_ONCE(true, "%s called for mode = [%x]\n", __func__, port->mode);
+=======
+	WARN_ONCE(true, "ipvlan_queue_xmit() called for mode = [%hx]\n",
+			  port->mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 out:
 	kfree_skb(skb);
 	return NET_XMIT_DROP;
@@ -748,7 +753,12 @@ rx_handler_result_t ipvlan_handle_frame(struct sk_buff **pskb)
 	}
 
 	/* Should not reach here */
+<<<<<<< HEAD
 	WARN_ONCE(true, "%s called for mode = [%x]\n", __func__, port->mode);
+=======
+	WARN_ONCE(true, "ipvlan_handle_frame() called for mode = [%hx]\n",
+			  port->mode);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree_skb(skb);
 	return RX_HANDLER_CONSUMED;
 }

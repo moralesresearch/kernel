@@ -8,6 +8,13 @@ config IRQCHIP
 config ARM_GIC
 	bool
 	select IRQ_DOMAIN_HIERARCHY
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	select GENERIC_IRQ_MULTI_HANDLER
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select GENERIC_IRQ_EFFECTIVE_AFF_MASK
 
 config ARM_GIC_PM
@@ -32,6 +39,13 @@ config GIC_NON_BANKED
 
 config ARM_GIC_V3
 	bool
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	select GENERIC_IRQ_MULTI_HANDLER
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select IRQ_DOMAIN_HIERARCHY
 	select PARTITION_PERCPU
 	select GENERIC_IRQ_EFFECTIVE_AFF_MASK
@@ -62,6 +76,13 @@ config ARM_NVIC
 config ARM_VIC
 	bool
 	select IRQ_DOMAIN
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	select GENERIC_IRQ_MULTI_HANDLER
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config ARM_VIC_NR
 	int
@@ -96,12 +117,26 @@ config ATMEL_AIC_IRQ
 	bool
 	select GENERIC_IRQ_CHIP
 	select IRQ_DOMAIN
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	select GENERIC_IRQ_MULTI_HANDLER
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select SPARSE_IRQ
 
 config ATMEL_AIC5_IRQ
 	bool
 	select GENERIC_IRQ_CHIP
 	select IRQ_DOMAIN
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	select GENERIC_IRQ_MULTI_HANDLER
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select SPARSE_IRQ
 
 config I8259
@@ -148,6 +183,13 @@ config DW_APB_ICTL
 config FARADAY_FTINTC010
 	bool
 	select IRQ_DOMAIN
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	select GENERIC_IRQ_MULTI_HANDLER
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select SPARSE_IRQ
 
 config HISILICON_IRQ_MBIGEN
@@ -163,6 +205,13 @@ config IMGPDC_IRQ
 config IXP4XX_IRQ
 	bool
 	select IRQ_DOMAIN
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	select GENERIC_IRQ_MULTI_HANDLER
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select SPARSE_IRQ
 
 config MADERA_IRQ
@@ -179,6 +228,13 @@ config CLPS711X_IRQCHIP
 	bool
 	depends on ARCH_CLPS711X
 	select IRQ_DOMAIN
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	select GENERIC_IRQ_MULTI_HANDLER
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select SPARSE_IRQ
 	default y
 
@@ -197,6 +253,13 @@ config OMAP_IRQCHIP
 config ORION_IRQCHIP
 	bool
 	select IRQ_DOMAIN
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	select GENERIC_IRQ_MULTI_HANDLER
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 config PIC32_EVIC
 	bool
@@ -251,6 +314,17 @@ config ST_IRQCHIP
 	help
 	  Enables SysCfg Controlled IRQs on STi based platforms.
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+config TANGO_IRQ
+	bool
+	select IRQ_DOMAIN
+	select GENERIC_IRQ_CHIP
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 config TB10X_IRQC
 	bool
 	select IRQ_DOMAIN
@@ -418,7 +492,15 @@ config QCOM_PDC
 	  IRQs for Qualcomm Technologies Inc (QTI) mobile chips.
 
 config CSKY_MPINTC
+<<<<<<< HEAD
 	bool
+=======
+<<<<<<< HEAD
+	bool
+=======
+	bool "C-SKY Multi Processor Interrupt Controller"
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on CSKY
 	help
 	  Say yes here to enable C-SKY SMP interrupt controller driver used

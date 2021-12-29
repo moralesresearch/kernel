@@ -28,7 +28,11 @@ SYM_FUNC_START_NOALIGN(__x86_retpoline_\reg)
 	jmp	.Lspec_trap_\@
 .Ldo_rop_\@:
 	mov	%\reg, (%_ASM_SP)
+<<<<<<< HEAD
 	UNWIND_HINT_FUNC
+=======
+	UNWIND_HINT_RET_OFFSET
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ret
 SYM_FUNC_END(__x86_retpoline_\reg)
 

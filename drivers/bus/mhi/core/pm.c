@@ -377,24 +377,43 @@ static int mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
 {
 	struct mhi_event *mhi_event;
 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+<<<<<<< HEAD
+	enum mhi_ee_type ee = MHI_EE_MAX, current_ee = mhi_cntrl->ee;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, ret;
 
 	dev_dbg(dev, "Processing Mission Mode transition\n");
 
 	write_lock_irq(&mhi_cntrl->pm_lock);
 	if (MHI_REG_ACCESS_VALID(mhi_cntrl->pm_state))
+<<<<<<< HEAD
+		ee = mhi_get_exec_env(mhi_cntrl);
+
+	if (!MHI_IN_MISSION_MODE(ee)) {
+=======
 		mhi_cntrl->ee = mhi_get_exec_env(mhi_cntrl);
 
 	if (!MHI_IN_MISSION_MODE(mhi_cntrl->ee)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		mhi_cntrl->pm_state = MHI_PM_LD_ERR_FATAL_DETECT;
 		write_unlock_irq(&mhi_cntrl->pm_lock);
 		wake_up_all(&mhi_cntrl->state_event);
 		return -EIO;
 	}
+<<<<<<< HEAD
+	mhi_cntrl->ee = ee;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	write_unlock_irq(&mhi_cntrl->pm_lock);
 
 	wake_up_all(&mhi_cntrl->state_event);
 
+<<<<<<< HEAD
+	device_for_each_child(&mhi_cntrl->mhi_dev->dev, &current_ee,
+			      mhi_destroy_device);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mhi_cntrl->status_cb(mhi_cntrl, MHI_CB_EE_MISSION_MODE);
 
 	/* Force MHI to be in M0 state before continuing */
@@ -755,6 +774,11 @@ void mhi_pm_st_worker(struct work_struct *work)
 			 * either SBL or AMSS states
 			 */
 			mhi_create_devices(mhi_cntrl);
+<<<<<<< HEAD
+			if (mhi_cntrl->fbc_download)
+				mhi_download_amss_image(mhi_cntrl);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			break;
 		case DEV_ST_TRANSITION_MISSION_MODE:
 			mhi_pm_mission_mode_transition(mhi_cntrl);
@@ -1092,7 +1116,11 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
 							   &val) ||
 					!val,
 				msecs_to_jiffies(mhi_cntrl->timeout_ms));
+<<<<<<< HEAD
+		if (!ret) {
+=======
 		if (ret) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			ret = -EIO;
 			dev_info(dev, "Failed to reset MHI due to syserr state\n");
 			goto error_bhi_offset;

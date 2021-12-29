@@ -506,7 +506,10 @@ static int create_elf_fdpic_tables(struct linux_binprm *bprm,
 	char __user *u_platform, *u_base_platform, *p;
 	int loop;
 	int nr;	/* reset for each csp adjustment */
+<<<<<<< HEAD
 	unsigned long flags = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #ifdef CONFIG_MMU
 	/* In some cases (e.g. Hyper-Threading), we want to avoid L1 evictions
@@ -649,9 +652,13 @@ static int create_elf_fdpic_tables(struct linux_binprm *bprm,
 	NEW_AUX_ENT(AT_PHENT,	sizeof(struct elf_phdr));
 	NEW_AUX_ENT(AT_PHNUM,	exec_params->hdr.e_phnum);
 	NEW_AUX_ENT(AT_BASE,	interp_params->elfhdr_addr);
+<<<<<<< HEAD
 	if (bprm->interp_flags & BINPRM_FLAGS_PRESERVE_ARGV0)
 		flags |= AT_FLAGS_PRESERVE_ARGV0;
 	NEW_AUX_ENT(AT_FLAGS,	flags);
+=======
+	NEW_AUX_ENT(AT_FLAGS,	0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	NEW_AUX_ENT(AT_ENTRY,	exec_params->entry_addr);
 	NEW_AUX_ENT(AT_UID,	(elf_addr_t) from_kuid_munged(cred->user_ns, cred->uid));
 	NEW_AUX_ENT(AT_EUID,	(elf_addr_t) from_kuid_munged(cred->user_ns, cred->euid));
@@ -1194,7 +1201,22 @@ static int elf_fdpic_map_file_by_direct_mmap(struct elf_fdpic_params *params,
 
 struct elf_prstatus_fdpic
 {
+<<<<<<< HEAD
 	struct elf_prstatus_common	common;
+=======
+	struct elf_siginfo pr_info;	/* Info associated with signal */
+	short	pr_cursig;		/* Current signal */
+	unsigned long pr_sigpend;	/* Set of pending signals */
+	unsigned long pr_sighold;	/* Set of held signals */
+	pid_t	pr_pid;
+	pid_t	pr_ppid;
+	pid_t	pr_pgrp;
+	pid_t	pr_sid;
+	struct __kernel_old_timeval pr_utime;	/* User time */
+	struct __kernel_old_timeval pr_stime;	/* System time */
+	struct __kernel_old_timeval pr_cutime;	/* Cumulative user time */
+	struct __kernel_old_timeval pr_cstime;	/* Cumulative system time */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	elf_gregset_t pr_reg;	/* GP registers */
 	/* When using FDPIC, the loadmap addresses need to be communicated
 	 * to GDB in order for GDB to do the necessary relocations.  The
@@ -1293,7 +1315,11 @@ static inline void fill_note(struct memelfnote *note, const char *name, int type
  * fill up all the fields in prstatus from the given task struct, except
  * registers which need to be filled up separately.
  */
+<<<<<<< HEAD
 static void fill_prstatus(struct elf_prstatus_common *prstatus,
+=======
+static void fill_prstatus(struct elf_prstatus_fdpic *prstatus,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			  struct task_struct *p, long signr)
 {
 	prstatus->pr_info.si_signo = prstatus->pr_cursig = signr;
@@ -1324,6 +1350,12 @@ static void fill_prstatus(struct elf_prstatus_common *prstatus,
 	}
 	prstatus->pr_cutime = ns_to_kernel_old_timeval(p->signal->cutime);
 	prstatus->pr_cstime = ns_to_kernel_old_timeval(p->signal->cstime);
+<<<<<<< HEAD
+=======
+
+	prstatus->pr_exec_fdpic_loadmap = p->mm->context.exec_fdpic_loadmap;
+	prstatus->pr_interp_fdpic_loadmap = p->mm->context.interp_fdpic_loadmap;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int fill_psinfo(struct elf_prpsinfo *psinfo, struct task_struct *p,
@@ -1394,9 +1426,13 @@ static struct elf_thread_status *elf_dump_thread_status(long signr, struct task_
 	if (!t)
 		return t;
 
+<<<<<<< HEAD
 	fill_prstatus(&t->prstatus.common, p, signr);
 	t->prstatus.pr_exec_fdpic_loadmap = p->mm->context.exec_fdpic_loadmap;
 	t->prstatus.pr_interp_fdpic_loadmap = p->mm->context.interp_fdpic_loadmap;
+=======
+	fill_prstatus(&t->prstatus, p, signr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	regset_get(p, &view->regsets[0],
 		   sizeof(t->prstatus.pr_reg), &t->prstatus.pr_reg);
 

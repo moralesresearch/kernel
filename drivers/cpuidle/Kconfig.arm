@@ -107,7 +107,11 @@ config ARM_TEGRA_CPUIDLE
 
 config ARM_QCOM_SPM_CPUIDLE
 	bool "CPU Idle Driver for Qualcomm Subsystem Power Manager (SPM)"
+<<<<<<< HEAD
+	depends on (ARCH_QCOM || COMPILE_TEST) && !ARM64 && MMU
+=======
 	depends on (ARCH_QCOM || COMPILE_TEST) && !ARM64
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select ARM_CPU_SUSPEND
 	select CPU_IDLE_MULTIPLE_DRIVERS
 	select DT_IDLE_STATES

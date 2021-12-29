@@ -34,6 +34,17 @@ static struct resource ddr_reg[] = {
 	}
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+void __init prom_free_prom_memory(void)
+{
+	/* No prom memory to free */
+}
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline int match_tag(char *arg, const char *tag)
 {
 	return strncmp(arg, tag, strlen(tag)) == 0;

@@ -58,6 +58,10 @@ i2c-designware-platform-$(CONFIG_I2C_DESIGNWARE_BAYTRAIL) += i2c-designware-bayt
 obj-$(CONFIG_I2C_DESIGNWARE_PCI)			+= i2c-designware-pci.o
 i2c-designware-pci-y					:= i2c-designware-pcidrv.o
 obj-$(CONFIG_I2C_DIGICOLOR)	+= i2c-digicolor.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_I2C_EFM32)		+= i2c-efm32.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_I2C_EG20T)		+= i2c-eg20t.o
 obj-$(CONFIG_I2C_EMEV2)		+= i2c-emev2.o
 obj-$(CONFIG_I2C_EXYNOS5)	+= i2c-exynos5.o
@@ -98,11 +102,19 @@ obj-$(CONFIG_I2C_S3C2410)	+= i2c-s3c2410.o
 obj-$(CONFIG_I2C_SH7760)	+= i2c-sh7760.o
 obj-$(CONFIG_I2C_SH_MOBILE)	+= i2c-sh_mobile.o
 obj-$(CONFIG_I2C_SIMTEC)	+= i2c-simtec.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_I2C_SIRF)		+= i2c-sirf.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_I2C_SPRD)		+= i2c-sprd.o
 obj-$(CONFIG_I2C_ST)		+= i2c-st.o
 obj-$(CONFIG_I2C_STM32F4)	+= i2c-stm32f4.o
 i2c-stm32f7-drv-objs := i2c-stm32f7.o i2c-stm32.o
 obj-$(CONFIG_I2C_STM32F7)	+= i2c-stm32f7-drv.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_I2C_STU300)	+= i2c-stu300.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_I2C_SUN6I_P2WI)	+= i2c-sun6i-p2wi.o
 obj-$(CONFIG_I2C_SYNQUACER)	+= i2c-synquacer.o
 obj-$(CONFIG_I2C_TEGRA)		+= i2c-tegra.o
@@ -119,6 +131,10 @@ obj-$(CONFIG_I2C_XILINX)	+= i2c-xiic.o
 obj-$(CONFIG_I2C_XLR)		+= i2c-xlr.o
 obj-$(CONFIG_I2C_XLP9XX)	+= i2c-xlp9xx.o
 obj-$(CONFIG_I2C_RCAR)		+= i2c-rcar.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_I2C_ZX2967)	+= i2c-zx2967.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 # External I2C/SMBus adapter drivers
 obj-$(CONFIG_I2C_DIOLAN_U2C)	+= i2c-diolan-u2c.o

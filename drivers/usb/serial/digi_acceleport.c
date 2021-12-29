@@ -233,7 +233,11 @@ static int digi_startup(struct usb_serial *serial);
 static void digi_disconnect(struct usb_serial *serial);
 static void digi_release(struct usb_serial *serial);
 static int digi_port_probe(struct usb_serial_port *port);
+<<<<<<< HEAD
 static void digi_port_remove(struct usb_serial_port *port);
+=======
+static int digi_port_remove(struct usb_serial_port *port);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void digi_read_bulk_callback(struct urb *urb);
 static int digi_read_inb_callback(struct urb *urb);
 static int digi_read_oob_callback(struct urb *urb);
@@ -1281,12 +1285,21 @@ static int digi_port_probe(struct usb_serial_port *port)
 	return digi_port_init(port, port->port_number);
 }
 
+<<<<<<< HEAD
 static void digi_port_remove(struct usb_serial_port *port)
+=======
+static int digi_port_remove(struct usb_serial_port *port)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct digi_port *priv;
 
 	priv = usb_get_serial_port_data(port);
 	kfree(priv);
+<<<<<<< HEAD
+=======
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void digi_read_bulk_callback(struct urb *urb)

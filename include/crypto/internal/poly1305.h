@@ -18,7 +18,12 @@
  * only the ε-almost-∆-universal hash function (not the full MAC) is computed.
  */
 
+<<<<<<< HEAD
+void poly1305_core_setkey(struct poly1305_core_key *key,
+			  const u8 raw_key[POLY1305_BLOCK_SIZE]);
+=======
 void poly1305_core_setkey(struct poly1305_core_key *key, const u8 *raw_key);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline void poly1305_core_init(struct poly1305_state *state)
 {
 	*state = (struct poly1305_state){};

@@ -149,6 +149,11 @@ struct tipc_net {
 #endif
 	/* Work item for net finalize */
 	struct tipc_net_work final_work;
+<<<<<<< HEAD
+	/* The numbers of work queues in schedule */
+	atomic_t wq_count;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static inline struct tipc_net *tipc_net(struct net *net)

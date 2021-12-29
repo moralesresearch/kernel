@@ -2,4 +2,7 @@
 
 obj-$(CONFIG_CRYPTO_DEV_MARVELL_CESA) += cesa/
 obj-$(CONFIG_CRYPTO_DEV_OCTEONTX_CPT) += octeontx/
+<<<<<<< HEAD
 obj-$(CONFIG_CRYPTO_DEV_OCTEONTX2_CPT) += octeontx2/
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

@@ -431,7 +431,12 @@ static int ifcvf_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	}
 
 	adapter = vdpa_alloc_device(struct ifcvf_adapter, vdpa,
+<<<<<<< HEAD
 				    dev, &ifc_vdpa_ops, NULL);
+=======
+				    dev, &ifc_vdpa_ops,
+				    IFCVF_MAX_QUEUE_PAIRS * 2);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (adapter == NULL) {
 		IFCVF_ERR(pdev, "Failed to allocate vDPA structure");
 		return -ENOMEM;
@@ -455,7 +460,11 @@ static int ifcvf_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	for (i = 0; i < IFCVF_MAX_QUEUE_PAIRS * 2; i++)
 		vf->vring[i].irq = -EINVAL;
 
+<<<<<<< HEAD
 	ret = vdpa_register_device(&adapter->vdpa, IFCVF_MAX_QUEUE_PAIRS * 2);
+=======
+	ret = vdpa_register_device(&adapter->vdpa);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret) {
 		IFCVF_ERR(pdev, "Failed to register ifcvf to vdpa bus");
 		goto err;

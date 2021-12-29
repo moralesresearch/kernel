@@ -944,6 +944,10 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
 	domains = amdgpu_display_supported_domains(drm_to_adev(dev), bo->flags);
 	if (obj->import_attach && !(domains & AMDGPU_GEM_DOMAIN_GTT)) {
 		drm_dbg_kms(dev, "Cannot create framebuffer from imported dma_buf\n");
+<<<<<<< HEAD
+		drm_gem_object_put(obj);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return ERR_PTR(-EINVAL);
 	}
 
@@ -1310,6 +1314,7 @@ bool amdgpu_crtc_get_scanout_position(struct drm_crtc *crtc,
 	return amdgpu_display_get_crtc_scanoutpos(dev, pipe, 0, vpos, hpos,
 						  stime, etime, mode);
 }
+<<<<<<< HEAD
 
 int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
 {
@@ -1355,7 +1360,7 @@ int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
 			}
 		}
 	}
-	return r;
+	return 0;
 }
 
 int amdgpu_display_resume_helper(struct amdgpu_device *adev)
@@ -1399,3 +1404,5 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

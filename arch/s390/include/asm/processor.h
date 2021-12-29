@@ -38,9 +38,18 @@
 #include <asm/runtime_instr.h>
 #include <asm/fpu/types.h>
 #include <asm/fpu/internal.h>
+<<<<<<< HEAD
 #include <asm/irqflags.h>
 
 typedef long (*sys_call_ptr_t)(struct pt_regs *regs);
+=======
+<<<<<<< HEAD
+#include <asm/irqflags.h>
+
+typedef long (*sys_call_ptr_t)(struct pt_regs *regs);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline void set_cpu_flag(int flag)
 {
@@ -104,6 +113,10 @@ extern void __bpon(void);
  */
 struct thread_struct {
 	unsigned int  acrs[NUM_ACRS];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long ksp;			/* kernel stack pointer */
 	unsigned long user_timer;		/* task cputime in user space */
 	unsigned long guest_timer;		/* task cputime in kvm guest */
@@ -123,13 +136,48 @@ struct thread_struct {
 	unsigned int system_call;		/* system call number in signal */
 	unsigned long last_break;		/* last breaking-event-address. */
 	/* pfault_wait is used to block the process on a pfault event */
+<<<<<<< HEAD
+=======
+=======
+        unsigned long ksp;              /* kernel stack pointer             */
+	unsigned long user_timer;	/* task cputime in user space */
+	unsigned long guest_timer;	/* task cputime in kvm guest */
+	unsigned long system_timer;	/* task cputime in kernel space */
+	unsigned long hardirq_timer;	/* task cputime in hardirq context */
+	unsigned long softirq_timer;	/* task cputime in softirq context */
+	unsigned long sys_call_table;	/* system call table address */
+	unsigned long gmap_addr;	/* address of last gmap fault. */
+	unsigned int gmap_write_flag;	/* gmap fault write indication */
+	unsigned int gmap_int_code;	/* int code of last gmap fault */
+	unsigned int gmap_pfault;	/* signal of a pending guest pfault */
+	/* Per-thread information related to debugging */
+	struct per_regs per_user;	/* User specified PER registers */
+	struct per_event per_event;	/* Cause of the last PER trap */
+	unsigned long per_flags;	/* Flags to control debug behavior */
+	unsigned int system_call;	/* system call number in signal */
+	unsigned long last_break;	/* last breaking-event-address. */
+        /* pfault_wait is used to block the process on a pfault event */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long pfault_wait;
 	struct list_head list;
 	/* cpu runtime instrumentation */
 	struct runtime_instr_cb *ri_cb;
+<<<<<<< HEAD
 	struct gs_cb *gs_cb;			/* Current guarded storage cb */
 	struct gs_cb *gs_bc_cb;			/* Broadcast guarded storage cb */
 	unsigned char trap_tdb[256];		/* Transaction abort diagnose block */
+=======
+<<<<<<< HEAD
+	struct gs_cb *gs_cb;			/* Current guarded storage cb */
+	struct gs_cb *gs_bc_cb;			/* Broadcast guarded storage cb */
+	unsigned char trap_tdb[256];		/* Transaction abort diagnose block */
+=======
+	struct gs_cb *gs_cb;		/* Current guarded storage cb */
+	struct gs_cb *gs_bc_cb;		/* Broadcast guarded storage cb */
+	unsigned char trap_tdb[256];	/* Transaction abort diagnose block */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Warning: 'fpu' is dynamically-sized. It *MUST* be at
 	 * the end.
@@ -188,7 +236,14 @@ static inline void release_thread(struct task_struct *tsk) { }
 
 /* Free guarded storage control block */
 void guarded_storage_release(struct task_struct *tsk);
+<<<<<<< HEAD
 void gs_load_bc_cb(struct pt_regs *regs);
+=======
+<<<<<<< HEAD
+void gs_load_bc_cb(struct pt_regs *regs);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 unsigned long get_wchan(struct task_struct *p);
 #define task_pt_regs(tsk) ((struct pt_regs *) \
@@ -329,11 +384,20 @@ extern void memcpy_absolute(void *, void *, size_t);
 extern int s390_isolate_bp(void);
 extern int s390_isolate_bp_guest(void);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static __always_inline bool regs_irqs_disabled(struct pt_regs *regs)
 {
 	return arch_irqs_disabled_flags(regs->psw.mask);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* __ASSEMBLY__ */
 
 #endif /* __ASM_S390_PROCESSOR_H */

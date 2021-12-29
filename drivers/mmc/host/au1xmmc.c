@@ -253,9 +253,15 @@ static void au1xmmc_finish_request(struct au1xmmc_host *host)
 	mmc_request_done(host->mmc, mrq);
 }
 
+<<<<<<< HEAD
 static void au1xmmc_tasklet_finish(struct tasklet_struct *t)
 {
 	struct au1xmmc_host *host = from_tasklet(host, t, finish_task);
+=======
+static void au1xmmc_tasklet_finish(unsigned long param)
+{
+	struct au1xmmc_host *host = (struct au1xmmc_host *) param;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	au1xmmc_finish_request(host);
 }
 
@@ -363,9 +369,15 @@ static void au1xmmc_data_complete(struct au1xmmc_host *host, u32 status)
 	au1xmmc_finish_request(host);
 }
 
+<<<<<<< HEAD
 static void au1xmmc_tasklet_data(struct tasklet_struct *t)
 {
 	struct au1xmmc_host *host = from_tasklet(host, t, data_task);
+=======
+static void au1xmmc_tasklet_data(unsigned long param)
+{
+	struct au1xmmc_host *host = (struct au1xmmc_host *)param;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	u32 status = __raw_readl(HOST_STATUS(host));
 	au1xmmc_data_complete(host, status);
@@ -1037,9 +1049,17 @@ static int au1xmmc_probe(struct platform_device *pdev)
 	if (host->platdata)
 		mmc->caps &= ~(host->platdata->mask_host_caps);
 
+<<<<<<< HEAD
 	tasklet_setup(&host->data_task, au1xmmc_tasklet_data);
 
 	tasklet_setup(&host->finish_task, au1xmmc_tasklet_finish);
+=======
+	tasklet_init(&host->data_task, au1xmmc_tasklet_data,
+			(unsigned long)host);
+
+	tasklet_init(&host->finish_task, au1xmmc_tasklet_finish,
+			(unsigned long)host);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (has_dbdma()) {
 		ret = au1xmmc_dbdma_init(host);

@@ -37,6 +37,7 @@ static inline int snd_sof_remove(struct snd_sof_dev *sdev)
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline int snd_sof_shutdown(struct snd_sof_dev *sdev)
 {
 	if (sof_ops(sdev)->shutdown)
@@ -45,6 +46,8 @@ static inline int snd_sof_shutdown(struct snd_sof_dev *sdev)
 	return 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* control */
 
 /*
@@ -76,6 +79,7 @@ static inline int snd_sof_dsp_reset(struct snd_sof_dev *sdev)
 static inline int snd_sof_dsp_core_power_up(struct snd_sof_dev *sdev,
 					    unsigned int core_mask)
 {
+<<<<<<< HEAD
 	int ret = 0;
 
 	core_mask &= ~sdev->enabled_cores_mask;
@@ -86,11 +90,18 @@ static inline int snd_sof_dsp_core_power_up(struct snd_sof_dev *sdev,
 	}
 
 	return ret;
+=======
+	if (sof_ops(sdev)->core_power_up)
+		return sof_ops(sdev)->core_power_up(sdev, core_mask);
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline int snd_sof_dsp_core_power_down(struct snd_sof_dev *sdev,
 					      unsigned int core_mask)
 {
+<<<<<<< HEAD
 	int ret = 0;
 
 	core_mask &= sdev->enabled_cores_mask;
@@ -101,6 +112,12 @@ static inline int snd_sof_dsp_core_power_down(struct snd_sof_dev *sdev,
 	}
 
 	return ret;
+=======
+	if (sof_ops(sdev)->core_power_down)
+		return sof_ops(sdev)->core_power_down(sdev, core_mask);
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* pre/post fw load */
@@ -228,6 +245,7 @@ static inline int
 snd_sof_dsp_set_power_state(struct snd_sof_dev *sdev,
 			    const struct sof_dsp_power_state *target_state)
 {
+<<<<<<< HEAD
 	int ret = 0;
 
 	mutex_lock(&sdev->power_state_access);
@@ -238,6 +256,13 @@ snd_sof_dsp_set_power_state(struct snd_sof_dev *sdev,
 	mutex_unlock(&sdev->power_state_access);
 
 	return ret;
+=======
+	if (sof_ops(sdev)->set_power_state)
+		return sof_ops(sdev)->set_power_state(sdev, target_state);
+
+	/* D0 substate is not supported, do nothing here. */
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* debug */

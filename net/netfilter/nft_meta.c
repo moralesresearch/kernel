@@ -535,8 +535,14 @@ int nft_meta_get_init(const struct nft_ctx *ctx,
 		return -EOPNOTSUPP;
 	}
 
+<<<<<<< HEAD
 	return nft_parse_register_store(ctx, tb[NFTA_META_DREG], &priv->dreg,
 					NULL, NFT_DATA_VALUE, len);
+=======
+	priv->dreg = nft_parse_register(tb[NFTA_META_DREG]);
+	return nft_validate_register_store(ctx, priv->dreg, NULL,
+					   NFT_DATA_VALUE, len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL_GPL(nft_meta_get_init);
 
@@ -660,7 +666,12 @@ int nft_meta_set_init(const struct nft_ctx *ctx,
 		return -EOPNOTSUPP;
 	}
 
+<<<<<<< HEAD
 	err = nft_parse_register_load(tb[NFTA_META_SREG], &priv->sreg, len);
+=======
+	priv->sreg = nft_parse_register(tb[NFTA_META_SREG]);
+	err = nft_validate_register_load(priv->sreg, len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 

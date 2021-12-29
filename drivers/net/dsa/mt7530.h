@@ -554,6 +554,7 @@ enum mt7531_clk_skew {
 #define  MT7531_GPIO12_RG_RXD3_MASK	GENMASK(19, 16)
 #define  MT7531_EXT_P_MDIO_12		(2 << 16)
 
+<<<<<<< HEAD
 /* Registers for LED GPIO control (MT7530 only)
  * All registers follow this pattern:
  * [ 2: 0]  port 0
@@ -574,6 +575,8 @@ enum mt7531_clk_skew {
 /* GPIO value, 0: Low, 1: High */
 #define MT7530_LED_GPIO_DATA		0x7d18
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define MT7530_CREV			0x7ffc
 #define  CHIP_NAME_SHIFT		16
 #define  MT7530_ID			0x7530

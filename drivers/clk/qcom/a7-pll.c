@@ -86,6 +86,10 @@ static const struct of_device_id qcom_a7pll_match_table[] = {
 	{ .compatible = "qcom,sdx55-a7pll" },
 	{ }
 };
+<<<<<<< HEAD
+MODULE_DEVICE_TABLE(of, qcom_a7pll_match_table);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static struct platform_driver qcom_a7pll_driver = {
 	.probe = qcom_a7pll_probe,

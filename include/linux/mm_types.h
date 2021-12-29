@@ -97,10 +97,17 @@ struct page {
 		};
 		struct {	/* page_pool used by netstack */
 			/**
+<<<<<<< HEAD
+			 * @dma_addr: might require a 64-bit value on
+			 * 32-bit architectures.
+			 */
+			unsigned long dma_addr[2];
+=======
 			 * @dma_addr: might require a 64-bit value even on
 			 * 32-bit architectures.
 			 */
 			dma_addr_t dma_addr;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		};
 		struct {	/* slab, slob and slub */
 			union {
@@ -445,6 +452,8 @@ struct mm_struct {
 		 */
 		atomic_t has_pinned;
 
+<<<<<<< HEAD
+=======
 		/**
 		 * @write_protect_seq: Locked when any thread is write
 		 * protecting pages mapped by this mm to enforce a later COW,
@@ -452,6 +461,7 @@ struct mm_struct {
 		 */
 		seqcount_t write_protect_seq;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_MMU
 		atomic_long_t pgtables_bytes;	/* PTE page table pages */
 #endif
@@ -460,6 +470,21 @@ struct mm_struct {
 		spinlock_t page_table_lock; /* Protects page tables and some
 					     * counters
 					     */
+<<<<<<< HEAD
+		/*
+		 * With some kernel config, the current mmap_lock's offset
+		 * inside 'mm_struct' is at 0x120, which is very optimal, as
+		 * its two hot fields 'count' and 'owner' sit in 2 different
+		 * cachelines,  and when mmap_lock is highly contended, both
+		 * of the 2 fields will be accessed frequently, current layout
+		 * will help to reduce cache bouncing.
+		 *
+		 * So please be careful with adding new fields before
+		 * mmap_lock, which can easily push the 2 fields into one
+		 * cacheline.
+		 */
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		struct rw_semaphore mmap_lock;
 
 		struct list_head mmlist; /* List of maybe swapped mm's.	These
@@ -480,7 +505,19 @@ struct mm_struct {
 		unsigned long stack_vm;	   /* VM_STACK */
 		unsigned long def_flags;
 
+<<<<<<< HEAD
+		/**
+		 * @write_protect_seq: Locked when any thread is write
+		 * protecting pages mapped by this mm to enforce a later COW,
+		 * for instance during page table copying for fork().
+		 */
+		seqcount_t write_protect_seq;
+
 		spinlock_t arg_lock; /* protect the below fields */
+
+=======
+		spinlock_t arg_lock; /* protect the below fields */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		unsigned long start_code, end_code, start_data, end_data;
 		unsigned long start_brk, brk, start_stack;
 		unsigned long arg_start, arg_end, env_start, env_end;
@@ -589,9 +626,22 @@ static inline cpumask_t *mm_cpumask(struct mm_struct *mm)
 }
 
 struct mmu_gather;
+<<<<<<< HEAD
 extern void tlb_gather_mmu(struct mmu_gather *tlb, struct mm_struct *mm);
 extern void tlb_gather_mmu_fullmm(struct mmu_gather *tlb, struct mm_struct *mm);
 extern void tlb_finish_mmu(struct mmu_gather *tlb);
+=======
+<<<<<<< HEAD
+extern void tlb_gather_mmu(struct mmu_gather *tlb, struct mm_struct *mm);
+extern void tlb_gather_mmu_fullmm(struct mmu_gather *tlb, struct mm_struct *mm);
+extern void tlb_finish_mmu(struct mmu_gather *tlb);
+=======
+extern void tlb_gather_mmu(struct mmu_gather *tlb, struct mm_struct *mm,
+				unsigned long start, unsigned long end);
+extern void tlb_finish_mmu(struct mmu_gather *tlb,
+				unsigned long start, unsigned long end);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline void init_tlb_flush_pending(struct mm_struct *mm)
 {

@@ -1176,7 +1176,11 @@ wd33c93_intr(struct Scsi_Host *instance)
 			if (cmd->SCp.Status == ILLEGAL_STATUS_BYTE)
 				cmd->SCp.Status = lun;
 			if (cmd->cmnd[0] == REQUEST_SENSE
+<<<<<<< HEAD
 			    && cmd->SCp.Status != SAM_STAT_GOOD)
+=======
+			    && cmd->SCp.Status != GOOD)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				cmd->result =
 				    (cmd->
 				     result & 0x00ffff) | (DID_ERROR << 16);
@@ -1262,7 +1266,11 @@ wd33c93_intr(struct Scsi_Host *instance)
 		    hostdata->connected = NULL;
 		hostdata->busy[cmd->device->id] &= ~(1 << (cmd->device->lun & 0xff));
 		hostdata->state = S_UNCONNECTED;
+<<<<<<< HEAD
 		if (cmd->cmnd[0] == REQUEST_SENSE && cmd->SCp.Status != SAM_STAT_GOOD)
+=======
+		if (cmd->cmnd[0] == REQUEST_SENSE && cmd->SCp.Status != GOOD)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cmd->result =
 			    (cmd->result & 0x00ffff) | (DID_ERROR << 16);
 		else
@@ -1296,7 +1304,11 @@ wd33c93_intr(struct Scsi_Host *instance)
 			hostdata->state = S_UNCONNECTED;
 			DB(DB_INTR, printk(":%d", cmd->SCp.Status))
 			    if (cmd->cmnd[0] == REQUEST_SENSE
+<<<<<<< HEAD
 				&& cmd->SCp.Status != SAM_STAT_GOOD)
+=======
+				&& cmd->SCp.Status != GOOD)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				cmd->result =
 				    (cmd->
 				     result & 0x00ffff) | (DID_ERROR << 16);

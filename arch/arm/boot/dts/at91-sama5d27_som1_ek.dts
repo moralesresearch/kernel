@@ -11,6 +11,10 @@
 #include "at91-sama5d27_som1.dtsi"
 #include <dt-bindings/mfd/atmel-flexcom.h>
 #include <dt-bindings/gpio/gpio.h>
+<<<<<<< HEAD
+#include <dt-bindings/input/input.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 / {
 	model = "Atmel SAMA5D27 SOM1 EK";
@@ -142,6 +146,10 @@
 
 				input@0 {
 					reg = <0>;
+<<<<<<< HEAD
+=======
+					atmel,wakeup-type = "low";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				};
 			};
 
@@ -466,7 +474,11 @@
 		pb4 {
 			label = "USER";
 			gpios = <&pioA PIN_PA29 GPIO_ACTIVE_LOW>;
+<<<<<<< HEAD
+			linux,code = <KEY_PROG1>;
+=======
 			linux,code = <0x104>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			wakeup-source;
 		};
 	};

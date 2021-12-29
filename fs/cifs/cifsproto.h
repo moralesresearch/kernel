@@ -232,8 +232,11 @@ extern unsigned int setup_special_user_owner_ACE(struct cifs_ace *pace);
 extern void dequeue_mid(struct mid_q_entry *mid, bool malformed);
 extern int cifs_read_from_socket(struct TCP_Server_Info *server, char *buf,
 			         unsigned int to_read);
+<<<<<<< HEAD
 extern ssize_t cifs_discard_from_socket(struct TCP_Server_Info *server,
 					size_t to_read);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 extern int cifs_read_page_from_socket(struct TCP_Server_Info *server,
 					struct page *page,
 					unsigned int page_offset,

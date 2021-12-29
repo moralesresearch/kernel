@@ -337,6 +337,7 @@ Contact:	netdev@vger.kernel.org
 Description:
 		32-bit unsigned integer counting the number of times the link has
 		been down
+<<<<<<< HEAD
 
 What:		/sys/class/net/<iface>/threaded
 Date:		Jan 2021
@@ -352,3 +353,5 @@ Description:
 		0  threaded mode disabled for this dev
 		1  threaded mode enabled for this dev
 		== ==================================
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

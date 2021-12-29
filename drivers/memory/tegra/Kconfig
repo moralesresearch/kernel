@@ -32,11 +32,17 @@ config TEGRA30_EMC
 	  external memory.
 
 config TEGRA124_EMC
+<<<<<<< HEAD
 	tristate "NVIDIA Tegra124 External Memory Controller driver"
 	default y
 	depends on TEGRA_MC && ARCH_TEGRA_124_SOC
 	select TEGRA124_CLK_EMC
 	select PM_OPP
+=======
+	bool "NVIDIA Tegra124 External Memory Controller driver"
+	default y
+	depends on TEGRA_MC && ARCH_TEGRA_124_SOC
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	help
 	  This driver is for the External Memory Controller (EMC) found on
 	  Tegra124 chips. The EMC controls the external DRAM on the board.

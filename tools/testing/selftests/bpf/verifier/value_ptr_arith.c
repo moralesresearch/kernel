@@ -21,6 +21,14 @@
 	.fixup_map_hash_16b = { 5 },
 	.fixup_map_array_48b = { 8 },
 	.result = ACCEPT,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	.result_unpriv = REJECT,
+	.errstr_unpriv = "R1 tried to add from different maps",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.retval = 1,
 },
 {
@@ -120,7 +128,15 @@
 	.fixup_map_array_48b = { 1 },
 	.result = ACCEPT,
 	.result_unpriv = REJECT,
+<<<<<<< HEAD
 	.errstr_unpriv = "R2 tried to add from different maps, paths or scalars",
+=======
+<<<<<<< HEAD
+	.errstr_unpriv = "R2 tried to add from different maps, paths or scalars",
+=======
+	.errstr_unpriv = "R2 tried to add from different pointers or scalars",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.retval = 0,
 },
 {
@@ -167,7 +183,15 @@
 	.fixup_map_array_48b = { 1 },
 	.result = ACCEPT,
 	.result_unpriv = REJECT,
+<<<<<<< HEAD
 	.errstr_unpriv = "R2 tried to add from different maps, paths or scalars",
+=======
+<<<<<<< HEAD
+	.errstr_unpriv = "R2 tried to add from different maps, paths or scalars",
+=======
+	.errstr_unpriv = "R2 tried to add from different maps, paths, or prohibited types",
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.retval = 0,
 },
 {
@@ -300,8 +324,11 @@
 	},
 	.fixup_map_array_48b = { 3 },
 	.result = ACCEPT,
+<<<<<<< HEAD
+=======
 	.result_unpriv = REJECT,
 	.errstr_unpriv = "R0 pointer arithmetic of map value goes out of range",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.retval = 1,
 },
 {
@@ -371,8 +398,11 @@
 	},
 	.fixup_map_array_48b = { 3 },
 	.result = ACCEPT,
+<<<<<<< HEAD
+=======
 	.result_unpriv = REJECT,
 	.errstr_unpriv = "R0 pointer arithmetic of map value goes out of range",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.retval = 1,
 },
 {
@@ -472,8 +502,11 @@
 	},
 	.fixup_map_array_48b = { 3 },
 	.result = ACCEPT,
+<<<<<<< HEAD
+=======
 	.result_unpriv = REJECT,
 	.errstr_unpriv = "R0 pointer arithmetic of map value goes out of range",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.retval = 1,
 },
 {
@@ -766,8 +799,11 @@
 	},
 	.fixup_map_array_48b = { 3 },
 	.result = ACCEPT,
+<<<<<<< HEAD
+=======
 	.result_unpriv = REJECT,
 	.errstr_unpriv = "R0 pointer arithmetic of map value goes out of range",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.retval = 1,
 },
 {

@@ -563,11 +563,19 @@ static int __rdtgroup_move_task(struct task_struct *tsk,
 	 */
 
 	if (rdtgrp->type == RDTCTRL_GROUP) {
+<<<<<<< HEAD
 		WRITE_ONCE(tsk->closid, rdtgrp->closid);
 		WRITE_ONCE(tsk->rmid, rdtgrp->mon.rmid);
 	} else if (rdtgrp->type == RDTMON_GROUP) {
 		if (rdtgrp->mon.parent->closid == tsk->closid) {
 			WRITE_ONCE(tsk->rmid, rdtgrp->mon.rmid);
+=======
+		tsk->closid = rdtgrp->closid;
+		tsk->rmid = rdtgrp->mon.rmid;
+	} else if (rdtgrp->type == RDTMON_GROUP) {
+		if (rdtgrp->mon.parent->closid == tsk->closid) {
+			tsk->rmid = rdtgrp->mon.rmid;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			rdt_last_cmd_puts("Can't move task to different control group\n");
 			return -EINVAL;
@@ -2310,6 +2318,7 @@ static void rdt_move_group_tasks(struct rdtgroup *from, struct rdtgroup *to,
 	for_each_process_thread(p, t) {
 		if (!from || is_closid_match(t, from) ||
 		    is_rmid_match(t, from)) {
+<<<<<<< HEAD
 			WRITE_ONCE(t->closid, to->closid);
 			WRITE_ONCE(t->rmid, to->mon.rmid);
 
@@ -2322,6 +2331,24 @@ static void rdt_move_group_tasks(struct rdtgroup *from, struct rdtgroup *to,
 			 */
 			if (IS_ENABLED(CONFIG_SMP) && mask && task_curr(t))
 				cpumask_set_cpu(task_cpu(t), mask);
+=======
+			t->closid = to->closid;
+			t->rmid = to->mon.rmid;
+
+#ifdef CONFIG_SMP
+			/*
+			 * This is safe on x86 w/o barriers as the ordering
+			 * of writing to task_cpu() and t->on_cpu is
+			 * reverse to the reading here. The detection is
+			 * inaccurate as tasks might move or schedule
+			 * before the smp function call takes place. In
+			 * such a case the function call is pointless, but
+			 * there is no other side effect.
+			 */
+			if (mask && t->on_cpu)
+				cpumask_set_cpu(task_cpu(t), mask);
+#endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 	}
 	read_unlock(&tasklist_lock);

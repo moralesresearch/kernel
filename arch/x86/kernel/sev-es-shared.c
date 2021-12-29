@@ -63,6 +63,10 @@ static bool sev_es_negotiate_protocol(void)
 
 static __always_inline void vc_ghcb_invalidate(struct ghcb *ghcb)
 {
+<<<<<<< HEAD
+	ghcb->save.sw_exit_code = 0;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memset(ghcb->save.valid_bitmap, 0, sizeof(ghcb->save.valid_bitmap));
 }
 
@@ -186,7 +190,10 @@ void __init do_vc_no_ghcb(struct pt_regs *regs, unsigned long exit_code)
 	 * make it accessible to the hypervisor.
 	 *
 	 * In particular, check for:
+<<<<<<< HEAD
+=======
 	 *	- Hypervisor CPUID bit
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 *	- Availability of CPUID leaf 0x8000001f
 	 *	- SEV CPUID bit.
 	 *
@@ -194,10 +201,14 @@ void __init do_vc_no_ghcb(struct pt_regs *regs, unsigned long exit_code)
 	 * can't be checked here.
 	 */
 
+<<<<<<< HEAD
+	if (fn == 0x80000000 && (regs->ax < 0x8000001f))
+=======
 	if ((fn == 1 && !(regs->cx & BIT(31))))
 		/* Hypervisor bit */
 		goto fail;
 	else if (fn == 0x80000000 && (regs->ax < 0x8000001f))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		/* SEV leaf check */
 		goto fail;
 	else if ((fn == 0x8000001f && !(regs->ax & BIT(1))))

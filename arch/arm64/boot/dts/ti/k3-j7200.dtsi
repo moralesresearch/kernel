@@ -114,7 +114,11 @@
 	};
 
 	pmu: pmu {
+<<<<<<< HEAD
 		compatible = "arm,cortex-a72-pmu";
+=======
+		compatible = "arm,armv8-pmuv3";
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_HIGH>;
 	};
 

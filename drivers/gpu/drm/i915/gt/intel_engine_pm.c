@@ -60,6 +60,7 @@ static int __engine_unpark(struct intel_wakeref *wf)
 
 		/* Scrub the context image after our loss of control */
 		ce->ops->reset(ce);
+<<<<<<< HEAD
 
 		CE_TRACE(ce, "reset { seqno:%x, *hwsp:%x, ring:%x }\n",
 			 ce->timeline->seqno,
@@ -67,19 +68,28 @@ static int __engine_unpark(struct intel_wakeref *wf)
 			 ce->ring->emit);
 		GEM_BUG_ON(ce->timeline->seqno !=
 			   READ_ONCE(*ce->timeline->hwsp_seqno));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (engine->unpark)
 		engine->unpark(engine);
 
+<<<<<<< HEAD
 	intel_breadcrumbs_unpark(engine->breadcrumbs);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	intel_engine_unpark_heartbeat(engine);
 	return 0;
 }
 
 #if IS_ENABLED(CONFIG_LOCKDEP)
 
+<<<<<<< HEAD
 static unsigned long __timeline_mark_lock(struct intel_context *ce)
+=======
+static inline unsigned long __timeline_mark_lock(struct intel_context *ce)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long flags;
 
@@ -89,8 +99,13 @@ static unsigned long __timeline_mark_lock(struct intel_context *ce)
 	return flags;
 }
 
+<<<<<<< HEAD
 static void __timeline_mark_unlock(struct intel_context *ce,
 				   unsigned long flags)
+=======
+static inline void __timeline_mark_unlock(struct intel_context *ce,
+					  unsigned long flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	mutex_release(&ce->timeline->mutex.dep_map, _THIS_IP_);
 	local_irq_restore(flags);
@@ -98,13 +113,22 @@ static void __timeline_mark_unlock(struct intel_context *ce,
 
 #else
 
+<<<<<<< HEAD
 static unsigned long __timeline_mark_lock(struct intel_context *ce)
+=======
+static inline unsigned long __timeline_mark_lock(struct intel_context *ce)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	return 0;
 }
 
+<<<<<<< HEAD
 static void __timeline_mark_unlock(struct intel_context *ce,
 				   unsigned long flags)
+=======
+static inline void __timeline_mark_unlock(struct intel_context *ce,
+					  unsigned long flags)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 }
 
@@ -144,7 +168,11 @@ __queue_and_release_pm(struct i915_request *rq,
 		list_add_tail(&tl->link, &timelines->active_list);
 
 	/* Hand the request over to HW and so engine_retire() */
+<<<<<<< HEAD
 	__i915_request_queue_bh(rq);
+=======
+	__i915_request_queue(rq, NULL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Let new submissions commence (and maybe retire this timeline) */
 	__intel_wakeref_defer_park(&engine->wakeref);

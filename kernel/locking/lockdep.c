@@ -705,7 +705,15 @@ static void print_lock_name(struct lock_class *class)
 
 	printk(KERN_CONT " (");
 	__print_lock_name(class);
+<<<<<<< HEAD
 	printk(KERN_CONT "){%s}-{%d:%d}", usage,
+=======
+<<<<<<< HEAD
+	printk(KERN_CONT "){%s}-{%d:%d}", usage,
+=======
+	printk(KERN_CONT "){%s}-{%hd:%hd}", usage,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			class->wait_type_outer ?: class->wait_type_inner,
 			class->wait_type_inner);
 }
@@ -930,8 +938,17 @@ static bool assign_lock_key(struct lockdep_map *lock)
 		/* Debug-check: all keys must be persistent! */
 		debug_locks_off();
 		pr_err("INFO: trying to register non-static key.\n");
+<<<<<<< HEAD
 		pr_err("The code is fine but needs lockdep annotation, or maybe\n");
 		pr_err("you didn't initialize this object before use?\n");
+=======
+<<<<<<< HEAD
+		pr_err("The code is fine but needs lockdep annotation, or maybe\n");
+		pr_err("you didn't initialize this object before use?\n");
+=======
+		pr_err("the code is fine but needs lockdep annotation.\n");
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pr_err("turning off the locking correctness validator.\n");
 		dump_stack();
 		return false;
@@ -1291,7 +1308,14 @@ register_lock_class(struct lockdep_map *lock, unsigned int subclass, int force)
 	class->name_version = count_matching_names(class);
 	class->wait_type_inner = lock->wait_type_inner;
 	class->wait_type_outer = lock->wait_type_outer;
+<<<<<<< HEAD
 	class->lock_type = lock->lock_type;
+=======
+<<<<<<< HEAD
+	class->lock_type = lock->lock_type;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We use RCU's safe list-add method to make
 	 * parallel walking of the hash-list safe:
@@ -1673,7 +1697,14 @@ static inline struct lock_list *__bfs_next(struct lock_list *lock, int offset)
 static enum bfs_result __bfs(struct lock_list *source_entry,
 			     void *data,
 			     bool (*match)(struct lock_list *entry, void *data),
+<<<<<<< HEAD
 			     bool (*skip)(struct lock_list *entry, void *data),
+=======
+<<<<<<< HEAD
+			     bool (*skip)(struct lock_list *entry, void *data),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			     struct lock_list **target_entry,
 			     int offset)
 {
@@ -1734,12 +1765,22 @@ static enum bfs_result __bfs(struct lock_list *source_entry,
 		/*
 		 * Step 3: we haven't visited this and there is a strong
 		 *         dependency path to this, so check with @match.
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 *         If @skip is provide and returns true, we skip this
 		 *         lock (and any path this lock is in).
 		 */
 		if (skip && skip(lock, data))
 			continue;
 
+<<<<<<< HEAD
+=======
+=======
+		 */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (match(lock, data)) {
 			*target_entry = lock;
 			return BFS_RMATCH;
@@ -1782,10 +1823,22 @@ static inline enum bfs_result
 __bfs_forwards(struct lock_list *src_entry,
 	       void *data,
 	       bool (*match)(struct lock_list *entry, void *data),
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	       bool (*skip)(struct lock_list *entry, void *data),
 	       struct lock_list **target_entry)
 {
 	return __bfs(src_entry, data, match, skip, target_entry,
+<<<<<<< HEAD
+=======
+=======
+	       struct lock_list **target_entry)
+{
+	return __bfs(src_entry, data, match, target_entry,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     offsetof(struct lock_class, locks_after));
 
 }
@@ -1794,10 +1847,22 @@ static inline enum bfs_result
 __bfs_backwards(struct lock_list *src_entry,
 		void *data,
 		bool (*match)(struct lock_list *entry, void *data),
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	       bool (*skip)(struct lock_list *entry, void *data),
 		struct lock_list **target_entry)
 {
 	return __bfs(src_entry, data, match, skip, target_entry,
+<<<<<<< HEAD
+=======
+=======
+		struct lock_list **target_entry)
+{
+	return __bfs(src_entry, data, match, target_entry,
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		     offsetof(struct lock_class, locks_before));
 
 }
@@ -2028,7 +2093,15 @@ static unsigned long __lockdep_count_forward_deps(struct lock_list *this)
 	unsigned long  count = 0;
 	struct lock_list *target_entry;
 
+<<<<<<< HEAD
 	__bfs_forwards(this, (void *)&count, noop_count, NULL, &target_entry);
+=======
+<<<<<<< HEAD
+	__bfs_forwards(this, (void *)&count, noop_count, NULL, &target_entry);
+=======
+	__bfs_forwards(this, (void *)&count, noop_count, &target_entry);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return count;
 }
@@ -2053,7 +2126,15 @@ static unsigned long __lockdep_count_backward_deps(struct lock_list *this)
 	unsigned long  count = 0;
 	struct lock_list *target_entry;
 
+<<<<<<< HEAD
 	__bfs_backwards(this, (void *)&count, noop_count, NULL, &target_entry);
+=======
+<<<<<<< HEAD
+	__bfs_backwards(this, (void *)&count, noop_count, NULL, &target_entry);
+=======
+	__bfs_backwards(this, (void *)&count, noop_count, &target_entry);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return count;
 }
@@ -2081,12 +2162,27 @@ unsigned long lockdep_count_backward_deps(struct lock_class *class)
 static noinline enum bfs_result
 check_path(struct held_lock *target, struct lock_list *src_entry,
 	   bool (*match)(struct lock_list *entry, void *data),
+<<<<<<< HEAD
 	   bool (*skip)(struct lock_list *entry, void *data),
+=======
+<<<<<<< HEAD
+	   bool (*skip)(struct lock_list *entry, void *data),
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	   struct lock_list **target_entry)
 {
 	enum bfs_result ret;
 
+<<<<<<< HEAD
 	ret = __bfs_forwards(src_entry, target, match, skip, target_entry);
+=======
+<<<<<<< HEAD
+	ret = __bfs_forwards(src_entry, target, match, skip, target_entry);
+=======
+	ret = __bfs_forwards(src_entry, target, match, target_entry);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(bfs_error(ret)))
 		print_bfs_bug(ret);
@@ -2113,7 +2209,15 @@ check_noncircular(struct held_lock *src, struct held_lock *target,
 
 	debug_atomic_inc(nr_cyclic_checks);
 
+<<<<<<< HEAD
 	ret = check_path(target, &src_entry, hlock_conflict, NULL, &target_entry);
+=======
+<<<<<<< HEAD
+	ret = check_path(target, &src_entry, hlock_conflict, NULL, &target_entry);
+=======
+	ret = check_path(target, &src_entry, hlock_conflict, &target_entry);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(ret == BFS_RMATCH)) {
 		if (!*trace) {
@@ -2131,6 +2235,52 @@ check_noncircular(struct held_lock *src, struct held_lock *target,
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_LOCKDEP_SMALL
+/*
+ * Check that the dependency graph starting at <src> can lead to
+ * <target> or not. If it can, <src> -> <target> dependency is already
+ * in the graph.
+ *
+ * Return BFS_RMATCH if it does, or BFS_RMATCH if it does not, return BFS_E* if
+ * any error appears in the bfs search.
+ */
+static noinline enum bfs_result
+check_redundant(struct held_lock *src, struct held_lock *target)
+{
+	enum bfs_result ret;
+	struct lock_list *target_entry;
+	struct lock_list src_entry;
+
+	bfs_init_root(&src_entry, src);
+	/*
+	 * Special setup for check_redundant().
+	 *
+	 * To report redundant, we need to find a strong dependency path that
+	 * is equal to or stronger than <src> -> <target>. So if <src> is E,
+	 * we need to let __bfs() only search for a path starting at a -(E*)->,
+	 * we achieve this by setting the initial node's ->only_xr to true in
+	 * that case. And if <prev> is S, we set initial ->only_xr to false
+	 * because both -(S*)-> (equal) and -(E*)-> (stronger) are redundant.
+	 */
+	src_entry.only_xr = src->read == 0;
+
+	debug_atomic_inc(nr_redundant_checks);
+
+	ret = check_path(target, &src_entry, hlock_equal, &target_entry);
+
+	if (ret == BFS_RMATCH)
+		debug_atomic_inc(nr_redundant);
+
+	return ret;
+}
+#endif
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_TRACE_IRQFLAGS
 
 /*
@@ -2201,6 +2351,10 @@ static inline bool usage_match(struct lock_list *entry, void *mask)
 		return !!((entry->class->usage_mask & LOCKF_IRQ) & *(unsigned long *)mask);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static inline bool usage_skip(struct lock_list *entry, void *mask)
 {
 	/*
@@ -2239,6 +2393,11 @@ static inline bool usage_skip(struct lock_list *entry, void *mask)
 	return false;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Find a node in the forwards-direction dependency sub-graph starting
  * at @root->class that matches @bit.
@@ -2254,7 +2413,15 @@ find_usage_forwards(struct lock_list *root, unsigned long usage_mask,
 
 	debug_atomic_inc(nr_find_usage_forwards_checks);
 
+<<<<<<< HEAD
 	result = __bfs_forwards(root, &usage_mask, usage_match, usage_skip, target_entry);
+=======
+<<<<<<< HEAD
+	result = __bfs_forwards(root, &usage_mask, usage_match, usage_skip, target_entry);
+=======
+	result = __bfs_forwards(root, &usage_mask, usage_match, target_entry);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return result;
 }
@@ -2271,7 +2438,15 @@ find_usage_backwards(struct lock_list *root, unsigned long usage_mask,
 
 	debug_atomic_inc(nr_find_usage_backwards_checks);
 
+<<<<<<< HEAD
 	result = __bfs_backwards(root, &usage_mask, usage_match, usage_skip, target_entry);
+=======
+<<<<<<< HEAD
+	result = __bfs_backwards(root, &usage_mask, usage_match, usage_skip, target_entry);
+=======
+	result = __bfs_backwards(root, &usage_mask, usage_match, target_entry);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return result;
 }
@@ -2636,7 +2811,15 @@ static int check_irq_usage(struct task_struct *curr, struct held_lock *prev,
 	 */
 	bfs_init_rootb(&this, prev);
 
+<<<<<<< HEAD
 	ret = __bfs_backwards(&this, &usage_mask, usage_accumulate, usage_skip, NULL);
+=======
+<<<<<<< HEAD
+	ret = __bfs_backwards(&this, &usage_mask, usage_accumulate, usage_skip, NULL);
+=======
+	ret = __bfs_backwards(&this, &usage_mask, usage_accumulate, NULL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (bfs_error(ret)) {
 		print_bfs_bug(ret);
 		return 0;
@@ -2703,6 +2886,10 @@ static inline int check_irq_usage(struct task_struct *curr,
 {
 	return 1;
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline bool usage_skip(struct lock_list *entry, void *mask)
 {
@@ -2765,6 +2952,13 @@ check_redundant(struct held_lock *src, struct held_lock *target)
 
 #endif
 
+<<<<<<< HEAD
+=======
+=======
+#endif /* CONFIG_TRACE_IRQFLAGS */
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void inc_chains(int irq_context)
 {
 	if (irq_context & LOCK_CHAIN_HARDIRQ_CONTEXT)
@@ -2985,6 +3179,13 @@ check_prev_add(struct task_struct *curr, struct held_lock *prev,
 		}
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_LOCKDEP_SMALL
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Is the <prev> -> <next> link redundant?
 	 */
@@ -2993,6 +3194,13 @@ check_prev_add(struct task_struct *curr, struct held_lock *prev,
 		return 0;
 	else if (ret == BFS_RMATCH)
 		return 2;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!*trace) {
 		*trace = save_trace();
@@ -4571,9 +4779,21 @@ print_lock_invalid_wait_context(struct task_struct *curr,
  */
 static int check_wait_context(struct task_struct *curr, struct held_lock *next)
 {
+<<<<<<< HEAD
 	u8 next_inner = hlock_class(next)->wait_type_inner;
 	u8 next_outer = hlock_class(next)->wait_type_outer;
 	u8 curr_inner;
+=======
+<<<<<<< HEAD
+	u8 next_inner = hlock_class(next)->wait_type_inner;
+	u8 next_outer = hlock_class(next)->wait_type_outer;
+	u8 curr_inner;
+=======
+	short next_inner = hlock_class(next)->wait_type_inner;
+	short next_outer = hlock_class(next)->wait_type_outer;
+	short curr_inner;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int depth;
 
 	if (!curr->lockdep_depth || !next_inner || next->trylock)
@@ -4596,7 +4816,15 @@ static int check_wait_context(struct task_struct *curr, struct held_lock *next)
 
 	for (; depth < curr->lockdep_depth; depth++) {
 		struct held_lock *prev = curr->held_locks + depth;
+<<<<<<< HEAD
 		u8 prev_inner = hlock_class(prev)->wait_type_inner;
+=======
+<<<<<<< HEAD
+		u8 prev_inner = hlock_class(prev)->wait_type_inner;
+=======
+		short prev_inner = hlock_class(prev)->wait_type_inner;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (prev_inner) {
 			/*
@@ -4645,9 +4873,21 @@ static inline int check_wait_context(struct task_struct *curr,
 /*
  * Initialize a lock instance's lock-class mapping info:
  */
+<<<<<<< HEAD
 void lockdep_init_map_type(struct lockdep_map *lock, const char *name,
 			    struct lock_class_key *key, int subclass,
 			    u8 inner, u8 outer, u8 lock_type)
+=======
+<<<<<<< HEAD
+void lockdep_init_map_type(struct lockdep_map *lock, const char *name,
+			    struct lock_class_key *key, int subclass,
+			    u8 inner, u8 outer, u8 lock_type)
+=======
+void lockdep_init_map_waits(struct lockdep_map *lock, const char *name,
+			    struct lock_class_key *key, int subclass,
+			    short inner, short outer)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int i;
 
@@ -4670,7 +4910,14 @@ void lockdep_init_map_type(struct lockdep_map *lock, const char *name,
 
 	lock->wait_type_outer = outer;
 	lock->wait_type_inner = inner;
+<<<<<<< HEAD
 	lock->lock_type = lock_type;
+=======
+<<<<<<< HEAD
+	lock->lock_type = lock_type;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * No key, no joy, we need to hash something.
@@ -4705,7 +4952,15 @@ void lockdep_init_map_type(struct lockdep_map *lock, const char *name,
 		raw_local_irq_restore(flags);
 	}
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(lockdep_init_map_type);
+=======
+<<<<<<< HEAD
+EXPORT_SYMBOL_GPL(lockdep_init_map_type);
+=======
+EXPORT_SYMBOL_GPL(lockdep_init_map_waits);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct lock_class_key __lockdep_no_validate__;
 EXPORT_SYMBOL_GPL(__lockdep_no_validate__);
@@ -5731,7 +5986,11 @@ void lock_contended(struct lockdep_map *lock, unsigned long ip)
 {
 	unsigned long flags;
 
+<<<<<<< HEAD
+	trace_lock_contended(lock, ip);
+=======
 	trace_lock_acquired(lock, ip);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(!lock_stat || !lockdep_enabled()))
 		return;
@@ -5749,7 +6008,11 @@ void lock_acquired(struct lockdep_map *lock, unsigned long ip)
 {
 	unsigned long flags;
 
+<<<<<<< HEAD
+	trace_lock_acquired(lock, ip);
+=======
 	trace_lock_contended(lock, ip);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (unlikely(!lock_stat || !lockdep_enabled()))
 		return;

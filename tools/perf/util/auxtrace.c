@@ -634,7 +634,15 @@ int auxtrace_parse_snapshot_options(struct auxtrace_record *itr,
 		break;
 	}
 
+<<<<<<< HEAD
 	if (itr && itr->parse_snapshot_options)
+=======
+<<<<<<< HEAD
+	if (itr && itr->parse_snapshot_options)
+=======
+	if (itr)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return itr->parse_snapshot_options(itr, opts, str);
 
 	pr_err("No AUX area tracing to snapshot\n");
@@ -784,6 +792,10 @@ no_opt:
 	return auxtrace_validate_aux_sample_size(evlist, opts);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void auxtrace_regroup_aux_output(struct evlist *evlist)
 {
 	struct evsel *evsel, *aux_evsel = NULL;
@@ -799,6 +811,11 @@ void auxtrace_regroup_aux_output(struct evlist *evlist)
 	}
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct auxtrace_record *__weak
 auxtrace_record__init(struct evlist *evlist __maybe_unused, int *err)
 {

@@ -68,6 +68,7 @@ created)
 				... subsys_vendor_id
 				... subsys_id
 				... interrupt_pin
+<<<<<<< HEAD
                                 ... primary/
 			                ... <Symlink EPC Device1>/
                                 ... secondary/
@@ -78,6 +79,8 @@ Non-transparent bridge), symlink of endpoint controller connected to primary
 interface should be added in 'primary' directory and symlink of endpoint
 controller connected to secondary interface should be added in 'secondary'
 directory.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 EPC Device
 ==========

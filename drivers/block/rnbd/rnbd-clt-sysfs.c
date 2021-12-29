@@ -432,10 +432,21 @@ void rnbd_clt_remove_dev_symlink(struct rnbd_clt_dev *dev)
 	 * i.e. rnbd_clt_unmap_dev_store() leading to a sysfs warning because
 	 * of sysfs link already was removed already.
 	 */
+<<<<<<< HEAD
+	if (dev->blk_symlink_name) {
+		if (try_module_get(THIS_MODULE)) {
+			sysfs_remove_link(rnbd_devs_kobj, dev->blk_symlink_name);
+			module_put(THIS_MODULE);
+		}
+		/* It should be freed always. */
+		kfree(dev->blk_symlink_name);
+		dev->blk_symlink_name = NULL;
+=======
 	if (dev->blk_symlink_name && try_module_get(THIS_MODULE)) {
 		sysfs_remove_link(rnbd_devs_kobj, dev->blk_symlink_name);
 		kfree(dev->blk_symlink_name);
 		module_put(THIS_MODULE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 }
 
@@ -479,11 +490,15 @@ static int rnbd_clt_get_path_name(struct rnbd_clt_dev *dev, char *buf,
 	while ((s = strchr(pathname, '/')))
 		s[0] = '!';
 
+<<<<<<< HEAD
+	ret = snprintf(buf, len, "%s@%s", pathname, dev->sess->sessname);
+=======
 	ret = snprintf(buf, len, "%s", pathname);
 	if (ret >= len)
 		return -ENAMETOOLONG;
 
 	ret = snprintf(buf, len, "%s@%s", buf, dev->sess->sessname);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret >= len)
 		return -ENAMETOOLONG;
 

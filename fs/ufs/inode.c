@@ -1211,14 +1211,22 @@ out:
 	return err;
 }
 
+<<<<<<< HEAD
 int ufs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 		struct iattr *attr)
+=======
+int ufs_setattr(struct dentry *dentry, struct iattr *attr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct inode *inode = d_inode(dentry);
 	unsigned int ia_valid = attr->ia_valid;
 	int error;
 
+<<<<<<< HEAD
 	error = setattr_prepare(&init_user_ns, dentry, attr);
+=======
+	error = setattr_prepare(dentry, attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (error)
 		return error;
 
@@ -1228,7 +1236,11 @@ int ufs_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 			return error;
 	}
 
+<<<<<<< HEAD
 	setattr_copy(&init_user_ns, inode, attr);
+=======
+	setattr_copy(inode, attr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mark_inode_dirty(inode);
 	return 0;
 }

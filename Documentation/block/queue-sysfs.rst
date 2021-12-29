@@ -261,12 +261,15 @@ For block drivers that support REQ_OP_WRITE_ZEROES, the maximum number of
 bytes that can be zeroed at once. The value 0 means that REQ_OP_WRITE_ZEROES
 is not supported.
 
+<<<<<<< HEAD
 zone_append_max_bytes (RO)
 --------------------------
 This is the maximum number of bytes that can be written to a sequential
 zone of a zoned block device using a zone append write operation
 (REQ_OP_ZONE_APPEND). This value is always 0 for regular block devices.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 zoned (RO)
 ----------
 This indicates if the device is a zoned block device and the zone model of the
@@ -279,6 +282,7 @@ devices are described in the ZBC (Zoned Block Commands) and ZAC
 do not support zone commands, they will be treated as regular block devices
 and zoned will report "none".
 
+<<<<<<< HEAD
 zone_write_granularity (RO)
 ---------------------------
 This indicates the alignment constraint, in bytes, for write operations in
@@ -286,4 +290,6 @@ sequential zones of zoned block devices (devices with a zoned attributed
 that reports "host-managed" or "host-aware"). This value is always 0 for
 regular block devices.
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Jens Axboe <jens.axboe@oracle.com>, February 2009

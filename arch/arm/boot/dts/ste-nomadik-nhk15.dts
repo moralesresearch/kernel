@@ -195,7 +195,11 @@
 			pinctrl-0 = <&uart0_nhk_mode>;
 			status = "okay";
 		};
+<<<<<<< HEAD
 		mmcsd: mmc@101f6000 {
+=======
+		mmcsd: sdi@101f6000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			cd-gpios = <&stmpe_gpio44 7 GPIO_ACTIVE_LOW>;
 			wp-gpios = <&stmpe_gpio44 18 GPIO_ACTIVE_HIGH>;
 		};

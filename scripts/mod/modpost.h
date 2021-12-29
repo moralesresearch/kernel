@@ -2,7 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+<<<<<<< HEAD
 #include <stdbool.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -140,7 +143,14 @@ struct elf_info {
 	Elf_Sym      *symtab_start;
 	Elf_Sym      *symtab_stop;
 	Elf_Section  export_sec;
+<<<<<<< HEAD
 	Elf_Section  export_gpl_sec;
+=======
+	Elf_Section  export_unused_sec;
+	Elf_Section  export_gpl_sec;
+	Elf_Section  export_unused_gpl_sec;
+	Elf_Section  export_gpl_future_sec;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	char         *strtab;
 	char	     *modinfo;
 	unsigned int modinfo_len;
@@ -178,6 +188,7 @@ static inline unsigned int get_secindex(const struct elf_info *info,
 	return info->symtab_shndx_start[sym - info->symtab_start];
 }
 
+<<<<<<< HEAD
 static inline bool strends(const char *str, const char *postfix)
 {
 	if (strlen(str) < strlen(postfix))
@@ -186,6 +197,8 @@ static inline bool strends(const char *str, const char *postfix)
 	return strcmp(str + strlen(str) - strlen(postfix), postfix) == 0;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* file2alias.c */
 extern unsigned int cross_build;
 void handle_moddevtable(struct module *mod, struct elf_info *info,

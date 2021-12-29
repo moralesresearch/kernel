@@ -71,8 +71,11 @@ static struct {
 	{HID_USAGE_SENSOR_TEMPERATURE, HID_USAGE_SENSOR_UNITS_DEGREES, 1000, 0},
 
 	{HID_USAGE_SENSOR_HUMIDITY, 0, 1000, 0},
+<<<<<<< HEAD
 	{HID_USAGE_SENSOR_HINGE, 0, 0, 17453293},
 	{HID_USAGE_SENSOR_HINGE, HID_USAGE_SENSOR_UNITS_DEGREES, 0, 17453293},
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static void simple_div(int dividend, int divisor, int *whole,

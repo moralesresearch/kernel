@@ -23,9 +23,17 @@
 
 /**
  * struct fsl_esai_soc_data - soc specific data
+<<<<<<< HEAD
  * @reset_at_xrun: flags for enable reset operaton
  */
 struct fsl_esai_soc_data {
+=======
+ * @imx: for imx platform
+ * @reset_at_xrun: flags for enable reset operaton
+ */
+struct fsl_esai_soc_data {
+	bool imx;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool reset_at_xrun;
 };
 
@@ -84,14 +92,26 @@ struct fsl_esai {
 };
 
 static struct fsl_esai_soc_data fsl_esai_vf610 = {
+<<<<<<< HEAD
+=======
+	.imx = false,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.reset_at_xrun = true,
 };
 
 static struct fsl_esai_soc_data fsl_esai_imx35 = {
+<<<<<<< HEAD
+=======
+	.imx = true,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.reset_at_xrun = true,
 };
 
 static struct fsl_esai_soc_data fsl_esai_imx6ull = {
+<<<<<<< HEAD
+=======
+	.imx = true,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.reset_at_xrun = false,
 };
 
@@ -519,6 +539,7 @@ static int fsl_esai_startup(struct snd_pcm_substream *substream,
 				   ESAI_SAICR_SYNC, esai_priv->synchronous ?
 				   ESAI_SAICR_SYNC : 0);
 
+<<<<<<< HEAD
 		/* Set slots count */
 		regmap_update_bits(esai_priv->regmap, REG_ESAI_TCCR,
 				   ESAI_xCCR_xDC_MASK,
@@ -526,6 +547,13 @@ static int fsl_esai_startup(struct snd_pcm_substream *substream,
 		regmap_update_bits(esai_priv->regmap, REG_ESAI_RCCR,
 				   ESAI_xCCR_xDC_MASK,
 				   ESAI_xCCR_xDC(esai_priv->slots));
+=======
+		/* Set a default slot number -- 2 */
+		regmap_update_bits(esai_priv->regmap, REG_ESAI_TCCR,
+				   ESAI_xCCR_xDC_MASK, ESAI_xCCR_xDC(2));
+		regmap_update_bits(esai_priv->regmap, REG_ESAI_RCCR,
+				   ESAI_xCCR_xDC_MASK, ESAI_xCCR_xDC(2));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;
@@ -964,6 +992,13 @@ static int fsl_esai_probe(struct platform_device *pdev)
 	snprintf(esai_priv->name, sizeof(esai_priv->name), "%pOFn", np);
 
 	esai_priv->soc = of_device_get_match_data(&pdev->dev);
+<<<<<<< HEAD
+=======
+	if (!esai_priv->soc) {
+		dev_err(&pdev->dev, "failed to get soc data\n");
+		return -ENODEV;
+	}
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Get the addresses and IRQ */
 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
@@ -1035,9 +1070,15 @@ static int fsl_esai_probe(struct platform_device *pdev)
 
 	/* Implement full symmetry for synchronous mode */
 	if (esai_priv->synchronous) {
+<<<<<<< HEAD
 		fsl_esai_dai.symmetric_rate = 1;
 		fsl_esai_dai.symmetric_channels = 1;
 		fsl_esai_dai.symmetric_sample_bits = 1;
+=======
+		fsl_esai_dai.symmetric_rates = 1;
+		fsl_esai_dai.symmetric_channels = 1;
+		fsl_esai_dai.symmetric_samplebits = 1;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	dev_set_drvdata(&pdev->dev, esai_priv);

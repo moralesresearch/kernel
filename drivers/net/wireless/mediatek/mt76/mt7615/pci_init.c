@@ -12,7 +12,15 @@
 #include "mac.h"
 #include "eeprom.h"
 
+<<<<<<< HEAD
 static void mt7615_pci_init_work(struct work_struct *work)
+=======
+<<<<<<< HEAD
+static void mt7615_pci_init_work(struct work_struct *work)
+=======
+static void mt7615_init_work(struct work_struct *work)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct mt7615_dev *dev = container_of(work, struct mt7615_dev,
 					      mcu_work);
@@ -27,7 +35,20 @@ static void mt7615_pci_init_work(struct work_struct *work)
 	if (ret)
 		return;
 
+<<<<<<< HEAD
 	mt7615_init_work(dev);
+=======
+<<<<<<< HEAD
+	mt7615_init_work(dev);
+=======
+	mt7615_mcu_set_eeprom(dev);
+	mt7615_mac_init(dev);
+	mt7615_phy_init(dev);
+	mt7615_mcu_del_wtbl_all(dev);
+	mt7615_check_offload_capability(dev);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dev->dbdc_support)
 		mt7615_register_ext_phy(dev);
 }
@@ -39,7 +60,15 @@ static int mt7615_init_hardware(struct mt7615_dev *dev)
 
 	mt76_wr(dev, MT_INT_SOURCE_CSR, ~0);
 
+<<<<<<< HEAD
 	INIT_WORK(&dev->mcu_work, mt7615_pci_init_work);
+=======
+<<<<<<< HEAD
+	INIT_WORK(&dev->mcu_work, mt7615_pci_init_work);
+=======
+	INIT_WORK(&dev->mcu_work, mt7615_init_work);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_lock_init(&dev->token_lock);
 	idr_init(&dev->token);
 
@@ -163,10 +192,16 @@ void mt7615_unregister_device(struct mt7615_dev *dev)
 	mt76_unregister_device(&dev->mt76);
 	if (mcu_running)
 		mt7615_mcu_exit(dev);
+<<<<<<< HEAD
+
+	mt7615_tx_token_put(dev);
+	mt7615_dma_cleanup(dev);
+=======
 	mt7615_dma_cleanup(dev);
 
 	mt7615_tx_token_put(dev);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	tasklet_disable(&dev->irq_tasklet);
 
 	mt76_free_device(&dev->mt76);

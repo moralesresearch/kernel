@@ -784,12 +784,22 @@ would_block:
 static inline void wake_up_sem_queue_prepare(struct sem_queue *q, int error,
 					     struct wake_q_head *wake_q)
 {
+<<<<<<< HEAD
+	struct task_struct *sleeper;
+
+	sleeper = get_task_struct(q->sleeper);
+=======
 	get_task_struct(q->sleeper);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* see SEM_BARRIER_2 for purpuse/pairing */
 	smp_store_release(&q->status, error);
 
+<<<<<<< HEAD
+	wake_q_add_safe(wake_q, sleeper);
+=======
 	wake_q_add_safe(wake_q, q->sleeper);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void unlink_queue(struct sem_array *sma, struct sem_queue *q)

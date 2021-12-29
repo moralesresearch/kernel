@@ -19,7 +19,10 @@
 #include <linux/numa.h>
 #include <asm/machdep.h>
 #include <asm/debugfs.h>
+<<<<<<< HEAD
 #include <asm/cacheflush.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* This enables us to keep track of the memory removed from each node. */
 struct memtrace_entry {
@@ -52,6 +55,7 @@ static const struct file_operations memtrace_fops = {
 	.open	= simple_open,
 };
 
+<<<<<<< HEAD
 #define FLUSH_CHUNK_SIZE SZ_1G
 /**
  * flush_dcache_range_chunked(): Write any modified data cache blocks out to
@@ -73,6 +77,8 @@ static void flush_dcache_range_chunked(unsigned long start, unsigned long stop,
 	}
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void memtrace_clear_range(unsigned long start_pfn,
 				 unsigned long nr_pages)
 {
@@ -84,13 +90,16 @@ static void memtrace_clear_range(unsigned long start_pfn,
 			cond_resched();
 		clear_page(__va(PFN_PHYS(pfn)));
 	}
+<<<<<<< HEAD
 	/*
 	 * Before we go ahead and use this range as cache inhibited range
 	 * flush the cache.
 	 */
-	flush_dcache_range_chunked(PFN_PHYS(start_pfn),
-				   PFN_PHYS(start_pfn + nr_pages),
+	flush_dcache_range_chunked((unsigned long)pfn_to_kaddr(start_pfn),
+				   (unsigned long)pfn_to_kaddr(start_pfn + nr_pages),
 				   FLUSH_CHUNK_SIZE);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static u64 memtrace_alloc_node(u32 nid, u64 size)

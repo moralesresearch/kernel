@@ -319,6 +319,7 @@ __intel_timeline_create(struct intel_gt *gt,
 	return timeline;
 }
 
+<<<<<<< HEAD
 struct intel_timeline *
 intel_timeline_create_from_engine(struct intel_engine_cs *engine,
 				  unsigned int offset)
@@ -338,6 +339,8 @@ intel_timeline_create_from_engine(struct intel_engine_cs *engine,
 	return tl;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void __intel_timeline_pin(struct intel_timeline *tl)
 {
 	GEM_BUG_ON(!atomic_read(&tl->pin_count));
@@ -582,11 +585,19 @@ int intel_timeline_read_hwsp(struct i915_request *from,
 
 	rcu_read_lock();
 	cl = rcu_dereference(from->hwsp_cacheline);
+<<<<<<< HEAD
 	if (i915_request_signaled(from)) /* confirm cacheline is valid */
 		goto unlock;
 	if (unlikely(!i915_active_acquire_if_busy(&cl->active)))
 		goto unlock; /* seqno wrapped and completed! */
 	if (unlikely(__i915_request_is_complete(from)))
+=======
+	if (i915_request_completed(from)) /* confirm cacheline is valid */
+		goto unlock;
+	if (unlikely(!i915_active_acquire_if_busy(&cl->active)))
+		goto unlock; /* seqno wrapped and completed! */
+	if (unlikely(i915_request_completed(from)))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto release;
 	rcu_read_unlock();
 
@@ -634,6 +645,7 @@ void intel_gt_fini_timelines(struct intel_gt *gt)
 	GEM_BUG_ON(!list_empty(&timelines->hwsp_free_list));
 }
 
+<<<<<<< HEAD
 void intel_gt_show_timelines(struct intel_gt *gt,
 			     struct drm_printer *m,
 			     void (*show_request)(struct drm_printer *m,
@@ -714,6 +726,8 @@ void intel_gt_show_timelines(struct intel_gt *gt,
 		__intel_timeline_free(&tl->kref);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
 #include "gt/selftests/mock_timeline.c"
 #include "gt/selftest_timeline.c"

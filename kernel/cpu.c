@@ -330,6 +330,7 @@ void lockdep_assert_cpus_held(void)
 	percpu_rwsem_assert_held(&cpu_hotplug_lock);
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_LOCKDEP
 int lockdep_is_cpus_held(void)
 {
@@ -337,6 +338,8 @@ int lockdep_is_cpus_held(void)
 }
 #endif
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void lockdep_acquire_cpus_lock(void)
 {
 	rwsem_acquire(&cpu_hotplug_lock.dep_map, 0, 0, _THIS_IP_);

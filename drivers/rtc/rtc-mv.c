@@ -200,6 +200,14 @@ static irqreturn_t mv_rtc_interrupt(int irq, void *data)
 static const struct rtc_class_ops mv_rtc_ops = {
 	.read_time	= mv_rtc_read_time,
 	.set_time	= mv_rtc_set_time,
+<<<<<<< HEAD
+=======
+};
+
+static const struct rtc_class_ops mv_rtc_alarm_ops = {
+	.read_time	= mv_rtc_read_time,
+	.set_time	= mv_rtc_set_time,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.read_alarm	= mv_rtc_read_alarm,
 	.set_alarm	= mv_rtc_set_alarm,
 	.alarm_irq_enable = mv_rtc_alarm_irq_enable,
@@ -263,12 +271,22 @@ static int __init mv_rtc_probe(struct platform_device *pdev)
 		}
 	}
 
+<<<<<<< HEAD
 	if (pdata->irq >= 0)
 		device_init_wakeup(&pdev->dev, 1);
 	else
 		clear_bit(RTC_FEATURE_ALARM, pdata->rtc->features);
 
 	pdata->rtc->ops = &mv_rtc_ops;
+=======
+	if (pdata->irq >= 0) {
+		device_init_wakeup(&pdev->dev, 1);
+		pdata->rtc->ops = &mv_rtc_alarm_ops;
+	} else {
+		pdata->rtc->ops = &mv_rtc_ops;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	pdata->rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
 	pdata->rtc->range_max = RTC_TIMESTAMP_END_2099;
 

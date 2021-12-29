@@ -129,6 +129,10 @@ static void igc_ethtool_get_drvinfo(struct net_device *netdev,
 				    struct ethtool_drvinfo *drvinfo)
 {
 	struct igc_adapter *adapter = netdev_priv(netdev);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct igc_hw *hw = &adapter->hw;
 	u16 nvm_version = 0;
 	u16 gphy_version;
@@ -151,6 +155,16 @@ static void igc_ethtool_get_drvinfo(struct net_device *netdev,
 		sizeof(drvinfo->fw_version));
 
 	strscpy(drvinfo->bus_info, pci_name(adapter->pdev),
+<<<<<<< HEAD
+=======
+=======
+
+	strlcpy(drvinfo->driver,  igc_driver_name, sizeof(drvinfo->driver));
+
+	/* add fw_version here */
+	strlcpy(drvinfo->bus_info, pci_name(adapter->pdev),
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		sizeof(drvinfo->bus_info));
 
 	drvinfo->n_priv_flags = IGC_PRIV_FLAGS_STR_LEN;
@@ -561,6 +575,13 @@ static int igc_ethtool_set_eeprom(struct net_device *netdev,
 	if (ret_val == 0)
 		hw->nvm.ops.update(hw);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	/* check if need: igc_set_fw_version(adapter); */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(eeprom_buff);
 	return ret_val;
 }

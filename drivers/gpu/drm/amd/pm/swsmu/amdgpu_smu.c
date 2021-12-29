@@ -266,6 +266,7 @@ int smu_dpm_set_power_gate(struct smu_context *smu, uint32_t block_type,
 	return ret;
 }
 
+<<<<<<< HEAD
 /**
  * smu_set_user_clk_dependencies - set user profile clock dependencies
  *
@@ -279,35 +280,25 @@ static void smu_set_user_clk_dependencies(struct smu_context *smu, enum smu_clk_
 	if (smu->adev->in_suspend)
 		return;
 
-	/*
-	 * mclk, fclk and socclk are interdependent
-	 * on each other
-	 */
 	if (clk == SMU_MCLK) {
-		/* reset clock dependency */
 		smu->user_dpm_profile.clk_dependency = 0;
-		/* set mclk dependent clocks(fclk and socclk) */
 		smu->user_dpm_profile.clk_dependency = BIT(SMU_FCLK) | BIT(SMU_SOCCLK);
 	} else if (clk == SMU_FCLK) {
-		/* give priority to mclk, if mclk dependent clocks are set */
+		/* MCLK takes precedence over FCLK */
 		if (smu->user_dpm_profile.clk_dependency == (BIT(SMU_FCLK) | BIT(SMU_SOCCLK)))
 			return;
 
-		/* reset clock dependency */
 		smu->user_dpm_profile.clk_dependency = 0;
-		/* set fclk dependent clocks(mclk and socclk) */
 		smu->user_dpm_profile.clk_dependency = BIT(SMU_MCLK) | BIT(SMU_SOCCLK);
 	} else if (clk == SMU_SOCCLK) {
-		/* give priority to mclk, if mclk dependent clocks are set */
+		/* MCLK takes precedence over SOCCLK */
 		if (smu->user_dpm_profile.clk_dependency == (BIT(SMU_FCLK) | BIT(SMU_SOCCLK)))
 			return;
 
-		/* reset clock dependency */
 		smu->user_dpm_profile.clk_dependency = 0;
-		/* set socclk dependent clocks(mclk and fclk) */
 		smu->user_dpm_profile.clk_dependency = BIT(SMU_MCLK) | BIT(SMU_FCLK);
 	} else
-		/* add clk dependencies here, if any */
+		/* Add clk dependencies here, if any */
 		return;
 }
 
@@ -331,7 +322,7 @@ static void smu_restore_dpm_user_profile(struct smu_context *smu)
 		return;
 
 	/* Enable restore flag */
-	smu->user_dpm_profile.flags = SMU_DPM_USER_PROFILE_RESTORE;
+	smu->user_dpm_profile.flags |= SMU_DPM_USER_PROFILE_RESTORE;
 
 	/* set the user dpm power limit */
 	if (smu->user_dpm_profile.power_limit) {
@@ -354,8 +345,8 @@ static void smu_restore_dpm_user_profile(struct smu_context *smu)
 				ret = smu_force_clk_levels(smu, clk_type,
 						smu->user_dpm_profile.clk_mask[clk_type]);
 				if (ret)
-					dev_err(smu->adev->dev, "Failed to set clock type = %d\n",
-							clk_type);
+					dev_err(smu->adev->dev,
+						"Failed to set clock type = %d\n", clk_type);
 			}
 		}
 	}
@@ -379,6 +370,8 @@ static void smu_restore_dpm_user_profile(struct smu_context *smu)
 	smu->user_dpm_profile.flags &= ~SMU_DPM_USER_PROFILE_RESTORE;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int smu_get_power_num_states(struct smu_context *smu,
 			     struct pp_states_info *state_info)
 {
@@ -401,6 +394,7 @@ bool is_support_sw_smu(struct amdgpu_device *adev)
 	return false;
 }
 
+<<<<<<< HEAD
 bool is_support_cclk_dpm(struct amdgpu_device *adev)
 {
 	struct smu_context *smu = &adev->smu;
@@ -415,6 +409,8 @@ bool is_support_cclk_dpm(struct amdgpu_device *adev)
 }
 
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int smu_sys_get_pp_table(struct smu_context *smu, void **table)
 {
 	struct smu_table_context *smu_table = &smu->smu_table;
@@ -532,6 +528,11 @@ static int smu_set_funcs(struct amdgpu_device *adev)
 		break;
 	case CHIP_VANGOGH:
 		vangogh_set_ppt_funcs(smu);
+<<<<<<< HEAD
+=======
+		/* enable the OD by default to allow the fine grain tuning function */
+		smu->od_enabled = true;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		return -EINVAL;
@@ -603,6 +604,12 @@ static int smu_late_init(void *handle)
 
 	smu_set_fine_grain_gfx_freq_parameters(smu);
 
+<<<<<<< HEAD
+=======
+	if (adev->asic_type == CHIP_VANGOGH)
+		return 0;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!smu->pm_enabled)
 		return 0;
 
@@ -639,8 +646,11 @@ static int smu_late_init(void *handle)
 			AMD_PP_TASK_COMPLETE_INIT,
 			false);
 
+<<<<<<< HEAD
 	smu_restore_dpm_user_profile(smu);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1294,7 +1304,11 @@ static int smu_disable_dpms(struct smu_context *smu)
 	bool use_baco = !smu->is_apu &&
 		((amdgpu_in_reset(adev) &&
 		  (amdgpu_asic_reset_method(adev) == AMD_RESET_METHOD_BACO)) ||
+<<<<<<< HEAD
 		 ((adev->in_runpm || adev->in_s4) && amdgpu_asic_supports_baco(adev)));
+=======
+		 ((adev->in_runpm || adev->in_hibernate) && amdgpu_asic_supports_baco(adev)));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * For custom pptable uploading, skip the DPM features
@@ -1431,8 +1445,12 @@ static int smu_suspend(void *handle)
 
 	smu->watermarks_bitmap &= ~(WATERMARKS_LOADED);
 
+<<<<<<< HEAD
 	/* skip CGPG when in S0ix */
 	if (smu->is_apu && !adev->in_s0ix)
+=======
+	if (smu->is_apu)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		smu_set_gfx_cgpg(&adev->smu, false);
 
 	return 0;
@@ -1735,12 +1753,15 @@ int smu_force_performance_level(struct smu_context *smu, enum amd_dpm_forced_lev
 
 	mutex_unlock(&smu->mutex);
 
+<<<<<<< HEAD
 	/* reset user dpm clock state */
 	if (!ret && smu_dpm_ctx->dpm_level != AMD_DPM_FORCED_LEVEL_MANUAL) {
 		memset(smu->user_dpm_profile.clk_mask, 0, sizeof(smu->user_dpm_profile.clk_mask));
 		smu->user_dpm_profile.clk_dependency = 0;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -1775,13 +1796,18 @@ int smu_force_clk_levels(struct smu_context *smu,
 
 	mutex_lock(&smu->mutex);
 
+<<<<<<< HEAD
 	if (smu->ppt_funcs && smu->ppt_funcs->force_clk_levels) {
 		ret = smu->ppt_funcs->force_clk_levels(smu, clk_type, mask);
-		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE) {
+		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE)) {
 			smu->user_dpm_profile.clk_mask[clk_type] = mask;
 			smu_set_user_clk_dependencies(smu, clk_type);
 		}
 	}
+=======
+	if (smu->ppt_funcs && smu->ppt_funcs->force_clk_levels)
+		ret = smu->ppt_funcs->force_clk_levels(smu, clk_type, mask);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_unlock(&smu->mutex);
 
@@ -2023,7 +2049,10 @@ int smu_set_gfx_cgpg(struct smu_context *smu, bool enabled)
 
 int smu_set_fan_speed_rpm(struct smu_context *smu, uint32_t speed)
 {
+<<<<<<< HEAD
 	u32 percent;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = 0;
 
 	if (!smu->pm_enabled || !smu->adev->pm.dpm_enabled)
@@ -2031,12 +2060,17 @@ int smu_set_fan_speed_rpm(struct smu_context *smu, uint32_t speed)
 
 	mutex_lock(&smu->mutex);
 
+<<<<<<< HEAD
 	if (smu->ppt_funcs->set_fan_speed_percent) {
 		percent = speed * 100 / smu->fan_max_rpm;
 		ret = smu->ppt_funcs->set_fan_speed_percent(smu, percent);
-		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
+		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
 			smu->user_dpm_profile.fan_speed_percent = percent;
 	}
+=======
+	if (smu->ppt_funcs->set_fan_speed_rpm)
+		ret = smu->ppt_funcs->set_fan_speed_rpm(smu, speed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_unlock(&smu->mutex);
 
@@ -2045,16 +2079,22 @@ int smu_set_fan_speed_rpm(struct smu_context *smu, uint32_t speed)
 
 int smu_get_power_limit(struct smu_context *smu,
 			uint32_t *limit,
+<<<<<<< HEAD
 			enum smu_ppt_limit_level limit_level)
 {
 	uint32_t limit_type = *limit >> 24;
 	int ret = 0;
 
+=======
+			bool max_setting)
+{
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!smu->pm_enabled || !smu->adev->pm.dpm_enabled)
 		return -EOPNOTSUPP;
 
 	mutex_lock(&smu->mutex);
 
+<<<<<<< HEAD
 	if (limit_type != SMU_DEFAULT_PPT_LIMIT) {
 		if (smu->ppt_funcs->get_ppt_limit)
 			ret = smu->ppt_funcs->get_ppt_limit(smu, limit, limit_type, limit_level);
@@ -2074,11 +2114,21 @@ int smu_get_power_limit(struct smu_context *smu,
 	mutex_unlock(&smu->mutex);
 
 	return ret;
+=======
+	*limit = (max_setting ? smu->max_power_limit : smu->current_power_limit);
+
+	mutex_unlock(&smu->mutex);
+
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 int smu_set_power_limit(struct smu_context *smu, uint32_t limit)
 {
+<<<<<<< HEAD
 	uint32_t limit_type = limit >> 24;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = 0;
 
 	if (!smu->pm_enabled || !smu->adev->pm.dpm_enabled)
@@ -2086,27 +2136,39 @@ int smu_set_power_limit(struct smu_context *smu, uint32_t limit)
 
 	mutex_lock(&smu->mutex);
 
+<<<<<<< HEAD
 	if (limit_type != SMU_DEFAULT_PPT_LIMIT)
 		if (smu->ppt_funcs->set_power_limit) {
 			ret = smu->ppt_funcs->set_power_limit(smu, limit);
 			goto out;
 		}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (limit > smu->max_power_limit) {
 		dev_err(smu->adev->dev,
 			"New power limit (%d) is over the max allowed %d\n",
 			limit, smu->max_power_limit);
+<<<<<<< HEAD
+		ret = -EINVAL;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 
 	if (!limit)
 		limit = smu->current_power_limit;
 
+<<<<<<< HEAD
 	if (smu->ppt_funcs->set_power_limit) {
 		ret = smu->ppt_funcs->set_power_limit(smu, limit);
-		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
+		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
 			smu->user_dpm_profile.power_limit = limit;
 	}
+=======
+	if (smu->ppt_funcs->set_power_limit)
+		ret = smu->ppt_funcs->set_power_limit(smu, limit);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 out:
 	mutex_unlock(&smu->mutex);
@@ -2283,9 +2345,10 @@ int smu_set_fan_control_mode(struct smu_context *smu, int value)
 
 	mutex_lock(&smu->mutex);
 
+<<<<<<< HEAD
 	if (smu->ppt_funcs->set_fan_control_mode) {
 		ret = smu->ppt_funcs->set_fan_control_mode(smu, value);
-		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
+		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
 			smu->user_dpm_profile.fan_mode = value;
 	}
 
@@ -2293,9 +2356,16 @@ int smu_set_fan_control_mode(struct smu_context *smu, int value)
 
 	/* reset user dpm fan speed */
 	if (!ret && value != AMD_FAN_CTRL_MANUAL &&
-			smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
+			!(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
 		smu->user_dpm_profile.fan_speed_percent = 0;
 
+=======
+	if (smu->ppt_funcs->set_fan_control_mode)
+		ret = smu->ppt_funcs->set_fan_control_mode(smu, value);
+
+	mutex_unlock(&smu->mutex);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 
@@ -2303,15 +2373,26 @@ int smu_get_fan_speed_percent(struct smu_context *smu, uint32_t *speed)
 {
 	int ret = 0;
 	uint32_t percent;
+<<<<<<< HEAD
+=======
+	uint32_t current_rpm;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!smu->pm_enabled || !smu->adev->pm.dpm_enabled)
 		return -EOPNOTSUPP;
 
 	mutex_lock(&smu->mutex);
 
+<<<<<<< HEAD
 	if (smu->ppt_funcs->get_fan_speed_percent) {
 		ret = smu->ppt_funcs->get_fan_speed_percent(smu, &percent);
 		if (!ret) {
+=======
+	if (smu->ppt_funcs->get_fan_speed_rpm) {
+		ret = smu->ppt_funcs->get_fan_speed_rpm(smu, &current_rpm);
+		if (!ret) {
+			percent = current_rpm * 100 / smu->fan_max_rpm;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			*speed = percent > 100 ? 100 : percent;
 		}
 	}
@@ -2331,13 +2412,18 @@ int smu_set_fan_speed_percent(struct smu_context *smu, uint32_t speed)
 
 	mutex_lock(&smu->mutex);
 
+<<<<<<< HEAD
 	if (smu->ppt_funcs->set_fan_speed_percent) {
 		if (speed > 100)
 			speed = 100;
 		ret = smu->ppt_funcs->set_fan_speed_percent(smu, speed);
-		if (!ret && smu->user_dpm_profile.flags != SMU_DPM_USER_PROFILE_RESTORE)
+		if (!ret && !(smu->user_dpm_profile.flags & SMU_DPM_USER_PROFILE_RESTORE))
 			smu->user_dpm_profile.fan_speed_percent = speed;
 	}
+=======
+	if (smu->ppt_funcs->set_fan_speed_percent)
+		ret = smu->ppt_funcs->set_fan_speed_percent(smu, speed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_unlock(&smu->mutex);
 
@@ -2347,17 +2433,25 @@ int smu_set_fan_speed_percent(struct smu_context *smu, uint32_t speed)
 int smu_get_fan_speed_rpm(struct smu_context *smu, uint32_t *speed)
 {
 	int ret = 0;
+<<<<<<< HEAD
 	u32 percent;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!smu->pm_enabled || !smu->adev->pm.dpm_enabled)
 		return -EOPNOTSUPP;
 
 	mutex_lock(&smu->mutex);
 
+<<<<<<< HEAD
 	if (smu->ppt_funcs->get_fan_speed_percent) {
 		ret = smu->ppt_funcs->get_fan_speed_percent(smu, &percent);
 		*speed = percent * smu->fan_max_rpm / 100;
 	}
+=======
+	if (smu->ppt_funcs->get_fan_speed_rpm)
+		ret = smu->ppt_funcs->get_fan_speed_rpm(smu, speed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	mutex_unlock(&smu->mutex);
 

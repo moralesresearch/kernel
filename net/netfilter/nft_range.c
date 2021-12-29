@@ -15,7 +15,11 @@
 struct nft_range_expr {
 	struct nft_data		data_from;
 	struct nft_data		data_to;
+<<<<<<< HEAD
 	u8			sreg;
+=======
+	enum nft_registers	sreg:8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u8			len;
 	enum nft_range_ops	op:8;
 };
@@ -86,8 +90,13 @@ static int nft_range_init(const struct nft_ctx *ctx, const struct nft_expr *expr
 		goto err2;
 	}
 
+<<<<<<< HEAD
 	err = nft_parse_register_load(tb[NFTA_RANGE_SREG], &priv->sreg,
 				      desc_from.len);
+=======
+	priv->sreg = nft_parse_register(tb[NFTA_RANGE_SREG]);
+	err = nft_validate_register_load(priv->sreg, desc_from.len);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		goto err2;
 

@@ -479,7 +479,11 @@ nfp_bpf_check_ptr(struct nfp_prog *nfp_prog, struct nfp_insn_meta *meta,
 			pr_vlog(env, "map writes not supported\n");
 			return -EOPNOTSUPP;
 		}
+<<<<<<< HEAD
 		if (is_mbpf_atomic(meta)) {
+=======
+		if (is_mbpf_xadd(meta)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			err = nfp_bpf_map_mark_used(env, meta, reg,
 						    NFP_MAP_USE_ATOMIC_CNT);
 			if (err)
@@ -523,17 +527,25 @@ exit_check_ptr:
 }
 
 static int
+<<<<<<< HEAD
 nfp_bpf_check_atomic(struct nfp_prog *nfp_prog, struct nfp_insn_meta *meta,
 		     struct bpf_verifier_env *env)
+=======
+nfp_bpf_check_xadd(struct nfp_prog *nfp_prog, struct nfp_insn_meta *meta,
+		   struct bpf_verifier_env *env)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	const struct bpf_reg_state *sreg = cur_regs(env) + meta->insn.src_reg;
 	const struct bpf_reg_state *dreg = cur_regs(env) + meta->insn.dst_reg;
 
+<<<<<<< HEAD
 	if (meta->insn.imm != BPF_ADD) {
 		pr_vlog(env, "atomic op not implemented: %d\n", meta->insn.imm);
 		return -EOPNOTSUPP;
 	}
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (dreg->type != PTR_TO_MAP_VALUE) {
 		pr_vlog(env, "atomic add not to a map value pointer: %d\n",
 			dreg->type);
@@ -660,8 +672,13 @@ int nfp_verify_insn(struct bpf_verifier_env *env, int insn_idx,
 	if (is_mbpf_store(meta))
 		return nfp_bpf_check_store(nfp_prog, meta, env);
 
+<<<<<<< HEAD
 	if (is_mbpf_atomic(meta))
 		return nfp_bpf_check_atomic(nfp_prog, meta, env);
+=======
+	if (is_mbpf_xadd(meta))
+		return nfp_bpf_check_xadd(nfp_prog, meta, env);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (is_mbpf_alu(meta))
 		return nfp_bpf_check_alu(nfp_prog, meta, env);

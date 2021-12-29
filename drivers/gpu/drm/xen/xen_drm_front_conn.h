@@ -16,6 +16,10 @@
 struct drm_connector;
 struct xen_drm_front_drm_info;
 
+<<<<<<< HEAD
+=======
+struct xen_drm_front_drm_info;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 int xen_drm_front_conn_init(struct xen_drm_front_drm_info *drm_info,
 			    struct drm_connector *connector);

@@ -14,6 +14,8 @@
 #include <linux/dmapool.h>
 
 /*
+<<<<<<< HEAD
+=======
  * iwl_txq_gen2_tx_stop - Stop all Tx DMA channels
  */
 void iwl_txq_gen2_tx_stop(struct iwl_trans *trans)
@@ -38,6 +40,7 @@ void iwl_txq_gen2_tx_stop(struct iwl_trans *trans)
 }
 
 /*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * iwl_txq_update_byte_tbl - Set up entry in Tx byte-count array
  */
 static void iwl_pcie_gen2_update_byte_tbl(struct iwl_trans *trans,
@@ -1189,6 +1192,15 @@ static int iwl_txq_alloc_response(struct iwl_trans *trans, struct iwl_txq *txq,
 		goto error_free_resp;
 	}
 
+<<<<<<< HEAD
+	if (WARN_ONCE(trans->txqs.txq[qid],
+		      "queue %d already allocated\n", qid)) {
+		ret = -EIO;
+		goto error_free_resp;
+	}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	txq->id = qid;
 	trans->txqs.txq[qid] = txq;
 	wr_ptr &= (trans->trans_cfg->base_params->max_tfd_queue_size - 1);
@@ -1577,10 +1589,13 @@ void iwl_txq_reclaim(struct iwl_trans *trans, int txq_id, int ssn,
 			__func__, txq_id, last_to_free,
 			trans->trans_cfg->base_params->max_tfd_queue_size,
 			txq->write_ptr, txq->read_ptr);
+<<<<<<< HEAD
 
 		iwl_op_mode_time_point(trans->op_mode,
 				       IWL_FW_INI_TIME_POINT_FAKE_TX,
 				       NULL);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 
@@ -1726,6 +1741,7 @@ next_queue:
 	}
 }
 
+<<<<<<< HEAD
 #define HOST_COMPLETE_TIMEOUT	(2 * HZ)
 
 static int iwl_trans_txq_send_hcmd_sync(struct iwl_trans *trans,
@@ -1855,3 +1871,5 @@ int iwl_trans_txq_send_hcmd(struct iwl_trans *trans,
 	return iwl_trans_txq_send_hcmd_sync(trans, cmd);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

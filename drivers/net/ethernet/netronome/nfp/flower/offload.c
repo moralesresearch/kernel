@@ -1009,8 +1009,16 @@ int nfp_flower_merge_offloaded_flows(struct nfp_app *app,
 	struct netlink_ext_ack *extack = NULL;
 	struct nfp_fl_payload *merge_flow;
 	struct nfp_fl_key_ls merge_key_ls;
+<<<<<<< HEAD
 	struct nfp_merge_info *merge_info;
 	u64 parent_ctx = 0;
+=======
+<<<<<<< HEAD
+	struct nfp_merge_info *merge_info;
+	u64 parent_ctx = 0;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int err;
 
 	ASSERT_RTNL();
@@ -1021,6 +1029,10 @@ int nfp_flower_merge_offloaded_flows(struct nfp_app *app,
 	    nfp_flower_is_merge_flow(sub_flow2))
 		return -EINVAL;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* check if the two flows are already merged */
 	parent_ctx = (u64)(be32_to_cpu(sub_flow1->meta.host_ctx_id)) << 32;
 	parent_ctx |= (u64)(be32_to_cpu(sub_flow2->meta.host_ctx_id));
@@ -1030,6 +1042,11 @@ int nfp_flower_merge_offloaded_flows(struct nfp_app *app,
 		return 0;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	err = nfp_flower_can_merge(sub_flow1, sub_flow2);
 	if (err)
 		return err;
@@ -1071,6 +1088,10 @@ int nfp_flower_merge_offloaded_flows(struct nfp_app *app,
 	if (err)
 		goto err_release_metadata;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	merge_info = kmalloc(sizeof(*merge_info), GFP_KERNEL);
 	if (!merge_info) {
 		err = -ENOMEM;
@@ -1086,18 +1107,36 @@ int nfp_flower_merge_offloaded_flows(struct nfp_app *app,
 				   NFP_FLOWER_CMSG_TYPE_FLOW_MOD);
 	if (err)
 		goto err_remove_merge_info;
+<<<<<<< HEAD
+=======
+=======
+	err = nfp_flower_xmit_flow(app, merge_flow,
+				   NFP_FLOWER_CMSG_TYPE_FLOW_MOD);
+	if (err)
+		goto err_remove_rhash;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	merge_flow->in_hw = true;
 	sub_flow1->in_hw = false;
 
 	return 0;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_remove_merge_info:
 	WARN_ON_ONCE(rhashtable_remove_fast(&priv->merge_table,
 					    &merge_info->ht_node,
 					    merge_table_params));
 err_destroy_merge_info:
 	kfree(merge_info);
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 err_remove_rhash:
 	WARN_ON_ONCE(rhashtable_remove_fast(&priv->flow_table,
 					    &merge_flow->fl_node,
@@ -1387,9 +1426,19 @@ nfp_flower_remove_merge_flow(struct nfp_app *app,
 {
 	struct nfp_flower_priv *priv = app->priv;
 	struct nfp_fl_payload_link *link, *temp;
+<<<<<<< HEAD
 	struct nfp_merge_info *merge_info;
 	struct nfp_fl_payload *origin;
 	u64 parent_ctx = 0;
+=======
+<<<<<<< HEAD
+	struct nfp_merge_info *merge_info;
+	struct nfp_fl_payload *origin;
+	u64 parent_ctx = 0;
+=======
+	struct nfp_fl_payload *origin;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool mod = false;
 	int err;
 
@@ -1426,6 +1475,10 @@ nfp_flower_remove_merge_flow(struct nfp_app *app,
 err_free_links:
 	/* Clean any links connected with the merged flow. */
 	list_for_each_entry_safe(link, temp, &merge_flow->linked_flows,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				 merge_flow.list) {
 		u32 ctx_id = be32_to_cpu(link->sub_flow.flow->meta.host_ctx_id);
 
@@ -1442,6 +1495,13 @@ err_free_links:
 						    merge_table_params));
 		kfree(merge_info);
 	}
+<<<<<<< HEAD
+=======
+=======
+				 merge_flow.list)
+		nfp_flower_unlink_flow(link);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kfree(merge_flow->action_data);
 	kfree(merge_flow->mask_data);

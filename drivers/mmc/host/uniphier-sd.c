@@ -81,9 +81,15 @@ static void uniphier_sd_dma_endisable(struct tmio_mmc_host *host, int enable)
 }
 
 /* external DMA engine */
+<<<<<<< HEAD
 static void uniphier_sd_external_dma_issue(struct tasklet_struct *t)
 {
 	struct tmio_mmc_host *host = from_tasklet(host, t, dma_issue);
+=======
+static void uniphier_sd_external_dma_issue(unsigned long arg)
+{
+	struct tmio_mmc_host *host = (void *)arg;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct uniphier_sd_priv *priv = uniphier_sd_priv(host);
 
 	uniphier_sd_dma_endisable(host, 1);
@@ -190,7 +196,12 @@ static void uniphier_sd_external_dma_request(struct tmio_mmc_host *host,
 	host->chan_rx = chan;
 	host->chan_tx = chan;
 
+<<<<<<< HEAD
 	tasklet_setup(&host->dma_issue, uniphier_sd_external_dma_issue);
+=======
+	tasklet_init(&host->dma_issue, uniphier_sd_external_dma_issue,
+		     (unsigned long)host);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void uniphier_sd_external_dma_release(struct tmio_mmc_host *host)
@@ -227,9 +238,15 @@ static const struct tmio_mmc_dma_ops uniphier_sd_external_dma_ops = {
 	.dataend = uniphier_sd_external_dma_dataend,
 };
 
+<<<<<<< HEAD
 static void uniphier_sd_internal_dma_issue(struct tasklet_struct *t)
 {
 	struct tmio_mmc_host *host = from_tasklet(host, t, dma_issue);
+=======
+static void uniphier_sd_internal_dma_issue(unsigned long arg)
+{
+	struct tmio_mmc_host *host = (void *)arg;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long flags;
 
 	spin_lock_irqsave(&host->lock, flags);
@@ -308,7 +325,12 @@ static void uniphier_sd_internal_dma_request(struct tmio_mmc_host *host,
 
 	host->chan_tx = (void *)0xdeadbeaf;
 
+<<<<<<< HEAD
 	tasklet_setup(&host->dma_issue, uniphier_sd_internal_dma_issue);
+=======
+	tasklet_init(&host->dma_issue, uniphier_sd_internal_dma_issue,
+		     (unsigned long)host);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void uniphier_sd_internal_dma_release(struct tmio_mmc_host *host)
@@ -635,7 +657,11 @@ static int uniphier_sd_probe(struct platform_device *pdev)
 
 	ret = tmio_mmc_host_probe(host);
 	if (ret)
+<<<<<<< HEAD
+		goto disable_clk;
+=======
 		goto free_host;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	ret = devm_request_irq(dev, irq, tmio_mmc_irq, IRQF_SHARED,
 			       dev_name(dev), host);
@@ -646,6 +672,11 @@ static int uniphier_sd_probe(struct platform_device *pdev)
 
 remove_host:
 	tmio_mmc_host_remove(host);
+<<<<<<< HEAD
+disable_clk:
+	uniphier_sd_clk_disable(host);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 free_host:
 	tmio_mmc_host_free(host);
 
@@ -658,6 +689,10 @@ static int uniphier_sd_remove(struct platform_device *pdev)
 
 	tmio_mmc_host_remove(host);
 	uniphier_sd_clk_disable(host);
+<<<<<<< HEAD
+	tmio_mmc_host_free(host);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return 0;
 }

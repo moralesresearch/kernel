@@ -18,7 +18,10 @@
 #include <linux/dma-buf.h>
 #include <linux/bitops.h>
 #include <media/media-request.h>
+<<<<<<< HEAD
 #include <media/frame_vector.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define VB2_MAX_FRAME	(32)
 #define VB2_MAX_PLANES	(8)

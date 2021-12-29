@@ -143,7 +143,11 @@ static bool cpcap_usb_vbus_valid(struct cpcap_phy_ddata *ddata)
 
 	error = iio_read_channel_processed(ddata->vbus, &value);
 	if (error >= 0)
+<<<<<<< HEAD
 		return value > 3900;
+=======
+		return value > 3900 ? true : false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	dev_err(ddata->dev, "error reading VBUS: %i\n", error);
 

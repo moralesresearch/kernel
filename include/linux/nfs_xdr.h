@@ -15,6 +15,11 @@
 #define NFS_DEF_FILE_IO_SIZE	(4096U)
 #define NFS_MIN_FILE_IO_SIZE	(1024U)
 
+<<<<<<< HEAD
+#define NFS_BITMASK_SZ		3
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct nfs4_string {
 	unsigned int len;
 	char *data;
@@ -525,7 +530,12 @@ struct nfs_closeargs {
 	struct nfs_seqid *	seqid;
 	fmode_t			fmode;
 	u32			share_access;
+<<<<<<< HEAD
+	const u32 *		bitmask;
+	u32			bitmask_store[NFS_BITMASK_SZ];
+=======
 	u32 *			bitmask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nfs4_layoutreturn_args *lr_args;
 };
 
@@ -608,7 +618,12 @@ struct nfs4_delegreturnargs {
 	struct nfs4_sequence_args	seq_args;
 	const struct nfs_fh *fhandle;
 	const nfs4_stateid *stateid;
+<<<<<<< HEAD
+	const u32 *bitmask;
+	u32 bitmask_store[NFS_BITMASK_SZ];
+=======
 	u32 * bitmask;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nfs4_layoutreturn_args *lr_args;
 };
 
@@ -648,7 +663,12 @@ struct nfs_pgio_args {
 	union {
 		unsigned int		replen;			/* used by read */
 		struct {
+<<<<<<< HEAD
+			const u32 *		bitmask;	/* used by write */
+			u32 bitmask_store[NFS_BITMASK_SZ];	/* used by write */
+=======
 			u32 *			bitmask;	/* used by write */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			enum nfs3_stable_how	stable;		/* used by write */
 		};
 	};

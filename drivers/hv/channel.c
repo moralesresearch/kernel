@@ -618,7 +618,11 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
 		goto error_clean_ring;
 
 	/* Create and init the channel open message */
+<<<<<<< HEAD
 	open_info = kzalloc(sizeof(*open_info) +
+=======
+	open_info = kmalloc(sizeof(*open_info) +
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			   sizeof(struct vmbus_channel_open_channel),
 			   GFP_KERNEL);
 	if (!open_info) {
@@ -653,7 +657,11 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
 
 	if (newchannel->rescind) {
 		err = -ENODEV;
+<<<<<<< HEAD
+		goto error_clean_msglist;
+=======
 		goto error_free_info;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	err = vmbus_post_msg(open_msg,
@@ -745,7 +753,11 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, u32 gpadl_handle)
 	unsigned long flags;
 	int ret;
 
+<<<<<<< HEAD
 	info = kzalloc(sizeof(*info) +
+=======
+	info = kmalloc(sizeof(*info) +
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		       sizeof(struct vmbus_channel_gpadl_teardown), GFP_KERNEL);
 	if (!info)
 		return -ENOMEM;

@@ -57,9 +57,21 @@ if arg_contain --version "$@"; then
 fi
 
 if arg_contain -E "$@"; then
+<<<<<<< HEAD
 	# For scripts/cc-version.sh; This emulates GCC 20.0.0
 	if arg_contain - "$@"; then
 		sed -n '/^GCC/{s/__GNUC__/20/; s/__GNUC_MINOR__/0/; s/__GNUC_PATCHLEVEL__/0/; p;}'
+=======
+<<<<<<< HEAD
+	# For scripts/cc-version.sh; This emulates GCC 20.0.0
+	if arg_contain - "$@"; then
+		sed -n '/^GCC/{s/__GNUC__/20/; s/__GNUC_MINOR__/0/; s/__GNUC_PATCHLEVEL__/0/; p;}'
+=======
+	# For scripts/gcc-version.sh; This emulates GCC 20.0.0
+	if arg_contain - "$@"; then
+		sed 's/^__GNUC__$/20/; s/^__GNUC_MINOR__$/0/; s/^__GNUC_PATCHLEVEL__$/0/'
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		exit 0
 	else
 		echo "no input files" >&2
@@ -73,6 +85,10 @@ if arg_contain -S "$@"; then
 		echo "%gs"
 		exit 0
 	fi
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	# For arch/powerpc/tools/gcc-check-mprofile-kernel.sh
 	if arg_contain -m64 "$@" && arg_contain -mlittle-endian "$@" &&
@@ -82,6 +98,11 @@ if arg_contain -S "$@"; then
 		fi
 		exit 0
 	fi
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 fi
 
 # To set GCC_PLUGINS

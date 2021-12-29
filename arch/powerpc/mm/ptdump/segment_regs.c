@@ -10,7 +10,11 @@
 
 static void seg_show(struct seq_file *m, int i)
 {
+<<<<<<< HEAD
 	u32 val = mfsr(i << 28);
+=======
+	u32 val = mfsrin(i << 28);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	seq_printf(m, "0x%01x0000000-0x%01xfffffff ", i, i);
 	seq_printf(m, "Kern key %d ", (val >> 30) & 1);

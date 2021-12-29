@@ -649,7 +649,11 @@ static struct attribute *l2_cache_pmu_cpumask_attrs[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group l2_cache_pmu_cpumask_group = {
+=======
+static struct attribute_group l2_cache_pmu_cpumask_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.attrs = l2_cache_pmu_cpumask_attrs,
 };
 
@@ -665,7 +669,11 @@ static struct attribute *l2_cache_pmu_formats[] = {
 	NULL,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group l2_cache_pmu_format_group = {
+=======
+static struct attribute_group l2_cache_pmu_format_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "format",
 	.attrs = l2_cache_pmu_formats,
 };
@@ -700,7 +708,11 @@ static struct attribute *l2_cache_pmu_events[] = {
 	NULL
 };
 
+<<<<<<< HEAD
 static const struct attribute_group l2_cache_pmu_events_group = {
+=======
+static struct attribute_group l2_cache_pmu_events_group = {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.name = "events",
 	.attrs = l2_cache_pmu_events,
 };

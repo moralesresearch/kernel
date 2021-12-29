@@ -75,7 +75,10 @@ struct intel_gt {
 	intel_wakeref_t awake;
 
 	u32 clock_frequency;
+<<<<<<< HEAD
 	u32 clock_period_ns;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	struct intel_llc llc;
 	struct intel_rc6 rc6;
@@ -88,6 +91,7 @@ struct intel_gt {
 
 	u32 pm_guc_events;
 
+<<<<<<< HEAD
 	struct {
 		bool active;
 
@@ -112,6 +116,8 @@ struct intel_gt {
 		ktime_t start;
 	} stats;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct intel_engine_cs *engine[I915_NUM_ENGINES];
 	struct intel_engine_cs *engine_class[MAX_ENGINE_CLASS + 1]
 					    [MAX_ENGINE_INSTANCE + 1];

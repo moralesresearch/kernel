@@ -113,6 +113,12 @@ static void qcom_scm_clk_disable(void)
 	clk_disable_unprepare(__scm->bus_clk);
 }
 
+<<<<<<< HEAD
+enum qcom_scm_convention qcom_scm_convention = SMC_CONVENTION_UNKNOWN;
+static DEFINE_SPINLOCK(scm_query_lock);
+
+static enum qcom_scm_convention __get_convention(void)
+=======
 static int __qcom_scm_is_call_available(struct device *dev, u32 svc_id,
 					u32 cmd_id);
 
@@ -121,6 +127,7 @@ static bool has_queried __read_mostly;
 static DEFINE_SPINLOCK(query_lock);
 
 static void __query_convention(void)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	unsigned long flags;
 	struct qcom_scm_desc desc = {
@@ -133,6 +140,52 @@ static void __query_convention(void)
 		.owner = ARM_SMCCC_OWNER_SIP,
 	};
 	struct qcom_scm_res res;
+<<<<<<< HEAD
+	enum qcom_scm_convention probed_convention;
+	int ret;
+	bool forced = false;
+
+	if (likely(qcom_scm_convention != SMC_CONVENTION_UNKNOWN))
+		return qcom_scm_convention;
+
+	/*
+	 * Device isn't required as there is only one argument - no device
+	 * needed to dma_map_single to secure world
+	 */
+	probed_convention = SMC_CONVENTION_ARM_64;
+	ret = __scm_smc_call(NULL, &desc, probed_convention, &res, true);
+	if (!ret && res.result[0] == 1)
+		goto found;
+
+	/*
+	 * Some SC7180 firmwares didn't implement the
+	 * QCOM_SCM_INFO_IS_CALL_AVAIL call, so we fallback to forcing ARM_64
+	 * calling conventions on these firmwares. Luckily we don't make any
+	 * early calls into the firmware on these SoCs so the device pointer
+	 * will be valid here to check if the compatible matches.
+	 */
+	if (of_device_is_compatible(__scm ? __scm->dev->of_node : NULL, "qcom,scm-sc7180")) {
+		forced = true;
+		goto found;
+	}
+
+	probed_convention = SMC_CONVENTION_ARM_32;
+	ret = __scm_smc_call(NULL, &desc, probed_convention, &res, true);
+	if (!ret && res.result[0] == 1)
+		goto found;
+
+	probed_convention = SMC_CONVENTION_LEGACY;
+found:
+	spin_lock_irqsave(&scm_query_lock, flags);
+	if (probed_convention != qcom_scm_convention) {
+		qcom_scm_convention = probed_convention;
+		pr_info("qcom_scm: convention: %s%s\n",
+			qcom_scm_convention_names[qcom_scm_convention],
+			forced ? " (forced)" : "");
+	}
+	spin_unlock_irqrestore(&scm_query_lock, flags);
+
+=======
 	int ret;
 
 	spin_lock_irqsave(&query_lock, flags);
@@ -163,6 +216,7 @@ static inline enum qcom_scm_convention __get_convention(void)
 {
 	if (unlikely(!has_queried))
 		__query_convention();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return qcom_scm_convention;
 }
 
@@ -219,8 +273,13 @@ static int qcom_scm_call_atomic(struct device *dev,
 	}
 }
 
+<<<<<<< HEAD
+static bool __qcom_scm_is_call_available(struct device *dev, u32 svc_id,
+					 u32 cmd_id)
+=======
 static int __qcom_scm_is_call_available(struct device *dev, u32 svc_id,
 					u32 cmd_id)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret;
 	struct qcom_scm_desc desc = {
@@ -247,7 +306,11 @@ static int __qcom_scm_is_call_available(struct device *dev, u32 svc_id,
 
 	ret = qcom_scm_call(dev, &desc, &res);
 
+<<<<<<< HEAD
+	return ret ? false : !!res.result[0];
+=======
 	return ret ? : res.result[0];
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -585,9 +648,14 @@ bool qcom_scm_pas_supported(u32 peripheral)
 	};
 	struct qcom_scm_res res;
 
+<<<<<<< HEAD
+	if (!__qcom_scm_is_call_available(__scm->dev, QCOM_SCM_SVC_PIL,
+					  QCOM_SCM_PIL_PAS_IS_SUPPORTED))
+=======
 	ret = __qcom_scm_is_call_available(__scm->dev, QCOM_SCM_SVC_PIL,
 					   QCOM_SCM_PIL_PAS_IS_SUPPORTED);
 	if (ret <= 0)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return false;
 
 	ret = qcom_scm_call(__scm->dev, &desc, &res);
@@ -965,11 +1033,16 @@ EXPORT_SYMBOL(qcom_scm_ice_available);
  * qcom_scm_ice_invalidate_key() - Invalidate an inline encryption key
  * @index: the keyslot to invalidate
  *
+<<<<<<< HEAD
  * The UFSHCI and eMMC standards define a standard way to do this, but it
  * doesn't work on these SoCs; only this SCM call does.
  *
  * It is assumed that the SoC has only one ICE instance being used, as this SCM
  * call doesn't specify which ICE instance the keyslot belongs to.
+=======
+ * The UFSHCI standard defines a standard way to do this, but it doesn't work on
+ * these SoCs; only this SCM call does.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Return: 0 on success; -errno on failure.
  */
@@ -998,6 +1071,7 @@ EXPORT_SYMBOL(qcom_scm_ice_invalidate_key);
  *		    units, e.g. 1 = 512 bytes, 8 = 4096 bytes, etc.
  *
  * Program a key into a keyslot of Qualcomm ICE (Inline Crypto Engine), where it
+<<<<<<< HEAD
  * can then be used to encrypt/decrypt UFS or eMMC I/O requests inline.
  *
  * The UFSHCI and eMMC standards define a standard way to do this, but it
@@ -1005,6 +1079,12 @@ EXPORT_SYMBOL(qcom_scm_ice_invalidate_key);
  *
  * It is assumed that the SoC has only one ICE instance being used, as this SCM
  * call doesn't specify which ICE instance the keyslot belongs to.
+=======
+ * can then be used to encrypt/decrypt UFS I/O requests inline.
+ *
+ * The UFSHCI standard defines a standard way to do this, but it doesn't work on
+ * these SoCs; only this SCM call does.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Return: 0 on success; -errno on failure.
  */
@@ -1060,17 +1140,29 @@ EXPORT_SYMBOL(qcom_scm_ice_set_key);
  */
 bool qcom_scm_hdcp_available(void)
 {
+<<<<<<< HEAD
+	bool avail;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = qcom_scm_clk_enable();
 
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
+	avail = __qcom_scm_is_call_available(__scm->dev, QCOM_SCM_SVC_HDCP,
+=======
 	ret = __qcom_scm_is_call_available(__scm->dev, QCOM_SCM_SVC_HDCP,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						QCOM_SCM_HDCP_INVOKE);
 
 	qcom_scm_clk_disable();
 
+<<<<<<< HEAD
+	return avail;
+=======
 	return ret > 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(qcom_scm_hdcp_available);
 
@@ -1242,7 +1334,11 @@ static int qcom_scm_probe(struct platform_device *pdev)
 	__scm = scm;
 	__scm->dev = &pdev->dev;
 
+<<<<<<< HEAD
+	__get_convention();
+=======
 	__query_convention();
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * If requested enable "download mode", from this point on warmboot

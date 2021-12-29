@@ -733,6 +733,10 @@ static const struct at91_pinctrl_mux_ops sam9x60_ops = {
 	.get_slewrate   = at91_mux_sam9x60_get_slewrate,
 	.set_slewrate   = at91_mux_sam9x60_set_slewrate,
 	.irq_type	= alt_gpio_irq_type,
+<<<<<<< HEAD
+=======
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static struct at91_pinctrl_mux_ops sama5d3_ops = {
@@ -1741,7 +1745,11 @@ static int at91_gpio_of_irq_setup(struct platform_device *pdev,
 	gpio_irqchip->irq_disable = gpio_irq_mask;
 	gpio_irqchip->irq_mask = gpio_irq_mask;
 	gpio_irqchip->irq_unmask = gpio_irq_unmask;
+<<<<<<< HEAD
 	gpio_irqchip->irq_set_wake = gpio_irq_set_wake;
+=======
+	gpio_irqchip->irq_set_wake = gpio_irq_set_wake,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	gpio_irqchip->irq_set_type = at91_gpio->ops->irq_type;
 
 	/* Disable irqs of this PIO controller */

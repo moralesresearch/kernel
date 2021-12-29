@@ -15,6 +15,10 @@
 
 #include "vgatypes.h"
 #include "vstruct.h"
+<<<<<<< HEAD
+=======
+#include "init.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define VER_MAJOR		1
 #define VER_MINOR		8

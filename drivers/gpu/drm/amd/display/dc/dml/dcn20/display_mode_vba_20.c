@@ -3138,7 +3138,11 @@ static void CalculateFlipSchedule(
 				4.0 * (TimeForFetchingMetaPTEImmediateFlip / LineTime + 0.125),
 				1) / 4.0;
 
+<<<<<<< HEAD
 		if ((GPUVMEnable || DCCEnable)) {
+=======
+		if ((GPUVMEnable == true || DCCEnable == true)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			mode_lib->vba.ImmediateFlipBW[0] = BandwidthAvailableForImmediateFlip
 					* ImmediateFlipBytes / TotImmediateFlipBytes;
 			TimeForFetchingRowInVBlankImmediateFlip = dml_max(
@@ -3437,6 +3441,10 @@ void dml20_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
 			mode_lib->vba.DCCEnabledInAnyPlane = true;
 		}
 	}
+<<<<<<< HEAD
+	mode_lib->vba.UrgentLatency = mode_lib->vba.UrgentLatencyPixelDataOnly;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i <= mode_lib->vba.soc.num_states; i++) {
 		locals->FabricAndDRAMBandwidthPerState[i] = dml_min(
 				mode_lib->vba.DRAMSpeedPerState[i] * mode_lib->vba.NumberOfChannels
@@ -4168,11 +4176,18 @@ void dml20_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
 	for (i = 0; i <= mode_lib->vba.soc.num_states; i++) {
 		locals->DIOSupport[i] = true;
 		for (k = 0; k <= mode_lib->vba.NumberOfActivePlanes - 1; k++) {
+<<<<<<< HEAD
 			if (!mode_lib->vba.skip_dio_check[k]
 					&& (locals->OutputBppPerState[i][k] == BPP_INVALID
 						|| (mode_lib->vba.OutputFormat[k] == dm_420
 							&& mode_lib->vba.Interlace[k] == true
 							&& mode_lib->vba.ProgressiveToInterlaceUnitInOPP == true))) {
+=======
+			if (locals->OutputBppPerState[i][k] == BPP_INVALID
+					|| (mode_lib->vba.OutputFormat[k] == dm_420
+							&& mode_lib->vba.Interlace[k] == true
+							&& mode_lib->vba.ProgressiveToInterlaceUnitInOPP == true)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				locals->DIOSupport[i] = false;
 			}
 		}

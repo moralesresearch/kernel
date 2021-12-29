@@ -1148,7 +1148,11 @@ static int __htab_percpu_map_update_elem(struct bpf_map *map, void *key,
 		/* unknown flags */
 		return -EINVAL;
 
+<<<<<<< HEAD
 	WARN_ON_ONCE(!rcu_read_lock_held() && !rcu_read_lock_trace_held());
+=======
+	WARN_ON_ONCE(!rcu_read_lock_held());
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	key_size = map->key_size;
 
@@ -1202,7 +1206,11 @@ static int __htab_lru_percpu_map_update_elem(struct bpf_map *map, void *key,
 		/* unknown flags */
 		return -EINVAL;
 
+<<<<<<< HEAD
 	WARN_ON_ONCE(!rcu_read_lock_held() && !rcu_read_lock_trace_held());
+=======
+	WARN_ON_ONCE(!rcu_read_lock_held());
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	key_size = map->key_size;
 

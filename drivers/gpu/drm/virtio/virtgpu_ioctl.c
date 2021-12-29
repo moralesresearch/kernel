@@ -174,7 +174,11 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
 		if (!sync_file) {
 			dma_fence_put(&out_fence->f);
 			ret = -ENOMEM;
+<<<<<<< HEAD
+			goto out_unresv;
+=======
 			goto out_memdup;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		}
 
 		exbuf->fence_fd = out_fence_fd;

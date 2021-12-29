@@ -1413,7 +1413,11 @@ nv04_gr = {
 };
 
 int
+<<<<<<< HEAD
 nv04_gr_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_gr **pgr)
+=======
+nv04_gr_new(struct nvkm_device *device, int index, struct nvkm_gr **pgr)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct nv04_gr *gr;
 
@@ -1422,5 +1426,9 @@ nv04_gr_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, st
 	spin_lock_init(&gr->lock);
 	*pgr = &gr->base;
 
+<<<<<<< HEAD
 	return nvkm_gr_ctor(&nv04_gr, device, type, inst, true, &gr->base);
+=======
+	return nvkm_gr_ctor(&nv04_gr, device, index, true, &gr->base);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

@@ -1048,7 +1048,11 @@ rwsem_down_write_slowpath(struct rw_semaphore *sem, int state)
 
 		/*
 		 * If there were already threads queued before us and:
+<<<<<<< HEAD
 		 *  1) there are no active locks, wake the front
+=======
+		 *  1) there are no no active locks, wake the front
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 *     queued process(es) as the handoff bit might be set.
 		 *  2) there are no active writers and some readers, the lock
 		 *     must be read owned; so we try to wake any read lock

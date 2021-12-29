@@ -13,10 +13,14 @@ maintainers:
 properties:
   compatible:
     items:
+<<<<<<< HEAD
       - enum:
           - sifive,fu540-c000-gpio
           - sifive,fu740-c000-gpio
           - canaan,k210-gpiohs
+=======
+      - const: sifive,fu540-c000-gpio
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
       - const: sifive,gpio0
 
   reg:
@@ -24,9 +28,15 @@ properties:
 
   interrupts:
     description:
+<<<<<<< HEAD
       Interrupt mapping, one per GPIO. Maximum 32 GPIOs.
     minItems: 1
     maxItems: 32
+=======
+      interrupt mapping one per GPIO. Maximum 16 GPIOs.
+    minItems: 1
+    maxItems: 16
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
   interrupt-controller: true
 
@@ -39,6 +49,7 @@ properties:
   "#gpio-cells":
     const: 2
 
+<<<<<<< HEAD
   ngpios:
     description:
       The number of GPIOs available on the controller implementation.
@@ -47,6 +58,8 @@ properties:
     maximum: 32
     default: 16
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
   gpio-controller: true
 
 required:
@@ -55,6 +68,7 @@ required:
   - interrupts
   - interrupt-controller
   - "#interrupt-cells"
+<<<<<<< HEAD
   - "#gpio-cells"
   - gpio-controller
 
@@ -69,6 +83,12 @@ then:
   required:
     - clocks
 
+=======
+  - clocks
+  - "#gpio-cells"
+  - gpio-controller
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 additionalProperties: false
 
 examples:

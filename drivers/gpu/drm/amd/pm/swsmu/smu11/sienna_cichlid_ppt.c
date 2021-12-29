@@ -261,11 +261,14 @@ sienna_cichlid_get_allowed_feature_mask(struct smu_context *smu,
 		*(uint64_t *)feature_mask |= FEATURE_MASK(FEATURE_DPM_GFX_GPO_BIT);
 	}
 
+<<<<<<< HEAD
 	if ((adev->pm.pp_feature & PP_GFX_DCS_MASK) &&
 	    (adev->asic_type > CHIP_SIENNA_CICHLID) &&
 	    !(adev->flags & AMD_IS_APU))
 		*(uint64_t *)feature_mask |= FEATURE_MASK(FEATURE_GFX_DCS_BIT);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (adev->pm.pp_feature & PP_MCLK_DPM_MASK)
 		*(uint64_t *)feature_mask |= FEATURE_MASK(FEATURE_DPM_UCLK_BIT)
 					| FEATURE_MASK(FEATURE_MEM_VDDCI_SCALING_BIT)
@@ -299,12 +302,15 @@ sienna_cichlid_get_allowed_feature_mask(struct smu_context *smu,
 	    smu->adev->pg_flags & AMD_PG_SUPPORT_JPEG)
 		*(uint64_t *)feature_mask |= FEATURE_MASK(FEATURE_MM_DPM_PG_BIT);
 
+<<<<<<< HEAD
 	if (smu->dc_controlled_by_gpio)
        *(uint64_t *)feature_mask |= FEATURE_MASK(FEATURE_ACDC_BIT);
 
 	if (amdgpu_aspm == 1)
 		*(uint64_t *)feature_mask |= FEATURE_MASK(FEATURE_DS_LCLK_BIT);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -325,12 +331,15 @@ static int sienna_cichlid_check_powerplay_table(struct smu_context *smu)
 	table_context->thermal_controller_type =
 		powerplay_table->thermal_controller_type;
 
+<<<<<<< HEAD
 	/*
 	 * Instead of having its own buffer space and get overdrive_table copied,
 	 * smu->od_settings just points to the actual overdrive_table
 	 */
 	smu->od_settings = &powerplay_table->overdrive_table;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -924,6 +933,7 @@ static bool sienna_cichlid_is_support_fine_grained_dpm(struct smu_context *smu, 
 	return dpm_desc->SnapToDiscrete == 0 ? true : false;
 }
 
+<<<<<<< HEAD
 static bool sienna_cichlid_is_od_feature_supported(struct smu_11_0_7_overdrive_table *od_table,
 						   enum SMU_11_0_7_ODFEATURE_CAP cap)
 {
@@ -940,6 +950,8 @@ static void sienna_cichlid_get_od_setting_range(struct smu_11_0_7_overdrive_tabl
 		*max = od_table->max[setting];
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int sienna_cichlid_print_clk_levels(struct smu_context *smu,
 			enum smu_clk_type clk_type, char *buf)
 {
@@ -948,16 +960,22 @@ static int sienna_cichlid_print_clk_levels(struct smu_context *smu,
 	struct smu_dpm_context *smu_dpm = &smu->smu_dpm;
 	struct smu_11_0_dpm_context *dpm_context = smu_dpm->dpm_context;
 	PPTable_t *pptable = (PPTable_t *)table_context->driver_pptable;
+<<<<<<< HEAD
 	struct smu_11_0_7_overdrive_table *od_settings = smu->od_settings;
 	OverDriveTable_t *od_table =
 		(OverDriveTable_t *)table_context->overdrive_table;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int i, size = 0, ret = 0;
 	uint32_t cur_value = 0, value = 0, count = 0;
 	uint32_t freq_values[3] = {0};
 	uint32_t mark_index = 0;
 	uint32_t gen_speed, lane_width;
+<<<<<<< HEAD
 	uint32_t min_value, max_value;
 	uint32_t smu_version;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	switch (clk_type) {
 	case SMU_GFXCLK:
@@ -1033,6 +1051,7 @@ static int sienna_cichlid_print_clk_levels(struct smu_context *smu,
 					(lane_width == dpm_context->dpm_tables.pcie_table.pcie_lane[i]) ?
 					"*" : "");
 		break;
+<<<<<<< HEAD
 	case SMU_OD_SCLK:
 		if (!smu->od_enabled || !od_table || !od_settings)
 			break;
@@ -1097,6 +1116,8 @@ static int sienna_cichlid_print_clk_levels(struct smu_context *smu,
 		}
 		break;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		break;
 	}
@@ -1127,7 +1148,10 @@ static int sienna_cichlid_force_clk_levels(struct smu_context *smu,
 	case SMU_SOCCLK:
 	case SMU_MCLK:
 	case SMU_UCLK:
+<<<<<<< HEAD
+=======
 	case SMU_DCEFCLK:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case SMU_FCLK:
 		/* There is only 2 levels for fine grained DPM */
 		if (sienna_cichlid_is_support_fine_grained_dpm(smu, clk_type)) {
@@ -1147,6 +1171,12 @@ static int sienna_cichlid_force_clk_levels(struct smu_context *smu,
 		if (ret)
 			goto forec_level_out;
 		break;
+<<<<<<< HEAD
+	case SMU_DCEFCLK:
+		dev_info(smu->adev->dev,"Setting DCEFCLK min/max dpm level is not supported!\n");
+		break;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		break;
 	}
@@ -1248,6 +1278,7 @@ static bool sienna_cichlid_is_dpm_running(struct smu_context *smu)
 	return !!(feature_enabled & SMC_DPM_FEATURE);
 }
 
+<<<<<<< HEAD
 static int sienna_cichlid_get_fan_speed_percent(struct smu_context *smu,
 						uint32_t *speed)
 {
@@ -1269,6 +1300,17 @@ static int sienna_cichlid_get_fan_speed_percent(struct smu_context *smu,
 		*speed = smu->user_dpm_profile.fan_speed_percent;
 		return 0;
 	}
+=======
+static int sienna_cichlid_get_fan_speed_rpm(struct smu_context *smu,
+				    uint32_t *speed)
+{
+	if (!speed)
+		return -EINVAL;
+
+	return sienna_cichlid_get_smu_metrics_data(smu,
+						METRICS_CURR_FANSPEED,
+						speed);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int sienna_cichlid_get_fan_parameters(struct smu_context *smu)
@@ -1808,6 +1850,7 @@ static int sienna_cichlid_get_dpm_ultimate_freq(struct smu_context *smu,
 	return ret;
 }
 
+<<<<<<< HEAD
 static void sienna_cichlid_dump_od_table(struct smu_context *smu,
 					 OverDriveTable_t *od_table)
 {
@@ -2045,6 +2088,8 @@ static int sienna_cichlid_od_edit_dpm_table(struct smu_context *smu,
 	return ret;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static int sienna_cichlid_run_btc(struct smu_context *smu)
 {
 	return smu_cmn_send_smc_msg(smu, SMU_MSG_RunDcBtc, NULL);
@@ -2961,7 +3006,11 @@ static ssize_t sienna_cichlid_get_gpu_metrics(struct smu_context *smu,
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	smu_cmn_init_soft_gpu_metrics(gpu_metrics, 1, 0);
+=======
+	smu_v11_0_init_gpu_metrics_v1_0(gpu_metrics);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	gpu_metrics->temperature_edge = metrics->TemperatureEdge;
 	gpu_metrics->temperature_hotspot = metrics->TemperatureHotspot;
@@ -3004,8 +3053,11 @@ static ssize_t sienna_cichlid_get_gpu_metrics(struct smu_context *smu,
 	gpu_metrics->pcie_link_speed =
 			smu_v11_0_get_current_pcie_link_speed(smu);
 
+<<<<<<< HEAD
 	gpu_metrics->system_clock_counter = ktime_get_boottime_ns();
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	*table = (void *)gpu_metrics;
 
 	return sizeof(struct gpu_metrics_v1_0);
@@ -3013,6 +3065,19 @@ static ssize_t sienna_cichlid_get_gpu_metrics(struct smu_context *smu,
 
 static int sienna_cichlid_enable_mgpu_fan_boost(struct smu_context *smu)
 {
+<<<<<<< HEAD
+	struct smu_table_context *table_context = &smu->smu_table;
+	PPTable_t *smc_pptable = table_context->driver_pptable;
+
+	/*
+	 * Skip the MGpuFanBoost setting for those ASICs
+	 * which do not support it
+	 */
+	if (!smc_pptable->MGpuFanBoostLimitRpm)
+		return 0;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return smu_cmn_send_smc_msg_with_param(smu,
 					       SMU_MSG_SetMGpuFanBoostLimitRpm,
 					       0,
@@ -3112,7 +3177,11 @@ static const struct pptable_funcs sienna_cichlid_ppt_funcs = {
 	.display_config_changed = sienna_cichlid_display_config_changed,
 	.notify_smc_display_config = sienna_cichlid_notify_smc_display_config,
 	.is_dpm_running = sienna_cichlid_is_dpm_running,
+<<<<<<< HEAD
 	.get_fan_speed_percent = sienna_cichlid_get_fan_speed_percent,
+=======
+	.get_fan_speed_rpm = sienna_cichlid_get_fan_speed_rpm,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.get_power_profile_mode = sienna_cichlid_get_power_profile_mode,
 	.set_power_profile_mode = sienna_cichlid_set_power_profile_mode,
 	.set_watermarks_table = sienna_cichlid_set_watermarks_table,
@@ -3156,6 +3225,10 @@ static const struct pptable_funcs sienna_cichlid_ppt_funcs = {
 	.get_fan_control_mode = smu_v11_0_get_fan_control_mode,
 	.set_fan_control_mode = smu_v11_0_set_fan_control_mode,
 	.set_fan_speed_percent = smu_v11_0_set_fan_speed_percent,
+<<<<<<< HEAD
+=======
+	.set_fan_speed_rpm = smu_v11_0_set_fan_speed_rpm,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.set_xgmi_pstate = smu_v11_0_set_xgmi_pstate,
 	.gfx_off_control = smu_v11_0_gfx_off_control,
 	.register_irq_handler = smu_v11_0_register_irq_handler,
@@ -3170,8 +3243,11 @@ static const struct pptable_funcs sienna_cichlid_ppt_funcs = {
 	.mode1_reset = smu_v11_0_mode1_reset,
 	.get_dpm_ultimate_freq = sienna_cichlid_get_dpm_ultimate_freq,
 	.set_soft_freq_limited_range = smu_v11_0_set_soft_freq_limited_range,
+<<<<<<< HEAD
 	.set_default_od_settings = sienna_cichlid_set_default_od_settings,
 	.od_edit_dpm_table = sienna_cichlid_od_edit_dpm_table,
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.run_btc = sienna_cichlid_run_btc,
 	.set_power_source = smu_v11_0_set_power_source,
 	.get_pp_feature_mask = smu_cmn_get_pp_feature_mask,

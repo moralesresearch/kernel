@@ -13,7 +13,10 @@
 #include <linux/module.h>
 #include <linux/device.h>
 #include <linux/utsname.h>
+<<<<<<< HEAD
 #include <linux/bitfield.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/usb/composite.h>
 #include <linux/usb/otg.h>
@@ -735,6 +738,7 @@ static int bos_desc(struct usb_composite_dev *cdev)
 	/* The SuperSpeedPlus USB Device Capability descriptor */
 	if (gadget_is_superspeed_plus(cdev->gadget)) {
 		struct usb_ssp_cap_descriptor *ssp_cap;
+<<<<<<< HEAD
 		u8 ssac = 1;
 		u8 ssic;
 		int i;
@@ -753,11 +757,24 @@ static int bos_desc(struct usb_composite_dev *cdev)
 
 		le16_add_cpu(&bos->wTotalLength, USB_DT_USB_SSP_CAP_SIZE(ssac));
 		ssp_cap->bLength = USB_DT_USB_SSP_CAP_SIZE(ssac);
+=======
+
+		ssp_cap = cdev->req->buf + le16_to_cpu(bos->wTotalLength);
+		bos->bNumDeviceCaps++;
+
+		/*
+		 * Report typical values.
+		 */
+
+		le16_add_cpu(&bos->wTotalLength, USB_DT_USB_SSP_CAP_SIZE(1));
+		ssp_cap->bLength = USB_DT_USB_SSP_CAP_SIZE(1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		ssp_cap->bDescriptorType = USB_DT_DEVICE_CAPABILITY;
 		ssp_cap->bDevCapabilityType = USB_SSP_CAP_TYPE;
 		ssp_cap->bReserved = 0;
 		ssp_cap->wReserved = 0;
 
+<<<<<<< HEAD
 		ssp_cap->bmAttributes =
 			cpu_to_le32(FIELD_PREP(USB_SSP_SUBLINK_SPEED_ATTRIBS, ssac) |
 				    FIELD_PREP(USB_SSP_SUBLINK_SPEED_IDS, ssic));
@@ -806,6 +823,34 @@ static int bos_desc(struct usb_composite_dev *cdev)
 						       USB_SSP_SUBLINK_SPEED_LP_SSP) |
 					    FIELD_PREP(USB_SSP_SUBLINK_SPEED_LSM, mantissa));
 		}
+=======
+		/* SSAC = 1 (2 attributes) */
+		ssp_cap->bmAttributes = cpu_to_le32(1);
+
+		/* Min RX/TX Lane Count = 1 */
+		ssp_cap->wFunctionalitySupport =
+			cpu_to_le16((1 << 8) | (1 << 12));
+
+		/*
+		 * bmSublinkSpeedAttr[0]:
+		 *   ST  = Symmetric, RX
+		 *   LSE =  3 (Gbps)
+		 *   LP  =  1 (SuperSpeedPlus)
+		 *   LSM = 10 (10 Gbps)
+		 */
+		ssp_cap->bmSublinkSpeedAttr[0] =
+			cpu_to_le32((3 << 4) | (1 << 14) | (0xa << 16));
+		/*
+		 * bmSublinkSpeedAttr[1] =
+		 *   ST  = Symmetric, TX
+		 *   LSE =  3 (Gbps)
+		 *   LP  =  1 (SuperSpeedPlus)
+		 *   LSM = 10 (10 Gbps)
+		 */
+		ssp_cap->bmSublinkSpeedAttr[1] =
+			cpu_to_le32((3 << 4) | (1 << 14) |
+				    (0xa << 16) | (1 << 7));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return le16_to_cpu(bos->wTotalLength);
@@ -2073,7 +2118,11 @@ done:
 	return value;
 }
 
+<<<<<<< HEAD
 static void __composite_disconnect(struct usb_gadget *gadget)
+=======
+void composite_disconnect(struct usb_gadget *gadget)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct usb_composite_dev	*cdev = get_gadget_data(gadget);
 	unsigned long			flags;
@@ -2090,6 +2139,7 @@ static void __composite_disconnect(struct usb_gadget *gadget)
 	spin_unlock_irqrestore(&cdev->lock, flags);
 }
 
+<<<<<<< HEAD
 void composite_disconnect(struct usb_gadget *gadget)
 {
 	usb_gadget_vbus_draw(gadget, 0);
@@ -2107,6 +2157,8 @@ void composite_reset(struct usb_gadget *gadget)
 	__composite_disconnect(gadget);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*-------------------------------------------------------------------------*/
 
 static ssize_t suspended_show(struct device *dev, struct device_attribute *attr,
@@ -2427,7 +2479,11 @@ static const struct usb_gadget_driver composite_driver_template = {
 	.unbind		= composite_unbind,
 
 	.setup		= composite_setup,
+<<<<<<< HEAD
 	.reset		= composite_reset,
+=======
+	.reset		= composite_disconnect,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.disconnect	= composite_disconnect,
 
 	.suspend	= composite_suspend,

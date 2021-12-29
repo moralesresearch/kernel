@@ -192,5 +192,9 @@ void zcrypt_card_unregister(struct zcrypt_card *zc)
 	spin_unlock(&zcrypt_list_lock);
 	sysfs_remove_group(&zc->card->ap_dev.device.kobj,
 			   &zcrypt_card_attr_group);
+<<<<<<< HEAD
+	zcrypt_card_put(zc);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(zcrypt_card_unregister);

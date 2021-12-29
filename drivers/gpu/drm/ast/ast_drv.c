@@ -30,6 +30,10 @@
 #include <linux/module.h>
 #include <linux/pci.h>
 
+<<<<<<< HEAD
+#include <drm/drm_atomic_helper.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/drm_crtc_helper.h>
 #include <drm/drm_drv.h>
 #include <drm/drm_fb_helper.h>
@@ -138,6 +142,10 @@ static void ast_pci_remove(struct pci_dev *pdev)
 	struct drm_device *dev = pci_get_drvdata(pdev);
 
 	drm_dev_unregister(dev);
+<<<<<<< HEAD
+	drm_atomic_helper_shutdown(dev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static int ast_drm_freeze(struct drm_device *dev)
@@ -147,7 +155,11 @@ static int ast_drm_freeze(struct drm_device *dev)
 	error = drm_mode_config_helper_suspend(dev);
 	if (error)
 		return error;
+<<<<<<< HEAD
 	pci_save_state(to_pci_dev(dev->dev));
+=======
+	pci_save_state(dev->pdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -162,7 +174,11 @@ static int ast_drm_resume(struct drm_device *dev)
 {
 	int ret;
 
+<<<<<<< HEAD
 	if (pci_enable_device(to_pci_dev(dev->dev)))
+=======
+	if (pci_enable_device(dev->pdev))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EIO;
 
 	ret = ast_drm_thaw(dev);

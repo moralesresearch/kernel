@@ -141,7 +141,11 @@ u32 dw_pcie_read_dbi(struct dw_pcie *pci, u32 reg, size_t size)
 	int ret;
 	u32 val;
 
+<<<<<<< HEAD
 	if (pci->ops && pci->ops->read_dbi)
+=======
+	if (pci->ops->read_dbi)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return pci->ops->read_dbi(pci, pci->dbi_base, reg, size);
 
 	ret = dw_pcie_read(pci->dbi_base + reg, size, &val);
@@ -156,7 +160,11 @@ void dw_pcie_write_dbi(struct dw_pcie *pci, u32 reg, size_t size, u32 val)
 {
 	int ret;
 
+<<<<<<< HEAD
 	if (pci->ops && pci->ops->write_dbi) {
+=======
+	if (pci->ops->write_dbi) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pci->ops->write_dbi(pci, pci->dbi_base, reg, size, val);
 		return;
 	}
@@ -171,7 +179,11 @@ void dw_pcie_write_dbi2(struct dw_pcie *pci, u32 reg, size_t size, u32 val)
 {
 	int ret;
 
+<<<<<<< HEAD
 	if (pci->ops && pci->ops->write_dbi2) {
+=======
+	if (pci->ops->write_dbi2) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pci->ops->write_dbi2(pci, pci->dbi_base2, reg, size, val);
 		return;
 	}
@@ -186,7 +198,11 @@ static u32 dw_pcie_readl_atu(struct dw_pcie *pci, u32 reg)
 	int ret;
 	u32 val;
 
+<<<<<<< HEAD
 	if (pci->ops && pci->ops->read_dbi)
+=======
+	if (pci->ops->read_dbi)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return pci->ops->read_dbi(pci, pci->atu_base, reg, 4);
 
 	ret = dw_pcie_read(pci->atu_base + reg, 4, &val);
@@ -200,7 +216,11 @@ static void dw_pcie_writel_atu(struct dw_pcie *pci, u32 reg, u32 val)
 {
 	int ret;
 
+<<<<<<< HEAD
 	if (pci->ops && pci->ops->write_dbi) {
+=======
+	if (pci->ops->write_dbi) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pci->ops->write_dbi(pci, pci->atu_base, reg, 4, val);
 		return;
 	}
@@ -225,6 +245,7 @@ static void dw_pcie_writel_ob_unroll(struct dw_pcie *pci, u32 index, u32 reg,
 	dw_pcie_writel_atu(pci, offset + reg, val);
 }
 
+<<<<<<< HEAD
 static inline u32 dw_pcie_enable_ecrc(u32 val)
 {
 	/*
@@ -266,6 +287,8 @@ static inline u32 dw_pcie_enable_ecrc(u32 val)
 	return val | PCIE_ATU_TD;
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void dw_pcie_prog_outbound_atu_unroll(struct dw_pcie *pci, u8 func_no,
 					     int index, int type,
 					     u64 cpu_addr, u64 pci_addr,
@@ -289,8 +312,11 @@ static void dw_pcie_prog_outbound_atu_unroll(struct dw_pcie *pci, u8 func_no,
 	val = type | PCIE_ATU_FUNC_NUM(func_no);
 	val = upper_32_bits(size - 1) ?
 		val | PCIE_ATU_INCREASE_REGION_SIZE : val;
+<<<<<<< HEAD
 	if (pci->version == 0x490A)
 		val = dw_pcie_enable_ecrc(val);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dw_pcie_writel_ob_unroll(pci, index, PCIE_ATU_UNR_REGION_CTRL1, val);
 	dw_pcie_writel_ob_unroll(pci, index, PCIE_ATU_UNR_REGION_CTRL2,
 				 PCIE_ATU_ENABLE);
@@ -316,7 +342,11 @@ static void __dw_pcie_prog_outbound_atu(struct dw_pcie *pci, u8 func_no,
 {
 	u32 retries, val;
 
+<<<<<<< HEAD
 	if (pci->ops && pci->ops->cpu_addr_fixup)
+=======
+	if (pci->ops->cpu_addr_fixup)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		cpu_addr = pci->ops->cpu_addr_fixup(pci, cpu_addr);
 
 	if (pci->iatu_unroll_enabled) {
@@ -333,19 +363,27 @@ static void __dw_pcie_prog_outbound_atu(struct dw_pcie *pci, u8 func_no,
 			   upper_32_bits(cpu_addr));
 	dw_pcie_writel_dbi(pci, PCIE_ATU_LIMIT,
 			   lower_32_bits(cpu_addr + size - 1));
+<<<<<<< HEAD
 	if (pci->version >= 0x460A)
 		dw_pcie_writel_dbi(pci, PCIE_ATU_UPPER_LIMIT,
 				   upper_32_bits(cpu_addr + size - 1));
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dw_pcie_writel_dbi(pci, PCIE_ATU_LOWER_TARGET,
 			   lower_32_bits(pci_addr));
 	dw_pcie_writel_dbi(pci, PCIE_ATU_UPPER_TARGET,
 			   upper_32_bits(pci_addr));
+<<<<<<< HEAD
 	val = type | PCIE_ATU_FUNC_NUM(func_no);
 	val = ((upper_32_bits(size - 1)) && (pci->version >= 0x460A)) ?
 		val | PCIE_ATU_INCREASE_REGION_SIZE : val;
 	if (pci->version == 0x490A)
 		val = dw_pcie_enable_ecrc(val);
 	dw_pcie_writel_dbi(pci, PCIE_ATU_CR1, val);
+=======
+	dw_pcie_writel_dbi(pci, PCIE_ATU_CR1, type |
+			   PCIE_ATU_FUNC_NUM(func_no));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dw_pcie_writel_dbi(pci, PCIE_ATU_CR2, PCIE_ATU_ENABLE);
 
 	/*
@@ -371,7 +409,11 @@ void dw_pcie_prog_outbound_atu(struct dw_pcie *pci, int index, int type,
 
 void dw_pcie_prog_ep_outbound_atu(struct dw_pcie *pci, u8 func_no, int index,
 				  int type, u64 cpu_addr, u64 pci_addr,
+<<<<<<< HEAD
 				  u64 size)
+=======
+				  u32 size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	__dw_pcie_prog_outbound_atu(pci, func_no, index, type,
 				    cpu_addr, pci_addr, size);
@@ -531,7 +573,11 @@ int dw_pcie_link_up(struct dw_pcie *pci)
 {
 	u32 val;
 
+<<<<<<< HEAD
 	if (pci->ops && pci->ops->link_up)
+=======
+	if (pci->ops->link_up)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return pci->ops->link_up(pci);
 
 	val = readl(pci->dbi_base + PCIE_PORT_DEBUG1);
@@ -660,11 +706,17 @@ static void dw_pcie_iatu_detect_regions(struct dw_pcie *pci)
 	pci->num_ob_windows = ob;
 }
 
+<<<<<<< HEAD
+void dw_pcie_iatu_detect(struct dw_pcie *pci)
+{
+	struct device *dev = pci->dev;
+=======
 void dw_pcie_setup(struct dw_pcie *pci)
 {
 	u32 val;
 	struct device *dev = pci->dev;
 	struct device_node *np = dev->of_node;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct platform_device *pdev = to_platform_device(dev);
 
 	if (pci->version >= 0x480A || (!pci->version &&
@@ -693,6 +745,16 @@ void dw_pcie_setup(struct dw_pcie *pci)
 
 	dev_info(pci->dev, "Detected iATU regions: %u outbound, %u inbound",
 		 pci->num_ob_windows, pci->num_ib_windows);
+<<<<<<< HEAD
+}
+
+void dw_pcie_setup(struct dw_pcie *pci)
+{
+	u32 val;
+	struct device *dev = pci->dev;
+	struct device_node *np = dev->of_node;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (pci->link_gen > 0)
 		dw_pcie_link_set_max_speed(pci, pci->link_gen);

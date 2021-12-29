@@ -17,10 +17,19 @@
 
 #include "br_private.h"
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /* IMPORTANT: new bridge port options must be added with netlink support only
  *            please do not add new sysfs entries
  */
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct brport_attribute {
 	struct attribute	attr;
 	ssize_t (*show)(struct net_bridge_port *, char *);
@@ -59,7 +68,14 @@ static BRPORT_ATTR(_name, 0644,					\
 static int store_flag(struct net_bridge_port *p, unsigned long v,
 		      unsigned long mask)
 {
+<<<<<<< HEAD
 	struct netlink_ext_ack extack = {0};
+=======
+<<<<<<< HEAD
+	struct netlink_ext_ack extack = {0};
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long flags = p->flags;
 	int err;
 
@@ -69,11 +85,23 @@ static int store_flag(struct net_bridge_port *p, unsigned long v,
 		flags &= ~mask;
 
 	if (flags != p->flags) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = br_switchdev_set_port_flag(p, flags, mask, &extack);
 		if (err) {
 			netdev_err(p->dev, "%s\n", extack._msg);
 			return err;
 		}
+<<<<<<< HEAD
+=======
+=======
+		err = br_switchdev_set_port_flag(p, flags, mask);
+		if (err)
+			return err;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		p->flags = flags;
 		br_port_flags_change(p, mask);

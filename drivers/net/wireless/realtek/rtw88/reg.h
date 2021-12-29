@@ -306,8 +306,11 @@
 #define REG_DARFRC		0x0430
 #define REG_DARFRCH		0x0434
 #define REG_RARFRCH		0x043C
+<<<<<<< HEAD
 #define REG_RRSR		0x0440
 #define BITS_RRSR_RSC		GENMASK(22, 21)
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define REG_ARFR0		0x0444
 #define REG_ARFRH0		0x0448
 #define REG_ARFR1_V1		0x044C
@@ -652,8 +655,18 @@
 #define RF_TXATANK	0x64
 #define RF_TRXIQ	0x66
 #define RF_RXIQGEN	0x8d
+<<<<<<< HEAD
+#define RF_SYN_PFD	0xb0
+#define RF_XTALX2	0xb8
+#define RF_SYN_CTRL	0xbb
+#define RF_MALSEL	0xbe
+#define RF_SYN_AAC	0xc9
+#define RF_AAC_CTRL	0xca
+#define RF_FAST_LCK	0xcc
+=======
 #define RF_XTALX2	0xb8
 #define RF_MALSEL	0xbe
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define RF_RCKD		0xde
 #define RF_TXADBG	0xde
 #define RF_LUTDBG	0xdf

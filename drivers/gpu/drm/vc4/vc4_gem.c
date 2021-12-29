@@ -1026,6 +1026,10 @@ int vc4_queue_seqno_cb(struct drm_device *dev,
 		       void (*func)(struct vc4_seqno_cb *cb))
 {
 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+<<<<<<< HEAD
+=======
+	int ret = 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned long irqflags;
 
 	cb->func = func;
@@ -1040,7 +1044,11 @@ int vc4_queue_seqno_cb(struct drm_device *dev,
 	}
 	spin_unlock_irqrestore(&vc4->job_lock, irqflags);
 
+<<<<<<< HEAD
 	return 0;
+=======
+	return ret;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /* Scheduled when any job has been completed, this walks the list of

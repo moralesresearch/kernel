@@ -17,6 +17,10 @@
 #include "node.h"
 #include "segment.h"
 #include "xattr.h"
+<<<<<<< HEAD
+=======
+#include "trace.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <trace/events/f2fs.h>
 
 #define on_f2fs_build_free_nids(nmi) mutex_is_locked(&(nm_i)->build_lock)
@@ -2088,6 +2092,10 @@ static int f2fs_set_node_page_dirty(struct page *page)
 		__set_page_dirty_nobuffers(page);
 		inc_page_count(F2FS_P_SB(page), F2FS_DIRTY_NODES);
 		f2fs_set_page_private(page, 0);
+<<<<<<< HEAD
+=======
+		f2fs_trace_pid(page);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return 1;
 	}
 	return 0;
@@ -2694,7 +2702,11 @@ retry:
 	src = F2FS_INODE(page);
 	dst = F2FS_INODE(ipage);
 
+<<<<<<< HEAD
 	memcpy(dst, src, offsetof(struct f2fs_inode, i_ext));
+=======
+	memcpy(dst, src, (unsigned long)&src->i_ext - (unsigned long)src);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	dst->i_size = 0;
 	dst->i_blocks = cpu_to_le64(1);
 	dst->i_links = cpu_to_le32(1);
@@ -2747,7 +2759,11 @@ int f2fs_restore_node_summary(struct f2fs_sb_info *sbi,
 	sum_entry = &sum->entries[0];
 
 	for (i = 0; i < last_offset; i += nrpages, addr += nrpages) {
+<<<<<<< HEAD
 		nrpages = bio_max_segs(last_offset - i);
+=======
+		nrpages = min(last_offset - i, BIO_MAX_PAGES);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* readahead node pages */
 		f2fs_ra_meta_pages(sbi, addr, nrpages, META_POR, true);
@@ -2785,6 +2801,12 @@ static void remove_nats_in_journal(struct f2fs_sb_info *sbi)
 		struct f2fs_nat_entry raw_ne;
 		nid_t nid = le32_to_cpu(nid_in_journal(journal, i));
 
+<<<<<<< HEAD
+		if (f2fs_check_nid_range(sbi, nid))
+			continue;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		raw_ne = nat_in_journal(journal, i);
 
 		ne = __lookup_nat_cache(nm_i, nid);

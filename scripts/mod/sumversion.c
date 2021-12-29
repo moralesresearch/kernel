@@ -391,6 +391,7 @@ void get_src_version(const char *modname, char sum[], unsigned sumlen)
 	struct md4_ctx md;
 	char *fname;
 	char filelist[PATH_MAX + 1];
+<<<<<<< HEAD
 	int postfix_len = 1;
 
 	if (strends(modname, ".lto.o"))
@@ -399,6 +400,12 @@ void get_src_version(const char *modname, char sum[], unsigned sumlen)
 	/* objects for a module are listed in the first line of *.mod file. */
 	snprintf(filelist, sizeof(filelist), "%.*smod",
 		 (int)strlen(modname) - postfix_len, modname);
+=======
+
+	/* objects for a module are listed in the first line of *.mod file. */
+	snprintf(filelist, sizeof(filelist), "%.*smod",
+		 (int)strlen(modname) - 1, modname);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	buf = read_text_file(filelist);
 

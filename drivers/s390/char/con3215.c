@@ -914,6 +914,10 @@ static int tty3215_open(struct tty_struct *tty, struct file * filp)
 
 	tty_port_tty_set(&raw->port, tty);
 
+<<<<<<< HEAD
+=======
+	raw->port.low_latency = 0; /* don't use bottom half for pushing chars */
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Start up 3215 device
 	 */

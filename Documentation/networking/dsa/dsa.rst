@@ -273,6 +273,13 @@ will not make us go through the switch tagging protocol transmit function, so
 the Ethernet switch on the other end, expecting a tag will typically drop this
 frame.
 
+<<<<<<< HEAD
+=======
+Slave network devices check that the master network device is UP before allowing
+you to administratively bring UP these slave network devices. A common
+configuration mistake is forgetting to bring UP the master network device first.
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 Interactions with other subsystems
 ==================================
 

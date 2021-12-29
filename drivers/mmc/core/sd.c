@@ -135,6 +135,12 @@ static int mmc_decode_csd(struct mmc_card *card)
 			csd->erase_size = UNSTUFF_BITS(resp, 39, 7) + 1;
 			csd->erase_size <<= csd->write_blkbits - 9;
 		}
+<<<<<<< HEAD
+
+		if (UNSTUFF_BITS(resp, 13, 1))
+			mmc_card_set_readonly(card);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case 1:
 		/*
@@ -169,6 +175,12 @@ static int mmc_decode_csd(struct mmc_card *card)
 		csd->write_blkbits = 9;
 		csd->write_partial = 0;
 		csd->erase_size = 1;
+<<<<<<< HEAD
+
+		if (UNSTUFF_BITS(resp, 13, 1))
+			mmc_card_set_readonly(card);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		pr_err("%s: unrecognised CSD structure version %d\n",
@@ -860,7 +872,11 @@ try_again:
 	return err;
 }
 
+<<<<<<< HEAD
 int mmc_sd_get_csd(struct mmc_card *card)
+=======
+int mmc_sd_get_csd(struct mmc_host *host, struct mmc_card *card)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int err;
 
@@ -1046,7 +1062,11 @@ retry:
 	}
 
 	if (!oldcard) {
+<<<<<<< HEAD
 		err = mmc_sd_get_csd(card);
+=======
+		err = mmc_sd_get_csd(host, card);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err)
 			goto free_card;
 

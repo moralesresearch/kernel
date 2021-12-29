@@ -34,7 +34,10 @@
 
 #include "dc.h"
 #include "dc_dmub_srv.h"
+<<<<<<< HEAD
 #include "reg_helper.h"
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline void submit_dmub_read_modify_write(
 	struct dc_reg_helper_state *offload,

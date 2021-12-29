@@ -13,8 +13,16 @@
  * 'Traps.c' handles hardware traps and faults after we have saved some
  * state in 'asm.s'.
  */
+<<<<<<< HEAD
 #include "asm/irqflags.h"
 #include "asm/ptrace.h"
+=======
+<<<<<<< HEAD
+#include "asm/irqflags.h"
+#include "asm/ptrace.h"
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/kprobes.h>
 #include <linux/kdebug.h>
 #include <linux/extable.h>
@@ -25,9 +33,19 @@
 #include <linux/slab.h>
 #include <linux/uaccess.h>
 #include <linux/cpu.h>
+<<<<<<< HEAD
 #include <linux/entry-common.h>
 #include <asm/fpu/api.h>
 #include <asm/vtime.h>
+=======
+<<<<<<< HEAD
+#include <linux/entry-common.h>
+#include <asm/fpu/api.h>
+#include <asm/vtime.h>
+=======
+#include <asm/fpu/api.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "entry.h"
 
 static inline void __user *get_trap_ip(struct pt_regs *regs)
@@ -292,6 +310,10 @@ void __init trap_init(void)
 	local_mcck_enable();
 	test_monitor_call();
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 void noinstr __do_pgm_check(struct pt_regs *regs)
 {
@@ -353,3 +375,8 @@ out:
 		exit_to_user_mode();
 	}
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

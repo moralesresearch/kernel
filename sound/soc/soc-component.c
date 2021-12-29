@@ -11,7 +11,10 @@
 #include <linux/module.h>
 #include <linux/pm_runtime.h>
 #include <sound/soc.h>
+<<<<<<< HEAD
 #include <linux/bitops.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define soc_component_ret(dai, ret) _soc_component_ret(dai, __func__, ret)
 static inline int _soc_component_ret(struct snd_soc_component *component,
@@ -35,6 +38,7 @@ static inline int _soc_component_ret(struct snd_soc_component *component,
 	return ret;
 }
 
+<<<<<<< HEAD
 static inline int soc_component_field_shift(struct snd_soc_component *component,
 					    unsigned int mask)
 {
@@ -47,6 +51,8 @@ static inline int soc_component_field_shift(struct snd_soc_component *component,
 	return (ffs(mask) - 1);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * We might want to check substream by using list.
  * In such case, we can update these macros.
@@ -853,6 +859,7 @@ int snd_soc_component_update_bits_async(struct snd_soc_component *component,
 EXPORT_SYMBOL_GPL(snd_soc_component_update_bits_async);
 
 /**
+<<<<<<< HEAD
  * snd_soc_component_read_field() - Read register field value
  * @component: Component to read from
  * @reg: Register to read
@@ -894,6 +901,8 @@ int snd_soc_component_write_field(struct snd_soc_component *component,
 EXPORT_SYMBOL_GPL(snd_soc_component_write_field);
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * snd_soc_component_async_complete() - Ensure asynchronous I/O has completed
  * @component: Component for which to wait
  *

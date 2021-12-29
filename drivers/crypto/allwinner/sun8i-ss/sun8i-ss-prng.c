@@ -103,7 +103,12 @@ int sun8i_ss_prng_generate(struct crypto_rng *tfm, const u8 *src,
 	dma_iv = dma_map_single(ss->dev, ctx->seed, ctx->slen, DMA_TO_DEVICE);
 	if (dma_mapping_error(ss->dev, dma_iv)) {
 		dev_err(ss->dev, "Cannot DMA MAP IV\n");
+<<<<<<< HEAD
+		err = -EFAULT;
+		goto err_free;
+=======
 		return -EFAULT;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	dma_dst = dma_map_single(ss->dev, d, todo, DMA_FROM_DEVICE);
@@ -167,6 +172,10 @@ err_iv:
 		memcpy(ctx->seed, d + dlen, ctx->slen);
 	}
 	memzero_explicit(d, todo);
+<<<<<<< HEAD
+err_free:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kfree(d);
 
 	return err;

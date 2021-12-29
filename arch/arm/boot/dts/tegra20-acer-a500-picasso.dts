@@ -448,7 +448,11 @@
 
 			reset-gpios = <&gpio TEGRA_GPIO(Q, 7) GPIO_ACTIVE_LOW>;
 
+<<<<<<< HEAD
+			vdda-supply = <&vdd_3v3_sys>;
+=======
 			avdd-supply = <&vdd_3v3_sys>;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			vdd-supply  = <&vdd_3v3_sys>;
 		};
 

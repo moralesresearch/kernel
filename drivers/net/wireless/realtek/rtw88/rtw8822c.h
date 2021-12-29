@@ -164,6 +164,11 @@ const struct rtw_table name ## _tbl = {			\
 
 #define REG_ANAPARLDO_POW_MAC	0x0029
 #define BIT_LDOE25_PON		BIT(0)
+<<<<<<< HEAD
+=======
+#define REG_RRSR		0x0440
+#define BITS_RRSR_RSC		(BIT(21) | BIT(22))
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #define REG_TXDFIR0	0x808
 #define REG_DFIRBW	0x810

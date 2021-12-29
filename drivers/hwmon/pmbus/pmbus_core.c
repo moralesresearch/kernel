@@ -974,7 +974,11 @@ static ssize_t pmbus_set_sensor(struct device *dev,
 	if (ret < 0)
 		rv = ret;
 	else
+<<<<<<< HEAD
 		sensor->data = -ENODATA;
+=======
+		sensor->data = regval;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_unlock(&data->update_lock);
 	return rv;
 }
@@ -1262,7 +1266,11 @@ static int pmbus_add_sensor_attrs_one(struct i2c_client *client,
 		 * which global bit is set) for this page is accessible.
 		 */
 		if (!ret && attr->gbit &&
+<<<<<<< HEAD
 		    (!upper || data->has_status_word) &&
+=======
+		    (!upper || (upper && data->has_status_word)) &&
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		    pmbus_check_status_register(client, page)) {
 			ret = pmbus_add_boolean(data, name, "alarm", index,
 						NULL, NULL,
@@ -2204,11 +2212,17 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
 	}
 
 	/* Enable PEC if the controller supports it */
+<<<<<<< HEAD
 	if (!(data->flags & PMBUS_NO_CAPABILITY)) {
 		ret = i2c_smbus_read_byte_data(client, PMBUS_CAPABILITY);
 		if (ret >= 0 && (ret & PB_CAPABILITY_ERROR_CHECK))
 			client->flags |= I2C_CLIENT_PEC;
 	}
+=======
+	ret = i2c_smbus_read_byte_data(client, PMBUS_CAPABILITY);
+	if (ret >= 0 && (ret & PB_CAPABILITY_ERROR_CHECK))
+		client->flags |= I2C_CLIENT_PEC;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Check if the chip is write protected. If it is, we can not clear

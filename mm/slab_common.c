@@ -12,7 +12,14 @@
 #include <linux/memory.h>
 #include <linux/cache.h>
 #include <linux/compiler.h>
+<<<<<<< HEAD
 #include <linux/kfence.h>
+=======
+<<<<<<< HEAD
+#include <linux/kfence.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/module.h>
 #include <linux/cpu.h>
 #include <linux/uaccess.h>
@@ -89,8 +96,12 @@ EXPORT_SYMBOL(kmem_cache_size);
 #ifdef CONFIG_DEBUG_VM
 static int kmem_cache_sanity_check(const char *name, unsigned int size)
 {
+<<<<<<< HEAD
+	if (!name || in_interrupt() || size > KMALLOC_MAX_SIZE) {
+=======
 	if (!name || in_interrupt() || size < sizeof(void *) ||
 		size > KMALLOC_MAX_SIZE) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		pr_err("kmem_cache_create(%s) integrity check failed\n", name);
 		return -EINVAL;
 	}
@@ -198,7 +209,15 @@ struct kmem_cache *find_mergeable(unsigned int size, unsigned int align,
 	size = ALIGN(size, sizeof(void *));
 	align = calculate_alignment(flags, align, size);
 	size = ALIGN(size, align);
+<<<<<<< HEAD
 	flags = kmem_cache_flags(size, flags, name);
+=======
+<<<<<<< HEAD
+	flags = kmem_cache_flags(size, flags, name);
+=======
+	flags = kmem_cache_flags(size, flags, name, NULL);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (flags & SLAB_NEVER_MERGE)
 		return NULL;
@@ -310,6 +329,15 @@ kmem_cache_create_usercopy(const char *name,
 	const char *cache_name;
 	int err;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	get_online_cpus();
+	get_online_mems();
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&slab_mutex);
 
 	err = kmem_cache_sanity_check(name, size);
@@ -358,6 +386,15 @@ kmem_cache_create_usercopy(const char *name,
 out_unlock:
 	mutex_unlock(&slab_mutex);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	put_online_mems();
+	put_online_cpus();
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err) {
 		if (flags & SLAB_PANIC)
 			panic("kmem_cache_create: Failed to create slab '%s'. Error %d\n",
@@ -431,7 +468,14 @@ static void slab_caches_to_rcu_destroy_workfn(struct work_struct *work)
 	rcu_barrier();
 
 	list_for_each_entry_safe(s, s2, &to_destroy, list) {
+<<<<<<< HEAD
 		kfence_shutdown_cache(s);
+=======
+<<<<<<< HEAD
+		kfence_shutdown_cache(s);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef SLAB_SUPPORTS_SYSFS
 		sysfs_slab_release(s);
 #else
@@ -457,7 +501,14 @@ static int shutdown_cache(struct kmem_cache *s)
 		list_add_tail(&s->list, &slab_caches_to_rcu_destroy);
 		schedule_work(&slab_caches_to_rcu_destroy_work);
 	} else {
+<<<<<<< HEAD
 		kfence_shutdown_cache(s);
+=======
+<<<<<<< HEAD
+		kfence_shutdown_cache(s);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef SLAB_SUPPORTS_SYSFS
 		sysfs_slab_unlink(s);
 		sysfs_slab_release(s);
@@ -483,6 +534,15 @@ void kmem_cache_destroy(struct kmem_cache *s)
 	if (unlikely(!s))
 		return;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	get_online_cpus();
+	get_online_mems();
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mutex_lock(&slab_mutex);
 
 	s->refcount--;
@@ -497,6 +557,15 @@ void kmem_cache_destroy(struct kmem_cache *s)
 	}
 out_unlock:
 	mutex_unlock(&slab_mutex);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+	put_online_mems();
+	put_online_cpus();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 EXPORT_SYMBOL(kmem_cache_destroy);
 
@@ -513,10 +582,25 @@ int kmem_cache_shrink(struct kmem_cache *cachep)
 {
 	int ret;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kasan_cache_shrink(cachep);
 	ret = __kmem_cache_shrink(cachep);
 
+<<<<<<< HEAD
+=======
+=======
+	get_online_cpus();
+	get_online_mems();
+	kasan_cache_shrink(cachep);
+	ret = __kmem_cache_shrink(cachep);
+	put_online_mems();
+	put_online_cpus();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return ret;
 }
 EXPORT_SYMBOL(kmem_cache_shrink);
@@ -526,6 +610,10 @@ bool slab_is_available(void)
 	return slab_state >= UP;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * kmem_valid_obj - does the pointer reference a valid slab object?
  * @object: pointer to query.
@@ -601,6 +689,11 @@ void kmem_dump_obj(void *object)
 	}
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef CONFIG_SLOB
 /* Create a cache during boot when no slab services are available yet */
 void __init create_boot_cache(struct kmem_cache *s, const char *name,
@@ -643,7 +736,14 @@ struct kmem_cache *__init create_kmalloc_cache(const char *name,
 		panic("Out of memory when creating slab %s\n", name);
 
 	create_boot_cache(s, name, size, flags, useroffset, usersize);
+<<<<<<< HEAD
 	kasan_cache_create_kmalloc(s);
+=======
+<<<<<<< HEAD
+	kasan_cache_create_kmalloc(s);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	list_add(&s->list, &slab_caches);
 	s->refcount = 1;
 	return s;
@@ -1136,6 +1236,10 @@ static __always_inline void *__do_krealloc(const void *p, size_t new_size,
 	void *ret;
 	size_t ks;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Don't use instrumented ksize to allow precise KASAN poisoning. */
 	if (likely(!ZERO_OR_NULL_PTR(p))) {
 		if (!kasan_check_byte(p))
@@ -1145,18 +1249,36 @@ static __always_inline void *__do_krealloc(const void *p, size_t new_size,
 		ks = 0;
 
 	/* If the object still fits, repoison it precisely. */
+<<<<<<< HEAD
+=======
+=======
+	ks = ksize(p);
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ks >= new_size) {
 		p = kasan_krealloc((void *)p, new_size, flags);
 		return (void *)p;
 	}
 
 	ret = kmalloc_track_caller(new_size, flags);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret && p) {
 		/* Disable KASAN checks as the object's redzone is accessed. */
 		kasan_disable_current();
 		memcpy(ret, kasan_reset_tag(p), ks);
 		kasan_enable_current();
 	}
+<<<<<<< HEAD
+=======
+=======
+	if (ret && p)
+		memcpy(ret, p, ks);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return ret;
 }
@@ -1233,6 +1355,10 @@ size_t ksize(const void *objp)
 	size_t size;
 
 	/*
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * We need to first check that the pointer to the object is valid, and
 	 * only then unpoison the memory. The report printed from ksize() is
 	 * more useful, then when it's printed later when the behaviour could
@@ -1242,15 +1368,40 @@ size_t ksize(const void *objp)
 	 * tag-based KASAN mode, unlike kasan_check_read/write().
 	 *
 	 * If the pointed to memory is invalid, we return 0 to avoid users of
+<<<<<<< HEAD
+=======
+=======
+	 * We need to check that the pointed to object is valid, and only then
+	 * unpoison the shadow memory below. We use __kasan_check_read(), to
+	 * generate a more useful report at the time ksize() is called (rather
+	 * than later where behaviour is undefined due to potential
+	 * use-after-free or double-free).
+	 *
+	 * If the pointed to memory is invalid we return 0, to avoid users of
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * ksize() writing to and potentially corrupting the memory region.
 	 *
 	 * We want to perform the check before __ksize(), to avoid potentially
 	 * crashing in __ksize() due to accessing invalid metadata.
 	 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (unlikely(ZERO_OR_NULL_PTR(objp)) || !kasan_check_byte(objp))
 		return 0;
 
 	size = kfence_ksize(objp) ?: __ksize(objp);
+<<<<<<< HEAD
+=======
+=======
+	if (unlikely(ZERO_OR_NULL_PTR(objp)) || !__kasan_check_read(objp, 1))
+		return 0;
+
+	size = __ksize(objp);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * We assume that ksize callers could use whole allocated area,
 	 * so we need to unpoison this area.

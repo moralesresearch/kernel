@@ -36,9 +36,15 @@ g84_bsp = {
 };
 
 int
+<<<<<<< HEAD
 g84_bsp_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	    struct nvkm_engine **pengine)
 {
 	return nvkm_xtensa_new_(&g84_bsp, device, type, inst,
+=======
+g84_bsp_new(struct nvkm_device *device, int index, struct nvkm_engine **pengine)
+{
+	return nvkm_xtensa_new_(&g84_bsp, device, index,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				device->chipset != 0x92, 0x103000, pengine);
 }

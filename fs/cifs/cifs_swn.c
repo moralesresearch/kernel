@@ -248,7 +248,15 @@ nlmsg_fail:
 
 /*
  * Try to find a matching registration for the tcon's server name and share name.
+<<<<<<< HEAD
  * Calls to this function must be protected by cifs_swnreg_idr_mutex.
+=======
+<<<<<<< HEAD
+ * Calls to this function must be protected by cifs_swnreg_idr_mutex.
+=======
+ * Calls to this funciton must be protected by cifs_swnreg_idr_mutex.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * TODO Try to avoid memory allocations
  */
 static struct cifs_swn_reg *cifs_find_swn_reg(struct cifs_tcon *tcon)

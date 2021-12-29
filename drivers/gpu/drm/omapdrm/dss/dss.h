@@ -257,6 +257,11 @@ struct dss_device {
 	struct dss_pll	*video2_pll;
 
 	struct dispc_device *dispc;
+<<<<<<< HEAD
+=======
+	const struct dispc_ops *dispc_ops;
+	const struct dss_mgr_ops *mgr_ops;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct omap_drm_private *mgr_ops_priv;
 };
 
@@ -391,6 +396,7 @@ void dispc_dump_clocks(struct dispc_device *dispc, struct seq_file *s);
 int dispc_runtime_get(struct dispc_device *dispc);
 void dispc_runtime_put(struct dispc_device *dispc);
 
+<<<<<<< HEAD
 int dispc_get_num_ovls(struct dispc_device *dispc);
 int dispc_get_num_mgrs(struct dispc_device *dispc);
 
@@ -461,6 +467,8 @@ int dispc_wb_setup(struct dispc_device *dispc,
 bool dispc_wb_go_busy(struct dispc_device *dispc);
 void dispc_wb_go(struct dispc_device *dispc);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dispc_enable_sidle(struct dispc_device *dispc);
 void dispc_disable_sidle(struct dispc_device *dispc);
 

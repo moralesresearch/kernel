@@ -251,13 +251,19 @@ enum gaudi_nic_mask {
  * @hdev: habanalabs device structure.
  * @kref: refcount of this SOB group. group will reset once refcount is zero.
  * @base_sob_id: base sob id of this SOB group.
+<<<<<<< HEAD
  * @queue_id: id of the queue that waits on this sob group
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 struct gaudi_hw_sob_group {
 	struct hl_device	*hdev;
 	struct kref		kref;
 	u32			base_sob_id;
+<<<<<<< HEAD
 	u32			queue_id;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 #define NUM_SOB_GROUPS (HL_RSVD_SOBS * QMAN_STREAMS)
@@ -335,7 +341,10 @@ struct gaudi_device {
 };
 
 void gaudi_init_security(struct hl_device *hdev);
+<<<<<<< HEAD
 void gaudi_ack_protection_bits_errors(struct hl_device *hdev);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void gaudi_add_device_attr(struct hl_device *hdev,
 			struct attribute_group *dev_attr_grp);
 void gaudi_set_pll_profile(struct hl_device *hdev, enum hl_pll_frequency freq);

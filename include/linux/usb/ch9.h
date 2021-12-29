@@ -36,6 +36,7 @@
 #include <linux/device.h>
 #include <uapi/linux/usb/ch9.h>
 
+<<<<<<< HEAD
 /* USB 3.2 SuperSpeed Plus phy signaling rate generation and lane count */
 
 enum usb_ssp_rate {
@@ -45,6 +46,8 @@ enum usb_ssp_rate {
 	USB_SSP_GEN_2x2,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * usb_ep_type_string() - Returns human readable-name of the endpoint type.
  * @ep_type: The endpoint type to return human-readable name for.  If it's not
@@ -72,6 +75,7 @@ extern const char *usb_speed_string(enum usb_device_speed speed);
 extern enum usb_device_speed usb_get_maximum_speed(struct device *dev);
 
 /**
+<<<<<<< HEAD
  * usb_get_maximum_ssp_rate - Get the signaling rate generation and lane count
  *	of a SuperSpeed Plus capable device.
  * @dev: Pointer to the given USB controller device
@@ -83,6 +87,8 @@ extern enum usb_device_speed usb_get_maximum_speed(struct device *dev);
 extern enum usb_ssp_rate usb_get_maximum_ssp_rate(struct device *dev);
 
 /**
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * usb_state_string - Returns human readable name for the state.
  * @state: The state to return a human-readable name for. If it's not
  *	any of the states devices in usb_device_state_string enum,

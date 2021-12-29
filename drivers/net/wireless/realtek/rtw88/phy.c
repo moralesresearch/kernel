@@ -465,6 +465,7 @@ static void rtw_phy_ra_info_update(struct rtw_dev *rtwdev)
 	rtw_iterate_stas_atomic(rtwdev, rtw_phy_ra_info_update_iter, rtwdev);
 }
 
+<<<<<<< HEAD
 static u32 rtw_phy_get_rrsr_mask(struct rtw_dev *rtwdev, u8 rate_idx)
 {
 	u8 rate_order;
@@ -519,6 +520,8 @@ static void rtw_phy_rrsr_update(struct rtw_dev *rtwdev)
 	rtw_write32(rtwdev, REG_RRSR, dm_info->rrsr_val_init & dm_info->rrsr_mask_min);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static void rtw_phy_dpk_track(struct rtw_dev *rtwdev)
 {
 	struct rtw_chip_info *chip = rtwdev->chip;
@@ -615,19 +618,26 @@ static void rtw_phy_pwr_track(struct rtw_dev *rtwdev)
 	rtwdev->chip->ops->pwr_track(rtwdev);
 }
 
+<<<<<<< HEAD
 static void rtw_phy_ra_track(struct rtw_dev *rtwdev)
 {
 	rtw_phy_ra_info_update(rtwdev);
 	rtw_phy_rrsr_update(rtwdev);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void rtw_phy_dynamic_mechanism(struct rtw_dev *rtwdev)
 {
 	/* for further calculation */
 	rtw_phy_statistics(rtwdev);
 	rtw_phy_dig(rtwdev);
 	rtw_phy_cck_pd(rtwdev);
+<<<<<<< HEAD
 	rtw_phy_ra_track(rtwdev);
+=======
+	rtw_phy_ra_info_update(rtwdev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	rtw_phy_dpk_track(rtwdev);
 	rtw_phy_pwr_track(rtwdev);
 }
@@ -1584,7 +1594,11 @@ void rtw_phy_load_tables(struct rtw_dev *rtwdev)
 }
 EXPORT_SYMBOL(rtw_phy_load_tables);
 
+<<<<<<< HEAD
+static u8 rtw_get_channel_group(u8 channel, u8 rate)
+=======
 static u8 rtw_get_channel_group(u8 channel)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	switch (channel) {
 	default:
@@ -1628,6 +1642,10 @@ static u8 rtw_get_channel_group(u8 channel)
 	case 106:
 		return 4;
 	case 14:
+<<<<<<< HEAD
+		return rate <= DESC_RATE11M ? 5 : 4;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case 108:
 	case 110:
 	case 112:
@@ -1879,7 +1897,11 @@ void rtw_get_tx_power_params(struct rtw_dev *rtwdev, u8 path, u8 rate, u8 bw,
 	s8 *remnant = &pwr_param->pwr_remnant;
 
 	pwr_idx = &rtwdev->efuse.txpwr_idx_table[path];
+<<<<<<< HEAD
+	group = rtw_get_channel_group(ch, rate);
+=======
 	group = rtw_get_channel_group(ch);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* base power index for 2.4G/5G */
 	if (IS_CH_2G_BAND(ch)) {
@@ -2219,6 +2241,23 @@ s8 rtw_phy_pwrtrack_get_pwridx(struct rtw_dev *rtwdev,
 }
 EXPORT_SYMBOL(rtw_phy_pwrtrack_get_pwridx);
 
+<<<<<<< HEAD
+bool rtw_phy_pwrtrack_need_lck(struct rtw_dev *rtwdev)
+{
+	struct rtw_dm_info *dm_info = &rtwdev->dm_info;
+	u8 delta_lck;
+
+	delta_lck = abs(dm_info->thermal_avg[0] - dm_info->thermal_meter_lck);
+	if (delta_lck >= rtwdev->chip->lck_threshold) {
+		dm_info->thermal_meter_lck = dm_info->thermal_avg[0];
+		return true;
+	}
+	return false;
+}
+EXPORT_SYMBOL(rtw_phy_pwrtrack_need_lck);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool rtw_phy_pwrtrack_need_iqk(struct rtw_dev *rtwdev)
 {
 	struct rtw_dm_info *dm_info = &rtwdev->dm_info;

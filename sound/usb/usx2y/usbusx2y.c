@@ -137,6 +137,10 @@
 MODULE_AUTHOR("Karsten Wiese <annabellesgarden@yahoo.de>");
 MODULE_DESCRIPTION("TASCAM "NAME_ALLCAPS" Version 0.8.7.2");
 MODULE_LICENSE("GPL");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("{{TASCAM(0x1604),"NAME_ALLCAPS"(0x8001)(0x8005)(0x8007)}}");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX; /* Index 0-max */
 static char* id[SNDRV_CARDS] = SNDRV_DEFAULT_STR; /* Id for this card */

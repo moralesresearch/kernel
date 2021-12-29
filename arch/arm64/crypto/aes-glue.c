@@ -24,7 +24,14 @@
 #ifdef USE_V8_CRYPTO_EXTENSIONS
 #define MODE			"ce"
 #define PRIO			300
+<<<<<<< HEAD
 #define STRIDE			5
+=======
+<<<<<<< HEAD
+#define STRIDE			5
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define aes_expandkey		ce_aes_expandkey
 #define aes_ecb_encrypt		ce_aes_ecb_encrypt
 #define aes_ecb_decrypt		ce_aes_ecb_decrypt
@@ -42,7 +49,14 @@ MODULE_DESCRIPTION("AES-ECB/CBC/CTR/XTS using ARMv8 Crypto Extensions");
 #else
 #define MODE			"neon"
 #define PRIO			200
+<<<<<<< HEAD
 #define STRIDE			4
+=======
+<<<<<<< HEAD
+#define STRIDE			4
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define aes_ecb_encrypt		neon_aes_ecb_encrypt
 #define aes_ecb_decrypt		neon_aes_ecb_decrypt
 #define aes_cbc_encrypt		neon_aes_cbc_encrypt
@@ -89,7 +103,15 @@ asmlinkage void aes_cbc_cts_decrypt(u8 out[], u8 const in[], u32 const rk[],
 				int rounds, int bytes, u8 const iv[]);
 
 asmlinkage void aes_ctr_encrypt(u8 out[], u8 const in[], u32 const rk[],
+<<<<<<< HEAD
 				int rounds, int bytes, u8 ctr[], u8 finalbuf[]);
+=======
+<<<<<<< HEAD
+				int rounds, int bytes, u8 ctr[], u8 finalbuf[]);
+=======
+				int rounds, int blocks, u8 ctr[]);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 asmlinkage void aes_xts_encrypt(u8 out[], u8 const in[], u32 const rk1[],
 				int rounds, int bytes, u32 const rk2[], u8 iv[],
@@ -105,9 +127,21 @@ asmlinkage void aes_essiv_cbc_decrypt(u8 out[], u8 const in[], u32 const rk1[],
 				      int rounds, int blocks, u8 iv[],
 				      u32 const rk2[]);
 
+<<<<<<< HEAD
 asmlinkage int aes_mac_update(u8 const in[], u32 const rk[], int rounds,
 			      int blocks, u8 dg[], int enc_before,
 			      int enc_after);
+=======
+<<<<<<< HEAD
+asmlinkage int aes_mac_update(u8 const in[], u32 const rk[], int rounds,
+			      int blocks, u8 dg[], int enc_before,
+			      int enc_after);
+=======
+asmlinkage void aes_mac_update(u8 const in[], u32 const rk[], int rounds,
+			       int blocks, u8 dg[], int enc_before,
+			       int enc_after);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct crypto_aes_xts_ctx {
 	struct crypto_aes_ctx key1;
@@ -450,6 +484,10 @@ static int ctr_encrypt(struct skcipher_request *req)
 	struct crypto_aes_ctx *ctx = crypto_skcipher_ctx(tfm);
 	int err, rounds = 6 + ctx->key_length / 4;
 	struct skcipher_walk walk;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = skcipher_walk_virt(&walk, req, false);
 
@@ -480,6 +518,39 @@ static int ctr_encrypt(struct skcipher_request *req)
 			memcpy(dst + nbytes - tail, buf, tail);
 
 		err = skcipher_walk_done(&walk, walk.nbytes - nbytes);
+<<<<<<< HEAD
+=======
+=======
+	int blocks;
+
+	err = skcipher_walk_virt(&walk, req, false);
+
+	while ((blocks = (walk.nbytes / AES_BLOCK_SIZE))) {
+		kernel_neon_begin();
+		aes_ctr_encrypt(walk.dst.virt.addr, walk.src.virt.addr,
+				ctx->key_enc, rounds, blocks, walk.iv);
+		kernel_neon_end();
+		err = skcipher_walk_done(&walk, walk.nbytes % AES_BLOCK_SIZE);
+	}
+	if (walk.nbytes) {
+		u8 __aligned(8) tail[AES_BLOCK_SIZE];
+		unsigned int nbytes = walk.nbytes;
+		u8 *tdst = walk.dst.virt.addr;
+		u8 *tsrc = walk.src.virt.addr;
+
+		/*
+		 * Tell aes_ctr_encrypt() to process a tail block.
+		 */
+		blocks = -1;
+
+		kernel_neon_begin();
+		aes_ctr_encrypt(tail, NULL, ctx->key_enc, rounds,
+				blocks, walk.iv);
+		kernel_neon_end();
+		crypto_xor_cpy(tdst, tsrc, tail, nbytes);
+		err = skcipher_walk_done(&walk, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return err;
@@ -856,6 +927,10 @@ static void mac_do_update(struct crypto_aes_ctx *ctx, u8 const in[], int blocks,
 	int rounds = 6 + ctx->key_length / 4;
 
 	if (crypto_simd_usable()) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		int rem;
 
 		do {
@@ -867,6 +942,15 @@ static void mac_do_update(struct crypto_aes_ctx *ctx, u8 const in[], int blocks,
 			blocks = rem;
 			enc_before = 0;
 		} while (blocks);
+<<<<<<< HEAD
+=======
+=======
+		kernel_neon_begin();
+		aes_mac_update(in, ctx->key_enc, rounds, blocks, dg, enc_before,
+			       enc_after);
+		kernel_neon_end();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	} else {
 		if (enc_before)
 			aes_encrypt(ctx, dg, dg);

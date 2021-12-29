@@ -89,6 +89,7 @@ int iser_debug_level = 0;
 module_param_named(debug_level, iser_debug_level, int, S_IRUGO | S_IWUSR);
 MODULE_PARM_DESC(debug_level, "Enable debug tracing if > 0 (default:disabled)");
 
+<<<<<<< HEAD
 static int iscsi_iser_set(const char *val, const struct kernel_param *kp);
 static const struct kernel_param_ops iscsi_iser_size_ops = {
 	.set = iscsi_iser_set,
@@ -103,6 +104,15 @@ unsigned int iser_max_sectors = ISER_DEF_MAX_SECTORS;
 module_param_cb(max_sectors, &iscsi_iser_size_ops, &iser_max_sectors,
 		S_IRUGO | S_IWUSR);
 MODULE_PARM_DESC(max_sectors, "Max number of sectors in a single scsi command, should > 0 (default:1024)");
+=======
+static unsigned int iscsi_max_lun = 512;
+module_param_named(max_lun, iscsi_max_lun, uint, S_IRUGO);
+MODULE_PARM_DESC(max_lun, "Max LUNs to allow per session (default:512");
+
+unsigned int iser_max_sectors = ISER_DEF_MAX_SECTORS;
+module_param_named(max_sectors, iser_max_sectors, uint, S_IRUGO | S_IWUSR);
+MODULE_PARM_DESC(max_sectors, "Max number of sectors in a single scsi command (default:1024");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 bool iser_always_reg = true;
 module_param_named(always_register, iser_always_reg, bool, S_IRUGO);
@@ -117,6 +127,7 @@ int iser_pi_guard;
 module_param_named(pi_guard, iser_pi_guard, int, S_IRUGO);
 MODULE_PARM_DESC(pi_guard, "T10-PI guard_type [deprecated]");
 
+<<<<<<< HEAD
 static int iscsi_iser_set(const char *val, const struct kernel_param *kp)
 {
 	int ret;
@@ -129,6 +140,8 @@ static int iscsi_iser_set(const char *val, const struct kernel_param *kp)
 	return param_set_uint(val, kp);
 }
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * iscsi_iser_recv() - Process a successful recv completion
  * @conn:         iscsi connection
@@ -590,6 +603,7 @@ iscsi_iser_session_destroy(struct iscsi_cls_session *cls_session)
 static inline unsigned int
 iser_dif_prot_caps(int prot_caps)
 {
+<<<<<<< HEAD
 	int ret = 0;
 
 	if (prot_caps & IB_PROT_T10DIF_TYPE_1)
@@ -604,6 +618,15 @@ iser_dif_prot_caps(int prot_caps)
 		       SHOST_DIX_TYPE3_PROTECTION;
 
 	return ret;
+=======
+	return ((prot_caps & IB_PROT_T10DIF_TYPE_1) ?
+		SHOST_DIF_TYPE1_PROTECTION | SHOST_DIX_TYPE0_PROTECTION |
+		SHOST_DIX_TYPE1_PROTECTION : 0) |
+	       ((prot_caps & IB_PROT_T10DIF_TYPE_2) ?
+		SHOST_DIF_TYPE2_PROTECTION | SHOST_DIX_TYPE2_PROTECTION : 0) |
+	       ((prot_caps & IB_PROT_T10DIF_TYPE_3) ?
+		SHOST_DIF_TYPE3_PROTECTION | SHOST_DIX_TYPE3_PROTECTION : 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1035,6 +1058,14 @@ static int __init iser_init(void)
 
 	iser_dbg("Starting iSER datamover...\n");
 
+<<<<<<< HEAD
+=======
+	if (iscsi_max_lun < 1) {
+		iser_err("Invalid max_lun value of %u\n", iscsi_max_lun);
+		return -EINVAL;
+	}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memset(&ig, 0, sizeof(struct iser_global));
 
 	ig.desc_cache = kmem_cache_create("iser_descriptors",

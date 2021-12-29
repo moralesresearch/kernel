@@ -269,7 +269,11 @@ int __scsi_execute(struct scsi_device *sdev, const unsigned char *cmd,
 	/*
 	 * head injection *required* here otherwise quiesce won't work
 	 */
+<<<<<<< HEAD
 	blk_execute_rq(NULL, req, 1);
+=======
+	blk_execute_rq(req->q, NULL, req, 1);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/*
 	 * Some devices (USB mass-storage in particular) may transfer
@@ -630,7 +634,10 @@ static blk_status_t scsi_result_to_blk_status(struct scsi_cmnd *cmd, int result)
 			return BLK_STS_OK;
 		return BLK_STS_IOERR;
 	case DID_TRANSPORT_FAILFAST:
+<<<<<<< HEAD
 	case DID_TRANSPORT_MARGINAL:
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return BLK_STS_TRANSPORT;
 	case DID_TARGET_FAILURE:
 		set_host_byte(cmd, DID_OK);

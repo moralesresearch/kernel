@@ -41,9 +41,16 @@ static int dax_pmem_compat_release(struct device *dev, void *data)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void dax_pmem_compat_remove(struct device *dev)
 {
 	device_for_each_child(dev, NULL, dax_pmem_compat_release);
+=======
+static int dax_pmem_compat_remove(struct device *dev)
+{
+	device_for_each_child(dev, NULL, dax_pmem_compat_release);
+	return 0;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct nd_device_driver dax_pmem_compat_driver = {

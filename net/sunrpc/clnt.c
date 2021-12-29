@@ -1677,6 +1677,8 @@ call_reserveresult(struct rpc_task *task)
 		return;
 	}
 
+<<<<<<< HEAD
+=======
 	/*
 	 * Even though there was an error, we may have acquired
 	 * a request slot somehow.  Make sure not to leak it.
@@ -1684,6 +1686,7 @@ call_reserveresult(struct rpc_task *task)
 	if (task->tk_rqstp)
 		xprt_release(task);
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	switch (status) {
 	case -ENOMEM:
 		rpc_delay(task, HZ >> 2);
@@ -1799,7 +1802,10 @@ call_allocate(struct rpc_task *task)
 
 	status = xprt->ops->buf_alloc(task);
 	trace_rpc_buf_alloc(task, status);
+<<<<<<< HEAD
+=======
 	xprt_inject_disconnect(xprt);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (status == 0)
 		return;
 	if (status != -ENOMEM) {
@@ -2458,12 +2464,15 @@ call_decode(struct rpc_task *task)
 	}
 
 	/*
+<<<<<<< HEAD
+=======
 	 * Ensure that we see all writes made by xprt_complete_rqst()
 	 * before it changed req->rq_reply_bytes_recvd.
 	 */
 	smp_rmb();
 
 	/*
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * Did we ever call xprt_complete_rqst()? If not, we should assume
 	 * the message is incomplete.
 	 */
@@ -2471,6 +2480,14 @@ call_decode(struct rpc_task *task)
 	if (!req->rq_reply_bytes_recvd)
 		goto out;
 
+<<<<<<< HEAD
+	/* Ensure that we see all writes made by xprt_complete_rqst()
+	 * before it changed req->rq_reply_bytes_recvd.
+	 */
+	smp_rmb();
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	req->rq_rcv_buf.len = req->rq_private_buf.len;
 	trace_rpc_xdr_recvfrom(task, &req->rq_rcv_buf);
 

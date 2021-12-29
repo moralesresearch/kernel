@@ -712,11 +712,22 @@ void dcn30_program_dmdata_engine(struct pipe_ctx *pipe_ctx)
 bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
 {
 	union dmub_rb_cmd cmd;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	uint32_t tmr_delay = 0, tmr_scale = 0;
 	struct dc_cursor_attributes cursor_attr;
 	bool cursor_cache_enable = false;
 	struct dc_stream_state *stream = NULL;
 	struct dc_plane_state *plane = NULL;
+<<<<<<< HEAD
+=======
+=======
+	unsigned int surface_size, refresh_hz, denom;
+	uint32_t tmr_delay = 0, tmr_scale = 0;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!dc->ctx->dmub_srv)
 		return false;
@@ -727,11 +738,24 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
 
 			/* First, check no-memory-requests case */
 			for (i = 0; i < dc->current_state->stream_count; i++) {
+<<<<<<< HEAD
 				if (dc->current_state->stream_status[i].plane_count)
+=======
+<<<<<<< HEAD
+				if (dc->current_state->stream_status[i].plane_count)
+=======
+				if (dc->current_state->stream_status[i]
+					    .plane_count)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					/* Fail eligibility on a visible stream */
 					break;
 			}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (i == dc->current_state->stream_count) {
 				/* Enable no-memory-requests case */
 				memset(&cmd, 0, sizeof(cmd));
@@ -805,18 +829,70 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
 				tmr_delay = div_u64(((1000000LL + 2 * stutter_period * refresh_hz) *
 						(100LL + dc->debug.mall_additional_timer_percent) + denom - 1),
 						denom) - 64LL;
+<<<<<<< HEAD
+=======
+=======
+			if (dc->current_state->stream_count == 1 // single display only
+			    && dc->current_state->stream_status[0].plane_count == 1 // single surface only
+			    && dc->current_state->stream_status[0].plane_states[0]->address.page_table_base.quad_part == 0 // no VM
+			    // Only 8 and 16 bit formats
+			    && dc->current_state->stream_status[0].plane_states[0]->format <= SURFACE_PIXEL_FORMAT_GRPH_ABGR16161616F
+			    && dc->current_state->stream_status[0].plane_states[0]->format >= SURFACE_PIXEL_FORMAT_GRPH_ARGB8888) {
+				surface_size = dc->current_state->stream_status[0].plane_states[0]->plane_size.surface_pitch *
+					dc->current_state->stream_status[0].plane_states[0]->plane_size.surface_size.height *
+					(dc->current_state->stream_status[0].plane_states[0]->format >= SURFACE_PIXEL_FORMAT_GRPH_ARGB16161616 ?
+					 8 : 4);
+			} else {
+				// TODO: remove hard code size
+				surface_size = 128 * 1024 * 1024;
+			}
+
+			// TODO: remove hard code size
+			if (surface_size < 128 * 1024 * 1024) {
+				refresh_hz = div_u64((unsigned long long) dc->current_state->streams[0]->timing.pix_clk_100hz *
+						     100LL,
+						     (dc->current_state->streams[0]->timing.v_total *
+						      dc->current_state->streams[0]->timing.h_total));
+
+				/*
+				 * Delay_Us = 65.28 * (64 + MallFrameCacheTmrDly) * 2^MallFrameCacheTmrScale
+				 * Delay_Us / 65.28 = (64 + MallFrameCacheTmrDly) * 2^MallFrameCacheTmrScale
+				 * (Delay_Us / 65.28) / 2^MallFrameCacheTmrScale = 64 + MallFrameCacheTmrDly
+				 * MallFrameCacheTmrDly = ((Delay_Us / 65.28) / 2^MallFrameCacheTmrScale) - 64
+				 *                      = (1000000 / refresh) / 65.28 / 2^MallFrameCacheTmrScale - 64
+				 *                      = 1000000 / (refresh * 65.28 * 2^MallFrameCacheTmrScale) - 64
+				 *                      = (1000000 * 100) / (refresh * 6528 * 2^MallFrameCacheTmrScale) - 64
+				 *
+				 * need to round up the result of the division before the subtraction
+				 */
+				denom = refresh_hz * 6528;
+				tmr_delay = div_u64((100000000LL + denom - 1), denom) - 64LL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				/* scale should be increased until it fits into 6 bits */
 				while (tmr_delay & ~0x3F) {
 					tmr_scale++;
 
 					if (tmr_scale > 3) {
+<<<<<<< HEAD
 						/* Delay exceeds range of hysteresis timer */
+=======
+<<<<<<< HEAD
+						/* Delay exceeds range of hysteresis timer */
+=======
+						/* The delay exceeds the range of the hystersis timer */
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 						ASSERT(false);
 						return false;
 					}
 
 					denom *= 2;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					tmr_delay = div_u64(((1000000LL + 2 * stutter_period * refresh_hz) *
 							(100LL + dc->debug.mall_additional_timer_percent) + denom - 1),
 							denom) - 64LL;
@@ -848,7 +924,11 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
 
 					cmd.mall.cursor_copy_src.quad_part = cursor_attr.address.quad_part;
 					cmd.mall.cursor_copy_dst.quad_part =
+<<<<<<< HEAD
+							(plane->address.grph.cursor_cache_addr.quad_part + 2047) & ~2047;
+=======
 							plane->address.grph.cursor_cache_addr.quad_part;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					cmd.mall.cursor_width = cursor_attr.width;
 					cmd.mall.cursor_height = cursor_attr.height;
 					cmd.mall.cursor_pitch = cursor_attr.pitch;
@@ -858,19 +938,43 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
 					dc_dmub_srv_wait_idle(dc->ctx->dmub_srv);
 
 					/* Use copied cursor, and it's okay to not switch back */
+<<<<<<< HEAD
+					cursor_attr.address.quad_part = cmd.mall.cursor_copy_dst.quad_part;
+					dc_stream_set_cursor_attributes(stream, &cursor_attr);
+=======
 					cursor_attr.address.quad_part =
 							plane->address.grph.cursor_cache_addr.quad_part;
 					dc_stream_set_cursor_attributes(stream, &cursor_attr);
+=======
+					tmr_delay = div_u64((100000000LL + denom - 1), denom) - 64LL;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				}
 
 				/* Enable MALL */
 				memset(&cmd, 0, sizeof(cmd));
 				cmd.mall.header.type = DMUB_CMD__MALL;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				cmd.mall.header.sub_type = DMUB_CMD__MALL_ACTION_ALLOW;
 				cmd.mall.header.payload_bytes = sizeof(cmd.mall) - sizeof(cmd.mall.header);
 				cmd.mall.tmr_delay = tmr_delay;
 				cmd.mall.tmr_scale = tmr_scale;
 				cmd.mall.debug_bits = dc->debug.mall_error_as_fatal;
+<<<<<<< HEAD
+=======
+=======
+				cmd.mall.header.sub_type =
+					DMUB_CMD__MALL_ACTION_ALLOW;
+				cmd.mall.header.payload_bytes =
+					sizeof(cmd.mall) -
+					sizeof(cmd.mall.header);
+				cmd.mall.tmr_delay = tmr_delay;
+				cmd.mall.tmr_scale = tmr_scale;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 				dc_dmub_srv_cmd_queue(dc->ctx->dmub_srv, &cmd);
 				dc_dmub_srv_cmd_execute(dc->ctx->dmub_srv);
@@ -897,6 +1001,10 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
 	return true;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 bool dcn30_does_plane_fit_in_mall(struct dc *dc, struct dc_plane_state *plane, struct dc_cursor_attributes *cursor_attr)
 {
 	// add meta size?
@@ -931,6 +1039,11 @@ bool dcn30_does_plane_fit_in_mall(struct dc *dc, struct dc_plane_state *plane, s
 	return (surface_size + cursor_size) < mall_size;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dcn30_hardware_release(struct dc *dc)
 {
 	/* if pstate unsupported, force it supported */
@@ -940,6 +1053,10 @@ void dcn30_hardware_release(struct dc *dc)
 				dc->res_pool->hubbub, true, true);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dcn30_set_hubp_blank(const struct dc *dc,
 		struct pipe_ctx *pipe_ctx,
 		bool blank_enable)
@@ -987,6 +1104,11 @@ void dcn30_set_hubp_blank(const struct dc *dc,
 	}
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 void dcn30_set_disp_pattern_generator(const struct dc *dc,
 		struct pipe_ctx *pipe_ctx,
 		enum controller_dp_test_pattern test_pattern,
@@ -995,6 +1117,10 @@ void dcn30_set_disp_pattern_generator(const struct dc *dc,
 		const struct tg_color *solid_color,
 		int width, int height, int offset)
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct stream_resource *stream_res = &pipe_ctx->stream_res;
 
 	if (test_pattern != CONTROLLER_DP_TEST_PATTERN_VIDEOMODE) {
@@ -1016,4 +1142,11 @@ void dcn30_set_disp_pattern_generator(const struct dc *dc,
 		stream_res->opp->funcs->opp_set_disp_pattern_generator(stream_res->opp, test_pattern, color_space,
 				color_depth, solid_color, width, height, offset);
 	}
+<<<<<<< HEAD
+=======
+=======
+	pipe_ctx->stream_res.opp->funcs->opp_set_disp_pattern_generator(pipe_ctx->stream_res.opp, test_pattern,
+			color_space, color_depth, solid_color, width, height, offset);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

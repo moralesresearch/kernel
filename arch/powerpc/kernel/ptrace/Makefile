@@ -6,11 +6,19 @@
 CFLAGS_ptrace-view.o		+= -DUTS_MACHINE='"$(UTS_MACHINE)"'
 
 obj-y				+= ptrace.o ptrace-view.o
+<<<<<<< HEAD
 obj-y				+= ptrace-fpu.o
 obj-$(CONFIG_COMPAT)		+= ptrace32.o
 obj-$(CONFIG_VSX)		+= ptrace-vsx.o
 ifneq ($(CONFIG_VSX),y)
 obj-y				+= ptrace-novsx.o
+=======
+obj-$(CONFIG_PPC_FPU_REGS)	+= ptrace-fpu.o
+obj-$(CONFIG_COMPAT)		+= ptrace32.o
+obj-$(CONFIG_VSX)		+= ptrace-vsx.o
+ifneq ($(CONFIG_VSX),y)
+obj-$(CONFIG_PPC_FPU_REGS)	+= ptrace-novsx.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endif
 obj-$(CONFIG_ALTIVEC)		+= ptrace-altivec.o
 obj-$(CONFIG_SPE)		+= ptrace-spe.o

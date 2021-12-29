@@ -875,6 +875,7 @@ emit_cond_jmp:
 		}
 		break;
 
+<<<<<<< HEAD
 	case BPF_STX | BPF_ATOMIC | BPF_W:
 	case BPF_STX | BPF_ATOMIC | BPF_DW:
 		if (insn->imm != BPF_ADD) {
@@ -887,6 +888,12 @@ emit_cond_jmp:
 		 * STX XADD: lock *(u64 *)(dst + off) += src
 		 */
 
+=======
+	/* STX XADD: lock *(u32 *)(dst + off) += src */
+	case BPF_STX | BPF_XADD | BPF_W:
+	/* STX XADD: lock *(u64 *)(dst + off) += src */
+	case BPF_STX | BPF_XADD | BPF_DW:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (!off) {
 			reg = dst;
 		} else {

@@ -8,7 +8,13 @@ obj-$(CONFIG_IBMVMC)		+= ibmvmc.o
 obj-$(CONFIG_AD525X_DPOT)	+= ad525x_dpot.o
 obj-$(CONFIG_AD525X_DPOT_I2C)	+= ad525x_dpot-i2c.o
 obj-$(CONFIG_AD525X_DPOT_SPI)	+= ad525x_dpot-spi.o
+<<<<<<< HEAD
 obj-$(CONFIG_ATMEL_SSC)		+= atmel-ssc.o
+=======
+obj-$(CONFIG_INTEL_MID_PTI)	+= pti.o
+obj-$(CONFIG_ATMEL_SSC)		+= atmel-ssc.o
+obj-$(CONFIG_ATMEL_TCLIB)	+= atmel_tclib.o
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-$(CONFIG_DUMMY_IRQ)		+= dummy-irq.o
 obj-$(CONFIG_ICS932S401)	+= ics932s401.o
 obj-$(CONFIG_LKDTM)		+= lkdtm/
@@ -49,7 +55,10 @@ obj-$(CONFIG_ECHO)		+= echo/
 obj-$(CONFIG_CXL_BASE)		+= cxl/
 obj-$(CONFIG_PCI_ENDPOINT_TEST)	+= pci_endpoint_test.o
 obj-$(CONFIG_OCXL)		+= ocxl/
+<<<<<<< HEAD
 obj-$(CONFIG_BCM_VK)		+= bcm-vk/
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 obj-y				+= cardreader/
 obj-$(CONFIG_PVPANIC)   	+= pvpanic.o
 obj-$(CONFIG_HABANA_AI)		+= habanalabs/

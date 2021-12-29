@@ -22,7 +22,11 @@ cleanup()
 devlink_sp_read_kvd_defaults
 trap cleanup EXIT
 
+<<<<<<< HEAD
 ALL_TESTS="router tc_flower mirror_gre tc_police port"
+=======
+ALL_TESTS="router tc_flower mirror_gre tc_police"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 for current_test in ${TESTS:-$ALL_TESTS}; do
 	source ${current_test}_scale.sh
 

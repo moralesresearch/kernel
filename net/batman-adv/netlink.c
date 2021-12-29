@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
+<<<<<<< HEAD
 /* Copyright (C) B.A.T.M.A.N. contributors:
+=======
+/* Copyright (C) 2016-2020  B.A.T.M.A.N. contributors:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * Matthias Schiffer
  */
@@ -193,7 +197,11 @@ static int batadv_netlink_mesh_fill_ap_isolation(struct sk_buff *msg,
 }
 
 /**
+<<<<<<< HEAD
  * batadv_netlink_set_mesh_ap_isolation() - Set ap_isolation from genl msg
+=======
+ * batadv_option_set_ap_isolation() - Set ap_isolation from genl msg
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @attr: parsed BATADV_ATTR_AP_ISOLATION_ENABLED attribute
  * @bat_priv: the bat priv with all the soft interface information
  *
@@ -757,7 +765,11 @@ batadv_netlink_tp_meter_start(struct sk_buff *skb, struct genl_info *info)
 }
 
 /**
+<<<<<<< HEAD
  * batadv_netlink_tp_meter_cancel() - Cancel a running tp_meter session
+=======
+ * batadv_netlink_tp_meter_start() - Cancel a running tp_meter session
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @skb: received netlink message
  * @info: receiver information
  *

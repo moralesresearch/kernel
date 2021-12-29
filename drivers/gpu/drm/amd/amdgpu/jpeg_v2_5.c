@@ -187,19 +187,32 @@ static int jpeg_v2_5_hw_init(void *handle)
 static int jpeg_v2_5_hw_fini(void *handle)
 {
 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+<<<<<<< HEAD
+	int i;
+
+	cancel_delayed_work_sync(&adev->vcn.idle_work);
+
+=======
 	struct amdgpu_ring *ring;
 	int i;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	for (i = 0; i < adev->jpeg.num_jpeg_inst; ++i) {
 		if (adev->jpeg.harvest_config & (1 << i))
 			continue;
 
+<<<<<<< HEAD
+		if (adev->jpeg.cur_state != AMD_PG_STATE_GATE &&
+		      RREG32_SOC15(JPEG, i, mmUVD_JRBC_STATUS))
+			jpeg_v2_5_set_powergating_state(adev, AMD_PG_STATE_GATE);
+=======
 		ring = &adev->jpeg.inst[i].ring_dec;
 		if (adev->jpeg.cur_state != AMD_PG_STATE_GATE &&
 		      RREG32_SOC15(JPEG, i, mmUVD_JRBC_STATUS))
 			jpeg_v2_5_set_powergating_state(adev, AMD_PG_STATE_GATE);
 
 		ring->sched.ready = false;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	return 0;

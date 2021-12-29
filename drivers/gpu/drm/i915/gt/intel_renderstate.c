@@ -27,8 +27,12 @@
 
 #include "i915_drv.h"
 #include "intel_renderstate.h"
+<<<<<<< HEAD
 #include "intel_context.h"
 #include "intel_gpu_commands.h"
+=======
+#include "gt/intel_context.h"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include "intel_ring.h"
 
 static const struct intel_renderstate_rodata *

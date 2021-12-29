@@ -200,7 +200,11 @@ static int gbcodec_mixer_ctl_info(struct snd_kcontrol *kcontrol,
 			return -EINVAL;
 		name = gbaudio_map_controlid(module, data->ctl_id,
 					     uinfo->value.enumerated.item);
+<<<<<<< HEAD
 		strscpy(uinfo->value.enumerated.name, name, NAME_SIZE);
+=======
+		strlcpy(uinfo->value.enumerated.name, name, NAME_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	default:
 		dev_err(comp->dev, "Invalid type: %d for %s:kcontrol\n",
@@ -1047,7 +1051,11 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
 	}
 
 	/* Prefix dev_id to widget control_name */
+<<<<<<< HEAD
 	strscpy(temp_name, w->name, NAME_SIZE);
+=======
+	strlcpy(temp_name, w->name, NAME_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	snprintf(w->name, NAME_SIZE, "GB %d %s", module->dev_id, temp_name);
 
 	switch (w->type) {
@@ -1169,7 +1177,11 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
 		}
 		control->id = curr->id;
 		/* Prefix dev_id to widget_name */
+<<<<<<< HEAD
 		strscpy(temp_name, curr->name, NAME_SIZE);
+=======
+		strlcpy(temp_name, curr->name, NAME_SIZE);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		snprintf(curr->name, NAME_SIZE, "GB %d %s", module->dev_id,
 			 temp_name);
 		control->name = curr->name;

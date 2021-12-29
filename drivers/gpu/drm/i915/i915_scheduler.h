@@ -13,8 +13,11 @@
 
 #include "i915_scheduler_types.h"
 
+<<<<<<< HEAD
 struct drm_printer;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define priolist_for_each_request(it, plist, idx) \
 	for (idx = 0; idx < ARRAY_SIZE((plist)->requests); idx++) \
 		list_for_each_entry(it, &(plist)->requests[idx], sched.link)
@@ -56,9 +59,12 @@ static inline void i915_priolist_free(struct i915_priolist *p)
 		__i915_priolist_free(p);
 }
 
+<<<<<<< HEAD
 void i915_request_show_with_schedule(struct drm_printer *m,
 				     const struct i915_request *rq,
 				     const char *prefix,
 				     int indent);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif /* _I915_SCHEDULER_H_ */

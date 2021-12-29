@@ -1057,7 +1057,11 @@ static int img_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs,
 			atomic = true;
 	}
 
+<<<<<<< HEAD
+	ret = pm_runtime_resume_and_get(adap->dev.parent);
+=======
 	ret = pm_runtime_get_sync(adap->dev.parent);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 
@@ -1158,7 +1162,11 @@ static int img_i2c_init(struct img_i2c *i2c)
 	u32 rev;
 	int ret;
 
+<<<<<<< HEAD
+	ret = pm_runtime_resume_and_get(i2c->adap.dev.parent);
+=======
 	ret = pm_runtime_get_sync(i2c->adap.dev.parent);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret < 0)
 		return ret;
 

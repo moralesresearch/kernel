@@ -2,8 +2,12 @@
 
 CFLAGS_init.o := -mcmodel=medany
 ifdef CONFIG_FTRACE
+<<<<<<< HEAD
 CFLAGS_REMOVE_init.o = $(CC_FLAGS_FTRACE)
 CFLAGS_REMOVE_cacheflush.o = $(CC_FLAGS_FTRACE)
+=======
+CFLAGS_REMOVE_init.o = -pg
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 endif
 
 KCOV_INSTRUMENT_init.o := n

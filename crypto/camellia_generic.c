@@ -9,6 +9,17 @@
  *  https://info.isl.ntt.co.jp/crypt/eng/camellia/specifications.html
  */
 
+<<<<<<< HEAD
+=======
+/*
+ *
+ * NOTE --- NOTE --- NOTE --- NOTE
+ * This implementation assumes that all memory addresses passed
+ * as parameters are four-byte aligned.
+ *
+ */
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/crypto.h>
 #include <linux/errno.h>
 #include <linux/init.h>
@@ -986,14 +997,26 @@ camellia_set_key(struct crypto_tfm *tfm, const u8 *in_key,
 static void camellia_encrypt(struct crypto_tfm *tfm, u8 *out, const u8 *in)
 {
 	const struct camellia_ctx *cctx = crypto_tfm_ctx(tfm);
+<<<<<<< HEAD
+=======
+	const __be32 *src = (const __be32 *)in;
+	__be32 *dst = (__be32 *)out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int max;
 
 	u32 tmp[4];
 
+<<<<<<< HEAD
 	tmp[0] = get_unaligned_be32(in);
 	tmp[1] = get_unaligned_be32(in + 4);
 	tmp[2] = get_unaligned_be32(in + 8);
 	tmp[3] = get_unaligned_be32(in + 12);
+=======
+	tmp[0] = be32_to_cpu(src[0]);
+	tmp[1] = be32_to_cpu(src[1]);
+	tmp[2] = be32_to_cpu(src[2]);
+	tmp[3] = be32_to_cpu(src[3]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (cctx->key_length == 16)
 		max = 24;
@@ -1003,23 +1026,42 @@ static void camellia_encrypt(struct crypto_tfm *tfm, u8 *out, const u8 *in)
 	camellia_do_encrypt(cctx->key_table, tmp, max);
 
 	/* do_encrypt returns 0,1 swapped with 2,3 */
+<<<<<<< HEAD
 	put_unaligned_be32(tmp[2], out);
 	put_unaligned_be32(tmp[3], out + 4);
 	put_unaligned_be32(tmp[0], out + 8);
 	put_unaligned_be32(tmp[1], out + 12);
+=======
+	dst[0] = cpu_to_be32(tmp[2]);
+	dst[1] = cpu_to_be32(tmp[3]);
+	dst[2] = cpu_to_be32(tmp[0]);
+	dst[3] = cpu_to_be32(tmp[1]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static void camellia_decrypt(struct crypto_tfm *tfm, u8 *out, const u8 *in)
 {
 	const struct camellia_ctx *cctx = crypto_tfm_ctx(tfm);
+<<<<<<< HEAD
+=======
+	const __be32 *src = (const __be32 *)in;
+	__be32 *dst = (__be32 *)out;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	unsigned int max;
 
 	u32 tmp[4];
 
+<<<<<<< HEAD
 	tmp[0] = get_unaligned_be32(in);
 	tmp[1] = get_unaligned_be32(in + 4);
 	tmp[2] = get_unaligned_be32(in + 8);
 	tmp[3] = get_unaligned_be32(in + 12);
+=======
+	tmp[0] = be32_to_cpu(src[0]);
+	tmp[1] = be32_to_cpu(src[1]);
+	tmp[2] = be32_to_cpu(src[2]);
+	tmp[3] = be32_to_cpu(src[3]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (cctx->key_length == 16)
 		max = 24;
@@ -1029,10 +1071,17 @@ static void camellia_decrypt(struct crypto_tfm *tfm, u8 *out, const u8 *in)
 	camellia_do_decrypt(cctx->key_table, tmp, max);
 
 	/* do_decrypt returns 0,1 swapped with 2,3 */
+<<<<<<< HEAD
 	put_unaligned_be32(tmp[2], out);
 	put_unaligned_be32(tmp[3], out + 4);
 	put_unaligned_be32(tmp[0], out + 8);
 	put_unaligned_be32(tmp[1], out + 12);
+=======
+	dst[0] = cpu_to_be32(tmp[2]);
+	dst[1] = cpu_to_be32(tmp[3]);
+	dst[2] = cpu_to_be32(tmp[0]);
+	dst[3] = cpu_to_be32(tmp[1]);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static struct crypto_alg camellia_alg = {
@@ -1042,6 +1091,10 @@ static struct crypto_alg camellia_alg = {
 	.cra_flags		=	CRYPTO_ALG_TYPE_CIPHER,
 	.cra_blocksize		=	CAMELLIA_BLOCK_SIZE,
 	.cra_ctxsize		=	sizeof(struct camellia_ctx),
+<<<<<<< HEAD
+=======
+	.cra_alignmask		=	3,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.cra_module		=	THIS_MODULE,
 	.cra_u			=	{
 		.cipher = {

@@ -351,7 +351,11 @@ int sun8i_ss_cipher_init(struct crypto_tfm *tfm)
 	op->enginectx.op.prepare_request = NULL;
 	op->enginectx.op.unprepare_request = NULL;
 
+<<<<<<< HEAD
+	err = pm_runtime_resume_and_get(op->ss->dev);
+=======
 	err = pm_runtime_get_sync(op->ss->dev);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0) {
 		dev_err(op->ss->dev, "pm error %d\n", err);
 		goto error_pm;

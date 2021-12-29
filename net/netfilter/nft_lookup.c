@@ -17,8 +17,13 @@
 
 struct nft_lookup {
 	struct nft_set			*set;
+<<<<<<< HEAD
 	u8				sreg;
 	u8				dreg;
+=======
+	enum nft_registers		sreg:8;
+	enum nft_registers		dreg:8;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bool				invert;
 	struct nft_set_binding		binding;
 };
@@ -76,8 +81,13 @@ static int nft_lookup_init(const struct nft_ctx *ctx,
 	if (IS_ERR(set))
 		return PTR_ERR(set);
 
+<<<<<<< HEAD
 	err = nft_parse_register_load(tb[NFTA_LOOKUP_SREG], &priv->sreg,
 				      set->klen);
+=======
+	priv->sreg = nft_parse_register(tb[NFTA_LOOKUP_SREG]);
+	err = nft_validate_register_load(priv->sreg, set->klen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (err < 0)
 		return err;
 
@@ -100,9 +110,15 @@ static int nft_lookup_init(const struct nft_ctx *ctx,
 		if (!(set->flags & NFT_SET_MAP))
 			return -EINVAL;
 
+<<<<<<< HEAD
 		err = nft_parse_register_store(ctx, tb[NFTA_LOOKUP_DREG],
 					       &priv->dreg, NULL, set->dtype,
 					       set->dlen);
+=======
+		priv->dreg = nft_parse_register(tb[NFTA_LOOKUP_DREG]);
+		err = nft_validate_register_store(ctx, priv->dreg, NULL,
+						  set->dtype, set->dlen);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		if (err < 0)
 			return err;
 	} else if (set->flags & NFT_SET_MAP)

@@ -23,7 +23,14 @@
 #include <linux/if_ether.h>
 #include <linux/mpls.h>
 #include <linux/tcp.h>
+<<<<<<< HEAD
 #include <linux/ptp_classify.h>
+=======
+<<<<<<< HEAD
+#include <linux/ptp_classify.h>
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <net/flow_dissector.h>
 #include <scsi/fc/fc_fcoe.h>
 #include <uapi/linux/batadv_packet.h>
@@ -237,8 +244,19 @@ skb_flow_dissect_set_enc_addr_type(enum flow_dissector_key_id type,
 void
 skb_flow_dissect_ct(const struct sk_buff *skb,
 		    struct flow_dissector *flow_dissector,
+<<<<<<< HEAD
 		    void *target_container, u16 *ctinfo_map,
 		    size_t mapsize, bool post_ct)
+=======
+<<<<<<< HEAD
+		    void *target_container, u16 *ctinfo_map,
+		    size_t mapsize, bool post_ct)
+=======
+		    void *target_container,
+		    u16 *ctinfo_map,
+		    size_t mapsize)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 #if IS_ENABLED(CONFIG_NF_CONNTRACK)
 	struct flow_dissector_key_ct *key;
@@ -250,19 +268,36 @@ skb_flow_dissect_ct(const struct sk_buff *skb,
 		return;
 
 	ct = nf_ct_get(skb, &ctinfo);
+<<<<<<< HEAD
 	if (!ct && !post_ct)
+=======
+<<<<<<< HEAD
+	if (!ct && !post_ct)
+=======
+	if (!ct)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return;
 
 	key = skb_flow_dissector_target(flow_dissector,
 					FLOW_DISSECTOR_KEY_CT,
 					target_container);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ct) {
 		key->ct_state = TCA_FLOWER_KEY_CT_FLAGS_TRACKED |
 				TCA_FLOWER_KEY_CT_FLAGS_INVALID;
 		return;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ctinfo < mapsize)
 		key->ct_state = ctinfo_map[ctinfo];
 #if IS_ENABLED(CONFIG_NF_CONNTRACK_ZONES)
@@ -828,8 +863,15 @@ static void __skb_flow_bpf_to_target(const struct bpf_flow_keys *flow_keys,
 		key_addrs = skb_flow_dissector_target(flow_dissector,
 						      FLOW_DISSECTOR_KEY_IPV6_ADDRS,
 						      target_container);
+<<<<<<< HEAD
+		memcpy(&key_addrs->v6addrs.src, &flow_keys->ipv6_src,
+		       sizeof(key_addrs->v6addrs.src));
+		memcpy(&key_addrs->v6addrs.dst, &flow_keys->ipv6_dst,
+		       sizeof(key_addrs->v6addrs.dst));
+=======
 		memcpy(&key_addrs->v6addrs, &flow_keys->ipv6_src,
 		       sizeof(key_addrs->v6addrs));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		key_control->addr_type = FLOW_DISSECTOR_KEY_IPV6_ADDRS;
 	}
 
@@ -1257,6 +1299,10 @@ proto_again:
 						  &proto, &nhoff, hlen, flags);
 		break;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	case htons(ETH_P_1588): {
 		struct ptp_header *hdr, _hdr;
 
@@ -1272,6 +1318,11 @@ proto_again:
 		break;
 	}
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	default:
 		fdret = FLOW_DISSECT_RET_OUT_BAD;
 		break;

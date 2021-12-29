@@ -52,7 +52,11 @@ purposes as a standard complementary tool. The system's view from
 ``devlink-dpipe`` should change according to the changes done by the
 standard configuration tools.
 
+<<<<<<< HEAD
 For example, it’s quite common to  implement Access Control Lists (ACL)
+=======
+For example, it’s quiet common to  implement Access Control Lists (ACL)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 using Ternary Content Addressable Memory (TCAM). The TCAM memory can be
 divided into TCAM regions. Complex TC filters can have multiple rules with
 different priorities and different lookup keys. On the other hand hardware

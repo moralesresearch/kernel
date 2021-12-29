@@ -12,11 +12,14 @@
 #include "fu540-prci.h"
 #include "fu740-prci.h"
 
+<<<<<<< HEAD
 static const struct prci_clk_desc prci_clk_fu540 = {
 	.clks = __prci_init_clocks_fu540,
 	.num_clks = ARRAY_SIZE(__prci_init_clocks_fu540),
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Private functions
  */

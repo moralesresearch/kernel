@@ -927,7 +927,15 @@ static void m_can_echo_tx_event(struct net_device *dev)
 						(fgi << TXEFA_EFAI_SHIFT)));
 
 		/* update stats */
+<<<<<<< HEAD
 		stats->tx_bytes += can_get_echo_skb(dev, msg_mark, NULL);
+=======
+<<<<<<< HEAD
+		stats->tx_bytes += can_get_echo_skb(dev, msg_mark, NULL);
+=======
+		stats->tx_bytes += can_get_echo_skb(dev, msg_mark);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		stats->tx_packets++;
 	}
 }
@@ -969,7 +977,15 @@ static irqreturn_t m_can_isr(int irq, void *dev_id)
 	if (cdev->version == 30) {
 		if (ir & IR_TC) {
 			/* Transmission Complete Interrupt*/
+<<<<<<< HEAD
 			stats->tx_bytes += can_get_echo_skb(dev, 0, NULL);
+=======
+<<<<<<< HEAD
+			stats->tx_bytes += can_get_echo_skb(dev, 0, NULL);
+=======
+			stats->tx_bytes += can_get_echo_skb(dev, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			stats->tx_packets++;
 			can_led_event(dev, CAN_LED_EVENT_TX);
 			netif_wake_queue(dev);
@@ -1455,6 +1471,11 @@ static netdev_tx_t m_can_tx_handler(struct m_can_classdev *cdev)
 	int i;
 	int putidx;
 
+<<<<<<< HEAD
+	cdev->tx_skb = NULL;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/* Generate ID field for TX buffer Element */
 	/* Common to all supported M_CAN versions */
 	if (cf->can_id & CAN_EFF_FLAG) {
@@ -1480,7 +1501,15 @@ static netdev_tx_t m_can_tx_handler(struct m_can_classdev *cdev)
 					 M_CAN_FIFO_DATA(i / 4),
 					 *(u32 *)(cf->data + i));
 
+<<<<<<< HEAD
 		can_put_echo_skb(skb, dev, 0, 0);
+=======
+<<<<<<< HEAD
+		can_put_echo_skb(skb, dev, 0, 0);
+=======
+		can_put_echo_skb(skb, dev, 0);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (cdev->can.ctrlmode & CAN_CTRLMODE_FD) {
 			cccr = m_can_read(cdev, M_CAN_CCCR);
@@ -1551,7 +1580,15 @@ static netdev_tx_t m_can_tx_handler(struct m_can_classdev *cdev)
 		/* Push loopback echo.
 		 * Will be looped back on TX interrupt based on message marker
 		 */
+<<<<<<< HEAD
 		can_put_echo_skb(skb, dev, putidx, 0);
+=======
+<<<<<<< HEAD
+		can_put_echo_skb(skb, dev, putidx, 0);
+=======
+		can_put_echo_skb(skb, dev, putidx);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		/* Enable TX FIFO element to start transfer  */
 		m_can_write(cdev, M_CAN_TXBAR, (1 << putidx));
@@ -1571,7 +1608,10 @@ static void m_can_tx_work_queue(struct work_struct *ws)
 						   tx_work);
 
 	m_can_tx_handler(cdev);
+<<<<<<< HEAD
+=======
 	cdev->tx_skb = NULL;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static netdev_tx_t m_can_start_xmit(struct sk_buff *skb,

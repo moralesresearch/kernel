@@ -184,6 +184,7 @@ extern bool initcall_debug;
  * as KEEP() in the linker script.
  */
 
+<<<<<<< HEAD
 /* Format: <modname>__<counter>_<line>_<fn> */
 #define __initcall_id(fn)					\
 	__PASTE(__KBUILD_MODNAME,				\
@@ -258,6 +259,21 @@ extern bool initcall_debug;
 #define ___define_initcall(fn, id, __sec)			\
 	__unique_initcall(fn, id, __sec, __initcall_id(fn))
 
+=======
+#ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
+#define ___define_initcall(fn, id, __sec)			\
+	__ADDRESSABLE(fn)					\
+	asm(".section	\"" #__sec ".init\", \"a\"	\n"	\
+	"__initcall_" #fn #id ":			\n"	\
+	    ".long	" #fn " - .			\n"	\
+	    ".previous					\n");
+#else
+#define ___define_initcall(fn, id, __sec) \
+	static initcall_t __initcall_##fn##id __used \
+		__attribute__((__section__(#__sec ".init"))) = fn;
+#endif
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
 
 /*
@@ -297,7 +313,11 @@ extern bool initcall_debug;
 #define __exitcall(fn)						\
 	static exitcall_t __exitcall_##fn __exit_call = fn
 
+<<<<<<< HEAD
 #define console_initcall(fn)	___define_initcall(fn, con, .con_initcall)
+=======
+#define console_initcall(fn)	___define_initcall(fn,, .con_initcall)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct obs_kernel_param {
 	const char *str;
@@ -338,14 +358,22 @@ struct obs_kernel_param {
 		var = 1;						\
 		return 0;						\
 	}								\
+<<<<<<< HEAD
 	early_param(str_on, parse_##var##_on);				\
+=======
+	__setup_param(str_on, parse_##var##_on, parse_##var##_on, 1);	\
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 									\
 	static int __init parse_##var##_off(char *arg)			\
 	{								\
 		var = 0;						\
 		return 0;						\
 	}								\
+<<<<<<< HEAD
 	early_param(str_off, parse_##var##_off)
+=======
+	__setup_param(str_off, parse_##var##_off, parse_##var##_off, 1)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /* Relies on boot_command_line being set */
 void __init parse_early_param(void);

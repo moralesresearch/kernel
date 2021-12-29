@@ -175,7 +175,11 @@ static int cpufreq_exit(struct cpufreq_policy *policy)
 }
 
 static struct cpufreq_driver dt_cpufreq_driver = {
+<<<<<<< HEAD
 	.flags = CPUFREQ_NEED_INITIAL_FREQ_CHECK |
+=======
+	.flags = CPUFREQ_STICKY | CPUFREQ_NEED_INITIAL_FREQ_CHECK |
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		 CPUFREQ_IS_COOLING_DEV,
 	.verify = cpufreq_generic_frequency_table_verify,
 	.target_index = set_target,

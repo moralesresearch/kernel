@@ -1821,6 +1821,10 @@ static const struct pci_device_id rt2400pci_device_table[] = {
 MODULE_AUTHOR(DRV_PROJECT);
 MODULE_VERSION(DRV_VERSION);
 MODULE_DESCRIPTION("Ralink RT2400 PCI & PCMCIA Wireless LAN driver.");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE("Ralink RT2460 PCI & PCMCIA chipset based cards");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_DEVICE_TABLE(pci, rt2400pci_device_table);
 MODULE_LICENSE("GPL");
 

@@ -30,6 +30,10 @@ config MICROBLAZE
 	select HAVE_FTRACE_MCOUNT_RECORD
 	select HAVE_FUNCTION_GRAPH_TRACER
 	select HAVE_FUNCTION_TRACER
+<<<<<<< HEAD
+=======
+	select HAVE_OPROFILE
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select HAVE_PCI
 	select IRQ_DOMAIN
 	select XILINX_INTC
@@ -38,6 +42,10 @@ config MICROBLAZE
 	select OF_EARLY_FLATTREE
 	select PCI_DOMAINS_GENERIC if PCI
 	select PCI_SYSCALL if PCI
+<<<<<<< HEAD
+=======
+	select TRACING_SUPPORT
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	select VIRT_TO_BUS
 	select CPU_NO_EFFICIENT_FFS
 	select MMU_GATHER_NO_RANGE

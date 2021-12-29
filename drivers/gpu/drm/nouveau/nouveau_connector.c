@@ -411,7 +411,14 @@ static struct nouveau_encoder *
 nouveau_connector_ddc_detect(struct drm_connector *connector)
 {
 	struct drm_device *dev = connector->dev;
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+<<<<<<< HEAD
+	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nouveau_encoder *nv_encoder = NULL, *found = NULL;
 	struct drm_encoder *encoder;
 	int ret;
@@ -439,11 +446,25 @@ nouveau_connector_ddc_detect(struct drm_connector *connector)
 				break;
 
 			if (switcheroo_ddc)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				vga_switcheroo_lock_ddc(pdev);
 			if (nvkm_probe_i2c(nv_encoder->i2c, 0x50))
 				found = nv_encoder;
 			if (switcheroo_ddc)
 				vga_switcheroo_unlock_ddc(pdev);
+<<<<<<< HEAD
+=======
+=======
+				vga_switcheroo_lock_ddc(dev->pdev);
+			if (nvkm_probe_i2c(nv_encoder->i2c, 0x50))
+				found = nv_encoder;
+			if (switcheroo_ddc)
+				vga_switcheroo_unlock_ddc(dev->pdev);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 			break;
 		}
@@ -491,7 +512,14 @@ nouveau_connector_set_encoder(struct drm_connector *connector,
 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
 	struct nouveau_drm *drm = nouveau_drm(connector->dev);
 	struct drm_device *dev = connector->dev;
+<<<<<<< HEAD
 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+<<<<<<< HEAD
+	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (nv_connector->detected_encoder == nv_encoder)
 		return;
@@ -513,8 +541,18 @@ nouveau_connector_set_encoder(struct drm_connector *connector,
 		connector->doublescan_allowed = true;
 		if (drm->client.device.info.family == NV_DEVICE_INFO_V0_KELVIN ||
 		    (drm->client.device.info.family == NV_DEVICE_INFO_V0_CELSIUS &&
+<<<<<<< HEAD
 		     (pdev->device & 0x0ff0) != 0x0100 &&
 		     (pdev->device & 0x0ff0) != 0x0150))
+=======
+<<<<<<< HEAD
+		     (pdev->device & 0x0ff0) != 0x0100 &&
+		     (pdev->device & 0x0ff0) != 0x0150))
+=======
+		     (dev->pdev->device & 0x0ff0) != 0x0100 &&
+		     (dev->pdev->device & 0x0ff0) != 0x0150))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			/* HW is broken */
 			connector->interlace_allowed = false;
 		else

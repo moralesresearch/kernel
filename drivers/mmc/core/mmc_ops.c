@@ -296,7 +296,11 @@ mmc_send_cxd_data(struct mmc_card *card, struct mmc_host *host,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int mmc_spi_send_csd(struct mmc_host *host, u32 *csd)
+=======
+static int mmc_spi_send_csd(struct mmc_card *card, u32 *csd)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	int ret, i;
 	__be32 *csd_tmp;
@@ -305,7 +309,11 @@ static int mmc_spi_send_csd(struct mmc_host *host, u32 *csd)
 	if (!csd_tmp)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	ret = mmc_send_cxd_data(NULL, host, MMC_SEND_CSD, csd_tmp, 16);
+=======
+	ret = mmc_send_cxd_data(card, card->host, MMC_SEND_CSD, csd_tmp, 16);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (ret)
 		goto err;
 
@@ -320,7 +328,11 @@ err:
 int mmc_send_csd(struct mmc_card *card, u32 *csd)
 {
 	if (mmc_host_is_spi(card->host))
+<<<<<<< HEAD
 		return mmc_spi_send_csd(card->host, csd);
+=======
+		return mmc_spi_send_csd(card, csd);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return mmc_send_cxd_native(card->host, card->rca << 16,	csd,
 				MMC_SEND_CSD);
@@ -988,9 +1000,13 @@ int mmc_flush_cache(struct mmc_card *card)
 {
 	int err = 0;
 
+<<<<<<< HEAD
+	if (mmc_cache_enabled(card->host)) {
+=======
 	if (mmc_card_mmc(card) &&
 			(card->ext_csd.cache_size > 0) &&
 			(card->ext_csd.cache_ctrl & 1)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		err = mmc_switch(card, EXT_CSD_CMD_SET_NORMAL,
 				 EXT_CSD_FLUSH_CACHE, 1,
 				 MMC_CACHE_FLUSH_TIMEOUT_MS);

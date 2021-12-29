@@ -32,6 +32,10 @@
 
 MODULE_AUTHOR("Eric Brower <ebrower@usa.net>");
 MODULE_DESCRIPTION("User-programmable flash device on Sun Microsystems boardsets");
+<<<<<<< HEAD
+=======
+MODULE_SUPPORTED_DEVICE(DRIVER_NAME);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_LICENSE("GPL");
 MODULE_VERSION("2.1");
 

@@ -2973,6 +2973,10 @@ static int hda_codec_runtime_resume(struct device *dev)
 #ifdef CONFIG_PM_SLEEP
 static int hda_codec_pm_prepare(struct device *dev)
 {
+<<<<<<< HEAD
+	dev->power.power_state = PMSG_SUSPEND;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return pm_runtime_suspended(dev);
 }
 
@@ -2980,6 +2984,13 @@ static void hda_codec_pm_complete(struct device *dev)
 {
 	struct hda_codec *codec = dev_to_hda_codec(dev);
 
+<<<<<<< HEAD
+	/* If no other pm-functions are called between prepare() and complete() */
+	if (dev->power.power_state.event == PM_EVENT_SUSPEND)
+		dev->power.power_state = PMSG_RESUME;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (pm_runtime_suspended(dev) && (codec->jackpoll_interval ||
 	    hda_codec_need_resume(codec) || codec->forced_resume))
 		pm_request_resume(dev);
@@ -3483,7 +3494,11 @@ EXPORT_SYMBOL_GPL(snd_hda_check_amp_list_power);
  */
 
 /**
+<<<<<<< HEAD
  * snd_hda_input_mux_info - Info callback helper for the input-mux enum
+=======
+ * snd_hda_input_mux_info_info - Info callback helper for the input-mux enum
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @imux: imux helper object
  * @uinfo: pointer to get/store the data
  */
@@ -3506,7 +3521,11 @@ int snd_hda_input_mux_info(const struct hda_input_mux *imux,
 EXPORT_SYMBOL_GPL(snd_hda_input_mux_info);
 
 /**
+<<<<<<< HEAD
  * snd_hda_input_mux_put - Put callback helper for the input-mux enum
+=======
+ * snd_hda_input_mux_info_put - Put callback helper for the input-mux enum
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @codec: the HDA codec
  * @imux: imux helper object
  * @ucontrol: pointer to get/store the data
@@ -3941,7 +3960,11 @@ unsigned int snd_hda_correct_pin_ctl(struct hda_codec *codec,
 EXPORT_SYMBOL_GPL(snd_hda_correct_pin_ctl);
 
 /**
+<<<<<<< HEAD
  * _snd_hda_set_pin_ctl - Helper to set pin ctl value
+=======
+ * _snd_hda_pin_ctl - Helper to set pin ctl value
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * @codec: the HDA codec
  * @pin: referred pin NID
  * @val: pin control value to set
@@ -3999,7 +4022,11 @@ int snd_hda_add_imux_item(struct hda_codec *codec,
 			 sizeof(imux->items[imux->num_items].label),
 			 "%s %d", label, label_idx);
 	else
+<<<<<<< HEAD
 		strscpy(imux->items[imux->num_items].label, label,
+=======
+		strlcpy(imux->items[imux->num_items].label, label,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			sizeof(imux->items[imux->num_items].label));
 	imux->items[imux->num_items].index = index;
 	imux->num_items++;

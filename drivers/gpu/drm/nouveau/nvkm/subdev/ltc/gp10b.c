@@ -59,8 +59,14 @@ gp10b_ltc = {
 };
 
 int
+<<<<<<< HEAD
 gp10b_ltc_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
 	      struct nvkm_ltc **pltc)
 {
 	return nvkm_ltc_new_(&gp10b_ltc, device, type, inst, pltc);
+=======
+gp10b_ltc_new(struct nvkm_device *device, int index, struct nvkm_ltc **pltc)
+{
+	return nvkm_ltc_new_(&gp10b_ltc, device, index, pltc);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

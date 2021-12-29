@@ -38,8 +38,11 @@
 #define DW_IC_CON_TX_EMPTY_CTRL			BIT(8)
 #define DW_IC_CON_RX_FIFO_FULL_HLD_CTRL		BIT(9)
 
+<<<<<<< HEAD
 #define DW_IC_DATA_CMD_DAT			GENMASK(7, 0)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * Registers offset
  */

@@ -567,9 +567,18 @@ static int cport_enable(struct gb_host_device *hd, u16 cport_id,
 			      USB_DIR_OUT | USB_TYPE_VENDOR |
 			      USB_RECIP_INTERFACE, cport_id, 0,
 			      req, sizeof(*req), ES2_USB_CTRL_TIMEOUT);
+<<<<<<< HEAD
 	if (ret < 0) {
 		dev_err(&udev->dev, "failed to set cport flags for port %d\n",
 			cport_id);
+=======
+	if (ret != sizeof(*req)) {
+		dev_err(&udev->dev, "failed to set cport flags for port %d\n",
+			cport_id);
+		if (ret >= 0)
+			ret = -EIO;
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		goto out;
 	}
 
@@ -958,10 +967,19 @@ static int arpc_send(struct es2_ap_dev *es2, struct arpc *rpc, int timeout)
 				 0, 0,
 				 rpc->req, le16_to_cpu(rpc->req->size),
 				 ES2_USB_CTRL_TIMEOUT);
+<<<<<<< HEAD
 	if (retval < 0) {
 		dev_err(&udev->dev,
 			"failed to send ARPC request %d: %d\n",
 			rpc->req->type, retval);
+=======
+	if (retval != le16_to_cpu(rpc->req->size)) {
+		dev_err(&udev->dev,
+			"failed to send ARPC request %d: %d\n",
+			rpc->req->type, retval);
+		if (retval > 0)
+			retval = -EIO;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return retval;
 	}
 

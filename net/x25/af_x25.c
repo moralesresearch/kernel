@@ -536,7 +536,11 @@ static int x25_create(struct net *net, struct socket *sock, int protocol,
 	if (protocol)
 		goto out;
 
+<<<<<<< HEAD
+	rc = -ENOMEM;
+=======
 	rc = -ENOBUFS;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if ((sk = x25_alloc_socket(net, kern)) == NULL)
 		goto out;
 

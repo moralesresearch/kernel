@@ -410,7 +410,11 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
 
 	ctx->type = RDMA_RW_SIG_MR;
 	ctx->nr_ops = 1;
+<<<<<<< HEAD
 	ctx->reg = kzalloc(sizeof(*ctx->reg), GFP_KERNEL);
+=======
+	ctx->reg = kcalloc(1, sizeof(*ctx->reg), GFP_KERNEL);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (!ctx->reg) {
 		ret = -ENOMEM;
 		goto out_unmap_prot_sg;

@@ -188,8 +188,11 @@ struct netns_ipv4 {
 	int sysctl_udp_wmem_min;
 	int sysctl_udp_rmem_min;
 
+<<<<<<< HEAD
 	int sysctl_fib_notify_on_flag_change;
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_NET_L3_MASTER_DEV
 	int sysctl_udp_l3mdev_accept;
 #endif

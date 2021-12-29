@@ -1234,9 +1234,16 @@ static irqreturn_t xgene_pmu_isr(int irq, void *dev_id)
 	u32 intr_mcu, intr_mcb, intr_l3c, intr_iob;
 	struct xgene_pmu_dev_ctx *ctx;
 	struct xgene_pmu *xgene_pmu = dev_id;
+<<<<<<< HEAD
 	u32 val;
 
 	raw_spin_lock(&xgene_pmu->lock);
+=======
+	unsigned long flags;
+	u32 val;
+
+	raw_spin_lock_irqsave(&xgene_pmu->lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* Get Interrupt PMU source */
 	val = readl(xgene_pmu->pcppmu_csr + PCPPMU_INTSTATUS_REG);
@@ -1272,7 +1279,11 @@ static irqreturn_t xgene_pmu_isr(int irq, void *dev_id)
 		}
 	}
 
+<<<<<<< HEAD
 	raw_spin_unlock(&xgene_pmu->lock);
+=======
+	raw_spin_unlock_irqrestore(&xgene_pmu->lock, flags);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	return IRQ_HANDLED;
 }

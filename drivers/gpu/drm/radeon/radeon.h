@@ -75,6 +75,13 @@
 #include <drm/ttm/ttm_bo_api.h>
 #include <drm/ttm/ttm_bo_driver.h>
 #include <drm/ttm/ttm_placement.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#include <drm/ttm/ttm_module.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <drm/ttm/ttm_execbuf_util.h>
 
 #include <drm/drm_gem.h>
@@ -1558,6 +1565,10 @@ struct radeon_dpm {
 	void                    *priv;
 	u32			new_active_crtcs;
 	int			new_active_crtc_count;
+<<<<<<< HEAD
+	int			high_pixelclock_count;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	u32			current_active_crtcs;
 	int			current_active_crtc_count;
 	bool single_display;
@@ -2315,9 +2326,18 @@ struct radeon_device {
 	struct device			*dev;
 	struct drm_device		*ddev;
 	struct pci_dev			*pdev;
+<<<<<<< HEAD
 #ifdef __alpha__
 	struct pci_controller		*hose;
 #endif
+=======
+<<<<<<< HEAD
+#ifdef __alpha__
+	struct pci_controller		*hose;
+#endif
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct rw_semaphore		exclusive_lock;
 	/* ASIC */
 	union radeon_asic_config	config;
@@ -2627,6 +2647,10 @@ void r100_pll_errata_after_index(struct radeon_device *rdev);
 		(rdev->family == CHIP_RV410) ||			\
 		(rdev->family == CHIP_RS400) ||			\
 		(rdev->family == CHIP_RS480))
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ASIC_IS_X2(rdev) ((rdev->pdev->device == 0x9441) || \
 		(rdev->pdev->device == 0x9443) || \
 		(rdev->pdev->device == 0x944B) || \
@@ -2635,6 +2659,19 @@ void r100_pll_errata_after_index(struct radeon_device *rdev);
 		(rdev->pdev->device == 0x950F) || \
 		(rdev->pdev->device == 0x689C) || \
 		(rdev->pdev->device == 0x689D))
+<<<<<<< HEAD
+=======
+=======
+#define ASIC_IS_X2(rdev) ((rdev->ddev->pdev->device == 0x9441) || \
+		(rdev->ddev->pdev->device == 0x9443) || \
+		(rdev->ddev->pdev->device == 0x944B) || \
+		(rdev->ddev->pdev->device == 0x9506) || \
+		(rdev->ddev->pdev->device == 0x9509) || \
+		(rdev->ddev->pdev->device == 0x950F) || \
+		(rdev->ddev->pdev->device == 0x689C) || \
+		(rdev->ddev->pdev->device == 0x689D))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ASIC_IS_AVIVO(rdev) ((rdev->family >= CHIP_RS600))
 #define ASIC_IS_DCE2(rdev) ((rdev->family == CHIP_RS600)  ||	\
 			    (rdev->family == CHIP_RS690)  ||	\
@@ -2657,6 +2694,10 @@ void r100_pll_errata_after_index(struct radeon_device *rdev);
 #define ASIC_IS_DCE83(rdev) ((rdev->family == CHIP_KABINI) || \
 			     (rdev->family == CHIP_MULLINS))
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ASIC_IS_LOMBOK(rdev) ((rdev->pdev->device == 0x6849) || \
 			      (rdev->pdev->device == 0x6850) || \
 			      (rdev->pdev->device == 0x6858) || \
@@ -2665,6 +2706,19 @@ void r100_pll_errata_after_index(struct radeon_device *rdev);
 			      (rdev->pdev->device == 0x6841) || \
 			      (rdev->pdev->device == 0x6842) || \
 			      (rdev->pdev->device == 0x6843))
+<<<<<<< HEAD
+=======
+=======
+#define ASIC_IS_LOMBOK(rdev) ((rdev->ddev->pdev->device == 0x6849) || \
+			      (rdev->ddev->pdev->device == 0x6850) || \
+			      (rdev->ddev->pdev->device == 0x6858) || \
+			      (rdev->ddev->pdev->device == 0x6859) || \
+			      (rdev->ddev->pdev->device == 0x6840) || \
+			      (rdev->ddev->pdev->device == 0x6841) || \
+			      (rdev->ddev->pdev->device == 0x6842) || \
+			      (rdev->ddev->pdev->device == 0x6843))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 /*
  * BIOS helpers.

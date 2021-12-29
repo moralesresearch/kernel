@@ -33,9 +33,14 @@ void dmub_hw_lock_mgr_cmd(struct dc_dmub_srv *dmub_srv,
 				union dmub_hw_lock_flags *hw_locks,
 				struct dmub_hw_lock_inst_flags *inst_flags)
 {
+<<<<<<< HEAD
 	union dmub_rb_cmd cmd;
 
 	memset(&cmd, 0, sizeof(cmd));
+=======
+	union dmub_rb_cmd cmd = { 0 };
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cmd.lock_hw.header.type = DMUB_CMD__HW_LOCK;
 	cmd.lock_hw.header.sub_type = 0;
 	cmd.lock_hw.header.payload_bytes = sizeof(struct dmub_cmd_lock_hw_data);

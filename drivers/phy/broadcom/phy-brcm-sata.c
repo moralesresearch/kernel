@@ -651,7 +651,11 @@ static int brcm_dsl_sata_init(struct brcm_sata_port *port)
 			break;
 		msleep(20);
 		try--;
+<<<<<<< HEAD
 	}
+=======
+	};
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!try) {
 		/* PLL did not lock; give up */

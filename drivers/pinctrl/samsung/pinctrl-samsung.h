@@ -171,7 +171,11 @@ struct samsung_pin_bank {
 	struct gpio_chip gpio_chip;
 	struct pinctrl_gpio_range grange;
 	struct exynos_irq_chip *irq_chip;
+<<<<<<< HEAD
 	raw_spinlock_t slock;
+=======
+	spinlock_t slock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	u32 pm_save[PINCFG_TYPE_NUM + 1]; /* +1 to handle double CON registers*/
 };

@@ -168,12 +168,16 @@ static void mv_cesa_ahash_std_step(struct ahash_request *req)
 	int i;
 
 	mv_cesa_adjust_op(engine, &creq->op_tmpl);
+<<<<<<< HEAD
 	if (engine->pool)
 		memcpy(engine->sram_pool, &creq->op_tmpl,
 		       sizeof(creq->op_tmpl));
 	else
 		memcpy_toio(engine->sram, &creq->op_tmpl,
 			    sizeof(creq->op_tmpl));
+=======
+	memcpy_toio(engine->sram, &creq->op_tmpl, sizeof(creq->op_tmpl));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (!sreq->offset) {
 		digsize = crypto_ahash_digestsize(crypto_ahash_reqtfm(req));
@@ -182,6 +186,7 @@ static void mv_cesa_ahash_std_step(struct ahash_request *req)
 				       engine->regs + CESA_IVDIG(i));
 	}
 
+<<<<<<< HEAD
 	if (creq->cache_ptr) {
 		if (engine->pool)
 			memcpy(engine->sram_pool + CESA_SA_DATA_SRAM_OFFSET,
@@ -190,6 +195,11 @@ static void mv_cesa_ahash_std_step(struct ahash_request *req)
 			memcpy_toio(engine->sram + CESA_SA_DATA_SRAM_OFFSET,
 				    creq->cache, creq->cache_ptr);
 	}
+=======
+	if (creq->cache_ptr)
+		memcpy_toio(engine->sram + CESA_SA_DATA_SRAM_OFFSET,
+			    creq->cache, creq->cache_ptr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	len = min_t(size_t, req->nbytes + creq->cache_ptr - sreq->offset,
 		    CESA_SA_SRAM_PAYLOAD_SIZE);
@@ -200,10 +210,19 @@ static void mv_cesa_ahash_std_step(struct ahash_request *req)
 	}
 
 	if (len - creq->cache_ptr)
+<<<<<<< HEAD
 		sreq->offset += mv_cesa_sg_copy_to_sram(
 			engine, req->src, creq->src_nents,
 			CESA_SA_DATA_SRAM_OFFSET + creq->cache_ptr,
 			len - creq->cache_ptr, sreq->offset);
+=======
+		sreq->offset += sg_pcopy_to_buffer(req->src, creq->src_nents,
+						   engine->sram +
+						   CESA_SA_DATA_SRAM_OFFSET +
+						   creq->cache_ptr,
+						   len - creq->cache_ptr,
+						   sreq->offset);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	op = &creq->op_tmpl;
 
@@ -228,6 +247,7 @@ static void mv_cesa_ahash_std_step(struct ahash_request *req)
 			if (len + trailerlen > CESA_SA_SRAM_PAYLOAD_SIZE) {
 				len &= CESA_HASH_BLOCK_SIZE_MSK;
 				new_cache_ptr = 64 - trailerlen;
+<<<<<<< HEAD
 				if (engine->pool)
 					memcpy(creq->cache,
 					       engine->sram_pool +
@@ -250,6 +270,18 @@ static void mv_cesa_ahash_std_step(struct ahash_request *req)
 					memcpy_toio(engine->sram + len +
 						    CESA_SA_DATA_SRAM_OFFSET,
 						    creq->cache, i);
+=======
+				memcpy_fromio(creq->cache,
+					      engine->sram +
+					      CESA_SA_DATA_SRAM_OFFSET + len,
+					      new_cache_ptr);
+			} else {
+				i = mv_cesa_ahash_pad_req(creq, creq->cache);
+				len += i;
+				memcpy_toio(engine->sram + len +
+					    CESA_SA_DATA_SRAM_OFFSET,
+					    creq->cache, i);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			}
 
 			if (frag_mode == CESA_SA_DESC_CFG_LAST_FRAG)
@@ -263,10 +295,14 @@ static void mv_cesa_ahash_std_step(struct ahash_request *req)
 	mv_cesa_update_op_cfg(op, frag_mode, CESA_SA_DESC_CFG_FRAG_MSK);
 
 	/* FIXME: only update enc_len field */
+<<<<<<< HEAD
 	if (engine->pool)
 		memcpy(engine->sram_pool, op, sizeof(*op));
 	else
 		memcpy_toio(engine->sram, op, sizeof(*op));
+=======
+	memcpy_toio(engine->sram, op, sizeof(*op));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (frag_mode == CESA_SA_DESC_CFG_FIRST_FRAG)
 		mv_cesa_update_op_cfg(op, CESA_SA_DESC_CFG_MID_FRAG,

@@ -399,9 +399,12 @@ void drm_event_cancel_free(struct drm_device *dev,
 			   struct drm_pending_event *p);
 void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e);
 void drm_send_event(struct drm_device *dev, struct drm_pending_event *e);
+<<<<<<< HEAD
 void drm_send_event_timestamp_locked(struct drm_device *dev,
 				     struct drm_pending_event *e,
 				     ktime_t timestamp);
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
 

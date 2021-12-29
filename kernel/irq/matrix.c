@@ -423,7 +423,13 @@ void irq_matrix_free(struct irq_matrix *m, unsigned int cpu,
 	if (WARN_ON_ONCE(bit < m->alloc_start || bit >= m->alloc_end))
 		return;
 
+<<<<<<< HEAD
+	if (WARN_ON_ONCE(!test_and_clear_bit(bit, cm->alloc_map)))
+		return;
+
+=======
 	clear_bit(bit, cm->alloc_map);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	cm->allocated--;
 	if(managed)
 		cm->managed_allocated--;

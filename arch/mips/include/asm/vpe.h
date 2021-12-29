@@ -26,6 +26,13 @@
 #endif
 
 #define MAX_VPES 16
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#define VPE_PATH_MAX 256
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 static inline int aprp_cpu_index(void)
 {
@@ -61,6 +68,13 @@ struct vpe {
 	unsigned long len;
 	char *pbuffer;
 	unsigned long plen;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	char cwd[VPE_PATH_MAX];
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	unsigned long __start;
 
@@ -109,6 +123,13 @@ extern const struct file_operations vpe_fops;
 int vpe_notify(int index, struct vpe_notifications *notify);
 
 void *vpe_get_shared(int index);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+char *vpe_getcwd(int index);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 struct vpe *get_vpe(int minor);
 struct tc *get_tc(int index);

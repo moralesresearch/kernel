@@ -46,11 +46,19 @@ static int _nfs42_proc_fallocate(struct rpc_message *msg, struct file *filep,
 {
 	struct inode *inode = file_inode(filep);
 	struct nfs_server *server = NFS_SERVER(inode);
+<<<<<<< HEAD
+	u32 bitmask[3];
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nfs42_falloc_args args = {
 		.falloc_fh	= NFS_FH(inode),
 		.falloc_offset	= offset,
 		.falloc_length	= len,
+<<<<<<< HEAD
+		.falloc_bitmask	= bitmask,
+=======
 		.falloc_bitmask	= nfs4_fattr_bitmap,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	};
 	struct nfs42_falloc_res res = {
 		.falloc_server	= server,
@@ -68,6 +76,13 @@ static int _nfs42_proc_fallocate(struct rpc_message *msg, struct file *filep,
 		return status;
 	}
 
+<<<<<<< HEAD
+	memcpy(bitmask, server->cache_consistency_bitmask, sizeof(bitmask));
+	if (server->attr_bitmask[1] & FATTR4_WORD1_SPACE_USED)
+		bitmask[1] |= FATTR4_WORD1_SPACE_USED;
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	res.falloc_fattr = nfs_alloc_fattr();
 	if (!res.falloc_fattr)
 		return -ENOMEM;
@@ -75,7 +90,12 @@ static int _nfs42_proc_fallocate(struct rpc_message *msg, struct file *filep,
 	status = nfs4_call_sync(server->client, server, msg,
 				&args.seq_args, &res.seq_res, 0);
 	if (status == 0)
+<<<<<<< HEAD
+		status = nfs_post_op_update_inode_force_wcc(inode,
+							    res.falloc_fattr);
+=======
 		status = nfs_post_op_update_inode(inode, res.falloc_fattr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kfree(res.falloc_fattr);
 	return status;
@@ -84,7 +104,12 @@ static int _nfs42_proc_fallocate(struct rpc_message *msg, struct file *filep,
 static int nfs42_proc_fallocate(struct rpc_message *msg, struct file *filep,
 				loff_t offset, loff_t len)
 {
+<<<<<<< HEAD
+	struct inode *inode = file_inode(filep);
+	struct nfs_server *server = NFS_SERVER(inode);
+=======
 	struct nfs_server *server = NFS_SERVER(file_inode(filep));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct nfs4_exception exception = { };
 	struct nfs_lock_context *lock;
 	int err;
@@ -93,9 +118,19 @@ static int nfs42_proc_fallocate(struct rpc_message *msg, struct file *filep,
 	if (IS_ERR(lock))
 		return PTR_ERR(lock);
 
+<<<<<<< HEAD
+	exception.inode = inode;
+	exception.state = lock->open_context->state;
+
+	err = nfs_sync_inode(inode);
+	if (err)
+		goto out;
+
+=======
 	exception.inode = file_inode(filep);
 	exception.state = lock->open_context->state;
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	do {
 		err = _nfs42_proc_fallocate(msg, filep, lock, offset, len);
 		if (err == -ENOTSUPP) {
@@ -104,7 +139,11 @@ static int nfs42_proc_fallocate(struct rpc_message *msg, struct file *filep,
 		}
 		err = nfs4_handle_exception(server, err, &exception);
 	} while (exception.retry);
+<<<<<<< HEAD
+out:
+=======
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	nfs_put_lock_context(lock);
 	return err;
 }
@@ -142,16 +181,23 @@ int nfs42_proc_deallocate(struct file *filep, loff_t offset, loff_t len)
 		return -EOPNOTSUPP;
 
 	inode_lock(inode);
+<<<<<<< HEAD
+=======
 	err = nfs_sync_inode(inode);
 	if (err)
 		goto out_unlock;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	err = nfs42_proc_fallocate(&msg, filep, offset, len);
 	if (err == 0)
 		truncate_pagecache_range(inode, offset, (offset + len) -1);
 	if (err == -EOPNOTSUPP)
 		NFS_SERVER(inode)->caps &= ~NFS_CAP_DEALLOCATE;
+<<<<<<< HEAD
+
+=======
 out_unlock:
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	inode_unlock(inode);
 	return err;
 }
@@ -261,6 +307,36 @@ out:
 	return status;
 }
 
+<<<<<<< HEAD
+/**
+ * nfs42_copy_dest_done - perform inode cache updates after clone/copy offload
+ * @inode: pointer to destination inode
+ * @pos: destination offset
+ * @len: copy length
+ *
+ * Punch a hole in the inode page cache, so that the NFS client will
+ * know to retrieve new data.
+ * Update the file size if necessary, and then mark the inode as having
+ * invalid cached values for change attribute, ctime, mtime and space used.
+ */
+static void nfs42_copy_dest_done(struct inode *inode, loff_t pos, loff_t len)
+{
+	loff_t newsize = pos + len;
+	loff_t end = newsize - 1;
+
+	truncate_pagecache_range(inode, pos, end);
+	spin_lock(&inode->i_lock);
+	if (newsize > i_size_read(inode))
+		i_size_write(inode, newsize);
+	nfs_set_cache_invalid(inode, NFS_INO_INVALID_CHANGE |
+					     NFS_INO_INVALID_CTIME |
+					     NFS_INO_INVALID_MTIME |
+					     NFS_INO_INVALID_BLOCKS);
+	spin_unlock(&inode->i_lock);
+}
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static ssize_t _nfs42_proc_copy(struct file *src,
 				struct nfs_lock_context *src_lock,
 				struct file *dst,
@@ -354,18 +430,25 @@ static ssize_t _nfs42_proc_copy(struct file *src,
 			goto out;
 	}
 
-	truncate_pagecache_range(dst_inode, pos_dst,
-				 pos_dst + res->write_res.count);
-	spin_lock(&dst_inode->i_lock);
-	nfs_set_cache_invalid(
-		dst_inode, NFS_INO_REVAL_PAGECACHE | NFS_INO_REVAL_FORCED |
-				   NFS_INO_INVALID_SIZE | NFS_INO_INVALID_ATTR |
-				   NFS_INO_INVALID_DATA);
-	spin_unlock(&dst_inode->i_lock);
+<<<<<<< HEAD
+	nfs42_copy_dest_done(dst_inode, pos_dst, res->write_res.count);
+
 	spin_lock(&src_inode->i_lock);
 	nfs_set_cache_invalid(src_inode, NFS_INO_REVAL_PAGECACHE |
 						 NFS_INO_REVAL_FORCED |
 						 NFS_INO_INVALID_ATIME);
+=======
+	truncate_pagecache_range(dst_inode, pos_dst,
+				 pos_dst + res->write_res.count);
+	spin_lock(&dst_inode->i_lock);
+	NFS_I(dst_inode)->cache_validity |= (NFS_INO_REVAL_PAGECACHE |
+			NFS_INO_REVAL_FORCED | NFS_INO_INVALID_SIZE |
+			NFS_INO_INVALID_ATTR | NFS_INO_INVALID_DATA);
+	spin_unlock(&dst_inode->i_lock);
+	spin_lock(&src_inode->i_lock);
+	NFS_I(src_inode)->cache_validity |= (NFS_INO_REVAL_PAGECACHE |
+			NFS_INO_REVAL_FORCED | NFS_INO_INVALID_ATIME);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	spin_unlock(&src_inode->i_lock);
 	status = res->write_res.count;
 out:
@@ -659,7 +742,14 @@ static loff_t _nfs42_proc_llseek(struct file *filep,
 	if (status)
 		return status;
 
+<<<<<<< HEAD
+	if (whence == SEEK_DATA && res.sr_eof)
+		return -NFS4ERR_NXIO;
+	else
+		return vfs_setpos(filep, res.sr_offset, inode->i_sb->s_maxbytes);
+=======
 	return vfs_setpos(filep, res.sr_offset, inode->i_sb->s_maxbytes);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 loff_t nfs42_proc_llseek(struct file *filep, loff_t offset, int whence)
@@ -1044,8 +1134,15 @@ static int _nfs42_proc_clone(struct rpc_message *msg, struct file *src_f,
 
 	status = nfs4_call_sync(server->client, server, msg,
 				&args.seq_args, &res.seq_res, 0);
+<<<<<<< HEAD
+	if (status == 0) {
+		nfs42_copy_dest_done(dst_inode, dst_offset, count);
+		status = nfs_post_op_update_inode(dst_inode, res.dst_fattr);
+	}
+=======
 	if (status == 0)
 		status = nfs_post_op_update_inode(dst_inode, res.dst_fattr);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	kfree(res.dst_fattr);
 	return status;

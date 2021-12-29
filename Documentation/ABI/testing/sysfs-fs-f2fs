@@ -377,6 +377,7 @@ Description:	This gives a control to limit the bio size in f2fs.
 		Default is zero, which will follow underlying block layer limit,
 		whereas, if it has a certain bytes value, f2fs won't submit a
 		bio larger than that size.
+<<<<<<< HEAD
 
 What:		/sys/fs/f2fs/<disk>/stat/sb_status
 Date:		December 2020
@@ -409,3 +410,5 @@ Description:	Give a way to change checkpoint merge daemon's io priority.
 		I/O priority "3". We can select the class between "rt" and "be",
 		and set the I/O priority within valid range of it. "," delimiter
 		is necessary in between I/O class and priority number.
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

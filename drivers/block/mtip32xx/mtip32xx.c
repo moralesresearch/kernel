@@ -1015,7 +1015,11 @@ static int mtip_exec_internal_command(struct mtip_port *port,
 	rq->timeout = timeout;
 
 	/* insert request and run queue */
+<<<<<<< HEAD
 	blk_execute_rq(NULL, rq, true);
+=======
+	blk_execute_rq(rq->q, NULL, rq, true);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (int_cmd->status) {
 		dev_err(&dd->pdev->dev, "Internal command [%02X] failed %d\n",
@@ -3924,18 +3928,36 @@ static DEFINE_HANDLER(7);
 
 static void mtip_disable_link_opts(struct driver_data *dd, struct pci_dev *pdev)
 {
+<<<<<<< HEAD
 	unsigned short pcie_dev_ctrl;
 
 	if (pci_is_pcie(pdev)) {
 		pcie_capability_read_word(pdev, PCI_EXP_DEVCTL, &pcie_dev_ctrl);
 		if (pcie_dev_ctrl & PCI_EXP_DEVCTL_NOSNOOP_EN ||
 		    pcie_dev_ctrl & PCI_EXP_DEVCTL_RELAX_EN) {
+=======
+	int pos;
+	unsigned short pcie_dev_ctrl;
+
+	pos = pci_find_capability(pdev, PCI_CAP_ID_EXP);
+	if (pos) {
+		pci_read_config_word(pdev,
+			pos + PCI_EXP_DEVCTL,
+			&pcie_dev_ctrl);
+		if (pcie_dev_ctrl & (1 << 11) ||
+		    pcie_dev_ctrl & (1 << 4)) {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			dev_info(&dd->pdev->dev,
 				"Disabling ERO/No-Snoop on bridge device %04x:%04x\n",
 					pdev->vendor, pdev->device);
 			pcie_dev_ctrl &= ~(PCI_EXP_DEVCTL_NOSNOOP_EN |
 						PCI_EXP_DEVCTL_RELAX_EN);
+<<<<<<< HEAD
 			pcie_capability_write_word(pdev, PCI_EXP_DEVCTL,
+=======
+			pci_write_config_word(pdev,
+				pos + PCI_EXP_DEVCTL,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				pcie_dev_ctrl);
 		}
 	}

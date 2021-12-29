@@ -42,7 +42,11 @@ static const struct snd_pcm_hardware mt8192_afe_hardware = {
 static int mt8192_memif_fs(struct snd_pcm_substream *substream,
 			   unsigned int rate)
 {
+<<<<<<< HEAD
 	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
+=======
+	struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct snd_soc_component *component =
 		snd_soc_rtdcom_lookup(rtd, AFE_PCM_NAME);
 	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
@@ -59,7 +63,11 @@ static int mt8192_get_dai_fs(struct mtk_base_afe *afe,
 
 static int mt8192_irq_fs(struct snd_pcm_substream *substream, unsigned int rate)
 {
+<<<<<<< HEAD
 	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
+=======
+	struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct snd_soc_component *component =
 		snd_soc_rtdcom_lookup(rtd, AFE_PCM_NAME);
 	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);

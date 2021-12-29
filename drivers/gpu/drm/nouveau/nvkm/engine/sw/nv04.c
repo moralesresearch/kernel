@@ -133,7 +133,13 @@ nv04_sw = {
 };
 
 int
+<<<<<<< HEAD
 nv04_sw_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst, struct nvkm_sw **psw)
 {
 	return nvkm_sw_new_(&nv04_sw, device, type, inst, psw);
+=======
+nv04_sw_new(struct nvkm_device *device, int index, struct nvkm_sw **psw)
+{
+	return nvkm_sw_new_(&nv04_sw, device, index, psw);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }

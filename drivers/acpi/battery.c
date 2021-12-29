@@ -8,7 +8,11 @@
  *  Copyright (C) 2001, 2002 Paul Diefenbaugh <paul.s.diefenbaugh@intel.com>
  */
 
+<<<<<<< HEAD
 #define pr_fmt(fmt) "ACPI: battery: " fmt
+=======
+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 #include <linux/async.h>
 #include <linux/delay.h>
@@ -29,6 +33,11 @@
 
 #include <acpi/battery.h>
 
+<<<<<<< HEAD
+=======
+#define PREFIX "ACPI: "
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #define ACPI_BATTERY_VALUE_UNKNOWN 0xFFFFFFFF
 #define ACPI_BATTERY_CAPACITY_VALID(capacity) \
 	((capacity) != 0 && (capacity) != ACPI_BATTERY_VALUE_UNKNOWN)
@@ -42,6 +51,13 @@
 #define ACPI_BATTERY_STATE_CHARGING	0x2
 #define ACPI_BATTERY_STATE_CRITICAL	0x4
 
+<<<<<<< HEAD
+=======
+#define _COMPONENT		ACPI_BATTERY_COMPONENT
+
+ACPI_MODULE_NAME("battery");
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 MODULE_AUTHOR("Paul Diefenbaugh");
 MODULE_AUTHOR("Alexey Starikovskiy <astarikovskiy@suse.de>");
 MODULE_DESCRIPTION("ACPI Battery Driver");
@@ -460,8 +476,12 @@ static int extract_package(struct acpi_battery *battery,
 static int acpi_battery_get_status(struct acpi_battery *battery)
 {
 	if (acpi_bus_get_status(battery->device)) {
+<<<<<<< HEAD
 		acpi_handle_info(battery->device->handle,
 				 "_STA evaluation failed\n");
+=======
+		ACPI_EXCEPTION((AE_INFO, AE_ERROR, "Evaluating _STA"));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENODEV;
 	}
 	return 0;
@@ -530,10 +550,15 @@ static int acpi_battery_get_info(struct acpi_battery *battery)
 		mutex_unlock(&battery->lock);
 
 		if (ACPI_FAILURE(status)) {
+<<<<<<< HEAD
 			acpi_handle_info(battery->device->handle,
 					 "%s evaluation failed: %s\n",
 					 use_bix ?"_BIX":"_BIF",
 				         acpi_format_exception(status));
+=======
+			ACPI_EXCEPTION((AE_INFO, status, "Evaluating %s",
+					use_bix ? "_BIX":"_BIF"));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		} else {
 			result = extract_battery_info(use_bix,
 						      battery,
@@ -570,9 +595,13 @@ static int acpi_battery_get_state(struct acpi_battery *battery)
 	mutex_unlock(&battery->lock);
 
 	if (ACPI_FAILURE(status)) {
+<<<<<<< HEAD
 		acpi_handle_info(battery->device->handle,
 				 "_BST evaluation failed: %s",
 				 acpi_format_exception(status));
+=======
+		ACPI_EXCEPTION((AE_INFO, status, "Evaluating _BST"));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -ENODEV;
 	}
 
@@ -589,7 +618,11 @@ static int acpi_battery_get_state(struct acpi_battery *battery)
 		battery->rate_now != ACPI_BATTERY_VALUE_UNKNOWN &&
 		(s16)(battery->rate_now) < 0) {
 		battery->rate_now = abs((s16)battery->rate_now);
+<<<<<<< HEAD
 		pr_warn_once(FW_BUG "(dis)charge rate invalid.\n");
+=======
+		pr_warn_once(FW_BUG "battery: (dis)charge rate invalid.\n");
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	}
 
 	if (test_bit(ACPI_BATTERY_QUIRK_PERCENTAGE_CAPACITY, &battery->flags)
@@ -624,9 +657,13 @@ static int acpi_battery_set_alarm(struct acpi_battery *battery)
 	if (ACPI_FAILURE(status))
 		return -ENODEV;
 
+<<<<<<< HEAD
 	acpi_handle_debug(battery->device->handle, "Alarm set to %d\n",
 			  battery->alarm);
 
+=======
+	ACPI_DEBUG_PRINT((ACPI_DB_INFO, "Alarm set to %d\n", battery->alarm));
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 }
 
@@ -1202,7 +1239,12 @@ static int acpi_battery_add(struct acpi_device *device)
 	if (result)
 		goto fail;
 
+<<<<<<< HEAD
 	pr_info("Slot [%s] (battery %s)\n", acpi_device_bid(device),
+=======
+	pr_info(PREFIX "%s Slot [%s] (battery %s)\n",
+		ACPI_BATTERY_DEVICE_NAME, acpi_device_bid(device),
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		device->status.battery_present ? "present" : "absent");
 
 	battery->pm_nb.notifier_call = battery_notify;
@@ -1282,7 +1324,12 @@ static void __init acpi_battery_init_async(void *unused, async_cookie_t cookie)
 	if (battery_check_pmic) {
 		for (i = 0; i < ARRAY_SIZE(acpi_battery_blacklist); i++)
 			if (acpi_dev_present(acpi_battery_blacklist[i], "1", -1)) {
+<<<<<<< HEAD
 				pr_info("found native %s PMIC, not loading\n",
+=======
+				pr_info(PREFIX ACPI_BATTERY_DEVICE_NAME
+					": found native %s PMIC, not loading\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					acpi_battery_blacklist[i]);
 				return;
 			}

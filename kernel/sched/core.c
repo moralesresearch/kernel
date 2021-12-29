@@ -928,7 +928,11 @@ DEFINE_STATIC_KEY_FALSE(sched_uclamp_used);
 
 static inline unsigned int uclamp_bucket_id(unsigned int clamp_value)
 {
+<<<<<<< HEAD
+	return min_t(unsigned int, clamp_value / UCLAMP_BUCKET_DELTA, UCLAMP_BUCKETS - 1);
+=======
 	return clamp_value / UCLAMP_BUCKET_DELTA;
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 static inline unsigned int uclamp_none(enum uclamp_id clamp_id)
@@ -4966,7 +4970,15 @@ static void __sched notrace __schedule(bool preempt)
 
 	schedule_debug(prev, preempt);
 
+<<<<<<< HEAD
 	if (sched_feat(HRTICK) || sched_feat(HRTICK_DL))
+=======
+<<<<<<< HEAD
+	if (sched_feat(HRTICK) || sched_feat(HRTICK_DL))
+=======
+	if (sched_feat(HRTICK))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		hrtick_clear(rq);
 
 	local_irq_disable();
@@ -5260,12 +5272,21 @@ asmlinkage __visible void __sched notrace preempt_schedule(void)
 NOKPROBE_SYMBOL(preempt_schedule);
 EXPORT_SYMBOL(preempt_schedule);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_PREEMPT_DYNAMIC
 DEFINE_STATIC_CALL(preempt_schedule, __preempt_schedule_func);
 EXPORT_STATIC_CALL_TRAMP(preempt_schedule);
 #endif
 
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * preempt_schedule_notrace - preempt_schedule called by tracing
  *
@@ -5318,6 +5339,10 @@ asmlinkage __visible void __sched notrace preempt_schedule_notrace(void)
 }
 EXPORT_SYMBOL_GPL(preempt_schedule_notrace);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_PREEMPT_DYNAMIC
 DEFINE_STATIC_CALL(preempt_schedule_notrace, __preempt_schedule_notrace_func);
 EXPORT_STATIC_CALL_TRAMP(preempt_schedule_notrace);
@@ -5509,6 +5534,13 @@ late_initcall(sched_init_debug_dynamic);
 #endif /* CONFIG_PREEMPT_DYNAMIC */
 
 
+<<<<<<< HEAD
+=======
+=======
+#endif /* CONFIG_PREEMPTION */
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /*
  * This is the entry point to schedule() from kernel preemption
  * off of irq context.
@@ -5806,12 +5838,23 @@ SYSCALL_DEFINE1(nice, int, increment)
  * @p: the task in question.
  *
  * Return: The priority value as seen by users in /proc.
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  *
  * sched policy         return value   kernel prio    user prio/nice
  *
  * normal, batch, idle     [0 ... 39]  [100 ... 139]          0/[-20 ... 19]
  * fifo, rr             [-2 ... -100]     [98 ... 0]  [1 ... 99]
  * deadline                     -101             -1           0
+<<<<<<< HEAD
+=======
+=======
+ * RT tasks are offset by -200. Normal tasks are centered
+ * around 0, value goes from -16 to +15.
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  */
 int task_prio(const struct task_struct *p)
 {
@@ -5870,6 +5913,10 @@ struct task_struct *idle_task(int cpu)
 	return cpu_rq(cpu)->idle;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifdef CONFIG_SMP
 /*
  * This function computes an effective utilization for the given CPU, to be
@@ -5984,6 +6031,11 @@ unsigned long sched_cpu_util(int cpu, unsigned long max)
 }
 #endif /* CONFIG_SMP */
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * find_process_by_pid - find a process with a matching PID value.
  * @pid: the pid in question.
@@ -6105,10 +6157,24 @@ recheck:
 
 	/*
 	 * Valid priorities for SCHED_FIFO and SCHED_RR are
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 * 1..MAX_RT_PRIO-1, valid priority for SCHED_NORMAL,
 	 * SCHED_BATCH and SCHED_IDLE is 0.
 	 */
 	if (attr->sched_priority > MAX_RT_PRIO-1)
+<<<<<<< HEAD
+=======
+=======
+	 * 1..MAX_USER_RT_PRIO-1, valid priority for SCHED_NORMAL,
+	 * SCHED_BATCH and SCHED_IDLE is 0.
+	 */
+	if ((p->mm && attr->sched_priority > MAX_USER_RT_PRIO-1) ||
+	    (!p->mm && attr->sched_priority > MAX_RT_PRIO-1))
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		return -EINVAL;
 	if ((dl_policy(policy) && !__checkparam_dl(attr)) ||
 	    (rt_policy(policy) != (attr->sched_priority != 0)))
@@ -6975,13 +7041,27 @@ SYSCALL_DEFINE0(sched_yield)
 	return 0;
 }
 
+<<<<<<< HEAD
 #if !defined(CONFIG_PREEMPTION) || defined(CONFIG_PREEMPT_DYNAMIC)
 int __sched __cond_resched(void)
+=======
+<<<<<<< HEAD
+#if !defined(CONFIG_PREEMPTION) || defined(CONFIG_PREEMPT_DYNAMIC)
+int __sched __cond_resched(void)
+=======
+#ifndef CONFIG_PREEMPTION
+int __sched _cond_resched(void)
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	if (should_resched(0)) {
 		preempt_schedule_common();
 		return 1;
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #ifndef CONFIG_PREEMPT_RCU
 	rcu_all_qs();
 #endif
@@ -6996,6 +7076,15 @@ EXPORT_STATIC_CALL_TRAMP(cond_resched);
 
 DEFINE_STATIC_CALL_RET0(might_resched, __cond_resched);
 EXPORT_STATIC_CALL_TRAMP(might_resched);
+<<<<<<< HEAD
+=======
+=======
+	rcu_all_qs();
+	return 0;
+}
+EXPORT_SYMBOL(_cond_resched);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #endif
 
 /*
@@ -7026,6 +7115,10 @@ int __cond_resched_lock(spinlock_t *lock)
 }
 EXPORT_SYMBOL(__cond_resched_lock);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int __cond_resched_rwlock_read(rwlock_t *lock)
 {
 	int resched = should_resched(PREEMPT_LOCK_OFFSET);
@@ -7066,6 +7159,11 @@ int __cond_resched_rwlock_write(rwlock_t *lock)
 }
 EXPORT_SYMBOL(__cond_resched_rwlock_write);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 /**
  * yield - yield the current processor to other threads.
  *
@@ -7226,7 +7324,15 @@ SYSCALL_DEFINE1(sched_get_priority_max, int, policy)
 	switch (policy) {
 	case SCHED_FIFO:
 	case SCHED_RR:
+<<<<<<< HEAD
 		ret = MAX_RT_PRIO-1;
+=======
+<<<<<<< HEAD
+		ret = MAX_RT_PRIO-1;
+=======
+		ret = MAX_USER_RT_PRIO-1;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		break;
 	case SCHED_DEADLINE:
 	case SCHED_NORMAL:
@@ -7652,7 +7758,11 @@ static void balance_push(struct rq *rq)
 	 * histerical raisins.
 	 */
 	if (rq->idle == push_task ||
+<<<<<<< HEAD
+	    kthread_is_per_cpu(push_task) ||
+=======
 	    ((push_task->flags & PF_KTHREAD) && kthread_is_per_cpu(push_task)) ||
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	    is_migration_disabled(push_task)) {
 
 		/*
@@ -7866,12 +7976,21 @@ int sched_cpu_deactivate(unsigned int cpu)
 	struct rq_flags rf;
 	int ret;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	/*
 	 * Remove CPU from nohz.idle_cpus_mask to prevent participating in
 	 * load balancing when not active
 	 */
 	nohz_balance_exit_idle(rq);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	set_cpu_active(cpu, false);
 
 	/*
@@ -8016,6 +8135,13 @@ int sched_cpu_dying(unsigned int cpu)
 
 	calc_load_migrate(rq);
 	update_max_interval();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	nohz_balance_exit_idle(rq);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	hrtick_clear(rq);
 	return 0;
 }

@@ -217,6 +217,7 @@ FS_IOC_MEASURE_VERITY can fail with the following errors:
 - ``EOVERFLOW``: the digest is longer than the specified
   ``digest_size`` bytes.  Try providing a larger buffer.
 
+<<<<<<< HEAD
 FS_IOC_READ_VERITY_METADATA
 ---------------------------
 
@@ -293,6 +294,8 @@ FS_IOC_READ_VERITY_METADATA can fail with the following errors:
   support, or the filesystem superblock has not had the 'verity'
   feature enabled on it.  (See `Filesystem support`_.)
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 FS_IOC_GETFLAGS
 ---------------
 

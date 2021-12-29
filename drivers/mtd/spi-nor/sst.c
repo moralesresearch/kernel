@@ -8,6 +8,7 @@
 
 #include "core.h"
 
+<<<<<<< HEAD
 #define SST26VF_CR_BPNV		BIT(3)
 
 static int sst26vf_lock(struct spi_nor *nor, loff_t ofs, uint64_t len)
@@ -55,6 +56,8 @@ static const struct spi_nor_fixups sst26vf_fixups = {
 	.default_init = sst26vf_default_init,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static const struct flash_info sst_parts[] = {
 	/* SST -- large erase sizes are "overlays", "sectors" are 4K */
 	{ "sst25vf040b", INFO(0xbf258d, 0, 64 * 1024,  8,
@@ -86,9 +89,14 @@ static const struct flash_info sst_parts[] = {
 	{ "sst26vf016b", INFO(0xbf2641, 0, 64 * 1024, 32,
 			      SECT_4K | SPI_NOR_DUAL_READ) },
 	{ "sst26vf064b", INFO(0xbf2643, 0, 64 * 1024, 128,
+<<<<<<< HEAD
 			      SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ |
 			      SPI_NOR_HAS_LOCK | SPI_NOR_SWP_IS_VOLATILE)
 		.fixups = &sst26vf_fixups },
+=======
+			      SECT_4K | SPI_NOR_DUAL_READ |
+			      SPI_NOR_QUAD_READ) },
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 };
 
 static int sst_write(struct mtd_info *mtd, loff_t to, size_t len,

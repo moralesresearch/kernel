@@ -177,7 +177,11 @@ int mv_cesa_tdma_process(struct mv_cesa_engine *engine, u32 status)
 
 	/*
 	 * Save the last request in error to engine->req, so that the core
+<<<<<<< HEAD
 	 * knows which request was faulty
+=======
+	 * knows which request was fautly
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	if (res) {
 		spin_lock_bh(&engine->lock);
@@ -350,6 +354,7 @@ int mv_cesa_dma_add_op_transfers(struct mv_cesa_tdma_chain *chain,
 
 	return 0;
 }
+<<<<<<< HEAD
 
 size_t mv_cesa_sg_copy(struct mv_cesa_engine *engine,
 		       struct scatterlist *sgl, unsigned int nents,
@@ -400,3 +405,5 @@ size_t mv_cesa_sg_copy(struct mv_cesa_engine *engine,
 
 	return offset;
 }
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b

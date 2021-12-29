@@ -435,6 +435,17 @@ static void ice_trigger_vf_reset(struct ice_vf *vf, bool is_vflr, bool is_pfr)
 	 */
 	clear_bit(ICE_VF_STATE_INIT, vf->vf_states);
 
+<<<<<<< HEAD
+	/* VF_MBX_ARQLEN and VF_MBX_ATQLEN are cleared by PFR, so the driver
+	 * needs to clear them in the case of VFR/VFLR. If this is done for
+	 * PFR, it can mess up VF resets because the VF driver may already
+	 * have started cleanup by the time we get here.
+	 */
+	if (!is_pfr) {
+		wr32(hw, VF_MBX_ARQLEN(vf->vf_id), 0);
+		wr32(hw, VF_MBX_ATQLEN(vf->vf_id), 0);
+	}
+=======
 	/* VF_MBX_ARQLEN is cleared by PFR, so the driver needs to clear it
 	 * in the case of VFR. If this is done for PFR, it can mess up VF
 	 * resets because the VF driver may already have started cleanup
@@ -442,6 +453,7 @@ static void ice_trigger_vf_reset(struct ice_vf *vf, bool is_vflr, bool is_pfr)
 	 */
 	if (!is_pfr)
 		wr32(hw, VF_MBX_ARQLEN(vf->vf_id), 0);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	/* In the case of a VFLR, the HW has already reset the VF and we
 	 * just need to clean up, so don't hit the VFRTRIG register.
@@ -1057,6 +1069,10 @@ static void ice_vf_pre_vsi_rebuild(struct ice_vf *vf)
 }
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ice_vf_rebuild_aggregator_node_cfg - rebuild aggregator node config
  * @vsi: Pointer to VSI
  *
@@ -1090,12 +1106,24 @@ static void ice_vf_rebuild_aggregator_node_cfg(struct ice_vsi *vsi)
 }
 
 /**
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * ice_vf_rebuild_host_cfg - host admin configuration is persistent across reset
  * @vf: VF to rebuild host configuration on
  */
 static void ice_vf_rebuild_host_cfg(struct ice_vf *vf)
 {
+<<<<<<< HEAD
 	struct ice_vsi *vsi = vf->pf->vsi[vf->lan_vsi_idx];
+=======
+<<<<<<< HEAD
+	struct ice_vsi *vsi = vf->pf->vsi[vf->lan_vsi_idx];
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct device *dev = ice_pf_to_dev(vf->pf);
 
 	ice_vf_set_host_trust_cfg(vf);
@@ -1107,8 +1135,16 @@ static void ice_vf_rebuild_host_cfg(struct ice_vf *vf)
 	if (ice_vf_rebuild_host_vlan_cfg(vf))
 		dev_err(dev, "failed to rebuild VLAN configuration for VF %u\n",
 			vf->vf_id);
+<<<<<<< HEAD
 	/* rebuild aggregator node config for main VF VSI */
 	ice_vf_rebuild_aggregator_node_cfg(vsi);
+=======
+<<<<<<< HEAD
+	/* rebuild aggregator node config for main VF VSI */
+	ice_vf_rebuild_aggregator_node_cfg(vsi);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 }
 
 /**
@@ -1375,7 +1411,16 @@ bool ice_reset_vf(struct ice_vf *vf, bool is_vflr)
 	}
 
 	ice_vf_pre_vsi_rebuild(vf);
+<<<<<<< HEAD
+
+	if (ice_vf_rebuild_vsi_with_release(vf)) {
+		dev_err(dev, "Failed to release and setup the VF%u's VSI\n", vf->vf_id);
+		return false;
+	}
+
+=======
 	ice_vf_rebuild_vsi_with_release(vf);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	ice_vf_post_vsi_rebuild(vf);
 
 	return true;
@@ -1713,8 +1758,16 @@ int ice_sriov_configure(struct pci_dev *pdev, int num_vfs)
 	if (!num_vfs) {
 		if (!pci_vfs_assigned(pdev)) {
 			ice_free_vfs(pf);
+<<<<<<< HEAD
 			if (pf->lag)
 				ice_enable_lag(pf->lag);
+=======
+<<<<<<< HEAD
+			if (pf->lag)
+				ice_enable_lag(pf->lag);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			return 0;
 		}
 
@@ -1726,8 +1779,16 @@ int ice_sriov_configure(struct pci_dev *pdev, int num_vfs)
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	if (pf->lag)
 		ice_disable_lag(pf->lag);
+=======
+<<<<<<< HEAD
+	if (pf->lag)
+		ice_disable_lag(pf->lag);
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return num_vfs;
 }
 
@@ -2376,12 +2437,26 @@ bool ice_is_any_vf_in_promisc(struct ice_pf *pf)
 static int ice_vc_cfg_promiscuous_mode_msg(struct ice_vf *vf, u8 *msg)
 {
 	enum virtchnl_status_code v_ret = VIRTCHNL_STATUS_SUCCESS;
+<<<<<<< HEAD
 	bool rm_promisc, alluni = false, allmulti = false;
+=======
+<<<<<<< HEAD
+	bool rm_promisc, alluni = false, allmulti = false;
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	struct virtchnl_promisc_info *info =
 	    (struct virtchnl_promisc_info *)msg;
 	struct ice_pf *pf = vf->pf;
 	struct ice_vsi *vsi;
 	struct device *dev;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	bool rm_promisc;
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int ret = 0;
 
 	if (!test_bit(ICE_VF_STATE_ACTIVE, vf->vf_states)) {
@@ -2408,6 +2483,10 @@ static int ice_vc_cfg_promiscuous_mode_msg(struct ice_vf *vf, u8 *msg)
 		goto error_param;
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (info->flags & FLAG_VF_UNICAST_PROMISC)
 		alluni = true;
 
@@ -2415,6 +2494,13 @@ static int ice_vc_cfg_promiscuous_mode_msg(struct ice_vf *vf, u8 *msg)
 		allmulti = true;
 
 	rm_promisc = !allmulti && !alluni;
+<<<<<<< HEAD
+=======
+=======
+	rm_promisc = !(info->flags & FLAG_VF_UNICAST_PROMISC) &&
+		!(info->flags & FLAG_VF_MULTICAST_PROMISC);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	if (vsi->num_vlan || vf->port_vlan_info) {
 		struct ice_vsi *pf_vsi = ice_get_main_vsi(pf);
@@ -2444,7 +2530,15 @@ static int ice_vc_cfg_promiscuous_mode_msg(struct ice_vf *vf, u8 *msg)
 	}
 
 	if (!test_bit(ICE_FLAG_VF_TRUE_PROMISC_ENA, pf->flags)) {
+<<<<<<< HEAD
 		bool set_dflt_vsi = alluni || allmulti;
+=======
+<<<<<<< HEAD
+		bool set_dflt_vsi = alluni || allmulti;
+=======
+		bool set_dflt_vsi = !!(info->flags & FLAG_VF_UNICAST_PROMISC);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 		if (set_dflt_vsi && !ice_is_dflt_vsi_in_use(pf->first_sw))
 			/* only attempt to set the default forwarding VSI if
@@ -2468,12 +2562,28 @@ static int ice_vc_cfg_promiscuous_mode_msg(struct ice_vf *vf, u8 *msg)
 		enum ice_status status;
 		u8 promisc_m;
 
+<<<<<<< HEAD
 		if (alluni) {
+=======
+<<<<<<< HEAD
+		if (alluni) {
+=======
+		if (info->flags & FLAG_VF_UNICAST_PROMISC) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (vf->port_vlan_info || vsi->num_vlan)
 				promisc_m = ICE_UCAST_VLAN_PROMISC_BITS;
 			else
 				promisc_m = ICE_UCAST_PROMISC_BITS;
+<<<<<<< HEAD
 		} else if (allmulti) {
+=======
+<<<<<<< HEAD
+		} else if (allmulti) {
+=======
+		} else if (info->flags & FLAG_VF_MULTICAST_PROMISC) {
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			if (vf->port_vlan_info || vsi->num_vlan)
 				promisc_m = ICE_MCAST_VLAN_PROMISC_BITS;
 			else
@@ -2501,6 +2611,10 @@ static int ice_vc_cfg_promiscuous_mode_msg(struct ice_vf *vf, u8 *msg)
 		}
 	}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	if (allmulti &&
 	    !test_and_set_bit(ICE_VF_STATE_MC_PROMISC, vf->vf_states))
 		dev_info(dev, "VF %u successfully set multicast promiscuous mode\n", vf->vf_id);
@@ -2511,6 +2625,20 @@ static int ice_vc_cfg_promiscuous_mode_msg(struct ice_vf *vf, u8 *msg)
 		dev_info(dev, "VF %u successfully set unicast promiscuous mode\n", vf->vf_id);
 	else if (!alluni && test_and_clear_bit(ICE_VF_STATE_UC_PROMISC, vf->vf_states))
 		dev_info(dev, "VF %u successfully unset unicast promiscuous mode\n", vf->vf_id);
+<<<<<<< HEAD
+=======
+=======
+	if (info->flags & FLAG_VF_MULTICAST_PROMISC)
+		set_bit(ICE_VF_STATE_MC_PROMISC, vf->vf_states);
+	else
+		clear_bit(ICE_VF_STATE_MC_PROMISC, vf->vf_states);
+
+	if (info->flags & FLAG_VF_UNICAST_PROMISC)
+		set_bit(ICE_VF_STATE_UC_PROMISC, vf->vf_states);
+	else
+		clear_bit(ICE_VF_STATE_UC_PROMISC, vf->vf_states);
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 error_param:
 	return ice_vc_send_msg_to_vf(vf, VIRTCHNL_OP_CONFIG_PROMISCUOUS_MODE,

@@ -610,7 +610,11 @@ static void vmw_cmdbuf_work_func(struct work_struct *work)
 
 	/* Send a new fence in case one was removed */
 	if (send_fence) {
+<<<<<<< HEAD
 		vmw_cmd_send_fence(man->dev_priv, &dummy);
+=======
+		vmw_fifo_send_fence(man->dev_priv, &dummy);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		wake_up_all(&man->idle_queue);
 	}
 
@@ -1208,6 +1212,7 @@ static int vmw_cmdbuf_startstop(struct vmw_cmdbuf_man *man, u32 context,
  *
  * @man: The command buffer manager.
  * @size: The size of the main space pool.
+<<<<<<< HEAD
  *
  * Set the size and allocate the main command buffer space pool.
  * If successful, this enables large command submissions.
@@ -1216,6 +1221,20 @@ static int vmw_cmdbuf_startstop(struct vmw_cmdbuf_man *man, u32 context,
  * Returns 0 on success. Negative error code on failure.
  */
 int vmw_cmdbuf_set_pool_size(struct vmw_cmdbuf_man *man, size_t size)
+=======
+ * @default_size: The default size of the command buffer for small kernel
+ * submissions.
+ *
+ * Set the size and allocate the main command buffer space pool,
+ * as well as the default size of the command buffer for
+ * small kernel submissions. If successful, this enables large command
+ * submissions. Note that this function requires that rudimentary command
+ * submission is already available and that the MOB memory manager is alive.
+ * Returns 0 on success. Negative error code on failure.
+ */
+int vmw_cmdbuf_set_pool_size(struct vmw_cmdbuf_man *man,
+			     size_t size, size_t default_size)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 	struct vmw_private *dev_priv = man->dev_priv;
 	bool dummy;
@@ -1226,7 +1245,11 @@ int vmw_cmdbuf_set_pool_size(struct vmw_cmdbuf_man *man, size_t size)
 
 	/* First, try to allocate a huge chunk of DMA memory */
 	size = PAGE_ALIGN(size);
+<<<<<<< HEAD
 	man->map = dma_alloc_coherent(dev_priv->drm.dev, size,
+=======
+	man->map = dma_alloc_coherent(&dev_priv->dev->pdev->dev, size,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				      &man->handle, GFP_KERNEL);
 	if (man->map) {
 		man->using_mob = false;
@@ -1309,7 +1332,11 @@ struct vmw_cmdbuf_man *vmw_cmdbuf_man_create(struct vmw_private *dev_priv)
 	man->num_contexts = (dev_priv->capabilities & SVGA_CAP_HP_CMD_QUEUE) ?
 		2 : 1;
 	man->headers = dma_pool_create("vmwgfx cmdbuf",
+<<<<<<< HEAD
 				       dev_priv->drm.dev,
+=======
+				       &dev_priv->dev->pdev->dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				       sizeof(SVGACBHeader),
 				       64, PAGE_SIZE);
 	if (!man->headers) {
@@ -1318,7 +1345,11 @@ struct vmw_cmdbuf_man *vmw_cmdbuf_man_create(struct vmw_private *dev_priv)
 	}
 
 	man->dheaders = dma_pool_create("vmwgfx inline cmdbuf",
+<<<<<<< HEAD
 					dev_priv->drm.dev,
+=======
+					&dev_priv->dev->pdev->dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 					sizeof(struct vmw_cmdbuf_dheader),
 					64, PAGE_SIZE);
 	if (!man->dheaders) {
@@ -1383,7 +1414,11 @@ void vmw_cmdbuf_remove_pool(struct vmw_cmdbuf_man *man)
 		ttm_bo_put(man->cmd_space);
 		man->cmd_space = NULL;
 	} else {
+<<<<<<< HEAD
 		dma_free_coherent(man->dev_priv->drm.dev,
+=======
+		dma_free_coherent(&man->dev_priv->dev->pdev->dev,
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 				  man->size, man->map, man->handle);
 	}
 }

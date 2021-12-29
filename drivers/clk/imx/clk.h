@@ -11,9 +11,15 @@ extern spinlock_t imx_ccm_lock;
 void imx_check_clocks(struct clk *clks[], unsigned int count);
 void imx_check_clk_hws(struct clk_hw *clks[], unsigned int count);
 #ifndef MODULE
+<<<<<<< HEAD
+void imx_register_uart_clocks(unsigned int clk_count);
+#else
+static inline void imx_register_uart_clocks(unsigned int clk_count)
+=======
 void imx_register_uart_clocks(struct clk ** const clks[]);
 #else
 static inline void imx_register_uart_clocks(struct clk ** const clks[])
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 {
 }
 #endif

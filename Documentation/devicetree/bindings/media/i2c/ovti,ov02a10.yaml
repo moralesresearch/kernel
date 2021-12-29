@@ -17,9 +17,12 @@ description: |-
   @ 1600x1200 (UXGA) resolution transferred over a 1-lane MIPI interface. The
   sensor output is available via CSI-2 serial data output.
 
+<<<<<<< HEAD
 allOf:
   - $ref: /schemas/media/video-interface-devices.yaml#
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 properties:
   compatible:
     const: ovti,ov02a10
@@ -69,6 +72,7 @@ properties:
     maxItems: 1
 
   rotation:
+<<<<<<< HEAD
     enum:
       - 0    # Sensor Mounted Upright
       - 180  # Sensor Mounted Upside Down
@@ -76,27 +80,59 @@ properties:
 
   port:
     $ref: /schemas/graph.yaml#/$defs/port-base
+=======
+    description:
+      Definition of the sensor's placement.
+    allOf:
+      - $ref: "/schemas/types.yaml#/definitions/uint32"
+      - enum:
+          - 0    # Sensor Mounted Upright
+          - 180  # Sensor Mounted Upside Down
+        default: 0
+
+  # See ../video-interfaces.txt for details
+  port:
+    type: object
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
     additionalProperties: false
     description:
       Output port node, single endpoint describing the CSI-2 transmitter.
 
     properties:
       endpoint:
+<<<<<<< HEAD
         $ref: /schemas/media/video-interfaces.yaml#
         unevaluatedProperties: false
+=======
+        type: object
+        additionalProperties: false
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
         properties:
           link-frequencies: true
           ovti,mipi-clock-voltage:
+<<<<<<< HEAD
             $ref: "/schemas/types.yaml#/definitions/uint32"
+=======
+            allOf:
+              - $ref: "/schemas/types.yaml#/definitions/uint32"
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
             description:
               Definition of MIPI clock voltage unit. This entry corresponds to
               the link speed defined by the 'link-frequencies' property.
               If present, the value shall be in the range of 0-4.
             default: 4
+<<<<<<< HEAD
 
         required:
           - link-frequencies
+=======
+          remote-endpoint: true
+
+        required:
+          - link-frequencies
+          - remote-endpoint
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
     required:
       - endpoint

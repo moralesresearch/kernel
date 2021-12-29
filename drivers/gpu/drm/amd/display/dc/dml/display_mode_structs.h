@@ -297,7 +297,10 @@ struct _vcs_dpi_display_output_params_st {
 	int num_active_wb;
 	int output_bpc;
 	int output_type;
+<<<<<<< HEAD
 	int is_virtual;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	int output_format;
 	int dsc_slices;
 	int max_audio_sample_rate;

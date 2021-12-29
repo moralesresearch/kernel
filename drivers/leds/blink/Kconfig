@@ -9,6 +9,10 @@ if LEDS_BLINK
 
 config LEDS_BLINK_LGM
 	tristate "LED support for Intel LGM SoC series"
+<<<<<<< HEAD
+	depends on GPIOLIB
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	depends on LEDS_CLASS
 	depends on MFD_SYSCON
 	depends on OF

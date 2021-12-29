@@ -72,6 +72,21 @@ static unsigned int max_gen_ptrs = INITIAL_NET_GEN_PTRS;
 
 DEFINE_COOKIE(net_cookie);
 
+<<<<<<< HEAD
+=======
+u64 __net_gen_cookie(struct net *net)
+{
+	while (1) {
+		u64 res = atomic64_read(&net->net_cookie);
+
+		if (res)
+			return res;
+		res = gen_cookie_next(&net_cookie);
+		atomic64_cmpxchg(&net->net_cookie, 0, res);
+	}
+}
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 static struct net_generic *net_alloc_generic(void)
 {
 	struct net_generic *ng;
@@ -320,9 +335,12 @@ static __net_init int setup_net(struct net *net, struct user_namespace *user_ns)
 	refcount_set(&net->ns.count, 1);
 	refcount_set(&net->passive, 1);
 	get_random_bytes(&net->hash_mix, sizeof(u32));
+<<<<<<< HEAD
 	preempt_disable();
 	net->net_cookie = gen_cookie_next(&net_cookie);
 	preempt_enable();
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	net->dev_base_seq = 1;
 	net->user_ns = user_ns;
 	idr_init(&net->netns_ids);
@@ -641,6 +659,21 @@ void __put_net(struct net *net)
 }
 EXPORT_SYMBOL_GPL(__put_net);
 
+<<<<<<< HEAD
+/**
+ * get_net_ns - increment the refcount of the network namespace
+ * @ns: common namespace (net)
+ *
+ * Returns the net's common namespace.
+ */
+struct ns_common *get_net_ns(struct ns_common *ns)
+{
+	return &get_net(container_of(ns, struct net, ns))->ns;
+}
+EXPORT_SYMBOL_GPL(get_net_ns);
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct net *get_net_ns_by_fd(int fd)
 {
 	struct file *file;
@@ -1094,6 +1127,13 @@ static int __init net_ns_init(void)
 
 	rcu_assign_pointer(init_net.gen, ng);
 
+<<<<<<< HEAD
+=======
+	preempt_disable();
+	__net_gen_cookie(&init_net);
+	preempt_enable();
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	down_write(&pernet_ops_rwsem);
 	if (setup_net(&init_net, &init_user_ns))
 		panic("Could not setup the initial network namespace");

@@ -148,18 +148,28 @@ alternative_cb_end
 	.endm
 
 	/* Check for MTE asynchronous tag check faults */
+<<<<<<< HEAD
 	.macro check_mte_async_tcf, tmp, ti_flags
 #ifdef CONFIG_ARM64_MTE
 	.arch_extension lse
+=======
+	.macro check_mte_async_tcf, flgs, tmp
+#ifdef CONFIG_ARM64_MTE
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 alternative_if_not ARM64_MTE
 	b	1f
 alternative_else_nop_endif
 	mrs_s	\tmp, SYS_TFSRE0_EL1
 	tbz	\tmp, #SYS_TFSR_EL1_TF0_SHIFT, 1f
 	/* Asynchronous TCF occurred for TTBR0 access, set the TI flag */
+<<<<<<< HEAD
 	mov	\tmp, #_TIF_MTE_ASYNC_FAULT
 	add	\ti_flags, tsk, #TSK_TI_FLAGS
 	stset	\tmp, [\ti_flags]
+=======
+	orr	\flgs, \flgs, #_TIF_MTE_ASYNC_FAULT
+	str	\flgs, [tsk, #TSK_TI_FLAGS]
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	msr_s	SYS_TFSRE0_EL1, xzr
 1:
 #endif
@@ -246,7 +256,11 @@ alternative_else_nop_endif
 	disable_step_tsk x19, x20
 
 	/* Check for asynchronous tag check faults in user space */
+<<<<<<< HEAD
 	check_mte_async_tcf x22, x23
+=======
+	check_mte_async_tcf x19, x22
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	apply_ssbd 1, x22, x23
 
 	ptrauth_keys_install_kernel tsk, x20, x22, x23
@@ -263,16 +277,22 @@ alternative_else_nop_endif
 	stp	lr, x21, [sp, #S_LR]
 
 	/*
-	 * For exceptions from EL0, terminate the callchain here.
+<<<<<<< HEAD
+	 * For exceptions from EL0, create a terminal frame record.
 	 * For exceptions from EL1, create a synthetic frame record so the
 	 * interrupted code shows up in the backtrace.
+=======
+	 * In order to be able to dump the contents of struct pt_regs at the
+	 * time the exception was taken (in case we attempt to walk the call
+	 * stack later), chain it together with the stack frames.
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	 */
 	.if \el == 0
-	mov	x29, xzr
+	stp	xzr, xzr, [sp, #S_STACKFRAME]
 	.else
 	stp	x29, x22, [sp, #S_STACKFRAME]
-	add	x29, sp, #S_STACKFRAME
 	.endif
+	add	x29, sp, #S_STACKFRAME
 
 #ifdef CONFIG_ARM64_SW_TTBR0_PAN
 alternative_if_not ARM64_HAS_PAN
@@ -292,6 +312,11 @@ alternative_else_nop_endif
 alternative_if ARM64_HAS_IRQ_PRIO_MASKING
 	mrs_s	x20, SYS_ICC_PMR_EL1
 	str	x20, [sp, #S_PMR_SAVE]
+<<<<<<< HEAD
+	mov	x20, #GIC_PRIO_IRQON | GIC_PRIO_PSR_I_SET
+	msr_s	SYS_ICC_PMR_EL1, x20
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 alternative_else_nop_endif
 
 	/* Re-enable tag checking (TCO set on exception entry) */
@@ -493,8 +518,13 @@ tsk	.req	x28		// current thread_info
 /*
  * Interrupt handling.
  */
+<<<<<<< HEAD
+	.macro	irq_handler, handler:req
+	ldr_l	x1, \handler
+=======
 	.macro	irq_handler
 	ldr_l	x1, handle_arch_irq
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mov	x0, sp
 	irq_stack_entry
 	blr	x1
@@ -524,6 +554,43 @@ alternative_endif
 #endif
 	.endm
 
+<<<<<<< HEAD
+	.macro el1_interrupt_handler, handler:req
+	enable_da_f
+
+	mov	x0, sp
+	bl	enter_el1_irq_or_nmi
+
+	irq_handler	\handler
+
+#ifdef CONFIG_PREEMPTION
+	ldr	x24, [tsk, #TSK_TI_PREEMPT]	// get preempt count
+alternative_if ARM64_HAS_IRQ_PRIO_MASKING
+	/*
+	 * DA_F were cleared at start of handling. If anything is set in DAIF,
+	 * we come back from an NMI, so skip preemption
+	 */
+	mrs	x0, daif
+	orr	x24, x24, x0
+alternative_else_nop_endif
+	cbnz	x24, 1f				// preempt count != 0 || NMI return path
+	bl	arm64_preempt_schedule_irq	// irq en/disable is done inside
+1:
+#endif
+
+	mov	x0, sp
+	bl	exit_el1_irq_or_nmi
+	.endm
+
+	.macro el0_interrupt_handler, handler:req
+	user_exit_irqoff
+	enable_da_f
+
+	tbz	x22, #55, 1f
+	bl	do_el0_irq_bp_hardening
+1:
+	irq_handler	\handler
+=======
 	.macro	gic_prio_irq_setup, pmr:req, tmp:req
 #ifdef CONFIG_ARM64_PSEUDO_NMI
 	alternative_if ARM64_HAS_IRQ_PRIO_MASKING
@@ -531,6 +598,7 @@ alternative_endif
 	msr_s	SYS_ICC_PMR_EL1, \tmp
 	alternative_else_nop_endif
 #endif
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	.endm
 
 	.text
@@ -662,6 +730,9 @@ SYM_CODE_END(el1_sync)
 	.align	6
 SYM_CODE_START_LOCAL_NOALIGN(el1_irq)
 	kernel_entry 1
+<<<<<<< HEAD
+	el1_interrupt_handler handle_arch_irq
+=======
 	gic_prio_irq_setup pmr=x20, tmp=x1
 	enable_da_f
 
@@ -688,6 +759,7 @@ alternative_else_nop_endif
 	mov	x0, sp
 	bl	exit_el1_irq_or_nmi
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	kernel_exit 1
 SYM_CODE_END(el1_irq)
 
@@ -727,6 +799,9 @@ SYM_CODE_END(el0_error_compat)
 SYM_CODE_START_LOCAL_NOALIGN(el0_irq)
 	kernel_entry 0
 el0_irq_naked:
+<<<<<<< HEAD
+	el0_interrupt_handler handle_arch_irq
+=======
 	gic_prio_irq_setup pmr=x20, tmp=x0
 	user_exit_irqoff
 	enable_da_f
@@ -736,13 +811,17 @@ el0_irq_naked:
 1:
 	irq_handler
 
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	b	ret_to_user
 SYM_CODE_END(el0_irq)
 
 SYM_CODE_START_LOCAL(el1_error)
 	kernel_entry 1
 	mrs	x1, esr_el1
+<<<<<<< HEAD
+=======
 	gic_prio_kentry_setup tmp=x2
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	enable_dbg
 	mov	x0, sp
 	bl	do_serror
@@ -753,7 +832,10 @@ SYM_CODE_START_LOCAL(el0_error)
 	kernel_entry 0
 el0_error_naked:
 	mrs	x25, esr_el1
+<<<<<<< HEAD
+=======
 	gic_prio_kentry_setup tmp=x2
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	user_exit_irqoff
 	enable_dbg
 	mov	x0, sp
@@ -807,7 +889,11 @@ SYM_CODE_END(ret_to_user)
 	// Move from tramp_pg_dir to swapper_pg_dir
 	.macro tramp_map_kernel, tmp
 	mrs	\tmp, ttbr1_el1
+<<<<<<< HEAD
 	add	\tmp, \tmp, #TRAMP_SWAPPER_OFFSET
+=======
+	add	\tmp, \tmp, #(2 * PAGE_SIZE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	bic	\tmp, \tmp, #USER_ASID_FLAG
 	msr	ttbr1_el1, \tmp
 #ifdef CONFIG_QCOM_FALKOR_ERRATUM_1003
@@ -827,7 +913,11 @@ alternative_else_nop_endif
 	// Move from swapper_pg_dir to tramp_pg_dir
 	.macro tramp_unmap_kernel, tmp
 	mrs	\tmp, ttbr1_el1
+<<<<<<< HEAD
 	sub	\tmp, \tmp, #TRAMP_SWAPPER_OFFSET
+=======
+	sub	\tmp, \tmp, #(2 * PAGE_SIZE)
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	orr	\tmp, \tmp, #USER_ASID_FLAG
 	msr	ttbr1_el1, \tmp
 	/*

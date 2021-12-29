@@ -1047,7 +1047,11 @@
 			};
 		};
 
+<<<<<<< HEAD
 		sdmmc3: mmc@48004000 {
+=======
+		sdmmc3: sdmmc@48004000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "arm,pl18x", "arm,primecell";
 			arm,primecell-periphid = <0x00253180>;
 			reg = <0x48004000 0x400>;
@@ -1368,7 +1372,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		sdmmc1: mmc@58005000 {
+=======
+		sdmmc1: sdmmc@58005000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "arm,pl18x", "arm,primecell";
 			arm,primecell-periphid = <0x00253180>;
 			reg = <0x58005000 0x1000>;
@@ -1383,7 +1391,11 @@
 			status = "disabled";
 		};
 
+<<<<<<< HEAD
 		sdmmc2: mmc@58007000 {
+=======
+		sdmmc2: sdmmc@58007000 {
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "arm,pl18x", "arm,primecell";
 			arm,primecell-periphid = <0x00253180>;
 			reg = <0x58007000 0x1000>;
@@ -1482,13 +1494,19 @@
 		usbphyc: usbphyc@5a006000 {
 			#address-cells = <1>;
 			#size-cells = <0>;
+<<<<<<< HEAD
 			#clock-cells = <0>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			compatible = "st,stm32mp1-usbphyc";
 			reg = <0x5a006000 0x1000>;
 			clocks = <&rcc USBPHY_K>;
 			resets = <&rcc USBPHY_R>;
+<<<<<<< HEAD
 			vdda1v1-supply = <&reg11>;
 			vdda1v8-supply = <&reg18>;
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			status = "disabled";
 
 			usbphyc_port0: usb-phy@0 {

@@ -16,6 +16,13 @@
 #include <linux/memblock.h>
 #include <linux/pci.h>
 #include <linux/root_dev.h>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#include <linux/sfi.h>
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <linux/hugetlb.h>
 #include <linux/tboot.h>
 #include <linux/usb/xhci-dbgp.h>
@@ -44,6 +51,10 @@
 #include <asm/pci-direct.h>
 #include <asm/prom.h>
 #include <asm/proto.h>
+<<<<<<< HEAD
+#include <asm/thermal.h>
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 #include <asm/unwind.h>
 #include <asm/vsyscall.h>
 #include <linux/vmalloc.h>
@@ -1045,6 +1056,15 @@ void __init setup_arch(char **cmdline_p)
 
 	cleanup_highmap();
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	/* Look for ACPI tables and reserve memory occupied by them. */
+	acpi_boot_table_init();
+
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	memblock_set_current_limit(ISA_END_ADDRESS);
 	e820__memblock_setup();
 
@@ -1129,8 +1149,16 @@ void __init setup_arch(char **cmdline_p)
 	reserve_initrd();
 
 	acpi_table_upgrade();
+<<<<<<< HEAD
 	/* Look for ACPI tables and reserve memory occupied by them. */
 	acpi_boot_table_init();
+=======
+<<<<<<< HEAD
+	/* Look for ACPI tables and reserve memory occupied by them. */
+	acpi_boot_table_init();
+=======
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 
 	vsmp_init();
 
@@ -1181,6 +1209,13 @@ void __init setup_arch(char **cmdline_p)
 	 * Read APIC and some other early information from ACPI tables.
 	 */
 	acpi_boot_init();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+	sfi_init();
+>>>>>>> stable
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	x86_dtb_init();
 
 	/*
@@ -1220,6 +1255,17 @@ void __init setup_arch(char **cmdline_p)
 
 	x86_init.timers.wallclock_init();
 
+<<<<<<< HEAD
+	/*
+	 * This needs to run before setup_local_APIC() which soft-disables the
+	 * local APIC temporarily and that masks the thermal LVT interrupt,
+	 * leading to softlockups on machines which have configured SMI
+	 * interrupt delivery.
+	 */
+	therm_lvt_init();
+
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	mcheck_init();
 
 	register_refined_jiffies(CLOCK_TICK_RATE);

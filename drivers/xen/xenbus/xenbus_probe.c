@@ -206,6 +206,7 @@ void xenbus_otherend_changed(struct xenbus_watch *watch,
 }
 EXPORT_SYMBOL_GPL(xenbus_otherend_changed);
 
+<<<<<<< HEAD
 #define XENBUS_SHOW_STAT(name)						\
 static ssize_t show_##name(struct device *_dev,				\
 			   struct device_attribute *attr,		\
@@ -265,6 +266,8 @@ static const struct attribute_group xenbus_group = {
 	.attrs = xenbus_attrs,
 };
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 int xenbus_dev_probe(struct device *_dev)
 {
 	struct xenbus_device *dev = to_xenbus_device(_dev);
@@ -312,11 +315,14 @@ int xenbus_dev_probe(struct device *_dev)
 		return err;
 	}
 
+<<<<<<< HEAD
 	dev->spurious_threshold = 1;
 	if (sysfs_create_group(&dev->dev.kobj, &xenbus_group))
 		dev_warn(&dev->dev, "sysfs_create_group on %s failed.\n",
 			 dev->nodename);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	return 0;
 fail_put:
 	module_put(drv->driver.owner);
@@ -333,8 +339,11 @@ int xenbus_dev_remove(struct device *_dev)
 
 	DPRINTK("%s", dev->nodename);
 
+<<<<<<< HEAD
 	sysfs_remove_group(&dev->dev.kobj, &xenbus_group);
 
+=======
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 	free_otherend_watch(dev);
 
 	if (drv->remove) {

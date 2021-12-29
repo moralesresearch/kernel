@@ -1434,7 +1434,11 @@ enum opa_pr_supported {
 	PR_IB_SUPPORTED
 };
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
  * opa_pr_query_possible - Check if current PR query can be an OPA query.
  *
  * Retuns PR_NOT_SUPPORTED if a path record query is not
@@ -1951,6 +1955,33 @@ err1:
 }
 EXPORT_SYMBOL(ib_sa_guid_info_rec_query);
 
+<<<<<<< HEAD
+=======
+bool ib_sa_sendonly_fullmem_support(struct ib_sa_client *client,
+				    struct ib_device *device,
+				    u8 port_num)
+{
+	struct ib_sa_device *sa_dev = ib_get_client_data(device, &sa_client);
+	struct ib_sa_port *port;
+	bool ret = false;
+	unsigned long flags;
+
+	if (!sa_dev)
+		return ret;
+
+	port  = &sa_dev->port[port_num - sa_dev->start_port];
+
+	spin_lock_irqsave(&port->classport_lock, flags);
+	if ((port->classport_info.valid) &&
+	    (port->classport_info.data.type == RDMA_CLASS_PORT_INFO_IB))
+		ret = ib_get_cpi_capmask2(&port->classport_info.data.ib)
+			& IB_SA_CAP_MASK2_SENDONLY_FULL_MEM_SUPPORT;
+	spin_unlock_irqrestore(&port->classport_lock, flags);
+	return ret;
+}
+EXPORT_SYMBOL(ib_sa_sendonly_fullmem_support);
+
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 struct ib_classport_info_context {
 	struct completion	done;
 	struct ib_sa_query	*sa_query;

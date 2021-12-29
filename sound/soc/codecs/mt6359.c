@@ -2754,8 +2754,12 @@ static int mt6359_parse_dt(struct mt6359_priv *priv)
 	ret = of_property_read_u32(np, "mediatek,dmic-mode",
 				   &priv->dmic_one_wire_mode);
 	if (ret) {
+<<<<<<< HEAD
 		dev_info(priv->dev,
 			 "%s() failed to read dmic-mode, use default (0)\n",
+=======
+		dev_warn(priv->dev, "%s() failed to read dmic-mode\n",
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 			 __func__);
 		priv->dmic_one_wire_mode = 0;
 	}
@@ -2763,27 +2767,42 @@ static int mt6359_parse_dt(struct mt6359_priv *priv)
 	ret = of_property_read_u32(np, "mediatek,mic-type-0",
 				   &priv->mux_select[MUX_MIC_TYPE_0]);
 	if (ret) {
+<<<<<<< HEAD
 		dev_info(priv->dev,
 			 "%s() failed to read mic-type-0, use default (%d)\n",
 			 __func__, MIC_TYPE_MUX_IDLE);
+=======
+		dev_warn(priv->dev, "%s() failed to read mic-type-0\n",
+			 __func__);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		priv->mux_select[MUX_MIC_TYPE_0] = MIC_TYPE_MUX_IDLE;
 	}
 
 	ret = of_property_read_u32(np, "mediatek,mic-type-1",
 				   &priv->mux_select[MUX_MIC_TYPE_1]);
 	if (ret) {
+<<<<<<< HEAD
 		dev_info(priv->dev,
 			 "%s() failed to read mic-type-1, use default (%d)\n",
 			 __func__, MIC_TYPE_MUX_IDLE);
+=======
+		dev_warn(priv->dev, "%s() failed to read mic-type-1\n",
+			 __func__);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		priv->mux_select[MUX_MIC_TYPE_1] = MIC_TYPE_MUX_IDLE;
 	}
 
 	ret = of_property_read_u32(np, "mediatek,mic-type-2",
 				   &priv->mux_select[MUX_MIC_TYPE_2]);
 	if (ret) {
+<<<<<<< HEAD
 		dev_info(priv->dev,
 			 "%s() failed to read mic-type-2, use default (%d)\n",
 			 __func__, MIC_TYPE_MUX_IDLE);
+=======
+		dev_warn(priv->dev, "%s() failed to read mic-type-2\n",
+			 __func__);
+>>>>>>> 482398af3c2fc5af953c5a3127ca167a01d0949b
 		priv->mux_select[MUX_MIC_TYPE_2] = MIC_TYPE_MUX_IDLE;
 	}
 
