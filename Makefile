@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-2.0
+# Based on Linux v5.15.11
 VERSION = 5
 PATCHLEVEL = 15
-SUBLEVEL = 3
+SUBLEVEL = 4
 EXTRAVERSION =
 NAME = Red Magma
 
