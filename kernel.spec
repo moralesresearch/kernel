@@ -1,7 +1,7 @@
 #Do not use the spec to build RPMS!!!!
 
 Name:           linux
-Version:        5.15.4
+Version:        5.16
 Release:        1%{?dist}
 Summary:       The MR-Sun Kernel for Linux (Red Hat-based) Distrobutions
 
