@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0
 VERSION = 5
 PATCHLEVEL = 16
-SUBLEVEL = 
+SUBLEVEL = 1
 EXTRAVERSION =
 NAME = Bliss
 
