@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-2.0
 VERSION = 5
 PATCHLEVEL = 16
-SUBLEVEL = 15
+SUBLEVEL = 2
 EXTRAVERSION =
-NAME = Gobble Gobble
+NAME = Bliss
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
