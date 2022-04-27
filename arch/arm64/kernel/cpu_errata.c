@@ -502,6 +502,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
 		.matches = has_spectre_v4,
 		.cpu_enable = spectre_v4_enable_mitigation,
 	},
+	{
+		.desc = "Spectre-BHB",
+		.capability = ARM64_SPECTRE_BHB,
+		.type = ARM64_CPUCAP_LOCAL_CPU_ERRATUM,
+		.matches = is_spectre_bhb_affected,
+		.cpu_enable = spectre_bhb_enable_mitigation,
+	},
 #ifdef CONFIG_ARM64_ERRATUM_1418040
 	{
 		.desc = "ARM erratum 1418040",
@@ -598,6 +605,14 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
 		.capability = ARM64_WORKAROUND_TRBE_WRITE_OUT_OF_RANGE,
 		.type = ARM64_CPUCAP_WEAK_LOCAL_CPU_FEATURE,
 		CAP_MIDR_RANGE_LIST(trbe_write_out_of_range_cpus),
+	},
+#endif
+#ifdef CONFIG_ARM64_ERRATUM_2077057
+	{
+		.desc = "ARM erratum 2077057",
+		.capability = ARM64_WORKAROUND_2077057,
+		.type = ARM64_CPUCAP_LOCAL_CPU_ERRATUM,
+		ERRATA_MIDR_REV_RANGE(MIDR_CORTEX_A510, 0, 0, 2),
 	},
 #endif
 #ifdef CONFIG_ARM64_ERRATUM_2064142
