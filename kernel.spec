@@ -1,7 +1,7 @@
 #Do not use the spec to build RPMS!!!!
 
 Name:           linux
-Version:        5.16.1
+Version:        5.16.2
 Release:        1%{?dist}
 Summary:       The MR-Sun Kernel for Linux (Red Hat-based) Distrobutions
 
@@ -20,6 +20,16 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Linux Kernel is an open-source kernel for Sun/OS Linux and supports all Linux distributions
 
 %changelog
+* Sun May 29 2022 Abdon Morales <abdon.morales@moralesresearch.org> 5.16.2-1
+- Adding missing files for the top-level (/)
+  (abdon.morales@moralesresearch.org)
+- Updating version number to follow the downstream versioning system (MRI)
+  (abdon.morales@moralesresearch.org)
+- Added the new vanilla Linux Kernel (5.16.15) with the newest patches for the
+  downstream kernel (5.16.2) (abdon.morales@moralesresearch.org)
+- Removing 5.16.1 kernel for the new patched kernel from kernel.org -->
+  upstream (abdon.morales@moralesresearch.org)
+
 * Thu Mar 10 2022 Abdon Morales <abdon.morales@moralesresearch.org> 5.16.1-1
 - Adding new kernel from usptream (as of download, version 5.16.12)
   (abdon.morales@moralesresearch.org)
